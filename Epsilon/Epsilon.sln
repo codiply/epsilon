@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.22823.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Epsilon.Web", "Epsilon.Web\Epsilon.Web.csproj", "{78BEC197-B73A-4B21-97D8-4F58FB2D6B50}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Epsilon.Logic", "Epsilon.Logic\Epsilon.Logic.csproj", "{4D73FAEE-51BA-4E25-B506-5C9C8107D488}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Epsilon.Resources", "Epsilon.Resources\Epsilon.Resources.csproj", "{3CB53361-5BC7-40C9-88DE-A7DC7F311431}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{78BEC197-B73A-4B21-97D8-4F58FB2D6B50}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{78BEC197-B73A-4B21-97D8-4F58FB2D6B50}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{78BEC197-B73A-4B21-97D8-4F58FB2D6B50}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{78BEC197-B73A-4B21-97D8-4F58FB2D6B50}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D73FAEE-51BA-4E25-B506-5C9C8107D488}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D73FAEE-51BA-4E25-B506-5C9C8107D488}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D73FAEE-51BA-4E25-B506-5C9C8107D488}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D73FAEE-51BA-4E25-B506-5C9C8107D488}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3CB53361-5BC7-40C9-88DE-A7DC7F311431}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3CB53361-5BC7-40C9-88DE-A7DC7F311431}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3CB53361-5BC7-40C9-88DE-A7DC7F311431}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3CB53361-5BC7-40C9-88DE-A7DC7F311431}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
