@@ -1,6 +1,7 @@
 syntax: glob
 
 *.user
+*.dbmdl
 .vs\
 
 obj\
