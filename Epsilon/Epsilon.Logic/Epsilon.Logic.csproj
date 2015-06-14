@@ -49,6 +49,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -64,6 +65,8 @@
     <Compile Include="Entities\TenancyDetailsSubmission.cs" />
     <Compile Include="Entities\TenantVerification.cs" />
     <Compile Include="Entities\User.cs" />
+    <Compile Include="Infrastructure\AppCache.cs" />
+    <Compile Include="Infrastructure\Interfaces\IAppCache.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\AddressService.cs" />
     <Compile Include="Services\Interfaces\IAddressService.cs" />
@@ -76,6 +79,8 @@
     <Compile Include="SqlContext\Mapping\CountryMap.cs" />
     <Compile Include="SqlContext\Mapping\TenantVerificationMap.cs" />
     <Compile Include="SqlContext\Mapping\TenancyDetailsSubmissionMap.cs" />
+    <Compile Include="Wrappers\HttpRuntimeCache.cs" />
+    <Compile Include="Wrappers\Interfaces\ICacheWrapper.cs" />
     <Compile Include="Wrappers\Interfaces\IClock.cs" />
     <Compile Include="Wrappers\SystemClock.cs" />
   </ItemGroup>
@@ -89,9 +94,7 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Infrastructure\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -15,6 +15,8 @@ namespace Epsilon.Web.App_Start
     using Epsilon.Logic.Services;
     using Epsilon.Logic.Wrappers.Interfaces;
     using Epsilon.Logic.Wrappers;
+    using Epsilon.Logic.Infrastructure.Interfaces;
+    using Epsilon.Logic.Infrastructure;
 
     public static class NinjectWebCommon 
     {
@@ -66,14 +68,19 @@ namespace Epsilon.Web.App_Start
         /// <param name="kernel">The kernel.</param>
         private static void RegisterServices(IKernel kernel)
         {
+            // DbContext
             kernel.Bind<IEpsilonContext>().To<EpsilonContext>().InRequestScope();
+
+            // Infrastructure
+            kernel.Bind<IAppCache>().To<AppCache>().InSingletonScope();
 
             // Services
             kernel.Bind<IAddressService>().To<AddressService>().InRequestScope();
             kernel.Bind<ITenancyDetailsSubmissionService>().To<TenancyDetailsSubmissionService>().InRequestScope();
 
             // Wrappers
-            kernel.Bind<IClock>().To<SystemClock>().InRequestScope();
+            kernel.Bind<IClock>().To<SystemClock>().InSingletonScope();
+            kernel.Bind<ICacheWrapper>().To<HttpRuntimeCache>().InSingletonScope();
         }        
     }
 }
