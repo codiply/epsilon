@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Epsilon.Logic", "Epsilon.Lo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Epsilon.Resources", "Epsilon.Resources\Epsilon.Resources.csproj", "{3CB53361-5BC7-40C9-88DE-A7DC7F311431}"
 EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Epsilon.Database", "Epsilon.Database\Epsilon.Database.sqlproj", "{EA3B6704-3D77-4485-8B0B-5F9672BEC681}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,12 @@ Global
 		{3CB53361-5BC7-40C9-88DE-A7DC7F311431}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3CB53361-5BC7-40C9-88DE-A7DC7F311431}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3CB53361-5BC7-40C9-88DE-A7DC7F311431}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA3B6704-3D77-4485-8B0B-5F9672BEC681}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA3B6704-3D77-4485-8B0B-5F9672BEC681}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA3B6704-3D77-4485-8B0B-5F9672BEC681}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{EA3B6704-3D77-4485-8B0B-5F9672BEC681}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA3B6704-3D77-4485-8B0B-5F9672BEC681}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA3B6704-3D77-4485-8B0B-5F9672BEC681}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
