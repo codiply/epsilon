@@ -9,23 +9,26 @@
 </div>
 
 <div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
+    <div class="col-md-3">
+        <h2>Start</h2>
         <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
+            Start by providing your address details.
         </p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+        <p><a class="btn btn-default" href="@Url.Action("Create", "Submission")">Start &raquo;</a></p>
     </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
+    <div class="col-md-3">
+        <h2>Verify your address</h2>
+        <p>Enter the verification code you received by post.</p>
+        <p><a class="btn btn-default" href="@Url.Action("Verify", "Submission")">Verify &raquo;</a></p>
     </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
+    <div class="col-md-3">
+        <h2>Help</h2>
+        <p>Help by sending verification mail to other users. Earn tokens.</p>
+        <p><a class="btn btn-default" href="#">Help &raquo;</a></p>
+    </div>
+    <div class="col-md-3">
+        <h2>Explore</h2>
+        <p>Explore properties.</p>
+        <p><a class="btn btn-default" href="#">Explore &raquo;</a></p>
     </div>
 </div>
