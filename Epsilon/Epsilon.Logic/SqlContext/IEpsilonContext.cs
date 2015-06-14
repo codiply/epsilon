@@ -10,9 +10,13 @@ namespace Epsilon.Logic.SqlContext
 {
     public interface IEpsilonContext
     {
-        IDbSet<Address> Addresses { get; set; }
-        IDbSet<TenancyDetailsSubmission> TenancyDetailsSubmissions { get; set; }
-        IDbSet<TenantVerification> TenantVerifications { get; set; }
+        Task<int> SaveChangesAsync();
+
+        DbSet<Address> Addresses { get; set; }
+        DbSet<Country> Countries { get; set; }
+        DbSet<TenancyDetailsSubmission> TenancyDetailsSubmissions { get; set; }
+        DbSet<TenantVerification> TenantVerifications { get; set; }
+        // Users needs to be an IDbSet
         IDbSet<User> Users { get; set; }
     }
 }

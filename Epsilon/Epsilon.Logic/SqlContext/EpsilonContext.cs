@@ -5,6 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
+using System.Data.Entity.Validation;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,9 +21,10 @@ namespace Epsilon.Logic.SqlContext
             this.Configuration.ProxyCreationEnabled = false;
         }
 
-        public virtual IDbSet<Address> Addresses { get; set; }
-        public virtual IDbSet<TenancyDetailsSubmission> TenancyDetailsSubmissions { get; set; }
-        public virtual IDbSet<TenantVerification> TenantVerifications { get; set; }
+        public virtual DbSet<Address> Addresses { get; set; }
+        public DbSet<Country> Countries { get; set; }
+        public virtual DbSet<TenancyDetailsSubmission> TenancyDetailsSubmissions { get; set; }
+        public virtual DbSet<TenantVerification> TenantVerifications { get; set; }
         // Users DbSet is defined in IdentityDbContext (base of ApplicationDbContext).
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -31,8 +34,30 @@ namespace Epsilon.Logic.SqlContext
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
 
             modelBuilder.Configurations.Add(new AddressMap());
+            modelBuilder.Configurations.Add(new CountryMap());
             modelBuilder.Configurations.Add(new TenancyDetailsSubmissionMap());
             modelBuilder.Configurations.Add(new TenantVerificationMap());
+        }
+
+        public override async Task<int> SaveChangesAsync()
+        {
+            try
+            {
+                return await base.SaveChangesAsync();
+            }
+            catch (DbEntityValidationException dbEx)
+            {
+                foreach (var validationErrors in dbEx.EntityValidationErrors)
+                {
+                    foreach (var validationError in validationErrors.ValidationErrors)
+                    {
+                        Trace.TraceInformation("Property: {0} Error: {1}", 
+                            validationError.PropertyName, validationError.ErrorMessage);
+                    }
+                }
+
+                throw dbEx;
+            }
         }
     }
 }

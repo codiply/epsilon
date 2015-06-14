@@ -10,11 +10,11 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Epsilon.Web.Models;
 using Epsilon.Logic.Entities;
+using Epsilon.Web.Controllers.BaseControllers;
 
 namespace Epsilon.Web.Controllers
 {
-    [Authorize]
-    public class AccountController : BaseController
+    public class AccountController : AuthorizeBaseController
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
