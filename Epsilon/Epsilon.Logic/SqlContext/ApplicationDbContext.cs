@@ -12,6 +12,8 @@ namespace Epsilon.Logic.SqlContext
         public ApplicationDbContext()
             : this("EpsilonContext")
         {
+            this.Configuration.LazyLoadingEnabled = false;
+            this.Configuration.ProxyCreationEnabled = false;
         }
 
         public ApplicationDbContext(string connectionString)

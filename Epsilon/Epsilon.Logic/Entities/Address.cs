@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Epsilon.Logic.Entities
 {
-    public class Country
+    public class Address : BaseEntity
     {
         public virtual string Id { get; set; }
 
-        public virtual string EnglishName { get; set; }
+        public virtual ICollection<TenancyDetailsSubmission> TenancyDetailsSubmissions { get; set; }
     }
 }

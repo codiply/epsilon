@@ -68,5 +68,8 @@
     <Build Include="dbo\Tables\User.sql" />
     <Build Include="dbo\Tables\AspNetUserClaims.sql" />
     <Build Include="dbo\Tables\AspNetUserLogins.sql" />
+    <Build Include="dbo\Tables\TenantVerification.sql" />
+    <Build Include="dbo\Tables\TenancyDetailsSubmission.sql" />
+    <Build Include="dbo\Tables\Address.sql" />
   </ItemGroup>
 </Project>

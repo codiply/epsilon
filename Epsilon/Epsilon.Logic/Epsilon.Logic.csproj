@@ -57,12 +57,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Entities\Country.cs" />
+    <Compile Include="Entities\Address.cs" />
+    <Compile Include="Entities\BaseEntity.cs" />
+    <Compile Include="Entities\TenancyDetailsSubmission.cs" />
+    <Compile Include="Entities\TenantVerification.cs" />
     <Compile Include="Entities\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SqlContext\EpsilonContext.cs" />
     <Compile Include="SqlContext\ApplicationDbContext.cs" />
     <Compile Include="SqlContext\IEpsilonContext.cs" />
+    <Compile Include="SqlContext\Mapping\AddressMap.cs" />
+    <Compile Include="SqlContext\Mapping\TenantVerificationMap.cs" />
+    <Compile Include="SqlContext\Mapping\TenancyDetailsSubmissionMap.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Epsilon.Resources\Epsilon.Resources.csproj">
