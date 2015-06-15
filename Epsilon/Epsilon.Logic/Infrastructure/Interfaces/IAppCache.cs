@@ -10,17 +10,17 @@ namespace Epsilon.Logic.Infrastructure.Interfaces
     {
         bool ContainsKey(string key);
 
-        T Get<T>(string key, Func<T> getItemCallback) where T : class;
+        T Get<T>(string key, Func<T> getItemCallback, bool useLock) where T : class;
 
-        T Get<T>(string key, Func<T> getItemCallback, TimeSpan slidingExpiration) where T : class;
+        T Get<T>(string key, Func<T> getItemCallback, TimeSpan slidingExpiration, bool useLock) where T : class;
 
-        T Get<T>(string key, Func<T> getItemCallback, DateTime absoluteExpiration) where T : class;
+        T Get<T>(string key, Func<T> getItemCallback, DateTime absoluteExpiration, bool useLock) where T : class;
 
-        Task<T> GetAsync<T>(string key, Func<Task<T>> getItemCallback) where T : class;
+        Task<T> GetAsync<T>(string key, Func<Task<T>> getItemCallback, bool useLock) where T : class;
 
-        Task<T> GetAsync<T>(string key, Func<Task<T>> getItemCallback, TimeSpan slidingExpiration) where T : class;
+        Task<T> GetAsync<T>(string key, Func<Task<T>> getItemCallback, TimeSpan slidingExpiration, bool useLock) where T : class;
 
-        Task<T> GetAsync<T>(string key, Func<Task<T>> getItemCallback, DateTime absoluteExpiration) where T : class;
+        Task<T> GetAsync<T>(string key, Func<Task<T>> getItemCallback, DateTime absoluteExpiration, bool useLock) where T : class;
 
         void Remove(string key);
 
