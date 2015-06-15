@@ -23,7 +23,7 @@ namespace Epsilon.Web.Controllers
             _tenancyDetailsSubmissionService = tenancyDetailsSubmissionService;
         }
 
-        public async Task<ActionResult> Create()
+        public async Task<ActionResult> Start()
         {
             var countries = await _addressService.GetAvailableCountries();
             ViewBag.CountryId = new SelectList(countries, "Id", "EnglishName");
