@@ -8,7 +8,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectVersion>4.1</ProjectVersion>
     <ProjectGuid>{ea3b6704-3d77-4485-8b0b-5f9672bec681}</ProjectGuid>
-    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql120DatabaseSchemaProvider</DSP>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql110DatabaseSchemaProvider</DSP>
     <OutputType>Database</OutputType>
     <RootPath>
     </RootPath>
@@ -61,6 +61,9 @@
     <Folder Include="Properties" />
     <Folder Include="dbo\" />
     <Folder Include="dbo\Tables\" />
+    <Folder Include="Scripts" />
+    <Folder Include="Scripts\PostDeploy" />
+    <Folder Include="Scripts\PostDeploy\ReferenceData" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\AspNetRoles.sql" />
@@ -72,5 +75,9 @@
     <Build Include="dbo\Tables\TenancyDetailsSubmission.sql" />
     <Build Include="dbo\Tables\Address.sql" />
     <Build Include="dbo\Tables\Country.sql" />
+    <None Include="Scripts\PostDeploy\ReferenceData\Countries.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <PostDeploy Include="Scripts\PostDeploy\Script.PostDeployment.sql" />
   </ItemGroup>
 </Project>

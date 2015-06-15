@@ -1,6 +1,8 @@
 ﻿CREATE TABLE [dbo].[Country] (
-    [Id]          NVARCHAR (128) NOT NULL,
-    [EnglishName] NVARCHAR (MAX) NULL,
+    [Id]          NCHAR (2)     NOT NULL,
+    [EnglishName] NVARCHAR (64) NULL,
     CONSTRAINT [PK_dbo.Country] PRIMARY KEY CLUSTERED ([Id] ASC)
 );
+
+
 

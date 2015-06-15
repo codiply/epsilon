@@ -8,22 +8,30 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.Entity;
 using Epsilon.Logic.Forms;
+using Epsilon.Logic.Infrastructure.Interfaces;
+using Epsilon.Logic.Infrastructure;
 
 namespace Epsilon.Logic.Services
 {
     public class AddressService : IAddressService
     {
+        private readonly IAppCache _appCache;
         private readonly IEpsilonContext _dbContext;
 
         public AddressService(
+            IAppCache appCache,
             IEpsilonContext dbContext)
         {
+            _appCache = appCache;
             _dbContext = dbContext;
         }
         
         public async Task<IList<Country>> GetAvailableCountries()
         {
-            return await _dbContext.Countries.ToListAsync();
+            return await _appCache.GetAsync(
+                AppCacheKeys.AVAILABLE_COUNTRIES,
+                () => _dbContext.Countries.ToListAsync(),
+                WithLock.Yes);
         }
 
         public async Task<Address> CreateOrFindAddress(AddressForm dto)

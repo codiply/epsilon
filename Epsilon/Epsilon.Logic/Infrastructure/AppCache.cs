@@ -164,7 +164,6 @@ namespace Epsilon.Logic.Infrastructure
         private async Task<T> GenericGetWithLockAsync<T>(string key, Func<Task<T>> getItemCallback, Action<ICacheWrapper, string, Object> insertFunc) where T : class
         {
             // TODO: Make this method use an asynchronous locking mechanism.
-            throw new NotImplementedException();
 
             bool shouldReturnNull;
             T item = GetFromCache<T>(key, out shouldReturnNull);
