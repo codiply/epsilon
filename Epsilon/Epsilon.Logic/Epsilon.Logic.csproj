@@ -65,6 +65,10 @@
     <Compile Include="Entities\TenancyDetailsSubmission.cs" />
     <Compile Include="Entities\TenantVerification.cs" />
     <Compile Include="Entities\User.cs" />
+    <Compile Include="Helpers\AppSettingsHelper.cs" />
+    <Compile Include="Helpers\Interfaces\IAppSettingsHelper.cs" />
+    <Compile Include="Helpers\Interfaces\IParseHelper.cs" />
+    <Compile Include="Helpers\ParseHelper.cs" />
     <Compile Include="Infrastructure\AppCache.cs" />
     <Compile Include="Infrastructure\Interfaces\IAppCache.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

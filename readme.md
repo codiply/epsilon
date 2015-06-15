@@ -9,6 +9,8 @@ Choose **Custom** as the type of Installation and then install either all featur
 - Microsoft SQL Server Data Tools
 - Microsoft Web Developer Tools
 
+From **Tools > Extension and Updates...** install the
+**NUnit Test Adapter**.
 ### Mercurial Client
 
 Preferred client: [TortoiseHg](http://tortoisehg.bitbucket.org/).

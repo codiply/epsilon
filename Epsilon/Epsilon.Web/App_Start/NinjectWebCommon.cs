@@ -17,6 +17,10 @@ namespace Epsilon.Web.App_Start
     using Epsilon.Logic.Wrappers;
     using Epsilon.Logic.Infrastructure.Interfaces;
     using Epsilon.Logic.Infrastructure;
+    using Epsilon.Logic.Helpers.Interfaces;
+    using Epsilon.Logic.Helpers;
+    using System.Collections.Specialized;
+    using System.Configuration;
 
     public static class NinjectWebCommon 
     {
@@ -71,6 +75,12 @@ namespace Epsilon.Web.App_Start
             // DbContext
             kernel.Bind<IEpsilonContext>().To<EpsilonContext>().InRequestScope();
 
+            // Helpers
+            kernel.Bind<NameValueCollection>().ToConstant(ConfigurationManager.AppSettings)
+                .WhenInjectedExactlyInto<AppSettingsHelper>();
+            kernel.Bind<IAppSettingsHelper>().To<AppSettingsHelper>().InSingletonScope();
+            kernel.Bind<IParseHelper>().To<ParseHelper>().InSingletonScope();
+
             // Infrastructure
             kernel.Bind<IAppCache>().To<AppCache>().InSingletonScope();
 
@@ -79,8 +89,8 @@ namespace Epsilon.Web.App_Start
             kernel.Bind<ITenancyDetailsSubmissionService>().To<TenancyDetailsSubmissionService>().InRequestScope();
 
             // Wrappers
-            kernel.Bind<IClock>().To<SystemClock>().InSingletonScope();
             kernel.Bind<ICacheWrapper>().To<HttpRuntimeCache>().InSingletonScope();
+            kernel.Bind<IClock>().To<SystemClock>().InSingletonScope();
         }        
     }
 }
