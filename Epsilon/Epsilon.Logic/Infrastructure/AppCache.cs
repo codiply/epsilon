@@ -27,39 +27,39 @@ namespace Epsilon.Logic.Infrastructure
         }
 
         public T Get<T>(
-            string key, Func<T> getItemCallback, bool useLock) where T : class
+            string key, Func<T> getItemCallback, WithLock lockOption) where T : class
         {
-            return GenericGet(key, getItemCallback, (c, k, o) => c.Insert(k, o), useLock);
+            return GenericGet(key, getItemCallback, (c, k, o) => c.Insert(k, o), lockOption);
         }
 
         public T Get<T>(
-            string key, Func<T> getItemCallback, TimeSpan slidingExpiration, bool useLock) where T : class
+            string key, Func<T> getItemCallback, TimeSpan slidingExpiration, WithLock lockOption) where T : class
         {
-            return GenericGet(key, getItemCallback, (c, k, o) => c.Insert(k, o, slidingExpiration), useLock);
+            return GenericGet(key, getItemCallback, (c, k, o) => c.Insert(k, o, slidingExpiration), lockOption);
         }
 
         public T Get<T>(
-            string key, Func<T> getItemCallback, DateTime absoluteExpiration, bool useLock) where T : class
+            string key, Func<T> getItemCallback, DateTime absoluteExpiration, WithLock lockOption) where T : class
         {
-            return GenericGet(key, getItemCallback, (c, k, o) => c.Insert(k, o, absoluteExpiration), useLock);
+            return GenericGet(key, getItemCallback, (c, k, o) => c.Insert(k, o, absoluteExpiration), lockOption);
         }
 
         public async Task<T> GetAsync<T>(
-            string key, Func<Task<T>> getItemCallback, bool useLock) where T : class
+            string key, Func<Task<T>> getItemCallback, WithLock lockOption) where T : class
         {
-            return await GenericGetAsync(key, getItemCallback, (c, k, o) => c.Insert(k, o), useLock);
+            return await GenericGetAsync(key, getItemCallback, (c, k, o) => c.Insert(k, o), lockOption);
         }
 
         public async Task<T> GetAsync<T>(
-            string key, Func<Task<T>> getItemCallback, TimeSpan slidingExpiration, bool useLock) where T : class
+            string key, Func<Task<T>> getItemCallback, TimeSpan slidingExpiration, WithLock lockOption) where T : class
         {
-            return await GenericGetAsync(key, getItemCallback, (c, k, o) => c.Insert(k, o, slidingExpiration), useLock);
+            return await GenericGetAsync(key, getItemCallback, (c, k, o) => c.Insert(k, o, slidingExpiration), lockOption);
         }
 
         public async Task<T> GetAsync<T>(
-            string key, Func<Task<T>> getItemCallback, DateTime absoluteExpiration, bool useLock) where T : class
+            string key, Func<Task<T>> getItemCallback, DateTime absoluteExpiration, WithLock lockOption) where T : class
         {
-            return await GenericGetAsync(key, getItemCallback, (c, k, o) => c.Insert(k, o, absoluteExpiration), useLock);
+            return await GenericGetAsync(key, getItemCallback, (c, k, o) => c.Insert(k, o, absoluteExpiration), lockOption);
         }
 
         public void Remove(string key)
@@ -87,11 +87,17 @@ namespace Epsilon.Logic.Infrastructure
         }
 
         private T GenericGet<T>(
-            string key, Func<T> getItemCallback, Action<ICacheWrapper, string, Object> insertFunc, bool useLock) where T : class
+            string key, Func<T> getItemCallback, Action<ICacheWrapper, string, Object> insertFunc, WithLock lockOption) where T : class
         {
-            if (useLock)
-                return GenericGetWithLock<T>(key, getItemCallback, insertFunc);
-            return GenericGetWithoutLock<T>(key, getItemCallback, insertFunc);
+            switch (lockOption)
+            {
+                case WithLock.Yes:
+                    return GenericGetWithLock<T>(key, getItemCallback, insertFunc);
+                case WithLock.No:
+                    return GenericGetWithoutLock<T>(key, getItemCallback, insertFunc);
+                default:
+                    throw new NotImplementedException();
+            }
         }
 
         private T GenericGetWithLock<T>(string key, Func<T> getItemCallback, Action<ICacheWrapper, string, Object> insertFunc) where T : class
@@ -142,11 +148,17 @@ namespace Epsilon.Logic.Infrastructure
         }
 
         private async Task<T> GenericGetAsync<T>(
-            string key, Func<Task<T>> getItemCallback, Action<ICacheWrapper, string, Object> insertFunc, bool useLock) where T : class
+            string key, Func<Task<T>> getItemCallback, Action<ICacheWrapper, string, Object> insertFunc, WithLock lockOption) where T : class
         {
-            if (useLock)
-                return await GenericGetWithLockAsync<T>(key, getItemCallback, insertFunc);
-            return await GenericGetWithoutLockAsync<T>(key, getItemCallback, insertFunc);
+            switch (lockOption)
+            {
+                case WithLock.Yes:
+                    return await GenericGetWithLockAsync<T>(key, getItemCallback, insertFunc);
+                case WithLock.No:
+                    return await GenericGetWithoutLockAsync<T>(key, getItemCallback, insertFunc);
+                default:
+                    throw new NotImplementedException();
+            }
         }
 
         private async Task<T> GenericGetWithLockAsync<T>(string key, Func<Task<T>> getItemCallback, Action<ICacheWrapper, string, Object> insertFunc) where T : class
