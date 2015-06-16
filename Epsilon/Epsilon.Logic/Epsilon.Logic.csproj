@@ -58,6 +58,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\Currency.cs" />
     <Compile Include="Forms\AddressForm.cs" />
     <Compile Include="Entities\Address.cs" />
     <Compile Include="Entities\BaseEntity.cs" />
@@ -81,6 +82,7 @@
     <Compile Include="SqlContext\ApplicationDbContext.cs" />
     <Compile Include="SqlContext\IEpsilonContext.cs" />
     <Compile Include="SqlContext\Mapping\AddressMap.cs" />
+    <Compile Include="SqlContext\Mapping\CurrencyMap.cs" />
     <Compile Include="SqlContext\Mapping\CountryMap.cs" />
     <Compile Include="SqlContext\Mapping\TenantVerificationMap.cs" />
     <Compile Include="SqlContext\Mapping\TenancyDetailsSubmissionMap.cs" />

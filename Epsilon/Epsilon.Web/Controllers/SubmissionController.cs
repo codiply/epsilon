@@ -52,7 +52,7 @@ namespace Epsilon.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _addressService.CreateOrFindAddress(address);
+                await _addressService.AddAddress(address);
                 return RedirectToAction("Index");
             }
 

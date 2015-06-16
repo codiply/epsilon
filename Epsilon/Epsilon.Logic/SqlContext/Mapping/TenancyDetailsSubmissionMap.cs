@@ -28,6 +28,10 @@ namespace Epsilon.Logic.SqlContext.Mapping
             this.HasRequired(x => x.Address)
                 .WithMany(y => y.TenancyDetailsSubmissions)
                 .HasForeignKey(x => x.AddressId);
+
+            this.HasOptional(x => x.Currency)
+                .WithMany()
+                .HasForeignKey(x => x.CurrencyId);
         }
     }
 }

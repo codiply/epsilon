@@ -10,5 +10,6 @@ Post-Deployment Script Template
 --------------------------------------------------------------------------------------
 */
 
-:r .\ReferenceData\Countries.sql
+:r .\ReferenceData\Currency.sql
+:r .\ReferenceData\Country.sql
 GO

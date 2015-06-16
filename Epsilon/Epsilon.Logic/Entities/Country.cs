@@ -6,10 +6,13 @@ using System.Threading.Tasks;
 
 namespace Epsilon.Logic.Entities
 {
-    public class Country
+    public class Country : BaseEntity
     {
-        public string Id { get; set; }
+        public virtual string Id { get; set; }
+        public virtual string EnglishName { get; set; }
+        public virtual string CurrencyId { get; set; }
+        public virtual bool IsAvailable { get; set; }
 
-        public string EnglishName { get; set; }
+        public virtual Currency Currency { get; set; }
     }
 }

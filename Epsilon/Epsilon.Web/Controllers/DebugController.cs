@@ -18,10 +18,10 @@ namespace Epsilon.Web.Controllers
         }
 
         // GET: Debug
-        public ActionResult Index()
+        public ActionResult CreateDatabase()
         {
-            var user = _dbContext.Users.First();
-            return Content(user.Email);
+            var x = _dbContext.Users.Any();
+            return Content(x.ToString());
         }
     }
 }

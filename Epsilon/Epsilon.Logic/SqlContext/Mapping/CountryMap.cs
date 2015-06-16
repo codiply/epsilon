@@ -24,6 +24,11 @@ namespace Epsilon.Logic.SqlContext.Mapping
                 .HasMaxLength(ID_MAX_LENGTH);
             this.Property(x => x.EnglishName)
                 .HasMaxLength(ENGLISH_NAME_MAX_LENGTH);
+
+            // Relationships
+            this.HasRequired(x => x.Currency)
+                .WithMany()
+                .HasForeignKey(x => x.CurrencyId);
         }
     }
 }

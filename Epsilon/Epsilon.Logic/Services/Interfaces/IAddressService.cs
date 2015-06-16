@@ -12,6 +12,6 @@ namespace Epsilon.Logic.Services.Interfaces
     {
         Task<IList<Country>> GetAvailableCountries();
 
-        Task<Address> CreateOrFindAddress(AddressForm dto);
+        Task<Address> AddAddress(AddressForm dto);
     }
 }

@@ -19,7 +19,6 @@ namespace Epsilon.Logic.SqlContext.Mapping
             // Properties
             this.Property(x => x.Id)
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
-
             this.Property(x => x.Code)
                 .HasMaxLength(16);
 

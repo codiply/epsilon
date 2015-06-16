@@ -14,6 +14,7 @@ namespace Epsilon.Logic.SqlContext
 
         DbSet<Address> Addresses { get; set; }
         DbSet<Country> Countries { get; set; }
+        DbSet<Currency> Currencies { get; set; }
         DbSet<TenancyDetailsSubmission> TenancyDetailsSubmissions { get; set; }
         DbSet<TenantVerification> TenantVerifications { get; set; }
         // Users needs to be an IDbSet

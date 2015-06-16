@@ -30,28 +30,20 @@ namespace Epsilon.Logic.Services
         {
             return await _appCache.GetAsync(
                 AppCacheKeys.AVAILABLE_COUNTRIES,
-                () => _dbContext.Countries.ToListAsync(),
+                () => _dbContext.Countries.Where(c => c.IsAvailable).ToListAsync(),
                 WithLock.Yes);
         }
 
-        public async Task<Address> CreateOrFindAddress(AddressForm dto)
+        public async Task<Address> AddAddress(AddressForm dto)
         {
-            var id = CalculateId(dto);
-
-            var existingAddress = await _dbContext.Addresses.FindAsync(id);
-
-            if (existingAddress != null)
-                return existingAddress;
-
             var entity = dto.ToEntity();
-            entity.Id = id;
+            entity.UniqueAddressCode = CalculateUniqueAddressCode(dto);
             _dbContext.Addresses.Add(entity);
             await _dbContext.SaveChangesAsync();
-
             return entity;
         }
 
-        public string CalculateId(AddressForm dto)
+        public string CalculateUniqueAddressCode(AddressForm dto)
         {
             // TODO: Find a mapping from address to a unique id.
             // For UK for example it could be something like

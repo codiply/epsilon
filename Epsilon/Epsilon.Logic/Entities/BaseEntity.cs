@@ -10,6 +10,6 @@ namespace Epsilon.Logic.Entities
     public class BaseEntity
     {
         [Timestamp]
-        public Byte[] Timestamp { get; set; }
+        public virtual Byte[] Timestamp { get; set; }
     }
 }
