@@ -206,6 +206,7 @@
     <Compile Include="Controllers\BaseControllers\AnonymousBaseController.cs" />
     <Compile Include="Controllers\BaseControllers\BaseController.cs" />
     <Compile Include="Controllers\DebugController.cs" />
+    <Compile Include="Controllers\Filters\InternationalizationAttribute.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\SubmissionController.cs" />
