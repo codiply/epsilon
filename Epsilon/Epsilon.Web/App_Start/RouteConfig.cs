@@ -22,13 +22,14 @@ namespace Epsilon.Web
                     action = "Index",
                     id = UrlParameter.Optional,
                     language = "en",
-                    culture = "US"
+                    culture = "GB"
                 });
 
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new {
+                defaults: new
+                {
                     controller = "Home",
                     action = "Index",
                     id = UrlParameter.Optional
