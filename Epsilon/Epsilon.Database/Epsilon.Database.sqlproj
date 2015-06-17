@@ -83,8 +83,12 @@
     <Build Include="dbo\Stored Procedures\ELMAH_GetErrorsXml.sql" />
     <None Include="Scripts\PostDeploy\ReferenceData\Currency.sql" />
     <Build Include="dbo\Tables\Currency.sql" />
+    <Build Include="dbo\Tables\Language.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Scripts\PostDeploy\Script.PostDeployment.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Scripts\PostDeploy\ReferenceData\Language.sql" />
   </ItemGroup>
 </Project>

@@ -24,6 +24,7 @@ namespace Epsilon.Logic.SqlContext
         public virtual DbSet<Address> Addresses { get; set; }
         public virtual DbSet<Country> Countries { get; set; }
         public virtual DbSet<Currency> Currencies { get; set; }
+        public virtual DbSet<Language> Languages { get; set; }
         public virtual DbSet<TenancyDetailsSubmission> TenancyDetailsSubmissions { get; set; }
         public virtual DbSet<TenantVerification> TenantVerifications { get; set; }
         // Users DbSet is defined in IdentityDbContext (base of ApplicationDbContext).
@@ -37,6 +38,7 @@ namespace Epsilon.Logic.SqlContext
             modelBuilder.Configurations.Add(new AddressMap());
             modelBuilder.Configurations.Add(new CountryMap());
             modelBuilder.Configurations.Add(new CurrencyMap());
+            modelBuilder.Configurations.Add(new LanguageMap());
             modelBuilder.Configurations.Add(new TenancyDetailsSubmissionMap());
             modelBuilder.Configurations.Add(new TenantVerificationMap());
         }

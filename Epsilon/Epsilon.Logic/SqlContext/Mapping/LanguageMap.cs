@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 
 namespace Epsilon.Logic.SqlContext.Mapping
 {
-    public class CountryMap : EntityTypeConfiguration<Country>
+    public class LanguageMap : EntityTypeConfiguration<Language>
     {
-        public const int ID_MAX_LENGTH = 2;
+        public const int ID_MAX_LENGTH = 10;
         public const int ENGLISH_NAME_MAX_LENGTH = 64;
         public const int LOCALIZED_NAME_MAX_LENGTH = 64;
 
-        public CountryMap()
+        public LanguageMap()
         {
             // Primary Key
             this.HasKey(x => x.Id);
@@ -25,11 +25,6 @@ namespace Epsilon.Logic.SqlContext.Mapping
                 .HasMaxLength(ID_MAX_LENGTH);
             this.Property(x => x.EnglishName)
                 .HasMaxLength(ENGLISH_NAME_MAX_LENGTH);
-
-            // Relationships
-            this.HasRequired(x => x.Currency)
-                .WithMany()
-                .HasForeignKey(x => x.CurrencyId);
             this.Property(x => x.LocalizedName)
                 .HasMaxLength(LOCALIZED_NAME_MAX_LENGTH);
         }

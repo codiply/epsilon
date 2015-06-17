@@ -12,4 +12,5 @@ Post-Deployment Script Template
 
 :r .\ReferenceData\Currency.sql
 :r .\ReferenceData\Country.sql
+:r .\ReferenceData\Language.sql
 GO

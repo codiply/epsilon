@@ -10,6 +10,7 @@ namespace Epsilon.Logic.Entities
     {
         public virtual string Id { get; set; }
         public virtual string EnglishName { get; set; }
+        public virtual string LocalizedName { get; set; }
         public virtual string CurrencyId { get; set; }
         public virtual bool IsAvailable { get; set; }
 

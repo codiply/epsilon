@@ -6,12 +6,12 @@
 GO
 
 INSERT INTO [dbo].[Country]
-([Id],[EnglishName], [CurrencyId], [IsAvailable])
+([Id], [EnglishName], [LocalizedName], [CurrencyId], [IsAvailable])
 VALUES
-(N'GB', N'United Kingdom', N'GBP', 1),
-(N'GR', N'Greece', N'EUR', 1),
-(N'IE', N'Ireland', N'EUR', 0),
-(N'US', N'United States of America', N'USD', 0);
+(N'GB', N'United Kingdom', N'United Kingdom', N'GBP', 1),
+(N'GR', N'Greece', N'Ελλάδα', N'EUR', 1),
+(N'IE', N'Ireland', N'Ireland', N'EUR', 0),
+(N'US', N'United States of America', N'United States of America', N'USD', 0);
 
 GO
 
