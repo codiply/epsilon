@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Epsilon.Web.Models.Alerts
+namespace Epsilon.Web.Models.ViewAlerts
 {
-    public static class AlertStyles
+    public static class ViewAlertStyles
     {
         public const string Success = "success";
         public const string Information = "info";

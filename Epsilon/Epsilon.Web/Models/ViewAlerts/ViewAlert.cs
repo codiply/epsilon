@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Epsilon.Web.Models.Alerts
+namespace Epsilon.Web.Models.ViewAlerts
 {
-    public class Alert
+    public class ViewAlert
     {
-        public const string TempDataKey = "TempDataAlerts";
+        public const string TempDataKey = "TempDataViewAlerts";
 
         public string AlertStyle { get; set; }
         public string Message { get; set; }

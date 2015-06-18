@@ -8,11 +8,11 @@ using System.Web.Mvc;
 
 namespace Epsilon.Web.Controllers
 {
-    public class TestController : AnonymousBaseController
+    public class HelperController : AnonymousBaseController
     {
         private readonly IEpsilonContext _dbContext;
 
-        public TestController(IEpsilonContext dbContext)
+        public HelperController(IEpsilonContext dbContext)
         {
             _dbContext = dbContext;
         }

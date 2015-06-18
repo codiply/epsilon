@@ -1,9 +1,9 @@
-﻿@using Epsilon.Web.Models.Alerts
+﻿@using Epsilon.Web.Models.ViewAlerts
 
 @{
-    var alerts = TempData.ContainsKey(Alert.TempDataKey)
-                ? (List<Alert>)TempData[Alert.TempDataKey]
-                : new List<Alert>();
+    var alerts = TempData.ContainsKey(ViewAlert.TempDataKey)
+                ? (List<ViewAlert>)TempData[ViewAlert.TempDataKey]
+                : new List<ViewAlert>();
 
     if (alerts.Any())
     {

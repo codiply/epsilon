@@ -9,5 +9,10 @@ namespace Epsilon.Logic.Infrastructure
     public static class AppCacheKeys
     {
         public const string AVAILABLE_COUNTRIES = "AVAILABLE_COUNTRIES";
+
+        public static string Language(string languageId)
+        {
+            return "Language:" + languageId.ToLowerInvariant();
+        }
     }
 }

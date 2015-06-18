@@ -8,9 +8,12 @@ namespace Epsilon.Logic.Entities
 {
     public class Language
     {
-        public string Id { get; set; }
-        public string EnglishName { get; set; }
-        public string LocalizedName { get; set; }
-        public bool IsAvailable { get; set; }
+        public virtual string Id { get; set; }
+        public virtual string EnglishName { get; set; }
+        public virtual string NativeName { get; set; }
+        public virtual string UseLanguageId { get; set; }
+        public virtual bool IsAvailable { get; set; }
+
+        public virtual Language UseLanguage { get; set; }
     }
 }

@@ -6,9 +6,11 @@
 GO
 
 INSERT INTO [dbo].[Language]
-([Id], [EnglishName], [LocalizedName], [IsAvailable])
+([Id], [EnglishName], [NativeName], [IsAvailable], [UseLanguageId])
 VALUES
-(N'el-GR', N'Greek', N'Ελληνικά', 1);
+(N'en-GB', N'English', N'English', 1, NULL),
+(N'en-US', N'English', N'English', 1, N'en-GB'),
+(N'el-GR', N'Greek', N'Ελληνικά', 1, NULL);
 
 GO
 

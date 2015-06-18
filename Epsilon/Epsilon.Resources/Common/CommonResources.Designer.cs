@@ -68,5 +68,14 @@ namespace Epsilon.Resources.Common {
                 return ResourceManager.GetString("Country", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The language selected is not supported yet..
+        /// </summary>
+        public static string UnsupportedLanguage {
+            get {
+                return ResourceManager.GetString("UnsupportedLanguage", resourceCulture);
+            }
+        }
     }
 }

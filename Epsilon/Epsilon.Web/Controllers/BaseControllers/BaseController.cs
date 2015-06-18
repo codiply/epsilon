@@ -1,5 +1,5 @@
 ﻿using Epsilon.Web.Controllers.Filters;
-using Epsilon.Web.Models.Alerts;
+using Epsilon.Web.Models.ViewAlerts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,38 +13,38 @@ namespace Epsilon.Web.Controllers.BaseControllers
     {
         public void Success(string message, bool dismissable = false)
         {
-            AddAlert(AlertStyles.Success, message, dismissable);
+            AddAlert(ViewAlertStyles.Success, message, dismissable);
         }
 
         public void Information(string message, bool dismissable = false)
         {
-            AddAlert(AlertStyles.Information, message, dismissable);
+            AddAlert(ViewAlertStyles.Information, message, dismissable);
         }
 
         public void Warning(string message, bool dismissable = false)
         {
-            AddAlert(AlertStyles.Warning, message, dismissable);
+            AddAlert(ViewAlertStyles.Warning, message, dismissable);
         }
 
         public void Danger(string message, bool dismissable = false)
         {
-            AddAlert(AlertStyles.Danger, message, dismissable);
+            AddAlert(ViewAlertStyles.Danger, message, dismissable);
         }
 
         private void AddAlert(string alertStyle, string message, bool dismissable)
         {
-            var alerts = TempData.ContainsKey(Alert.TempDataKey)
-                ? (List<Alert>)TempData[Alert.TempDataKey]
-                : new List<Alert>();
+            var alerts = TempData.ContainsKey(ViewAlert.TempDataKey)
+                ? (List<ViewAlert>)TempData[ViewAlert.TempDataKey]
+                : new List<ViewAlert>();
 
-            alerts.Add(new Alert
+            alerts.Add(new ViewAlert
             {
                 AlertStyle = alertStyle,
                 Message = message,
                 Dismissable = dismissable
             });
 
-            TempData[Alert.TempDataKey] = alerts;
+            TempData[ViewAlert.TempDataKey] = alerts;
         }
     }
 }
