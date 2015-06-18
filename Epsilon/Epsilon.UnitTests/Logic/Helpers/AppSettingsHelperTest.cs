@@ -90,6 +90,8 @@ namespace Epsilon.UnitTests.Logic.Helpers
             Assert.IsFalse(result.HasValue, "The result should be null.");
         }
 
+        // TODO: Long
+
         [Test]
         public void GetFloat_ForNonExistingtKey_ReturnsNull()
         {
@@ -188,6 +190,8 @@ namespace Epsilon.UnitTests.Logic.Helpers
             // Assert
             Assert.IsFalse(result.HasValue, "The result should be null.");
         }
+
+        // TODO: Decimal
 
         [Test]
         public void GetBool_ForKeyWithTrueValue_ReturnsTrue()
@@ -328,6 +332,10 @@ namespace Epsilon.UnitTests.Logic.Helpers
             // Assert
             Assert.IsFalse(result.HasValue, "The result should be null.");
         }
+
+        // TODO: DateTime
+
+        // TODO: DateTimeOffset
 
         [Test]
         public void GetGuid_ForNonExistingKey_ReturnsNull()
