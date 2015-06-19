@@ -12,7 +12,7 @@ namespace Epsilon.Logic.SqlContext.Mapping
     {
         public const int ID_MAX_LENGTH = 2;
         public const int ENGLISH_NAME_MAX_LENGTH = 64;
-        public const int LOCALIZED_NAME_MAX_LENGTH = 64;
+        public const int LOCAL_NAME_MAX_LENGTH = 64;
 
         public CountryMap()
         {
@@ -25,8 +25,8 @@ namespace Epsilon.Logic.SqlContext.Mapping
                 .HasMaxLength(ID_MAX_LENGTH);
             this.Property(x => x.EnglishName)
                 .HasMaxLength(ENGLISH_NAME_MAX_LENGTH);
-            this.Property(x => x.LocalizedName)
-                .HasMaxLength(LOCALIZED_NAME_MAX_LENGTH);
+            this.Property(x => x.LocalName)
+                .HasMaxLength(LOCAL_NAME_MAX_LENGTH);
 
             // Relationships
             this.HasRequired(x => x.Currency)
