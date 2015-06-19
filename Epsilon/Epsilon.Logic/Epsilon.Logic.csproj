@@ -77,8 +77,12 @@
     <Compile Include="Infrastructure\Interfaces\IAppCache.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\AddressService.cs" />
+    <Compile Include="Services\CountryService.cs" />
     <Compile Include="Services\Interfaces\IAddressService.cs" />
+    <Compile Include="Services\Interfaces\ICountryService.cs" />
+    <Compile Include="Services\Interfaces\ILanguageService.cs" />
     <Compile Include="Services\Interfaces\ITenancyDetailsSubmissionService.cs" />
+    <Compile Include="Services\LanguageService.cs" />
     <Compile Include="Services\TenancyDetailsSubmissionService.cs" />
     <Compile Include="SqlContext\EpsilonContext.cs" />
     <Compile Include="SqlContext\ApplicationDbContext.cs" />
