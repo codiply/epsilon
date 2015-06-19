@@ -10,6 +10,7 @@ using System.Data.Entity;
 using Epsilon.Logic.Forms;
 using Epsilon.Logic.Infrastructure.Interfaces;
 using Epsilon.Logic.Infrastructure;
+using Epsilon.Logic.Constants;
 
 namespace Epsilon.Logic.Services
 {
@@ -24,14 +25,6 @@ namespace Epsilon.Logic.Services
         {
             _appCache = appCache;
             _dbContext = dbContext;
-        }
-        
-        public async Task<IList<Country>> GetAvailableCountries()
-        {
-            return await _appCache.GetAsync(
-                AppCacheKeys.AVAILABLE_COUNTRIES,
-                () => _dbContext.Countries.Where(c => c.IsAvailable).ToListAsync(),
-                WithLock.Yes);
         }
 
         public async Task<Address> AddAddress(AddressForm dto)

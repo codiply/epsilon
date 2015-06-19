@@ -15,13 +15,14 @@ using System.Threading.Tasks;
 using Epsilon.Resources.Common;
 using Epsilon.Logic.Infrastructure.Interfaces;
 using Epsilon.Logic.Infrastructure;
+using Epsilon.Logic.Services.Interfaces;
 
 namespace Epsilon.Web.Controllers.Filters
 {
     public class InternationalizationAttribute : ActionFilterAttribute
     {
         [Inject]
-        public IEpsilonContext DbContext { get; set; }
+        public ILanguageService LanguageService { get; set; }
 
         [Inject]
         public IAppSettingsHelper AppSettingsHelper { get; set; }
@@ -31,18 +32,14 @@ namespace Epsilon.Web.Controllers.Filters
 
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            string languageCode = (string)filterContext.RouteData.Values["language"] 
+            string languageId = (string)filterContext.RouteData.Values["languageId"] 
                 ?? AppSettingsHelper.GetString(AppSettingsKeys.DefaultLanguage);
-            string cultureCode = (string)filterContext.RouteData.Values["culture"]
-                ?? AppSettingsHelper.GetString(AppSettingsKeys.DefaultCulture);
 
-            var languageId = string.Format("{0}-{1}", languageCode, cultureCode);
+            var languageTask = LanguageService.GetLanguage(languageId);
+            languageTask.RunSynchronously();
+            var language = languageTask.Result;
 
-            var language = Cache.Get(AppCacheKeys.Language(languageId), () => 
-                DbContext.Languages
-                .SingleOrDefault(x => x.Id == languageId), WithLock.Yes);
-
-            if (language == null)
+            if (language == null || !language.IsAvailable)
             {
                 var message = CommonResources.UnsupportedLanguage;
                 filterContext.Result = new ContentResult { Content = message };
@@ -50,7 +47,7 @@ namespace Epsilon.Web.Controllers.Filters
                 return;
             }
 
-            var cultureInfo = CultureInfo.GetCultureInfo(languageId);
+            var cultureInfo = CultureInfo.GetCultureInfo(language.CultureCode);
 
             Thread.CurrentThread.CurrentCulture = cultureInfo;
             Thread.CurrentThread.CurrentUICulture = cultureInfo;

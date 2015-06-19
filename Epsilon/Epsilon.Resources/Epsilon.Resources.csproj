@@ -45,17 +45,17 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>CommonResources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Common\CommonResources.el-gr.Designer.cs">
+    <Compile Include="Common\CommonResources.el.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>CommonResources.el-gr.resx</DependentUpon>
+      <DependentUpon>CommonResources.el.resx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Common\CommonResources.el-gr.resx">
+    <EmbeddedResource Include="Common\CommonResources.el.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>CommonResources.el-gr.Designer.cs</LastGenOutput>
+      <LastGenOutput>CommonResources.el.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Common\CommonResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

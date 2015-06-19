@@ -92,7 +92,4 @@
   <ItemGroup>
     <None Include="Scripts\PostDeploy\ReferenceData\Language.sql" />
   </ItemGroup>
-  <ItemGroup>
-    <RefactorLog Include="Epsilon.Database.refactorlog" />
-  </ItemGroup>
 </Project>

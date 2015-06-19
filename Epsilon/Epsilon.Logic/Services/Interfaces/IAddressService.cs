@@ -10,8 +10,6 @@ namespace Epsilon.Logic.Services.Interfaces
 {
     public interface IAddressService
     {
-        Task<IList<Country>> GetAvailableCountries();
-
         Task<Address> AddAddress(AddressForm dto);
     }
 }

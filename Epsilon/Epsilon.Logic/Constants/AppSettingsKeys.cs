@@ -10,6 +10,5 @@ namespace Epsilon.Logic.Constants
     {
         public const string ApplicationName = "Epsilon.ApplicationName";
         public const string DefaultLanguage = "Epsilon.DefaultLanguage";
-        public const string DefaultCulture = "Epsilon.DefaultCulture";
     }
 }

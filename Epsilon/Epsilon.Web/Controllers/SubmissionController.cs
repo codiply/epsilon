@@ -12,20 +12,23 @@ namespace Epsilon.Web.Controllers
 { 
     public class SubmissionController : AuthorizeBaseController
     {
-        public readonly IAddressService _addressService;
-        public readonly ITenancyDetailsSubmissionService _tenancyDetailsSubmissionService;
+        private readonly ICountryService _countryService;
+        private readonly IAddressService _addressService;
+        private readonly ITenancyDetailsSubmissionService _tenancyDetailsSubmissionService;
 
         public SubmissionController(
+            ICountryService countryService,
             IAddressService addressService,
             ITenancyDetailsSubmissionService tenancyDetailsSubmissionService)
         {
+            _countryService = countryService;
             _addressService = addressService;
             _tenancyDetailsSubmissionService = tenancyDetailsSubmissionService;
         }
 
         public async Task<ActionResult> Start()
         {
-            var countries = await _addressService.GetAvailableCountries();
+            var countries = await _countryService.GetAvailableCountries();
             ViewBag.CountryId = new SelectList(countries, "Id", "EnglishName");
             return View();
         }
@@ -34,7 +37,7 @@ namespace Epsilon.Web.Controllers
         {
             var countryId = id.ToUpper();
 
-            var countries = await _addressService.GetAvailableCountries();
+            var countries = await _countryService.GetAvailableCountries();
             ViewBag.CountryId = new SelectList(countries, "Id", "EnglishName", countryId);
 
             var model = new AddressForm
@@ -56,7 +59,7 @@ namespace Epsilon.Web.Controllers
                 return RedirectToAction("Index");
             }
 
-            var countries = await _addressService.GetAvailableCountries();
+            var countries = await _countryService.GetAvailableCountries();
             ViewBag.CountryId = new SelectList(countries, "Id", "EnglishName", address.CountryId);
             return View(address);
         }
