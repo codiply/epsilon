@@ -61,6 +61,7 @@
     <Compile Include="Constants\AppSettingsKeys.cs" />
     <Compile Include="Entities\Currency.cs" />
     <Compile Include="Entities\Language.cs" />
+    <Compile Include="Entities\UserPreference.cs" />
     <Compile Include="Forms\AddressForm.cs" />
     <Compile Include="Entities\Address.cs" />
     <Compile Include="Entities\BaseEntity.cs" />
@@ -93,6 +94,7 @@
     <Compile Include="SqlContext\Mapping\CountryMap.cs" />
     <Compile Include="SqlContext\Mapping\TenantVerificationMap.cs" />
     <Compile Include="SqlContext\Mapping\TenancyDetailsSubmissionMap.cs" />
+    <Compile Include="SqlContext\Mapping\UserPreferenceMap.cs" />
     <Compile Include="Wrappers\HttpRuntimeCache.cs" />
     <Compile Include="Wrappers\Interfaces\ICacheWrapper.cs" />
     <Compile Include="Wrappers\Interfaces\IClock.cs" />

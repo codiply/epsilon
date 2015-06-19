@@ -10,9 +10,10 @@ namespace Epsilon.Logic.SqlContext.Mapping
 {
     public class LanguageMap : EntityTypeConfiguration<Language>
     {
-        public const int ID_MAX_LENGTH = 10;
+        public const int ID_MAX_LENGTH = 8;
         public const int ENGLISH_NAME_MAX_LENGTH = 64;
         public const int NATIVE_NAME_MAX_LENGTH = 64;
+        public const int CULTURE_CODE_MAX_LENGTH = 10;
 
         public LanguageMap()
         {
@@ -26,11 +27,8 @@ namespace Epsilon.Logic.SqlContext.Mapping
                 .HasMaxLength(ENGLISH_NAME_MAX_LENGTH);
             this.Property(x => x.NativeName)
                 .HasMaxLength(NATIVE_NAME_MAX_LENGTH);
-
-            // Relationships
-            this.HasOptional(x => x.UseLanguage)
-                .WithMany()
-                .HasForeignKey(x => x.UseLanguageId);
+            this.Property(x => x.CultureCode)
+                .HasMaxLength(CULTURE_CODE_MAX_LENGTH);
         }
     }
 }

@@ -40,7 +40,6 @@ namespace Epsilon.Web.Controllers.Filters
 
             var language = Cache.Get(AppCacheKeys.Language(languageId), () => 
                 DbContext.Languages
-                .Include(x => x.UseLanguage)
                 .SingleOrDefault(x => x.Id == languageId), WithLock.Yes);
 
             if (language == null)
@@ -51,7 +50,7 @@ namespace Epsilon.Web.Controllers.Filters
                 return;
             }
 
-            var cultureInfo = CultureInfo.GetCultureInfo(language.UseLanguageId ?? languageId);
+            var cultureInfo = CultureInfo.GetCultureInfo(languageId);
 
             Thread.CurrentThread.CurrentCulture = cultureInfo;
             Thread.CurrentThread.CurrentUICulture = cultureInfo;

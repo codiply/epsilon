@@ -41,6 +41,7 @@ namespace Epsilon.Logic.SqlContext
             modelBuilder.Configurations.Add(new LanguageMap());
             modelBuilder.Configurations.Add(new TenancyDetailsSubmissionMap());
             modelBuilder.Configurations.Add(new TenantVerificationMap());
+            modelBuilder.Configurations.Add(new UserPreferenceMap());
         }
 
         public override async Task<int> SaveChangesAsync()

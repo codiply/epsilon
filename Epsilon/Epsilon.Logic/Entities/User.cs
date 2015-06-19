@@ -12,7 +12,7 @@ namespace Epsilon.Logic.Entities
 {
     public class User : IdentityUser
     {
-        // Add more columns for User here.
+        public virtual UserPreference Preference { get; set; }
 
         [Timestamp]
         public virtual Byte[] Timestamp { get; set; }
