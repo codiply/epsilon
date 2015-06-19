@@ -1,0 +1,39 @@
+﻿@using Microsoft.AspNet.Identity
+@using Epsilon.Resources.Common
+@using Epsilon.Logic.Services.Interfaces;
+
+@using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+{
+    @Html.AntiForgeryToken()
+}
+<ul class="nav navbar-nav navbar-right">
+    <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">@CommonResources.Language <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+            @{
+                 var languageService = DependencyResolver.Current.GetService<ILanguageService>();
+                 var availableLanguages = languageService.GetAvailableLanguages();
+            }
+            @foreach (var language in availableLanguages)
+            {
+                <li><a href="@Url.Action(ViewContext.RouteData.GetRequiredString("action"), new { languageId = @language.Id })">@language.LocalName</a></li>
+            }
+        </ul>
+    </li>
+
+    @if (Request.IsAuthenticated)
+    {
+        <li>
+            @Html.ActionLink(User.Identity.GetUserName(), "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+        </li>
+        <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
+    }
+    else
+    {
+        <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+        <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+    }
+        
+</ul>
+}
+

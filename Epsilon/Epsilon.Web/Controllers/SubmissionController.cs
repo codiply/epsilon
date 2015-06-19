@@ -28,7 +28,7 @@ namespace Epsilon.Web.Controllers
 
         public async Task<ActionResult> Start()
         {
-            var countries = await _countryService.GetAvailableCountries();
+            var countries = _countryService.GetAvailableCountries();
             ViewBag.CountryId = new SelectList(countries, "Id", "EnglishName");
             return View();
         }
@@ -37,7 +37,7 @@ namespace Epsilon.Web.Controllers
         {
             var countryId = id.ToUpper();
 
-            var countries = await _countryService.GetAvailableCountries();
+            var countries = _countryService.GetAvailableCountries();
             ViewBag.CountryId = new SelectList(countries, "Id", "EnglishName", countryId);
 
             var model = new AddressForm
@@ -59,7 +59,7 @@ namespace Epsilon.Web.Controllers
                 return RedirectToAction("Index");
             }
 
-            var countries = await _countryService.GetAvailableCountries();
+            var countries = _countryService.GetAvailableCountries();
             ViewBag.CountryId = new SelectList(countries, "Id", "EnglishName", address.CountryId);
             return View(address);
         }

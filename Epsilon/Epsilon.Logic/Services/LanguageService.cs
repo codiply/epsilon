@@ -26,33 +26,36 @@ namespace Epsilon.Logic.Services
             _appCache = appCache;
         }
 
-        public async Task<IList<Language>> GetAvailableLanguages()
+        public IList<Language> GetAvailableLanguages()
         {
-            var availableLanguages = await _appCache.GetAsync(AppCacheKeys.AVAILABLE_LANGUAGES, () =>
+            var availableLanguages = _appCache.Get(AppCacheKeys.AVAILABLE_LANGUAGES, () =>
                 GetAvailableLanguagesFromDictionary(), WithLock.Yes);
             return availableLanguages;
         }
 
-        public async Task<Language> GetLanguage(string languageId)
+        public Language GetLanguage(string languageId)
         {
-            var dictionary = await GetLanguageDictionary();
-            return dictionary[languageId.ToLower()];
+            var dictionary = GetLanguageDictionary();
+            Language answer;
+            if (dictionary.TryGetValue(languageId.ToLower(), out answer))
+                return answer;
+            return null;
         }
 
-        private async Task<IList<Language>> GetAvailableLanguagesFromDictionary()
+        private IList<Language> GetAvailableLanguagesFromDictionary()
         {
-            var dictionary = await GetLanguageDictionary();
+            var dictionary = GetLanguageDictionary();
             return dictionary.Select(x => x.Value).Where(x => x.IsAvailable).ToList();
         }
 
-        private async Task<ImmutableDictionary<string, Language>> GetLanguageDictionary()
+        private ImmutableDictionary<string, Language> GetLanguageDictionary()
         {
-            return await _appCache.GetAsync(AppCacheKeys.LANGUAGES_DICTIONARY, () => FetchLanguageDictionary(), WithLock.Yes);
+            return _appCache.Get(AppCacheKeys.LANGUAGES_DICTIONARY, () => FetchLanguageDictionary(), WithLock.Yes);
         }
 
-        private async Task<ImmutableDictionary<string, Language>> FetchLanguageDictionary()
+        private ImmutableDictionary<string, Language> FetchLanguageDictionary()
         {
-            var languages = await _dbContext.Languages.ToListAsync();
+            var languages = _dbContext.Languages.ToList();
             var dictionary = languages.ToImmutableDictionary(x => x.Id.ToLower());
             return dictionary;
         }

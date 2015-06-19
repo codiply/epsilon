@@ -25,8 +25,7 @@ namespace Epsilon.Logic.SqlContext.Mapping
                 .WithMany()
                 .HasForeignKey(x => x.LanguageId);
             this.HasRequired(x => x.User)
-                .WithOptional(x => x.Preference)
-                .Map(p => p.MapKey("UserId"));
+                .WithOptional(x => x.Preference);
         }
     }
 }

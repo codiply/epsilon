@@ -9,8 +9,8 @@ namespace Epsilon.Logic.Services.Interfaces
 {
     public interface ILanguageService
     {
-        Task<IList<Language>> GetAvailableLanguages();
+        IList<Language> GetAvailableLanguages();
 
-        Task<Language> GetLanguage(string languageId);
+        Language GetLanguage(string languageId);
     }
 }

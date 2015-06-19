@@ -10,6 +10,6 @@ namespace Epsilon.Logic.Services.Interfaces
 {
     public interface ICountryService
     {
-        Task<IList<Country>> GetAvailableCountries();
+        IList<Country> GetAvailableCountries();
     }
 }

@@ -26,26 +26,26 @@ namespace Epsilon.Logic.Services
             _appCache = appCache;
         }
 
-        public async Task<IList<Country>> GetAvailableCountries()
+        public IList<Country> GetAvailableCountries()
         {
-            var countries = await GetAvailableCountriesFromDictionary();
+            var countries = GetAvailableCountriesFromDictionary();
             return countries;
         }
 
-        private async Task<IList<Country>> GetAvailableCountriesFromDictionary()
+        private IList<Country> GetAvailableCountriesFromDictionary()
         {
-            var dictionary = await GetCountryDictionary();
+            var dictionary = GetCountryDictionary();
             return dictionary.Select(x => x.Value).Where(x => x.IsAvailable).ToList();
         }
 
-        private async Task<ImmutableDictionary<string, Country>> GetCountryDictionary()
+        private ImmutableDictionary<string, Country> GetCountryDictionary()
         {
-            return await _appCache.GetAsync(AppCacheKeys.COUNTRIES_DICTIONARY, () => FetchCountryDictionary(), WithLock.Yes);
+            return _appCache.Get(AppCacheKeys.COUNTRIES_DICTIONARY, () => FetchCountryDictionary(), WithLock.Yes);
         }
 
-        private async Task<ImmutableDictionary<string, Country>> FetchCountryDictionary()
+        private  ImmutableDictionary<string, Country> FetchCountryDictionary()
         {
-            var languages = await _dbContext.Countries.ToListAsync();
+            var languages = _dbContext.Countries.ToList();
             var dictionary = languages.ToImmutableDictionary(x => x.Id.ToLower());
             return dictionary;
         }

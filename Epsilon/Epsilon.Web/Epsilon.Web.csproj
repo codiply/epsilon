@@ -279,7 +279,7 @@
     <Content Include="Views\Manage\SetPassword.cshtml" />
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
-    <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Shared\_NavBarRight.cshtml" />
     <Content Include="Views\Submission\AddAddress.cshtml" />
     <Content Include="Views\Submission\Start.cshtml" />
     <Content Include="Views\Shared\_Alerts.cshtml" />

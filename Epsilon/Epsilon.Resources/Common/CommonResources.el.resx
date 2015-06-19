@@ -120,4 +120,7 @@
   <data name="Country" xml:space="preserve">
     <value>Χώρα</value>
   </data>
+  <data name="Language" xml:space="preserve">
+    <value>Γλώσσα</value>
+  </data>
 </root>
