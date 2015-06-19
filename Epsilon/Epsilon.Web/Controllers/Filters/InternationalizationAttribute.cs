@@ -35,9 +35,7 @@ namespace Epsilon.Web.Controllers.Filters
             string languageId = (string)filterContext.RouteData.Values["languageId"] 
                 ?? AppSettingsHelper.GetString(AppSettingsKeys.DefaultLanguage);
 
-            var languageTask = LanguageService.GetLanguage(languageId);
-            languageTask.RunSynchronously();
-            var language = languageTask.Result;
+            var language = Task.Run(async () => await LanguageService.GetLanguage(languageId)).Result;
 
             if (language == null || !language.IsAvailable)
             {
