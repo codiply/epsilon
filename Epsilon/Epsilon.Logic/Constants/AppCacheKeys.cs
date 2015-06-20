@@ -18,5 +18,10 @@ namespace Epsilon.Logic.Constants
         {
             return "LANGUAGE:" + languageId.ToLowerInvariant();
         }
+
+        public static string UserPreference(string userId)
+        {
+            return "USER_PREFERENCE:" + userId.ToLowerInvariant();
+        }
     }
 }

@@ -89,6 +89,7 @@ namespace Epsilon.Web.App_Start
             kernel.Bind<ICountryService>().To<CountryService>().InRequestScope();
             kernel.Bind<ILanguageService>().To<LanguageService>().InRequestScope();
             kernel.Bind<ITenancyDetailsSubmissionService>().To<TenancyDetailsSubmissionService>().InRequestScope();
+            kernel.Bind<IUserPreferenceService>().To<UserPreferenceService>().InRequestScope();
 
             // Wrappers
             kernel.Bind<ICacheWrapper>().To<HttpRuntimeCache>().InSingletonScope();

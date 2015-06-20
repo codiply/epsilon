@@ -20,5 +20,6 @@ namespace Epsilon.Logic.SqlContext
         DbSet<TenantVerification> TenantVerifications { get; set; }
         // Users needs to be an IDbSet
         IDbSet<User> Users { get; set; }
+        DbSet<UserPreference> UserPreferences { get; set; }
     }
 }

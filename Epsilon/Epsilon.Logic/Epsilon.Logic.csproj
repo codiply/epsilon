@@ -89,8 +89,10 @@
     <Compile Include="Services\Interfaces\ICountryService.cs" />
     <Compile Include="Services\Interfaces\ILanguageService.cs" />
     <Compile Include="Services\Interfaces\ITenancyDetailsSubmissionService.cs" />
+    <Compile Include="Services\Interfaces\IUserPreferenceService.cs" />
     <Compile Include="Services\LanguageService.cs" />
     <Compile Include="Services\TenancyDetailsSubmissionService.cs" />
+    <Compile Include="Services\UserPreferenceService.cs" />
     <Compile Include="SqlContext\EpsilonContext.cs" />
     <Compile Include="SqlContext\ApplicationDbContext.cs" />
     <Compile Include="SqlContext\IEpsilonContext.cs" />

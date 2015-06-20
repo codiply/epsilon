@@ -28,6 +28,7 @@ namespace Epsilon.Logic.SqlContext
         public virtual DbSet<TenancyDetailsSubmission> TenancyDetailsSubmissions { get; set; }
         public virtual DbSet<TenantVerification> TenantVerifications { get; set; }
         // Users DbSet is defined in IdentityDbContext (base of ApplicationDbContext).
+        public virtual DbSet<UserPreference> UserPreferences { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
