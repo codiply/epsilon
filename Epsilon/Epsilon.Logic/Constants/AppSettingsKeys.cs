@@ -10,6 +10,6 @@ namespace Epsilon.Logic.Constants
     {
         public const string ApplicationName = "Epsilon.ApplicationName";
         public const string CompanyName = "Epsilon.CompanyName";
-        public const string DefaultLanguage = "Epsilon.DefaultLanguage";
+        public const string DefaultLanguageId = "Epsilon.DefaultLanguageId";
     }
 }

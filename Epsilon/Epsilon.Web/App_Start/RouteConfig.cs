@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Epsilon.Logic.Constants;
+using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -18,7 +20,7 @@ namespace Epsilon.Web
                 url: "{languageId}/{controller}/{action}/{id}",
                 defaults: new
                 {
-                    languageId = "en",
+                    languageId = ConfigurationManager.AppSettings.Get(AppSettingsKeys.DefaultLanguageId),
                     controller = "Home",
                     action = "Index",
                     id = UrlParameter.Optional

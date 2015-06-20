@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Epsilon.Logic.Constants;
+using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web.Http;
 
@@ -16,8 +18,12 @@ namespace Epsilon.Web
 
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
-                routeTemplate: "api/{controller}/{id}",
-                defaults: new { id = RouteParameter.Optional }
+                routeTemplate: "api/{languageId}/{controller}/{id}",
+                defaults: new
+                {
+                    languageId = ConfigurationManager.AppSettings.Get(AppSettingsKeys.DefaultLanguageId),
+                    id = RouteParameter.Optional
+                }
             );
         }
     }

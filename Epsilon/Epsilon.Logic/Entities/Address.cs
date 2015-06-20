@@ -21,5 +21,15 @@ namespace Epsilon.Logic.Entities
 
         public virtual Country Country { get; set; }
         public virtual ICollection<TenancyDetailsSubmission> TenancyDetailsSubmissions { get; set; }
+
+        public string FullAddress()
+        {
+            var sb = new StringBuilder();
+            var pieces = new List<string> { Line1, Line2, Line3, CityTown, CountyStateProvince, PostcodeOrZip };
+            if (Country != null)
+                pieces.Add(Country.LocalName);
+
+            return string.Join(", ", pieces.Where(x => !string.IsNullOrWhiteSpace(x)));
+        }
     }
 }

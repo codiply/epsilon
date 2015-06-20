@@ -87,6 +87,8 @@
     <Compile Include="Infrastructure\Interfaces\IAppCache.cs" />
     <Compile Include="Infrastructure\Primitives\AsyncSemaphore.cs" />
     <Compile Include="Infrastructure\Primitives\AyncLock.cs" />
+    <Compile Include="JsonModels\TypeaheadAddressRequest.cs" />
+    <Compile Include="JsonModels\TypeaheadAddressResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\AddressService.cs" />
     <Compile Include="Services\CountryService.cs" />
@@ -128,9 +130,7 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="JsonModels\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>

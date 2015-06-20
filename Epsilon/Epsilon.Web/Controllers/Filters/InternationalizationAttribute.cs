@@ -33,7 +33,7 @@ namespace Epsilon.Web.Controllers.Filters
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             string languageId = (string)filterContext.RouteData.Values["languageId"] 
-                ?? AppSettingsHelper.GetString(AppSettingsKeys.DefaultLanguage);
+                ?? AppSettingsHelper.GetString(AppSettingsKeys.DefaultLanguageId);
 
             var language = LanguageService.GetLanguage(languageId);
 
