@@ -29,6 +29,10 @@ namespace Epsilon.Web
 
             bundles.Add(new ScriptBundle("~/bundles/angularjs").Include(
                         "~/Scripts/lib/angularjs/angular.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/ngapp").Include(
+                        "~/Scripts/ngapp/controllers/SubmissionAddressSearchController.js",
+                        "~/Scripts/ngapp/app.js"));
         }
     }
 }
