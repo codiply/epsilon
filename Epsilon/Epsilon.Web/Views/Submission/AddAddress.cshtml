@@ -38,26 +38,34 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.CityTown, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Line4, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.CityTown, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.CityTown, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.Line4, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Line4, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.CountyStateProvince, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Locality, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.CountyStateProvince, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.CountyStateProvince, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.Locality, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Locality, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.PostcodeOrZip, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Region, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.PostcodeOrZip, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.PostcodeOrZip, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.Region, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Region, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Postcode, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Postcode, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Postcode, "", new { @class = "text-danger" })
             </div>
         </div>
 

@@ -10,7 +10,7 @@ using System.Web.Mvc;
 
 namespace Epsilon.Web.Controllers
 {
-    public class HelperController : AnonymousBaseController
+    public class HelperController : AuthorizeBaseController
     {
         private readonly IEpsilonContext _dbContext;
         private readonly ITestDataPopulator _testDataPopulator;
