@@ -1,4 +1,5 @@
 ﻿using Epsilon.Logic.Infrastructure.Interfaces;
+using Epsilon.Logic.Infrastructure.Primitives;
 using Epsilon.Logic.Wrappers.Interfaces;
 using System;
 using System.Collections.Concurrent;
@@ -12,7 +13,9 @@ namespace Epsilon.Logic.Infrastructure
     public class AppCache : IAppCache
     {
         private static ConcurrentDictionary<string, object> _locks = 
-            new ConcurrentDictionary<string, object>(); 
+            new ConcurrentDictionary<string, object>();
+        private static ConcurrentDictionary<string, AsyncLock> _asyncLocks =
+            new ConcurrentDictionary<string, AsyncLock>();
         private ICacheWrapper _cache;
 
         public AppCache(
@@ -86,6 +89,11 @@ namespace Epsilon.Logic.Infrastructure
             return _locks.GetOrAdd(key, x => new Object());
         }
 
+        private static AsyncLock GetAsyncLock(string key)
+        {
+            return _asyncLocks.GetOrAdd(key, x => new AsyncLock());
+        }
+
         private T GenericGet<T>(
             string key, Func<T> getItemCallback, Action<ICacheWrapper, string, Object> insertFunc, WithLock lockOption) where T : class
         {
@@ -113,7 +121,9 @@ namespace Epsilon.Logic.Infrastructure
             lock (GetLock(key))
             {
                 // Check now that you aquired the lock that the item is still absent.
-                item = _cache.Get(key) as T;
+                item = GetFromCache<T>(key, out shouldReturnNull);
+                if (shouldReturnNull)
+                    return null;
 
                 if (item != null)
                     return item;
@@ -163,15 +173,24 @@ namespace Epsilon.Logic.Infrastructure
 
         private async Task<T> GenericGetWithLockAsync<T>(string key, Func<Task<T>> getItemCallback, Action<ICacheWrapper, string, Object> insertFunc) where T : class
         {
-            // TODO: Make this method use an asynchronous locking mechanism.
-
             bool shouldReturnNull;
             T item = GetFromCache<T>(key, out shouldReturnNull);
             if (shouldReturnNull)
                 return null;
 
-            if (item == null)
+            if (item != null)
+                return item;
+
+            using (var releaser = await GetAsyncLock(key).LockAsync())
             {
+                // Check now that you aquired the lock that the item is still absent.
+                item = GetFromCache<T>(key, out shouldReturnNull);
+                if (shouldReturnNull)
+                    return null;
+
+                if (item != null)
+                    return item;
+
                 // If the item was not found in the cache,
                 // get it using the callback function. 
                 item = await getItemCallback();

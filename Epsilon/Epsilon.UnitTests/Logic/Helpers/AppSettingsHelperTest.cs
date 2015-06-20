@@ -416,10 +416,6 @@ namespace Epsilon.UnitTests.Logic.Helpers
             Assert.IsFalse(result.HasValue, "The result should be null.");
         }
 
-        // TODO: DateTime
-
-        // TODO: DateTimeOffset
-
         [Test]
         public void GetGuid_ForNonExistingKey_ReturnsNull()
         {

@@ -80,6 +80,8 @@
     <Compile Include="Infrastructure\AppCache.cs" />
     <Compile Include="Constants\AppCacheKeys.cs" />
     <Compile Include="Infrastructure\Interfaces\IAppCache.cs" />
+    <Compile Include="Infrastructure\Primitives\AsyncSemaphore.cs" />
+    <Compile Include="Infrastructure\Primitives\AyncLock.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\AddressService.cs" />
     <Compile Include="Services\CountryService.cs" />

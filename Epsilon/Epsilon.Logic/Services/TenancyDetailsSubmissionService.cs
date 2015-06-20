@@ -12,8 +12,8 @@ namespace Epsilon.Logic.Services
 {
     public class TenancyDetailsSubmissionService : ITenancyDetailsSubmissionService
     {
-        public readonly IClock _clock;
-        public readonly IEpsilonContext _dbContext;
+        private readonly IClock _clock;
+        private readonly IEpsilonContext _dbContext;
 
         public TenancyDetailsSubmissionService(
             IClock clock,
