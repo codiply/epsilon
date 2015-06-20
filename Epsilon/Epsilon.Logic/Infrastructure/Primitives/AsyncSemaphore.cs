@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Epsilon.Logic.Infrastructure.Primitives
 {
-    // http://blogs.msdn.com/b/pfxteam/archive/2012/02/12/10266983.aspx
+    // Found here: http://sanjeev.dwivedi.net/?p=292
+    // Originally: http://blogs.msdn.com/b/pfxteam/archive/2012/02/12/10266983.aspx
     public class AsyncSemaphore
     {
         private readonly static Task _completed = Task.FromResult(true);

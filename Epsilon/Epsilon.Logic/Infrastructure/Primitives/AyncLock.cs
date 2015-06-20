@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 
 namespace Epsilon.Logic.Infrastructure.Primitives
 {
-    // http://blogs.msdn.com/b/pfxteam/archive/2012/02/12/10266988.aspx
+    // Found here: http://sanjeev.dwivedi.net/?p=292
+    // Originally: http://blogs.msdn.com/b/pfxteam/archive/2012/02/12/10266988.aspx
     public class AsyncLock
     {
         private readonly AsyncSemaphore _semaphore;
