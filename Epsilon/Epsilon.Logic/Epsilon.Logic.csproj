@@ -87,8 +87,8 @@
     <Compile Include="Infrastructure\Interfaces\IAppCache.cs" />
     <Compile Include="Infrastructure\Primitives\AsyncSemaphore.cs" />
     <Compile Include="Infrastructure\Primitives\AyncLock.cs" />
-    <Compile Include="JsonModels\TypeaheadAddressRequest.cs" />
-    <Compile Include="JsonModels\TypeaheadAddressResult.cs" />
+    <Compile Include="JsonModels\AddressSearchRequest.cs" />
+    <Compile Include="JsonModels\AddressSearchResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\AddressService.cs" />
     <Compile Include="Services\CountryService.cs" />

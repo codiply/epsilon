@@ -8,10 +8,10 @@ using T4TS;
 namespace Epsilon.Logic.JsonModels
 {
     [TypeScriptInterface]
-    public class TypeaheadAddressResult
+    public class AddressSearchRequest
     {
-        public Guid addressId { get; set; }
+        public string countryId { get; set; }
 
-        public string fullAddress { get; set; }
+        public string postcode { get; set; }
     }
 }

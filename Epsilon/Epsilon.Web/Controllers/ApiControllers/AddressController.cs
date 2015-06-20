@@ -21,9 +21,9 @@ namespace Epsilon.Web.Controllers.ApiControllers
         }
 
         [HttpPost]
-        public async Task<IList<TypeaheadAddressResult>> TypeaheadSearch(TypeaheadAddressRequest request)
+        public async Task<IList<AddressSearchResult>> Search(AddressSearchRequest request)
         {
-            return await _addressService.TypeaheadSearch(request);
+            return await _addressService.Search(request);
         }
     }
 }

@@ -13,8 +13,8 @@ namespace Epsilon.Logic.SqlContext.Mapping
     {
         public const int UNIQUE_ADDRESS_CODE_MAX_LENGTH = 32;
         public const int LINE_MAX_LENGTH = 256;
-        public const int CITY_MAX_LENGTH = 64;
-        public const int COUNTY_MAX_LENGTH = 64;
+        public const int LOCALITY_MAX_LENGTH = 64;
+        public const int REGION_MAX_LENGTH = 64;
         public const int POSTCODE_MAX_LENGTH = 16;
 
         public AddressMap()
@@ -34,14 +34,15 @@ namespace Epsilon.Logic.SqlContext.Mapping
                 .HasMaxLength(LINE_MAX_LENGTH);
             this.Property(x => x.Line3)
                 .HasMaxLength(LINE_MAX_LENGTH);
-            this.Property(x => x.CityTown)
-                .HasMaxLength(CITY_MAX_LENGTH)
+            this.Property(x => x.Line4)
+                .HasMaxLength(LINE_MAX_LENGTH);
+            this.Property(x => x.Locality)
+                .HasMaxLength(LOCALITY_MAX_LENGTH)
                 .IsRequired();
-            this.Property(x => x.CountyStateProvince)
-                .HasMaxLength(COUNTY_MAX_LENGTH);
-            this.Property(x => x.PostcodeOrZip)
-                .HasMaxLength(POSTCODE_MAX_LENGTH)
-                .IsRequired();
+            this.Property(x => x.Region)
+                .HasMaxLength(REGION_MAX_LENGTH);
+            this.Property(x => x.Postcode)
+                .HasMaxLength(POSTCODE_MAX_LENGTH);
 
             // Relationships
             this.HasRequired(x => x.Country)

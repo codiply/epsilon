@@ -119,7 +119,7 @@ namespace Epsilon.Logic.TestDataPopulation
             int numberOfAddresses,
             string houseName,
             string street,
-            string cityTown,
+            string city,
             string county,
             string postcode)
         {
@@ -128,9 +128,9 @@ namespace Epsilon.Logic.TestDataPopulation
                 {
                     Line1 = String.Format("{0} {1}", i, houseName),
                     Line2 = street,
-                    CityTown = cityTown,
-                    CountyStateProvince = county,
-                    PostcodeOrZip = postcode,
+                    Locality = city,
+                    Region = county,
+                    Postcode = postcode,
                     CountryId = "GB",
                 }).ToList();
         }

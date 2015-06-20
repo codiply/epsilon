@@ -29,15 +29,14 @@ namespace Epsilon.Logic.Services
             _dbContext = dbContext;
         }
 
-        public async Task<IList<TypeaheadAddressResult>> TypeaheadSearch(TypeaheadAddressRequest request)
+        public async Task<IList<AddressSearchResult>> Search(AddressSearchRequest request)
         {
             var addresses = await _dbContext.Addresses
                 .Include(x => x.Country)
                 .Where(x => x.CountryId.Equals(request.countryId)
-                            && (x.PostcodeOrZip.Equals(request.searchTerm) 
-                                || x.Line1.Equals(request.searchTerm))).ToListAsync();
+                            && (x.Postcode.Equals(request.postcode))).ToListAsync();
 
-            return addresses.Select(x => new TypeaheadAddressResult
+            return addresses.Select(x => new AddressSearchResult
             {
                 addressId = x.Id,
                 fullAddress = x.FullAddress()
@@ -58,7 +57,7 @@ namespace Epsilon.Logic.Services
             // TODO: Find a mapping from address to a unique id.
             // For UK for example it could be something like
             // GB<POSTCODE><HOUSENUMBER>
-            return dto.PostcodeOrZip;
+            return dto.Postcode;
         }
     }
 }
