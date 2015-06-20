@@ -9,6 +9,7 @@ namespace Epsilon.Logic.Constants
     public class AppSettingsKeys
     {
         public const string ApplicationName = "Epsilon.ApplicationName";
+        public const string CompanyName = "Epsilon.CompanyName";
         public const string DefaultLanguage = "Epsilon.DefaultLanguage";
     }
 }

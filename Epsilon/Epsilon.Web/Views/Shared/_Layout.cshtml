@@ -1,6 +1,9 @@
-﻿@{
-    var appSettingsHelper = DependencyResolver.Current.GetService<Epsilon.Logic.Helpers.Interfaces.IAppSettingsHelper>();
-    var applicationName = appSettingsHelper.GetString(Epsilon.Logic.Constants.AppSettingsKeys.ApplicationName);
+﻿@using Epsilon.Logic.Constants
+@using Epsilon.Logic.Helpers.Interfaces
+@{
+    var appSettingsHelper = DependencyResolver.Current.GetService<IAppSettingsHelper>();
+    var applicationName = appSettingsHelper.GetString(AppSettingsKeys.ApplicationName);
+    var companyName = appSettingsHelper.GetString(AppSettingsKeys.CompanyName);
 }
 <!DOCTYPE html>
 <html>
@@ -25,7 +28,7 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    @*<li>@Html.ActionLink("Home", "Index", "Home")</li>*@
                 </ul>
                 @Html.Partial("_NavBarRight")
             </div>
@@ -36,7 +39,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            <p>&copy; @DateTime.Now.Year - @companyName</p>
         </footer>
     </div>
 

@@ -123,4 +123,13 @@
   <data name="Language" xml:space="preserve">
     <value>Γλώσσα</value>
   </data>
+  <data name="Login" xml:space="preserve">
+    <value>Είσοδος</value>
+  </data>
+  <data name="LogOff" xml:space="preserve">
+    <value>Έξοδος</value>
+  </data>
+  <data name="Register" xml:space="preserve">
+    <value>Εγγραφή</value>
+  </data>
 </root>
