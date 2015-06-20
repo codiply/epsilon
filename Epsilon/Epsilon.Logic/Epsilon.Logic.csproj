@@ -77,6 +77,7 @@
     <Compile Include="Helpers\Interfaces\IAppSettingsHelper.cs" />
     <Compile Include="Helpers\Interfaces\IParseHelper.cs" />
     <Compile Include="Helpers\ParseHelper.cs" />
+    <Compile Include="Helpers\RandomStringHelper.cs" />
     <Compile Include="Infrastructure\AppCache.cs" />
     <Compile Include="Constants\AppCacheKeys.cs" />
     <Compile Include="Infrastructure\Interfaces\IAppCache.cs" />
@@ -103,9 +104,13 @@
     <Compile Include="SqlContext\Mapping\TenantVerificationMap.cs" />
     <Compile Include="SqlContext\Mapping\TenancyDetailsSubmissionMap.cs" />
     <Compile Include="SqlContext\Mapping\UserPreferenceMap.cs" />
+    <Compile Include="TestDataPopulation\Interfaces\ITestDataPopulator.cs" />
+    <Compile Include="TestDataPopulation\TestDataPopulator.cs" />
     <Compile Include="Wrappers\HttpRuntimeCache.cs" />
     <Compile Include="Wrappers\Interfaces\ICacheWrapper.cs" />
     <Compile Include="Wrappers\Interfaces\IClock.cs" />
+    <Compile Include="Wrappers\Interfaces\IRandomWrapper.cs" />
+    <Compile Include="Wrappers\RandomWrapper.cs" />
     <Compile Include="Wrappers\SystemClock.cs" />
   </ItemGroup>
   <ItemGroup>

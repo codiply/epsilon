@@ -21,6 +21,8 @@ namespace Epsilon.Web.App_Start
     using Epsilon.Logic.Helpers;
     using System.Collections.Specialized;
     using System.Configuration;
+    using Epsilon.Logic.TestDataPopulation.Interfaces;
+    using Epsilon.Logic.TestDataPopulation;
 
     public static class NinjectWebCommon 
     {
@@ -94,6 +96,10 @@ namespace Epsilon.Web.App_Start
             // Wrappers
             kernel.Bind<ICacheWrapper>().To<HttpRuntimeCache>().InSingletonScope();
             kernel.Bind<IClock>().To<SystemClock>().InSingletonScope();
+            kernel.Bind<IRandomWrapper>().To<RandomWrapper>().InTransientScope();
+
+            // TestDataPopulation
+            kernel.Bind<ITestDataPopulator>().To<TestDataPopulator>().InRequestScope();
         }        
     }
 }
