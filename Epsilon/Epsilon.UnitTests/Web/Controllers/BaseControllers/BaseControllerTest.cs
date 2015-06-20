@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
-namespace Epsilon.UnitTests.Web.Controllers
+namespace Epsilon.UnitTests.Web.Controllers.BaseControllers
 {
     public class BaseControllerTest
     {
@@ -41,6 +41,34 @@ namespace Epsilon.UnitTests.Web.Controllers
             }
 
             Assert.IsFalse(failingActions.Any(), message.ToString());
+        }
+
+        [Test]
+        public void AllControllers_ShouldDeriveFromBaseController()
+        {
+            // Arrange
+            var allControllerTypes =
+                typeof(BaseController).Assembly.GetTypes()
+                .Where(type => typeof(Controller).IsAssignableFrom(type));
+
+            // Act
+            var failingControllers = allControllerTypes
+                .Where(type => !typeof(BaseController).IsAssignableFrom(type))
+                .ToList();
+
+            // Assert
+            var message = new StringBuilder();
+            if (failingControllers.Any())
+            {
+                message.Append(failingControllers.Count()).Append(" failing controller")
+                    .Append(failingControllers.Count() == 1 ? ":" : "s:");
+                foreach (var controller in failingControllers)
+                {
+                    message.Append(String.Format("\n{0}", controller.Name));
+                }
+            }
+
+            Assert.IsFalse(failingControllers.Any(), message.ToString());
         }
     }
 }
