@@ -11,6 +11,7 @@ Choose **Custom** as the type of Installation and then install either all featur
 
 From **Tools > Extension and Updates...** install
 
+* **Typescript 1.5 for Visual Studio 2015**
 * **NUnit Test Adapter**
 * **HgSccPackage**
 * **CodeLineage**
