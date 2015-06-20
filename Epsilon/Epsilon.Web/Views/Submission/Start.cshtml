@@ -1,8 +1,25 @@
-﻿
+﻿@model Epsilon.Web.Models.ViewModels.Submission.StartViewModel
+@using Epsilon.Resources.Common
+@using Epsilon.Resources.Submission
+
 @{
-    ViewBag.Title = "Start";
+    ViewBag.Title = SubmissionResources.FindYourAddress;
 }
 
-@using Epsilon.Resources.Common
+<h4>@SubmissionResources.FindYourAddress</h4>
+<hr />
 
-@CommonResources.Country
+<div class="form-horizontal">
+    <div class="form-group">
+        <label class="control-label col-md-2" for="CountryId">@CommonResources.Country</label>
+        <div class="col-md-10">
+            <input id="CountryId" name="CountryId" type="hidden" value="" />
+            <select class="form-control" id="CountryId" name="CountryId">
+                @foreach (var country in Model.AvailableCountries)
+                {
+                <option value="@country.Id">@country.EnglishName</option>
+                }
+            </select>
+        </div>
+    </div>
+</div>

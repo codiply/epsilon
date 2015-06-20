@@ -1,6 +1,7 @@
 ﻿using Epsilon.Logic.Forms;
 using Epsilon.Logic.Services.Interfaces;
 using Epsilon.Web.Controllers.BaseControllers;
+using Epsilon.Web.Models.ViewModels.Submission;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,11 +27,13 @@ namespace Epsilon.Web.Controllers
             _tenancyDetailsSubmissionService = tenancyDetailsSubmissionService;
         }
 
-        public async Task<ActionResult> Start()
+        public ActionResult Start()
         {
-            var countries = _countryService.GetAvailableCountries();
-            ViewBag.CountryId = new SelectList(countries, "Id", "EnglishName");
-            return View();
+            var model = new StartViewModel
+            {
+                AvailableCountries = _countryService.GetAvailableCountries()
+            };
+            return View(model);
         }
 
         public async Task<ActionResult> AddAddress(string id)

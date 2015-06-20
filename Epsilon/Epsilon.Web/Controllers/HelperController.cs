@@ -23,12 +23,6 @@ namespace Epsilon.Web.Controllers
             _testDataPopulator = testDataPopulator;
         }
 
-        public ActionResult CreateDatabase()
-        {
-            var x = _dbContext.Users.Any();
-            return Content(x.ToString());
-        }
-
         public async Task<ActionResult> PopulateAddresses()
         { 
             await _testDataPopulator.Populate();
