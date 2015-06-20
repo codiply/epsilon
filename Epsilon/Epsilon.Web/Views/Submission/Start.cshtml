@@ -9,12 +9,13 @@
 <h4>@SubmissionResources.FindYourAddress</h4>
 <hr />
 
-<div class="form-horizontal">
+<div class="form-horizontal" data-ng-controller="SubmissionAddressSearchController as controller">
     <div class="form-group">
         <label class="control-label col-md-2" for="CountryId">@CommonResources.Country</label>
         <div class="col-md-10">
-            <input id="CountryId" name="CountryId" type="hidden" value="" />
-            <select class="form-control" id="CountryId" name="CountryId">
+            <input id="countryId" name="countryId" type="hidden" value="" />
+            <select class="form-control" id="countryId" name="countryId" data-ng-model="countryId">
+                <option value=""></option>
                 @foreach (var country in Model.AvailableCountries)
                 {
                 <option value="@country.Id">@country.EnglishName</option>
@@ -22,8 +23,18 @@
             </select>
         </div>
     </div>
-</div>
-
-<div data-ng-controller="SubmissionAddressSearchController as controller">
-    <button data-ng-click="controller.alert()">Click me!</button>
+    <div class="form-group" ng-cloak data-ng-show="countryId">
+        <label class="control-label col-md-2" for="postcode">Postcode</label>
+        <div class="col-md-10">
+            <input class="form-control text-box single-line" id="postcode" name="postcode" data-ng-model="postocde" />
+        </div>
+    </div>
+    <div class="form-group" ng-cloak data-ng-show="countryId">
+        <div class="col-md-offset-2 col-md-10">
+            <button type="button" class="btn btn-default" aria-label="Left Align" 
+                    data-ng-click="controller.FetchSearchResults()">
+                <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
+            </button>
+        </div>
+    </div>
 </div>

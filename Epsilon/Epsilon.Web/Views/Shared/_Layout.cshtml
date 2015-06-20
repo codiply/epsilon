@@ -1,5 +1,7 @@
 ﻿@using Epsilon.Logic.Constants
 @using Epsilon.Logic.Helpers.Interfaces
+@using System
+@using System.Text
 @{
     var appSettingsHelper = DependencyResolver.Current.GetService<IAppSettingsHelper>();
     var applicationName = appSettingsHelper.GetString(AppSettingsKeys.ApplicationName);
@@ -11,6 +13,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - @applicationName</title>
+    <style>[ng\:cloak], [ng-cloak], .ng-cloak { display: none; }</style>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
@@ -42,10 +45,30 @@
         </footer>
     </div>
 
+    @{
+        var languageId = ViewContext.RouteData.Values["languageId"].ToString().ToLower();
+        var sb = new StringBuilder();
+        sb.Append(Request.Url.Scheme).Append("://").Append(Request.Url.Authority)
+            .Append(Request.ApplicationPath.TrimEnd('/')).Append("/");
+        var baseUrl = sb.ToString();
+
+        sb.Append(languageId).Append("/");
+        var baseUrlWithLanguage = sb.ToString();
+    }
+
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/angularjs")
+
+
+    <script type="text/javascript">
+        angular.module('ngEpsilon.config', [])
+            .constant('BASE_URL', '@baseUrl')
+            .constant('BASE_URL_WITH_LANGUAGE', '@baseUrlWithLanguage')
+            .constant('LANGUAGE_ID', '@languageId');
+    </script>
     @Scripts.Render("~/bundles/ngapp")
+    
     @RenderSection("scripts", required: false)
 </body>
 </html>

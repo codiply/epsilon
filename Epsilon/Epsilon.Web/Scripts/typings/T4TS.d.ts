@@ -3,8 +3,13 @@
 ****************************************************************************/
 
 declare module T4TS {
-    /** Generated from Epsilon.Logic.JsonModels.AddressSearchTypeaheadResult **/
-    export interface AddressSearchTypeaheadResult {
+    /** Generated from Epsilon.Logic.JsonModels.AddressSearchRequest **/
+    export interface AddressSearchRequest {
+        countryId: string;
+        postcode: string;
+    }
+    /** Generated from Epsilon.Logic.JsonModels.AddressSearchResult **/
+    export interface AddressSearchResult {
         addressId: string;
         fullAddress: string;
     }

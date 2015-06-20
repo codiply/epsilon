@@ -18,7 +18,7 @@ namespace Epsilon.Web
 
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
-                routeTemplate: "api/{languageId}/{controller}/{id}",
+                routeTemplate: "{languageId}/api/{controller}/{id}",
                 defaults: new
                 {
                     languageId = ConfigurationManager.AppSettings.Get(AppSettingsKeys.DefaultLanguageId),
