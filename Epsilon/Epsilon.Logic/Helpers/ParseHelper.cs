@@ -121,33 +121,5 @@ namespace Epsilon.Logic.Helpers
 
             return null;
         }
-
-        public DateTime? ParseDateTime(string value)
-        {
-            if (!string.IsNullOrWhiteSpace(value))
-            {
-                DateTime answer;
-                if (DateTime.TryParse(value, out answer))
-                {
-                    return answer;
-                }
-            }
-
-            return null;
-        }
-
-        public DateTimeOffset? ParseDateTimeOffset(string value)
-        {
-            if (!string.IsNullOrWhiteSpace(value))
-            {
-                DateTimeOffset answer;
-                if (DateTimeOffset.TryParse(value, out answer))
-                {
-                    return answer;
-                }
-            }
-
-            return null;
-        }
     }
 }

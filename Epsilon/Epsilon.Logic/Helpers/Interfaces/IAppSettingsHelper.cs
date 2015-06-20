@@ -36,14 +36,6 @@ namespace Epsilon.Logic.Helpers.Interfaces
 
         TimeSpan GetTimeSpan(string key, TimeSpan defaultValue);
 
-        DateTime? GetDateTime(string key);
-
-        DateTime GetDateTime(string key, DateTime defaultValue);
-
-        DateTimeOffset? GetDateTimeOffset(string key);
-
-        DateTimeOffset GetDateTimeOffset(string key, DateTimeOffset defaultValue);
-
         Guid? GetGuid(string key);
 
         string GetString(string key);

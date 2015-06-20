@@ -20,6 +20,7 @@ namespace Epsilon.UnitTests.Logic.Helpers
         {
             _appSettings.Add("5", "5");
             _appSettings.Add("5.5", "5.5");
+            _appSettings.Add("1.23456", "1.23456");
             _appSettings.Add("true", "true");
             _appSettings.Add("false", "false");
             _appSettings.Add("true1", "True");
@@ -90,7 +91,48 @@ namespace Epsilon.UnitTests.Logic.Helpers
             Assert.IsFalse(result.HasValue, "The result should be null.");
         }
 
-        // TODO: Long
+        [Test]
+        public void GetLong_ForKeyWithLongNumber_ReturnsTheLong()
+        {
+            // Arrange
+            long expected = 223372036854775808;
+            string value = "223372036854775808";
+            var key = value;
+            _appSettings.Add(key, value);
+
+            // Act
+            var result = _helper.GetLong(key);
+
+            // Assert
+            Assert.IsTrue(result.HasValue, "The result should have a value.");
+            Assert.AreEqual(expected, result, "The result has the wrong value.");
+        }
+
+        [Test]
+        public void GetLong_ForKeyWithFloatValue_ReturnsNull()
+        {
+            // Arrange
+            var key = "5.5";
+
+            // Act
+            var result = _helper.GetLong(key);
+
+            // Assert
+            Assert.IsFalse(result.HasValue, "The result should be null.");
+        }
+
+        [Test]
+        public void GetLong_ForKeyWithNonNumericValue_ReturnsNull()
+        {
+            // Arrange
+            var key = "string";
+
+            // Act
+            var result = _helper.GetLong(key);
+
+            // Assert
+            Assert.IsFalse(result.HasValue, "The result should be null.");
+        }
 
         [Test]
         public void GetFloat_ForNonExistingtKey_ReturnsNull()
@@ -191,7 +233,48 @@ namespace Epsilon.UnitTests.Logic.Helpers
             Assert.IsFalse(result.HasValue, "The result should be null.");
         }
 
-        // TODO: Decimal
+        [Test]
+        public void GetDecimal_ForKeyWithIntegerValue_ReturnsTheIntegerAsDecimal()
+        {
+            // Arrange
+            var key = "5";
+            var expected = 5.0M;
+
+            // Act
+            var result = _helper.GetDecimal(key);
+
+            // Assert
+            Assert.IsTrue(result.HasValue, "The result should have a value.");
+            Assert.AreEqual(expected, result.Value, "The result has the wrong value.");
+        }
+
+        [Test]
+        public void GetDecimal_ForKeyWithFloatValue_ReturnsTheFloatAsDecimal()
+        {
+            // Arrange
+            var key = "1.23456";
+            var expected = 1.23456M;
+
+            // Act
+            var result = _helper.GetDecimal(key);
+
+            // Assert
+            Assert.IsTrue(result.HasValue, "The result should have a value.");
+            Assert.AreEqual(expected, result.Value, "The result has the wrong value.");
+        }
+
+        [Test]
+        public void GetDecimal_ForKeyWithNonNumericValue_ReturnsNull()
+        {
+            // Arrange
+            var key = "string";
+
+            // Act
+            var result = _helper.GetDecimal(key);
+
+            // Assert
+            Assert.IsFalse(result.HasValue, "The result should be null.");
+        }
 
         [Test]
         public void GetBool_ForKeyWithTrueValue_ReturnsTrue()

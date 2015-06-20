@@ -126,34 +126,6 @@ namespace Epsilon.Logic.Helpers
             return value.HasValue ? value.Value : defaultValue;
         }
 
-        public DateTime? GetDateTime(string key)
-        {
-            string value = _appSettings[key];
-
-            return _parseHelper.ParseDateTime(value);
-        }
-
-        public DateTime GetDateTime(string key, DateTime defaultValue)
-        {
-            var value = GetDateTime(key);
-
-            return value.HasValue ? value.Value : defaultValue;
-        }
-
-        public DateTimeOffset? GetDateTimeOffset(string key)
-        {
-            string value = _appSettings[key];
-
-            return _parseHelper.ParseDateTimeOffset(value);
-        }
-
-        public DateTimeOffset GetDateTimeOffset(string key, DateTimeOffset defaultValue)
-        {
-            var value = GetDateTimeOffset(key);
-
-            return value.HasValue ? value.Value : defaultValue;
-        }
-
         public Guid? GetGuid(string key)
         {
             string value = _appSettings[key];

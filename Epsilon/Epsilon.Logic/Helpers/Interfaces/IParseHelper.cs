@@ -23,9 +23,5 @@ namespace Epsilon.Logic.Helpers.Interfaces
         Guid? ParseGuid(string value);
 
         TimeSpan? ParseTimeSpan(string value);
-
-        DateTime? ParseDateTime(string value);
-
-        DateTimeOffset? ParseDateTimeOffset(string value);
     }
 }
