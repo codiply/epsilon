@@ -106,6 +106,7 @@
     <Compile Include="SqlContext\Mapping\UserPreferenceMap.cs" />
     <Compile Include="TestDataPopulation\Interfaces\ITestDataPopulator.cs" />
     <Compile Include="TestDataPopulation\TestDataPopulator.cs" />
+    <Compile Include="TestDataPopulation\GbAddressPopulator.cs" />
     <Compile Include="Wrappers\HttpRuntimeCache.cs" />
     <Compile Include="Wrappers\Interfaces\ICacheWrapper.cs" />
     <Compile Include="Wrappers\Interfaces\IClock.cs" />

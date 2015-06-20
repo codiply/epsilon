@@ -11,5 +11,7 @@ namespace Epsilon.Logic.Wrappers.Interfaces
         int Next(int minValue, int exclusiveMaxValue);
 
         double NextDouble();
+
+        T Pick<T>(T[] items);
     }
 }

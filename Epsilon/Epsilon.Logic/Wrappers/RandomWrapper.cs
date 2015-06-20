@@ -20,5 +20,10 @@ namespace Epsilon.Logic.Wrappers
         {
             return _random.NextDouble();
         }
+
+        public T Pick<T>(T[] items)
+        {
+            return items[_random.Next(0, items.Length)];
+        }
     }
 }
