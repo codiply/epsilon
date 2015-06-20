@@ -45,6 +45,11 @@
         </footer>
     </div>
 
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/angularjs")
+
+
     @{
         var languageId = ViewContext.RouteData.Values["languageId"].ToString().ToLower();
         var sb = new StringBuilder();
@@ -55,12 +60,6 @@
         sb.Append(languageId).Append("/");
         var baseUrlWithLanguage = sb.ToString();
     }
-
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @Scripts.Render("~/bundles/angularjs")
-
-
     <script type="text/javascript">
         angular.module('ngEpsilon.config', [])
             .constant('BASE_URL', '@baseUrl')
