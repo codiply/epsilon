@@ -61,11 +61,29 @@ namespace Epsilon.Resources.Submission {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please add your address to our database..
+        /// </summary>
+        public static string AddYourAddressMessage {
+            get {
+                return ResourceManager.GetString("AddYourAddressMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Find your address.
         /// </summary>
         public static string FindYourAddress {
             get {
                 return ResourceManager.GetString("FindYourAddress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No addresses found..
+        /// </summary>
+        public static string NoAddressesFoundMessage {
+            get {
+                return ResourceManager.GetString("NoAddressesFoundMessage", resourceCulture);
             }
         }
     }

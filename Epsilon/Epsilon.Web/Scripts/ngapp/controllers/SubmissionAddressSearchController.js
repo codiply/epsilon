@@ -5,11 +5,17 @@ var SubmissionAddressSearchController = (function () {
         this.BASE_URL_WITH_LANGUAGE = BASE_URL_WITH_LANGUAGE;
     }
     SubmissionAddressSearchController.prototype.FetchSearchResults = function () {
-        alert(this.BASE_URL_WITH_LANGUAGE);
-        //var url = '';
-        //this.$http.post('data/posts.json').success(function (data, status, headers, config) {
-        //        this.$scope.searchResults = data;
-        //});
+        var scope = this.$scope;
+        scope.hasHitSearch = true;
+        var url = this.BASE_URL_WITH_LANGUAGE + '/api/address/search/';
+        var request = {
+            countryId: scope.countryId,
+            postcode: scope.postcode
+        };
+        this.$http.post(url, request)
+            .success(function (data, status, headers, config) {
+            scope.addressSearchResults = data;
+        });
     };
     return SubmissionAddressSearchController;
 })();

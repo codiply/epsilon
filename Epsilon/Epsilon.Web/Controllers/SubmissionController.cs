@@ -27,7 +27,7 @@ namespace Epsilon.Web.Controllers
             _tenancyDetailsSubmissionService = tenancyDetailsSubmissionService;
         }
 
-        public async Task<ActionResult> Start()
+        public ActionResult Start()
         {
             var availableCountries = _countryService.GetAvailableCountries();
             var model = new StartViewModel
@@ -36,8 +36,8 @@ namespace Epsilon.Web.Controllers
             };
             return View(model);
         }
-
-        public async Task<ActionResult> AddAddress(string id)
+        
+        public ActionResult AddAddress(string id)
         {
             var countryId = id.ToUpper();
 
@@ -66,6 +66,14 @@ namespace Epsilon.Web.Controllers
             var countries = _countryService.GetAvailableCountries();
             ViewBag.CountryId = new SelectList(countries, "Id", "EnglishName", address.CountryId);
             return View(address);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> UseAddress(string selectedAddressId)
+        {
+            Success(String.Format("Address id <strong>{0}</strong>.", selectedAddressId));
+
+            return RedirectToAction("Index", "Home");
         }
 
         public async Task<ActionResult> Verify()
