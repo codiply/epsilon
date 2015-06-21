@@ -23,13 +23,13 @@
             </select>
         </div>
     </div>
-    <div class="form-group" ng-cloak data-ng-show="countryId">
+    <div class="form-group" data-ng-cloak data-ng-show="countryId">
         <label class="control-label col-md-2" for="postcode">Postcode</label>
         <div class="col-md-10">
             <input class="form-control text-box single-line" id="postcode" name="postcode" data-ng-model="postcode" />
         </div>
     </div>
-    <div class="form-group" ng-cloak data-ng-show="countryId">
+    <div class="form-group" data-ng-cloak data-ng-show="countryId">
         <div class="col-md-offset-2 col-md-10">
             <button type="button" class="btn btn-default" aria-label="Left Align" 
                     data-ng-click="controller.FetchSearchResults()">
@@ -37,29 +37,30 @@
             </button>
         </div>
     </div>
-@using (Html.BeginForm("UseAddress", "Submission"))
-{
-    <div class="form-group" ng-cloak data-ng-show="addressSearchResults">
+    <div class="form-group" data-ng-cloak data-ng-show="addressSearchResults">
         <p ng-clock data-ng-if="addressSearchResults.length === 0">@SubmissionResources.NoAddressesFoundMessage</p>
         <p ng-clock data-ng-if="addressSearchResults.length === 0">@SubmissionResources.AddYourAddressMessage</p>
         <table class="table table-hover">
             <tbody data-ng-repeat="add in addressSearchResults">
                 <tr>
-                    <td><input type="radio" name="selectedAddressId" data-ng-model="selectedAddressId" ng-value="add.addressId"></td>
+                    <td><input type="radio" name="radioSelectedAddressId" data-ng-model="$parent.selectedAddressId" ng-value="add.addressId"></td>
                     <td>{{add.fullAddress}}</td>
                 </tr>
             </tbody>
         </table>
     </div>
-    <div class="form-group" ng-cloak data-ng-show="hasHitSearch">
+    <div class="form-group" data-ng-cloak data-ng-show="hasHitSearch">
         <div class="col-md-offset-2 col-md-10">
             <button type="button" class="btn btn-default" aria-label="Left Align">
                 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add New Address
             </button>
-            <button type="submit" btn btn-default" aria-label="Left Align">
+            @using (Html.BeginForm("UseAddress", "Submission"))
+            {
+            <input type="hidden" name="selectedAddressId" ng-value="selectedAddressId" />
+            <button type="submit" class="btn-default" aria-label="Left Align" data-ng-cloak data-ng-show="selectedAddressId">
                 <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Use Selected Address
             </button>
+            }
         </div>
     </div>
-}
 </div>
