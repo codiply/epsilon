@@ -8,6 +8,8 @@ using Owin;
 using Epsilon.Web.Models;
 using Epsilon.Logic.Entities;
 using Epsilon.Logic.SqlContext;
+using System.Web.Mvc;
+using System.Web;
 
 namespace Epsilon.Web
 {
@@ -16,6 +18,8 @@ namespace Epsilon.Web
         // For more information on configuring authentication, please visit http://go.microsoft.com/fwlink/?LinkId=301864
         public void ConfigureAuth(IAppBuilder app)
         {
+            var urlHelper = new UrlHelper(HttpContext.Current.Request.RequestContext);
+
             // Configure the db context, user manager and signin manager to use a single instance per request
             app.CreatePerOwinContext(ApplicationDbContext.Create);
             app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
@@ -27,7 +31,7 @@ namespace Epsilon.Web
             app.UseCookieAuthentication(new CookieAuthenticationOptions
             {
                 AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
-                LoginPath = new PathString("/Account/Login"),
+                LoginPath = new PathString(urlHelper.Action("Login", "Account")),
                 Provider = new CookieAuthenticationProvider
                 {
                     // Enables the application to validate the security stamp when the user logs in.
