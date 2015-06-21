@@ -27,11 +27,12 @@ namespace Epsilon.Web.Controllers
             _tenancyDetailsSubmissionService = tenancyDetailsSubmissionService;
         }
 
-        public ActionResult Start()
+        public async Task<ActionResult> Start()
         {
+            var availableCountries = _countryService.GetAvailableCountries();
             var model = new StartViewModel
             {
-                AvailableCountries = _countryService.GetAvailableCountries()
+                AvailableCountries = availableCountries
             };
             return View(model);
         }
@@ -54,7 +55,7 @@ namespace Epsilon.Web.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> AddAddress(
-            [Bind(Include = "Line1,Line2,Line3,CityTown,CountyStateProvince,PostcodeOrZip,CountryId")] AddressForm address)
+            [Bind(Include = "Line1,Line2,Line3,Line4,Locality,Region,Postcode,CountryId")] AddressForm address)
         {
             if (ModelState.IsValid)
             {

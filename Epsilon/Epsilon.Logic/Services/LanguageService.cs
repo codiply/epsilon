@@ -50,15 +50,12 @@ namespace Epsilon.Logic.Services
 
         private ImmutableDictionary<string, Language> GetLanguageDictionary()
         {
-            return _appCache.Get(AppCacheKeys.LANGUAGES_DICTIONARY, () => FetchLanguageDictionary(), WithLock.Yes);
-        }
-
-        private ImmutableDictionary<string, Language> FetchLanguageDictionary()
-        {
-            var languages = _dbContext.Languages.ToList();
-            var dictionary = languages.ToImmutableDictionary(x => x.Id.ToLower());
-            return dictionary;
-        }
-        
+            return _appCache
+                .Get(AppCacheKeys.LANGUAGES_DICTIONARY, () => {
+                    var languages = _dbContext.Languages.ToList();
+                    var dictionary = languages.ToImmutableDictionary(x => x.Id.ToLower());
+                    return dictionary;
+                }, WithLock.Yes);
+        }      
     }
 }

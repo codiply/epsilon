@@ -17,7 +17,7 @@ using Epsilon.Logic.Infrastructure.Interfaces;
 using Epsilon.Logic.Infrastructure;
 using Epsilon.Logic.Services.Interfaces;
 
-namespace Epsilon.Web.Controllers.Filters
+namespace Epsilon.Web.Controllers.Filters.Mvc
 {
     public class InternationalizationAttribute : ActionFilterAttribute
     {
@@ -32,9 +32,14 @@ namespace Epsilon.Web.Controllers.Filters
 
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
+            // NOTE: If you change the logic in this filter update
+            // !!!!! the corresponding WebApi filter as well. !!!!
+
             string languageId = (string)filterContext.RouteData.Values["languageId"] 
                 ?? AppSettingsHelper.GetString(AppSettingsKeys.DefaultLanguageId);
 
+            // I have to block because there are no asynchronous versions for MVC filters.
+            // The languages are cached, so this should be quick.
             var language = LanguageService.GetLanguage(languageId);
 
             if (language == null || !language.IsAvailable)

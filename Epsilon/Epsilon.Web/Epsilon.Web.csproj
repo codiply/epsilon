@@ -246,8 +246,9 @@
     <Compile Include="Controllers\BaseControllers\AnonymousBaseController.cs" />
     <Compile Include="Controllers\BaseControllers\BaseApiController.cs" />
     <Compile Include="Controllers\BaseControllers\BaseController.cs" />
+    <Compile Include="Controllers\Filters\WebApi\InternationalizationAttribute.cs" />
     <Compile Include="Controllers\HelperController.cs" />
-    <Compile Include="Controllers\Filters\InternationalizationAttribute.cs" />
+    <Compile Include="Controllers\Filters\Mvc\InternationalizationAttribute.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\SubmissionController.cs" />

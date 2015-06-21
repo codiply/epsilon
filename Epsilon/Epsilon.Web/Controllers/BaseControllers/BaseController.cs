@@ -1,4 +1,4 @@
-﻿using Epsilon.Web.Controllers.Filters;
+﻿using Epsilon.Web.Controllers.Filters.Mvc;
 using Epsilon.Web.Models.ViewAlerts;
 using System;
 using System.Collections.Generic;

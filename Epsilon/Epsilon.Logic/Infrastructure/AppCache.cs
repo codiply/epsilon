@@ -14,8 +14,6 @@ namespace Epsilon.Logic.Infrastructure
     {
         private static ConcurrentDictionary<string, object> _locks = 
             new ConcurrentDictionary<string, object>();
-        private static ConcurrentDictionary<string, AsyncLock> _asyncLocks =
-            new ConcurrentDictionary<string, AsyncLock>();
         private ICacheWrapper _cache;
 
         public AppCache(
@@ -46,25 +44,7 @@ namespace Epsilon.Logic.Infrastructure
         {
             return GenericGet(key, getItemCallback, (c, k, o) => c.Insert(k, o, absoluteExpiration), lockOption);
         }
-
-        public async Task<T> GetAsync<T>(
-            string key, Func<Task<T>> getItemCallback, WithLock lockOption) where T : class
-        {
-            return await GenericGetAsync(key, getItemCallback, (c, k, o) => c.Insert(k, o), lockOption);
-        }
-
-        public async Task<T> GetAsync<T>(
-            string key, Func<Task<T>> getItemCallback, TimeSpan slidingExpiration, WithLock lockOption) where T : class
-        {
-            return await GenericGetAsync(key, getItemCallback, (c, k, o) => c.Insert(k, o, slidingExpiration), lockOption);
-        }
-
-        public async Task<T> GetAsync<T>(
-            string key, Func<Task<T>> getItemCallback, DateTime absoluteExpiration, WithLock lockOption) where T : class
-        {
-            return await GenericGetAsync(key, getItemCallback, (c, k, o) => c.Insert(k, o, absoluteExpiration), lockOption);
-        }
-
+        
         public void Remove(string key)
         {
             _cache.Remove(key);
@@ -88,12 +68,7 @@ namespace Epsilon.Logic.Infrastructure
         {
             return _locks.GetOrAdd(key, x => new Object());
         }
-
-        private static AsyncLock GetAsyncLock(string key)
-        {
-            return _asyncLocks.GetOrAdd(key, x => new AsyncLock());
-        }
-
+        
         private T GenericGet<T>(
             string key, Func<T> getItemCallback, Action<ICacheWrapper, string, Object> insertFunc, WithLock lockOption) where T : class
         {
@@ -153,69 +128,6 @@ namespace Epsilon.Logic.Infrastructure
             item = getItemCallback();
 
             Insert(key, item, insertFunc);
-
-            return item;
-        }
-
-        private async Task<T> GenericGetAsync<T>(
-            string key, Func<Task<T>> getItemCallback, Action<ICacheWrapper, string, Object> insertFunc, WithLock lockOption) where T : class
-        {
-            switch (lockOption)
-            {
-                case WithLock.Yes:
-                    return await GenericGetWithLockAsync<T>(key, getItemCallback, insertFunc);
-                case WithLock.No:
-                    return await GenericGetWithoutLockAsync<T>(key, getItemCallback, insertFunc);
-                default:
-                    throw new NotImplementedException();
-            }
-        }
-
-        private async Task<T> GenericGetWithLockAsync<T>(string key, Func<Task<T>> getItemCallback, Action<ICacheWrapper, string, Object> insertFunc) where T : class
-        {
-            bool shouldReturnNull;
-            T item = GetFromCache<T>(key, out shouldReturnNull);
-            if (shouldReturnNull)
-                return null;
-
-            if (item != null)
-                return item;
-
-            using (var releaser = await GetAsyncLock(key).LockAsync())
-            {
-                // Check now that you aquired the lock that the item is still absent.
-                item = GetFromCache<T>(key, out shouldReturnNull);
-                if (shouldReturnNull)
-                    return null;
-
-                if (item != null)
-                    return item;
-
-                // If the item was not found in the cache,
-                // get it using the callback function. 
-                item = await getItemCallback();
-
-                Insert(key, item, insertFunc);
-            }
-
-            return item;
-        }
-
-        private async Task<T> GenericGetWithoutLockAsync<T>(string key, Func<Task<T>> getItemCallback, Action<ICacheWrapper, string, Object> insertFunc) where T : class
-        {
-            bool shouldReturnNull;
-            T item = GetFromCache<T>(key, out shouldReturnNull);
-            if (shouldReturnNull)
-                return null;
-
-            if (item == null)
-            {
-                // If the item was not found in the cache,
-                // get it using the callback function. 
-                item = await getItemCallback();
-
-                Insert(key, item, insertFunc);
-            }
 
             return item;
         }
