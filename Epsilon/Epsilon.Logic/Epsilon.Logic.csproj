@@ -85,8 +85,6 @@
     <Compile Include="Infrastructure\AppCache.cs" />
     <Compile Include="Constants\AppCacheKeys.cs" />
     <Compile Include="Infrastructure\Interfaces\IAppCache.cs" />
-    <Compile Include="Infrastructure\Primitives\AsyncSemaphore.cs" />
-    <Compile Include="Infrastructure\Primitives\AyncLock.cs" />
     <Compile Include="JsonModels\AddressSearchRequest.cs" />
     <Compile Include="JsonModels\AddressSearchResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
