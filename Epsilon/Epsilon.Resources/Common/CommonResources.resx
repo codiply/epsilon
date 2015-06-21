@@ -135,4 +135,7 @@
   <data name="UnsupportedLanguage" xml:space="preserve">
     <value>The language selected is not supported yet.</value>
   </data>
+  <data name="ContentAccessDisallowed" xml:space="preserve">
+    <value>Access to the requested content has been disallowed.</value>
+  </data>
 </root>

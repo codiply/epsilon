@@ -246,6 +246,8 @@
     <Compile Include="Controllers\BaseControllers\AnonymousBaseController.cs" />
     <Compile Include="Controllers\BaseControllers\BaseApiController.cs" />
     <Compile Include="Controllers\BaseControllers\BaseController.cs" />
+    <Compile Include="Controllers\Filters\Mvc\AllowIfConfigSettingTrueAttribute.cs" />
+    <Compile Include="Controllers\Filters\WebApi\AllowIfConfigSettingTrueAttribute.cs" />
     <Compile Include="Controllers\Filters\WebApi\InternationalizationAttribute.cs" />
     <Compile Include="Controllers\HelperController.cs" />
     <Compile Include="Controllers\Filters\Mvc\InternationalizationAttribute.cs" />

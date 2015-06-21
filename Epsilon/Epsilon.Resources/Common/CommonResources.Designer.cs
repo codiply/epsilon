@@ -61,6 +61,15 @@ namespace Epsilon.Resources.Common {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Access to the requested content has been disallowed..
+        /// </summary>
+        public static string ContentAccessDisallowed {
+            get {
+                return ResourceManager.GetString("ContentAccessDisallowed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Country.
         /// </summary>
         public static string Country {

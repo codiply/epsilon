@@ -1,6 +1,7 @@
 ﻿using Epsilon.Logic.JsonModels;
 using Epsilon.Logic.Services.Interfaces;
 using Epsilon.Web.Controllers.BaseControllers;
+using Epsilon.Web.Controllers.Filters.WebApi;
 using System;
 using System.Collections.Generic;
 using System.Linq;

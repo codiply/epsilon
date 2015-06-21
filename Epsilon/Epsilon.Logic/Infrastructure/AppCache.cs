@@ -1,5 +1,6 @@
-﻿using Epsilon.Logic.Infrastructure.Interfaces;
-using Epsilon.Logic.Infrastructure.Primitives;
+﻿using Epsilon.Logic.Constants;
+using Epsilon.Logic.Helpers.Interfaces;
+using Epsilon.Logic.Infrastructure.Interfaces;
 using Epsilon.Logic.Wrappers.Interfaces;
 using System;
 using System.Collections.Concurrent;
@@ -15,11 +16,14 @@ namespace Epsilon.Logic.Infrastructure
         private static ConcurrentDictionary<string, object> _locks = 
             new ConcurrentDictionary<string, object>();
         private ICacheWrapper _cache;
+        private IAppSettingsHelper _appSettingsHelper;
 
         public AppCache(
-            ICacheWrapper cache)
+            ICacheWrapper cache,
+            IAppSettingsHelper appSettingsHelper)
         {
             _cache = cache;
+            _appSettingsHelper = appSettingsHelper;
         }
 
         public bool ContainsKey(string key)
@@ -72,6 +76,10 @@ namespace Epsilon.Logic.Infrastructure
         private T GenericGet<T>(
             string key, Func<T> getItemCallback, Action<ICacheWrapper, string, Object> insertFunc, WithLock lockOption) where T : class
         {
+            var disableCache = _appSettingsHelper.GetBool(AppSettingsKeys.DisableAppCache) == true;
+            if (disableCache)
+                return getItemCallback();
+
             switch (lockOption)
             {
                 case WithLock.Yes:

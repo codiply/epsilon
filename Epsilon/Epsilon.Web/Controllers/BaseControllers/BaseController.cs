@@ -11,27 +11,27 @@ namespace Epsilon.Web.Controllers.BaseControllers
     [Internationalization]
     public class BaseController : Controller
     {
-        public void Success(string message, bool dismissable = false)
+        internal void Success(string message, bool dismissable = false)
         {
             AddAlert(ViewAlertStyles.Success, message, dismissable);
         }
 
-        public void Information(string message, bool dismissable = false)
+        internal void Information(string message, bool dismissable = false)
         {
             AddAlert(ViewAlertStyles.Information, message, dismissable);
         }
 
-        public void Warning(string message, bool dismissable = false)
+        internal void Warning(string message, bool dismissable = false)
         {
             AddAlert(ViewAlertStyles.Warning, message, dismissable);
         }
 
-        public void Danger(string message, bool dismissable = false)
+        internal void Danger(string message, bool dismissable = false)
         {
             AddAlert(ViewAlertStyles.Danger, message, dismissable);
         }
 
-        private void AddAlert(string alertStyle, string message, bool dismissable)
+        internal void AddAlert(string alertStyle, string message, bool dismissable)
         {
             var alerts = TempData.ContainsKey(ViewAlert.TempDataKey)
                 ? (List<ViewAlert>)TempData[ViewAlert.TempDataKey]

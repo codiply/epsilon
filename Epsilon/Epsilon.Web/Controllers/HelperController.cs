@@ -1,6 +1,8 @@
-﻿using Epsilon.Logic.SqlContext;
+﻿using Epsilon.Logic.Constants;
+using Epsilon.Logic.SqlContext;
 using Epsilon.Logic.TestDataPopulation.Interfaces;
 using Epsilon.Web.Controllers.BaseControllers;
+using Epsilon.Web.Controllers.Filters.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +12,7 @@ using System.Web.Mvc;
 
 namespace Epsilon.Web.Controllers
 {
+    [AllowIfConfigSettingTrue(AppSettingsKeys.EnableHelperController)]
     public class HelperController : AuthorizeBaseController
     {
         private readonly IEpsilonContext _dbContext;
