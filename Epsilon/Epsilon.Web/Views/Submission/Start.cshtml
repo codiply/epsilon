@@ -38,8 +38,8 @@
         </div>
     </div>
     <div class="form-group" data-ng-cloak data-ng-show="addressSearchResults">
-        <p ng-clock data-ng-if="addressSearchResults.length === 0">@SubmissionResources.NoAddressesFoundMessage</p>
-        <p ng-clock data-ng-if="addressSearchResults.length === 0">@SubmissionResources.AddYourAddressMessage</p>
+        <p data-ng-clock data-ng-if="addressSearchResults.length === 0">@SubmissionResources.NoAddressesFoundMessage</p>
+        <p data-ng-clock data-ng-if="addressSearchResults.length === 0">@SubmissionResources.AddYourAddressMessage</p>
         <table class="table table-hover">
             <tbody data-ng-repeat="add in addressSearchResults">
                 <tr>
