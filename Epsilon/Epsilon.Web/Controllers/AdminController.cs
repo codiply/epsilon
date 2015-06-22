@@ -7,7 +7,7 @@ using System.Web.Mvc;
 
 namespace Epsilon.Web.Controllers
 {
-    public class AdminController : AuthorizeBaseController
+    public class AdminController : BaseController
     {
         // GET: Admin
         public ActionResult Index()

@@ -13,7 +13,7 @@ using System.Web.Mvc;
 namespace Epsilon.Web.Controllers
 {
     [AllowIfConfigSettingTrue(AppSettingsKeys.EnableHelperController)]
-    public class HelperController : AuthorizeBaseController
+    public class HelperController : BaseController
     {
         private readonly IEpsilonContext _dbContext;
         private readonly ITestDataPopulator _testDataPopulator;

@@ -8,8 +8,9 @@ using System.Web.Mvc;
 
 namespace Epsilon.Web.Controllers
 {
-    public class HomeController : AnonymousBaseController
+    public class HomeController : BaseController
     {
+        [AllowAnonymous]
         public ActionResult Index()
         {
             return View();

@@ -11,7 +11,7 @@ using System.Web.Mvc;
 
 namespace Epsilon.Web.Controllers
 { 
-    public class SubmissionController : AuthorizeBaseController
+    public class SubmissionController : BaseController
     {
         private readonly ICountryService _countryService;
         private readonly IAddressService _addressService;

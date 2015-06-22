@@ -242,8 +242,6 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\ApiControllers\AddressController.cs" />
-    <Compile Include="Controllers\BaseControllers\AuthorizeBaseController.cs" />
-    <Compile Include="Controllers\BaseControllers\AnonymousBaseController.cs" />
     <Compile Include="Controllers\BaseControllers\BaseApiController.cs" />
     <Compile Include="Controllers\BaseControllers\BaseController.cs" />
     <Compile Include="Controllers\Filters\Mvc\AllowIfConfigSettingTrueAttribute.cs" />

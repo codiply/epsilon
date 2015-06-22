@@ -14,7 +14,7 @@ using Epsilon.Web.Controllers.BaseControllers;
 
 namespace Epsilon.Web.Controllers
 {
-    public class AccountController : AuthorizeBaseController
+    public class AccountController : BaseController
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
