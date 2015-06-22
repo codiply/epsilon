@@ -1,0 +1,30 @@
+﻿@using Epsilon.Resources.UserHome
+
+@{
+    ViewBag.Title = UserHomeResources.IndexPageTitle;
+}
+
+<div class="row">
+    <div class="col-md-3">
+        <h2>Start</h2>
+        <p>
+            Start by providing your address details.
+        </p>
+        <p><a class="btn btn-default" href="@Url.Action("Start", "Submission")">Start &raquo;</a></p>
+    </div>
+    <div class="col-md-3">
+        <h2>Verify your address</h2>
+        <p>Enter the verification code you received by post.</p>
+        <p><a class="btn btn-default" href="@Url.Action("Verify", "Submission")">Verify &raquo;</a></p>
+    </div>
+    <div class="col-md-3">
+        <h2>Help</h2>
+        <p>Help by sending verification mail to other users. Earn tokens.</p>
+        <p><a class="btn btn-default" href="#">Help &raquo;</a></p>
+    </div>
+    <div class="col-md-3">
+        <h2>Explore</h2>
+        <p>Explore properties.</p>
+        <p><a class="btn btn-default" href="#">Explore &raquo;</a></p>
+    </div>
+</div>

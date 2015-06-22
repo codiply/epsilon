@@ -11,6 +11,7 @@ using Microsoft.Owin.Security;
 using Epsilon.Web.Models;
 using Epsilon.Logic.Entities;
 using Epsilon.Web.Controllers.BaseControllers;
+using Epsilon.Logic.Constants;
 
 namespace Epsilon.Web.Controllers
 {
@@ -164,7 +165,9 @@ namespace Epsilon.Web.Controllers
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction(
+                        AppConstants.AUTHENTICATED_USER_HOME_ACTION, 
+                        AppConstants.AUTHENTICATED_USER_HOME_CONTROLLER);
                 }
                 AddErrors(result);
             }
@@ -393,7 +396,9 @@ namespace Epsilon.Web.Controllers
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut();
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction(
+                AppConstants.ANONYMOUS_USER_HOME_ACTION,
+                AppConstants.ANONYMOUS_USER_HOME_CONTROLLER);
         }
 
         //
@@ -450,7 +455,9 @@ namespace Epsilon.Web.Controllers
             {
                 return Redirect(returnUrl);
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction(
+                AppConstants.AUTHENTICATED_USER_HOME_ACTION,
+                AppConstants.AUTHENTICATED_USER_HOME_CONTROLLER);
         }
 
         internal class ChallengeResult : HttpUnauthorizedResult

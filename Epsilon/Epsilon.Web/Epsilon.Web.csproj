@@ -252,6 +252,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\SubmissionController.cs" />
+    <Compile Include="Controllers\UserHomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -1108,6 +1109,7 @@
     <Content Include="Views\Shared\_Alerts.cshtml" />
     <Content Include="Scripts\lib\angularjs\version.json" />
     <Content Include="Scripts\typings\T4TS.tt.settings.t4" />
+    <Content Include="Views\UserHome\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

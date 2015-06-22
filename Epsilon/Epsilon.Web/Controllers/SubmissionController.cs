@@ -1,4 +1,5 @@
-﻿using Epsilon.Logic.Forms;
+﻿using Epsilon.Logic.Constants;
+using Epsilon.Logic.Forms;
 using Epsilon.Logic.Services.Interfaces;
 using Epsilon.Web.Controllers.BaseControllers;
 using Epsilon.Web.Models.ViewModels.Submission;
@@ -73,7 +74,9 @@ namespace Epsilon.Web.Controllers
         {
             Success(String.Format("Address id <strong>{0}</strong>.", selectedAddressId));
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction(
+                    AppConstants.AUTHENTICATED_USER_HOME_ACTION,
+                    AppConstants.AUTHENTICATED_USER_HOME_CONTROLLER);
         }
 
         public async Task<ActionResult> Verify()

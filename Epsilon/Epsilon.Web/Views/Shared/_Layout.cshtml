@@ -28,7 +28,14 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink(applicationName, "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink(applicationName, 
+                       User.Identity.IsAuthenticated 
+                       ? AppConstants.AUTHENTICATED_USER_HOME_ACTION 
+                       : AppConstants.ANONYMOUS_USER_HOME_ACTION, 
+                       User.Identity.IsAuthenticated 
+                       ? AppConstants.AUTHENTICATED_USER_HOME_CONTROLLER 
+                       : AppConstants.ANONYMOUS_USER_HOME_CONTROLLER, 
+                       new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
