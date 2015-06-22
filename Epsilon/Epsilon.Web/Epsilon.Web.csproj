@@ -1110,6 +1110,7 @@
     <Content Include="Scripts\lib\angularjs\version.json" />
     <Content Include="Scripts\typings\T4TS.tt.settings.t4" />
     <Content Include="Views\UserHome\Index.cshtml" />
+    <Content Include="Views\Helper\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

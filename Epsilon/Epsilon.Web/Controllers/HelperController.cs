@@ -26,42 +26,66 @@ namespace Epsilon.Web.Controllers
             _testDataPopulator = testDataPopulator;
         }
 
+        public async Task<ActionResult> Index()
+        {
+            return View();
+        }
+
         public async Task<ActionResult> PopulateAddresses()
         { 
             await _testDataPopulator.Populate();
+
+            Success("Addresses table has been populated!");
+
             return RedirectToAction("Index");
         }
 
         public ActionResult SuccessAlert()
         {
-            Success("This is a <b>Success</b> alert.", true);
-            return RedirectToAction(
-                    AppConstants.AUTHENTICATED_USER_HOME_ACTION,
-                    AppConstants.AUTHENTICATED_USER_HOME_CONTROLLER); ;
+            Success("This is a <b>Success</b> alert.", false);
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult SuccessAlertDismissable()
+        {
+            Success("This is a dismissable <b>Success</b> alert.", true);
+            return RedirectToAction("Index");
         }
 
         public ActionResult WarningAlert()
         {
-            Warning("This is a <b>Warning</b> alert.", true);
-            return RedirectToAction(
-                    AppConstants.AUTHENTICATED_USER_HOME_ACTION,
-                    AppConstants.AUTHENTICATED_USER_HOME_CONTROLLER); ;
+            Warning("This is a <b>Warning</b> alert.", false);
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult WarningAlertDismissable()
+        {
+            Warning("This is a dismissable <b>Warning</b> alert.", true);
+            return RedirectToAction("Index");
         }
 
         public ActionResult InformationAlert()
         {
-            Warning("This is an <b>Information</b> alert.", true);
-            return RedirectToAction(
-                    AppConstants.AUTHENTICATED_USER_HOME_ACTION,
-                    AppConstants.AUTHENTICATED_USER_HOME_CONTROLLER); ;
+            Information("This is an <b>Information</b> alert.", false);
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult InformationAlertDismissable()
+        {
+            Information("This is a dismissable <b>Information</b> alert.", true);
+            return RedirectToAction("Index");
         }
 
         public ActionResult DangerAlert()
         {
-            Danger("This is a <b>Danger</b> alert.", true);
-            return RedirectToAction(
-                    AppConstants.AUTHENTICATED_USER_HOME_ACTION,
-                    AppConstants.AUTHENTICATED_USER_HOME_CONTROLLER); ;
+            Danger("This is a <b>Danger</b> alert.", false);
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult DangerAlertDismissable()
+        {
+            Danger("This is a dismissable <b>Danger</b> alert.", true);
+            return RedirectToAction("Index");
         }
     }
 }

@@ -1,0 +1,22 @@
+﻿@{
+    ViewBag.Title = "Helper Tools";
+}
+
+<div class="row">
+    <div class="col-md-6">
+        <h2>Test the alerts</h2>
+        <p><a class="btn btn-default btn-success" href="@Url.Action("SuccessAlert")">Success</a>
+           <a class="btn btn-default btn-success" href="@Url.Action("SuccessAlertDismissable")">Success Dismissable</a></p>
+        <p><a class="btn btn-default btn-warning" href="@Url.Action("WarningAlert")">Warning</a>
+           <a class="btn btn-default btn-warning" href="@Url.Action("WarningAlertDismissable")">Warning Dismissable</a></p>
+        <p><a class="btn btn-default btn-info" href="@Url.Action("InformationAlert")">Information</a>
+           <a class="btn btn-default btn-info" href="@Url.Action("InformationAlertDismissable")">Information Dismissable</a></p>
+        <p><a class="btn btn-default btn-danger" href="@Url.Action("DangerAlert")">Danger</a>
+           <a class="btn btn-default btn-danger" href="@Url.Action("DangerAlertDismissable")">Danger Dismissable</a></p>
+    </div>
+    <div class="col-md-3">
+        <h2>Test data</h2>
+        <p>Populate the database.</p>
+        <p><a class="btn btn-default" href="@Url.Action("PopulateAddresses")">Addresses</a></p>
+    </div>
+</div>

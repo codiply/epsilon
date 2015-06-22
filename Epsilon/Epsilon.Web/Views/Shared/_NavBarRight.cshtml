@@ -1,12 +1,23 @@
 ﻿@using Microsoft.AspNet.Identity
 @using Epsilon.Resources.Common
 @using Epsilon.Logic.Services.Interfaces;
+@using Epsilon.Logic.Constants;
 
 @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
 {
     @Html.AntiForgeryToken()
 }
 <ul class="nav navbar-nav navbar-right">
+    @if (User.IsInRole(AspNetRoles.Admin))
+    {
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin<span class="caret"></span></a>
+            <ul class="dropdown-menu">
+                <li><a href="@Url.Action("Index", "Helper")">Helper</a></li>
+            </ul>
+        </li>
+    }
+
     <li class="dropdown">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">@CommonResources.Language <span class="caret"></span></a>
         <ul class="dropdown-menu">
