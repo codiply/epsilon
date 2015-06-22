@@ -11,6 +11,7 @@ Post-Deployment Script Template
 */
 
 :r .\ReferenceData\AppSetting.sql
+:r .\ReferenceData\AspNetRoles.sql
 :r .\ReferenceData\Currency.sql
 :r .\ReferenceData\Country.sql
 :r .\ReferenceData\Language.sql

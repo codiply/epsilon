@@ -68,6 +68,7 @@
   <ItemGroup>
     <Compile Include="Constants\AppSettingsKeys.cs" />
     <Compile Include="Constants\AppConstants.cs" />
+    <Compile Include="Constants\AspNetRoles.cs" />
     <Compile Include="Entities\AppSetting.cs" />
     <Compile Include="Entities\Currency.cs" />
     <Compile Include="Entities\Language.cs" />

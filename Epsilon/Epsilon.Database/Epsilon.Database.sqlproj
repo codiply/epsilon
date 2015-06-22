@@ -93,5 +93,6 @@
   <ItemGroup>
     <None Include="Scripts\PostDeploy\ReferenceData\Language.sql" />
     <None Include="Scripts\PostDeploy\ReferenceData\AppSetting.sql" />
+    <None Include="Scripts\PostDeploy\ReferenceData\AspNetRoles.sql" />
   </ItemGroup>
 </Project>
