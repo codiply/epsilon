@@ -12,6 +12,7 @@ namespace Epsilon.Logic.Constants
         public const string CompanyName = "Epsilon.CompanyName";
         public const string DefaultLanguageId = "Epsilon.DefaultLanguageId";
         public const string DisableAppCache = "Epsilon.DisableAppCache";
+        public const string DisableLockingInAppCache = "Epsilon.DisableLockingInAppCache";
         public const string EnableHelperController = "Epsilon.EnableHelperController";
     }
 }

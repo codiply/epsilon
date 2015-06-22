@@ -80,6 +80,10 @@ namespace Epsilon.Logic.Infrastructure
             if (disableCache)
                 return getItemCallback();
 
+            var disableLocking = _appSettingsHelper.GetBool(AppSettingsKeys.DisableLockingInAppCache) == true;
+            if (disableLocking)
+                lockOption = WithLock.No;
+
             switch (lockOption)
             {
                 case WithLock.Yes:
