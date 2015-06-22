@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Epsilon.Logic.SqlContext
+namespace Epsilon.Logic.SqlContext.Interfaces
 {
     public interface IEpsilonContext
     {

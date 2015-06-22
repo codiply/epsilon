@@ -1,4 +1,4 @@
-﻿using Epsilon.Logic.SqlContext;
+﻿using Epsilon.Logic.SqlContext.Interfaces;
 using Epsilon.Logic.TestDataPopulation.Interfaces;
 using Epsilon.Logic.Wrappers.Interfaces;
 using System;

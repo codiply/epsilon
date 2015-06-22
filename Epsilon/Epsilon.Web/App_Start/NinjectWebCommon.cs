@@ -10,7 +10,7 @@ namespace Epsilon.Web.App_Start
 
     using Ninject;
     using Ninject.Web.Common;
-    using Epsilon.Logic.SqlContext;
+    using Epsilon.Logic.SqlContext.Interfaces;
     using Epsilon.Logic.Services.Interfaces;
     using Epsilon.Logic.Services;
     using Epsilon.Logic.Wrappers.Interfaces;
@@ -23,6 +23,7 @@ namespace Epsilon.Web.App_Start
     using System.Configuration;
     using Epsilon.Logic.TestDataPopulation.Interfaces;
     using Epsilon.Logic.TestDataPopulation;
+    using Epsilon.Logic.SqlContext;
 
     public static class NinjectWebCommon 
     {
@@ -76,6 +77,7 @@ namespace Epsilon.Web.App_Start
         {
             // DbContext
             kernel.Bind<IEpsilonContext>().To<EpsilonContext>().InRequestScope();
+            kernel.Bind<IDbContextWithAppSettings>().To<EpsilonContext>().InRequestScope();
 
             // Helpers
             kernel.Bind<NameValueCollection>().ToConstant(ConfigurationManager.AppSettings)

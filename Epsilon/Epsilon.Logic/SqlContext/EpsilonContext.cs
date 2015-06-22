@@ -1,4 +1,5 @@
 ﻿using Epsilon.Logic.Entities;
+using Epsilon.Logic.SqlContext.Interfaces;
 using Epsilon.Logic.SqlContext.Mapping;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System;
@@ -13,7 +14,8 @@ using System.Threading.Tasks;
 
 namespace Epsilon.Logic.SqlContext
 {
-    public class EpsilonContext : ApplicationDbContext, IEpsilonContext
+    public class EpsilonContext : ApplicationDbContext, 
+        IEpsilonContext, IDbContextWithAppSettings
     {
         public EpsilonContext() : base("EpsilonContext")
         {
@@ -22,6 +24,7 @@ namespace Epsilon.Logic.SqlContext
         }
 
         public virtual DbSet<Address> Addresses { get; set; }
+        public virtual DbSet<AppSetting> AppSettings { get; set; }
         public virtual DbSet<Country> Countries { get; set; }
         public virtual DbSet<Currency> Currencies { get; set; }
         public virtual DbSet<Language> Languages { get; set; }
@@ -37,6 +40,7 @@ namespace Epsilon.Logic.SqlContext
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
 
             modelBuilder.Configurations.Add(new AddressMap());
+            modelBuilder.Configurations.Add(new AppSettingMap());
             modelBuilder.Configurations.Add(new CountryMap());
             modelBuilder.Configurations.Add(new CurrencyMap());
             modelBuilder.Configurations.Add(new LanguageMap());

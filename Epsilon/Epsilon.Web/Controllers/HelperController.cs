@@ -1,5 +1,5 @@
 ﻿using Epsilon.Logic.Constants;
-using Epsilon.Logic.SqlContext;
+using Epsilon.Logic.SqlContext.Interfaces;
 using Epsilon.Logic.TestDataPopulation.Interfaces;
 using Epsilon.Web.Controllers.BaseControllers;
 using Epsilon.Web.Controllers.Filters.Mvc;

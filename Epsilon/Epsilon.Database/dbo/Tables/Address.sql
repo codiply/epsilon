@@ -7,12 +7,14 @@
     [Line4]             NVARCHAR (256)   NULL,
     [Locality]          NVARCHAR (64)    NOT NULL,
     [Region]            NVARCHAR (64)    NULL,
-    [Postcode]          NVARCHAR (16)    NULL,
+    [Postcode]          NVARCHAR (16)    NOT NULL,
     [CountryId]         NCHAR (2)        NOT NULL,
     [Timestamp]         ROWVERSION       NOT NULL,
     CONSTRAINT [PK_dbo.Address] PRIMARY KEY CLUSTERED ([Id] ASC),
     CONSTRAINT [FK_dbo.Address_dbo.Country_CountryId] FOREIGN KEY ([CountryId]) REFERENCES [dbo].[Country] ([Id]) ON DELETE CASCADE
 );
+
+
 
 
 

@@ -10,6 +10,7 @@ Post-Deployment Script Template
 --------------------------------------------------------------------------------------
 */
 
+:r .\ReferenceData\AppSetting.sql
 :r .\ReferenceData\Currency.sql
 :r .\ReferenceData\Country.sql
 :r .\ReferenceData\Language.sql

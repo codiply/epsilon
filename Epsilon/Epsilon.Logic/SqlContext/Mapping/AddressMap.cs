@@ -42,7 +42,8 @@ namespace Epsilon.Logic.SqlContext.Mapping
             this.Property(x => x.Region)
                 .HasMaxLength(REGION_MAX_LENGTH);
             this.Property(x => x.Postcode)
-                .HasMaxLength(POSTCODE_MAX_LENGTH);
+                .HasMaxLength(POSTCODE_MAX_LENGTH)
+                .IsRequired();
 
             // Relationships
             this.HasRequired(x => x.Country)

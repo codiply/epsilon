@@ -67,6 +67,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants\AppSettingsKeys.cs" />
+    <Compile Include="Entities\AppSetting.cs" />
     <Compile Include="Entities\Currency.cs" />
     <Compile Include="Entities\Language.cs" />
     <Compile Include="Entities\UserPreference.cs" />
@@ -100,8 +101,10 @@
     <Compile Include="Services\UserPreferenceService.cs" />
     <Compile Include="SqlContext\EpsilonContext.cs" />
     <Compile Include="SqlContext\ApplicationDbContext.cs" />
-    <Compile Include="SqlContext\IEpsilonContext.cs" />
+    <Compile Include="SqlContext\Interfaces\IDbContextWithAppSettings.cs" />
+    <Compile Include="SqlContext\Interfaces\IEpsilonContext.cs" />
     <Compile Include="SqlContext\Mapping\AddressMap.cs" />
+    <Compile Include="SqlContext\Mapping\AppSettingMap.cs" />
     <Compile Include="SqlContext\Mapping\LanguageMap.cs" />
     <Compile Include="SqlContext\Mapping\CurrencyMap.cs" />
     <Compile Include="SqlContext\Mapping\CountryMap.cs" />
