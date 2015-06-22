@@ -8,20 +8,21 @@ namespace Epsilon.Logic.Constants
 {
     public static class AppCacheKeys
     {
-        public const string AVAILABLE_COUNTRIES = "AVAILABLE_COUNTRIES";
-        public const string AVAILABLE_LANGUAGES = "AVAILABLE_LANGUAGES";
-        public const string COUNTRIES_DICTIONARY = "COUNTRIES_DICTIONARY";
-        public const string LANGUAGES_DICTIONARY = "LANGUAGES_DICTIONARY";
+        public const string AVAILABLE_COUNTRIES = "APPCACHE:AVAILABLE_COUNTRIES";
+        public const string AVAILABLE_LANGUAGES = "APPCACHE:AVAILABLE_LANGUAGES";
+        public const string COUNTRIES_DICTIONARY = "APPCACHE:COUNTRIES_DICTIONARY";
+        public const string LANGUAGES_DICTIONARY = "APPCACHE:LANGUAGES_DICTIONARY";
+        public const string DB_APP_SETTINGS = "APPCACHE:DB_APP_SETTINGS";
 
 
         public static string Language(string languageId)
         {
-            return "LANGUAGE:" + languageId.ToLowerInvariant();
+            return "APPCACHE:LANGUAGE:" + languageId.ToLowerInvariant();
         }
 
         public static string UserPreference(string userId)
         {
-            return "USER_PREFERENCE:" + userId.ToLowerInvariant();
+            return "APPCACHE:USER_PREFERENCE:" + userId.ToLowerInvariant();
         }
     }
 }

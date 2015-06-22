@@ -83,6 +83,7 @@ namespace Epsilon.Web.App_Start
             kernel.Bind<NameValueCollection>().ToConstant(ConfigurationManager.AppSettings)
                 .WhenInjectedExactlyInto<AppSettingsHelper>();
             kernel.Bind<IAppSettingsHelper>().To<AppSettingsHelper>().InSingletonScope();
+            kernel.Bind<IDbAppSettingsHelper>().To<DbAppSettingsHelper>().InRequestScope();
             kernel.Bind<IParseHelper>().To<ParseHelper>().InSingletonScope();
 
             // Infrastructure

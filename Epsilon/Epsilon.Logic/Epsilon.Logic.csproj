@@ -79,7 +79,9 @@
     <Compile Include="Entities\TenantVerification.cs" />
     <Compile Include="Entities\User.cs" />
     <Compile Include="Helpers\AppSettingsHelper.cs" />
+    <Compile Include="Helpers\DbAppSettingsHelper.cs" />
     <Compile Include="Helpers\Interfaces\IAppSettingsHelper.cs" />
+    <Compile Include="Helpers\Interfaces\IDbAppSettingsHelper.cs" />
     <Compile Include="Helpers\Interfaces\IParseHelper.cs" />
     <Compile Include="Helpers\ParseHelper.cs" />
     <Compile Include="Helpers\RandomStringHelper.cs" />
