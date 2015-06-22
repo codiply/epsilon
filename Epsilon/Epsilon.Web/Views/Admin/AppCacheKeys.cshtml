@@ -1,0 +1,28 @@
+﻿@model IList<string>
+
+@{
+    ViewBag.Title = "Cache Keys";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm("ClearAppCache"))
+{
+    @Html.AntiForgeryToken()
+    <p>
+        <button type="submit" class="btn-default" aria-label="Left Align">
+            <span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span> Clear App Cache
+        </button>
+    </p>
+}
+
+<table class="table table-striped">
+    <tbody>
+        @foreach (var key in Model)
+        {
+        <tr>
+            <td>@key</td>
+        </tr>
+        }
+    </tbody>
+</table>

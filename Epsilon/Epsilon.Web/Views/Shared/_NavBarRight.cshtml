@@ -1,7 +1,8 @@
-﻿@using Microsoft.AspNet.Identity
-@using Epsilon.Resources.Common
+﻿@using Epsilon.Logic.Constants;
+@using Epsilon.Logic.Helpers.Interfaces;
 @using Epsilon.Logic.Services.Interfaces;
-@using Epsilon.Logic.Constants;
+@using Epsilon.Resources.Common;
+@using Microsoft.AspNet.Identity;
 
 @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
 {
@@ -13,7 +14,14 @@
         <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin<span class="caret"></span></a>
             <ul class="dropdown-menu">
-                <li><a href="@Url.Action("Index", "Helper")">Helper</a></li>
+                <li><a href="@Url.Action("Index", "Admin")">Admin</a></li>
+                @{ 
+                    var appSettingsHelper = DependencyResolver.Current.GetService<IAppSettingsHelper>();
+                }
+                @if (appSettingsHelper.GetBool(AppSettingsKeys.EnableHelperController) == true)
+                {
+                    <li><a href="@Url.Action("Index", "Helper")">Helper</a></li>
+                }
             </ul>
         </li>
     }

@@ -40,7 +40,7 @@
     <div class="form-group" data-ng-cloak data-ng-show="addressSearchResults">
         <p data-ng-clock data-ng-if="addressSearchResults.length === 0">@SubmissionResources.NoAddressesFoundMessage</p>
         <p data-ng-clock data-ng-if="addressSearchResults.length === 0">@SubmissionResources.AddYourAddressMessage</p>
-        <table class="table table-hover">
+        <table class="table table-striped">
             <tbody data-ng-repeat="add in addressSearchResults">
                 <tr>
                     <td><input type="radio" name="radioSelectedAddressId" data-ng-model="$parent.selectedAddressId" ng-value="add.addressId"></td>
