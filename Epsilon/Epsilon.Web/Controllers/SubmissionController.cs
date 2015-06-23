@@ -75,8 +75,8 @@ namespace Epsilon.Web.Controllers
             Success(String.Format("Address id <strong>{0}</strong>.", selectedAddressId));
 
             return RedirectToAction(
-                    AppConstants.AUTHENTICATED_USER_HOME_ACTION,
-                    AppConstants.AUTHENTICATED_USER_HOME_CONTROLLER);
+                    AppConstant.AUTHENTICATED_USER_HOME_ACTION,
+                    AppConstant.AUTHENTICATED_USER_HOME_CONTROLLER);
         }
 
         public async Task<ActionResult> Verify()

@@ -40,7 +40,7 @@ namespace Epsilon.Logic.Services
 
         private ImmutableDictionary<string, Country> GetCountryDictionary()
         {
-            return _appCache.Get(AppCacheKeys.COUNTRIES_DICTIONARY, () =>
+            return _appCache.Get(AppCacheKey.COUNTRIES_DICTIONARY, () =>
             {
                 var languages = _dbContext.Countries.ToList();
                 var dictionary = languages.ToImmutableDictionary(x => x.Id.ToLower());

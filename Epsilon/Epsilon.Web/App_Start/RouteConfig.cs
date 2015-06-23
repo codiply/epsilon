@@ -20,7 +20,7 @@ namespace Epsilon.Web
                 url: "{languageId}/{controller}/{action}/{id}",
                 defaults: new
                 {
-                    languageId = ConfigurationManager.AppSettings.Get(AppSettingsKeys.DefaultLanguageId),
+                    languageId = ConfigurationManager.AppSettings.Get(AppSettingsKey.DefaultLanguageId),
                     controller = "Home",
                     action = "Index",
                     id = UrlParameter.Optional

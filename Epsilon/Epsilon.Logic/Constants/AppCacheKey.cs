@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Epsilon.Logic.Constants
 {
-    public static class AppCacheKeys
+    public static class AppCacheKey
     {
         public const string AVAILABLE_COUNTRIES = "APPCACHE:AVAILABLE_COUNTRIES";
         public const string AVAILABLE_LANGUAGES = "APPCACHE:AVAILABLE_LANGUAGES";

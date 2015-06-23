@@ -27,7 +27,7 @@ namespace Epsilon.Logic.Services
         public async Task<UserPreference> GetUserPreference(string userId)
         {
             var userPreference = await _appCache
-                .Get(AppCacheKeys.UserPreference(userId), () => _dbContext.UserPreferences.FindAsync(userId), WithLock.No);
+                .Get(AppCacheKey.UserPreference(userId), () => _dbContext.UserPreferences.FindAsync(userId), WithLock.No);
             return userPreference;
         }
     }

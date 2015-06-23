@@ -20,3 +20,18 @@
         <p><a class="btn btn-default" href="@Url.Action("PopulateAddresses")">Addresses</a></p>
     </div>
 </div>
+
+@using Epsilon.Logic.Helpers.Interfaces
+<div class="row">
+    <div class="col-md-12">
+        <h2>Testing area</h2>
+        @{ 
+            var countryVariantResourceHelper = DependencyResolver.Current.GetService<ICountryVariantResourceHelper>();
+            var postcodeVariants = countryVariantResourceHelper.GetVariants("AddressPostcode");
+        } 
+        @foreach (var key in postcodeVariants.Keys)
+        {
+            <p>@key : @(postcodeVariants[key])</p>
+        }
+    </div>
+</div>

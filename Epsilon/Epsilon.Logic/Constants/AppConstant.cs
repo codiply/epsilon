@@ -6,12 +6,14 @@ using System.Threading.Tasks;
 
 namespace Epsilon.Logic.Constants
 {
-    public class AppConstants
+    public class AppConstant
     {
         public const string ANONYMOUS_USER_HOME_CONTROLLER = "Home";
         public const string ANONYMOUS_USER_HOME_ACTION = "Index";
 
         public const string AUTHENTICATED_USER_HOME_CONTROLLER = "UserHome";
         public const string AUTHENTICATED_USER_HOME_ACTION = "Index";
+
+        public const string COUNTRY_VARIANT_RESOURCES_STEM = "Epsilon.Resources.CountryVariants.Resources";
     }
 }

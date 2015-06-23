@@ -19,7 +19,7 @@ namespace Epsilon.Logic.Helpers
             IAppCache appCache)
             : base(null, parseHelper)
         {
-            Collection = appCache.Get<NameValueCollection>(AppCacheKeys.DB_APP_SETTINGS, () => 
+            Collection = appCache.Get<NameValueCollection>(AppCacheKey.DB_APP_SETTINGS, () => 
             {
                 var allValues = dbContext.AppSettings.OrderBy(x => x.Id).ToList();
                 var collection = new NameValueCollection(allValues.Count);

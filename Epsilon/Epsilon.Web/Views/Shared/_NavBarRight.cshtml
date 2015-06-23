@@ -9,7 +9,7 @@
     @Html.AntiForgeryToken()
 }
 <ul class="nav navbar-nav navbar-right">
-    @if (User.IsInRole(AspNetRoles.Admin))
+    @if (User.IsInRole(AspNetRole.Admin))
     {
         <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin<span class="caret"></span></a>
@@ -18,7 +18,7 @@
                 @{ 
                     var appSettingsHelper = DependencyResolver.Current.GetService<IAppSettingsHelper>();
                 }
-                @if (appSettingsHelper.GetBool(AppSettingsKeys.EnableHelperController) == true)
+                @if (appSettingsHelper.GetBool(AppSettingsKey.EnableHelperController) == true)
                 {
                     <li><a href="@Url.Action("Index", "Helper")">Helper</a></li>
                 }

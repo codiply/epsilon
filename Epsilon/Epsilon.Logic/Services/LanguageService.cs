@@ -28,7 +28,7 @@ namespace Epsilon.Logic.Services
 
         public IList<Language> GetAvailableLanguages()
         {
-            var availableLanguages = _appCache.Get(AppCacheKeys.AVAILABLE_LANGUAGES, () =>
+            var availableLanguages = _appCache.Get(AppCacheKey.AVAILABLE_LANGUAGES, () =>
                 GetAvailableLanguagesFromDictionary(), WithLock.Yes);
             return availableLanguages;
         }
@@ -51,7 +51,7 @@ namespace Epsilon.Logic.Services
         private ImmutableDictionary<string, Language> GetLanguageDictionary()
         {
             return _appCache
-                .Get(AppCacheKeys.LANGUAGES_DICTIONARY, () => {
+                .Get(AppCacheKey.LANGUAGES_DICTIONARY, () => {
                     var languages = _dbContext.Languages.ToList();
                     var dictionary = languages.ToImmutableDictionary(x => x.Id.ToLower());
                     return dictionary;

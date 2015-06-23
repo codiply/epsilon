@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Epsilon.Logic.Constants
 {
-    public class AppSettingsKeys
+    public class AppSettingsKey
     {
         public const string ApplicationName = "Epsilon.ApplicationName";
         public const string CompanyName = "Epsilon.CompanyName";

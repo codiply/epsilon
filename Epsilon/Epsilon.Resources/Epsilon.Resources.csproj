@@ -50,6 +50,21 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>CommonResources.el.resx</DependentUpon>
     </Compile>
+    <Compile Include="CountryVariants\ResourcesGB.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ResourcesGB.resx</DependentUpon>
+    </Compile>
+    <Compile Include="CountryVariants\ResourcesGR.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ResourcesGR.resx</DependentUpon>
+    </Compile>
+    <Compile Include="CountryVariants\ResourcesGR.el.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ResourcesGR.el.resx</DependentUpon>
+    </Compile>
     <Compile Include="Home\HomeResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -90,6 +105,18 @@
     <EmbeddedResource Include="Common\CommonResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>CommonResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CountryVariants\ResourcesGB.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>ResourcesGB.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CountryVariants\ResourcesGR.el.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>ResourcesGR.el.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CountryVariants\ResourcesGR.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>ResourcesGR.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Home\HomeResources.el.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

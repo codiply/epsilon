@@ -66,9 +66,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Constants\AppSettingsKeys.cs" />
-    <Compile Include="Constants\AppConstants.cs" />
-    <Compile Include="Constants\AspNetRoles.cs" />
+    <Compile Include="Constants\AppSettingsKey.cs" />
+    <Compile Include="Constants\AppConstant.cs" />
+    <Compile Include="Constants\AspNetRole.cs" />
+    <Compile Include="Constants\CountryCode.cs" />
     <Compile Include="Entities\AppSetting.cs" />
     <Compile Include="Entities\Currency.cs" />
     <Compile Include="Entities\Language.cs" />
@@ -88,15 +89,17 @@
     <Compile Include="Helpers\ParseHelper.cs" />
     <Compile Include="Helpers\RandomStringHelper.cs" />
     <Compile Include="Infrastructure\AppCache.cs" />
-    <Compile Include="Constants\AppCacheKeys.cs" />
+    <Compile Include="Constants\AppCacheKey.cs" />
     <Compile Include="Infrastructure\Interfaces\IAppCache.cs" />
     <Compile Include="JsonModels\AddressSearchRequest.cs" />
     <Compile Include="JsonModels\AddressSearchResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\AddressService.cs" />
     <Compile Include="Services\CountryService.cs" />
+    <Compile Include="Helpers\CountryVariantResourceHelper.cs" />
     <Compile Include="Services\Interfaces\IAddressService.cs" />
     <Compile Include="Services\Interfaces\ICountryService.cs" />
+    <Compile Include="Helpers\Interfaces\ICountryVariantResourceHelper.cs" />
     <Compile Include="Services\Interfaces\ILanguageService.cs" />
     <Compile Include="Services\Interfaces\ITenancyDetailsSubmissionService.cs" />
     <Compile Include="Services\Interfaces\IUserPreferenceService.cs" />

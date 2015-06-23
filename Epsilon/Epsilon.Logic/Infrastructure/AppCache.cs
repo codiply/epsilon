@@ -76,11 +76,11 @@ namespace Epsilon.Logic.Infrastructure
         private T GenericGet<T>(
             string key, Func<T> getItemCallback, Action<ICacheWrapper, string, Object> insertFunc, WithLock lockOption) where T : class
         {
-            var disableCache = _appSettingsHelper.GetBool(AppSettingsKeys.DisableAppCache) == true;
+            var disableCache = _appSettingsHelper.GetBool(AppSettingsKey.DisableAppCache) == true;
             if (disableCache)
                 return getItemCallback();
 
-            var disableLocking = _appSettingsHelper.GetBool(AppSettingsKeys.DisableLockingInAppCache) == true;
+            var disableLocking = _appSettingsHelper.GetBool(AppSettingsKey.DisableLockingInAppCache) == true;
             if (disableLocking)
                 lockOption = WithLock.No;
 

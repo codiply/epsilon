@@ -9,7 +9,7 @@ using System.Web.Mvc;
 
 namespace Epsilon.Web.Controllers
 {
-    [Authorize(Roles = AspNetRoles.Admin)]
+    [Authorize(Roles = AspNetRole.Admin)]
     public class AdminController : BaseController
     {
         private IAppCache _appCache;

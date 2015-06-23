@@ -4,8 +4,8 @@
 @using System.Text
 @{
     var appSettingsHelper = DependencyResolver.Current.GetService<IAppSettingsHelper>();
-    var applicationName = appSettingsHelper.GetString(AppSettingsKeys.ApplicationName);
-    var companyName = appSettingsHelper.GetString(AppSettingsKeys.CompanyName);
+    var applicationName = appSettingsHelper.GetString(AppSettingsKey.ApplicationName);
+    var companyName = appSettingsHelper.GetString(AppSettingsKey.CompanyName);
 }
 <!DOCTYPE html>
 <html>
@@ -30,11 +30,11 @@
                 </button>
                 @Html.ActionLink(applicationName, 
                        User.Identity.IsAuthenticated 
-                       ? AppConstants.AUTHENTICATED_USER_HOME_ACTION 
-                       : AppConstants.ANONYMOUS_USER_HOME_ACTION, 
+                       ? AppConstant.AUTHENTICATED_USER_HOME_ACTION 
+                       : AppConstant.ANONYMOUS_USER_HOME_ACTION, 
                        User.Identity.IsAuthenticated 
-                       ? AppConstants.AUTHENTICATED_USER_HOME_CONTROLLER 
-                       : AppConstants.ANONYMOUS_USER_HOME_CONTROLLER, 
+                       ? AppConstant.AUTHENTICATED_USER_HOME_CONTROLLER 
+                       : AppConstant.ANONYMOUS_USER_HOME_CONTROLLER, 
                        new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">

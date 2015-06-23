@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Epsilon.Logic.Constants
 {
-    public class AspNetRoles
+    enum CountryCode
     {
-        public const string Admin = "Admin";
+        GB, GR
     }
 }

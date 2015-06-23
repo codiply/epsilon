@@ -12,7 +12,7 @@ using System.Web.Mvc;
 
 namespace Epsilon.Web.Controllers
 {
-    [AllowIfConfigSettingTrue(AppSettingsKeys.EnableHelperController)]
+    [AllowIfConfigSettingTrue(AppSettingsKey.EnableHelperController)]
     public class HelperController : BaseController
     {
         private readonly IEpsilonContext _dbContext;

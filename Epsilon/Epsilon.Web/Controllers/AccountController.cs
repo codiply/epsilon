@@ -166,8 +166,8 @@ namespace Epsilon.Web.Controllers
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
                     return RedirectToAction(
-                        AppConstants.AUTHENTICATED_USER_HOME_ACTION, 
-                        AppConstants.AUTHENTICATED_USER_HOME_CONTROLLER);
+                        AppConstant.AUTHENTICATED_USER_HOME_ACTION, 
+                        AppConstant.AUTHENTICATED_USER_HOME_CONTROLLER);
                 }
                 AddErrors(result);
             }
@@ -397,8 +397,8 @@ namespace Epsilon.Web.Controllers
         {
             AuthenticationManager.SignOut();
             return RedirectToAction(
-                AppConstants.ANONYMOUS_USER_HOME_ACTION,
-                AppConstants.ANONYMOUS_USER_HOME_CONTROLLER);
+                AppConstant.ANONYMOUS_USER_HOME_ACTION,
+                AppConstant.ANONYMOUS_USER_HOME_CONTROLLER);
         }
 
         //
@@ -456,8 +456,8 @@ namespace Epsilon.Web.Controllers
                 return Redirect(returnUrl);
             }
             return RedirectToAction(
-                AppConstants.AUTHENTICATED_USER_HOME_ACTION,
-                AppConstants.AUTHENTICATED_USER_HOME_CONTROLLER);
+                AppConstant.AUTHENTICATED_USER_HOME_ACTION,
+                AppConstant.AUTHENTICATED_USER_HOME_CONTROLLER);
         }
 
         internal class ChallengeResult : HttpUnauthorizedResult
