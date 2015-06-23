@@ -27,11 +27,15 @@
         <h2>Testing area</h2>
         @{ 
             var countryVariantResourceHelper = DependencyResolver.Current.GetService<ICountryVariantResourceHelper>();
-            var postcodeVariants = countryVariantResourceHelper.GetVariants("AddressPostcode");
+            var postcodeVariants = countryVariantResourceHelper.GetVariants(new List<string> { "AddressPostcode" });
         } 
-        @foreach (var key in postcodeVariants.Keys)
+        @foreach (var countryId in postcodeVariants.Keys)
         {
-            <p>@key : @(postcodeVariants[key])</p>
+            var names = postcodeVariants[countryId].Keys;
+            foreach (var name in names)
+            {
+            <p>@countryId : @name : @(postcodeVariants[countryId][name])</p>
+            }
         }
     </div>
 </div>

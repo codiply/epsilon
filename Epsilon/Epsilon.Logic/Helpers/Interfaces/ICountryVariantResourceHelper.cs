@@ -9,5 +9,9 @@ namespace Epsilon.Logic.Helpers.Interfaces
     public interface ICountryVariantResourceHelper
     {
         Dictionary<string, string> GetVariants(string resourceName);
+
+        Dictionary<string, Dictionary<string, string>> GetVariants(IList<string> resourceNames);
+
+        Dictionary<string, string> GetVariantsForCountry(string countryId, IList<string> resourceNames);
     }
 }

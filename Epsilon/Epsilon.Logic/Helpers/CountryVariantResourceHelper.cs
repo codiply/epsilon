@@ -15,26 +15,44 @@ namespace Epsilon.Logic.Helpers
     {
         private ConcurrentDictionary<string, ResourceManager> _countryResourceManagers = 
             new ConcurrentDictionary<string, ResourceManager>();
+        private List<string> _countryIds;
+
+        public CountryVariantResourceHelper()
+        {
+            _countryIds = Enum.GetNames(typeof(CountryId)).OrderBy(x => x).ToList();
+        }
 
         public Dictionary<string, string> GetVariants(string resourceName)
         {
-            var countryCodes = Enum.GetNames(typeof(CountryId)).ToList();
             var answer = new Dictionary<string, string>();
 
-            foreach (var code in countryCodes)
+            foreach (var countryId in _countryIds)
             {
-                var resourceManager = GetCountryResourceManager(code);
+                var resourceManager = GetCountryResourceManager(countryId);
                 var value = resourceManager.GetString(resourceName);
-                answer.Add(code, value);
+                answer.Add(countryId, value);
             }
 
             return answer;
         }
 
-        private ResourceManager GetCountryResourceManager(string countryCode)
+        public Dictionary<string, Dictionary<string, string>> GetVariants(IList<string> resourceNames)
         {
-            return _countryResourceManagers.GetOrAdd(countryCode, code =>
-                new ResourceManager(AppConstant.COUNTRY_VARIANT_RESOURCES_STEM + code, typeof(ResourcesGB).Assembly));
+            var answer = _countryIds.ToDictionary(id => id, id => GetVariantsForCountry(id, resourceNames));
+            return answer;
+        }
+        
+        public Dictionary<string, string> GetVariantsForCountry(string countryId, IList<string> resourceNames)
+        {
+            var resourceManager = GetCountryResourceManager(countryId);
+            var answer = resourceNames.ToDictionary(name => name, name => resourceManager.GetString(name));
+            return answer;
+        }
+
+        private ResourceManager GetCountryResourceManager(string countryId)
+        {
+            return _countryResourceManagers.GetOrAdd(countryId, id =>
+                new ResourceManager(AppConstant.COUNTRY_VARIANT_RESOURCES_STEM + id, typeof(ResourcesGB).Assembly));
         }
     }
 }
