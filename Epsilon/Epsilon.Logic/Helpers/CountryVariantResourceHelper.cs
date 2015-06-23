@@ -18,7 +18,7 @@ namespace Epsilon.Logic.Helpers
 
         public Dictionary<string, string> GetVariants(string resourceName)
         {
-            var countryCodes = Enum.GetNames(typeof(CountryCode)).ToList();
+            var countryCodes = Enum.GetNames(typeof(CountryId)).ToList();
             var answer = new Dictionary<string, string>();
 
             foreach (var code in countryCodes)

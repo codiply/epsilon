@@ -19,3 +19,16 @@ From **Tools > Extension and Updates...** install
 ### Mercurial Client
 
 Preferred client: [TortoiseHg](http://tortoisehg.bitbucket.org/).
+
+## Checklists
+
+### New Country Checklist
+
+- Add Currency in ReferenceData\Currency.sql script
+- Add Country in ReferenceData\Country.sql script
+- Add Country Id in CountryId enumeration script
+- Add two Resource files in CountryVariants folder with names **ResourcesXX** and **ResourceXX.yy**, where **XX** is the Id of the Country and **yy** is the culture code of the language of the country.
+
+### New Language Checklist
+
+- Add Language in ReferenceData\Language.sql script

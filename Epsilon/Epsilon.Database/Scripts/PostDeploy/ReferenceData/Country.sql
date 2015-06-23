@@ -3,6 +3,9 @@
 -- Country codes can be found here:
 -- https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
 
+-- NOTE 1: The id should be UPERCASE.
+-- NOTE 2: The Id for any available country here should also be added to the CountryCode enum.
+
 GO
 -- I drop the temporary table  #TMP if it exists.
 IF OBJECT_ID('tempdb..#TMP') IS NOT NULL DROP TABLE #TMP

@@ -69,7 +69,7 @@
     <Compile Include="Constants\AppSettingsKey.cs" />
     <Compile Include="Constants\AppConstant.cs" />
     <Compile Include="Constants\AspNetRole.cs" />
-    <Compile Include="Constants\CountryCode.cs" />
+    <Compile Include="Constants\CountryId.cs" />
     <Compile Include="Entities\AppSetting.cs" />
     <Compile Include="Entities\Currency.cs" />
     <Compile Include="Entities\Language.cs" />
