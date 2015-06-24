@@ -29,22 +29,25 @@ namespace Epsilon.UnitTests.Web.Controllers.BaseControllers
                 .ToList();
 
             // Assert
-            var message = new StringBuilder();
+            var message = "";
             if (failingActions.Any())
             {
-                message.Append(failingActions.Count()).Append(" failing action")
+                var sb = new StringBuilder();
+                sb.Append("All HttpPost actions should be decorated with [ValidateAntiForgeryToken]!\n")
+                    .Append(failingActions.Count()).Append(" failing action")
                     .Append(failingActions.Count() == 1 ? ":" : "s:");
                 foreach (var action in failingActions)
                 {
-                    message.Append(String.Format("\n{0} in {1}", action.Name, action.DeclaringType.Name));
+                    sb.Append(String.Format("\n{0} in {1}", action.Name, action.DeclaringType.Name));
                 }
+                message = sb.ToString();
             }
 
-            Assert.IsFalse(failingActions.Any(), message.ToString());
+            Assert.IsFalse(failingActions.Any(), message);
         }
 
         [Test]
-        public void AllControllers_ShouldDeriveFromBaseController()
+        public void AllMvcControllers_ShouldDeriveFromBaseController()
         {
             // Arrange
             var allControllerTypes =
@@ -57,18 +60,21 @@ namespace Epsilon.UnitTests.Web.Controllers.BaseControllers
                 .ToList();
 
             // Assert
-            var message = new StringBuilder();
+            var message = "";
             if (failingControllers.Any())
             {
-                message.Append(failingControllers.Count()).Append(" failing controller")
+                var sb = new StringBuilder();
+                sb.Append("All MVC Controllers should derive from BaseController.")
+                    .Append(failingControllers.Count()).Append(" failing controller")
                     .Append(failingControllers.Count() == 1 ? ":" : "s:");
                 foreach (var controller in failingControllers)
                 {
-                    message.Append(String.Format("\n{0}", controller.Name));
+                    sb.Append(String.Format("\n{0}", controller.Name));
                 }
+                message = sb.ToString();
             }
 
-            Assert.IsFalse(failingControllers.Any(), message.ToString());
+            Assert.IsFalse(failingControllers.Any(), message);
         }
     }
 }

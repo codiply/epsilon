@@ -70,6 +70,7 @@ namespace Epsilon.Web.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> UseAddress(string selectedAddressId)
         {
             Success(String.Format("Address id <strong>{0}</strong>.", selectedAddressId));

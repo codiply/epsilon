@@ -14,7 +14,7 @@ namespace Epsilon.UnitTests.Web.Controllers.BaseControllers
     public class BaseApiControllerTest
     {
         [Test]
-        public void AllApiControllers_ShouldDeriveFromBaseController()
+        public void AllApiControllers_ShouldDeriveFromBaseApiController()
         {
             // Arrange
             var allApiControllerTypes =
@@ -27,18 +27,21 @@ namespace Epsilon.UnitTests.Web.Controllers.BaseControllers
                 .ToList();
 
             // Assert
-            var message = new StringBuilder();
+            var message = "";
             if (failingApiControllers.Any())
             {
-                message.Append(failingApiControllers.Count()).Append(" failing controller")
+                var sb = new StringBuilder();
+                sb.Append("All Api Controllers should derive from BaseApiController!")
+                    .Append(failingApiControllers.Count()).Append(" failing controller")
                     .Append(failingApiControllers.Count() == 1 ? ":" : "s:");
                 foreach (var controller in failingApiControllers)
                 {
-                    message.Append(String.Format("\n{0}", controller.Name));
+                    sb.Append(String.Format("\n{0}", controller.Name));
                 }
+                message = sb.ToString();
             }
 
-            Assert.IsFalse(failingApiControllers.Any(), message.ToString());
+            Assert.IsFalse(failingApiControllers.Any(), message);
         }
     }
 }

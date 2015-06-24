@@ -56,10 +56,11 @@
             </button>
             @using (Html.BeginForm("UseAddress", "Submission"))
             {
-            <input type="hidden" name="selectedAddressId" ng-value="selectedAddressId" />
-            <button type="submit" class="btn-default" aria-label="Left Align" data-ng-cloak data-ng-show="selectedAddressId">
-                <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Use Selected Address
-            </button>
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="selectedAddressId" ng-value="selectedAddressId" />
+                <button type="submit" class="btn-default" aria-label="Left Align" data-ng-cloak data-ng-show="selectedAddressId">
+                    <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Use Selected Address
+                </button>
             }
         </div>
     </div>
