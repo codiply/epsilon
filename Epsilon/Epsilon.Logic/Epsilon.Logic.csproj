@@ -70,6 +70,7 @@
     <Compile Include="Constants\AppConstant.cs" />
     <Compile Include="Constants\AspNetRole.cs" />
     <Compile Include="Constants\CountryId.cs" />
+    <Compile Include="Entities\AdminAlert.cs" />
     <Compile Include="Entities\AppSetting.cs" />
     <Compile Include="Entities\Currency.cs" />
     <Compile Include="Entities\Language.cs" />
@@ -111,6 +112,7 @@
     <Compile Include="SqlContext\Interfaces\IDbContextWithAppSettings.cs" />
     <Compile Include="SqlContext\Interfaces\IEpsilonContext.cs" />
     <Compile Include="SqlContext\Mapping\AddressMap.cs" />
+    <Compile Include="SqlContext\Mapping\AdminAlertMap.cs" />
     <Compile Include="SqlContext\Mapping\AppSettingMap.cs" />
     <Compile Include="SqlContext\Mapping\LanguageMap.cs" />
     <Compile Include="SqlContext\Mapping\CurrencyMap.cs" />

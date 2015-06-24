@@ -13,6 +13,7 @@ namespace Epsilon.Logic.SqlContext.Interfaces
         Task<int> SaveChangesAsync();
 
         DbSet<Address> Addresses { get; set; }
+        DbSet<AdminAlert> AdminAlerts { get; set; }
         DbSet<Country> Countries { get; set; }
         DbSet<Currency> Currencies { get; set; }
         DbSet<Language> Languages { get; set; }

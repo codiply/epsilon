@@ -24,6 +24,7 @@ namespace Epsilon.Logic.SqlContext
         }
 
         public virtual DbSet<Address> Addresses { get; set; }
+        public virtual DbSet<AdminAlert> AdminAlerts { get; set; }
         public virtual DbSet<AppSetting> AppSettings { get; set; }
         public virtual DbSet<Country> Countries { get; set; }
         public virtual DbSet<Currency> Currencies { get; set; }
@@ -40,6 +41,7 @@ namespace Epsilon.Logic.SqlContext
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
 
             modelBuilder.Configurations.Add(new AddressMap());
+            modelBuilder.Configurations.Add(new AdminAlertMap());
             modelBuilder.Configurations.Add(new AppSettingMap());
             modelBuilder.Configurations.Add(new CountryMap());
             modelBuilder.Configurations.Add(new CurrencyMap());

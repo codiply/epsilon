@@ -86,6 +86,7 @@
     <Build Include="dbo\Tables\Language.sql" />
     <Build Include="dbo\Tables\UserPreference.sql" />
     <Build Include="dbo\Tables\AppSetting.sql" />
+    <Build Include="dbo\Tables\AdminAlert.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Scripts\PostDeploy\Script.PostDeployment.sql" />
