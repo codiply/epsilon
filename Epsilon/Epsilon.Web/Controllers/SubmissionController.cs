@@ -28,10 +28,10 @@ namespace Epsilon.Web.Controllers
             _tenancyDetailsSubmissionService = tenancyDetailsSubmissionService;
         }
 
-        public ActionResult Start()
+        public ActionResult SearchAddress()
         {
             var availableCountries = _countryService.GetAvailableCountries();
-            var model = new StartViewModel
+            var model = new SearchAddressViewModel
             {
                 AvailableCountries = availableCountries
             };
@@ -80,12 +80,12 @@ namespace Epsilon.Web.Controllers
                     AppConstant.AUTHENTICATED_USER_HOME_CONTROLLER);
         }
 
-        public async Task<ActionResult> Verify()
+        public async Task<ActionResult> VerifyAddress()
         {
             throw new NotImplementedException();
         }
 
-        public async Task<ActionResult> Submit()
+        public async Task<ActionResult> SubmitTenancyDetails()
         {
             throw new NotImplementedException();
         }

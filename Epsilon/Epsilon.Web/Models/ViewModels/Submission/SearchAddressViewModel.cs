@@ -6,7 +6,7 @@ using System.Web;
 
 namespace Epsilon.Web.Models.ViewModels.Submission
 {
-    public class StartViewModel
+    public class SearchAddressViewModel
     {
         public IList<Country> AvailableCountries { get; set; }
     }

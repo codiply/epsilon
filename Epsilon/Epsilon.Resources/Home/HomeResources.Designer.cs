@@ -63,9 +63,9 @@ namespace Epsilon.Resources.Home {
         /// <summary>
         ///   Looks up a localized string similar to Home Page.
         /// </summary>
-        public static string IndexPageTitle {
+        public static string Index_PageTitle {
             get {
-                return ResourceManager.GetString("IndexPageTitle", resourceCulture);
+                return ResourceManager.GetString("Index_PageTitle", resourceCulture);
             }
         }
     }

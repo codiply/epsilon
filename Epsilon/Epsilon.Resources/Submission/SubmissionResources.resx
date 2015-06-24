@@ -117,13 +117,25 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AddYourAddressMessage" xml:space="preserve">
+  <data name="SearchAddress_AddNewAddressButton" xml:space="preserve">
+    <value>Add new address</value>
+  </data>
+  <data name="SearchAddress_AddYourAddressMessage" xml:space="preserve">
     <value>Please add your address to our database.</value>
   </data>
-  <data name="FindYourAddress" xml:space="preserve">
+  <data name="SearchAddress_NoAddressesFoundMessage" xml:space="preserve">
+    <value>No addresses found.</value>
+  </data>
+  <data name="SearchAddress_PageHeader" xml:space="preserve">
     <value>Find your address</value>
   </data>
-  <data name="NoAddressesFoundMessage" xml:space="preserve">
-    <value>No addresses found.</value>
+  <data name="SearchAddress_PageTitle" xml:space="preserve">
+    <value>Find your address</value>
+  </data>
+  <data name="SearchAddress_SearchButton" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="SearchAddress_UseSelectedAddressButton" xml:space="preserve">
+    <value>Use Selected Address</value>
   </data>
 </root>

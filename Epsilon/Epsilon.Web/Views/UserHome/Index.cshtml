@@ -1,7 +1,7 @@
 ﻿@using Epsilon.Resources.UserHome
 
 @{
-    ViewBag.Title = UserHomeResources.IndexPageTitle;
+    ViewBag.Title = UserHomeResources.Index_PageTitle;
 }
 
 <div class="row">
@@ -10,12 +10,12 @@
         <p>
             Start by providing your address details.
         </p>
-        <p><a class="btn btn-default" href="@Url.Action("Start", "Submission")">Start &raquo;</a></p>
+        <p><a class="btn btn-default" href="@Url.Action("SearchAddress", "Submission")">Start &raquo;</a></p>
     </div>
     <div class="col-md-3">
         <h2>Verify your address</h2>
         <p>Enter the verification code you received by post.</p>
-        <p><a class="btn btn-default" href="@Url.Action("Verify", "Submission")">Verify &raquo;</a></p>
+        <p><a class="btn btn-default" href="@Url.Action("VerifyAddress", "Submission")">Verify &raquo;</a></p>
     </div>
     <div class="col-md-3">
         <h2>Help</h2>

@@ -1,12 +1,12 @@
-﻿@model Epsilon.Web.Models.ViewModels.Submission.StartViewModel
+﻿@model Epsilon.Web.Models.ViewModels.Submission.SearchAddressViewModel
 @using Epsilon.Resources.Common
 @using Epsilon.Resources.Submission
 
 @{
-    ViewBag.Title = SubmissionResources.FindYourAddress;
+    ViewBag.Title = SubmissionResources.SearchAddress_PageTitle;
 }
 
-<h4>@SubmissionResources.FindYourAddress</h4>
+<h4>@SubmissionResources.SearchAddress_PageHeader</h4>
 <hr />
 
 <div class="form-horizontal" data-ng-controller="SubmissionAddressSearchController as controller">
@@ -33,13 +33,13 @@
         <div class="col-md-offset-2 col-md-10">
             <button type="button" class="btn btn-default" aria-label="Left Align" 
                     data-ng-click="controller.FetchSearchResults()">
-                <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
+                <span class="glyphicon glyphicon-search" aria-hidden="true"></span> @SubmissionResources.SearchAddress_SearchButton
             </button>
         </div>
     </div>
     <div class="form-group" data-ng-cloak data-ng-show="addressSearchResults">
-        <p data-ng-clock data-ng-if="addressSearchResults.length === 0">@SubmissionResources.NoAddressesFoundMessage</p>
-        <p data-ng-clock data-ng-if="addressSearchResults.length === 0">@SubmissionResources.AddYourAddressMessage</p>
+        <p data-ng-clock data-ng-if="addressSearchResults.length === 0">@SubmissionResources.SearchAddress_NoAddressesFoundMessage</p>
+        <p data-ng-clock data-ng-if="addressSearchResults.length === 0">@SubmissionResources.SearchAddress_AddYourAddressMessage</p>
         <table class="table table-striped">
             <tbody data-ng-repeat="add in addressSearchResults">
                 <tr>
@@ -52,14 +52,14 @@
     <div class="form-group" data-ng-cloak data-ng-show="hasHitSearch">
         <div class="col-md-offset-2 col-md-10">
             <button type="button" class="btn btn-default" aria-label="Left Align">
-                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add New Address
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> @SubmissionResources.SearchAddress_AddNewAddressButton
             </button>
             @using (Html.BeginForm("UseAddress", "Submission"))
             {
                 @Html.AntiForgeryToken()
                 <input type="hidden" name="selectedAddressId" ng-value="selectedAddressId" />
                 <button type="submit" class="btn-default" aria-label="Left Align" data-ng-cloak data-ng-show="selectedAddressId">
-                    <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Use Selected Address
+                    <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> @SubmissionResources.SearchAddress_UseSelectedAddressButton
                 </button>
             }
         </div>

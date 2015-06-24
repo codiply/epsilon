@@ -44,7 +44,7 @@ namespace Epsilon.Web.Controllers.Filters.Mvc
 
             if (language == null || !language.IsAvailable)
             {
-                var message = CommonResources.UnsupportedLanguage;
+                var message = CommonResources.UnsupportedLanguageMessage;
                 filterContext.Result = new ContentResult { Content = message };
                 filterContext.HttpContext.Response.StatusCode = (int)HttpStatusCode.NotFound;
                 return;

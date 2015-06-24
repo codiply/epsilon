@@ -61,29 +61,65 @@ namespace Epsilon.Resources.Submission {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please add your address to our database..
+        ///   Looks up a localized string similar to Add new address.
         /// </summary>
-        public static string AddYourAddressMessage {
+        public static string SearchAddress_AddNewAddressButton {
             get {
-                return ResourceManager.GetString("AddYourAddressMessage", resourceCulture);
+                return ResourceManager.GetString("SearchAddress_AddNewAddressButton", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Find your address.
+        ///   Looks up a localized string similar to Please add your address to our database..
         /// </summary>
-        public static string FindYourAddress {
+        public static string SearchAddress_AddYourAddressMessage {
             get {
-                return ResourceManager.GetString("FindYourAddress", resourceCulture);
+                return ResourceManager.GetString("SearchAddress_AddYourAddressMessage", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to No addresses found..
         /// </summary>
-        public static string NoAddressesFoundMessage {
+        public static string SearchAddress_NoAddressesFoundMessage {
             get {
-                return ResourceManager.GetString("NoAddressesFoundMessage", resourceCulture);
+                return ResourceManager.GetString("SearchAddress_NoAddressesFoundMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Find your address.
+        /// </summary>
+        public static string SearchAddress_PageHeader {
+            get {
+                return ResourceManager.GetString("SearchAddress_PageHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Find your address.
+        /// </summary>
+        public static string SearchAddress_PageTitle {
+            get {
+                return ResourceManager.GetString("SearchAddress_PageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Search.
+        /// </summary>
+        public static string SearchAddress_SearchButton {
+            get {
+                return ResourceManager.GetString("SearchAddress_SearchButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use Selected Address.
+        /// </summary>
+        public static string SearchAddress_UseSelectedAddressButton {
+            get {
+                return ResourceManager.GetString("SearchAddress_UseSelectedAddressButton", resourceCulture);
             }
         }
     }

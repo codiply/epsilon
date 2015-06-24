@@ -63,9 +63,9 @@ namespace Epsilon.Resources.Common {
         /// <summary>
         ///   Looks up a localized string similar to Access to the requested content has been disallowed..
         /// </summary>
-        public static string ContentAccessDisallowed {
+        public static string ContentAccessDisallowedMessage {
             get {
-                return ResourceManager.GetString("ContentAccessDisallowed", resourceCulture);
+                return ResourceManager.GetString("ContentAccessDisallowedMessage", resourceCulture);
             }
         }
         
@@ -117,9 +117,9 @@ namespace Epsilon.Resources.Common {
         /// <summary>
         ///   Looks up a localized string similar to The language selected is not supported yet..
         /// </summary>
-        public static string UnsupportedLanguage {
+        public static string UnsupportedLanguageMessage {
             get {
-                return ResourceManager.GetString("UnsupportedLanguage", resourceCulture);
+                return ResourceManager.GetString("UnsupportedLanguageMessage", resourceCulture);
             }
         }
     }
