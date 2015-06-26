@@ -23,7 +23,7 @@
 
 @using Epsilon.Logic.Helpers.Interfaces
 <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-3">
         <h2>Testing area</h2>
         @{ 
             var countryVariantResourceHelper = DependencyResolver.Current.GetService<ICountryVariantResourceHelper>();
@@ -36,6 +36,15 @@
             {
             <p>@countryId : @name : @(postcodeVariants[countryId][name])</p>
             }
+        }
+    </div>
+    <div class="col-md-3">
+        <h3>Send Admin Alert</h3>
+        @using (Html.BeginForm("SendAdminAlert", "Helper"))
+        {
+            @Html.AntiForgeryToken()
+            <input type="text" name="adminAlertKey" />
+            <input type="submit" class="btn btn-default" />
         }
     </div>
 </div>

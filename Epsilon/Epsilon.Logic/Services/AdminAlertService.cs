@@ -12,6 +12,7 @@ using System.Data.Entity;
 using Epsilon.Logic.Constants;
 using Epsilon.Logic.Entities;
 using Epsilon.Logic.Constants.Interfaces;
+using System.Net.Mail;
 
 namespace Epsilon.Logic.Services
 {
@@ -24,6 +25,7 @@ namespace Epsilon.Logic.Services
         private readonly IDbAppSettingsHelper _dbAppSettingsHelper;
         private readonly IDbAppSettingDefaultValue _dbAppSettingDefaultValue;
         private readonly IEpsilonContext _dbContext;
+        private readonly ISmtpService _smtpService;
 
         private TimeSpan? _snoozePeriodInHours;
 
@@ -31,16 +33,18 @@ namespace Epsilon.Logic.Services
             IClock clock,
             IDbAppSettingsHelper dbAppSettingsHelper,
             IDbAppSettingDefaultValue dbAppSettingDefaultValue,
-            IEpsilonContext dbContext)
+            IEpsilonContext dbContext,
+            ISmtpService smtpService)
         {
             _clock = clock;
             _dbAppSettingsHelper = dbAppSettingsHelper;
             _dbAppSettingDefaultValue = dbAppSettingDefaultValue;
             _dbContext = dbContext;
+            _smtpService = smtpService;
         }
 
 
-        public void Send(string key)
+        public void SendAlert(string key)
         {
             if (IsNotAllowedToSendAgain(key))
                 return;
@@ -50,14 +54,18 @@ namespace Epsilon.Logic.Services
                 if (IsNotAllowedToSendAgain(key))
                     return;
 
-                DoSend(key);
+                DoSendAlert(key);
                 RecordAlertSent(key);
             }
         }
 
         private bool IsNotAllowedToSendAgain(string key)
         {
-            var latestAlertSent = _dbContext.AdminAlerts.OrderByDescending(x => x.SentOn).FirstOrDefault();
+            var latestAlertSent = 
+                _dbContext.AdminAlerts
+                .Where(x => x.Key.Equals(key))
+                .OrderByDescending(x => x.SentOn)
+                .FirstOrDefault();
 
             if (latestAlertSent == null)
                 return false;
@@ -67,9 +75,16 @@ namespace Epsilon.Logic.Services
             return timeElapsed < SnoozePeriod();
         }
 
-        private void DoSend(string key)
+        private void DoSendAlert(string key)
         {
-            // TODO: Send the message in here.
+            var message = new MailMessage
+            {
+                Subject = "Epsilon AdminAlert: " + key,
+                Body = key,
+                IsBodyHtml = true
+            };
+            message.To.Add(new MailAddress("recepient@gmail.com", "Recepient"));
+            _smtpService.Send(message);
         }
 
         private void RecordAlertSent(string key)

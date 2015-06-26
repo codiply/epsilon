@@ -1,4 +1,5 @@
 ﻿using Epsilon.Logic.Constants;
+using Epsilon.Logic.Services.Interfaces;
 using Epsilon.Logic.SqlContext.Interfaces;
 using Epsilon.Logic.TestDataPopulation.Interfaces;
 using Epsilon.Web.Controllers.BaseControllers;
@@ -17,13 +18,16 @@ namespace Epsilon.Web.Controllers
     {
         private readonly IEpsilonContext _dbContext;
         private readonly ITestDataPopulator _testDataPopulator;
+        private readonly IAdminAlertService _adminAlertService;
 
         public HelperController(
             IEpsilonContext dbContext,
-            ITestDataPopulator testDataPopulator)
+            ITestDataPopulator testDataPopulator,
+            IAdminAlertService adminAlertService)
         {
             _dbContext = dbContext;
             _testDataPopulator = testDataPopulator;
+            _adminAlertService = adminAlertService;
         }
 
         public async Task<ActionResult> Index()
@@ -85,6 +89,15 @@ namespace Epsilon.Web.Controllers
         public ActionResult DangerAlertDismissable()
         {
             Danger("This is a dismissable <b>Danger</b> alert.", true);
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult SendAdminAlert(string adminAlertKey)
+        {
+            _adminAlertService.SendAlert(adminAlertKey);
+            Success(String.Format("AdminAlert for key '{0}' sent.", adminAlertKey), true);
             return RedirectToAction("Index");
         }
     }

@@ -10,6 +10,7 @@ namespace Epsilon.Web.App_Start
 
     using Ninject;
     using Ninject.Web.Common;
+    using Ninject.Extensions.Factory;
     using Epsilon.Logic.SqlContext.Interfaces;
     using Epsilon.Logic.Services.Interfaces;
     using Epsilon.Logic.Services;
@@ -99,6 +100,7 @@ namespace Epsilon.Web.App_Start
             kernel.Bind<IAdminAlertService>().To<AdminAlertService>().InRequestScope();
             kernel.Bind<ICountryService>().To<CountryService>().InRequestScope();
             kernel.Bind<ILanguageService>().To<LanguageService>().InRequestScope();
+            kernel.Bind<ISmtpService>().To<SmtpService>().InRequestScope();
             kernel.Bind<ITenancyDetailsSubmissionService>().To<TenancyDetailsSubmissionService>().InRequestScope();
             kernel.Bind<IUserPreferenceService>().To<UserPreferenceService>().InRequestScope();
 
@@ -109,6 +111,8 @@ namespace Epsilon.Web.App_Start
             kernel.Bind<ICacheWrapper>().To<HttpRuntimeCache>().InSingletonScope();
             kernel.Bind<IClock>().To<SystemClock>().InSingletonScope();
             kernel.Bind<IRandomWrapper>().To<RandomWrapper>().InTransientScope();
+            kernel.Bind<ISmtpClientWrapper>().To<SmtpClientWrapper>().InTransientScope();
+            kernel.Bind<ISmtpClientWrapperFactory>().ToFactory();
         }        
     }
 }
