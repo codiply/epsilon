@@ -14,7 +14,7 @@ namespace Epsilon.Logic.Helpers
     public class DbAppSettingsHelper : AppSettingsHelper, IDbAppSettingsHelper
     {
         public DbAppSettingsHelper(
-            IDbContextWithAppSettings dbContext,
+            IEpsilonContext dbContext,
             IParseHelper parseHelper,
             IAppCache appCache)
             : base(null, parseHelper)

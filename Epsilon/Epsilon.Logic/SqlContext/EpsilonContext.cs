@@ -14,8 +14,7 @@ using System.Threading.Tasks;
 
 namespace Epsilon.Logic.SqlContext
 {
-    public class EpsilonContext : ApplicationDbContext, 
-        IEpsilonContext, IDbContextWithAppSettings
+    public class EpsilonContext : ApplicationDbContext, IEpsilonContext
     {
         public EpsilonContext() : base("EpsilonContext")
         {

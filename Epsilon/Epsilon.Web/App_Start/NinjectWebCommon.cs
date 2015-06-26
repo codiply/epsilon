@@ -24,6 +24,8 @@ namespace Epsilon.Web.App_Start
     using Epsilon.Logic.TestDataPopulation.Interfaces;
     using Epsilon.Logic.TestDataPopulation;
     using Epsilon.Logic.SqlContext;
+    using Epsilon.Logic.Constants.Interfaces;
+    using Epsilon.Logic.Constants;
 
     public static class NinjectWebCommon 
     {
@@ -75,9 +77,11 @@ namespace Epsilon.Web.App_Start
         /// <param name="kernel">The kernel.</param>
         private static void RegisterServices(IKernel kernel)
         {
+            // Constants
+            kernel.Bind<IDbAppSettingDefaultValue>().To<DbAppSettingDefaultValue>().InSingletonScope();
+
             // DbContext
             kernel.Bind<IEpsilonContext>().To<EpsilonContext>().InRequestScope();
-            kernel.Bind<IDbContextWithAppSettings>().To<EpsilonContext>().InRequestScope();
 
             // Helpers
             kernel.Bind<NameValueCollection>().ToConstant(ConfigurationManager.AppSettings)
@@ -92,18 +96,19 @@ namespace Epsilon.Web.App_Start
 
             // Services
             kernel.Bind<IAddressService>().To<AddressService>().InRequestScope();
+            kernel.Bind<IAdminAlertService>().To<AdminAlertService>().InRequestScope();
             kernel.Bind<ICountryService>().To<CountryService>().InRequestScope();
             kernel.Bind<ILanguageService>().To<LanguageService>().InRequestScope();
             kernel.Bind<ITenancyDetailsSubmissionService>().To<TenancyDetailsSubmissionService>().InRequestScope();
             kernel.Bind<IUserPreferenceService>().To<UserPreferenceService>().InRequestScope();
 
+            // TestDataPopulation
+            kernel.Bind<ITestDataPopulator>().To<TestDataPopulator>().InRequestScope();
+
             // Wrappers
             kernel.Bind<ICacheWrapper>().To<HttpRuntimeCache>().InSingletonScope();
             kernel.Bind<IClock>().To<SystemClock>().InSingletonScope();
             kernel.Bind<IRandomWrapper>().To<RandomWrapper>().InTransientScope();
-
-            // TestDataPopulation
-            kernel.Bind<ITestDataPopulator>().To<TestDataPopulator>().InRequestScope();
         }        
     }
 }

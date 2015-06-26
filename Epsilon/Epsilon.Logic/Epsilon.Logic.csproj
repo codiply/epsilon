@@ -70,6 +70,9 @@
     <Compile Include="Constants\AppConstant.cs" />
     <Compile Include="Constants\AspNetRole.cs" />
     <Compile Include="Constants\CountryId.cs" />
+    <Compile Include="Constants\DbAppSettingKey.cs" />
+    <Compile Include="Constants\DbAppSettingDefaultValue.cs" />
+    <Compile Include="Constants\Interfaces\IDbAppSettingDefaultValue.cs" />
     <Compile Include="Entities\AdminAlert.cs" />
     <Compile Include="Entities\AppSetting.cs" />
     <Compile Include="Entities\Currency.cs" />
@@ -96,9 +99,11 @@
     <Compile Include="JsonModels\AddressSearchResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\AddressService.cs" />
+    <Compile Include="Services\AdminAlertService.cs" />
     <Compile Include="Services\CountryService.cs" />
     <Compile Include="Helpers\CountryVariantResourceHelper.cs" />
     <Compile Include="Services\Interfaces\IAddressService.cs" />
+    <Compile Include="Services\Interfaces\IAdminAlertService.cs" />
     <Compile Include="Services\Interfaces\ICountryService.cs" />
     <Compile Include="Helpers\Interfaces\ICountryVariantResourceHelper.cs" />
     <Compile Include="Services\Interfaces\ILanguageService.cs" />
@@ -109,7 +114,6 @@
     <Compile Include="Services\UserPreferenceService.cs" />
     <Compile Include="SqlContext\EpsilonContext.cs" />
     <Compile Include="SqlContext\ApplicationDbContext.cs" />
-    <Compile Include="SqlContext\Interfaces\IDbContextWithAppSettings.cs" />
     <Compile Include="SqlContext\Interfaces\IEpsilonContext.cs" />
     <Compile Include="SqlContext\Mapping\AddressMap.cs" />
     <Compile Include="SqlContext\Mapping\AdminAlertMap.cs" />

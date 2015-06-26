@@ -10,6 +10,8 @@ namespace Epsilon.Logic.SqlContext.Mapping
 {
     public class AppSettingMap : EntityTypeConfiguration<AppSetting>
     {
+        public const int VALUE_TYPE_MAX_LENGTH = 16;
+
         public AppSettingMap()
         {
             // Primary Key
@@ -18,6 +20,9 @@ namespace Epsilon.Logic.SqlContext.Mapping
             // Properties
             this.Property(x => x.Value)
                 .IsRequired();
+            this.Property(x => x.ValueType)
+                .IsRequired()
+                .HasMaxLength(VALUE_TYPE_MAX_LENGTH);
         }
     }
 }

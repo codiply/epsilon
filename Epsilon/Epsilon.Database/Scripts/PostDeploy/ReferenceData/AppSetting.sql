@@ -11,10 +11,11 @@ FROM [dbo].[AppSetting]
 WHERE 1 = 0
 
 INSERT INTO #TMP
-([Id], [Value])
+([Id], [Value], [ValueType], [Description])
 VALUES
 -- Edit the values below to update the target table.
-(N'Test', N'True');
+(N'AdminAlertSnoozePeriodInHours', N'12.0', N'Double',
+ N'The AdminAlertService will wait this amount of time (in hours) until it sends a second alert for any given AdminAlert key.');
 GO
 
 MERGE [dbo].[AppSetting] AS T -- Target
@@ -22,10 +23,12 @@ USING #TMP AS S -- Source
     ON T.Id = S.Id
 WHEN MATCHED
     THEN UPDATE SET
-	    T.[Value] = S.[Value]
+	    T.[Value] = S.[Value],
+		T.[ValueType] = S.[ValueType],
+		T.[Description] = S.[Description]
 WHEN NOT MATCHED
-    THEN INSERT ([Id], [Value])
-	VALUES (S.[Id], S.[Value])
+    THEN INSERT ([Id], [Value], [ValueType], [Description])
+	VALUES (S.[Id], S.[Value], S.[ValueType], S.[Description])
 WHEN NOT MATCHED BY SOURCE 
     THEN DELETE;
 GO

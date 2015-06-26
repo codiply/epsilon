@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Epsilon.Logic.Helpers.Interfaces
+namespace Epsilon.Logic.Services.Interfaces
 {
-    public interface IDbAppSettingsHelper : IAppSettingsHelper
+    public interface IAdminAlertService
     {
     }
 }

@@ -11,5 +11,7 @@ namespace Epsilon.Logic.Entities
     {
         public virtual string Id { get; set; }
         public virtual string Value { get; set; }
+        public virtual string ValueType { get; set; }
+        public virtual string Description { get; set; }
     }
 }

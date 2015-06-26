@@ -10,10 +10,12 @@ namespace Epsilon.Logic.SqlContext.Interfaces
 {
     public interface IEpsilonContext
     {
+        int SaveChanges();
         Task<int> SaveChangesAsync();
 
         DbSet<Address> Addresses { get; set; }
         DbSet<AdminAlert> AdminAlerts { get; set; }
+        DbSet<AppSetting> AppSettings { get; set; }
         DbSet<Country> Countries { get; set; }
         DbSet<Currency> Currencies { get; set; }
         DbSet<Language> Languages { get; set; }
