@@ -59,6 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseFixtures\BaseIntegrationTestWithRollback.cs" />
+    <Compile Include="Logic\Constants\CoinAccountTransactionTypeIdTest.cs" />
     <Compile Include="Logic\Constants\CountryIdTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

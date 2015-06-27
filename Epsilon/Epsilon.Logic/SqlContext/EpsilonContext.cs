@@ -25,6 +25,10 @@ namespace Epsilon.Logic.SqlContext
         public virtual DbSet<Address> Addresses { get; set; }
         public virtual DbSet<AdminAlert> AdminAlerts { get; set; }
         public virtual DbSet<AppSetting> AppSettings { get; set; }
+        public virtual DbSet<CoinAccount> CoinAccounts { get; set; }
+        public virtual DbSet<CoinAccountSnapshot> CoinAccountSnapshots { get; set; }
+        public virtual DbSet<CoinAccountTransaction> CoinAccountTransactions { get; set; }
+        public virtual DbSet<CoinAccountTransactionType> CoinAccountTransactionTypes { get; set; }
         public virtual DbSet<Country> Countries { get; set; }
         public virtual DbSet<Currency> Currencies { get; set; }
         public virtual DbSet<Language> Languages { get; set; }
@@ -42,6 +46,10 @@ namespace Epsilon.Logic.SqlContext
             modelBuilder.Configurations.Add(new AddressMap());
             modelBuilder.Configurations.Add(new AdminAlertMap());
             modelBuilder.Configurations.Add(new AppSettingMap());
+            modelBuilder.Configurations.Add(new CoinAccountMap());
+            modelBuilder.Configurations.Add(new CoinAccountSnapshotMap());
+            modelBuilder.Configurations.Add(new CoinAccountTransactionMap());
+            modelBuilder.Configurations.Add(new CoinAccountTransactionTypeMap());
             modelBuilder.Configurations.Add(new CountryMap());
             modelBuilder.Configurations.Add(new CurrencyMap());
             modelBuilder.Configurations.Add(new LanguageMap());

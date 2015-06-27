@@ -12,12 +12,11 @@ namespace Epsilon.IntegrationTests.Logic.Constants
     public class CountryIdTest : BaseIntegrationTestWithRollback
     {
         [Test]
-        public void ThereShouldBeACountryIdForAllAvailableCountriesInTheDatabase()
+        public void ThereShouldBeACountryId_ForAllAvailableCountriesInTheDatabase()
         {
             var enumCountryIds = Enum.GetNames(typeof(CountryId)).ToDictionary(x => x);
 
             var availableCountriesInDb = DbProbe.Countries.Where(c => c.IsAvailable).ToList();
-
 
             var failingCountries = availableCountriesInDb
                 .Where(c => !enumCountryIds.ContainsKey(c.Id))
@@ -30,8 +29,8 @@ namespace Epsilon.IntegrationTests.Logic.Constants
                 sb.Append("There")
                     .Append(failingCountries.Count() == 1 ? " is " : " are ")
                     .Append(failingCountries.Count())
-                    .Append(failingCountries.Count() == 1 ? " country" : " countries")
-                    .Append(" with missing CountryId in Constants.CountryId enumeration.");
+                    .Append(failingCountries.Count() == 1 ? " Country" : " Countries")
+                    .Append(" with missing Id in Constants.CountryId enumeration.");
                 foreach (var c in failingCountries)
                 {
                     sb.Append("\n").Append(c.Id).Append(" - ").Append(c.EnglishName);

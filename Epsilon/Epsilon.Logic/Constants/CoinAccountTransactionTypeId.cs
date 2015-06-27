@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 namespace Epsilon.Logic.Constants
 {
     // NOTE 1: Values should be all UPPERCASE.
-    // NOTE 2: These codes should match the Id's of all countries in the database flagged as available (see reference data in database project).
+    // NOTE 2: These codes should match the Id's of all CoinAccountTransactionType's in the database (see reference data in database project).
 
-    public enum CountryId
+    public enum CoinAccountTransactionTypeId
     {
-        GB,
-        GR
+        CREDIT,
+        DEBIT
     }
 }

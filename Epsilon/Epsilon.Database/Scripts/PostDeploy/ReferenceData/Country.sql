@@ -4,7 +4,7 @@
 -- https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
 
 -- NOTE 1: The id should be UPERCASE.
--- NOTE 2: The Id for any available country here should also be added to the CountryCode enum.
+-- NOTE 2: The Id for any available country here should also be added to the CountryId enum.
 
 GO
 -- I drop the temporary table  #TMP if it exists.

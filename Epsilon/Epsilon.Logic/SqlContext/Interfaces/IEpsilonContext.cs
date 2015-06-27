@@ -16,6 +16,10 @@ namespace Epsilon.Logic.SqlContext.Interfaces
         DbSet<Address> Addresses { get; set; }
         DbSet<AdminAlert> AdminAlerts { get; set; }
         DbSet<AppSetting> AppSettings { get; set; }
+        DbSet<CoinAccount> CoinAccounts { get; set; }
+        DbSet<CoinAccountSnapshot> CoinAccountSnapshots { get; set; }
+        DbSet<CoinAccountTransaction> CoinAccountTransactions { get; set; }
+        DbSet<CoinAccountTransactionType> CoinAccountTransactionTypes { get; set; }
         DbSet<Country> Countries { get; set; }
         DbSet<Currency> Currencies { get; set; }
         DbSet<Language> Languages { get; set; }
