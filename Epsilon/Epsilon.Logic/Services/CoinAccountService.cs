@@ -147,12 +147,13 @@ namespace Epsilon.Logic.Services
                 }
                 else
                 {
-                    newSnapshotBalance = await _dbContext.CoinAccountTransactions
+                    var newTransactionsSum = await _dbContext.CoinAccountTransactions
                         .Where(tr => tr.AccountId.Equals(account.Id))
                         .Where(tr => lastSnapshot.MadeOn <= tr.MadeOn && tr.MadeOn < newSnapshot.MadeOn)
                         .Select(tr => tr.Amount)
                         .DefaultIfEmpty(0.0M)
                         .SumAsync();
+                    newSnapshotBalance = lastSnapshot.Balance + newTransactionsSum;
                 }
 
                 newSnapshot.Balance = newSnapshotBalance;

@@ -16,6 +16,10 @@ From **Tools > Extension and Updates...** install
 * **HgSccPackage**
 * **CodeLineage**
 
+### Code coverage
+
+Install free version of [TestDriven.Net](http://www.testdriven.net/) that includes NCover.
+
 ### Mercurial Client
 
 Preferred client: [TortoiseHg](http://tortoisehg.bitbucket.org/).
