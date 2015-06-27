@@ -1,5 +1,6 @@
 ﻿using Epsilon.IntegrationTests.BaseFixtures;
 using Epsilon.Logic.Constants;
+using Epsilon.Logic.Constants.Enums;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;

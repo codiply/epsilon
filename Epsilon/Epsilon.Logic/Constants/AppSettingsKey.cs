@@ -9,6 +9,8 @@ namespace Epsilon.Logic.Constants
     public class AppSettingsKey
     {
         public const string ApplicationName = "Epsilon.ApplicationName";
+        public const string CoinAccountSnapshotNumberOfTransactionsThreshold = "Epsilon.CoinAccountSnapshotNumberOfTransactionsThreshold";
+        public const string CoinAccountSnapshotSnoozePeriodInHours = "Epsilon.CoinAccountSnapshotSnoozePeriodInHours";
         public const string CompanyName = "Epsilon.CompanyName";
         public const string DefaultLanguageId = "Epsilon.DefaultLanguageId";
         public const string DisableAppCache = "Epsilon.DisableAppCache";

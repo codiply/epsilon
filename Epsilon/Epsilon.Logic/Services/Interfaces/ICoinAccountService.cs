@@ -1,4 +1,5 @@
 ﻿using Epsilon.Logic.Constants;
+using Epsilon.Logic.Constants.Enums;
 using Epsilon.Logic.Entities;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ namespace Epsilon.Logic.Services.Interfaces
 {
     public interface ICoinAccountService
     {
-        Task<CoinAccountTransaction> MakeTransaction(
+        Task<CoinAccountTransactionStatus> MakeTransaction(
             string accountId, 
             Decimal amount, 
             CoinAccountTransactionTypeId transactionTypeId, 

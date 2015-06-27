@@ -10,30 +10,56 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.Entity;
 using System.Transactions;
+using Epsilon.Logic.Helpers.Interfaces;
+using Epsilon.Logic.Constants.Interfaces;
+using Epsilon.Logic.Constants.Enums;
 
 namespace Epsilon.Logic.Services
 {
     public class CoinAccountService : ICoinAccountService
     {
         private readonly IClock _clock;
+        private readonly IAppSettingsHelper _appSettingsHelper;
+        private readonly IAppSettingsDefaultValue _appSettingsDefaultValue;
         private readonly IEpsilonContext _dbContext;
 
         public CoinAccountService(
             IClock clock,
+            IAppSettingsDefaultValue appSettingsDefaultValue,
+            IAppSettingsHelper appSettingsHellper,
             IEpsilonContext dbContext)
         {
             _clock = clock;
+            _appSettingsDefaultValue = appSettingsDefaultValue;
+            _appSettingsHelper = appSettingsHellper;
             _dbContext = dbContext;
         }
 
-        public async Task<CoinAccountTransaction> MakeTransaction(
+        public async Task<CoinAccountTransactionStatus> MakeTransaction(
             string accountId, 
             Decimal amount,
             CoinAccountTransactionTypeId transactionTypeId, 
             string reference)
         {
-            if (await IsTimeToMakeSnapshot(accountId))
-                await MakeSnapshot(accountId);
+            var account = await _dbContext.CoinAccounts.FindAsync(accountId);
+
+            if (account == null)
+                return CoinAccountTransactionStatus.AccountNotFound;
+
+            if (await IsTimeToMakeSnapshot(account))
+                await MakeSnapshot(account.Id);
+
+            if (amount < 0)
+            {
+                var currentBalance = await GetBalance(account.Id);
+                if (currentBalance + amount < 0.0M)
+                    return CoinAccountTransactionStatus.InsufficientFunds;
+            }
+
+            // NOTE: I am checking for sufficient funds above and making the transaction below.
+            //       It is still possible to get another transaction in between that will result 
+            //       in spending more than the balance. In this rare event we will just get a 
+            // negative balance for this account, which is acceptable.
 
             var transaction = new CoinAccountTransaction
             {
@@ -45,17 +71,22 @@ namespace Epsilon.Logic.Services
 
             _dbContext.CoinAccountTransactions.Add(transaction);
             await _dbContext.SaveChangesAsync();
-            return transaction;
+            return CoinAccountTransactionStatus.Success;
         }
 
         public async Task<Decimal> GetBalance(string accountId)
         {
-            var lastSnapshot = await GetLastSnapshot(accountId);
+            var account = await _dbContext.CoinAccounts.FindAsync(accountId);
+
+            if (account == null)
+                throw new ArgumentException(String.Format("No account found for acountId: '{0}'", accountId));
+
+            var lastSnapshot = await GetLastSnapshot(account.Id);
 
             if (lastSnapshot == null)
             {
                 var sumOfAmounts= await _dbContext.CoinAccountTransactions
-                    .Where(x => x.AccountId.Equals(accountId))
+                    .Where(x => x.AccountId.Equals(account.Id))
                     .SumAsync(x => x.Amount);
 
                 return sumOfAmounts;
@@ -63,7 +94,7 @@ namespace Epsilon.Logic.Services
             else
             {
                 var sumOfAmountsAfterSnapshot = await _dbContext.CoinAccountTransactions
-                    .Where(tr => tr.AccountId.Equals(accountId))
+                    .Where(tr => tr.AccountId.Equals(account.Id))
                     .Where(tr => lastSnapshot.MadeOn <= tr.MadeOn)
                     .SumAsync(x => x.Amount);
                 return lastSnapshot.Balance + sumOfAmountsAfterSnapshot;
@@ -74,7 +105,12 @@ namespace Epsilon.Logic.Services
         {
             using (new TransactionScope())
             {
-                var lastSnapshot = await GetLastSnapshot(accountId);
+                var account = await _dbContext.CoinAccounts.FindAsync(accountId);
+
+                if (account == null)
+                    throw new ArgumentException(String.Format("No account found for acountId: '{0}'", accountId));
+
+                var lastSnapshot = await GetLastSnapshot(account.Id);
 
                 var newSnapshot = new CoinAccountSnapshot
                 {
@@ -88,22 +124,25 @@ namespace Epsilon.Logic.Services
                 if (lastSnapshot == null)
                 {
                     newSnapshotBalance = await _dbContext.CoinAccountTransactions
-                        .Where(tr => tr.AccountId.Equals(accountId))
+                        .Where(tr => tr.AccountId.Equals(account.Id))
                         .Where(tr => tr.MadeOn < newSnapshot.MadeOn)
                         .SumAsync(x => x.Amount);
                 }
                 else
                 {
                     newSnapshotBalance = await _dbContext.CoinAccountTransactions
-                        .Where(tr => tr.AccountId.Equals(accountId))
+                        .Where(tr => tr.AccountId.Equals(account.Id))
                         .Where(tr => lastSnapshot.MadeOn <= tr.MadeOn && tr.MadeOn < newSnapshot.MadeOn)
                         .SumAsync(tr => tr.Amount);
                 }
 
                 newSnapshot.Balance = newSnapshotBalance;
                 newSnapshot.IsFinalised = true;
-
                 _dbContext.Entry(newSnapshot).State = EntityState.Modified;
+
+                account.LastSnapshotOn = newSnapshot.MadeOn;
+                _dbContext.Entry(account).State = EntityState.Modified;
+
                 await _dbContext.SaveChangesAsync();
             }
         }
@@ -118,10 +157,27 @@ namespace Epsilon.Logic.Services
             return lastSnapshot;
         }
 
-        private async Task<bool> IsTimeToMakeSnapshot(string accountId)
+        private async Task<bool> IsTimeToMakeSnapshot(CoinAccount account)
         {
-            // TODO:
-            return false;
+            var timeElapsedSinceLastSnapshot = _clock.OffsetNow - account.LastSnapshotOn;
+            var snoozePeriod = TimeSpan.FromHours(_appSettingsHelper.GetDouble(
+                AppSettingsKey.CoinAccountSnapshotSnoozePeriodInHours, 
+                _appSettingsDefaultValue.CoinAccountSnapshotSnoozePeriodInHours));
+            if (timeElapsedSinceLastSnapshot < snoozePeriod)
+                return false;
+
+            var transactionsThreshold = _appSettingsHelper.GetInt(
+                AppSettingsKey.CoinAccountSnapshotNumberOfTransactionsThreshold,
+                _appSettingsDefaultValue.CoinAccountSnapshotNumberOfTransactionsThreshold);
+
+            var lastSnapshot = await GetLastSnapshot(account.Id);
+
+            var numberOfTransactionsSinceLastSnapshot = await _dbContext.CoinAccountTransactions
+                .Where(tr => tr.AccountId == account.Id)
+                .Where(tr => lastSnapshot.MadeOn <= tr.MadeOn)
+                .CountAsync();
+
+            return numberOfTransactionsSinceLastSnapshot > transactionsThreshold;
         }
     }
 }

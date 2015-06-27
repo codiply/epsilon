@@ -1,4 +1,5 @@
 ﻿using Epsilon.Logic.Constants;
+using Epsilon.Logic.Constants.Enums;
 using Epsilon.Logic.Helpers.Interfaces;
 using Epsilon.Resources.CountryVariants;
 using System;

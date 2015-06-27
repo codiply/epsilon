@@ -104,6 +104,7 @@ namespace Epsilon.Web.App_Start
             kernel.Bind<ISmtpService>().To<SmtpService>().InRequestScope();
             kernel.Bind<ITenancyDetailsSubmissionService>().To<TenancyDetailsSubmissionService>().InRequestScope();
             kernel.Bind<IUserPreferenceService>().To<UserPreferenceService>().InRequestScope();
+            kernel.Bind<IUserCoinService>().To<UserCoinService>().InRequestScope();
 
             // TestDataPopulation
             kernel.Bind<ITestDataPopulator>().To<TestDataPopulator>().InRequestScope();
