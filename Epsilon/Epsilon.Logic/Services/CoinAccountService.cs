@@ -70,7 +70,7 @@ namespace Epsilon.Logic.Services
             // NOTE: I am checking for sufficient funds above and making the transaction below.
             //       It is still possible to get another transaction in between that will result 
             //       in spending more than the balance. In this rare event we will just get a 
-            // negative balance for this account, which is acceptable.
+            //       negative balance for this account, which is acceptable.
 
             var transaction = new CoinAccountTransaction
             {
@@ -82,6 +82,7 @@ namespace Epsilon.Logic.Services
 
             _dbContext.CoinAccountTransactions.Add(transaction);
             await _dbContext.SaveChangesAsync();
+
             return CoinAccountTransactionStatus.Success;
         }
 
