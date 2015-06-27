@@ -1,0 +1,32 @@
+﻿@model Decimal
+@{
+    ViewBag.Title = "Coins";
+}
+
+<h2>Coins</h2>
+
+<div class="row">
+    <div class="col-md-4">
+        <h3>Balance</h3>
+        @Model
+    </div>
+    <div class="col-md-4">
+        <h3>Credit</h3>
+        @using (Html.BeginForm("CoinsCredit", "Helper"))
+        {
+            @Html.AntiForgeryToken()
+            <input type="number" name="amount" />
+            <input type="submit" class="btn btn-default" />
+        }
+    </div>
+    <div class="col-md-4">
+        <h3>Debit</h3>
+        @using (Html.BeginForm("CoinsDebit", "Helper"))
+        {
+            @Html.AntiForgeryToken()
+            <input type="number"name="amount" />
+            <input type="submit" class="btn btn-default" />
+        }
+    </div>
+</div>
+

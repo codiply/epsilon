@@ -86,8 +86,10 @@ namespace Epsilon.Logic.Services
             if (lastSnapshot == null)
             {
                 var sumOfAmounts= await _dbContext.CoinAccountTransactions
-                    .Where(x => x.AccountId.Equals(account.Id))
-                    .SumAsync(x => x.Amount);
+                    .Where(tr => tr.AccountId.Equals(account.Id))
+                    .Select(tr => tr.Amount)
+                    .DefaultIfEmpty(0.0M)
+                    .SumAsync();
 
                 return sumOfAmounts;
             }
@@ -96,14 +98,16 @@ namespace Epsilon.Logic.Services
                 var sumOfAmountsAfterSnapshot = await _dbContext.CoinAccountTransactions
                     .Where(tr => tr.AccountId.Equals(account.Id))
                     .Where(tr => lastSnapshot.MadeOn <= tr.MadeOn)
-                    .SumAsync(x => x.Amount);
+                    .Select(tr => tr.Amount)
+                    .DefaultIfEmpty(0.0M)
+                    .SumAsync();
                 return lastSnapshot.Balance + sumOfAmountsAfterSnapshot;
             }
         }
 
         public async Task MakeSnapshot(string accountId)
         {
-            using (new TransactionScope())
+            using (var transaction = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
                 var account = await _dbContext.CoinAccounts.FindAsync(accountId);
 
@@ -126,14 +130,18 @@ namespace Epsilon.Logic.Services
                     newSnapshotBalance = await _dbContext.CoinAccountTransactions
                         .Where(tr => tr.AccountId.Equals(account.Id))
                         .Where(tr => tr.MadeOn < newSnapshot.MadeOn)
-                        .SumAsync(x => x.Amount);
+                        .Select(tr => tr.Amount)
+                        .DefaultIfEmpty(0.0M)
+                        .SumAsync();
                 }
                 else
                 {
                     newSnapshotBalance = await _dbContext.CoinAccountTransactions
                         .Where(tr => tr.AccountId.Equals(account.Id))
                         .Where(tr => lastSnapshot.MadeOn <= tr.MadeOn && tr.MadeOn < newSnapshot.MadeOn)
-                        .SumAsync(tr => tr.Amount);
+                        .Select(tr => tr.Amount)
+                        .DefaultIfEmpty(0.0M)
+                        .SumAsync();
                 }
 
                 newSnapshot.Balance = newSnapshotBalance;
@@ -144,6 +152,8 @@ namespace Epsilon.Logic.Services
                 _dbContext.Entry(account).State = EntityState.Modified;
 
                 await _dbContext.SaveChangesAsync();
+
+                transaction.Complete();
             }
         }
 
@@ -172,11 +182,20 @@ namespace Epsilon.Logic.Services
 
             var lastSnapshot = await GetLastSnapshot(account.Id);
 
-            var numberOfTransactionsSinceLastSnapshot = await _dbContext.CoinAccountTransactions
-                .Where(tr => tr.AccountId == account.Id)
-                .Where(tr => lastSnapshot.MadeOn <= tr.MadeOn)
-                .CountAsync();
-
+            int numberOfTransactionsSinceLastSnapshot;
+            if (lastSnapshot == null)
+            {
+                numberOfTransactionsSinceLastSnapshot = await _dbContext.CoinAccountTransactions
+                    .Where(tr => tr.AccountId.Equals(account.Id))
+                    .CountAsync();
+            }
+            else
+            {
+                numberOfTransactionsSinceLastSnapshot = await _dbContext.CoinAccountTransactions
+                    .Where(tr => tr.AccountId.Equals(account.Id))
+                    .Where(tr => lastSnapshot.MadeOn <= tr.MadeOn)
+                    .CountAsync();
+            }
             return numberOfTransactionsSinceLastSnapshot > transactionsThreshold;
         }
     }

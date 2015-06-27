@@ -10,6 +10,7 @@ namespace Epsilon.Logic.Constants.Enums
     {
         AccountNotFound,
         InsufficientFunds,
-        Success
+        Success,
+        WrongAmount
     }
 }

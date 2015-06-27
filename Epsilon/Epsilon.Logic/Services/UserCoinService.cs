@@ -1,4 +1,5 @@
-﻿using Epsilon.Logic.Entities;
+﻿using Epsilon.Logic.Constants.Enums;
+using Epsilon.Logic.Entities;
 using Epsilon.Logic.Infrastructure.Interfaces;
 using Epsilon.Logic.Services.Interfaces;
 using Epsilon.Logic.SqlContext.Interfaces;
@@ -23,9 +24,23 @@ namespace Epsilon.Logic.Services
             _coinAccountService = coinAccountService;
         }
 
-        public async Task<decimal> GetBalance(User user)
+        public async Task<decimal> GetBalance(string userId)
         {
-            return await _coinAccountService.GetBalance(user.Id);
+            return await _coinAccountService.GetBalance(userId);
+        }
+
+        public async Task<CoinAccountTransactionStatus> Credit(string userId, Decimal amount)
+        {
+            if (amount < 0)
+                return CoinAccountTransactionStatus.WrongAmount;
+            return await _coinAccountService.MakeTransaction(userId, amount, CoinAccountTransactionTypeId.CREDIT, "");
+        }
+
+        public async Task<CoinAccountTransactionStatus> Debit(string userId, Decimal amount)
+        {
+            if (amount < 0)
+                return CoinAccountTransactionStatus.WrongAmount;
+            return await _coinAccountService.MakeTransaction(userId, -amount, CoinAccountTransactionTypeId.DEBIT, "");
         }
     }
 }

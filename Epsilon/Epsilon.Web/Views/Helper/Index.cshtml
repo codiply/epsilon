@@ -3,7 +3,7 @@
 }
 
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-4">
         <h2>Test the alerts</h2>
         <p><a class="btn btn-default btn-success" href="@Url.Action("SuccessAlert")">Success</a>
            <a class="btn btn-default btn-success" href="@Url.Action("SuccessAlertDismissable")">Success Dismissable</a></p>
@@ -14,10 +14,14 @@
         <p><a class="btn btn-default btn-danger" href="@Url.Action("DangerAlert")">Danger</a>
            <a class="btn btn-default btn-danger" href="@Url.Action("DangerAlertDismissable")">Danger Dismissable</a></p>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-4">
         <h2>Test data</h2>
         <p>Populate the database.</p>
         <p><a class="btn btn-default" href="@Url.Action("PopulateAddresses")">Addresses</a></p>
+    </div>
+    <div class="col-md-4">
+        <h2>Links</h2>
+        @Html.ActionLink("Coins", "Coins")
     </div>
 </div>
 
@@ -39,7 +43,7 @@
         }
     </div>
     <div class="col-md-3">
-        <h3>Send Admin Alert</h3>
+        <h2>Send Admin Alert</h2>
         @using (Html.BeginForm("SendAdminAlert", "Helper"))
         {
             @Html.AntiForgeryToken()

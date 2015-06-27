@@ -10,6 +10,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
 
 namespace Epsilon.Web.Controllers
 {
@@ -19,15 +20,18 @@ namespace Epsilon.Web.Controllers
         private readonly IEpsilonContext _dbContext;
         private readonly ITestDataPopulator _testDataPopulator;
         private readonly IAdminAlertService _adminAlertService;
+        private readonly IUserCoinService _userCointService;
 
         public HelperController(
             IEpsilonContext dbContext,
             ITestDataPopulator testDataPopulator,
-            IAdminAlertService adminAlertService)
+            IAdminAlertService adminAlertService,
+            IUserCoinService userCoinService)
         {
             _dbContext = dbContext;
             _testDataPopulator = testDataPopulator;
             _adminAlertService = adminAlertService;
+            _userCointService = userCoinService;
         }
 
         public async Task<ActionResult> Index()
@@ -99,6 +103,32 @@ namespace Epsilon.Web.Controllers
             _adminAlertService.SendAlert(adminAlertKey);
             Success(String.Format("AdminAlert for key '{0}' sent.", adminAlertKey), true);
             return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> Coins()
+        {
+            var balance = await _userCointService.GetBalance(User.Identity.GetUserId());
+
+            return View(balance);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> CoinsCredit(Decimal amount)
+        {
+            var status = await _userCointService.Credit(User.Identity.GetUserId(), amount);
+
+            return RedirectToAction("Coins");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> CoinsDebit(Decimal amount)
+        {
+            var status = await _userCointService.Debit(User.Identity.GetUserId(), amount);
+
+            return RedirectToAction("Coins");
         }
     }
 }
