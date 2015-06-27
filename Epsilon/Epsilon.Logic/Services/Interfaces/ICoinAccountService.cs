@@ -11,6 +11,8 @@ namespace Epsilon.Logic.Services.Interfaces
 {
     public interface ICoinAccountService
     {
+        Task CreateAccount(string accountId);
+
         Task<CoinAccountTransactionStatus> MakeTransaction(
             string accountId, 
             Decimal amount, 

@@ -24,6 +24,11 @@ namespace Epsilon.Logic.Services
             _coinAccountService = coinAccountService;
         }
 
+        public async Task CreateAccount(string userId)
+        {
+            await _coinAccountService.CreateAccount(userId);
+        }
+
         public async Task<decimal> GetBalance(string userId)
         {
             return await _coinAccountService.GetBalance(userId);

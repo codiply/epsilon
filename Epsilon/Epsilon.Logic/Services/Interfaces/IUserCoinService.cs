@@ -10,6 +10,8 @@ namespace Epsilon.Logic.Services.Interfaces
 {
     public interface IUserCoinService
     {
+        Task CreateAccount(string userId);
+
         Task<decimal> GetBalance(string userId);
 
         Task<CoinAccountTransactionStatus> Credit(string userId, Decimal amount);

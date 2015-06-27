@@ -118,11 +118,13 @@
     <Compile Include="Services\Interfaces\ICountryService.cs" />
     <Compile Include="Helpers\Interfaces\ICountryVariantResourceHelper.cs" />
     <Compile Include="Services\Interfaces\ILanguageService.cs" />
+    <Compile Include="Services\Interfaces\INewUserService.cs" />
     <Compile Include="Services\Interfaces\ISmtpService.cs" />
     <Compile Include="Services\Interfaces\ITenancyDetailsSubmissionService.cs" />
     <Compile Include="Services\Interfaces\IUserCoinService.cs" />
     <Compile Include="Services\Interfaces\IUserPreferenceService.cs" />
     <Compile Include="Services\LanguageService.cs" />
+    <Compile Include="Services\NewUserService.cs" />
     <Compile Include="Services\SmtpService.cs" />
     <Compile Include="Services\TenancyDetailsSubmissionService.cs" />
     <Compile Include="Services\UserCoinService.cs" />

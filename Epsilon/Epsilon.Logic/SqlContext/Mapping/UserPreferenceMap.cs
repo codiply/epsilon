@@ -16,10 +16,6 @@ namespace Epsilon.Logic.SqlContext.Mapping
             // Primary Key
             this.HasKey(x => x.Id);
 
-            // Properties
-            this.Property(x => x.Id)
-                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
-
             // Relationships
             this.HasOptional(x => x.Language)
                 .WithMany()

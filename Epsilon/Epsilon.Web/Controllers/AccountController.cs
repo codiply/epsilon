@@ -12,6 +12,8 @@ using Epsilon.Web.Models;
 using Epsilon.Logic.Entities;
 using Epsilon.Web.Controllers.BaseControllers;
 using Epsilon.Logic.Constants;
+using Epsilon.Logic.Services.Interfaces;
+using Ninject;
 
 namespace Epsilon.Web.Controllers
 {
@@ -24,11 +26,14 @@ namespace Epsilon.Web.Controllers
         {
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
         }
+
+        [Inject]
+        public INewUserService NewUserService { get; set; }
 
         public ApplicationSignInManager SignInManager
         {
@@ -158,12 +163,14 @@ namespace Epsilon.Web.Controllers
                 if (result.Succeeded)
                 {
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
+
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+
+                    await NewUserService.Setup(user.Id);
 
                     return RedirectToAction(
                         AppConstant.AUTHENTICATED_USER_HOME_ACTION, 
@@ -395,7 +402,7 @@ namespace Epsilon.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
-            AuthenticationManager.SignOut();
+            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
             return RedirectToAction(
                 AppConstant.ANONYMOUS_USER_HOME_ACTION,
                 AppConstant.ANONYMOUS_USER_HOME_CONTROLLER);

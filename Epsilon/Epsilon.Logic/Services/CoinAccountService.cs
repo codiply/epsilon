@@ -35,6 +35,17 @@ namespace Epsilon.Logic.Services
             _dbContext = dbContext;
         }
 
+        public async Task CreateAccount(string accountId)
+        {
+            var newAccount = new CoinAccount
+            {
+                Id = accountId,
+                LastSnapshotOn = _clock.OffsetNow
+            };
+            _dbContext.CoinAccounts.Add(newAccount);
+            await _dbContext.SaveChangesAsync();
+        }
+
         public async Task<CoinAccountTransactionStatus> MakeTransaction(
             string accountId, 
             Decimal amount,

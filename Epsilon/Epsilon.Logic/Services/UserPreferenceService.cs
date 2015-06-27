@@ -24,6 +24,16 @@ namespace Epsilon.Logic.Services
             _dbContext = dbContext;
         }
 
+        public async Task CreateUserPreference(string userId)
+        {
+            var newUserPreference = new UserPreference
+            {
+                Id = userId
+            };
+            _dbContext.UserPreferences.Add(newUserPreference);
+            await _dbContext.SaveChangesAsync();
+        }
+
         public async Task<UserPreference> GetUserPreference(string userId)
         {
             var userPreference = await _appCache
