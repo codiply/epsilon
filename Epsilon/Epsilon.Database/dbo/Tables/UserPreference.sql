@@ -4,8 +4,10 @@
     [Timestamp]  ROWVERSION     NOT NULL,
     CONSTRAINT [PK_dbo.UserPreference] PRIMARY KEY CLUSTERED ([Id] ASC),
     CONSTRAINT [FK_dbo.UserPreference_dbo.Language_LanguageId] FOREIGN KEY ([LanguageId]) REFERENCES [dbo].[Language] ([Id]),
-    CONSTRAINT [FK_dbo.UserPreference_dbo.User_Id] FOREIGN KEY ([Id]) REFERENCES [dbo].[User] ([Id])
+    CONSTRAINT [FK_dbo.UserPreference_dbo.User_Id] FOREIGN KEY ([Id]) REFERENCES [dbo].[User] ([Id]) ON DELETE CASCADE
 );
+
+
 
 
 

@@ -21,11 +21,14 @@ namespace Epsilon.Logic.SqlContext.Mapping
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             this.Property(x => x.Code)
                 .HasMaxLength(16);
+            this.Property(x => x.CreatedOn)
+                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Computed);
 
             // Relationships
             this.HasRequired(x => x.TenancyDetailsSubmission)
                 .WithMany(y => y.TenantVerifications)
-                .HasForeignKey(x => x.TenancyDetailsSubmissionId);
+                .HasForeignKey(x => x.TenancyDetailsSubmissionId)
+                .WillCascadeOnDelete(true);
         }
     }
 }

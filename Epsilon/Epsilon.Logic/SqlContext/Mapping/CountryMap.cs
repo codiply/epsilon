@@ -31,7 +31,8 @@ namespace Epsilon.Logic.SqlContext.Mapping
             // Relationships
             this.HasRequired(x => x.Currency)
                 .WithMany()
-                .HasForeignKey(x => x.CurrencyId);
+                .HasForeignKey(x => x.CurrencyId)
+                .WillCascadeOnDelete(false);
         }
     }
 }

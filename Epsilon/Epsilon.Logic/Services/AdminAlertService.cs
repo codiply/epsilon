@@ -91,8 +91,7 @@ namespace Epsilon.Logic.Services
         {
             _dbContext.AdminAlerts.Add(new AdminAlert
             {
-                Key = key,
-                SentOn = _clock.OffsetNow
+                Key = key
             });
             _dbContext.SaveChanges();
         }

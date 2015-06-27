@@ -10,6 +10,8 @@ Post-Deployment Script Template
 --------------------------------------------------------------------------------------
 */
 
+:r .\SchemaChanges\DefaultValue.sql
+
 :r .\ReferenceData\AppSetting.sql
 :r .\ReferenceData\AspNetRoles.sql
 :r .\ReferenceData\Currency.sql

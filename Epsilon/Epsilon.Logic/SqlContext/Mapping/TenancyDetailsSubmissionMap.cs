@@ -19,19 +19,24 @@ namespace Epsilon.Logic.SqlContext.Mapping
             // Properties
             this.Property(x => x.Id)
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            this.Property(x => x.CreatedOn)
+                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Computed);
 
             // Relationships
             this.HasRequired(x => x.User)
                 .WithMany()
-                .HasForeignKey(x => x.UserId);
+                .HasForeignKey(x => x.UserId)
+                .WillCascadeOnDelete(false);
 
             this.HasRequired(x => x.Address)
                 .WithMany(y => y.TenancyDetailsSubmissions)
-                .HasForeignKey(x => x.AddressId);
+                .HasForeignKey(x => x.AddressId)
+                .WillCascadeOnDelete(false);
 
             this.HasOptional(x => x.Currency)
                 .WithMany()
-                .HasForeignKey(x => x.CurrencyId);
+                .HasForeignKey(x => x.CurrencyId)
+                .WillCascadeOnDelete(false);
         }
     }
 }

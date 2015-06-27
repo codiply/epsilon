@@ -45,11 +45,18 @@ namespace Epsilon.Logic.SqlContext.Mapping
             this.Property(x => x.Postcode)
                 .HasMaxLength(POSTCODE_MAX_LENGTH)
                 .IsRequired();
+            this.Property(x => x.CreatedOn)
+                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Computed);
 
             // Relationships
             this.HasRequired(x => x.Country)
                 .WithMany()
-                .HasForeignKey(x => x.CountryId);
+                .HasForeignKey(x => x.CountryId)
+                .WillCascadeOnDelete(false);
+            this.HasRequired(x => x.CreatedBy)
+                .WithMany()
+                .HasForeignKey(x => x.CreatedById)
+                .WillCascadeOnDelete(false);
 
             // Indexes
             this.Property(x => x.Postcode)
