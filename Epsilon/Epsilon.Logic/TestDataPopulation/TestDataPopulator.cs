@@ -22,14 +22,14 @@ namespace Epsilon.Logic.TestDataPopulation
             _dbContext = dbContext;
         }
 
-        public async Task Populate()
+        public async Task Populate(string userId)
         {
             int postCodesPerArea = 5;
             int housesPerPostcode = 5;
             int minAddressesPerHouse = 10;
             int maxAddressesPerHouse = 20;
             await GbAddressPopulator.Populate(
-                _random, _dbContext, postCodesPerArea, housesPerPostcode, minAddressesPerHouse, maxAddressesPerHouse);
+                _random, _dbContext, userId, postCodesPerArea, housesPerPostcode, minAddressesPerHouse, maxAddressesPerHouse);
         }
     }
 }

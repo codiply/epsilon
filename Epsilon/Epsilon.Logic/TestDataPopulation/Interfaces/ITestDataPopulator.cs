@@ -8,6 +8,6 @@ namespace Epsilon.Logic.TestDataPopulation.Interfaces
 {
     public interface ITestDataPopulator
     {
-        Task Populate();
+        Task Populate(string userId);
     }
 }

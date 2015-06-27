@@ -41,7 +41,7 @@ namespace Epsilon.Web.Controllers
 
         public async Task<ActionResult> PopulateAddresses()
         { 
-            await _testDataPopulator.Populate();
+            await _testDataPopulator.Populate(User.Identity.GetUserId());
 
             Success("Addresses table has been populated!");
 

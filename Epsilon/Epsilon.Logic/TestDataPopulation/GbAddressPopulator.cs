@@ -68,6 +68,7 @@ namespace Epsilon.Logic.TestDataPopulation
         public static async Task Populate(
             IRandomWrapper random,
             IEpsilonContext dbContext, 
+            string userId,
             int postCodesPerArea, 
             int housesPerPostcode,
             int minAddressesPerHouse,
@@ -83,6 +84,7 @@ namespace Epsilon.Logic.TestDataPopulation
                     {
                         var numberOfAddresses = random.Next(minAddressesPerHouse, maxAddressesPerHouse + 1);
                         var addressGroup = HouseAddressGroup(
+                            userId,
                             numberOfAddresses,
                             RandomHouse(random),
                             RandomStreet(random),
@@ -116,6 +118,7 @@ namespace Epsilon.Logic.TestDataPopulation
         }
 
         private static IList<Address> HouseAddressGroup(
+            string userId,
             int numberOfAddresses,
             string houseName,
             string street,
@@ -132,6 +135,7 @@ namespace Epsilon.Logic.TestDataPopulation
                     Region = county,
                     Postcode = postcode,
                     CountryId = "GB",
+                    CreatedById = userId
                 }).ToList();
         }
     }
