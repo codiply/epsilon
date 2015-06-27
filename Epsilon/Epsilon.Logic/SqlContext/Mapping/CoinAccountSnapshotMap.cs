@@ -20,7 +20,7 @@ namespace Epsilon.Logic.SqlContext.Mapping
             // Properties
             this.Property(x => x.Id)
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
-            this.Property(x => x.CreatedOn)
+            this.Property(x => x.MadeOn)
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Computed);
 
             // Relationships
@@ -31,9 +31,11 @@ namespace Epsilon.Logic.SqlContext.Mapping
 
             // Indexes
             this.Property(x => x.AccountId)
-                .HasColumnAnnotation("Index", new IndexAnnotation(new IndexAttribute("AccountId_CreatedOn", 1)));
-            this.Property(x => x.CreatedOn)
-                .HasColumnAnnotation("Index", new IndexAnnotation(new IndexAttribute("AccountId_CreatedOn", 2)));
+                .HasColumnAnnotation("Index", new IndexAnnotation(new IndexAttribute("AccountId_MadeOn_IsFinalised", 1)));
+            this.Property(x => x.MadeOn)
+                .HasColumnAnnotation("Index", new IndexAnnotation(new IndexAttribute("AccountId_MadeOn_IsFinalised", 2)));
+            this.Property(x => x.IsFinalised)
+                .HasColumnAnnotation("Index", new IndexAnnotation(new IndexAttribute("AccountId_MadeOn_IsFinalised", 3)));
         }
     }
 }

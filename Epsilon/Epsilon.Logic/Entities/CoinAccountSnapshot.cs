@@ -13,7 +13,7 @@ namespace Epsilon.Logic.Entities
         public virtual Guid Id { get; set; }
         public virtual string AccountId { get; set; }
         public virtual Decimal Balance { get; set; }
-        public virtual DateTimeOffset CreatedOn { get; set; }
+        public virtual DateTimeOffset MadeOn { get; set; }
         public virtual bool IsFinalised { get; set; }
 
         public virtual CoinAccount Account { get; set; }

@@ -3,7 +3,7 @@ CREATE TABLE [dbo].[CoinAccountTransaction] (
     [AccountId]   NVARCHAR (128)     NOT NULL,
     [TypeId]      NVARCHAR (128)     NOT NULL,
     [Amount]      DECIMAL (18, 2)    NOT NULL,
-    [TookPlaceOn] DATETIMEOFFSET (7) NOT NULL,
+    [MadeOn] DATETIMEOFFSET (7) NOT NULL,
     [Reference]   NVARCHAR (256)     NULL,
     [Timestamp]   ROWVERSION         NOT NULL,
     CONSTRAINT [PK_dbo.CoinAccountTransaction] PRIMARY KEY CLUSTERED ([Id] ASC),
@@ -20,6 +20,6 @@ CREATE NONCLUSTERED INDEX [IX_TypeId]
 
 
 GO
-CREATE NONCLUSTERED INDEX [IX_AccountId_TookPlaceOn]
-    ON [dbo].[CoinAccountTransaction]([AccountId] ASC, [TookPlaceOn] ASC);
+CREATE NONCLUSTERED INDEX [IX_AccountId_MadeOn]
+    ON [dbo].[CoinAccountTransaction]([AccountId] ASC, [MadeOn] ASC);
 

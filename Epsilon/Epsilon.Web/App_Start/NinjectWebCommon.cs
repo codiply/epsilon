@@ -98,6 +98,7 @@ namespace Epsilon.Web.App_Start
             // Services
             kernel.Bind<IAddressService>().To<AddressService>().InRequestScope();
             kernel.Bind<IAdminAlertService>().To<AdminAlertService>().InRequestScope();
+            kernel.Bind<ICoinAccountService>().To<CoinAccountService>().InRequestScope();
             kernel.Bind<ICountryService>().To<CountryService>().InRequestScope();
             kernel.Bind<ILanguageService>().To<LanguageService>().InRequestScope();
             kernel.Bind<ISmtpService>().To<SmtpService>().InRequestScope();

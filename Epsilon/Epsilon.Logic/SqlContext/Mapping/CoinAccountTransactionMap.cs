@@ -24,7 +24,7 @@ namespace Epsilon.Logic.SqlContext.Mapping
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             this.Property(x => x.Reference)
                 .HasMaxLength(REFERENCE_MAX_LENGTH);
-            this.Property(x => x.TookPlaceOn)
+            this.Property(x => x.MadeOn)
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Computed);
 
             // Relationships
@@ -39,9 +39,9 @@ namespace Epsilon.Logic.SqlContext.Mapping
 
             // Indexes
             this.Property(x => x.AccountId)
-                .HasColumnAnnotation("Index", new IndexAnnotation(new IndexAttribute("IX_AccountId_TookPlaceOn", 1)));
-            this.Property(x => x.TookPlaceOn)
-                .HasColumnAnnotation("Index", new IndexAnnotation(new IndexAttribute("IX_AccountId_TookPlaceOn", 2)));
+                .HasColumnAnnotation("Index", new IndexAnnotation(new IndexAttribute("IX_AccountId_MadeOn", 1)));
+            this.Property(x => x.MadeOn)
+                .HasColumnAnnotation("Index", new IndexAnnotation(new IndexAttribute("IX_AccountId_MadeOn", 2)));
         }
     }
 }
