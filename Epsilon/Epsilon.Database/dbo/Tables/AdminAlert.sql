@@ -5,3 +5,10 @@
     CONSTRAINT [PK_dbo.AdminAlert] PRIMARY KEY CLUSTERED ([Id] ASC)
 );
 
+
+
+
+GO
+CREATE NONCLUSTERED INDEX [IX_Key]
+    ON [dbo].[AdminAlert]([Key] ASC);
+

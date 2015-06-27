@@ -25,7 +25,14 @@
 
 
 
+
+
 GO
 CREATE NONCLUSTERED INDEX [IX_CountryId]
     ON [dbo].[Address]([CountryId] ASC);
+
+
+GO
+CREATE NONCLUSTERED INDEX [IX_Postcode]
+    ON [dbo].[Address]([Postcode] ASC);
 

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Data.Entity.Infrastructure.Annotations;
 using System.Data.Entity.ModelConfiguration;
 using System.Linq;
 using System.Text;
@@ -49,6 +50,10 @@ namespace Epsilon.Logic.SqlContext.Mapping
             this.HasRequired(x => x.Country)
                 .WithMany()
                 .HasForeignKey(x => x.CountryId);
+
+            // Indexes
+            this.Property(x => x.Postcode)
+                .HasColumnAnnotation("Index", new IndexAnnotation(new IndexAttribute()));
         }
     }
 }
