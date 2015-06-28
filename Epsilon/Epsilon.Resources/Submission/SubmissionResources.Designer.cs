@@ -79,6 +79,15 @@ namespace Epsilon.Resources.Submission {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Your search returned more than {{ addressSearchResponse.ResultsLimit }} addresses. Please narrow down your search..
+        /// </summary>
+        public static string SearchAddress_NarrowDownYourSearchMessage {
+            get {
+                return ResourceManager.GetString("SearchAddress_NarrowDownYourSearchMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No addresses found..
         /// </summary>
         public static string SearchAddress_NoAddressesFoundMessage {

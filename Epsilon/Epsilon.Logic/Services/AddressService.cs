@@ -13,6 +13,8 @@ using Epsilon.Logic.Infrastructure;
 using Epsilon.Logic.Constants;
 using System.Collections;
 using Epsilon.Logic.JsonModels;
+using Epsilon.Logic.Helpers.Interfaces;
+using Epsilon.Logic.Constants.Interfaces;
 
 namespace Epsilon.Logic.Services
 {
@@ -20,27 +22,82 @@ namespace Epsilon.Logic.Services
     {
         private readonly IAppCache _appCache;
         private readonly IEpsilonContext _dbContext;
+        private readonly IDbAppSettingsHelper _dbAppSettingsHelper;
+        private readonly IDbAppSettingDefaultValue _dbAppSettingDefaultValue;
 
         public AddressService(
             IAppCache appCache,
-            IEpsilonContext dbContext)
+            IEpsilonContext dbContext,
+            IDbAppSettingsHelper dbAppSettingsHelper,
+            IDbAppSettingDefaultValue dbAppSettingDefaultValue)
         {
             _appCache = appCache;
             _dbContext = dbContext;
+            _dbAppSettingsHelper = dbAppSettingsHelper;
+            _dbAppSettingDefaultValue = dbAppSettingDefaultValue;
         }
 
-        public async Task<IList<AddressSearchResult>> Search(AddressSearchRequest request)
+        public async Task<AddressSearchResponse> Search(AddressSearchRequest request)
         {
-            var addresses = await _dbContext.Addresses
+            var resultsLimit = _dbAppSettingsHelper.GetInt(
+                DbAppSettingKey.SearchAddressResultsLimit, 
+                _dbAppSettingDefaultValue.SearchAddressResultsLimit);
+
+            if (string.IsNullOrEmpty(request.countryId) || string.IsNullOrEmpty(request.postcode))
+                return new AddressSearchResponse { ResultsLimit = resultsLimit, IsResultsLimitReached = false };
+
+            var query = _dbContext.Addresses
                 .Include(x => x.Country)
                 .Where(x => x.CountryId.Equals(request.countryId)
-                            && (x.Postcode.Equals(request.postcode))).ToListAsync();
+                            && (x.Postcode.Equals(request.postcode)));
 
-            return addresses.Select(x => new AddressSearchResult
+            if (!string.IsNullOrWhiteSpace(request.terms))
+            {
+                var terms = request.terms.Split(' ', ',').Where(t => !String.IsNullOrWhiteSpace(t)).Select(t => t.Trim());
+
+                foreach (var term in terms)
+                {
+                    query = query.Where(a =>
+                        a.Line1.Contains(term) ||
+                        a.Line2.Contains(term) ||
+                        a.Line3.Contains(term) ||
+                        a.Line4.Contains(term) ||
+                        a.Locality.Contains(term) ||
+                        a.Region.Contains(term));
+                }
+            }
+
+            query = query.OrderBy(x => x.Line1)
+                .ThenBy(x => x.Line2)
+                .ThenBy(x => x.Line3)
+                .ThenBy(x => x.Line4)
+                .ThenBy(x => x.Locality)
+                .ThenBy(x => x.Region);
+
+            var addresses = await query.Take(resultsLimit + 1).ToListAsync();
+            
+            var reachedLimit = addresses.Count > resultsLimit;
+            
+            var results = addresses.Select(x => new AddressSearchResult
             {
                 addressId = x.Id,
                 fullAddress = x.FullAddress()
-            }).ToList();
+            });
+
+            if (reachedLimit)
+            {
+                results = results.Take(resultsLimit);
+            }
+
+
+            var response = new AddressSearchResponse
+            {
+                Results = results.ToList(),
+                ResultsLimit = resultsLimit,
+                IsResultsLimitReached = reachedLimit
+            };
+
+            return response; 
         }
 
         public async Task<Address> AddAddress(AddressForm dto)

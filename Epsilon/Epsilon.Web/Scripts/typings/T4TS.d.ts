@@ -7,6 +7,13 @@ declare module T4TS {
     export interface AddressSearchRequest {
         countryId: string;
         postcode: string;
+        terms: string;
+    }
+    /** Generated from Epsilon.Logic.JsonModels.AddressSearchResponse **/
+    export interface AddressSearchResponse {
+        Results: T4TS.AddressSearchResult[];
+        ResultsLimit: number;
+        IsResultsLimitReached: boolean;
     }
     /** Generated from Epsilon.Logic.JsonModels.AddressSearchResult **/
     export interface AddressSearchResult {

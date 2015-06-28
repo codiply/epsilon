@@ -24,9 +24,15 @@
         </div>
     </div>
     <div class="form-group" data-ng-cloak data-ng-show="countryId">
-        <label class="control-label col-md-2" for="postcode">Postcode</label>
+        <label class="control-label col-md-2" for="postcode">Postcode</label> <!-- TODO_PANOS -->
         <div class="col-md-10">
             <input class="form-control text-box single-line" id="postcode" name="postcode" data-ng-model="postcode" />
+        </div>
+    </div>
+    <div class="form-group" data-ng-cloak data-ng-show="countryId">
+        <label class="control-label col-md-2" for="postcode">Terms</label> <!-- TODO_PANOS -->
+        <div class="col-md-10">
+            <input class="form-control text-box single-line" id="terms" name="terms" data-ng-model="terms" />
         </div>
     </div>
     <div class="form-group" data-ng-cloak data-ng-show="countryId">
@@ -37,11 +43,16 @@
             </button>
         </div>
     </div>
-    <div class="form-group" data-ng-cloak data-ng-show="addressSearchResults">
-        <p data-ng-clock data-ng-if="addressSearchResults.length === 0">@SubmissionResources.SearchAddress_NoAddressesFoundMessage</p>
-        <p data-ng-clock data-ng-if="addressSearchResults.length === 0">@SubmissionResources.SearchAddress_AddYourAddressMessage</p>
+    <div class="form-group" data-ng-cloak data-ng-show="addressSearchResponse">
+        <div class="alert alert-info" data-ng-clock data-ng-if="addressSearchResponse.Results.length === 0">
+            <p>@SubmissionResources.SearchAddress_NoAddressesFoundMessage
+               @SubmissionResources.SearchAddress_AddYourAddressMessage</p>
+        </div>
+        <div class="alert alert-info" data-ng-clock data-ng-if="addressSearchResponse.IsResultsLimitReached">
+            <p>@SubmissionResources.SearchAddress_NarrowDownYourSearchMessage</p>
+        </div> 
         <table class="table table-striped">
-            <tbody data-ng-repeat="add in addressSearchResults">
+            <tbody data-ng-repeat="add in addressSearchResponse.Results">
                 <tr>
                     <td><input type="radio" name="radioSelectedAddressId" data-ng-model="$parent.selectedAddressId" ng-value="add.addressId"></td>
                     <td>{{add.fullAddress}}</td>
@@ -49,19 +60,22 @@
             </tbody>
         </table>
     </div>
-    <div class="form-group" data-ng-cloak data-ng-show="hasHitSearch">
+    <div class="form-group" data-ng-cloak data-ng-show="addressSearchResponse">
         <div class="col-md-offset-2 col-md-10">
-            <button type="button" class="btn btn-default" aria-label="Left Align">
-                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> @SubmissionResources.SearchAddress_AddNewAddressButton
-            </button>
-            @using (Html.BeginForm("UseAddress", "Submission"))
-            {
-                @Html.AntiForgeryToken()
-                <input type="hidden" name="selectedAddressId" ng-value="selectedAddressId" />
-                <button type="submit" class="btn-default" aria-label="Left Align" data-ng-cloak data-ng-show="selectedAddressId">
-                    <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> @SubmissionResources.SearchAddress_UseSelectedAddressButton
+            <div class="col-md-3" data-ng-cloak data-ng-show="!addressSearchResponse.IsResultsLimitReached">
+                <button type="button" class="btn btn-default" aria-label="Left Align">
+                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> @SubmissionResources.SearchAddress_AddNewAddressButton
                 </button>
-            }
-        </div>
+            </div>
+            <div class="col-md-3">
+                @using (Html.BeginForm("UseAddress", "Submission"))
+                {
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="selectedAddressId" ng-value="selectedAddressId" />
+                    <button type="submit" class="btn btn-default" aria-label="Left Align" data-ng-cloak data-ng-show="selectedAddressId">
+                        <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> @SubmissionResources.SearchAddress_UseSelectedAddressButton
+                    </button>
+                }
+            </div>
     </div>
 </div>

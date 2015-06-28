@@ -10,11 +10,12 @@ var SubmissionAddressSearchController = (function () {
         var url = this.BASE_URL_WITH_LANGUAGE + '/api/address/search/';
         var request = {
             countryId: scope.countryId,
-            postcode: scope.postcode
+            postcode: scope.postcode,
+            terms: scope.terms
         };
         this.$http.post(url, request)
             .success(function (data, status, headers, config) {
-            scope.addressSearchResults = data;
+            scope.addressSearchResponse = data;
         });
     };
     return SubmissionAddressSearchController;

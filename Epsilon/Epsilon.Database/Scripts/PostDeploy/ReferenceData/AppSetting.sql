@@ -15,7 +15,9 @@ INSERT INTO #TMP
 VALUES
 -- Edit the values below to update the target table.
 (N'AdminAlertSnoozePeriodInHours', N'12.0', N'Double',
- N'The AdminAlertService will wait this amount of time (in hours) until it sends a second alert for any given AdminAlert key.');
+ N'The AdminAlertService will wait this amount of time (in hours) until it sends a second alert for any given AdminAlert key.'),
+(N'SearchAddressResultsLimit', N'30', N'Int',
+ N'The number of results returned when performing and Address Search.');
 GO
 
 MERGE [dbo].[AppSetting] AS T -- Target

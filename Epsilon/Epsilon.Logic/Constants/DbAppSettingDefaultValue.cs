@@ -10,5 +10,6 @@ namespace Epsilon.Logic.Constants
     public class DbAppSettingDefaultValue : IDbAppSettingDefaultValue
     {
         public double AdminAlertSnoozePeriodInHours { get { return 24.0; } }
+        public int SearchAddressResultsLimit { get { return 30; } }
     }
 }

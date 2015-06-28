@@ -11,7 +11,7 @@ namespace Epsilon.Logic.Services.Interfaces
 {
     public interface IAddressService
     {
-        Task<IList<AddressSearchResult>> Search(AddressSearchRequest request);
+        Task<AddressSearchResponse> Search(AddressSearchRequest request);
 
         Task<Address> AddAddress(AddressForm dto);
     }

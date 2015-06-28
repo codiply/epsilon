@@ -9,5 +9,6 @@ namespace Epsilon.Logic.Constants
     public class DbAppSettingKey
     {
         public const string AdminAlertSnoozePeriodInHours = "AdminAlertSnoozePeriodInHours";
+        public const string SearchAddressResultsLimit = "SearchAddressResultsLimit";
     }
 }

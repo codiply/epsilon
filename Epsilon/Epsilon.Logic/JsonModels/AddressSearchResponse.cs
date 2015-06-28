@@ -8,12 +8,12 @@ using T4TS;
 namespace Epsilon.Logic.JsonModels
 {
     [TypeScriptInterface]
-    public class AddressSearchRequest
+    public class AddressSearchResponse
     {
-        public string countryId { get; set; }
+        public IList<AddressSearchResult> Results { get; set; }
 
-        public string postcode { get; set; }
-
-        public string terms { get; set; }
+        public int ResultsLimit { get; set; }
+        
+        public bool IsResultsLimitReached { get; set; }
     }
 }

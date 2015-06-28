@@ -9,5 +9,6 @@ namespace Epsilon.Logic.Constants.Interfaces
     public interface IDbAppSettingDefaultValue
     {
         double AdminAlertSnoozePeriodInHours { get; }
+        int SearchAddressResultsLimit { get; }
     }
 }

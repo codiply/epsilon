@@ -123,6 +123,9 @@
   <data name="SearchAddress_AddYourAddressMessage" xml:space="preserve">
     <value>Please add your address to our database.</value>
   </data>
+  <data name="SearchAddress_NarrowDownYourSearchMessage" xml:space="preserve">
+    <value>Your search returned more than {{ addressSearchResponse.ResultsLimit }} addresses. Please narrow down your search.</value>
+  </data>
   <data name="SearchAddress_NoAddressesFoundMessage" xml:space="preserve">
     <value>No addresses found.</value>
   </data>
