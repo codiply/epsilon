@@ -21,6 +21,9 @@ namespace Epsilon.Logic.Entities
         public virtual string Region { get; set; }
         public virtual string Postcode { get; set; }
         public virtual string CountryId { get; set; }
+        
+        public virtual decimal? Latitude { get; set; }
+        public virtual decimal? Longitude { get; set; }
 
         public virtual DateTimeOffset CreatedOn { get; set; }
         public virtual string CreatedById { get; set; }

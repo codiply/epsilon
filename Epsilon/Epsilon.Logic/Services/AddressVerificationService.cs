@@ -12,6 +12,11 @@ namespace Epsilon.Logic.Services
     {
         public async Task<AddressVerificationResponse> Verify(AddressForm address)
         {
+            // TODO_PANOS: Wrap any external service calls in a try catch
+            //             and send an admin alert if they throw.
+
+            // TODO_PANOS: Fetch and return coordinates as you use a geocoding service for verification.
+
             throw new NotImplementedException();
         }
     }
