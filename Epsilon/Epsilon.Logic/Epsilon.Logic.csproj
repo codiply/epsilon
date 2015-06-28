@@ -94,8 +94,10 @@
     <Compile Include="Entities\TenancyDetailsSubmission.cs" />
     <Compile Include="Entities\TenantVerification.cs" />
     <Compile Include="Entities\User.cs" />
+    <Compile Include="Helpers\AddressCleansingHelper.cs" />
     <Compile Include="Helpers\AppSettingsHelper.cs" />
     <Compile Include="Helpers\DbAppSettingsHelper.cs" />
+    <Compile Include="Helpers\Interfaces\IAddressCleansingHelper.cs" />
     <Compile Include="Helpers\Interfaces\IAppSettingsHelper.cs" />
     <Compile Include="Helpers\Interfaces\IDbAppSettingsHelper.cs" />
     <Compile Include="Helpers\Interfaces\IParseHelper.cs" />
@@ -109,12 +111,16 @@
     <Compile Include="JsonModels\AddressSearchResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\AddressService.cs" />
+    <Compile Include="Services\AddressVerificationService.cs" />
     <Compile Include="Services\AdminAlertService.cs" />
+    <Compile Include="Services\AntiAbuseService.cs" />
     <Compile Include="Services\CoinAccountService.cs" />
     <Compile Include="Services\CountryService.cs" />
     <Compile Include="Helpers\CountryVariantResourceHelper.cs" />
     <Compile Include="Services\Interfaces\IAddressService.cs" />
+    <Compile Include="Services\Interfaces\IAddressVerificationService.cs" />
     <Compile Include="Services\Interfaces\IAdminAlertService.cs" />
+    <Compile Include="Services\Interfaces\IAntiAbuseService.cs" />
     <Compile Include="Services\Interfaces\ICoinAccountService.cs" />
     <Compile Include="Services\Interfaces\ICountryService.cs" />
     <Compile Include="Helpers\Interfaces\ICountryVariantResourceHelper.cs" />

@@ -86,6 +86,7 @@ namespace Epsilon.Web.App_Start
             kernel.Bind<IEpsilonContext>().To<EpsilonContext>().InRequestScope();
 
             // Helpers
+            kernel.Bind<IAddressCleansingHelper>().To<AddressCleansingHelper>().InSingletonScope();
             kernel.Bind<NameValueCollection>().ToConstant(ConfigurationManager.AppSettings)
                 .WhenInjectedExactlyInto<AppSettingsHelper>();
             kernel.Bind<IAppSettingsHelper>().To<AppSettingsHelper>().InSingletonScope();
@@ -98,7 +99,9 @@ namespace Epsilon.Web.App_Start
 
             // Services
             kernel.Bind<IAddressService>().To<AddressService>().InRequestScope();
+            kernel.Bind<IAddressVerificationService>().To<AddressVerificationService>().InRequestScope();
             kernel.Bind<IAdminAlertService>().To<AdminAlertService>().InRequestScope();
+            kernel.Bind<IAntiAbuseService>().To<AntiAbuseService>().InRequestScope();
             kernel.Bind<ICoinAccountService>().To<CoinAccountService>().InRequestScope();
             kernel.Bind<ICountryService>().To<CountryService>().InRequestScope();
             kernel.Bind<ILanguageService>().To<LanguageService>().InRequestScope();
