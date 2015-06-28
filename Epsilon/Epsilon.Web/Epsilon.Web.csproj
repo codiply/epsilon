@@ -251,7 +251,7 @@
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\ApiControllers\AddressController.cs" />
     <Compile Include="Controllers\BaseControllers\BaseApiController.cs" />
-    <Compile Include="Controllers\BaseControllers\BaseController.cs" />
+    <Compile Include="Controllers\BaseControllers\BaseMvcController.cs" />
     <Compile Include="Controllers\Filters\Mvc\AllowIfConfigSettingTrueAttribute.cs" />
     <Compile Include="Controllers\Filters\WebApi\AllowIfConfigSettingTrueAttribute.cs" />
     <Compile Include="Controllers\Filters\WebApi\InternationalizationAttribute.cs" />

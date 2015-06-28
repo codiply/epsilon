@@ -11,7 +11,7 @@ using Epsilon.Web.Controllers.BaseControllers;
 
 namespace Epsilon.Web.Controllers
 {
-    public class ManageController : BaseController
+    public class ManageController : BaseMvcController
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;

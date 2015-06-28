@@ -9,7 +9,7 @@ using System.Web.Mvc;
 namespace Epsilon.Web.Controllers.BaseControllers
 {
     [Internationalization]
-    public class BaseController : Controller
+    public class BaseMvcController : Controller
     {
         internal void Success(string message, bool dismissable = false)
         {

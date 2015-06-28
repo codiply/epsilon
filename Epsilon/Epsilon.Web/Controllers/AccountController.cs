@@ -17,7 +17,7 @@ using Ninject;
 
 namespace Epsilon.Web.Controllers
 {
-    public class AccountController : BaseController
+    public class AccountController : BaseMvcController
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;

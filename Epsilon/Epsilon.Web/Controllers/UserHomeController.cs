@@ -7,7 +7,7 @@ using System.Web.Mvc;
 
 namespace Epsilon.Web.Controllers
 {
-    public class UserHomeController : BaseController
+    public class UserHomeController : BaseMvcController
     {
         public ActionResult Index()
         {

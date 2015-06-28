@@ -15,7 +15,7 @@ using Microsoft.AspNet.Identity;
 namespace Epsilon.Web.Controllers
 {
     [AllowIfConfigSettingTrue(AppSettingsKey.EnableHelperController)]
-    public class HelperController : BaseController
+    public class HelperController : BaseMvcController
     {
         private readonly IEpsilonContext _dbContext;
         private readonly ITestDataPopulator _testDataPopulator;
@@ -33,7 +33,7 @@ namespace Epsilon.Web.Controllers
             _adminAlertService = adminAlertService;
             _userCointService = userCoinService;
         }
-
+        
         public async Task<ActionResult> Index()
         {
             return View();

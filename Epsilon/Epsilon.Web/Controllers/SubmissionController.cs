@@ -12,7 +12,7 @@ using System.Web.Mvc;
 
 namespace Epsilon.Web.Controllers
 { 
-    public class SubmissionController : BaseController
+    public class SubmissionController : BaseMvcController
     {
         private readonly ICountryService _countryService;
         private readonly IAddressService _addressService;
