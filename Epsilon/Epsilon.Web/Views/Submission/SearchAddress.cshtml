@@ -24,7 +24,7 @@
         </div>
     </div>
     <div class="form-group" data-ng-cloak data-ng-show="countryId">
-        <label class="control-label col-md-2" for="postcode">Postcode</label> <!-- TODO_PANOS -->
+        <label class="control-label col-md-2" for="postcode">{{ controller.COUNTRY_VARIANT_RESOURCES[countryId].AddressPostcode }}</label>
         <div class="col-md-10">
             <input class="form-control text-box single-line" id="postcode" name="postcode" data-ng-model="postcode" />
         </div>
@@ -79,3 +79,11 @@
             </div>
     </div>
 </div>
+
+@section CountryVariantResources {
+    @using Epsilon.Web.Models.ViewModels.Shared
+    @Html.Partial("_CountryVariantResources", new CountryVariantResourcesViewModel {
+        Constant = "COUNTRY_VARIANT_RESOURCES",
+        ResourceNames = new List<string> { "AddressPostcode" }
+    })
+}

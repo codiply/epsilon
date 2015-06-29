@@ -11,7 +11,8 @@ class SubmissionAddressSearchController {
     constructor(
         private $scope: SubmissionAddressSearchScope,
         private $http: ng.IHttpService,
-        private BASE_URL_WITH_LANGUAGE: string) {
+        private BASE_URL_WITH_LANGUAGE: string,
+        public COUNTRY_VARIANT_RESOURCES: any) {
     }
 
     public FetchSearchResults() {

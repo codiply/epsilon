@@ -76,8 +76,8 @@
             .constant('BASE_URL_WITH_LANGUAGE', '@baseUrlWithLanguage')
             .constant('LANGUAGE_ID', '@languageId');
     </script>
+    @RenderSection("CountryVariantResources", required:false)
     @Scripts.Render("~/bundles/ngapp")
-    
     @RenderSection("scripts", required: false)
 </body>
 </html>

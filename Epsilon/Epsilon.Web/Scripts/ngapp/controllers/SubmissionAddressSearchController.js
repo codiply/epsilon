@@ -1,8 +1,9 @@
 var SubmissionAddressSearchController = (function () {
-    function SubmissionAddressSearchController($scope, $http, BASE_URL_WITH_LANGUAGE) {
+    function SubmissionAddressSearchController($scope, $http, BASE_URL_WITH_LANGUAGE, COUNTRY_VARIANT_RESOURCES) {
         this.$scope = $scope;
         this.$http = $http;
         this.BASE_URL_WITH_LANGUAGE = BASE_URL_WITH_LANGUAGE;
+        this.COUNTRY_VARIANT_RESOURCES = COUNTRY_VARIANT_RESOURCES;
     }
     SubmissionAddressSearchController.prototype.FetchSearchResults = function () {
         var scope = this.$scope;

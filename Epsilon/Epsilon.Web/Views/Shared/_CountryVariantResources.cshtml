@@ -1,0 +1,15 @@
+﻿@model Epsilon.Web.Models.ViewModels.Shared.CountryVariantResourcesViewModel
+
+@using Epsilon.Logic.Helpers.Interfaces
+@using Newtonsoft.Json
+
+@{ 
+    var countryVariantResourceHelper = DependencyResolver.Current.GetService<ICountryVariantResourceHelper>();
+    var resources = countryVariantResourceHelper.GetVariants(Model.ResourceNames);
+    var resourcesJson = JsonConvert.SerializeObject(resources, Formatting.Indented);
+}
+
+<script type="text/javascript">
+    angular.module('ngEpsilon.config')
+        .constant('@Model.Constant', @Html.Raw(resourcesJson));
+</script>
