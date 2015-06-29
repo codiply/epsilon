@@ -1,3 +1,4 @@
+# I start with glob syntax.
 syntax: glob
 
 *.dbmdl
@@ -7,3 +8,9 @@ syntax: glob
 
 obj\
 bin\
+
+# I switch to regexp syntax.
+syntax: regexp
+
+^Epsilon\/Epsilon.Web\/Scripts\/ngapp/.*\.js$
+^Epsilon\/Epsilon.Web\/Scripts\/ngapp/.*\.js\.map$
