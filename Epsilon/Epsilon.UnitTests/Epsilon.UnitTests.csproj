@@ -88,6 +88,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Logic\Constants\CountryAddressFieldMetadataTest.cs" />
     <Compile Include="Logic\Helpers\AppSettingsHelperTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Web\Controllers\BaseControllers\BaseApiControllerTest.cs" />

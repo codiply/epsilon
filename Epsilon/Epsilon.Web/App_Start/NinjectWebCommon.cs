@@ -81,6 +81,7 @@ namespace Epsilon.Web.App_Start
             // Constants
             kernel.Bind<IDbAppSettingDefaultValue>().To<DbAppSettingDefaultValue>().InSingletonScope();
             kernel.Bind<IAppSettingsDefaultValue>().To<AppSettingsDefaultValue>().InSingletonScope();
+            kernel.Bind<ICountryAddressFieldMetadata>().To<CountryAddressFieldMetadata>().InRequestScope();
 
             // DbContext
             kernel.Bind<IEpsilonContext>().To<EpsilonContext>().InRequestScope();
