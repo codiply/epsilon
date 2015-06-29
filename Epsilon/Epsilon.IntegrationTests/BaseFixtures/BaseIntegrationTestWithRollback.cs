@@ -50,6 +50,7 @@ namespace Epsilon.IntegrationTests.BaseFixtures
             _transactionScope.Dispose();
             _transactionScope = null;
             _dbProbe = null;
+            _kernel = null;
         }
 
         public async Task<User> CreateUser(string email)
