@@ -32,7 +32,7 @@
         @using Epsilon.Logic.Constants
         @{ 
             var countryVariantResourceHelper = DependencyResolver.Current.GetService<ICountryVariantResourceHelper>();
-            var postcodeVariants = countryVariantResourceHelper.GetVariants(new List<string> { CountryVariantResourceName.AddressPostcode });
+            var postcodeVariants = countryVariantResourceHelper.GetVariants(new List<string> { CountryVariantResourceName.ADDRESS_POSTCODE });
         } 
         @foreach (var countryId in postcodeVariants.Keys)
         {

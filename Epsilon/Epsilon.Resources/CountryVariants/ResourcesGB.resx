@@ -117,25 +117,25 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AddressLine1" xml:space="preserve">
+  <data name="Address_Line1" xml:space="preserve">
     <value />
   </data>
-  <data name="AddressLine2" xml:space="preserve">
+  <data name="Address_Line2" xml:space="preserve">
     <value />
   </data>
-  <data name="AddressLine3" xml:space="preserve">
+  <data name="Address_Line3" xml:space="preserve">
     <value />
   </data>
-  <data name="AddressLine4" xml:space="preserve">
+  <data name="Address_Line4" xml:space="preserve">
     <value />
   </data>
-  <data name="AddressLocality" xml:space="preserve">
+  <data name="Address_Locality" xml:space="preserve">
     <value>Town/City</value>
   </data>
-  <data name="AddressPostcode" xml:space="preserve">
+  <data name="Address_Postcode" xml:space="preserve">
     <value>Postcode</value>
   </data>
-  <data name="AddressRegion" xml:space="preserve">
+  <data name="Address_Region" xml:space="preserve">
     <value>County</value>
   </data>
 </root>

@@ -38,16 +38,19 @@ namespace Epsilon.Web.Controllers
             return View(model);
         }
         
-        public ActionResult AddAddress(string id)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddAddress(string countryId, string postcode)
         {
-            var countryId = id.ToUpper();
+            countryId = countryId.ToUpperInvariant();
 
             var countries = _countryService.GetAvailableCountries();
             ViewBag.CountryId = new SelectList(countries, "Id", "EnglishName", countryId);
 
             var model = new AddressForm
             {
-                CountryId = countryId
+                CountryId = countryId,
+                Postcode = postcode
             };
 
             return View(model);
@@ -55,7 +58,7 @@ namespace Epsilon.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> AddAddress(
+        public async Task<ActionResult> SaveAddress(
             [Bind(Include = "Line1,Line2,Line3,Line4,Locality,Region,Postcode,CountryId")] AddressForm address)
         {
             if (ModelState.IsValid)
@@ -66,7 +69,7 @@ namespace Epsilon.Web.Controllers
 
             var countries = _countryService.GetAvailableCountries();
             ViewBag.CountryId = new SelectList(countries, "Id", "EnglishName", address.CountryId);
-            return View(address);
+            return View("AddAddress", address);
         }
 
         [HttpPost]

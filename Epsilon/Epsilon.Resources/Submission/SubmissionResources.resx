@@ -121,13 +121,13 @@
     <value>Add new address</value>
   </data>
   <data name="SearchAddress_AddYourAddressMessage" xml:space="preserve">
-    <value>Please add your address to our database.</value>
+    <value>If your address is not among the results please add it.</value>
   </data>
   <data name="SearchAddress_NarrowDownYourSearchMessage" xml:space="preserve">
-    <value>Your search returned more than {{ addressSearchResponse.ResultsLimit }} addresses. Please narrow down your search.</value>
+    <value>Your search returned more than {{ addressSearchResponse.ResultsLimit }} results. If your address is not among them, please narrow down your search.</value>
   </data>
   <data name="SearchAddress_NoAddressesFoundMessage" xml:space="preserve">
-    <value>No addresses found.</value>
+    <value>No addresses found. Please add your address.</value>
   </data>
   <data name="SearchAddress_PageHeader" xml:space="preserve">
     <value>Find your address</value>
@@ -137,6 +137,12 @@
   </data>
   <data name="SearchAddress_SearchButton" xml:space="preserve">
     <value>Search</value>
+  </data>
+  <data name="SearchAddress_SearchTermsLabel" xml:space="preserve">
+    <value>Search terms</value>
+  </data>
+  <data name="SearchAddress_SelectYourAddressMessage" xml:space="preserve">
+    <value>Select your address among the results to continue.</value>
   </data>
   <data name="SearchAddress_UseSelectedAddressButton" xml:space="preserve">
     <value>Use Selected Address</value>

@@ -63,63 +63,63 @@ namespace Epsilon.Resources.CountryVariants {
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
-        public static string AddressLine1 {
+        public static string Address_Line1 {
             get {
-                return ResourceManager.GetString("AddressLine1", resourceCulture);
+                return ResourceManager.GetString("Address_Line1", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
-        public static string AddressLine2 {
+        public static string Address_Line2 {
             get {
-                return ResourceManager.GetString("AddressLine2", resourceCulture);
+                return ResourceManager.GetString("Address_Line2", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
-        public static string AddressLine3 {
+        public static string Address_Line3 {
             get {
-                return ResourceManager.GetString("AddressLine3", resourceCulture);
+                return ResourceManager.GetString("Address_Line3", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
-        public static string AddressLine4 {
+        public static string Address_Line4 {
             get {
-                return ResourceManager.GetString("AddressLine4", resourceCulture);
+                return ResourceManager.GetString("Address_Line4", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
-        public static string AddressLocality {
+        public static string Address_Locality {
             get {
-                return ResourceManager.GetString("AddressLocality", resourceCulture);
+                return ResourceManager.GetString("Address_Locality", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Postal Code.
         /// </summary>
-        public static string AddressPostcode {
+        public static string Address_Postcode {
             get {
-                return ResourceManager.GetString("AddressPostcode", resourceCulture);
+                return ResourceManager.GetString("Address_Postcode", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
-        public static string AddressRegion {
+        public static string Address_Region {
             get {
-                return ResourceManager.GetString("AddressRegion", resourceCulture);
+                return ResourceManager.GetString("Address_Region", resourceCulture);
             }
         }
     }

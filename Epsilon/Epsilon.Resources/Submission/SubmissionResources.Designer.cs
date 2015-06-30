@@ -70,7 +70,7 @@ namespace Epsilon.Resources.Submission {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please add your address to our database..
+        ///   Looks up a localized string similar to If your address is not among the results please add it..
         /// </summary>
         public static string SearchAddress_AddYourAddressMessage {
             get {
@@ -79,7 +79,7 @@ namespace Epsilon.Resources.Submission {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Your search returned more than {{ addressSearchResponse.ResultsLimit }} addresses. Please narrow down your search..
+        ///   Looks up a localized string similar to Your search returned more than {{ addressSearchResponse.ResultsLimit }} results. If your address is not among them, please narrow down your search..
         /// </summary>
         public static string SearchAddress_NarrowDownYourSearchMessage {
             get {
@@ -88,7 +88,7 @@ namespace Epsilon.Resources.Submission {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to No addresses found..
+        ///   Looks up a localized string similar to No addresses found. Please add your address..
         /// </summary>
         public static string SearchAddress_NoAddressesFoundMessage {
             get {
@@ -120,6 +120,24 @@ namespace Epsilon.Resources.Submission {
         public static string SearchAddress_SearchButton {
             get {
                 return ResourceManager.GetString("SearchAddress_SearchButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Search terms.
+        /// </summary>
+        public static string SearchAddress_SearchTermsLabel {
+            get {
+                return ResourceManager.GetString("SearchAddress_SearchTermsLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select your address among the results to continue..
+        /// </summary>
+        public static string SearchAddress_SelectYourAddressMessage {
+            get {
+                return ResourceManager.GetString("SearchAddress_SelectYourAddressMessage", resourceCulture);
             }
         }
         

@@ -3,6 +3,7 @@
     postcode: string;
     terms: string;
     hasHitSearch: boolean;
+    searchInProgress: boolean;
     selectedAddressId: string;
     addressSearchResponse: T4TS.AddressSearchResponse;
 }
@@ -15,9 +16,18 @@ class SubmissionAddressSearchController {
         public COUNTRY_VARIANT_RESOURCES: any) {
     }
 
-    public FetchSearchResults() {
+    public countryIdChanged() {
+        this.$scope.postcode = null;
+        this.$scope.terms = null;
+        this.$scope.hasHitSearch = false;
+        this.$scope.selectedAddressId = null;
+        this.$scope.addressSearchResponse = null;
+    };
+
+    public fetchSearchResults() {
         var scope = this.$scope;
         scope.hasHitSearch = true;
+        scope.searchInProgress = true;
         var url = this.BASE_URL_WITH_LANGUAGE + '/api/address/search/';
         var request: T4TS.AddressSearchRequest = {
             countryId: scope.countryId,
@@ -27,6 +37,7 @@ class SubmissionAddressSearchController {
         this.$http.post<T4TS.AddressSearchResponse>(url, request)
             .success(function (data, status, headers, config) {
             scope.addressSearchResponse = data;
+            scope.searchInProgress = false;
         });
     }
 }
