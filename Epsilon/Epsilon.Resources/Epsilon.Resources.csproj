@@ -109,6 +109,7 @@
     <EmbeddedResource Include="CountryVariants\ResourcesGB.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>ResourcesGB.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="CountryVariants\ResourcesGR.el.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

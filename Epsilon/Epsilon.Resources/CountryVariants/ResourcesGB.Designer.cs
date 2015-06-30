@@ -61,11 +61,65 @@ namespace Epsilon.Resources.CountryVariants {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string AddressLine1 {
+            get {
+                return ResourceManager.GetString("AddressLine1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string AddressLine2 {
+            get {
+                return ResourceManager.GetString("AddressLine2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string AddressLine3 {
+            get {
+                return ResourceManager.GetString("AddressLine3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string AddressLine4 {
+            get {
+                return ResourceManager.GetString("AddressLine4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Town/City.
+        /// </summary>
+        public static string AddressLocality {
+            get {
+                return ResourceManager.GetString("AddressLocality", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Postcode.
         /// </summary>
         public static string AddressPostcode {
             get {
                 return ResourceManager.GetString("AddressPostcode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to County.
+        /// </summary>
+        public static string AddressRegion {
+            get {
+                return ResourceManager.GetString("AddressRegion", resourceCulture);
             }
         }
     }
