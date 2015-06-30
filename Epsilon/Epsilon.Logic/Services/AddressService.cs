@@ -15,6 +15,7 @@ using System.Collections;
 using Epsilon.Logic.JsonModels;
 using Epsilon.Logic.Helpers.Interfaces;
 using Epsilon.Logic.Constants.Interfaces;
+using Epsilon.Logic.Constants.Enums;
 
 namespace Epsilon.Logic.Services
 {
@@ -24,17 +25,20 @@ namespace Epsilon.Logic.Services
         private readonly IEpsilonContext _dbContext;
         private readonly IDbAppSettingsHelper _dbAppSettingsHelper;
         private readonly IDbAppSettingDefaultValue _dbAppSettingDefaultValue;
+        private readonly IAddressCleansingHelper _addressCleansingHelper;
 
         public AddressService(
             IAppCache appCache,
             IEpsilonContext dbContext,
             IDbAppSettingsHelper dbAppSettingsHelper,
-            IDbAppSettingDefaultValue dbAppSettingDefaultValue)
+            IDbAppSettingDefaultValue dbAppSettingDefaultValue,
+            IAddressCleansingHelper addresCleansingHelper)
         {
             _appCache = appCache;
             _dbContext = dbContext;
             _dbAppSettingsHelper = dbAppSettingsHelper;
             _dbAppSettingDefaultValue = dbAppSettingDefaultValue;
+            _addressCleansingHelper = addresCleansingHelper;
         }
 
         public async Task<AddressSearchResponse> Search(AddressSearchRequest request)
@@ -43,13 +47,20 @@ namespace Epsilon.Logic.Services
                 DbAppSettingKey.SearchAddressResultsLimit, 
                 _dbAppSettingDefaultValue.SearchAddressResultsLimit);
 
-            if (string.IsNullOrEmpty(request.countryId) || string.IsNullOrEmpty(request.postcode))
+            CountryId countryId;
+            if (string.IsNullOrEmpty(request.countryId)
+                || string.IsNullOrEmpty(request.postcode)
+                || !Enum.TryParse(request.countryId, out countryId))
+            {
                 return new AddressSearchResponse { ResultsLimit = resultsLimit, IsResultsLimitReached = false };
+            }
+
+            var cleanPostcode = _addressCleansingHelper.CleanPostcode(countryId, request.postcode);
 
             var query = _dbContext.Addresses
                 .Include(x => x.Country)
                 .Where(x => x.CountryId.Equals(request.countryId)
-                            && (x.Postcode.Equals(request.postcode)));
+                            && (x.Postcode.Equals(cleanPostcode)));
 
             if (!string.IsNullOrWhiteSpace(request.terms))
             {
@@ -88,7 +99,6 @@ namespace Epsilon.Logic.Services
             {
                 results = results.Take(resultsLimit);
             }
-
 
             var response = new AddressSearchResponse
             {

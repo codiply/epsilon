@@ -1,4 +1,5 @@
-﻿using Epsilon.Logic.Entities;
+﻿using Epsilon.Logic.Constants.Enums;
+using Epsilon.Logic.Entities;
 using Epsilon.Logic.Helpers;
 using Epsilon.Logic.SqlContext.Interfaces;
 using Epsilon.Logic.Wrappers.Interfaces;
@@ -77,7 +78,7 @@ namespace Epsilon.Logic.TestDataPopulation
             foreach (var area in _areas)
             {
                 var postcodes = Enumerable.Range(0, postCodesPerArea).Select(x =>
-                    String.Format("{0} {1}", area.PostcodePrefix, RandomPostcodeSuffix(random)));
+                    String.Format("{0}{1}", area.PostcodePrefix, RandomPostcodeSuffix(random)));
                 foreach (var postcode in postcodes)
                 {
                     for (int i = 0; i < housesPerPostcode; i++)
@@ -134,7 +135,7 @@ namespace Epsilon.Logic.TestDataPopulation
                     Locality = city,
                     Region = county,
                     Postcode = postcode,
-                    CountryId = "GB",
+                    CountryId = CountryId.GB.ToString(),
                     CreatedById = userId
                 }).ToList();
         }

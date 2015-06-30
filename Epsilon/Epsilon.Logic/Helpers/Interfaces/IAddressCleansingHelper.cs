@@ -1,4 +1,5 @@
-﻿using Epsilon.Logic.Forms;
+﻿using Epsilon.Logic.Constants.Enums;
+using Epsilon.Logic.Forms;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,5 +13,7 @@ namespace Epsilon.Logic.Helpers.Interfaces
         AddressForm CleanseForVerification(AddressForm address);
 
         AddressForm CleanseForStorage(AddressForm address);
+
+        string CleanPostcode(CountryId countryId, string postcode);
     }
 }
