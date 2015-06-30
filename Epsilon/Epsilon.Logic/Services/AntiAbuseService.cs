@@ -30,12 +30,12 @@ namespace Epsilon.Logic.Services
             _dbContext = dbContext;
         }
 
-        public async Task<AntiAbuserServiceResponse> CanAddAddress(string userId)
+        public async Task<AntiAbuseServiceResponse> CanAddAddress(string userId)
         {
             throw new NotImplementedException();
         }
 
-        public Task<AntiAbuserServiceResponse> CanCreateTenancyDetailsSubmission(string userId)
+        public Task<AntiAbuseServiceResponse> CanCreateTenancyDetailsSubmission(string userId)
         {
             throw new NotImplementedException();
         }

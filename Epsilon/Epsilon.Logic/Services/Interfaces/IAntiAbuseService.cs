@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Epsilon.Logic.Services.Interfaces
 {
-    public class AntiAbuserServiceResponse
+    public class AntiAbuseServiceResponse
     {
         public bool IsRejected { get; set; }
         public string RejectionReason { get; set; }
@@ -14,7 +14,7 @@ namespace Epsilon.Logic.Services.Interfaces
 
     public interface IAntiAbuseService
     {
-        Task<AntiAbuserServiceResponse> CanAddAddress(string userId);
-        Task<AntiAbuserServiceResponse> CanCreateTenancyDetailsSubmission(string userId);
+        Task<AntiAbuseServiceResponse> CanAddAddress(string userId);
+        Task<AntiAbuseServiceResponse> CanCreateTenancyDetailsSubmission(string userId);
     }
 }
