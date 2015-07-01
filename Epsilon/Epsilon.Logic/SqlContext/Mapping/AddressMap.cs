@@ -1,4 +1,5 @@
-﻿using Epsilon.Logic.Entities;
+﻿using Epsilon.Logic.Constants;
+using Epsilon.Logic.Entities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -53,6 +54,8 @@ namespace Epsilon.Logic.SqlContext.Mapping
                 .HasPrecision(LATITUDE_LONGITUDE_PRECISION, LATITUDE_LONGITUDE_SCALE);
             this.Property(a => a.Longitude)
                 .HasPrecision(LATITUDE_LONGITUDE_PRECISION, LATITUDE_LONGITUDE_SCALE);
+            this.Property(a => a.CreatedByIpAddress)
+                .HasMaxLength(AppConstant.IP_ADDRESS_MAX_LENGTH);
 
             // Relationships
             this.HasRequired(x => x.Country)

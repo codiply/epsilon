@@ -15,5 +15,7 @@ namespace Epsilon.Logic.Constants
         public const string AUTHENTICATED_USER_HOME_ACTION = "Index";
 
         public const string COUNTRY_VARIANT_RESOURCES_STEM = "Epsilon.Resources.CountryVariants.Resources";
+
+        public const byte IP_ADDRESS_MAX_LENGTH = 39;
     }
 }

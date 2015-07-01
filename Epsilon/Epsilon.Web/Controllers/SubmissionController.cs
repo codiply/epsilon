@@ -1,5 +1,8 @@
 ﻿using Epsilon.Logic.Constants;
+using Epsilon.Logic.Constants.Enums;
+using Epsilon.Logic.Constants.Interfaces;
 using Epsilon.Logic.Forms;
+using Epsilon.Logic.Helpers.Interfaces;
 using Epsilon.Logic.Services.Interfaces;
 using Epsilon.Web.Controllers.BaseControllers;
 using Epsilon.Web.Models.ViewModels.Submission;
@@ -9,6 +12,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
 
 namespace Epsilon.Web.Controllers
 { 
@@ -63,8 +67,17 @@ namespace Epsilon.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _addressService.AddAddress(address);
-                return RedirectToAction("Index");
+                // TODO_PANOS: Get the ip address of the user.
+                var ipAddress = "192.168.0.1";
+                var outcome = await _addressService.AddAddress(User.Identity.GetUserId(), ipAddress, address);
+                if (outcome.IsRejected)
+                {
+                    Danger(outcome.RejectionReason, true);
+                    return RedirectToAction(
+                        AppConstant.AUTHENTICATED_USER_HOME_ACTION,
+                        AppConstant.AUTHENTICATED_USER_HOME_CONTROLLER);
+                }
+                return await UseAddress(outcome.AddressId.Value);
             }
 
             var countries = _countryService.GetAvailableCountries();
@@ -74,7 +87,7 @@ namespace Epsilon.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> UseAddress(string selectedAddressId)
+        public async Task<ActionResult> UseAddress(Guid selectedAddressId)
         {
             Success(String.Format("Address id <strong>{0}</strong>.", selectedAddressId));
 

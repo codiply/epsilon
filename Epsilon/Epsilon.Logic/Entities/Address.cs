@@ -27,6 +27,7 @@ namespace Epsilon.Logic.Entities
 
         public virtual DateTimeOffset CreatedOn { get; set; }
         public virtual string CreatedById { get; set; }
+        public virtual string CreatedByIpAddress { get; set; }
 
         public virtual User CreatedBy { get; set; }
         public virtual Country Country { get; set; }

@@ -8,7 +8,7 @@ namespace Epsilon.Logic.Constants
 {
     public class CountryVariantResourceName
     {
-        public const string ADDRES_LINE1 = "Address_Line1";
+        public const string ADDRESS_LINE1 = "Address_Line1";
         public const string ADDRESS_LINE2 = "Address_Line2";
         public const string ADDRESS_LINE3 = "Address_Line3";
         public const string ADDRESS_LINE4 = "Address_Line4";

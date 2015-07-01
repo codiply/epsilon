@@ -61,6 +61,33 @@ namespace Epsilon.Resources.Submission {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Back to search.
+        /// </summary>
+        public static string AddAddress_BackToSearchLink {
+            get {
+                return ResourceManager.GetString("AddAddress_BackToSearchLink", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add your address.
+        /// </summary>
+        public static string AddAddress_PageHeader {
+            get {
+                return ResourceManager.GetString("AddAddress_PageHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add your address.
+        /// </summary>
+        public static string AddAddress_PageTitle {
+            get {
+                return ResourceManager.GetString("AddAddress_PageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add new address.
         /// </summary>
         public static string SearchAddress_AddNewAddressButton {

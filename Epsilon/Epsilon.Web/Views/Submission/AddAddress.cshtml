@@ -1,77 +1,128 @@
 ﻿@model Epsilon.Logic.Forms.AddressForm
 
+@using Epsilon.Logic.Constants
+@using Epsilon.Resources.Common
+@using Epsilon.Resources.Submission
+@using Epsilon.Logic.Helpers.Interfaces
+@using Epsilon.Logic.Constants.Enums
+@using Epsilon.Logic.Constants.Interfaces
+
 @{
-    ViewBag.Title = "Add Address";
+    ViewBag.Title = SubmissionResources.AddAddress_PageTitle;
+
+    var countryVariantResourceHelper = DependencyResolver.Current.GetService<ICountryVariantResourceHelper>();
+    var countryAddressFieldMetadata = DependencyResolver.Current.GetService<ICountryAddressFieldMetadata>();
+
+    CountryId enumCountryId;
+    if (!Enum.TryParse(Model.CountryId, out enumCountryId))
+    {
+        throw new Exception(String.Format("Uknown CountryId {0}.", Model.CountryId));
+    }
+
+    var fieldMetadata = countryAddressFieldMetadata.GetForCountry(enumCountryId);
+
+    var countryVariantResources = countryVariantResourceHelper.GetVariantsForCountry(Model.CountryId,
+        new List<string> {
+                    CountryVariantResourceName.ADDRESS_LINE1,
+                    CountryVariantResourceName.ADDRESS_LINE2,
+                    CountryVariantResourceName.ADDRESS_LINE3,
+                    CountryVariantResourceName.ADDRESS_LINE4,
+                    CountryVariantResourceName.ADDRESS_LOCALITY,
+                    CountryVariantResourceName.ADDRESS_REGION,
+                    CountryVariantResourceName.ADDRESS_POSTCODE
+        });
 }
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("SaveAddress", "Submission"))
 {
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h4>Add Address</h4>
+        <h4>@SubmissionResources.AddAddress_PageHeader</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
+        @if (fieldMetadata.Line1.IsUsed)
+        {
         <div class="form-group">
-            @Html.LabelFor(model => model.Line1, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <label class="control-label col-md-3" for="Line1">@countryVariantResources[CountryVariantResourceName.ADDRESS_LINE1]</label>
+            <div class="col-md-9">
                 @Html.EditorFor(model => model.Line1, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Line1, "", new { @class = "text-danger" })
             </div>
         </div>
+        }
 
+        @if (fieldMetadata.Line2.IsUsed)
+        {
         <div class="form-group">
-            @Html.LabelFor(model => model.Line2, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <label class="control-label col-md-3" for="Line1">@countryVariantResources[CountryVariantResourceName.ADDRESS_LINE2]</label>
+            <div class="col-md-9">
                 @Html.EditorFor(model => model.Line2, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Line2, "", new { @class = "text-danger" })
             </div>
         </div>
+        }
 
+        @if (fieldMetadata.Line3.IsUsed)
+        {
         <div class="form-group">
-            @Html.LabelFor(model => model.Line3, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <label class="control-label col-md-3" for="Line1">@countryVariantResources[CountryVariantResourceName.ADDRESS_LINE3]</label>
+            <div class="col-md-9">
                 @Html.EditorFor(model => model.Line3, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Line3, "", new { @class = "text-danger" })
             </div>
         </div>
+        }
 
+
+        @if (fieldMetadata.Line4.IsUsed)
+        {
         <div class="form-group">
-            @Html.LabelFor(model => model.Line4, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <label class="control-label col-md-3" for="Line1">@countryVariantResources[CountryVariantResourceName.ADDRESS_LINE4]</label>
+            <div class="col-md-9">
                 @Html.EditorFor(model => model.Line4, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Line4, "", new { @class = "text-danger" })
             </div>
         </div>
+        }
 
+        @if (fieldMetadata.Locality.IsUsed)
+        {
         <div class="form-group">
-            @Html.LabelFor(model => model.Locality, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <label class="control-label col-md-3" for="Line1">@countryVariantResources[CountryVariantResourceName.ADDRESS_LOCALITY]</label>
+            <div class="col-md-9">
                 @Html.EditorFor(model => model.Locality, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Locality, "", new { @class = "text-danger" })
             </div>
         </div>
+        }
 
+        @if (fieldMetadata.Region.IsUsed)
+        {
         <div class="form-group">
-            @Html.LabelFor(model => model.Region, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <label class="control-label col-md-3" for="Line1">@countryVariantResources[CountryVariantResourceName.ADDRESS_REGION]</label>
+            <div class="col-md-9">
                 @Html.EditorFor(model => model.Region, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Region, "", new { @class = "text-danger" })
             </div>
         </div>
+        }
 
+        @if (fieldMetadata.Postcode.IsUsed)
+        {
         <div class="form-group">
-            @Html.LabelFor(model => model.Postcode, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <label class="control-label col-md-3" for="Line1">@countryVariantResources[CountryVariantResourceName.ADDRESS_POSTCODE]</label>
+            <div class="col-md-9">
                 @Html.EditorFor(model => model.Postcode, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Postcode, "", new { @class = "text-danger" })
             </div>
         </div>
+        }
 
         <div class="form-group">
-            @Html.LabelFor(model => model.CountryId, "CountryId", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <label class="control-label col-md-3" for="Line1">@CommonResources.Country</label>
+            <div class="col-md-9">
                 @Html.HiddenFor(model => model.CountryId)
                 @Html.DropDownList("CountryId", null, htmlAttributes: new { @class = "form-control", @disabled = "" })
                 @Html.ValidationMessageFor(model => model.CountryId, "", new { @class = "text-danger"})
@@ -79,7 +130,7 @@
         </div>
 
         <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
+            <div class="col-md-offset-3 col-md-9">
                 <input type="submit" value="Submit" class="btn btn-default" />
             </div>
         </div>
@@ -87,7 +138,7 @@
 }
 
 <div>
-    @Html.ActionLink("Back to Index", "Index")
+    @Html.ActionLink(SubmissionResources.AddAddress_BackToSearchLink, "SearchAddress")
 </div>
 
 @section Scripts {

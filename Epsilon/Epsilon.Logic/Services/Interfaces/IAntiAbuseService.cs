@@ -14,7 +14,7 @@ namespace Epsilon.Logic.Services.Interfaces
 
     public interface IAntiAbuseService
     {
-        Task<AntiAbuseServiceResponse> CanAddAddress(string userId);
-        Task<AntiAbuseServiceResponse> CanCreateTenancyDetailsSubmission(string userId);
+        Task<AntiAbuseServiceResponse> CanAddAddress(string userId, string userIpAddress);
+        Task<AntiAbuseServiceResponse> CanCreateTenancyDetailsSubmission(string userId, string userIpAddress);
     }
 }

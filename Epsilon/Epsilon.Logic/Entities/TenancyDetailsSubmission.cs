@@ -18,6 +18,7 @@ namespace Epsilon.Logic.Entities
         public virtual bool? IsPartOfProperty { get; set; }
         public virtual DateTimeOffset CreatedOn { get; set; }
         public virtual DateTimeOffset? SubmittedOn { get; set; }
+        public virtual string CreatedByIpAddress { get; set; }
 
         public virtual User User { get; set; }
         public virtual Address Address { get; set; }

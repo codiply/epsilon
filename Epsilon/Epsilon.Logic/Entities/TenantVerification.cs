@@ -14,6 +14,7 @@ namespace Epsilon.Logic.Entities
         public virtual string Code { get; set; }
         public virtual DateTimeOffset CreatedOn { get; set; }
         public virtual DateTimeOffset? VerifiedOn { get; set; }
+        public virtual string CreatedByIpAddress { get; set; }
 
         public virtual TenancyDetailsSubmission TenancyDetailsSubmission { get; set; }
     }

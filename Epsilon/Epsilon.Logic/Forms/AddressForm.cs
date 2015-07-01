@@ -23,7 +23,6 @@ namespace Epsilon.Logic.Forms
         [MaxLength(AddressMap.LINE_MAX_LENGTH)]
         public virtual string Line4 { get; set; }
 
-
         [MaxLength(AddressMap.LOCALITY_MAX_LENGTH)]
         public virtual string Locality { get; set; }
 

@@ -26,19 +26,22 @@ namespace Epsilon.Logic.Services
         private readonly IDbAppSettingsHelper _dbAppSettingsHelper;
         private readonly IDbAppSettingDefaultValue _dbAppSettingDefaultValue;
         private readonly IAddressCleansingHelper _addressCleansingHelper;
+        private readonly IAntiAbuseService _antiAbuseService;
 
         public AddressService(
             IAppCache appCache,
             IEpsilonContext dbContext,
             IDbAppSettingsHelper dbAppSettingsHelper,
             IDbAppSettingDefaultValue dbAppSettingDefaultValue,
-            IAddressCleansingHelper addresCleansingHelper)
+            IAddressCleansingHelper addresCleansingHelper,
+            IAntiAbuseService antiAbuseService)
         {
             _appCache = appCache;
             _dbContext = dbContext;
             _dbAppSettingsHelper = dbAppSettingsHelper;
             _dbAppSettingDefaultValue = dbAppSettingDefaultValue;
             _addressCleansingHelper = addresCleansingHelper;
+            _antiAbuseService = antiAbuseService;
         }
 
         public async Task<AddressSearchResponse> Search(AddressSearchRequest request)
@@ -110,13 +113,31 @@ namespace Epsilon.Logic.Services
             return response; 
         }
 
-        public async Task<Address> AddAddress(AddressForm dto)
+        public async Task<AddAddressOutcome> AddAddress(string userId, string userIpAddress, AddressForm dto)
         {
+            var antiAbuseServiceResponse = await _antiAbuseService.CanAddAddress(userId, userIpAddress);
+
+            if (antiAbuseServiceResponse.IsRejected)
+                return new AddAddressOutcome
+                {
+                    IsRejected = true,
+                    RejectionReason = antiAbuseServiceResponse.RejectionReason,
+                    AddressId = null
+                };
+
             var entity = dto.ToEntity();
+            entity.CreatedById = userId;
+            entity.CreatedByIpAddress = userIpAddress;
             entity.UniqueAddressCode = CalculateUniqueAddressCode(dto);
+
             _dbContext.Addresses.Add(entity);
+
             await _dbContext.SaveChangesAsync();
-            return entity;
+            return new AddAddressOutcome
+            {
+                IsRejected = false,
+                AddressId = entity.Id
+            };
         }
 
         public string CalculateUniqueAddressCode(AddressForm dto)

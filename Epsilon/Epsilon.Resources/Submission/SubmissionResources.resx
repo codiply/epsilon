@@ -117,6 +117,15 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AddAddress_BackToSearchLink" xml:space="preserve">
+    <value>Back to search</value>
+  </data>
+  <data name="AddAddress_PageHeader" xml:space="preserve">
+    <value>Add your address</value>
+  </data>
+  <data name="AddAddress_PageTitle" xml:space="preserve">
+    <value>Add your address</value>
+  </data>
   <data name="SearchAddress_AddNewAddressButton" xml:space="preserve">
     <value>Add new address</value>
   </data>
