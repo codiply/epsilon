@@ -156,4 +156,13 @@
   <data name="SearchAddress_UseSelectedAddressButton" xml:space="preserve">
     <value>Use Selected Address</value>
   </data>
+  <data name="UseAddress_ConfirmationText" xml:space="preserve">
+    <value>I confirm this is my address.</value>
+  </data>
+  <data name="UseAddress_PageHeader" xml:space="preserve">
+    <value>Confirm your address</value>
+  </data>
+  <data name="UseAddress_PageTitle" xml:space="preserve">
+    <value>Confirm your address</value>
+  </data>
 </root>

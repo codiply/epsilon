@@ -113,6 +113,11 @@ namespace Epsilon.Logic.Services
             return response; 
         }
 
+        public async Task<Address> GetAddress(Guid addressId)
+        {
+            return await _dbContext.Addresses.FindAsync(addressId);
+        }
+
         public async Task<AddAddressOutcome> AddAddress(string userId, string userIpAddress, AddressForm dto)
         {
             var antiAbuseServiceResponse = await _antiAbuseService.CanAddAddress(userId, userIpAddress);
@@ -122,7 +127,7 @@ namespace Epsilon.Logic.Services
                 {
                     IsRejected = true,
                     RejectionReason = antiAbuseServiceResponse.RejectionReason,
-                    AddressId = null
+                    Address = null
                 };
 
             var entity = dto.ToEntity();
@@ -136,7 +141,7 @@ namespace Epsilon.Logic.Services
             return new AddAddressOutcome
             {
                 IsRejected = false,
-                AddressId = entity.Id
+                Address = entity
             };
         }
 

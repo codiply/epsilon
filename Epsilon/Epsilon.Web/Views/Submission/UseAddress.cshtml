@@ -1,0 +1,28 @@
+﻿@model Epsilon.Web.Models.ViewModels.Shared.AddressDetailsViewModel
+@using Epsilon.Resources.Submission
+
+@{
+    ViewBag.Title = SubmissionResources.UseAddress_PageTitle;
+}
+
+<h4>@SubmissionResources.UseAddress_PageHeader</h4>
+<hr />
+
+@Html.Partial("_AddressDetails", Model)
+
+@using (Html.BeginForm("UseAddress", "Submission"))
+{
+    @Html.AntiForgeryToken()
+
+    <!-- PANOS_TODO: make it a checkbox. -->
+    @SubmissionResources.UseAddress_ConfirmationText
+
+    <div class="form-horizontal">
+        <div class="form-group">
+            <input type="hidden" name="selectedAddressId" value="@Model.Id" />
+            <div class="col-md-offset-3 col-md-9">
+                <input type="submit" value="Confirm" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}

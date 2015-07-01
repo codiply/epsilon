@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
+using Epsilon.Web.Models.ViewModels.Shared;
 
 namespace Epsilon.Web.Controllers
 { 
@@ -77,7 +78,10 @@ namespace Epsilon.Web.Controllers
                         AppConstant.AUTHENTICATED_USER_HOME_ACTION,
                         AppConstant.AUTHENTICATED_USER_HOME_CONTROLLER);
                 }
-                return await UseAddress(outcome.AddressId.Value);
+
+                // TODO_PANOS: make a redirect so that the URL is not SaveAddress
+                var model = AddressDetailsViewModel.FromEntity(outcome.Address);
+                return View("UseAddress", model);
             }
 
             var countries = _countryService.GetAvailableCountries();
@@ -89,12 +93,26 @@ namespace Epsilon.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> UseAddress(Guid selectedAddressId)
         {
-            Success(String.Format("Address id <strong>{0}</strong>.", selectedAddressId));
+            var entity = await _addressService.GetAddress(selectedAddressId);
+            var model = AddressDetailsViewModel.FromEntity(entity);
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> UseAddressConfirmed(Guid selectedAddressId)
+        {
+            // TODO_PANOS: Call service to create TenancyDetailsSubmission placeholder.
+            // TODO_PANOS: In the service make an anti abuse check.
+
+            Success(String.Format("Use Address Confirmed for Address Id {0}.", selectedAddressId));
 
             return RedirectToAction(
-                    AppConstant.AUTHENTICATED_USER_HOME_ACTION,
-                    AppConstant.AUTHENTICATED_USER_HOME_CONTROLLER);
+                AppConstant.AUTHENTICATED_USER_HOME_ACTION,
+                AppConstant.AUTHENTICATED_USER_HOME_CONTROLLER);
         }
+
 
         public async Task<ActionResult> VerifyAddress()
         {

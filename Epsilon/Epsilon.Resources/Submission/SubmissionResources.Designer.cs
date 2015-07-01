@@ -176,5 +176,32 @@ namespace Epsilon.Resources.Submission {
                 return ResourceManager.GetString("SearchAddress_UseSelectedAddressButton", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to I confirm this is my address..
+        /// </summary>
+        public static string UseAddress_ConfirmationText {
+            get {
+                return ResourceManager.GetString("UseAddress_ConfirmationText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Confirm your address.
+        /// </summary>
+        public static string UseAddress_PageHeader {
+            get {
+                return ResourceManager.GetString("UseAddress_PageHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Confirm your address.
+        /// </summary>
+        public static string UseAddress_PageTitle {
+            get {
+                return ResourceManager.GetString("UseAddress_PageTitle", resourceCulture);
+            }
+        }
     }
 }
