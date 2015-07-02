@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Epsilon.Logic.Infrastructure.Primitives;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,6 +10,12 @@ namespace Epsilon.Logic.Constants.Interfaces
     public interface IDbAppSettingDefaultValue
     {
         double AdminAlertSnoozePeriodInHours { get; }
+
+        Frequency AntiAbuse_AddAddress_MaxFrequencyPerIpAddress { get; }
+        Frequency AntiAbuse_AddAddress_MaxFrequencyPerUser { get; }
+        Frequency AntiAbuse_CreateTenancyDetailsSubmission_MaxFrequencyPerIpAddress { get; }
+        Frequency AntiAbuse_CreateTenancyDetailsSubmission_MaxFrequencyPerUser { get; }
+
         int SearchAddressResultsLimit { get; }
     }
 }

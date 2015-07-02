@@ -65,33 +65,43 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ResourcesGR.el.resx</DependentUpon>
     </Compile>
-    <Compile Include="Home\HomeResources.Designer.cs">
+    <Compile Include="Logic\AntiAbuse\AntiAbuseResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AntiAbuseResources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Logic\AntiAbuse\AntiAbuseResources.el.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AntiAbuseResources.el.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Web\Home\HomeResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>HomeResources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Home\HomeResources.el.Designer.cs">
+    <Compile Include="Web\Home\HomeResources.el.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>HomeResources.el.resx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Submission\SubmissionResources.Designer.cs">
+    <Compile Include="Web\Submission\SubmissionResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>SubmissionResources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Submission\SubmissionResources.el.Designer.cs">
+    <Compile Include="Web\Submission\SubmissionResources.el.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>SubmissionResources.el.resx</DependentUpon>
     </Compile>
-    <Compile Include="UserHome\UserHomeResources.Designer.cs">
+    <Compile Include="Web\UserHome\UserHomeResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>UserHomeResources.resx</DependentUpon>
     </Compile>
-    <Compile Include="UserHome\UserHomeResources.el.Designer.cs">
+    <Compile Include="Web\UserHome\UserHomeResources.el.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>UserHomeResources.el.resx</DependentUpon>
@@ -119,27 +129,35 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>ResourcesGR.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Home\HomeResources.el.resx">
+    <EmbeddedResource Include="Logic\AntiAbuse\AntiAbuseResources.el.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>AntiAbuseResources.el.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Logic\AntiAbuse\AntiAbuseResources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>AntiAbuseResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Web\Home\HomeResources.el.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>HomeResources.el.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Home\HomeResources.resx">
+    <EmbeddedResource Include="Web\Home\HomeResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>HomeResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Submission\SubmissionResources.el.resx">
+    <EmbeddedResource Include="Web\Submission\SubmissionResources.el.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>SubmissionResources.el.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Submission\SubmissionResources.resx">
+    <EmbeddedResource Include="Web\Submission\SubmissionResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>SubmissionResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserHome\UserHomeResources.el.resx">
+    <EmbeddedResource Include="Web\UserHome\UserHomeResources.el.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>UserHomeResources.el.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserHome\UserHomeResources.resx">
+    <EmbeddedResource Include="Web\UserHome\UserHomeResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>UserHomeResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>

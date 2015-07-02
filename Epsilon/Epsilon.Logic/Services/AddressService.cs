@@ -121,7 +121,6 @@ namespace Epsilon.Logic.Services
         public async Task<AddAddressOutcome> AddAddress(string userId, string userIpAddress, AddressForm dto)
         {
             var antiAbuseServiceResponse = await _antiAbuseService.CanAddAddress(userId, userIpAddress);
-
             if (antiAbuseServiceResponse.IsRejected)
                 return new AddAddressOutcome
                 {

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Epsilon.Resources.UserHome {
+namespace Epsilon.Resources.Web.Home {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace Epsilon.Resources.UserHome {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class UserHomeResources {
+    public class HomeResources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal UserHomeResources() {
+        internal HomeResources() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace Epsilon.Resources.UserHome {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Epsilon.Resources.UserHome.UserHomeResources", typeof(UserHomeResources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Epsilon.Resources.Web.Home.HomeResources", typeof(HomeResources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,7 +61,7 @@ namespace Epsilon.Resources.UserHome {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to User Home Page.
+        ///   Looks up a localized string similar to Home Page.
         /// </summary>
         public static string Index_PageTitle {
             get {

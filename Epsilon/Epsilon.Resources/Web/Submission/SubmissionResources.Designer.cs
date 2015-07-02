@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Epsilon.Resources.Submission {
+namespace Epsilon.Resources.Web.Submission {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Epsilon.Resources.Submission {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Epsilon.Resources.Submission.SubmissionResources", typeof(SubmissionResources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Epsilon.Resources.Web.Submission.SubmissionResources", typeof(SubmissionResources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
