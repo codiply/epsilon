@@ -78,6 +78,7 @@
     <Compile Include="Constants\DbAppSettingKey.cs" />
     <Compile Include="Constants\DbAppSettingDefaultValue.cs" />
     <Compile Include="Constants\AppSettingsDefaultValue.cs" />
+    <Compile Include="Constants\HttpContextItemsKey.cs" />
     <Compile Include="Constants\Interfaces\IAppSettingsDefaultValue.cs" />
     <Compile Include="Constants\Interfaces\ICountryAddressFieldMetadata.cs" />
     <Compile Include="Constants\Interfaces\IDbAppSettingDefaultValue.cs" />
@@ -103,11 +104,14 @@
     <Compile Include="Helpers\Interfaces\IAddressCleansingHelper.cs" />
     <Compile Include="Helpers\Interfaces\IAppSettingsHelper.cs" />
     <Compile Include="Helpers\Interfaces\IDbAppSettingsHelper.cs" />
+    <Compile Include="Helpers\Interfaces\IIpAddressHelper.cs" />
     <Compile Include="Helpers\Interfaces\IParseHelper.cs" />
+    <Compile Include="Helpers\IpAddressHelper.cs" />
     <Compile Include="Helpers\ParseHelper.cs" />
     <Compile Include="Helpers\RandomStringHelper.cs" />
     <Compile Include="Infrastructure\AppCache.cs" />
     <Compile Include="Constants\AppCacheKey.cs" />
+    <Compile Include="Infrastructure\Extensions\HttpContextBaseExtensions.cs" />
     <Compile Include="Infrastructure\Interfaces\IAppCache.cs" />
     <Compile Include="Infrastructure\Primitives\Frequency.cs" />
     <Compile Include="JsonModels\AddressSearchRequest.cs" />

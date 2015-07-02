@@ -253,6 +253,7 @@
     <Compile Include="Controllers\BaseControllers\BaseApiController.cs" />
     <Compile Include="Controllers\BaseControllers\BaseMvcController.cs" />
     <Compile Include="Controllers\Filters\Mvc\AllowIfConfigSettingTrueAttribute.cs" />
+    <Compile Include="Controllers\Filters\Mvc\SanitizeIpAddressAttribute.cs" />
     <Compile Include="Controllers\Filters\WebApi\AllowIfConfigSettingTrueAttribute.cs" />
     <Compile Include="Controllers\Filters\WebApi\InternationalizationAttribute.cs" />
     <Compile Include="Controllers\HelperController.cs" />
