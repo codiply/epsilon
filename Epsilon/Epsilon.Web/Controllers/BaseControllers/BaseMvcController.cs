@@ -5,12 +5,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Epsilon.Logic.Infrastructure.Extensions;
 
 namespace Epsilon.Web.Controllers.BaseControllers
 {
+    [SanitizeIpAddress]
     [Internationalization]
     public class BaseMvcController : Controller
     {
+        internal string UserIpAddress()
+        {
+            var context = new HttpContextWrapper(HttpContext.ApplicationInstance.Context);
+            return context.GetSanitizedIpAddress();
+        }
+
         internal void Success(string message, bool dismissable = false)
         {
             AddAlert(ViewAlertStyles.Success, message, dismissable);
@@ -31,7 +39,7 @@ namespace Epsilon.Web.Controllers.BaseControllers
             AddAlert(ViewAlertStyles.Danger, message, dismissable);
         }
 
-        internal void AddAlert(string alertStyle, string message, bool dismissable)
+        private void AddAlert(string alertStyle, string message, bool dismissable)
         {
             var alerts = TempData.ContainsKey(ViewAlert.TempDataKey)
                 ? (List<ViewAlert>)TempData[ViewAlert.TempDataKey]

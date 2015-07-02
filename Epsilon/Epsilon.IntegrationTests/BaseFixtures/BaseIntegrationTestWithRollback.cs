@@ -87,6 +87,7 @@ namespace Epsilon.IntegrationTests.BaseFixtures
             kernel.Bind<IAppSettingsHelper>().To<AppSettingsHelper>().InTransientScope();
             kernel.Bind<ICountryVariantResourceHelper>().To<CountryVariantResourceHelper>().InSingletonScope();
             kernel.Bind<IDbAppSettingsHelper>().To<DbAppSettingsHelper>().InTransientScope();
+            kernel.Bind<IIpAddressHelper>().To<IpAddressHelper>().InSingletonScope();
             kernel.Bind<IParseHelper>().To<ParseHelper>().InTransientScope();
 
             // Infrastructure

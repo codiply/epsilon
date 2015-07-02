@@ -93,6 +93,7 @@ namespace Epsilon.Web.App_Start
             kernel.Bind<IAppSettingsHelper>().To<AppSettingsHelper>().InSingletonScope();
             kernel.Bind<ICountryVariantResourceHelper>().To<CountryVariantResourceHelper>().InSingletonScope();
             kernel.Bind<IDbAppSettingsHelper>().To<DbAppSettingsHelper>().InRequestScope();
+            kernel.Bind<IIpAddressHelper>().To<IpAddressHelper>().InSingletonScope();
             kernel.Bind<IParseHelper>().To<ParseHelper>().InSingletonScope();
 
             // Infrastructure
