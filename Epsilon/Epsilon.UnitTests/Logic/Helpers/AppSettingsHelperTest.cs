@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace Epsilon.UnitTests.Logic.Helpers
 {
+    [TestFixture]
     public class AppSettingsHelperTest
     {
         private NameValueCollection _appSettings = new NameValueCollection();
@@ -417,6 +418,106 @@ namespace Epsilon.UnitTests.Logic.Helpers
         }
 
         [Test]
+        public void GetFrequency_ValidExamplesForSeconds()
+        {
+            int expectedTimes = 2;
+            TimeSpan expectedPeriod = TimeSpan.FromSeconds(1.0);
+
+            var validExamples =
+                new List<string> { "2/S", "2/1s", "2/1.S", "2/1.0s" };
+
+            var helper = GetAppSettingsHelper(validExamples);
+
+            foreach (var ex in validExamples)
+            {
+                var frequency = helper.GetFrequency(ex);
+                Assert.IsNotNull(frequency, String.Format("Frequency was null for '{0}'.", ex));
+                Assert.AreEqual(frequency.Times, expectedTimes, 
+                    String.Format("Times field was not the expected for '{0}'.", ex));
+                Assert.AreEqual(frequency.Period, expectedPeriod,
+                    String.Format("Period field was not the expected for '{0}'.", ex));
+            }
+        }
+
+        public void GetFrequency_ValidExamplesForHours()
+        {
+            int expectedTimes = 101;
+            TimeSpan expectedPeriod = TimeSpan.FromHours(0.02);
+
+            var validExamples =
+                new List<string> { "101/0.02H", "101/.02h" };
+
+            var helper = GetAppSettingsHelper(validExamples);
+
+            foreach (var ex in validExamples)
+            {
+                var frequency = helper.GetFrequency(ex);
+                Assert.IsNotNull(frequency, String.Format("Frequency was null for '{0}'.", ex));
+                Assert.AreEqual(frequency.Times, expectedTimes,
+                    String.Format("Times field was not the expected for '{0}'.", ex));
+                Assert.AreEqual(frequency.Period, expectedPeriod,
+                    String.Format("Period field was not the expected for '{0}'.", ex));
+            }
+        }
+
+        [Test]
+        public void GetFrequency_ValidExamplesForMinutes()
+        {
+            int expectedTimes = 21;
+            TimeSpan expectedPeriod = TimeSpan.FromMinutes(1.0);
+
+            var validExamples =
+                new List<string> { "21/M", "21/1m", "21/1.M", "21/1.0m" };
+
+            var helper = GetAppSettingsHelper(validExamples);
+
+            foreach (var ex in validExamples)
+            {
+                var frequency = helper.GetFrequency(ex);
+                Assert.IsNotNull(frequency, String.Format("Frequency was null for '{0}'.", ex));
+                Assert.AreEqual(frequency.Times, expectedTimes,
+                    String.Format("Times field was not the expected for '{0}'.", ex));
+                Assert.AreEqual(frequency.Period, expectedPeriod,
+                    String.Format("Period field was not the expected for '{0}'.", ex));
+            }
+        }
+
+        public void GetFrequency_InvalidExamples_ReturnsNull()
+        {
+            var invalidExamples =
+                new List<string> { "11.0/S", "1.0/2.0H", "1/X", "12/12Y" };
+
+            var helper = GetAppSettingsHelper(invalidExamples);
+
+            foreach (var ex in invalidExamples)
+            {
+                var frequency = helper.GetFrequency(ex);
+                Assert.IsNull(frequency, String.Format("Frequency was not null for '{0}'.", ex));
+            }
+        }
+
+        public void GetFrequency_ValidExamplesForDays()
+        {
+            int expectedTimes = 1001;
+            TimeSpan expectedPeriod = TimeSpan.FromDays(0.09);
+
+            var validExamples =
+                new List<string> { "01001/0.09D", "1001/.09d" };
+
+            var helper = GetAppSettingsHelper(validExamples);
+
+            foreach (var ex in validExamples)
+            {
+                var frequency = helper.GetFrequency(ex);
+                Assert.IsNotNull(frequency, String.Format("Frequency was null for '{0}'.", ex));
+                Assert.AreEqual(frequency.Times, expectedTimes,
+                    String.Format("Times field was not the expected for '{0}'.", ex));
+                Assert.AreEqual(frequency.Period, expectedPeriod,
+                    String.Format("Period field was not the expected for '{0}'.", ex));
+            }
+        }
+
+        [Test]
         public void GetGuid_ForNonExistingKey_ReturnsNull()
         {
             // Arrange
@@ -558,6 +659,16 @@ namespace Epsilon.UnitTests.Logic.Helpers
             Assert.AreEqual(2, allSettings.Count(), "AllSettings has the wrong size.");
             Assert.AreEqual(value1, setting1, "Setting for key2 has wrong value.");
             Assert.AreEqual(value2, setting2, "Setting for key1 has wrong value.");
+        }
+
+        private IAppSettingsHelper GetAppSettingsHelper(IList<string> values)
+        {
+            var appSettings = new NameValueCollection();
+            foreach (var v in values)
+            {
+                appSettings.Add(v, v);
+            }
+            return new AppSettingsHelper(appSettings, new ParseHelper());
         }
     }
 }

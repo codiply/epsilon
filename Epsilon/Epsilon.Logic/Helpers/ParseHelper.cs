@@ -1,9 +1,11 @@
 ﻿using Epsilon.Logic.Helpers.Interfaces;
+using Epsilon.Logic.Infrastructure.Primitives;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Epsilon.Logic.Helpers
@@ -120,6 +122,47 @@ namespace Epsilon.Logic.Helpers
             }
 
             return null;
+        }
+
+        public Frequency ParseFrequency(string value)
+        {
+            if (!string.IsNullOrWhiteSpace(value))
+            {
+                var regex = new Regex(@"^([0-9]+)\/([0-9]*\.?[0-9]*)([SsMmHhDd])$");
+                var match = regex.Match(value);
+                if (match.Success)
+                {
+                    var times = ParseInt(match.Groups[1].Value).Value;
+                    var periodValue = 
+                        string.IsNullOrWhiteSpace(match.Groups[2].Value) ? 1.0 : ParseFloat(match.Groups[2].Value).Value;
+                    var period = Period(periodValue, match.Groups[3].Value);
+                    return new Frequency(times, period);
+                }
+            }
+            return null;
+        }
+
+        private TimeSpan Period(double value, string unit)
+        {
+            unit = unit.ToUpperInvariant();
+            if (unit.Equals("S"))
+            {
+                return TimeSpan.FromSeconds(value);
+            }
+            else if (unit.Equals("M"))
+            {
+                return TimeSpan.FromMinutes(value);
+            }
+            else if (unit.Equals("H"))
+            {
+                return TimeSpan.FromHours(value);
+            }
+            else if (unit.Equals("D"))
+            {
+                return TimeSpan.FromDays(value);
+            }
+
+            throw new ArgumentException();
         }
     }
 }

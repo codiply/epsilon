@@ -109,6 +109,7 @@
     <Compile Include="Infrastructure\AppCache.cs" />
     <Compile Include="Constants\AppCacheKey.cs" />
     <Compile Include="Infrastructure\Interfaces\IAppCache.cs" />
+    <Compile Include="Infrastructure\Primitives\Frequency.cs" />
     <Compile Include="JsonModels\AddressSearchRequest.cs" />
     <Compile Include="JsonModels\AddressSearchResponse.cs" />
     <Compile Include="JsonModels\AddressSearchResult.cs" />

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Epsilon.Logic.Infrastructure.Primitives;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -35,6 +36,10 @@ namespace Epsilon.Logic.Helpers.Interfaces
         TimeSpan? GetTimeSpan(string key);
 
         TimeSpan GetTimeSpan(string key, TimeSpan defaultValue);
+
+        Frequency GetFrequency(string key);
+
+        Frequency GetFrequency(string key, Frequency defaultValue);
 
         Guid? GetGuid(string key);
 

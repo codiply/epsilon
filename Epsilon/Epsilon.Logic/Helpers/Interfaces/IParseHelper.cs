@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Epsilon.Logic.Infrastructure.Primitives;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,5 +24,7 @@ namespace Epsilon.Logic.Helpers.Interfaces
         Guid? ParseGuid(string value);
 
         TimeSpan? ParseTimeSpan(string value);
+
+        Frequency ParseFrequency(string values);
     }
 }

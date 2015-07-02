@@ -1,4 +1,5 @@
 ﻿using Epsilon.Logic.Helpers.Interfaces;
+using Epsilon.Logic.Infrastructure.Primitives;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -124,6 +125,20 @@ namespace Epsilon.Logic.Helpers
             var value = GetTimeSpan(key);
 
             return value.HasValue ? value.Value : defaultValue;
+        }
+
+        public Frequency GetFrequency(string key)
+        {
+            string value = _appSettings[key];
+
+            return _parseHelper.ParseFrequency(value);
+        }
+
+        public Frequency GetFrequency(string key, Frequency defaultValue)
+        {
+            var value = GetFrequency(key);
+
+            return value ?? defaultValue;
         }
 
         public Guid? GetGuid(string key)
