@@ -16,6 +16,7 @@ namespace Epsilon.Logic.Constants
         public const string DefaultLanguageId = "Epsilon.DefaultLanguageId";
         public const string DisableAppCache = "Epsilon.DisableAppCache";
         public const string DisableLockingInAppCache = "Epsilon.DisableLockingInAppCache";
+        public const string DisableHttps = "Epsilon.DisableHttps";
         public const string EnableHelperController = "Epsilon.EnableHelperController";
         public const string SmtpServiceHost = "Epsilon.SmtpServiceHost";
         public const string SmtpServicePort = "Epsilon.SmtpServicePort";

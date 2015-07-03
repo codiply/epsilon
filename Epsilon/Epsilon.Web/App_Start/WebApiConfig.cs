@@ -1,4 +1,5 @@
 ﻿using Epsilon.Logic.Constants;
+using Epsilon.Web.Controllers.Handlers;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -12,6 +13,7 @@ namespace Epsilon.Web
         public static void Register(HttpConfiguration config)
         {
             // Web API configuration and services
+            config.MessageHandlers.Add(new EnforceHttpsHandler());
 
             // Web API routes
             config.MapHttpAttributeRoutes();

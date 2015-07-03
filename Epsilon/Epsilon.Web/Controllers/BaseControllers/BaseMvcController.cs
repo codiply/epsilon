@@ -9,8 +9,10 @@ using Epsilon.Logic.Infrastructure.Extensions;
 
 namespace Epsilon.Web.Controllers.BaseControllers
 {
-    [SanitizeIpAddress]
-    [Internationalization]
+    [RequireSecureConnection(Order = 100)]
+    [SanitizeIpAddress(Order = 200)]
+    [Internationalization(Order = 300)]
+    [Authorize(Order = 400)]
     public class BaseMvcController : Controller
     {
         internal string UserIpAddress()

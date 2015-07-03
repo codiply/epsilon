@@ -14,6 +14,7 @@ using Microsoft.AspNet.Identity;
 
 namespace Epsilon.Web.Controllers
 {
+    [Authorize(Roles = AspNetRole.Admin)]
     [AllowIfConfigSettingTrue(AppSettingsKey.EnableHelperController)]
     public class HelperController : BaseMvcController
     {

@@ -9,7 +9,9 @@ using System.Web.Http;
 
 namespace Epsilon.Web.Controllers.BaseControllers
 {
+    [RequireSecureConnection]
     [Internationalization]
+    [Authorize]
     public class BaseApiController : ApiController
     {
     }

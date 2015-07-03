@@ -41,3 +41,11 @@ You can setup the application to use your gmail account to send emails by copyin
 ### New Language Checklist
 
 - Add Language in ReferenceData\Language.sql script
+
+### Security Checklist
+
+- Run security scanner [ASafaWeb](https://asafaweb.com/).
+
+## References
+
+- [HTTPS in ASP.NET MVC](http://tech.trailmax.info/2014/02/implemnting-https-everywhere-in-asp-net-mvc-application/)
