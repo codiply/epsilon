@@ -1,4 +1,6 @@
-﻿using Epsilon.Logic.Services.Interfaces;
+﻿using Epsilon.Logic.Constants;
+using Epsilon.Logic.Helpers.Interfaces;
+using Epsilon.Logic.Services.Interfaces;
 using Epsilon.Logic.Wrappers;
 using Epsilon.Logic.Wrappers.Interfaces;
 using System;
@@ -13,31 +15,48 @@ namespace Epsilon.Logic.Services
     public class SmtpService : ISmtpService
     {
         private readonly ISmtpClientWrapperFactory _smtpClientWrapperFactory;
+        private readonly IAppSettingsHelper _appSettingsHelper;
 
         public SmtpService(
-            ISmtpClientWrapperFactory smtpClientWrapperFactory)
+            ISmtpClientWrapperFactory smtpClientWrapperFactory,
+            IAppSettingsHelper appSettingsHelper)
         {
             _smtpClientWrapperFactory = smtpClientWrapperFactory;
+            _appSettingsHelper = appSettingsHelper;
         }
 
         public void Send(MailMessage message)
         {
-            var client = _smtpClientWrapperFactory.CreateSmtpClientWrapper();
+            try {
+                var client = _smtpClientWrapperFactory.CreateSmtpClientWrapper();
 
-            client.DeliveryMethod = SmtpDeliveryMethod.Network;
-            client.EnableSsl = true;
-            client.Host = "smtp.gmail.com";
-            client.Port = 465;
+                client.DeliveryMethod = SmtpDeliveryMethod.Network;
+                client.Host = _appSettingsHelper.GetString(AppSettingsKey.SmtpServiceHost);
+                client.Port = _appSettingsHelper.GetInt(AppSettingsKey.SmtpServicePort).Value;
+                client.Timeout = _appSettingsHelper.GetInt(AppSettingsKey.SmtpServiceTimeoutMilliseconds).Value;
 
-            // setup Smtp authentication
-            System.Net.NetworkCredential credentials =
-                new System.Net.NetworkCredential("email@gmail.com", "password");
-            client.UseDefaultCredentials = false;
-            client.Credentials = credentials;
+                client.EnableSsl = _appSettingsHelper.GetBool(AppSettingsKey.SmtpServiceEnableSsl).Value;
 
-            message.From = new MailAddress("email@gmail.com", "Name");
+                var userName = _appSettingsHelper.GetString(AppSettingsKey.SmtpServiceUserName);
+                var password = _appSettingsHelper.GetString(AppSettingsKey.SmtpServicePassword);
 
-            client.Send(message);
+                System.Net.NetworkCredential credentials =
+                    new System.Net.NetworkCredential(userName, password);
+                client.UseDefaultCredentials = false;
+                client.Credentials = credentials;
+
+                var fromAddress = _appSettingsHelper.GetString(AppSettingsKey.SmtpServiceFromAddress);
+                var fromDisplayName = _appSettingsHelper.GetString(AppSettingsKey.SmtpServiceFromDisplayName);
+
+                message.From = new MailAddress(fromAddress, fromDisplayName);
+
+                client.Send(message);
+            }
+            catch (Exception ex)
+            {
+                // TODO_PANOS: log the exception and do not throw.
+                throw ex;
+            }
         }
     }
 }

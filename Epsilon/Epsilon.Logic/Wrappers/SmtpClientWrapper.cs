@@ -10,6 +10,5 @@ namespace Epsilon.Logic.Wrappers
 {
     public class SmtpClientWrapper : SmtpClient, ISmtpClientWrapper
     {
-
     }
 }

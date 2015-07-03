@@ -16,6 +16,7 @@ namespace Epsilon.Logic.Wrappers.Interfaces
         string Host { get; set; }
         int Port { get; set; }
         bool UseDefaultCredentials { get; set; }
+        int Timeout { get; set; }
 
         void Send(MailMessage message);
     }

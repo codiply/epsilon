@@ -25,6 +25,8 @@ namespace Epsilon.Logic.SqlContext.Mapping
             this.Property(x => x.Key)
                 .HasMaxLength(KEY_MAX_LENGTH)
                 .IsRequired();
+            this.Property(x => x.SentOn)
+                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Computed);
 
             // Indexes
             this.Property(x => x.Key)

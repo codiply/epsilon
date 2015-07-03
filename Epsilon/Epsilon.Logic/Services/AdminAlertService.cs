@@ -22,6 +22,7 @@ namespace Epsilon.Logic.Services
             new ConcurrentDictionary<string, object>();
 
         private readonly IClock _clock;
+        private readonly IAppSettingsHelper _appSettingsHelper;
         private readonly IDbAppSettingsHelper _dbAppSettingsHelper;
         private readonly IDbAppSettingDefaultValue _dbAppSettingDefaultValue;
         private readonly IEpsilonContext _dbContext;
@@ -31,12 +32,14 @@ namespace Epsilon.Logic.Services
 
         public AdminAlertService(
             IClock clock,
+            IAppSettingsHelper appSettingsHelper,
             IDbAppSettingsHelper dbAppSettingsHelper,
             IDbAppSettingDefaultValue dbAppSettingDefaultValue,
             IEpsilonContext dbContext,
             ISmtpService smtpService)
         {
             _clock = clock;
+            _appSettingsHelper = appSettingsHelper;
             _dbAppSettingsHelper = dbAppSettingsHelper;
             _dbAppSettingDefaultValue = dbAppSettingDefaultValue;
             _dbContext = dbContext;
@@ -83,7 +86,13 @@ namespace Epsilon.Logic.Services
                 Body = key,
                 IsBodyHtml = true
             };
-            message.To.Add(new MailAddress("recepient@gmail.com", "Recepient"));
+            var emailList = _appSettingsHelper.GetString(AppSettingsKey.AdminAlertEmailList);
+            var emails = emailList.Trim(';', ',').Split(';', ',').Select(e => e.Trim())
+                .Where(e => !string.IsNullOrWhiteSpace(e)).ToList();
+            foreach (var em in emails)
+            {
+                message.To.Add(new MailAddress(em, em));
+            }
             _smtpService.Send(message);
         }
 

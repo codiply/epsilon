@@ -9,6 +9,8 @@ syntax: glob
 obj\
 bin\
 
+Unversioned.config
+
 # I switch to regexp syntax.
 syntax: regexp
 
