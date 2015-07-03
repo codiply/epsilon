@@ -30,8 +30,9 @@ Preferred client: [TortoiseHg](http://tortoisehg.bitbucket.org/).
 
 - Add Currency in ReferenceData\Currency.sql script
 - Add Country in ReferenceData\Country.sql script
-- Add Country Id in CountryId enumeration script
+- Add Country Id in `CountryId` enumeration script
 - Add two Resource files in CountryVariants folder with names **ResourcesXX** and **ResourceXX.yy**, where **XX** is the Id of the Country and **yy** is the culture code of the language of the country.
+- Add field metadata in `CountryAddressFieldMetadata` constants class.
 
 ### New Language Checklist
 
