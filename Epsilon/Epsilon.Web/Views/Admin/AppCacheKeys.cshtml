@@ -6,7 +6,7 @@
 
 <h2>@ViewBag.Title</h2>
 
-@using (Html.BeginForm("ClearAppCache"))
+@using (Html.BeginForm("ClearAppCache", "Admin"))
 {
     @Html.AntiForgeryToken()
     <p>

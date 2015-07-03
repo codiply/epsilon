@@ -61,6 +61,10 @@ namespace Epsilon.Logic.Services
         
         private async Task<AntiAbuseServiceResponse> CanAddAddressCheckIpFrequency(string ipAddress)
         {
+            if (_dbAppSettingsHelper
+                .GetBool(DbAppSettingKey.AntiAbuse_AddAddress_DisableIpAddressFrequencyCheck) == true)
+                return new AntiAbuseServiceResponse { IsRejected = false };
+
             var maxFrequency = _dbAppSettingsHelper.GetFrequency(
                 DbAppSettingKey.AntiAbuse_AddAddress_MaxFrequencyPerIpAddress,
                 _dbAppSettingDefaultValue.AntiAbuse_AddAddress_MaxFrequencyPerIpAddress);
@@ -71,7 +75,7 @@ namespace Epsilon.Logic.Services
                 .Where(a => a.CreatedOn > windowStart)
                 .CountAsync();
 
-            if (actualTimes > maxFrequency.Times)
+            if (actualTimes >= maxFrequency.Times)
                 return new AntiAbuseServiceResponse
                 {
                     IsRejected = true,
@@ -83,6 +87,10 @@ namespace Epsilon.Logic.Services
 
         private async Task<AntiAbuseServiceResponse> CanAddAddressCheckUserFrequency(string userId)
         {
+            if (_dbAppSettingsHelper
+                .GetBool(DbAppSettingKey.AntiAbuse_AddAddress_DisableUserFrequencyCheck) == true)
+                return new AntiAbuseServiceResponse { IsRejected = false };
+
             var maxFrequency = _dbAppSettingsHelper.GetFrequency(
                 DbAppSettingKey.AntiAbuse_AddAddress_MaxFrequencyPerUser,
                 _dbAppSettingDefaultValue.AntiAbuse_AddAddress_MaxFrequencyPerUser);
@@ -93,7 +101,7 @@ namespace Epsilon.Logic.Services
                 .Where(a => a.CreatedOn > windowStart)
                 .CountAsync();
 
-            if (actualTimes > maxFrequency.Times)
+            if (actualTimes >= maxFrequency.Times)
                 return new AntiAbuseServiceResponse
                 {
                     IsRejected = true,
@@ -105,7 +113,10 @@ namespace Epsilon.Logic.Services
 
         private async Task<AntiAbuseServiceResponse> CanCreateTenancyDetailsSubmissionCheckIpFrequency(string ipAddress)
         {
-            // Check IP address abuse
+            if (_dbAppSettingsHelper
+                .GetBool(DbAppSettingKey.AntiAbuse_CreateTenancyDetailsSubmission_DisableIpAddressFrequencyCheck) == true)
+                return new AntiAbuseServiceResponse { IsRejected = false };
+
             var maxFrequency = _dbAppSettingsHelper.GetFrequency(
                 DbAppSettingKey.AntiAbuse_CreateTenancyDetailsSubmission_MaxFrequencyPerIpAddress,
                 _dbAppSettingDefaultValue.AntiAbuse_CreateTenancyDetailsSubmission_MaxFrequencyPerIpAddress);
@@ -116,7 +127,7 @@ namespace Epsilon.Logic.Services
                 .Where(a => a.CreatedOn > windowStart)
                 .CountAsync();
 
-            if (actualTimes > maxFrequency.Times)
+            if (actualTimes >= maxFrequency.Times)
                 return new AntiAbuseServiceResponse
                 {
                     IsRejected = true,
@@ -128,7 +139,10 @@ namespace Epsilon.Logic.Services
 
         private async Task<AntiAbuseServiceResponse> CanCreateTenancyDetailsSubmissionCheckUserFrequency(string userId)
         {
-            // Check user abuse
+            if (_dbAppSettingsHelper
+                .GetBool(DbAppSettingKey.AntiAbuse_CreateTenancyDetailsSubmission_DisableUserFrequencyCheck) == true)
+                return new AntiAbuseServiceResponse { IsRejected = false };
+
             var maxFrequency = _dbAppSettingsHelper.GetFrequency(
                 DbAppSettingKey.AntiAbuse_CreateTenancyDetailsSubmission_MaxFrequencyPerUser,
                 _dbAppSettingDefaultValue.AntiAbuse_CreateTenancyDetailsSubmission_MaxFrequencyPerUser);
@@ -139,7 +153,7 @@ namespace Epsilon.Logic.Services
                 .Where(a => a.CreatedOn > windowStart)
                 .CountAsync();
 
-            if (actualTimes > maxFrequency.Times)
+            if (actualTimes >= maxFrequency.Times)
                 return new AntiAbuseServiceResponse
                 {
                     IsRejected = true,

@@ -16,7 +16,7 @@ VALUES
 -- Edit the values below to update the target table.
 (N'AdminAlertSnoozePeriodInHours', N'12.0', N'Double',
  N'The AdminAlertService will wait this amount of time (in hours) until it sends a second alert for any given AdminAlert key.'),
-(N'SearchAddressResultsLimit', N'30', N'Int',
+(N'SearchAddressResultsLimit', N'30', N'Integer',
  N'The number of results returned when performing and Address Search.'),
 (N'AntiAbuse_AddAddress_MaxFrequencyPerUser', N'2/30D', N'Frequency',
  N'The maximum number of address a user can add in a certain period of time.'),
@@ -24,6 +24,14 @@ VALUES
  N'The maximum number of addresses that can be added by an ip address in a certain period of time.'),
 (N'AntiAbuse_CreateTenancyDetailsSubmission_MaxFrequencyPerUser', N'1/30D', N'Frequency',
  N'The maximum number of tenancy details submissions a user can create in a certain period of time.'),
+(N'AntiAbuse_AddAddress_DisableIpAddressFrequencyCheck', N'False', N'Boolean',
+ N'Disables the anti-abuse IP Address frequency check when adding a new address.'),
+(N'AntiAbuse_AddAddress_DisableUserFrequencyCheck', N'False', N'Boolean',
+ N'Disables the anti-abuse user frequency check when adding a new address.'),
+(N'AntiAbuse_CreateTenancyDetailsSubmission_DisableIpAddressFrequencyCheck', N'False', N'Boolean',
+ N'Disables the anti-abuse IP Address frequency check when creating a new tenancy details submission.'),
+(N'AntiAbuse_CreateTenancyDetailsSubmission_DisableUserFrequencyCheck', N'False', N'Boolean',
+ N'Disables the anti-abuse user frequency check when creating a new tenancy details submission.'),
 (N'AntiAbuse_CreateTenancyDetailsSubmission_MaxFrequencyPerIpAddress', N'2/D', N'Frequency',
  N'The maximum number of tenancy details submissions that can becreated by an ip address in a certain period of time.');
 GO
