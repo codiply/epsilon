@@ -70,6 +70,15 @@ namespace Epsilon.Resources.Web.Submission {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please double check and confirm that all address details are correct. You won&apos;t be able to correct them after this step, while each user is allowed to add a limited number of addresses..
+        /// </summary>
+        public static string AddAddress_ConfirmationText {
+            get {
+                return ResourceManager.GetString("AddAddress_ConfirmationText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add your address.
         /// </summary>
         public static string AddAddress_PageHeader {
@@ -84,6 +93,15 @@ namespace Epsilon.Resources.Web.Submission {
         public static string AddAddress_PageTitle {
             get {
                 return ResourceManager.GetString("AddAddress_PageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Submit.
+        /// </summary>
+        public static string AddAddress_SubmitButton {
+            get {
+                return ResourceManager.GetString("AddAddress_SubmitButton", resourceCulture);
             }
         }
         
@@ -201,6 +219,15 @@ namespace Epsilon.Resources.Web.Submission {
         public static string UseAddress_PageTitle {
             get {
                 return ResourceManager.GetString("UseAddress_PageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Confirm.
+        /// </summary>
+        public static string UseAddress_SubmitButton {
+            get {
+                return ResourceManager.GetString("UseAddress_SubmitButton", resourceCulture);
             }
         }
     }

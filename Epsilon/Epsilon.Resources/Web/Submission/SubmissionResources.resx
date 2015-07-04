@@ -120,11 +120,17 @@
   <data name="AddAddress_BackToSearchLink" xml:space="preserve">
     <value>Back to search</value>
   </data>
+  <data name="AddAddress_ConfirmationText" xml:space="preserve">
+    <value>Please double check and confirm that all address details are correct. You won't be able to correct them after this step, while each user is allowed to add a limited number of addresses.</value>
+  </data>
   <data name="AddAddress_PageHeader" xml:space="preserve">
     <value>Add your address</value>
   </data>
   <data name="AddAddress_PageTitle" xml:space="preserve">
     <value>Add your address</value>
+  </data>
+  <data name="AddAddress_SubmitButton" xml:space="preserve">
+    <value>Submit</value>
   </data>
   <data name="SearchAddress_AddNewAddressButton" xml:space="preserve">
     <value>Add new address</value>
@@ -164,5 +170,8 @@
   </data>
   <data name="UseAddress_PageTitle" xml:space="preserve">
     <value>Confirm your address</value>
+  </data>
+  <data name="UseAddress_SubmitButton" xml:space="preserve">
+    <value>Confirm</value>
   </data>
 </root>

@@ -8,22 +8,27 @@
 <h4>@SubmissionResources.UseAddress_PageHeader</h4>
 <hr />
 
-<p>This is use address</p>
-
 @Html.Partial("_AddressDetails", Model)
 
-@using (Html.BeginForm("UseAddress", "Submission"))
+@using (Html.BeginForm("UseAddressConfirmed", "Submission"))
 {
-    @Html.AntiForgeryToken()
-
-    <!-- PANOS_TODO: make it a checkbox. -->
-    @SubmissionResources.UseAddress_ConfirmationText
 
     <div class="form-horizontal">
+        @Html.AntiForgeryToken()
+
+
+        <div class="form-group">
+            <div class="col-md-offset-3 col-md-9 alert-info">
+                <p><input type="checkbox" name="confirmedText" data-ng-model="confirmedText">
+                    @SubmissionResources.UseAddress_ConfirmationText
+                </p>
+            </div>
+        </div>
+
         <div class="form-group">
             <input type="hidden" name="selectedAddressId" value="@Model.Id" />
             <div class="col-md-offset-3 col-md-9">
-                <input type="submit" value="Confirm" class="btn btn-default" />
+                <input type="submit" value="@SubmissionResources.UseAddress_SubmitButton" class="btn btn-default" data-ng-disabled="!confirmedText" />
             </div>
         </div>
     </div>

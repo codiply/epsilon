@@ -56,7 +56,7 @@
         @if (fieldMetadata.Line2.IsUsed)
         {
         <div class="form-group">
-            <label class="control-label col-md-3" for="Line1">@countryVariantResources[CountryVariantResourceName.ADDRESS_LINE2]</label>
+            <label class="control-label col-md-3" for="Line2">@countryVariantResources[CountryVariantResourceName.ADDRESS_LINE2]</label>
             <div class="col-md-9">
                 @Html.EditorFor(model => model.Line2, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Line2, "", new { @class = "text-danger" })
@@ -67,7 +67,7 @@
         @if (fieldMetadata.Line3.IsUsed)
         {
         <div class="form-group">
-            <label class="control-label col-md-3" for="Line1">@countryVariantResources[CountryVariantResourceName.ADDRESS_LINE3]</label>
+            <label class="control-label col-md-3" for="Line3">@countryVariantResources[CountryVariantResourceName.ADDRESS_LINE3]</label>
             <div class="col-md-9">
                 @Html.EditorFor(model => model.Line3, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Line3, "", new { @class = "text-danger" })
@@ -79,7 +79,7 @@
         @if (fieldMetadata.Line4.IsUsed)
         {
         <div class="form-group">
-            <label class="control-label col-md-3" for="Line1">@countryVariantResources[CountryVariantResourceName.ADDRESS_LINE4]</label>
+            <label class="control-label col-md-3" for="Line4">@countryVariantResources[CountryVariantResourceName.ADDRESS_LINE4]</label>
             <div class="col-md-9">
                 @Html.EditorFor(model => model.Line4, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Line4, "", new { @class = "text-danger" })
@@ -90,7 +90,7 @@
         @if (fieldMetadata.Locality.IsUsed)
         {
         <div class="form-group">
-            <label class="control-label col-md-3" for="Line1">@countryVariantResources[CountryVariantResourceName.ADDRESS_LOCALITY]</label>
+            <label class="control-label col-md-3" for="Locality">@countryVariantResources[CountryVariantResourceName.ADDRESS_LOCALITY]</label>
             <div class="col-md-9">
                 @Html.EditorFor(model => model.Locality, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Locality, "", new { @class = "text-danger" })
@@ -101,7 +101,7 @@
         @if (fieldMetadata.Region.IsUsed)
         {
         <div class="form-group">
-            <label class="control-label col-md-3" for="Line1">@countryVariantResources[CountryVariantResourceName.ADDRESS_REGION]</label>
+            <label class="control-label col-md-3" for="Region">@countryVariantResources[CountryVariantResourceName.ADDRESS_REGION]</label>
             <div class="col-md-9">
                 @Html.EditorFor(model => model.Region, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Region, "", new { @class = "text-danger" })
@@ -112,7 +112,7 @@
         @if (fieldMetadata.Postcode.IsUsed)
         {
         <div class="form-group">
-            <label class="control-label col-md-3" for="Line1">@countryVariantResources[CountryVariantResourceName.ADDRESS_POSTCODE]</label>
+            <label class="control-label col-md-3" for="Postcode">@countryVariantResources[CountryVariantResourceName.ADDRESS_POSTCODE]</label>
             <div class="col-md-9">
                 @Html.EditorFor(model => model.Postcode, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Postcode, "", new { @class = "text-danger" })
@@ -121,7 +121,7 @@
         }
 
         <div class="form-group">
-            <label class="control-label col-md-3" for="Line1">@CommonResources.Country</label>
+            <label class="control-label col-md-3" for="CountryId">@CommonResources.Country</label>
             <div class="col-md-9">
                 @Html.HiddenFor(model => model.CountryId)
                 @Html.DropDownList("CountryId", null, htmlAttributes: new { @class = "form-control", @disabled = "" })
@@ -130,8 +130,17 @@
         </div>
 
         <div class="form-group">
+            <div class="col-md-offset-3 col-md-9 alert-info">
+                <p><input type="checkbox" name="confirmedText" data-ng-model="confirmedText">
+                    @SubmissionResources.AddAddress_ConfirmationText
+                </p>
+            </div>
+        </div>
+
+        <div class="form-group">
             <div class="col-md-offset-3 col-md-9">
-                <input type="submit" value="Submit" class="btn btn-default" />
+                <input type="submit" value="@SubmissionResources.AddAddress_SubmitButton" 
+                       class="btn btn-default" data-ng-disabled="!confirmedText"/>
             </div>
         </div>
     </div>

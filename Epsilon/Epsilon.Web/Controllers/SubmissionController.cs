@@ -50,7 +50,7 @@ namespace Epsilon.Web.Controllers
             countryId = countryId.ToUpperInvariant();
 
             var countries = _countryService.GetAvailableCountries();
-            ViewBag.CountryId = new SelectList(countries, "Id", "EnglishName", countryId);
+            ViewBag.CountryId = new SelectList(countries, "Id", AppConstant.COUNTRY_DISPLAY_FIELD, countryId);
 
             var model = new AddressForm
             {
@@ -81,7 +81,7 @@ namespace Epsilon.Web.Controllers
             }
 
             var countries = _countryService.GetAvailableCountries();
-            ViewBag.CountryId = new SelectList(countries, "Id", "EnglishName", address.CountryId);
+            ViewBag.CountryId = new SelectList(countries, "Id", AppConstant.COUNTRY_DISPLAY_FIELD, address.CountryId);
             return View("AddAddress", address);
         }
         

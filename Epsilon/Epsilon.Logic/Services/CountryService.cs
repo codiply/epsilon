@@ -32,6 +32,13 @@ namespace Epsilon.Logic.Services
             return countries;
         }
 
+        public string GetCountryDisplayName(string countryId)
+        {
+            var dictionary = GetCountryDictionary();
+            var country = dictionary[countryId.ToUpper()];
+            return AppConstant.COUNTRY_DISPLAY_FIELD_SELECTOR(country);
+        }
+
         private IList<Country> GetAvailableCountriesFromDictionary()
         {
             var dictionary = GetCountryDictionary();
@@ -43,7 +50,7 @@ namespace Epsilon.Logic.Services
             return _appCache.Get(AppCacheKey.COUNTRIES_DICTIONARY, () =>
             {
                 var languages = _dbContext.Countries.ToList();
-                var dictionary = languages.ToImmutableDictionary(x => x.Id.ToLower());
+                var dictionary = languages.ToImmutableDictionary(x => x.Id.ToUpper());
                 return dictionary;
             }, WithLock.Yes);
         }
