@@ -12,7 +12,14 @@
 
 
 
+
+
 GO
 CREATE NONCLUSTERED INDEX [IX_UserId]
     ON [dbo].[IpAddressActivity]([UserId] ASC);
+
+
+GO
+CREATE NONCLUSTERED INDEX [IX_IpAddressActivity_ActivityType_IpAddress_RecordedOn]
+    ON [dbo].[IpAddressActivity]([ActivityType] ASC, [IpAddress] ASC, [RecordedOn] ASC);
 

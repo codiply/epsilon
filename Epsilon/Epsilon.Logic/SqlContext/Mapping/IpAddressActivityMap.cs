@@ -32,11 +32,14 @@ namespace Epsilon.Logic.SqlContext.Mapping
 
             // Indexes
             this.Property(x => x.ActivityType)
-                .HasColumnAnnotation("Index", new IndexAnnotation(new IndexAttribute("IX_ActivityType_IpAddress_RecordedOn", 1)));
+                .HasColumnAnnotation("Index", 
+                    new IndexAnnotation(new IndexAttribute("IX_IpAddressActivity_ActivityType_IpAddress_RecordedOn", 1)));
             this.Property(x => x.IpAddress)
-                .HasColumnAnnotation("Index", new IndexAnnotation(new IndexAttribute("IX_ActivityType_IpAddress_RecordedOn", 2)));
+                .HasColumnAnnotation("Index", 
+                    new IndexAnnotation(new IndexAttribute("IX_IpAddressActivity_ActivityType_IpAddress_RecordedOn", 2)));
             this.Property(x => x.RecordedOn)
-                .HasColumnAnnotation("Index", new IndexAnnotation(new IndexAttribute("IX_ActivityType_IpAddress_RecordedOn", 3)));
+                .HasColumnAnnotation("Index", 
+                    new IndexAnnotation(new IndexAttribute("IX_IpAddressActivity_ActivityType_IpAddress_RecordedOn", 3)));
         }
     }
 }

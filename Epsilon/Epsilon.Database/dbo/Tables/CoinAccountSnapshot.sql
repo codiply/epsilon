@@ -14,7 +14,9 @@ CREATE TABLE [dbo].[CoinAccountSnapshot] (
 
 
 
+
+
 GO
-CREATE NONCLUSTERED INDEX [AccountId_MadeOn_IsFinalised]
-    ON [dbo].[CoinAccountSnapshot]([AccountId] ASC, [MadeOn] ASC, [IsFinalised] ASC);
+CREATE NONCLUSTERED INDEX [IX_CoinAccountSnapshot_AccountId_IsFinalised_MadeOn]
+    ON [dbo].[CoinAccountSnapshot]([AccountId] ASC, [IsFinalised] ASC, [MadeOn] ASC);
 

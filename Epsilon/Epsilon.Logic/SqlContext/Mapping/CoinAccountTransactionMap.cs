@@ -39,9 +39,11 @@ namespace Epsilon.Logic.SqlContext.Mapping
 
             // Indexes
             this.Property(x => x.AccountId)
-                .HasColumnAnnotation("Index", new IndexAnnotation(new IndexAttribute("IX_AccountId_MadeOn", 1)));
+                .HasColumnAnnotation("Index", 
+                    new IndexAnnotation(new IndexAttribute("IX_CoinAccountTransaction_AccountId_MadeOn", 1)));
             this.Property(x => x.MadeOn)
-                .HasColumnAnnotation("Index", new IndexAnnotation(new IndexAttribute("IX_AccountId_MadeOn", 2)));
+                .HasColumnAnnotation("Index", 
+                    new IndexAnnotation(new IndexAttribute("IX_CoinAccountTransaction_AccountId_MadeOn", 2)));
         }
     }
 }

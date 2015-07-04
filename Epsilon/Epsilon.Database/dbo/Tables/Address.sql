@@ -1,4 +1,4 @@
-﻿CREATE TABLE [dbo].[Address] (
+CREATE TABLE [dbo].[Address] (
     [Id]                 UNIQUEIDENTIFIER   DEFAULT (newsequentialid()) NOT NULL,
     [UniqueAddressCode]  NVARCHAR (32)      NULL,
     [Line1]              NVARCHAR (256)     NOT NULL,
@@ -39,6 +39,8 @@
 
 
 
+
+
 GO
 CREATE NONCLUSTERED INDEX [IX_CountryId]
     ON [dbo].[Address]([CountryId] ASC);
@@ -50,6 +52,11 @@ CREATE NONCLUSTERED INDEX [IX_Postcode]
 
 
 GO
-CREATE NONCLUSTERED INDEX [IX_CreatedById]
-    ON [dbo].[Address]([CreatedById] ASC);
+CREATE NONCLUSTERED INDEX [IX_Address_CreatedByIpAddress_CreatedOn]
+    ON [dbo].[Address]([CreatedByIpAddress] ASC, [CreatedOn] ASC);
+
+
+GO
+CREATE NONCLUSTERED INDEX [IX_Address_CreatedById_CreatedOn]
+    ON [dbo].[Address]([CreatedById] ASC, [CreatedOn] ASC);
 

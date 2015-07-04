@@ -31,11 +31,14 @@ namespace Epsilon.Logic.SqlContext.Mapping
 
             // Indexes
             this.Property(x => x.AccountId)
-                .HasColumnAnnotation("Index", new IndexAnnotation(new IndexAttribute("IX_AccountId_IsFinalised_MadeOn", 1)));
+                .HasColumnAnnotation("Index", 
+                    new IndexAnnotation(new IndexAttribute("IX_CoinAccountSnapshot_AccountId_IsFinalised_MadeOn", 1)));
             this.Property(x => x.IsFinalised)
-                .HasColumnAnnotation("Index", new IndexAnnotation(new IndexAttribute("IX_AccountId_IsFinalised_MadeOn", 2)));
+                .HasColumnAnnotation("Index", 
+                    new IndexAnnotation(new IndexAttribute("IX_CoinAccountSnapshot_AccountId_IsFinalised_MadeOn", 2)));
             this.Property(x => x.MadeOn)
-                .HasColumnAnnotation("Index", new IndexAnnotation(new IndexAttribute("IX_AccountId_IsFinalised_MadeOn", 3)));
+                .HasColumnAnnotation("Index", 
+                    new IndexAnnotation(new IndexAttribute("IX_CoinAccountSnapshot_AccountId_IsFinalised_MadeOn", 3)));
         }
     }
 }

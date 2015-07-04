@@ -1,4 +1,4 @@
-﻿CREATE TABLE [dbo].[AdminAlert] (
+CREATE TABLE [dbo].[AdminAlert] (
     [Id]     UNIQUEIDENTIFIER   DEFAULT (newsequentialid()) NOT NULL,
     [Key]    NVARCHAR (256)     NOT NULL,
     [SentOn] DATETIMEOFFSET (7) NOT NULL,
@@ -8,7 +8,9 @@
 
 
 
+
+
 GO
-CREATE NONCLUSTERED INDEX [IX_Key]
-    ON [dbo].[AdminAlert]([Key] ASC);
+CREATE NONCLUSTERED INDEX [IX_AdminAlert_Key_Sent_On]
+    ON [dbo].[AdminAlert]([Key] ASC, [SentOn] ASC);
 

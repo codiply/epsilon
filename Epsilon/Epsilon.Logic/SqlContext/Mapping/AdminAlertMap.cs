@@ -30,9 +30,11 @@ namespace Epsilon.Logic.SqlContext.Mapping
 
             // Indexes
             this.Property(x => x.Key)
-                .HasColumnAnnotation("Index", new IndexAnnotation(new IndexAttribute("IX_Key_Sent_On", 1)));
+                .HasColumnAnnotation("Index", 
+                    new IndexAnnotation(new IndexAttribute("IX_AdminAlert_Key_Sent_On", 1)));
             this.Property(x => x.SentOn)
-                .HasColumnAnnotation("Index", new IndexAnnotation(new IndexAttribute("IX_Key_Sent_On", 2)));
+                .HasColumnAnnotation("Index", 
+                    new IndexAnnotation(new IndexAttribute("IX_AdminAlert_Key_Sent_On", 2)));
         }
     }
 }
