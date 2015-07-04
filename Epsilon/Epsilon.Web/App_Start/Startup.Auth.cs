@@ -10,6 +10,8 @@ using Epsilon.Logic.Entities;
 using Epsilon.Logic.SqlContext;
 using System.Web.Mvc;
 using System.Web;
+using Microsoft.Owin.Security.DataProtection;
+using Ninject;
 
 namespace Epsilon.Web
 {
@@ -18,11 +20,16 @@ namespace Epsilon.Web
         // For more information on configuring authentication, please visit http://go.microsoft.com/fwlink/?LinkId=301864
         public void ConfigureAuth(IAppBuilder app)
         {
+            var dataProtectionProvider = app.GetDataProtectionProvider();
+            var kernel = DependencyResolver.Current.GetService<IKernel>();
+            kernel.Bind<IDataProtectionProvider>().ToConstant(dataProtectionProvider);
+
             var urlHelper = new UrlHelper(HttpContext.Current.Request.RequestContext);
 
             // Configure the db context, user manager and signin manager to use a single instance per request
             app.CreatePerOwinContext(ApplicationDbContext.Create);
-            app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
+            
+            app.CreatePerOwinContext(() => DependencyResolver.Current.GetService<ApplicationUserManager>());
             app.CreatePerOwinContext<ApplicationSignInManager>(ApplicationSignInManager.Create);
 
             // Enable the application to use a cookie to store information for the signed in user

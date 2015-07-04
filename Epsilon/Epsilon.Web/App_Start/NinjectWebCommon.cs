@@ -27,6 +27,11 @@ namespace Epsilon.Web.App_Start
     using Epsilon.Logic.SqlContext;
     using Epsilon.Logic.Constants.Interfaces;
     using Epsilon.Logic.Constants;
+    using Microsoft.Owin.Security;
+    using Microsoft.AspNet.Identity;
+    using Epsilon.Logic.Entities;
+    using Microsoft.AspNet.Identity.EntityFramework;
+    using System.Data.Entity;
 
     public static class NinjectWebCommon 
     {
@@ -78,6 +83,13 @@ namespace Epsilon.Web.App_Start
         /// <param name="kernel">The kernel.</param>
         private static void RegisterServices(IKernel kernel)
         {
+            kernel.Bind<ApplicationDbContext>().To<ApplicationDbContext>().InRequestScope();
+            kernel.Bind<ApplicationSignInManager>().To<ApplicationSignInManager>().InRequestScope();
+            kernel.Bind<ApplicationUserManager>().To<ApplicationUserManager>().InRequestScope();
+            kernel.Bind<IAuthenticationManager>().ToMethod(c => HttpContext.Current.GetOwinContext().Authentication);
+            kernel.Bind<DbContext>().To<ApplicationDbContext>().WhenInjectedExactlyInto<UserStore<User>>().InRequestScope();
+            kernel.Bind<IUserStore<User>>().To<UserStore<User>>().InRequestScope();
+            
             // Constants
             kernel.Bind<IDbAppSettingDefaultValue>().To<DbAppSettingDefaultValue>().InSingletonScope();
             kernel.Bind<IAppSettingsDefaultValue>().To<AppSettingsDefaultValue>().InSingletonScope();

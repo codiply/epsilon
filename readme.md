@@ -49,3 +49,4 @@ You can setup the application to use your gmail account to send emails by copyin
 ## References
 
 - [HTTPS in ASP.NET MVC](http://tech.trailmax.info/2014/02/implemnting-https-everywhere-in-asp-net-mvc-application/)
+- [ASP.NET Identity and IoC Container Registration](http://tech.trailmax.info/2014/09/aspnet-identity-and-ioc-container-registration/)
