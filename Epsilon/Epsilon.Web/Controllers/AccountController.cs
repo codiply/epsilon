@@ -23,17 +23,20 @@ namespace Epsilon.Web.Controllers
         private readonly ApplicationUserManager _userManager;
         private readonly IAuthenticationManager _authenticationManager;
         private readonly INewUserService _newUserService;
+        private readonly IIpAddressActivityService _ipAddressActivityService;
 
         public AccountController(
             ApplicationUserManager userManager, 
             ApplicationSignInManager signInManager,
             IAuthenticationManager authenticationManager,
-            INewUserService newUserService)
+            INewUserService newUserService,
+            IIpAddressActivityService ipAddressActivityService)
         {
             _signInManager = signInManager;
             _userManager = userManager;
             _authenticationManager = authenticationManager;
             _newUserService = newUserService;
+            _ipAddressActivityService = ipAddressActivityService;
         }
 
         //
@@ -63,6 +66,7 @@ namespace Epsilon.Web.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
+                    await _ipAddressActivityService.RecordLogin(model.Email, GetUserIpAddress());
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
@@ -148,6 +152,7 @@ namespace Epsilon.Web.Controllers
                     await _userManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
                     await _newUserService.Setup(user.Id);
+                    await _ipAddressActivityService.RecordRegistration(user.Id, GetUserIpAddress());
 
                     return RedirectToAction(
                         AppConstant.AUTHENTICATED_USER_HOME_ACTION, 

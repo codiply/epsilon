@@ -93,6 +93,7 @@
     <Build Include="dbo\Tables\CoinAccountSnapshot.sql" />
     <Build Include="dbo\Tables\CoinAccount.sql" />
     <None Include="Scripts\PostDeploy\ReferenceData\CoinAccountTransactionType.sql" />
+    <Build Include="dbo\Tables\IpAddressActivity.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Scripts\PostDeploy\Script.PostDeployment.sql" />

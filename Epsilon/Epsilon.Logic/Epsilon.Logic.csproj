@@ -82,6 +82,7 @@
     <Compile Include="Constants\Interfaces\IAppSettingsDefaultValue.cs" />
     <Compile Include="Constants\Interfaces\ICountryAddressFieldMetadata.cs" />
     <Compile Include="Constants\Interfaces\IDbAppSettingDefaultValue.cs" />
+    <Compile Include="Constants\Enums\IpAddressActivityType.cs" />
     <Compile Include="Entities\AdminAlert.cs" />
     <Compile Include="Entities\AppSetting.cs" />
     <Compile Include="Entities\CoinAccount.cs" />
@@ -89,6 +90,7 @@
     <Compile Include="Entities\CoinAccountTransaction.cs" />
     <Compile Include="Entities\CoinAccountTransactionType.cs" />
     <Compile Include="Entities\Currency.cs" />
+    <Compile Include="Entities\IpAddressActivity.cs" />
     <Compile Include="Entities\Language.cs" />
     <Compile Include="Entities\UserPreference.cs" />
     <Compile Include="Forms\AddressForm.cs" />
@@ -132,12 +134,14 @@
     <Compile Include="Services\Interfaces\ICoinAccountService.cs" />
     <Compile Include="Services\Interfaces\ICountryService.cs" />
     <Compile Include="Helpers\Interfaces\ICountryVariantResourceHelper.cs" />
+    <Compile Include="Services\Interfaces\IIpAddressActivityService.cs" />
     <Compile Include="Services\Interfaces\ILanguageService.cs" />
     <Compile Include="Services\Interfaces\INewUserService.cs" />
     <Compile Include="Services\Interfaces\ISmtpService.cs" />
     <Compile Include="Services\Interfaces\ITenancyDetailsSubmissionService.cs" />
     <Compile Include="Services\Interfaces\IUserCoinService.cs" />
     <Compile Include="Services\Interfaces\IUserPreferenceService.cs" />
+    <Compile Include="Services\IpAddressActivityService.cs" />
     <Compile Include="Services\LanguageService.cs" />
     <Compile Include="Services\NewUserService.cs" />
     <Compile Include="Services\SmtpService.cs" />
@@ -154,6 +158,7 @@
     <Compile Include="SqlContext\Mapping\CoinAccountSnapshotMap.cs" />
     <Compile Include="SqlContext\Mapping\CoinAccountTransactionMap.cs" />
     <Compile Include="SqlContext\Mapping\CoinAccountTransactionTypeMap.cs" />
+    <Compile Include="SqlContext\Mapping\IpAddressActivityMap.cs" />
     <Compile Include="SqlContext\Mapping\LanguageMap.cs" />
     <Compile Include="SqlContext\Mapping\CurrencyMap.cs" />
     <Compile Include="SqlContext\Mapping\CountryMap.cs" />

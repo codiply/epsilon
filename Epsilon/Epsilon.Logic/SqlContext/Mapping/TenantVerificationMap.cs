@@ -12,8 +12,11 @@ namespace Epsilon.Logic.SqlContext.Mapping
 {
     public class TenantVerificationMap : EntityTypeConfiguration<TenantVerification>
     {
+        public const int CODE_MAX_LENGTH = 16;
+
         public TenantVerificationMap()
         {
+        
             // Primary Key
             this.HasKey(x => x.Id);
 
@@ -21,7 +24,7 @@ namespace Epsilon.Logic.SqlContext.Mapping
             this.Property(x => x.Id)
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             this.Property(x => x.Code)
-                .HasMaxLength(16);
+                .HasMaxLength(CODE_MAX_LENGTH);
             this.Property(x => x.CreatedOn)
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Computed);
             this.Property(x => x.CreatedByIpAddress)

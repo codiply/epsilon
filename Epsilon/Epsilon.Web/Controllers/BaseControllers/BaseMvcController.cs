@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Epsilon.Logic.Infrastructure.Extensions;
+using Microsoft.AspNet.Identity;
 
 namespace Epsilon.Web.Controllers.BaseControllers
 {
@@ -15,10 +16,15 @@ namespace Epsilon.Web.Controllers.BaseControllers
     [Authorize(Order = 400)]
     public class BaseMvcController : Controller
     {
-        internal string UserIpAddress()
+        internal string GetUserIpAddress()
         {
             var context = new HttpContextWrapper(HttpContext.ApplicationInstance.Context);
             return context.GetSanitizedIpAddress();
+        }
+
+        internal string GetUserId()
+        {
+            return User.Identity.GetUserId();
         }
 
         internal void Success(string message, bool dismissable = false)

@@ -24,6 +24,7 @@ namespace Epsilon.Logic.SqlContext.Interfaces
         DbSet<CoinAccountTransactionType> CoinAccountTransactionTypes { get; set; }
         DbSet<Country> Countries { get; set; }
         DbSet<Currency> Currencies { get; set; }
+        DbSet<IpAddressActivity> IpAddressActivities { get; set; }
         DbSet<Language> Languages { get; set; }
         DbSet<TenancyDetailsSubmission> TenancyDetailsSubmissions { get; set; }
         DbSet<TenantVerification> TenantVerifications { get; set; }
