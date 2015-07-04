@@ -39,9 +39,7 @@ namespace Epsilon.Web.Controllers.Filters.WebApi
 
             string languageId = (string)actionContext.RequestContext.RouteData.Values["languageId"] 
                 ?? AppSettingsHelper.GetString(AppSettingsKey.DefaultLanguageId);
-
-            // I have to block because there are no asynchronous versions for MVC filters.
-            // The languages are cached, so this should be quick.
+            
             var language = LanguageService.GetLanguage(languageId);
 
             if (language == null || !language.IsAvailable)

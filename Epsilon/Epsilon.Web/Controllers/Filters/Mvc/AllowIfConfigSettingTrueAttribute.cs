@@ -34,7 +34,13 @@ namespace Epsilon.Web.Controllers.Filters.Mvc
             if (notAllowed)
             {
                 var message = CommonResources.ContentAccessDisallowedMessage;
-                filterContext.Result = new ContentResult { Content = message };
+                filterContext.Controller.ViewData.Model = message;
+                filterContext.Result = new ViewResult
+                {
+                    ViewName = "Error",
+                    ViewData = filterContext.Controller.ViewData,
+                    TempData = filterContext.Controller.TempData
+                };
                 filterContext.HttpContext.Response.StatusCode = (int)HttpStatusCode.Forbidden;
             }
         }

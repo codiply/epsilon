@@ -79,6 +79,15 @@ namespace Epsilon.Resources.Common {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to An error occurred while processing your request..
+        /// </summary>
+        public static string GenericErrorMessage {
+            get {
+                return ResourceManager.GetString("GenericErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Language.
         /// </summary>
         public static string Language {

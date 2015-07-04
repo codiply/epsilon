@@ -138,4 +138,7 @@
   <data name="ContentAccessDisallowedMessage" xml:space="preserve">
     <value>Access to the requested content has been disallowed.</value>
   </data>
+  <data name="GenericErrorMessage" xml:space="preserve">
+    <value>An error occurred while processing your request.</value>
+  </data>
 </root>
