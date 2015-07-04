@@ -67,6 +67,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Constants\AdminAlertKey.cs" />
     <Compile Include="Constants\AppSettingsKey.cs" />
     <Compile Include="Constants\AppConstant.cs" />
     <Compile Include="Constants\AspNetRole.cs" />

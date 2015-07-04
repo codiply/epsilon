@@ -63,9 +63,9 @@ namespace Epsilon.Resources.Logic.AntiAbuse {
         /// <summary>
         ///   Looks up a localized string similar to There have been too many addresses added by your IP address..
         /// </summary>
-        public static string AddAddress_IpFrequencyCheck_RejectionMessage {
+        public static string AddAddress_IpAddressFrequencyCheck_RejectionMessage {
             get {
-                return ResourceManager.GetString("AddAddress_IpFrequencyCheck_RejectionMessage", resourceCulture);
+                return ResourceManager.GetString("AddAddress_IpAddressFrequencyCheck_RejectionMessage", resourceCulture);
             }
         }
         
@@ -79,11 +79,11 @@ namespace Epsilon.Resources.Logic.AntiAbuse {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to There have been to many submissions made by your IP address..
+        ///   Looks up a localized string similar to There have been too many submissions made by your IP address..
         /// </summary>
-        public static string CreateTenancyDetailsSubmission_IpFrequencyCheck_RejectionMessage {
+        public static string CreateTenancyDetailsSubmission_IpAddressFrequencyCheck_RejectionMessage {
             get {
-                return ResourceManager.GetString("CreateTenancyDetailsSubmission_IpFrequencyCheck_RejectionMessage", resourceCulture);
+                return ResourceManager.GetString("CreateTenancyDetailsSubmission_IpAddressFrequencyCheck_RejectionMessage", resourceCulture);
             }
         }
         
@@ -93,6 +93,24 @@ namespace Epsilon.Resources.Logic.AntiAbuse {
         public static string CreateTenancyDetailsSubmission_UserFrequencyCheck_RejectionMessage {
             get {
                 return ResourceManager.GetString("CreateTenancyDetailsSubmission_UserFrequencyCheck_RejectionMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Due to big number of registrations today, registration has been disabled. Please try again tomorrow..
+        /// </summary>
+        public static string Register_GlobalFrequencyCheck_RejectionMessage {
+            get {
+                return ResourceManager.GetString("Register_GlobalFrequencyCheck_RejectionMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There have been too many registrations from your IP address. Please try again another time..
+        /// </summary>
+        public static string Register_IpAddressFrequencyCheck_RejectionMessage {
+            get {
+                return ResourceManager.GetString("Register_IpAddressFrequencyCheck_RejectionMessage", resourceCulture);
             }
         }
     }

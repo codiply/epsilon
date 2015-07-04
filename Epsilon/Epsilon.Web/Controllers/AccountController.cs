@@ -14,6 +14,7 @@ using Epsilon.Web.Controllers.BaseControllers;
 using Epsilon.Logic.Constants;
 using Epsilon.Logic.Services.Interfaces;
 using Ninject;
+using Epsilon.Logic.Helpers.Interfaces;
 
 namespace Epsilon.Web.Controllers
 {
@@ -21,6 +22,8 @@ namespace Epsilon.Web.Controllers
     {
         private readonly ApplicationSignInManager _signInManager;
         private readonly ApplicationUserManager _userManager;
+        private readonly IAntiAbuseService _antiAbuseService;
+        private readonly IAppSettingsHelper _appSettingsHelper;
         private readonly IAuthenticationManager _authenticationManager;
         private readonly INewUserService _newUserService;
         private readonly IIpAddressActivityService _ipAddressActivityService;
@@ -28,12 +31,16 @@ namespace Epsilon.Web.Controllers
         public AccountController(
             ApplicationUserManager userManager, 
             ApplicationSignInManager signInManager,
+            IAntiAbuseService antiAbuseService,
+            IAppSettingsHelper appSettingsHelper,
             IAuthenticationManager authenticationManager,
             INewUserService newUserService,
             IIpAddressActivityService ipAddressActivityService)
         {
             _signInManager = signInManager;
             _userManager = userManager;
+            _antiAbuseService = antiAbuseService;
+            _appSettingsHelper = appSettingsHelper;
             _authenticationManager = authenticationManager;
             _newUserService = newUserService;
             _ipAddressActivityService = ipAddressActivityService;
@@ -139,6 +146,15 @@ namespace Epsilon.Web.Controllers
         {
             if (ModelState.IsValid)
             {
+                var antiAbuseCheck = await _antiAbuseService.CanRegister(GetUserIpAddress());
+                if (antiAbuseCheck.IsRejected)
+                {
+                    Danger(antiAbuseCheck.RejectionReason, true);
+                    return RedirectToAction(
+                        AppConstant.ANONYMOUS_USER_HOME_ACTION,
+                        AppConstant.ANONYMOUS_USER_HOME_CONTROLLER);
+                }
+
                 var user = new User { UserName = model.Email, Email = model.Email };
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
@@ -147,10 +163,12 @@ namespace Epsilon.Web.Controllers
 
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
-                    string code = await _userManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    await _userManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-
+                    if (_appSettingsHelper.GetBool(AppSettingsKey.DisableRegistrationEmailConfirmation) != true)
+                    {
+                        string code = await _userManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                        var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                        await _userManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                    }
                     await _newUserService.Setup(user.Id);
                     await _ipAddressActivityService.RecordRegistration(user.Id, GetUserIpAddress());
 

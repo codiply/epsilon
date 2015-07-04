@@ -24,6 +24,10 @@ namespace Epsilon.Logic.Constants
             "AntiAbuse_CreateTenancyDetailsSubmission_DisableIpAddressFrequencyCheck";
         public const string AntiAbuse_CreateTenancyDetailsSubmission_DisableUserFrequencyCheck =
             "AntiAbuse_CreateTenancyDetailsSubmission_DisableUserFrequencyCheck";
+        public const string AntiAbuse_Register_GlobalMaxFrequency = "AntiAbuse_Register_GlobalMaxFrequency";
+        public const string AntiAbuse_Register_DisableGlobalFrequencyCheck = "AntiAbuse_Register_DisableGlobalFrequencyCheck";
+        public const string AntiAbuse_Register_MaxFrequencyPerIpAddress = "AntiAbuse_Register_MaxFrequencyPerIpAddress";
+        public const string AntiAbuse_Register_DisableIpAddressFrequencyCheck = "AntiAbuse_Register_DisableIpAddressFrequencyCheck";
 
         public const string SearchAddressResultsLimit = "SearchAddressResultsLimit";
     }

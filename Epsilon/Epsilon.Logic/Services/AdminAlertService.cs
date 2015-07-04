@@ -80,10 +80,11 @@ namespace Epsilon.Logic.Services
 
         private void DoSendAlert(string key)
         {
+            var applicationName = _appSettingsHelper.GetString(AppSettingsKey.ApplicationName);
             var message = new MailMessage
             {
-                Subject = "Epsilon AdminAlert: " + key,
-                Body = key,
+                Subject = String.Format("{0} AdminAlert: {1}", applicationName, key),
+                Body = String.Format("This is an AdminAlert with key <strong>{0}</strong> from application <strong>{1}</strong>.", key, applicationName),
                 IsBodyHtml = true
             };
             var emailList = _appSettingsHelper.GetString(AppSettingsKey.AdminAlertEmailList);

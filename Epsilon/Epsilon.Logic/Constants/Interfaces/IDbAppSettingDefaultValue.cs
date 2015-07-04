@@ -15,6 +15,8 @@ namespace Epsilon.Logic.Constants.Interfaces
         Frequency AntiAbuse_AddAddress_MaxFrequencyPerUser { get; }
         Frequency AntiAbuse_CreateTenancyDetailsSubmission_MaxFrequencyPerIpAddress { get; }
         Frequency AntiAbuse_CreateTenancyDetailsSubmission_MaxFrequencyPerUser { get; }
+        Frequency AntiAbuse_Register_GlobalMaxFrequency { get; }
+        Frequency AntiAbuse_Register_MaxFrequencyPerIpAddress { get; }
 
         int SearchAddressResultsLimit { get; }
     }

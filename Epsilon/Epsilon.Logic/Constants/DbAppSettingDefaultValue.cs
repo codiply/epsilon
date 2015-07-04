@@ -16,6 +16,8 @@ namespace Epsilon.Logic.Constants
         public Frequency AntiAbuse_AddAddress_MaxFrequencyPerUser { get { return new Frequency(2, TimeSpan.FromDays(30)); } }
         public Frequency AntiAbuse_CreateTenancyDetailsSubmission_MaxFrequencyPerIpAddress { get { return new Frequency(2, TimeSpan.FromDays(1)); } }
         public Frequency AntiAbuse_CreateTenancyDetailsSubmission_MaxFrequencyPerUser { get { return new Frequency(1, TimeSpan.FromDays(30)); } }
+        public Frequency AntiAbuse_Register_GlobalMaxFrequency { get { return new Frequency(300, TimeSpan.FromDays(1)); } }
+        public Frequency AntiAbuse_Register_MaxFrequencyPerIpAddress { get { return new Frequency(3, TimeSpan.FromDays(7)); } }
 
         public int SearchAddressResultsLimit { get { return 30; } }
     }
