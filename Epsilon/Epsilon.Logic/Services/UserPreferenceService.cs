@@ -24,11 +24,12 @@ namespace Epsilon.Logic.Services
             _dbContext = dbContext;
         }
 
-        public async Task CreateUserPreference(string userId)
+        public async Task CreateUserPreference(string userId, string languageId)
         {
             var newUserPreference = new UserPreference
             {
-                Id = userId
+                Id = userId,
+                LanguageId = languageId.ToLower()
             };
             _dbContext.UserPreferences.Add(newUserPreference);
             await _dbContext.SaveChangesAsync();

@@ -8,6 +8,6 @@ namespace Epsilon.Logic.Services.Interfaces
 {
     public interface INewUserService
     {
-        Task Setup(string userId);
+        Task Setup(string userId, string languageId);
     }
 }

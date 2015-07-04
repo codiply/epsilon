@@ -17,6 +17,7 @@ INSERT INTO #TMP
 ([Id], [EnglishName], [LocalName], [CultureCode], [IsAvailable])
 VALUES
 -- Edit the values below to update the target table.
+-- !!! Id's should be lowercase !!!
 (N'en', N'English', N'English', N'en-GB', 1),
 (N'el', N'Greek', N'Ελληνικά', N'el-GR', 1),
 (N'us', N'English (US)', N'English (US)', N'en-US', 0);

@@ -55,6 +55,7 @@ namespace Epsilon.IntegrationTests.BaseFixtures
 
         public async Task<User> CreateUser(string email)
         {
+            var languageId = "en";
             var dbContext = Kernel.Get<IEpsilonContext>();
             var newUserService = Kernel.Get<INewUserService>();
             
@@ -67,7 +68,7 @@ namespace Epsilon.IntegrationTests.BaseFixtures
             dbContext.Users.Add(user);
             await dbContext.SaveChangesAsync();
 
-            await newUserService.Setup(user.Id);
+            await newUserService.Setup(user.Id, languageId);
 
             return user;
         }

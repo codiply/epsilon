@@ -27,6 +27,11 @@ namespace Epsilon.Web.Controllers.BaseControllers
             return User.Identity.GetUserId();
         }
 
+        internal string GetLanguageId()
+        {
+            return (string)RouteData.Values["languageId"];
+        }
+
         internal void Success(string message, bool dismissable = false)
         {
             AddAlert(ViewAlertStyles.Success, message, dismissable);

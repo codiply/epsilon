@@ -25,10 +25,10 @@ namespace Epsilon.Logic.Services
             _userPreferenceService = userPreferenceService;
         }
 
-        public async Task Setup(string userId)
+        public async Task Setup(string userId, string languageId)
         {
             await CreateCoinAccount(userId);
-            await CreateUserPreference(userId);
+            await CreateUserPreference(userId, languageId);
         }
 
         private async Task CreateCoinAccount(string userId)
@@ -36,9 +36,9 @@ namespace Epsilon.Logic.Services
             await _userCoinService.CreateAccount(userId);
         }
 
-        private async Task CreateUserPreference(string userId)
+        private async Task CreateUserPreference(string userId, string languageId)
         {
-            await _userPreferenceService.CreateUserPreference(userId);
+            await _userPreferenceService.CreateUserPreference(userId, languageId);
         }
     }
 }
