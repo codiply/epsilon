@@ -50,7 +50,7 @@
             <p>@SubmissionResources.SearchAddress_SelectYourAddressMessage</p>
         </div>
         <div class="alert alert-warning" data-ng-clock data-ng-if="addressSearchResponse.IsResultsLimitReached">
-            <p>@SubmissionResources.SearchAddress_NarrowDownYourSearchMessage</p>
+            <p>{{ '@SubmissionResources.SearchAddress_NarrowDownYourSearchMessage' | stringFormat : addressSearchResponse.ResultsLimit }}</p>
         </div> 
         <table class="table table-striped">
             <tbody>
@@ -63,15 +63,11 @@
     </div>
     <div class="form-group row" data-ng-cloak data-ng-show="addressSearchResponse.Results.length > 0">
         <div class="col-md-offset-3 col-md-9">
-            @using (Html.BeginForm("UseAddress", "Submission"))
-            {
-                @Html.AntiForgeryToken()
-                <input type="hidden" name="selectedAddressId" ng-value="selectedAddressId" />
-                <button type="submit" class="btn btn-default" aria-label="Left Align" 
-                        data-ng-disabled="!selectedAddressId">
-                    <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> @SubmissionResources.SearchAddress_UseSelectedAddressButton
-                </button>
-            }
+            <a class="btn btn-default" aria-label="Left Align" 
+               data-ng-href="@(Url.Action("UseAddress") + "/{{selectedAddressId}}")"
+               data-ng-disabled="!selectedAddressId">
+                <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> @SubmissionResources.SearchAddress_UseSelectedAddressButton
+            </a>
         </div>
     </div>
 

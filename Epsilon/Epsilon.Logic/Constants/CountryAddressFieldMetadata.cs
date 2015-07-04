@@ -20,7 +20,7 @@ namespace Epsilon.Logic.Constants
                     {
                         Line1 = new FieldMetadata { IsUsed = true, IsRequired = true },
                         Line2 = new FieldMetadata { IsUsed = true, IsRequired = true },
-                        Line3 = new FieldMetadata { IsUsed = true, IsRequired = true },
+                        Line3 = new FieldMetadata { IsUsed = false, IsRequired = false },
                         Line4 = new FieldMetadata { IsUsed = false, IsRequired = false },
                         Locality = new FieldMetadata { IsUsed = true, IsRequired = true },
                         Region = new FieldMetadata { IsUsed = true, IsRequired = false },
@@ -30,7 +30,7 @@ namespace Epsilon.Logic.Constants
                     return new CountryMetadata
                     {
                         Line1 = new FieldMetadata { IsUsed = true, IsRequired = true },
-                        Line2 = new FieldMetadata { IsUsed = true, IsRequired = false },
+                        Line2 = new FieldMetadata { IsUsed = false, IsRequired = false },
                         Line3 = new FieldMetadata { IsUsed = false, IsRequired = false },
                         Line4 = new FieldMetadata { IsUsed = false, IsRequired = false },
                         Locality = new FieldMetadata { IsUsed = true, IsRequired = true },

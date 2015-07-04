@@ -68,9 +68,7 @@ namespace Epsilon.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                // TODO_PANOS: Get the ip address of the user.
-                var ipAddress = "192.168.0.1";
-                var outcome = await _addressService.AddAddress(User.Identity.GetUserId(), ipAddress, address);
+                var outcome = await _addressService.AddAddress(User.Identity.GetUserId(), GetUserIpAddress(), address);
                 if (outcome.IsRejected)
                 {
                     Danger(outcome.RejectionReason, true);
@@ -78,22 +76,19 @@ namespace Epsilon.Web.Controllers
                         AppConstant.AUTHENTICATED_USER_HOME_ACTION,
                         AppConstant.AUTHENTICATED_USER_HOME_CONTROLLER);
                 }
-
-                // TODO_PANOS: make a redirect so that the URL is not SaveAddress
-                var model = AddressDetailsViewModel.FromEntity(outcome.Address);
-                return View("UseAddress", model);
+                
+                return RedirectToAction("UseAddress", new { id = outcome.AddressId.Value });
             }
 
             var countries = _countryService.GetAvailableCountries();
             ViewBag.CountryId = new SelectList(countries, "Id", "EnglishName", address.CountryId);
             return View("AddAddress", address);
         }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> UseAddress(Guid selectedAddressId)
+        
+        public async Task<ActionResult> UseAddress(Guid id)
         {
-            var entity = await _addressService.GetAddress(selectedAddressId);
+            var addressId = id;
+            var entity = await _addressService.GetAddress(id);
             var model = AddressDetailsViewModel.FromEntity(entity);
 
             return View(model);

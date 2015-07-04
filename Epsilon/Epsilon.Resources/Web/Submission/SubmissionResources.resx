@@ -133,7 +133,7 @@
     <value>If your address is not among the results please add it.</value>
   </data>
   <data name="SearchAddress_NarrowDownYourSearchMessage" xml:space="preserve">
-    <value>Your search returned more than {{ addressSearchResponse.ResultsLimit }} results. If your address is not among them, please narrow down your search.</value>
+    <value>Your search returned more than {0} results. If your address is not among them, please narrow down your search.</value>
   </data>
   <data name="SearchAddress_NoAddressesFoundMessage" xml:space="preserve">
     <value>No addresses found. Please add your address.</value>

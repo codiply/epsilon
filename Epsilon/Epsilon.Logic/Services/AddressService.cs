@@ -126,7 +126,7 @@ namespace Epsilon.Logic.Services
                 {
                     IsRejected = true,
                     RejectionReason = antiAbuseServiceResponse.RejectionReason,
-                    Address = null
+                    AddressId = null
                 };
 
             var entity = dto.ToEntity();
@@ -140,7 +140,7 @@ namespace Epsilon.Logic.Services
             return new AddAddressOutcome
             {
                 IsRejected = false,
-                Address = entity
+                AddressId = entity.Id
             };
         }
 

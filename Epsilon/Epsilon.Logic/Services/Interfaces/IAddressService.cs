@@ -13,7 +13,7 @@ namespace Epsilon.Logic.Services.Interfaces
     {
         public bool IsRejected { get; set; }
         public string RejectionReason { get; set; }
-        public Address Address { get; set; }
+        public Guid? AddressId { get; set; }
     }
 
     public interface IAddressService

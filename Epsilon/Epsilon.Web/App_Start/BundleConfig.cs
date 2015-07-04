@@ -9,7 +9,7 @@ namespace Epsilon.Web
         public static void RegisterBundles(BundleCollection bundles)
         {
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                        "~/Content/bootstrap/bootstrap.css",
+                        "~/Content/bootstrap.css",
                         "~/Content/site.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
@@ -31,6 +31,9 @@ namespace Epsilon.Web
                         "~/Scripts/lib/angularjs/angular.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/ngapp").Include(
+                        // Filters
+                        "~/Scripts/ngapp/filters/StringFormat.js",
+                        // Controllers
                         "~/Scripts/ngapp/controllers/SubmissionAddressSearchController.js",
                         "~/Scripts/ngapp/app.js"));
         }

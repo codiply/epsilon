@@ -61,7 +61,7 @@ namespace Epsilon.Resources.CountryVariants {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Street and Number.
         /// </summary>
         public static string Address_Line1 {
             get {
@@ -97,7 +97,7 @@ namespace Epsilon.Resources.CountryVariants {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Town/City.
         /// </summary>
         public static string Address_Locality {
             get {
@@ -115,7 +115,7 @@ namespace Epsilon.Resources.CountryVariants {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Prefecture.
         /// </summary>
         public static string Address_Region {
             get {

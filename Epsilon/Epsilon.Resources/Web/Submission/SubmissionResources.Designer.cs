@@ -106,7 +106,7 @@ namespace Epsilon.Resources.Web.Submission {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Your search returned more than {{ addressSearchResponse.ResultsLimit }} results. If your address is not among them, please narrow down your search..
+        ///   Looks up a localized string similar to Your search returned more than {0} results. If your address is not among them, please narrow down your search..
         /// </summary>
         public static string SearchAddress_NarrowDownYourSearchMessage {
             get {
