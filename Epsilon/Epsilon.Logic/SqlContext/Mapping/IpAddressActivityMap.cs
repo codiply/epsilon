@@ -3,6 +3,7 @@ using Epsilon.Logic.Entities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Data.Entity.Infrastructure.Annotations;
 using System.Data.Entity.ModelConfiguration;
 using System.Linq;
 using System.Text;
@@ -28,6 +29,14 @@ namespace Epsilon.Logic.SqlContext.Mapping
                 .HasMaxLength(AppConstant.IP_ADDRESS_MAX_LENGTH);
             this.Property(x => x.RecordedOn)
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Computed);
+
+            // Indexes
+            this.Property(x => x.ActivityType)
+                .HasColumnAnnotation("Index", new IndexAnnotation(new IndexAttribute("IX_ActivityType_IpAddress_RecordedOn", 1)));
+            this.Property(x => x.IpAddress)
+                .HasColumnAnnotation("Index", new IndexAnnotation(new IndexAttribute("IX_ActivityType_IpAddress_RecordedOn", 2)));
+            this.Property(x => x.RecordedOn)
+                .HasColumnAnnotation("Index", new IndexAnnotation(new IndexAttribute("IX_ActivityType_IpAddress_RecordedOn", 3)));
         }
     }
 }

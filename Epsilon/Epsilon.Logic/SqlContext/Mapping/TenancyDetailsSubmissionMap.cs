@@ -3,6 +3,7 @@ using Epsilon.Logic.Entities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Data.Entity.Infrastructure.Annotations;
 using System.Data.Entity.ModelConfiguration;
 using System.Linq;
 using System.Text;
@@ -40,6 +41,17 @@ namespace Epsilon.Logic.SqlContext.Mapping
                 .WithMany()
                 .HasForeignKey(x => x.CurrencyId)
                 .WillCascadeOnDelete(false);
+
+            // Indexes
+            this.Property(x => x.CreatedByIpAddress)
+                .HasColumnAnnotation("Index", new IndexAnnotation(new IndexAttribute("IX_CreatedByIpAddress_CreatedOn", 1)));
+            this.Property(x => x.CreatedOn)
+                .HasColumnAnnotation("Index", new IndexAnnotation(new IndexAttribute("IX_CreatedByIpAddress_CreatedOn", 2)));
+
+            this.Property(x => x.UserId)
+                .HasColumnAnnotation("Index", new IndexAnnotation(new IndexAttribute("IX_UserId_CreatedOn", 1)));
+            this.Property(x => x.CreatedOn)
+                .HasColumnAnnotation("Index", new IndexAnnotation(new IndexAttribute("IX_UserId_CreatedOn", 2)));
         }
     }
 }
