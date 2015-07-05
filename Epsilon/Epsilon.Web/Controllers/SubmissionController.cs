@@ -14,6 +14,7 @@ using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Epsilon.Web.Models.ViewModels.Shared;
+using Epsilon.Resources.Web.Submission;
 
 namespace Epsilon.Web.Controllers
 { 
@@ -98,10 +99,16 @@ namespace Epsilon.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> UseAddressConfirmed(Guid selectedAddressId)
         {
-            // TODO_PANOS: Call service to create TenancyDetailsSubmission placeholder.
-            // TODO_PANOS: In the service make an anti abuse check.
-
-            Success(String.Format("Use Address Confirmed for Address Id {0}.", selectedAddressId));
+            var outcome = await _tenancyDetailsSubmissionService
+                .Create(GetUserId(), GetUserIpAddress(), selectedAddressId);
+            if (outcome.IsRejected)
+            {
+                Danger(outcome.RejectionReason, true);
+            }
+            else
+            {
+                Success(SubmissionResources.UseAddressConfirmed_SuccessMessage, true);
+            }
 
             return RedirectToAction(
                 AppConstant.AUTHENTICATED_USER_HOME_ACTION,

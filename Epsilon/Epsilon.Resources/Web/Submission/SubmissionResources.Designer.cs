@@ -230,5 +230,23 @@ namespace Epsilon.Resources.Web.Submission {
                 return ResourceManager.GetString("UseAddress_SubmitButton", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The address was not found in our system..
+        /// </summary>
+        public static string UseAddressConfirmed_AddressNotFoundMessage {
+            get {
+                return ResourceManager.GetString("UseAddressConfirmed_AddressNotFoundMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your submission has been initiated. You will receive a verification code by mail soon..
+        /// </summary>
+        public static string UseAddressConfirmed_SuccessMessage {
+            get {
+                return ResourceManager.GetString("UseAddressConfirmed_SuccessMessage", resourceCulture);
+            }
+        }
     }
 }

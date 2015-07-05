@@ -162,6 +162,12 @@
   <data name="SearchAddress_UseSelectedAddressButton" xml:space="preserve">
     <value>Use Selected Address</value>
   </data>
+  <data name="UseAddressConfirmed_AddressNotFoundMessage" xml:space="preserve">
+    <value>The address was not found in our system.</value>
+  </data>
+  <data name="UseAddressConfirmed_SuccessMessage" xml:space="preserve">
+    <value>Your submission has been initiated. You will receive a verification code by mail soon.</value>
+  </data>
   <data name="UseAddress_ConfirmationText" xml:space="preserve">
     <value>I confirm this is my address.</value>
   </data>

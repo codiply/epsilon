@@ -21,9 +21,12 @@ namespace Epsilon.Logic.SqlContext.Mapping
             // Properties
             this.Property(x => x.Id)
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            this.Property(x => x.Rent)
+                .IsOptional();
             this.Property(x => x.CreatedOn)
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Computed);
             this.Property(x => x.CreatedByIpAddress)
+                .IsRequired()
                 .HasMaxLength(AppConstant.IP_ADDRESS_MAX_LENGTH);
 
             // Relationships

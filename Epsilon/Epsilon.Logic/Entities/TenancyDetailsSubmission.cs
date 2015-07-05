@@ -12,7 +12,7 @@ namespace Epsilon.Logic.Entities
         public virtual Guid Id { get; set; }
         public virtual string UserId { get; set; }
         public virtual Guid AddressId { get; set; }
-        public virtual Decimal Rent { get; set; }
+        public virtual Decimal? Rent { get; set; }
         public virtual string CurrencyId { get; set; }
         public virtual int? NumberOfBedrooms { get; set; }
         public virtual bool? IsPartOfProperty { get; set; }
