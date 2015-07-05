@@ -88,8 +88,9 @@ namespace Epsilon.Logic.Services
                 _dbAppSettingDefaultValue.AntiAbuse_Register_GlobalMaxFrequency);
 
             var windowStart = _clock.OffsetNow - maxFrequency.Period;
+            var activityType = EnumsHelper.IpAddressActivityType.ToString(IpAddressActivityType.Registration);
             var actualTimes = await _dbContext.IpAddressActivities
-                .Where(a => a.ActivityType.Equals(EnumsHelper.IpAddressActivityType.ToString(IpAddressActivityType.Registration)))
+                .Where(a => a.ActivityType.Equals(activityType))
                 .Where(a => a.RecordedOn > windowStart)
                 .CountAsync();
 
@@ -117,8 +118,9 @@ namespace Epsilon.Logic.Services
                 _dbAppSettingDefaultValue.AntiAbuse_Register_MaxFrequencyPerIpAddress);
 
             var windowStart = _clock.OffsetNow - maxFrequency.Period;
+            var activityType = EnumsHelper.IpAddressActivityType.ToString(IpAddressActivityType.Registration);
             var actualTimes = await _dbContext.IpAddressActivities
-                .Where(a => a.ActivityType.Equals(EnumsHelper.IpAddressActivityType.ToString(IpAddressActivityType.Registration)))
+                .Where(a => a.ActivityType.Equals(activityType))
                 .Where(a => a.IpAddress.Equals(ipAddress))
                 .Where(a => a.RecordedOn > windowStart)
                 .CountAsync();

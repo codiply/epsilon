@@ -1134,6 +1134,7 @@
     <Content Include="Views\Shared\_CountryVariantResources.cshtml" />
     <Content Include="Views\Shared\_AddressDetails.cshtml" />
     <Content Include="Views\Submission\UseAddress.cshtml" />
+    <Content Include="Views\Admin\DbAppSettingList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

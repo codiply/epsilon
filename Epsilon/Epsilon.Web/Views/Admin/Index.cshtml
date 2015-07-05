@@ -1,11 +1,15 @@
 ﻿@{
-    ViewBag.Title = "Admin";
+    ViewBag.Title = "Administration";
 }
+
+<h2>@ViewBag.Title</h2>
+<hr />
 
 <div class="row">
     <div class="col-md-6">
-        <h2>App Cache</h2>
+        
         <p><a class="btn btn-default" href="@Url.Action("AppCacheKeys")">App Cache Keys</a></p>
+        <p><a class="btn btn-default" href="@Url.Action("DbAppSettingList")">Database AppSettings</a></p>
     </div>
     <div class="col-md-6">
     </div>
