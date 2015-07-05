@@ -79,6 +79,7 @@
     <Compile Include="Constants\DbAppSettingKey.cs" />
     <Compile Include="Constants\DbAppSettingDefaultValue.cs" />
     <Compile Include="Constants\AppSettingsDefaultValue.cs" />
+    <Compile Include="Constants\Enums\DbAppSettingValueType.cs" />
     <Compile Include="Constants\HttpContextItemsKey.cs" />
     <Compile Include="Constants\Interfaces\IAppSettingsDefaultValue.cs" />
     <Compile Include="Constants\Interfaces\ICountryAddressFieldMetadata.cs" />
@@ -104,6 +105,7 @@
     <Compile Include="Helpers\AddressCleansingHelper.cs" />
     <Compile Include="Helpers\AppSettingsHelper.cs" />
     <Compile Include="Helpers\DbAppSettingsHelper.cs" />
+    <Compile Include="Helpers\EnumHelper.cs" />
     <Compile Include="Helpers\Interfaces\IAddressCleansingHelper.cs" />
     <Compile Include="Helpers\Interfaces\IAppSettingsHelper.cs" />
     <Compile Include="Helpers\Interfaces\IDbAppSettingsHelper.cs" />
@@ -114,6 +116,7 @@
     <Compile Include="Helpers\RandomStringHelper.cs" />
     <Compile Include="Infrastructure\AppCache.cs" />
     <Compile Include="Constants\AppCacheKey.cs" />
+    <Compile Include="Infrastructure\EnumMemoizer.cs" />
     <Compile Include="Infrastructure\Extensions\HttpContextBaseExtensions.cs" />
     <Compile Include="Infrastructure\Interfaces\IAppCache.cs" />
     <Compile Include="Infrastructure\Primitives\Frequency.cs" />

@@ -7,17 +7,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data.Entity;
 
 namespace Epsilon.IntegrationTests.Logic.Constants
 {
     public class CoinAccountTransactionTypeIdTest : BaseIntegrationTestWithRollback
     {
         [Test]
-        public void ThereShouldBeACoinAccountTransactionTypeId_ForAllCoinAccountTransactionTypesInTheDatabase()
+        public async Task ThereShouldBeACoinAccountTransactionTypeId_ForAllCoinAccountTransactionTypesInTheDatabase()
         {
             var enumCoinAccountTransactionTypeIds = Enum.GetNames(typeof(CoinAccountTransactionTypeId)).ToDictionary(x => x);
 
-            var coinAccountTransactionTypesInDb = DbProbe.CoinAccountTransactionTypes.ToList();
+            var coinAccountTransactionTypesInDb = await DbProbe.CoinAccountTransactionTypes.ToListAsync();
 
             var failingCoinAccountTransactionTypes = coinAccountTransactionTypesInDb
                 .Where(c => !enumCoinAccountTransactionTypeIds.ContainsKey(c.Id))
@@ -44,12 +45,12 @@ namespace Epsilon.IntegrationTests.Logic.Constants
         }
 
         [Test]
-        public void EveryCoinAccountTransactionTypeIdShouldHaveACoinAccountTransactionTypeInTheDatabase()
+        public async Task EveryCoinAccountTransactionTypeIdShouldHaveACoinAccountTransactionTypeInTheDatabase()
         {
             var enumCoinAccountTransactionTypeIds = Enum.GetNames(typeof(CoinAccountTransactionTypeId));
 
             var availableCoinAccountTransactionTypesInDb = 
-                DbProbe.CoinAccountTransactionTypes.ToDictionary(x => x.Id);
+                await DbProbe.CoinAccountTransactionTypes.ToDictionaryAsync(x => x.Id);
 
             var failingCoinAccountTransactionTypeIds = enumCoinAccountTransactionTypeIds
                 .Where(id => !availableCoinAccountTransactionTypesInDb.ContainsKey(id))

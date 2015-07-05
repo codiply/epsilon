@@ -7,17 +7,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data.Entity;
 
 namespace Epsilon.IntegrationTests.Logic.Constants
 {
     public class CountryIdTest : BaseIntegrationTestWithRollback
     {
         [Test]
-        public void ThereShouldBeACountryId_ForAllAvailableCountriesInTheDatabase()
+        public async Task ThereShouldBeACountryId_ForAllAvailableCountriesInTheDatabase()
         {
             var enumCountryIds = Enum.GetNames(typeof(CountryId)).ToDictionary(x => x);
 
-            var availableCountriesInDb = DbProbe.Countries.Where(c => c.IsAvailable).ToList();
+            var availableCountriesInDb = await DbProbe.Countries.Where(c => c.IsAvailable).ToListAsync();
 
             var failingCountries = availableCountriesInDb
                 .Where(c => !enumCountryIds.ContainsKey(c.Id))
@@ -44,12 +45,12 @@ namespace Epsilon.IntegrationTests.Logic.Constants
         }
 
         [Test]
-        public void EveryCountryIdShouldHaveAnAvailableCountryInTheDatabase()
+        public async Task EveryCountryIdShouldHaveAnAvailableCountryInTheDatabase()
         {
             var enumCountryIds = Enum.GetNames(typeof(CountryId));
 
             var availableCountriesInDb = 
-                DbProbe.Countries.Where(c => c.IsAvailable).ToDictionary(x => x.Id);
+                await DbProbe.Countries.Where(c => c.IsAvailable).ToDictionaryAsync(x => x.Id);
 
             var failingCountryIds = enumCountryIds
                 .Where(id => !availableCountriesInDb.ContainsKey(id))

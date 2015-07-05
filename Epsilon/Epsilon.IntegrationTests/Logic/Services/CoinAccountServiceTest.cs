@@ -28,7 +28,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
         }
 
         [Test]
-        public async Task GetBalance_ForNonExistingAccount_ThrowsArgumentException()
+        public void GetBalance_ForNonExistingAccount_ThrowsArgumentException()
         {
             var coinAccountService = Kernel.Get<ICoinAccountService>();
             var accountId = "non-existing-account-id";
