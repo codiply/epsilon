@@ -11,6 +11,6 @@ namespace Epsilon.Logic.Helpers.Interfaces
     {
         Task<IList<AppSetting>> GetAllAppSettingEntities();
 
-        Task<AppSetting> GetAppSettingEntity(Guid id);
+        Task<AppSetting> GetAppSettingEntity(string id);
     }
 }

@@ -34,7 +34,7 @@ namespace Epsilon.Logic.Helpers
             return await _dbContext.AppSettings.OrderBy(s => s.Id).ToListAsync();
         }
 
-        public async Task<AppSetting> GetAppSettingEntity(Guid id)
+        public async Task<AppSetting> GetAppSettingEntity(string id)
         {
             return await _dbContext.AppSettings.FindAsync(id);
         }

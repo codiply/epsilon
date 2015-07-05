@@ -61,13 +61,13 @@ namespace Epsilon.Web.Controllers
             return View(model);
         }
 
-        public async Task<ActionResult> DbAppSettingDetails(Guid id)
+        public async Task<ActionResult> DbAppSettingDetails(string id)
         {
             var model = await _dbAppSettingsHelper.GetAppSettingEntity(id);
             return View(model);
         }
 
-        public async Task<ActionResult> DbAppSettingEdit(Guid id)
+        public async Task<ActionResult> DbAppSettingEdit(string id)
         {
             var model = await _dbAppSettingsHelper.GetAppSettingEntity(id);
             return View(model);
