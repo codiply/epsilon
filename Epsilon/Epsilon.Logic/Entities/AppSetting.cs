@@ -17,8 +17,9 @@ namespace Epsilon.Logic.Entities
         public virtual string ValueType { get; set; }
         public virtual string Description { get; set; }
         public virtual string UpdatedById { get; set; }
+        public virtual DateTimeOffset? UpdatedOn { get; set; }
         
-        public virtual string UpdatedBy { get; set; }
+        public virtual User UpdatedBy { get; set; }
 
         [NotMapped]
         public virtual DbAppSettingValueType? ValueTypeAsEnum
