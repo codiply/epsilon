@@ -127,7 +127,7 @@
     <value>There have been too many submissions made by your IP address.</value>
   </data>
   <data name="CreateTenancyDetailsSubmission_UserFrequencyCheck_RejectionMessage" xml:space="preserve">
-    <value>You can only make a certain number of submissions in a certain period.</value>
+    <value>You can only make a certain number of submissions in a certain period of time.</value>
   </data>
   <data name="Register_GlobalFrequencyCheck_RejectionMessage" xml:space="preserve">
     <value>Due to big number of registrations today, registration has been disabled. Please try again tomorrow.</value>

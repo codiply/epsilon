@@ -88,7 +88,7 @@ namespace Epsilon.Resources.Logic.AntiAbuse {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You can only make a certain number of submissions in a certain period..
+        ///   Looks up a localized string similar to You can only make a certain number of submissions in a certain period of time..
         /// </summary>
         public static string CreateTenancyDetailsSubmission_UserFrequencyCheck_RejectionMessage {
             get {

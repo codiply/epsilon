@@ -35,83 +35,83 @@
         });
 }
 
-<div class="form-horizontal">
+<dl class="dl-horizontal">
     @if (fieldMetadata.Line1.IsUsed)
     {
-        <div class="form-group">
-            <label class="control-label col-md-3" for="Line1">@countryVariantResources[CountryVariantResourceName.ADDRESS_LINE1]</label>
-            <div class="col-md-9">
-                <div>@Model.Line1</div>
-            </div>
-        </div>
+        <dt>
+            @countryVariantResources[CountryVariantResourceName.ADDRESS_LINE1]
+        </dt>
+        <dd>
+            @Model.Line1
+        </dd>
     }
 
     @if (fieldMetadata.Line2.IsUsed)
     {
-        <div class="form-group">
-            <label class="control-label col-md-3">@countryVariantResources[CountryVariantResourceName.ADDRESS_LINE2]</label>
-            <div class="col-md-9">
-                <div>@Model.Line2</div>
-            </div>
-        </div>
+        <dt>
+            @countryVariantResources[CountryVariantResourceName.ADDRESS_LINE2]
+        </dt>
+        <dd>
+            @Model.Line2
+        </dd>
     }
 
     @if (fieldMetadata.Line3.IsUsed)
     {
-        <div class="form-group">
-            <label class="control-label col-md-3">@countryVariantResources[CountryVariantResourceName.ADDRESS_LINE3]</label>
-            <div class="col-md-9">
-                <div>@Model.Line3</div>
-            </div>
-        </div>
+        <dt>
+            @countryVariantResources[CountryVariantResourceName.ADDRESS_LINE3]
+        </dt>
+        <dd>
+            @Model.Line3
+        </dd>
     }
 
 
     @if (fieldMetadata.Line4.IsUsed)
     {
-        <div class="form-group">
-            <label class="control-label col-md-3">@countryVariantResources[CountryVariantResourceName.ADDRESS_LINE4]</label>
-            <div class="col-md-9">
-                <div>@Model.Line4</div>
-            </div>
-        </div>
+        <dt>
+            @countryVariantResources[CountryVariantResourceName.ADDRESS_LINE4]
+        </dt>
+        <dd>
+            @Model.Line4
+        </dd>
     }
 
     @if (fieldMetadata.Locality.IsUsed)
     {
-        <div class="form-group">
-            <label class="control-label col-md-3">@countryVariantResources[CountryVariantResourceName.ADDRESS_LOCALITY]</label>
-            <div class="col-md-9">
-                <div>@Model.Locality</div>
-            </div>
-        </div>
+        <dt>
+            @countryVariantResources[CountryVariantResourceName.ADDRESS_LOCALITY]
+        </dt>
+        <dd>
+            @Model.Locality
+        </dd>
     }
 
     @if (fieldMetadata.Region.IsUsed)
     {
-        <div class="form-group">
-            <label class="control-label col-md-3">@countryVariantResources[CountryVariantResourceName.ADDRESS_REGION]</label>
-            <div class="col-md-9">
-                <div>@Model.Region</div>
-            </div>
-        </div>
+        <dt>
+            @countryVariantResources[CountryVariantResourceName.ADDRESS_REGION]
+        </dt>
+        <dd>
+            @Model.Region
+        </dd>
     }
 
     @if (fieldMetadata.Postcode.IsUsed)
     {
-        <div class="form-group">
-            <label class="control-label col-md-3">@countryVariantResources[CountryVariantResourceName.ADDRESS_POSTCODE]</label>
-            <div class="col-md-9">
-                <div>@Model.Postcode</div>
-            </div>
-        </div>
+        <dt>
+            @countryVariantResources[CountryVariantResourceName.ADDRESS_POSTCODE]
+        </dt>
+        <dd>
+            @Model.Postcode
+        </dd>
     }
 
-    <div class="form-group">
-        <label class="control-label col-md-3">@CommonResources.Country</label>
-        <div class="col-md-9">
-            <div>@countryService.GetCountryDisplayName(Model.CountryId)</div>
-        </div>
-    </div>
-</div>
+    <dt>
+        @CommonResources.Country
+    </dt>
+    <dd>
+        @countryService.GetCountryDisplayName(Model.CountryId)
+    </dd>
+</dl>
 

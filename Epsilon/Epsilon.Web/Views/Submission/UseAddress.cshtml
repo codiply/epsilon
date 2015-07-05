@@ -18,7 +18,7 @@
 
 
         <div class="form-group">
-            <div class="col-md-offset-3 col-md-9 alert-info">
+            <div class="alert-info">
                 <p><input type="checkbox" name="confirmedText" data-ng-model="confirmedText">
                     @SubmissionResources.UseAddress_ConfirmationText
                 </p>
@@ -27,7 +27,7 @@
 
         <div class="form-group">
             <input type="hidden" name="selectedAddressId" value="@Model.Id" />
-            <div class="col-md-offset-3 col-md-9">
+            <div>
                 <input type="submit" value="@SubmissionResources.UseAddress_SubmitButton" class="btn btn-default" data-ng-disabled="!confirmedText" />
             </div>
         </div>
