@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.Entity;
 using Epsilon.Logic.Constants.Enums;
+using Epsilon.Logic.Helpers;
 
 namespace Epsilon.Logic.Services
 {
@@ -88,7 +89,7 @@ namespace Epsilon.Logic.Services
 
             var windowStart = _clock.OffsetNow - maxFrequency.Period;
             var actualTimes = await _dbContext.IpAddressActivities
-                .Where(a => a.ActivityType.Equals(IpAddressActivityType.Registration.ToString()))
+                .Where(a => a.ActivityType.Equals(EnumsHelper.IpAddressActivityType.ToString(IpAddressActivityType.Registration)))
                 .Where(a => a.RecordedOn > windowStart)
                 .CountAsync();
 
@@ -117,7 +118,7 @@ namespace Epsilon.Logic.Services
 
             var windowStart = _clock.OffsetNow - maxFrequency.Period;
             var actualTimes = await _dbContext.IpAddressActivities
-                .Where(a => a.ActivityType.Equals(IpAddressActivityType.Registration.ToString()))
+                .Where(a => a.ActivityType.Equals(EnumsHelper.IpAddressActivityType.ToString(IpAddressActivityType.Registration)))
                 .Where(a => a.IpAddress.Equals(ipAddress))
                 .Where(a => a.RecordedOn > windowStart)
                 .CountAsync();

@@ -1,6 +1,7 @@
 ﻿using Epsilon.Logic.Constants;
 using Epsilon.Logic.Constants.Enums;
 using Epsilon.Logic.Constants.Interfaces.CountryAddressFieldMetadata;
+using Epsilon.Logic.Helpers;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -28,7 +29,7 @@ namespace Epsilon.UnitTests.Logic.Constants
         public void AllRequiredFielsAreMarkedAsUsed()
         {
             var allMetadata = new CountryAddressFieldMetadata();
-            var allCountryIds = Enum.GetValues(typeof(CountryId)) as CountryId[];
+            var allCountryIds = EnumsHelper.CountryId.GetValues();
 
             foreach (var countryId in allCountryIds)
             {
@@ -40,7 +41,7 @@ namespace Epsilon.UnitTests.Logic.Constants
                     if (fieldMetadata.IsRequired)
                         Assert.IsTrue(fieldMetadata.IsUsed,
                             String.Format("Field {0} for CountryId {1} should be marked as IsUsed because it is marked as IsRequired.", 
-                                field, countryId.ToString()));
+                                field, EnumsHelper.CountryId.ToString(countryId)));
                 }
             }
         }
@@ -51,7 +52,7 @@ namespace Epsilon.UnitTests.Logic.Constants
             var requiredFields = new List<string> { "Line1", "Locality", "Postcode" };
             
             var allMetadata = new CountryAddressFieldMetadata();
-            var allCountryIds = Enum.GetValues(typeof(CountryId)) as CountryId[];
+            var allCountryIds = EnumsHelper.CountryId.GetValues();
 
             foreach (var countryId in allCountryIds)
             {
@@ -62,7 +63,7 @@ namespace Epsilon.UnitTests.Logic.Constants
                     var fieldMetadata = allFieldMappings[field](countryMetadata);
                     Assert.IsTrue(fieldMetadata.IsRequired,
                          String.Format("Field {0} for CountryId {1} should be marked as IsRequired because it is non-nullable in the database.",
-                             field, countryId.ToString()));
+                             field, EnumsHelper.CountryId.ToString(countryId)));
                 }
             }
         }

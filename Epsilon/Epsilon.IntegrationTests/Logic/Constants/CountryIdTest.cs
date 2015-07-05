@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.Entity;
+using Epsilon.Logic.Helpers;
 
 namespace Epsilon.IntegrationTests.Logic.Constants
 {
@@ -16,7 +17,7 @@ namespace Epsilon.IntegrationTests.Logic.Constants
         [Test]
         public async Task ThereShouldBeACountryId_ForAllAvailableCountriesInTheDatabase()
         {
-            var enumCountryIds = Enum.GetNames(typeof(CountryId)).ToDictionary(x => x);
+            var enumCountryIds = EnumsHelper.CountryId.GetNames().ToDictionary(x => x);
 
             var availableCountriesInDb = await DbProbe.Countries.Where(c => c.IsAvailable).ToListAsync();
 
@@ -47,7 +48,7 @@ namespace Epsilon.IntegrationTests.Logic.Constants
         [Test]
         public async Task EveryCountryIdShouldHaveAnAvailableCountryInTheDatabase()
         {
-            var enumCountryIds = Enum.GetNames(typeof(CountryId));
+            var enumCountryIds = EnumsHelper.CountryId.GetNames();
 
             var availableCountriesInDb = 
                 await DbProbe.Countries.Where(c => c.IsAvailable).ToDictionaryAsync(x => x.Id);

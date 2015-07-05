@@ -7,17 +7,19 @@
 @using Epsilon.Logic.Constants.Enums
 @using Epsilon.Logic.Constants.Interfaces
 @using Epsilon.Logic.Services.Interfaces
+@using Epsilon.Logic.Helpers
 
 @{
     var countryVariantResourceHelper = DependencyResolver.Current.GetService<ICountryVariantResourceHelper>();
     var countryAddressFieldMetadata = DependencyResolver.Current.GetService<ICountryAddressFieldMetadata>();
     var countryService = DependencyResolver.Current.GetService<ICountryService>();
-
-    CountryId enumCountryId;
-    if (!Enum.TryParse(Model.CountryId, out enumCountryId))
+    
+    var tmpEnumCountryId = EnumsHelper.CountryId.Parse(Model.CountryId);
+    if (!tmpEnumCountryId.HasValue)
     {
         throw new Exception(String.Format("Uknown CountryId {0}.", Model.CountryId));
     }
+    var enumCountryId = tmpEnumCountryId.Value;
 
     var fieldMetadata = countryAddressFieldMetadata.GetForCountry(enumCountryId);
 

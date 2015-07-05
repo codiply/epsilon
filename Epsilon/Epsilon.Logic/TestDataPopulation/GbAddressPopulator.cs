@@ -135,7 +135,7 @@ namespace Epsilon.Logic.TestDataPopulation
                     Locality = city,
                     Region = county,
                     Postcode = postcode,
-                    CountryId = CountryId.GB.ToString(),
+                    CountryId = EnumsHelper.CountryId.ToString(CountryId.GB),
                     CreatedById = userId
                 }).ToList();
         }

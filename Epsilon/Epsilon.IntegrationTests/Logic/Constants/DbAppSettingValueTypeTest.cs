@@ -20,7 +20,7 @@ namespace Epsilon.IntegrationTests.Logic.Constants
             var dbAppSettings = await DbProbe.AppSettings.ToListAsync();
 
             var failingDbAppSettings = dbAppSettings.Where(x =>
-                !EnumHelper.DbAppSettingValueType.Parse(x.ValueType).HasValue);
+                !EnumsHelper.DbAppSettingValueType.Parse(x.ValueType).HasValue);
 
             var message = "";
             if (failingDbAppSettings.Any())
@@ -51,7 +51,7 @@ namespace Epsilon.IntegrationTests.Logic.Constants
             var failingDbAppSettings = new List<AppSetting>();
             foreach (var setting in dbAppSettings)
             {
-                var valueType = EnumHelper.DbAppSettingValueType.Parse(setting.ValueType).Value;
+                var valueType = EnumsHelper.DbAppSettingValueType.Parse(setting.ValueType).Value;
                 bool canParseValue = false;
                 switch (valueType)
                 {

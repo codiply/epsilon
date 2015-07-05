@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.Entity;
+using Epsilon.Logic.Helpers;
 
 namespace Epsilon.IntegrationTests.Logic.Constants
 {
@@ -16,7 +17,7 @@ namespace Epsilon.IntegrationTests.Logic.Constants
         [Test]
         public async Task ThereShouldBeACoinAccountTransactionTypeId_ForAllCoinAccountTransactionTypesInTheDatabase()
         {
-            var enumCoinAccountTransactionTypeIds = Enum.GetNames(typeof(CoinAccountTransactionTypeId)).ToDictionary(x => x);
+            var enumCoinAccountTransactionTypeIds = EnumsHelper.CoinAccountTransactionTypeId.GetNames().ToDictionary(x => x);
 
             var coinAccountTransactionTypesInDb = await DbProbe.CoinAccountTransactionTypes.ToListAsync();
 
@@ -47,7 +48,7 @@ namespace Epsilon.IntegrationTests.Logic.Constants
         [Test]
         public async Task EveryCoinAccountTransactionTypeIdShouldHaveACoinAccountTransactionTypeInTheDatabase()
         {
-            var enumCoinAccountTransactionTypeIds = Enum.GetNames(typeof(CoinAccountTransactionTypeId));
+            var enumCoinAccountTransactionTypeIds = EnumsHelper.CoinAccountTransactionTypeId.GetNames();
 
             var availableCoinAccountTransactionTypesInDb = 
                 await DbProbe.CoinAccountTransactionTypes.ToDictionaryAsync(x => x.Id);

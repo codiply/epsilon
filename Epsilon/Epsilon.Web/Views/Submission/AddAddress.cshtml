@@ -4,8 +4,8 @@
 @using Epsilon.Resources.Common
 @using Epsilon.Resources.Web.Submission
 @using Epsilon.Logic.Helpers.Interfaces
-@using Epsilon.Logic.Constants.Enums
 @using Epsilon.Logic.Constants.Interfaces
+@using Epsilon.Logic.Helpers
 
 @{
     ViewBag.Title = SubmissionResources.AddAddress_PageTitle;
@@ -13,11 +13,12 @@
     var countryVariantResourceHelper = DependencyResolver.Current.GetService<ICountryVariantResourceHelper>();
     var countryAddressFieldMetadata = DependencyResolver.Current.GetService<ICountryAddressFieldMetadata>();
 
-    CountryId enumCountryId;
-    if (!Enum.TryParse(Model.CountryId, out enumCountryId))
+    var tmpEnumCountryId = EnumsHelper.CountryId.Parse(Model.CountryId);
+    if (!tmpEnumCountryId.HasValue)
     {
         throw new Exception(String.Format("Uknown CountryId {0}.", Model.CountryId));
     }
+    var enumCountryId = tmpEnumCountryId.Value;
 
     var fieldMetadata = countryAddressFieldMetadata.GetForCountry(enumCountryId);
 

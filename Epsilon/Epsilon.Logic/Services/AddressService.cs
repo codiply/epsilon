@@ -16,6 +16,7 @@ using Epsilon.Logic.JsonModels;
 using Epsilon.Logic.Helpers.Interfaces;
 using Epsilon.Logic.Constants.Interfaces;
 using Epsilon.Logic.Constants.Enums;
+using Epsilon.Logic.Helpers;
 
 namespace Epsilon.Logic.Services
 {
@@ -50,13 +51,14 @@ namespace Epsilon.Logic.Services
                 DbAppSettingKey.SearchAddressResultsLimit, 
                 _dbAppSettingDefaultValue.SearchAddressResultsLimit);
 
-            CountryId countryId;
+            var countryIdOption = EnumsHelper.CountryId.Parse(request.countryId);
             if (string.IsNullOrEmpty(request.countryId)
                 || string.IsNullOrEmpty(request.postcode)
-                || !Enum.TryParse(request.countryId, out countryId))
+                || !countryIdOption.HasValue)
             {
                 return new AddressSearchResponse { ResultsLimit = resultsLimit, IsResultsLimitReached = false };
             }
+            var countryId = countryIdOption.Value;
 
             var cleanPostcode = _addressCleansingHelper.CleanPostcode(countryId, request.postcode);
 

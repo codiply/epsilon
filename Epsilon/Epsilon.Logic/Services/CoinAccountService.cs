@@ -13,6 +13,7 @@ using System.Transactions;
 using Epsilon.Logic.Helpers.Interfaces;
 using Epsilon.Logic.Constants.Interfaces;
 using Epsilon.Logic.Constants.Enums;
+using Epsilon.Logic.Helpers;
 
 namespace Epsilon.Logic.Services
 {
@@ -76,7 +77,7 @@ namespace Epsilon.Logic.Services
             {
                 AccountId = accountId,
                 Amount = amount,
-                TypeId = transactionTypeId.ToString(),
+                TypeId = EnumsHelper.CoinAccountTransactionTypeId.ToString(transactionTypeId),
                 Reference = reference
             };
 

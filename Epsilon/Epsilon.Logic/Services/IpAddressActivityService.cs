@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.Entity;
+using Epsilon.Logic.Helpers;
 
 namespace Epsilon.Logic.Services
 {
@@ -36,7 +37,7 @@ namespace Epsilon.Logic.Services
             var activity = new IpAddressActivity
             {
                 UserId = userId,
-                ActivityType = activityType.ToString(),
+                ActivityType = EnumsHelper.IpAddressActivityType.ToString(activityType),
                 IpAddress = ipAddress
             };
             _dbContext.IpAddressActivities.Add(activity);
