@@ -1,5 +1,8 @@
-﻿using System;
+﻿using Epsilon.Logic.Constants.Enums;
+using Epsilon.Logic.Helpers;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,5 +18,14 @@ namespace Epsilon.Logic.Entities
         public virtual bool IsAvailable { get; set; }
 
         public virtual Currency Currency { get; set; }
+
+        [NotMapped]
+        public virtual CountryId? IdAsEnum
+        {
+            get
+            {
+                return EnumsHelper.CountryId.Parse(Id);
+            }
+        }
     }
 }

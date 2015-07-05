@@ -23,6 +23,10 @@ namespace Epsilon.Logic.SqlContext.Mapping
             this.Property(x => x.ValueType)
                 .IsRequired()
                 .HasMaxLength(VALUE_TYPE_MAX_LENGTH);
+            this.HasOptional(x => x.UpdatedBy)
+                .WithMany()
+                .HasForeignKey(x => x.UpdatedById)
+                .WillCascadeOnDelete(false);
         }
     }
 }

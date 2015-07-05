@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Epsilon.Logic.Constants.Enums;
+using Epsilon.Logic.Helpers;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -17,5 +19,14 @@ namespace Epsilon.Logic.Entities
         public virtual DateTimeOffset RecordedOn { get; set; }
 
         public virtual User User { get; set; }
+
+        [NotMapped]
+        public virtual IpAddressActivityType? ActivityTypeAsEnum
+        {
+            get
+            {
+                return EnumsHelper.IpAddressActivityType.Parse(ActivityType);
+            }
+        }
     }
 }
