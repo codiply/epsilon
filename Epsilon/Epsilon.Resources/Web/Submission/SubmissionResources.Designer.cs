@@ -241,7 +241,7 @@ namespace Epsilon.Resources.Web.Submission {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Your submission has been initiated. You will receive a verification code by mail soon..
+        ///   Looks up a localized string similar to Your submission has been initiated. You will receive a verification code by post soon..
         /// </summary>
         public static string UseAddressConfirmed_SuccessMessage {
             get {
