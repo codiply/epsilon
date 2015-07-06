@@ -210,7 +210,7 @@ namespace Epsilon.Logic.Services
                     .Where(tr => lastSnapshot.MadeOn <= tr.MadeOn)
                     .CountAsync();
             }
-            return numberOfTransactionsSinceLastSnapshot > transactionsThreshold;
+            return numberOfTransactionsSinceLastSnapshot >= transactionsThreshold;
         }
     }
 }
