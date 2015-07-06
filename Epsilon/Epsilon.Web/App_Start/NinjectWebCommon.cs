@@ -81,7 +81,7 @@ namespace Epsilon.Web.App_Start
         /// Load your modules or register your services here!
         /// </summary>
         /// <param name="kernel">The kernel.</param>
-        private static void RegisterServices(IKernel kernel)
+        public static void RegisterServices(IKernel kernel)
         {
             kernel.Bind<ApplicationDbContext>().To<ApplicationDbContext>().InRequestScope();
             kernel.Bind<ApplicationSignInManager>().To<ApplicationSignInManager>().InRequestScope();

@@ -22,6 +22,7 @@ using System.Threading.Tasks;
 using System.Transactions;
 using Ninject.Extensions.Factory;
 using Epsilon.Logic.Entities;
+using Epsilon.Web.App_Start;
 
 namespace Epsilon.IntegrationTests.BaseFixtures
 {
@@ -30,18 +31,14 @@ namespace Epsilon.IntegrationTests.BaseFixtures
     {
         private TransactionScope _transactionScope;
         private EpsilonContext _dbProbe;
-        private IKernel _kernel;
 
         public EpsilonContext DbProbe { get { return _dbProbe; } }
-        public IKernel Kernel { get { return _kernel; } }
 
         [SetUp]
         public void BaseTestSetUp()
         {
             _transactionScope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled);
             _dbProbe = new EpsilonContext();
-            _kernel = new StandardKernel();
-            RegisterServices(_kernel);
         }
 
         [TearDown]
@@ -50,14 +47,13 @@ namespace Epsilon.IntegrationTests.BaseFixtures
             _transactionScope.Dispose();
             _transactionScope = null;
             _dbProbe = null;
-            _kernel = null;
         }
 
-        public async Task<User> CreateUser(string email)
+        public static async Task<User> CreateUser(IKernel container, string email)
         {
             var languageId = "en";
-            var dbContext = Kernel.Get<IEpsilonContext>();
-            var newUserService = Kernel.Get<INewUserService>();
+            var dbContext = container.Get<IEpsilonContext>();
+            var newUserService = container.Get<INewUserService>();
             
             var user = new User
             {
@@ -73,45 +69,11 @@ namespace Epsilon.IntegrationTests.BaseFixtures
             return user;
         }
 
-        private static void RegisterServices(IKernel kernel)
+        public static IKernel CreateContainer()
         {
-            // Constants
-            kernel.Bind<IDbAppSettingDefaultValue>().To<DbAppSettingDefaultValue>().InTransientScope();
-            kernel.Bind<IAppSettingsDefaultValue>().To<AppSettingsDefaultValue>().InTransientScope();
-
-            // DbContext
-            kernel.Bind<IEpsilonContext>().To<EpsilonContext>().InTransientScope();
-
-            // Helpers
-            kernel.Bind<NameValueCollection>().ToConstant(ConfigurationManager.AppSettings)
-                .WhenInjectedExactlyInto<AppSettingsHelper>();
-            kernel.Bind<IAppSettingsHelper>().To<AppSettingsHelper>().InTransientScope();
-            kernel.Bind<ICountryVariantResourceHelper>().To<CountryVariantResourceHelper>().InSingletonScope();
-            kernel.Bind<IDbAppSettingsHelper>().To<DbAppSettingsHelper>().InTransientScope();
-            kernel.Bind<IIpAddressHelper>().To<IpAddressHelper>().InSingletonScope();
-            kernel.Bind<IParseHelper>().To<ParseHelper>().InTransientScope();
-
-            // Infrastructure
-            kernel.Bind<IAppCache>().To<AppCache>().InTransientScope();
-
-            // Services
-            kernel.Bind<IAddressService>().To<AddressService>().InTransientScope();
-            kernel.Bind<IAdminAlertService>().To<AdminAlertService>().InTransientScope();
-            kernel.Bind<ICoinAccountService>().To<CoinAccountService>().InTransientScope();
-            kernel.Bind<ICountryService>().To<CountryService>().InTransientScope();
-            kernel.Bind<ILanguageService>().To<LanguageService>().InTransientScope();
-            kernel.Bind<INewUserService>().To<NewUserService>().InTransientScope();
-            kernel.Bind<ISmtpService>().To<SmtpService>().InTransientScope();
-            kernel.Bind<ITenancyDetailsSubmissionService>().To<TenancyDetailsSubmissionService>().InTransientScope();
-            kernel.Bind<IUserPreferenceService>().To<UserPreferenceService>().InTransientScope();
-            kernel.Bind<IUserCoinService>().To<UserCoinService>().InTransientScope();
-            
-            // Wrappers
-            kernel.Bind<ICacheWrapper>().To<HttpRuntimeCache>().InTransientScope();
-            kernel.Bind<IClock>().To<SystemClock>().InTransientScope();
-            kernel.Bind<IRandomWrapper>().To<RandomWrapper>().InTransientScope();
-            kernel.Bind<ISmtpClientWrapper>().To<SmtpClientWrapper>().InTransientScope();
-            kernel.Bind<ISmtpClientWrapperFactory>().ToFactory();
+            var kernel = new StandardKernel();
+            NinjectWebCommon.RegisterServices(kernel);
+            return kernel;
         }
     }
 }
