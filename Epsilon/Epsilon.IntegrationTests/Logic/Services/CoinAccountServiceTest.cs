@@ -27,7 +27,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var container = CreateContainer();
             var coinAccountService = container.Get<ICoinAccountService>();
             // This also sets up the account for the user.
-            var user = await CreateUser(container, "test@test.com");
+            var user = await CreateUser(container, "test@test.com", "1.2.3.4");
             var accountId = user.Id;
             
             var expectedBalance = 0.0M;
@@ -56,7 +56,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var coinAccountServiceUnderTest = containerUnderTest.Get<ICoinAccountService>();
             var coinAccountServiceForVerification = containerForVerification.Get<ICoinAccountService>();
             // This also sets up the account for the user.
-            var user = await CreateUser(containerUnderTest, "test@test.com");
+            var user = await CreateUser(containerUnderTest, "test@test.com", "1.2.3.4");
             var accountId = user.Id;
 
             Decimal expectedBalance = 0;
@@ -101,7 +101,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var coinAccountServiceUnderTest = containerUnderTest.Get<ICoinAccountService>();
             var coinAccountServiceForVerification = containerForVerification.Get<ICoinAccountService>();
             // This also sets up the account for the user.
-            var user = await CreateUser(containerUnderTest, "test@test.com");
+            var user = await CreateUser(containerUnderTest, "test@test.com", "1.2.3.4");
             var accountId = user.Id;
 
             var creditAmount = 100M;
@@ -127,7 +127,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var container = CreateContainer();
             var coinAccountService = container.Get<ICoinAccountService>();
             // This also sets up the account for the user.
-            var user = await CreateUser(container, "test@test.com");
+            var user = await CreateUser(container, "test@test.com", "1.2.3.4");
             var accountId = user.Id;
 
             var amount = 100M;
@@ -161,7 +161,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             var coinAccountService = container.Get<ICoinAccountService>();
             // This also sets up the account for the user.
-            var user = await CreateUser(container, "test@test.com");
+            var user = await CreateUser(container, "test@test.com", "1.2.3.4");
             var accountId = user.Id;
 
             for (int i = 0; i < numberOfTransactions; i++)
@@ -185,7 +185,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             var coinAccountService = container.Get<ICoinAccountService>();
             // This also sets up the account for the user.
-            var user = await CreateUser(container, "test@test.com");
+            var user = await CreateUser(container, "test@test.com", "1.2.3.4");
             var accountId = user.Id;
 
             for (int i = 0; i < snapshotTransactionsThreshold; i++)
@@ -217,7 +217,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             var coinAccountService = container.Get<ICoinAccountService>();
             // This also sets up the account for the user.
-            var user = await CreateUser(container, "test@test.com");
+            var user = await CreateUser(container, "test@test.com", "1.2.3.4");
             var accountId = user.Id;
 
             for (int i = 0; i < expectedNumberOfSnapshots * snapshotTransactionsThreshold; i++)

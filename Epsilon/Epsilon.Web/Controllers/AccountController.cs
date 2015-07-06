@@ -169,8 +169,7 @@ namespace Epsilon.Web.Controllers
                         var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                         await _userManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
                     }
-                    await _newUserService.Setup(user.Id, GetLanguageId());
-                    await _ipAddressActivityService.RecordRegistration(user.Id, GetUserIpAddress());
+                    await _newUserService.Setup(user.Id, GetUserIpAddress(), GetLanguageId());
 
                     return RedirectToAction(
                         AppConstant.AUTHENTICATED_USER_HOME_ACTION, 

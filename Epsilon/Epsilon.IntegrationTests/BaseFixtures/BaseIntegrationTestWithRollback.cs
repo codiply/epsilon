@@ -49,7 +49,7 @@ namespace Epsilon.IntegrationTests.BaseFixtures
             _dbProbe = null;
         }
 
-        public static async Task<User> CreateUser(IKernel container, string email)
+        public static async Task<User> CreateUser(IKernel container, string email, string ipAddress)
         {
             var languageId = "en";
             var dbContext = container.Get<IEpsilonContext>();
@@ -64,7 +64,7 @@ namespace Epsilon.IntegrationTests.BaseFixtures
             dbContext.Users.Add(user);
             await dbContext.SaveChangesAsync();
 
-            await newUserService.Setup(user.Id, languageId);
+            await newUserService.Setup(user.Id, ipAddress, languageId);
 
             return user;
         }

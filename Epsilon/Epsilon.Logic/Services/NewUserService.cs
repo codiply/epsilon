@@ -14,21 +14,25 @@ namespace Epsilon.Logic.Services
         private readonly IEpsilonContext _dbContext;
         private readonly IUserCoinService _userCoinService;
         private readonly IUserPreferenceService _userPreferenceService;
+        private readonly IIpAddressActivityService _ipAddressActivityService;
 
         public NewUserService(
             IEpsilonContext dbContext,
             IUserCoinService userCoinService,
-            IUserPreferenceService userPreferenceService)
+            IUserPreferenceService userPreferenceService,
+            IIpAddressActivityService ipAddressActivityService)
         {
             _dbContext = dbContext;
             _userCoinService = userCoinService;
             _userPreferenceService = userPreferenceService;
+            _ipAddressActivityService = ipAddressActivityService;
         }
 
-        public async Task Setup(string userId, string languageId)
+        public async Task Setup(string userId, string userIpAddress, string languageId)
         {
             await CreateCoinAccount(userId);
             await CreateUserPreference(userId, languageId);
+            await _ipAddressActivityService.RecordRegistration(userId, userIpAddress);
         }
 
         private async Task CreateCoinAccount(string userId)
