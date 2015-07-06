@@ -8,5 +8,7 @@ namespace Epsilon.Logic.Configuration.Interfaces
 {
     public interface ICoinAccountServiceConfig
     {
+        TimeSpan SnapshotSnoozePeriod { get; }
+        int SnapshotNumberOfTransactionsThreshold { get; }
     }
 }

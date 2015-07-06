@@ -67,6 +67,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configuration\CoinAccountServiceConfig.cs" />
+    <Compile Include="Configuration\Interfaces\ICoinAccountServiceConfig.cs" />
     <Compile Include="Constants\AdminAlertKey.cs" />
     <Compile Include="Constants\AppSettingsKey.cs" />
     <Compile Include="Constants\AppConstant.cs" />

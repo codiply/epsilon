@@ -16,6 +16,7 @@ using Epsilon.Logic.Helpers.Interfaces;
 using Epsilon.Logic.Constants.Interfaces;
 using System.Collections.Specialized;
 using Epsilon.Logic.Helpers;
+using Epsilon.Logic.Configuration.Interfaces;
 
 namespace Epsilon.IntegrationTests.Logic.Services
 {
@@ -241,16 +242,10 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
         private static void SetupContainer(IKernel container, double snoozePeriodInHours, int snapshotTransactionsThreshold)
         {
-            var settings = new NameValueCollection();
-            settings.Add(AppSettingsKey.CoinAccountSnapshotSnoozePeriodInHours, snoozePeriodInHours.ToString());
-            settings.Add(AppSettingsKey.CoinAccountSnapshotNumberOfTransactionsThreshold, snapshotTransactionsThreshold.ToString());
-            container.Rebind<NameValueCollection>().ToConstant(settings).WhenInjectedExactlyInto<AppSettingsHelper>();
-
-            var mockAppSettingsDefaultValue = new Mock<IAppSettingsDefaultValue>();
-            mockAppSettingsDefaultValue.Setup(x => x.CoinAccountSnapshotSnoozePeriodInHours).Returns(snoozePeriodInHours);
-            mockAppSettingsDefaultValue.Setup(x => x.CoinAccountSnapshotNumberOfTransactionsThreshold)
-                .Returns(snapshotTransactionsThreshold);
-            container.Rebind<IAppSettingsDefaultValue>().ToConstant(mockAppSettingsDefaultValue.Object);            
+            var mockCoinAccountServiceConfig = new Mock<ICoinAccountServiceConfig>();
+            mockCoinAccountServiceConfig.Setup(x => x.SnapshotSnoozePeriod).Returns(TimeSpan.FromHours(snoozePeriodInHours));
+            mockCoinAccountServiceConfig.Setup(x => x.SnapshotNumberOfTransactionsThreshold).Returns(snapshotTransactionsThreshold);
+            container.Rebind<ICoinAccountServiceConfig>().ToConstant(mockCoinAccountServiceConfig.Object);            
         }
     }
 }

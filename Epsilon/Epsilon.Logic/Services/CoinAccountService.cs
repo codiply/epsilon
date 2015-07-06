@@ -14,25 +14,23 @@ using Epsilon.Logic.Helpers.Interfaces;
 using Epsilon.Logic.Constants.Interfaces;
 using Epsilon.Logic.Constants.Enums;
 using Epsilon.Logic.Helpers;
+using Epsilon.Logic.Configuration.Interfaces;
 
 namespace Epsilon.Logic.Services
 {
     public class CoinAccountService : ICoinAccountService
     {
         private readonly IClock _clock;
-        private readonly IAppSettingsHelper _appSettingsHelper;
-        private readonly IAppSettingsDefaultValue _appSettingsDefaultValue;
+        private readonly ICoinAccountServiceConfig _coinAccountServiceConfig;
         private readonly IEpsilonContext _dbContext;
 
         public CoinAccountService(
             IClock clock,
-            IAppSettingsDefaultValue appSettingsDefaultValue,
-            IAppSettingsHelper appSettingsHellper,
+            ICoinAccountServiceConfig coinAccountServiceConfig,
             IEpsilonContext dbContext)
         {
             _clock = clock;
-            _appSettingsDefaultValue = appSettingsDefaultValue;
-            _appSettingsHelper = appSettingsHellper;
+            _coinAccountServiceConfig = coinAccountServiceConfig;
             _dbContext = dbContext;
         }
 
@@ -184,15 +182,11 @@ namespace Epsilon.Logic.Services
         private async Task<bool> IsTimeToMakeSnapshot(CoinAccount account)
         {
             var timeElapsedSinceLastSnapshot = _clock.OffsetNow - account.LastSnapshotOn;
-            var snoozePeriod = TimeSpan.FromHours(_appSettingsHelper.GetDouble(
-                AppSettingsKey.CoinAccountSnapshotSnoozePeriodInHours, 
-                _appSettingsDefaultValue.CoinAccountSnapshotSnoozePeriodInHours));
+            var snoozePeriod = _coinAccountServiceConfig.SnapshotSnoozePeriod;
             if (timeElapsedSinceLastSnapshot < snoozePeriod)
                 return false;
 
-            var transactionsThreshold = _appSettingsHelper.GetInt(
-                AppSettingsKey.CoinAccountSnapshotNumberOfTransactionsThreshold,
-                _appSettingsDefaultValue.CoinAccountSnapshotNumberOfTransactionsThreshold);
+            var transactionsThreshold = _coinAccountServiceConfig.SnapshotNumberOfTransactionsThreshold;
 
             var lastSnapshot = await GetLastSnapshot(account.Id);
 
