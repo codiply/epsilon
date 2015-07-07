@@ -10,20 +10,25 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.Entity;
+using Epsilon.Logic.Forms;
+using Epsilon.Logic.Wrappers.Interfaces;
 
 namespace Epsilon.Logic.Helpers
 {
     public class DbAppSettingsHelper : AppSettingsHelper, IDbAppSettingsHelper
     {
+        private readonly IClock _clock;
         private readonly IEpsilonContext _dbContext;
         private readonly IAppCache _appCache;
 
         public DbAppSettingsHelper(
+            IClock clock,
             IEpsilonContext dbContext,
             IParseHelper parseHelper,
             IAppCache appCache)
             : base(null, parseHelper)
         {
+            _clock = clock;
             _dbContext = dbContext;
             _appCache = appCache;
             PopulateCollection();
@@ -37,6 +42,22 @@ namespace Epsilon.Logic.Helpers
         public async Task<AppSetting> GetAppSettingEntity(string id)
         {
             return await _dbContext.AppSettings.FindAsync(id);
+        }
+
+        public async Task Update(DbAppSettingForm form, string userId)
+        {
+            var entity = await GetAppSettingEntity(form.Id);
+
+            entity.Value = form.Value;
+            entity.UpdatedById = userId;
+            entity.UpdatedOn = _clock.OffsetNow;
+
+            _dbContext.Entry(entity).State = EntityState.Modified;
+            await _dbContext.SaveChangesAsync();
+
+            // Refresh cached values.
+            _appCache.Remove(AppCacheKey.DB_APP_SETTINGS);
+            PopulateCollection();
         }
 
         private void PopulateCollection()

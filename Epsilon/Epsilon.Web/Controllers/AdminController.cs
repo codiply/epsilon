@@ -1,5 +1,6 @@
 ﻿using Epsilon.Logic.Constants;
 using Epsilon.Logic.Entities;
+using Epsilon.Logic.Forms;
 using Epsilon.Logic.Helpers.Interfaces;
 using Epsilon.Logic.Infrastructure.Interfaces;
 using Epsilon.Web.Controllers.BaseControllers;
@@ -63,23 +64,30 @@ namespace Epsilon.Web.Controllers
 
         public async Task<ActionResult> DbAppSettingDetails(string id)
         {
-            var model = await _dbAppSettingsHelper.GetAppSettingEntity(id);
+            var entity = await _dbAppSettingsHelper.GetAppSettingEntity(id);
+            var model = DbAppSettingForm.FromEntity(entity);
             return View(model);
         }
 
         public async Task<ActionResult> DbAppSettingEdit(string id)
         {
-            var model = await _dbAppSettingsHelper.GetAppSettingEntity(id);
+            var entity = await _dbAppSettingsHelper.GetAppSettingEntity(id);
+            var model = DbAppSettingForm.FromEntity(entity);
             return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> DbAppSettingEdit(AppSetting model)
+        public async Task<ActionResult> DbAppSettingEdit(DbAppSettingForm form)
         {
-            return View(model);
+            if (ModelState.IsValid)
+            {
+                await _dbAppSettingsHelper.Update(form, GetUserId());
+                return RedirectToAction("DbAppSettingDetails", new { id = form.Id });
+            }
+            return View(form);
         }
-
+    
         #endregion
     }
 }

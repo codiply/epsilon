@@ -110,6 +110,7 @@
     <Compile Include="Entities\TenancyDetailsSubmission.cs" />
     <Compile Include="Entities\TenantVerification.cs" />
     <Compile Include="Entities\User.cs" />
+    <Compile Include="Forms\DbAppSettingForm.cs" />
     <Compile Include="Helpers\AddressCleansingHelper.cs" />
     <Compile Include="Helpers\AppSettingsHelper.cs" />
     <Compile Include="Helpers\DbAppSettingsHelper.cs" />

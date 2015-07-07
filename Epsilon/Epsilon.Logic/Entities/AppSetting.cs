@@ -12,11 +12,19 @@ namespace Epsilon.Logic.Entities
 {
     public class AppSetting : BaseEntity
     {
+        [Display(Name = "Key")]
         public virtual string Id { get; set; }
+
         public virtual string Value { get; set; }
+
+        [Display(Name = "Value Type")]
         public virtual string ValueType { get; set; }
+
         public virtual string Description { get; set; }
+
         public virtual string UpdatedById { get; set; }
+
+        [Display(Name = "Updated On")]
         public virtual DateTimeOffset? UpdatedOn { get; set; }
         
         public virtual User UpdatedBy { get; set; }

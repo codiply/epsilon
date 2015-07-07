@@ -1,4 +1,5 @@
 ﻿using Epsilon.Logic.Entities;
+using Epsilon.Logic.Forms;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,5 +13,7 @@ namespace Epsilon.Logic.Helpers.Interfaces
         Task<IList<AppSetting>> GetAllAppSettingEntities();
 
         Task<AppSetting> GetAppSettingEntity(string id);
+
+        Task Update(DbAppSettingForm form, string userId);
     }
 }
