@@ -1,4 +1,6 @@
-﻿using Epsilon.Logic.Entities;
+﻿using Epsilon.Logic.Constants.Enums;
+using Epsilon.Logic.Entities;
+using Epsilon.Logic.Helpers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -18,7 +20,15 @@ namespace Epsilon.Logic.Forms
         public string Description { get; set; }
         [Display(Name ="Updated On")]
         public DateTimeOffset? UpdatedOn { get; set; }
+        
+        public DbAppSettingValueType? ValueTypeAsEnum
+        {
+            get
+            {
 
+                return EnumsHelper.DbAppSettingValueType.Parse(ValueType);
+            }
+        }
 
         public static DbAppSettingForm FromEntity(AppSetting entity)
         {

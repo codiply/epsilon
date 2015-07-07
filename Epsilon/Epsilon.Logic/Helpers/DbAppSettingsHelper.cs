@@ -55,7 +55,7 @@ namespace Epsilon.Logic.Helpers
             _dbContext.Entry(entity).State = EntityState.Modified;
             await _dbContext.SaveChangesAsync();
 
-            // Refresh cached values.
+            // I refresh cached values.
             _appCache.Remove(AppCacheKey.DB_APP_SETTINGS);
             PopulateCollection();
         }
