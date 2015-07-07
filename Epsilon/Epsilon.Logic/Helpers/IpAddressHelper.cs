@@ -34,7 +34,6 @@ namespace Epsilon.Logic.Helpers
             }
             catch (Exception)
             {
-                // Always return all zeroes for any failure (my calling code expects it)
                 return "0.0.0.0";
             }
         }
