@@ -1,4 +1,5 @@
 ﻿using Epsilon.IntegrationTests.BaseFixtures;
+using Epsilon.Logic.Configuration.Interfaces;
 using Epsilon.Logic.Constants;
 using Epsilon.Logic.Constants.Interfaces;
 using Epsilon.Logic.Helpers;
@@ -20,7 +21,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
     public class AntiAbuseServiceTest : BaseIntegrationTestWithRollback
     {
         [Test]
-        public async Task CanRegister_WithBothDisableSwitchesTrue_ReturnsIsRejectedFalse()
+        public async Task CanRegister_WithAllDisableSwitchesTrue_ReturnsIsRejectedFalse()
         {
             var disableGlobalFrequencyCheck = true;
             var globalMaxFrequency = "1/D";
@@ -51,24 +52,17 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
         {
             var parseHelper = new ParseHelper();
+            var mockAntiAbuseServiceConfig = new Mock<IAntiAbuseServiceConfig>();
 
-            var mockDbAppSetingHelper = new Mock<IDbAppSettingsHelper>();
-            mockDbAppSetingHelper.Setup(x => x.GetBool(DbAppSettingKey.AntiAbuse_Register_DisableGlobalFrequencyCheck))
+            mockAntiAbuseServiceConfig.Setup(x => x.Register_DisableGlobalFrequencyCheck)
                 .Returns(disableGlobalFrequencyCheck);
-            mockDbAppSetingHelper.Setup(x => x.GetFrequency(DbAppSettingKey.AntiAbuse_Register_GlobalMaxFrequency, It.IsAny<Frequency>()))
+            mockAntiAbuseServiceConfig.Setup(x => x.Register_GlobalMaxFrequency)
                 .Returns(parseHelper.ParseFrequency(globalMaxFrequency));
-            mockDbAppSetingHelper.Setup(x => x.GetBool(DbAppSettingKey.AntiAbuse_Register_DisableIpAddressFrequencyCheck))
+            mockAntiAbuseServiceConfig.Setup(x => x.Register_DisableIpAddressFrequencyCheck)
                 .Returns(disableIpAddressFrequencyCheck);
-            mockDbAppSetingHelper.Setup(x => x.GetFrequency(DbAppSettingKey.AntiAbuse_Register_MaxFrequencyPerIpAddress, It.IsAny<Frequency>()))
+            mockAntiAbuseServiceConfig.Setup(x => x.Register_MaxFrequencyPerIpAddress)
                 .Returns(parseHelper.ParseFrequency(maxFrequencyPerIpAddress));
-            container.Rebind<IDbAppSettingsHelper>().ToConstant(mockDbAppSetingHelper.Object);
-
-            var mockAppSettingsDefaultValue = new Mock<IDbAppSettingDefaultValue>();
-            mockAppSettingsDefaultValue.Setup(x => x.AntiAbuse_Register_GlobalMaxFrequency)
-                .Returns(parseHelper.ParseFrequency(globalMaxFrequency));
-            mockAppSettingsDefaultValue.Setup(x => x.AntiAbuse_Register_MaxFrequencyPerIpAddress)
-                .Returns(parseHelper.ParseFrequency(maxFrequencyPerIpAddress));
-            container.Rebind<IDbAppSettingDefaultValue>().ToConstant(mockAppSettingsDefaultValue.Object);
+            container.Rebind<IAntiAbuseServiceConfig>().ToConstant(mockAntiAbuseServiceConfig.Object);
         }
     }
 }

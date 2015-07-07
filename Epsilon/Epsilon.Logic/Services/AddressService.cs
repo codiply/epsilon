@@ -17,6 +17,7 @@ using Epsilon.Logic.Helpers.Interfaces;
 using Epsilon.Logic.Constants.Interfaces;
 using Epsilon.Logic.Constants.Enums;
 using Epsilon.Logic.Helpers;
+using Epsilon.Logic.Configuration.Interfaces;
 
 namespace Epsilon.Logic.Services
 {
@@ -24,32 +25,27 @@ namespace Epsilon.Logic.Services
     {
         private readonly IAppCache _appCache;
         private readonly IEpsilonContext _dbContext;
-        private readonly IDbAppSettingsHelper _dbAppSettingsHelper;
-        private readonly IDbAppSettingDefaultValue _dbAppSettingDefaultValue;
+        private readonly IAddressServiceConfig _addressServiceConfig;
         private readonly IAddressCleansingHelper _addressCleansingHelper;
         private readonly IAntiAbuseService _antiAbuseService;
 
         public AddressService(
             IAppCache appCache,
             IEpsilonContext dbContext,
-            IDbAppSettingsHelper dbAppSettingsHelper,
-            IDbAppSettingDefaultValue dbAppSettingDefaultValue,
+            IAddressServiceConfig addressServiceConfig,
             IAddressCleansingHelper addresCleansingHelper,
             IAntiAbuseService antiAbuseService)
         {
             _appCache = appCache;
             _dbContext = dbContext;
-            _dbAppSettingsHelper = dbAppSettingsHelper;
-            _dbAppSettingDefaultValue = dbAppSettingDefaultValue;
+            _addressServiceConfig = addressServiceConfig;
             _addressCleansingHelper = addresCleansingHelper;
             _antiAbuseService = antiAbuseService;
         }
 
         public async Task<AddressSearchResponse> Search(AddressSearchRequest request)
         {
-            var resultsLimit = _dbAppSettingsHelper.GetInt(
-                DbAppSettingKey.SearchAddressResultsLimit, 
-                _dbAppSettingDefaultValue.SearchAddressResultsLimit);
+            var resultsLimit = _addressServiceConfig.SearchAddressResultsLimit;
 
             var countryIdOption = EnumsHelper.CountryId.Parse(request.countryId);
             if (string.IsNullOrEmpty(request.countryId)

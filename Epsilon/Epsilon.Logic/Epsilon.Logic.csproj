@@ -67,7 +67,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configuration\AddressServiceConfig.cs" />
+    <Compile Include="Configuration\AdminAlertServiceConfig.cs" />
     <Compile Include="Configuration\CoinAccountServiceConfig.cs" />
+    <Compile Include="Configuration\AntiAbuseServiceConfig.cs" />
+    <Compile Include="Configuration\Interfaces\IAddressServiceConfig.cs" />
+    <Compile Include="Configuration\Interfaces\IAdminAlertServiceConfig.cs" />
+    <Compile Include="Configuration\Interfaces\IAntiAbuseServiceConfig.cs" />
     <Compile Include="Configuration\Interfaces\ICoinAccountServiceConfig.cs" />
     <Compile Include="Constants\AdminAlertKey.cs" />
     <Compile Include="Constants\AppSettingsKey.cs" />

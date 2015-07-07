@@ -93,6 +93,9 @@ namespace Epsilon.Web.App_Start
             kernel.Bind<IUserStore<User>>().To<UserStore<User>>().InRequestScope();
 
             // Configuration
+            kernel.Bind<IAddressServiceConfig>().To<AddressServiceConfig>().InRequestScope();
+            kernel.Bind<IAdminAlertServiceConfig>().To<AdminAlertServiceConfig>().InRequestScope();
+            kernel.Bind<IAntiAbuseServiceConfig>().To<AntiAbuseServiceConfig>().InRequestScope();
             kernel.Bind<ICoinAccountServiceConfig>().To<CoinAccountServiceConfig>().InRequestScope();
 
             // Constants

@@ -13,28 +13,26 @@ using System.Threading.Tasks;
 using System.Data.Entity;
 using Epsilon.Logic.Constants.Enums;
 using Epsilon.Logic.Helpers;
+using Epsilon.Logic.Configuration.Interfaces;
 
 namespace Epsilon.Logic.Services
 {
     public class AntiAbuseService : IAntiAbuseService
     {
         private readonly IClock _clock;
+        private readonly IAntiAbuseServiceConfig _antiAbuseServiceConfig;
         private readonly IAdminAlertService _adminAlertService;
-        private readonly IDbAppSettingsHelper _dbAppSettingsHelper;
-        private readonly IDbAppSettingDefaultValue _dbAppSettingDefaultValue;
         private readonly IEpsilonContext _dbContext;
 
         public AntiAbuseService(
             IClock clock,
+            IAntiAbuseServiceConfig antiAbuseServiceConfig,
             IAdminAlertService adminAlertService,
-            IDbAppSettingsHelper dbAppSettingsHelper,
-            IDbAppSettingDefaultValue dbAppSettingDefaultValue,
             IEpsilonContext dbContext)
         {
             _clock = clock;
+            _antiAbuseServiceConfig = antiAbuseServiceConfig;
             _adminAlertService = adminAlertService;
-            _dbAppSettingsHelper = dbAppSettingsHelper;
-            _dbAppSettingDefaultValue = dbAppSettingDefaultValue;
             _dbContext = dbContext;
         }
 
@@ -79,13 +77,10 @@ namespace Epsilon.Logic.Services
 
         private async Task<AntiAbuseServiceResponse> CanRegisterCheckGlobalFrequency()
         {
-            if (_dbAppSettingsHelper
-                .GetBool(DbAppSettingKey.AntiAbuse_Register_DisableGlobalFrequencyCheck) == true)
+            if (_antiAbuseServiceConfig.Register_DisableGlobalFrequencyCheck)
                 return new AntiAbuseServiceResponse { IsRejected = false };
 
-            var maxFrequency = _dbAppSettingsHelper.GetFrequency(
-                DbAppSettingKey.AntiAbuse_Register_GlobalMaxFrequency,
-                _dbAppSettingDefaultValue.AntiAbuse_Register_GlobalMaxFrequency);
+            var maxFrequency = _antiAbuseServiceConfig.Register_GlobalMaxFrequency;
 
             var windowStart = _clock.OffsetNow - maxFrequency.Period;
             var activityType = EnumsHelper.IpAddressActivityType.ToString(IpAddressActivityType.Registration);
@@ -109,13 +104,10 @@ namespace Epsilon.Logic.Services
 
         private async Task<AntiAbuseServiceResponse> CanRegisterCheckIpAddressFrequency(string ipAddress)
         {
-            if (_dbAppSettingsHelper
-                .GetBool(DbAppSettingKey.AntiAbuse_Register_DisableIpAddressFrequencyCheck) == true)
+            if (_antiAbuseServiceConfig.Register_DisableIpAddressFrequencyCheck)
                 return new AntiAbuseServiceResponse { IsRejected = false };
 
-            var maxFrequency = _dbAppSettingsHelper.GetFrequency(
-                DbAppSettingKey.AntiAbuse_Register_MaxFrequencyPerIpAddress,
-                _dbAppSettingDefaultValue.AntiAbuse_Register_MaxFrequencyPerIpAddress);
+            var maxFrequency = _antiAbuseServiceConfig.Register_MaxFrequencyPerIpAddress;
 
             var windowStart = _clock.OffsetNow - maxFrequency.Period;
             var activityType = EnumsHelper.IpAddressActivityType.ToString(IpAddressActivityType.Registration);
@@ -137,13 +129,10 @@ namespace Epsilon.Logic.Services
         
         private async Task<AntiAbuseServiceResponse> CanAddAddressCheckIpFrequency(string ipAddress)
         {
-            if (_dbAppSettingsHelper
-                .GetBool(DbAppSettingKey.AntiAbuse_AddAddress_DisableIpAddressFrequencyCheck) == true)
+            if (_antiAbuseServiceConfig.AddAddress_DisableIpAddressFrequencyCheck)
                 return new AntiAbuseServiceResponse { IsRejected = false };
 
-            var maxFrequency = _dbAppSettingsHelper.GetFrequency(
-                DbAppSettingKey.AntiAbuse_AddAddress_MaxFrequencyPerIpAddress,
-                _dbAppSettingDefaultValue.AntiAbuse_AddAddress_MaxFrequencyPerIpAddress);
+            var maxFrequency = _antiAbuseServiceConfig.AddAddress_MaxFrequencyPerIpAddress;
 
             var windowStart = _clock.OffsetNow - maxFrequency.Period;
             var actualTimes = await _dbContext.Addresses
@@ -163,13 +152,10 @@ namespace Epsilon.Logic.Services
 
         private async Task<AntiAbuseServiceResponse> CanAddAddressCheckUserFrequency(string userId)
         {
-            if (_dbAppSettingsHelper
-                .GetBool(DbAppSettingKey.AntiAbuse_AddAddress_DisableUserFrequencyCheck) == true)
+            if (_antiAbuseServiceConfig.AddAddress_DisableUserFrequencyCheck)
                 return new AntiAbuseServiceResponse { IsRejected = false };
 
-            var maxFrequency = _dbAppSettingsHelper.GetFrequency(
-                DbAppSettingKey.AntiAbuse_AddAddress_MaxFrequencyPerUser,
-                _dbAppSettingDefaultValue.AntiAbuse_AddAddress_MaxFrequencyPerUser);
+            var maxFrequency = _antiAbuseServiceConfig.AddAddress_MaxFrequencyPerUser;
 
             var windowStart = _clock.OffsetNow - maxFrequency.Period;
             var actualTimes = await _dbContext.Addresses
@@ -189,13 +175,10 @@ namespace Epsilon.Logic.Services
 
         private async Task<AntiAbuseServiceResponse> CanCreateTenancyDetailsSubmissionCheckIpFrequency(string ipAddress)
         {
-            if (_dbAppSettingsHelper
-                .GetBool(DbAppSettingKey.AntiAbuse_CreateTenancyDetailsSubmission_DisableIpAddressFrequencyCheck) == true)
+            if (_antiAbuseServiceConfig.CreateTenancyDetailsSubmission_DisableIpAddressFrequencyCheck)
                 return new AntiAbuseServiceResponse { IsRejected = false };
 
-            var maxFrequency = _dbAppSettingsHelper.GetFrequency(
-                DbAppSettingKey.AntiAbuse_CreateTenancyDetailsSubmission_MaxFrequencyPerIpAddress,
-                _dbAppSettingDefaultValue.AntiAbuse_CreateTenancyDetailsSubmission_MaxFrequencyPerIpAddress);
+            var maxFrequency = _antiAbuseServiceConfig.CreateTenancyDetailsSubmission_MaxFrequencyPerIpAddress;
 
             var windowStart = _clock.OffsetNow - maxFrequency.Period;
             var actualTimes = await _dbContext.TenancyDetailsSubmissions
@@ -215,13 +198,10 @@ namespace Epsilon.Logic.Services
 
         private async Task<AntiAbuseServiceResponse> CanCreateTenancyDetailsSubmissionCheckUserFrequency(string userId)
         {
-            if (_dbAppSettingsHelper
-                .GetBool(DbAppSettingKey.AntiAbuse_CreateTenancyDetailsSubmission_DisableUserFrequencyCheck) == true)
+            if (_antiAbuseServiceConfig.CreateTenancyDetailsSubmission_DisableUserFrequencyCheck)
                 return new AntiAbuseServiceResponse { IsRejected = false };
 
-            var maxFrequency = _dbAppSettingsHelper.GetFrequency(
-                DbAppSettingKey.AntiAbuse_CreateTenancyDetailsSubmission_MaxFrequencyPerUser,
-                _dbAppSettingDefaultValue.AntiAbuse_CreateTenancyDetailsSubmission_MaxFrequencyPerUser);
+            var maxFrequency = _antiAbuseServiceConfig.CreateTenancyDetailsSubmission_MaxFrequencyPerUser;
 
             var windowStart = _clock.OffsetNow - maxFrequency.Period;
             var actualTimes = await _dbContext.TenancyDetailsSubmissions

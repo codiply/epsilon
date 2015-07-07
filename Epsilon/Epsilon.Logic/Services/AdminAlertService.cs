@@ -13,6 +13,7 @@ using Epsilon.Logic.Constants;
 using Epsilon.Logic.Entities;
 using Epsilon.Logic.Constants.Interfaces;
 using System.Net.Mail;
+using Epsilon.Logic.Configuration.Interfaces;
 
 namespace Epsilon.Logic.Services
 {
@@ -22,9 +23,7 @@ namespace Epsilon.Logic.Services
             new ConcurrentDictionary<string, object>();
 
         private readonly IClock _clock;
-        private readonly IAppSettingsHelper _appSettingsHelper;
-        private readonly IDbAppSettingsHelper _dbAppSettingsHelper;
-        private readonly IDbAppSettingDefaultValue _dbAppSettingDefaultValue;
+        private readonly IAdminAlertServiceConfig _adminAlertServiceConfig;
         private readonly IEpsilonContext _dbContext;
         private readonly ISmtpService _smtpService;
 
@@ -32,16 +31,12 @@ namespace Epsilon.Logic.Services
 
         public AdminAlertService(
             IClock clock,
-            IAppSettingsHelper appSettingsHelper,
-            IDbAppSettingsHelper dbAppSettingsHelper,
-            IDbAppSettingDefaultValue dbAppSettingDefaultValue,
+            IAdminAlertServiceConfig adminAlertServiceConfig,
             IEpsilonContext dbContext,
             ISmtpService smtpService)
         {
             _clock = clock;
-            _appSettingsHelper = appSettingsHelper;
-            _dbAppSettingsHelper = dbAppSettingsHelper;
-            _dbAppSettingDefaultValue = dbAppSettingDefaultValue;
+            _adminAlertServiceConfig = adminAlertServiceConfig;
             _dbContext = dbContext;
             _smtpService = smtpService;
         }
@@ -75,19 +70,19 @@ namespace Epsilon.Logic.Services
 
             var timeElapsed = _clock.OffsetNow - latestAlertSent.SentOn;
 
-            return timeElapsed < SnoozePeriod();
+            return timeElapsed < _adminAlertServiceConfig.SnoozePeriod;
         }
 
         private void DoSendAlert(string key)
         {
-            var applicationName = _appSettingsHelper.GetString(AppSettingsKey.ApplicationName);
+            var applicationName = _adminAlertServiceConfig.ApplicationName;
             var message = new MailMessage
             {
                 Subject = String.Format("{0} AdminAlert: {1}", applicationName, key),
                 Body = String.Format("This is an AdminAlert with key <strong>{0}</strong> from application <strong>{1}</strong>.", key, applicationName),
                 IsBodyHtml = true
             };
-            var emailList = _appSettingsHelper.GetString(AppSettingsKey.AdminAlertEmailList);
+            var emailList = _adminAlertServiceConfig.EmailList;
             var emails = emailList.Trim(';', ',').Split(';', ',').Select(e => e.Trim())
                 .Where(e => !string.IsNullOrWhiteSpace(e)).ToList();
             foreach (var em in emails)
@@ -104,19 +99,6 @@ namespace Epsilon.Logic.Services
                 Key = key
             });
             _dbContext.SaveChanges();
-        }
-
-        private TimeSpan SnoozePeriod()
-        {
-            if (_snoozePeriodInHours == null)
-            {
-                var value = _dbAppSettingsHelper.GetDouble(
-                    DbAppSettingKey.AdminAlertSnoozePeriodInHours, 
-                    _dbAppSettingDefaultValue.AdminAlertSnoozePeriodInHours);
-                _snoozePeriodInHours = TimeSpan.FromHours(value);
-            }
-            
-            return _snoozePeriodInHours.Value;
         }
 
         private static object GetLock(string key)
