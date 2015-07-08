@@ -96,6 +96,10 @@
       <Project>{4d73faee-51ba-4e25-b506-5c9c8107d488}</Project>
       <Name>Epsilon.Logic</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Epsilon.Resources\Epsilon.Resources.csproj">
+      <Project>{3cb53361-5bc7-40c9-88de-a7dc7f311431}</Project>
+      <Name>Epsilon.Resources</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Epsilon.Web\Epsilon.Web.csproj">
       <Project>{78bec197-b73a-4b21-97d8-4f58fb2d6b50}</Project>
       <Name>Epsilon.Web</Name>

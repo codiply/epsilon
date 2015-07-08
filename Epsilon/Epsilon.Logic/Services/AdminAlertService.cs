@@ -27,8 +27,6 @@ namespace Epsilon.Logic.Services
         private readonly IEpsilonContext _dbContext;
         private readonly ISmtpService _smtpService;
 
-        private TimeSpan? _snoozePeriodInHours;
-
         public AdminAlertService(
             IClock clock,
             IAdminAlertServiceConfig adminAlertServiceConfig,
