@@ -17,11 +17,9 @@ namespace Epsilon.Web.Controllers.Filters.Mvc
 
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            string ip = string.Empty;
-
             if (filterContext != null && filterContext.HttpContext != null)
             {
-                ip = Helper.GetClientIpAddress(filterContext.HttpContext.Request);
+                var ip = Helper.GetClientIpAddress(filterContext.HttpContext.Request);
                 filterContext.HttpContext.SetSanitizedIpAddress(ip);
             }
         }

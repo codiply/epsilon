@@ -17,7 +17,7 @@ namespace Epsilon.UnitTests.Logic.Helpers
     {
         IIpAddressHelper _helper = new IpAddressHelper();
 
-        private const string XForwardedFor = "X_FORWARDED_FOR";
+        private const string XForwardedFor = "HTTP_X_FORWARDED_FOR";
         private const string MalformedIpAddress = "MALFORMED";
         private const string DefaultIpAddress = "0.0.0.0";
         private const string GoogleIpAddress = "74.125.224.224";
@@ -26,6 +26,11 @@ namespace Epsilon.UnitTests.Logic.Helpers
         private const string Private20Bit = "172.16.0.0";
         private const string Private16Bit = "192.168.0.0";
         private const string PrivateLinkLocal = "169.254.0.0";
+
+        private const string IPv6Public1 = "2001:db8:a0b:12f0::1";
+        private const string IPv6Public2 = "3ffe:1900:4545:3:200:f8ff:fe21:67cf";
+        private const string IPv6PrivateLinkLocal = "FE80::C001:37FF:FE6C:0";
+        private const string IPv6PrivateSiteLocal = "FEC0::C001:37FF:FE6C:0";
 
         [Test]
         public void PublicIpAndNullXForwardedFor_Returns_CorrectIp()
@@ -136,14 +141,107 @@ namespace Epsilon.UnitTests.Logic.Helpers
         public void MultiplePublicXForwardedForWithPrivateLast_Returns_LastPublic()
         {
             // Arrange
-            const string privateIpList = Private24Bit + "," + Private20Bit + "," + MicrosoftIpAddress + "," + PrivateLinkLocal;
-            var request = CreateMockHttpRequest(GoogleIpAddress, privateIpList);
+            const string ipList = Private24Bit + "," + Private20Bit + "," + MicrosoftIpAddress + "," + PrivateLinkLocal;
+            var request = CreateMockHttpRequest(GoogleIpAddress, ipList);
 
             // Act
             var ip = _helper.GetClientIpAddress(request);
 
             // Assert
             Assert.AreEqual(MicrosoftIpAddress, ip);
+        }
+
+        [Test]
+        public void PublicIpAndNullXForwardedFor_Returns_CorrectIp_IPv6()
+        {
+            // Arrange
+            var request = CreateMockHttpRequest(IPv6Public1, null);
+
+            // Act
+            var ip = _helper.GetClientIpAddress(request);
+
+            // Assert
+            Assert.AreEqual(IPv6Public1, ip);
+        }
+
+        [Test]
+        public void PublicIpAndEmptyXForwardedFor_Returns_CorrectIp_IPv6()
+        {
+            // Arrange
+            var request = CreateMockHttpRequest(IPv6Public2, string.Empty);
+
+            // Act
+            var ip = _helper.GetClientIpAddress(request);
+
+            // Assert
+            Assert.AreEqual(IPv6Public2, ip);
+        }
+
+        [Test]
+        public void SingleValidPublicXForwardedFor_Returns_XForwardedFor_IPv6()
+        {
+            // Arrange
+            var request = CreateMockHttpRequest(IPv6Public1, IPv6Public2);
+
+            // Act
+            var ip = _helper.GetClientIpAddress(request);
+
+            // Assert
+            Assert.AreEqual(IPv6Public2, ip);
+        }
+
+        [Test]
+        public void MultipleValidPublicXForwardedFor_Returns_LastXForwardedFor_IPv6()
+        {
+            // Arrange
+            var request = CreateMockHttpRequest(IPv6Public1, IPv6Public1 + "," + IPv6Public2);
+
+            // Act
+            var ip = _helper.GetClientIpAddress(request);
+
+            // Assert
+            Assert.AreEqual(IPv6Public2, ip);
+        }
+
+        [Test]
+        public void SinglePrivateXForwardedFor_Returns_UserHostAddress_IPv6()
+        {
+            // Arrange
+            var request = CreateMockHttpRequest(IPv6Public1, IPv6PrivateLinkLocal);
+
+            // Act
+            var ip = _helper.GetClientIpAddress(request);
+
+            // Assert
+            Assert.AreEqual(IPv6Public1, ip);
+        }
+
+        [Test]
+        public void MultiplePrivateXForwardedFor_Returns_UserHostAddress_IPv6()
+        {
+            // Arrange
+            const string privateIpList = IPv6PrivateLinkLocal + "," + IPv6PrivateSiteLocal;
+            var request = CreateMockHttpRequest(IPv6Public2, privateIpList);
+
+            // Act
+            var ip = _helper.GetClientIpAddress(request);
+
+            // Assert
+            Assert.AreEqual(IPv6Public2, ip);
+        }
+
+        [Test]
+        public void MultiplePublicXForwardedForWithPrivateLast_Returns_LastPublic_IPv6()
+        {
+            // Arrange
+            const string ipList = IPv6PrivateLinkLocal + "," + IPv6Public1 + "," + IPv6PrivateSiteLocal;
+            var request = CreateMockHttpRequest(IPv6Public2, ipList);
+
+            // Act
+            var ip = _helper.GetClientIpAddress(request);
+
+            // Assert
+            Assert.AreEqual(IPv6Public1, ip);
         }
 
         private HttpRequestBase CreateMockHttpRequest(string userHostAddress, string xForwardedFor)
