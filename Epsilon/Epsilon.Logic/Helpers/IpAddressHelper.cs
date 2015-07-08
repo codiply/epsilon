@@ -49,15 +49,15 @@ namespace Epsilon.Logic.Helpers
             switch (ip.AddressFamily)
             {
                 case AddressFamily.InterNetwork:
-                    return IsPrivateIpAddressIPv4(ip);
+                    return IsPrivateIPv4Address(ip);
                 case AddressFamily.InterNetworkV6:
-                    return IsPrivateIpAddressIPv6(ip);
+                    return IsPrivateIPv6Address(ip);
                 default:
                     return true;
             }
         }
 
-        private bool IsPrivateIpAddressIPv4(IPAddress ipAddress)
+        private bool IsPrivateIPv4Address(IPAddress ipAddress)
         {
             // http://en.wikipedia.org/wiki/Private_network
             // Private IP Addresses are: 
@@ -85,7 +85,7 @@ namespace Epsilon.Logic.Helpers
             return isLinkLocalAddress;
         }
 
-        private bool IsPrivateIpAddressIPv6(IPAddress ipAddress)
+        private bool IsPrivateIPv6Address(IPAddress ipAddress)
         {
             return ipAddress.IsIPv6LinkLocal || ipAddress.IsIPv6SiteLocal;
         }
