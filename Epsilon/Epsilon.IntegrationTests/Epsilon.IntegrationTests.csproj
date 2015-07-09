@@ -85,6 +85,7 @@
     <Compile Include="Logic\Constants\DbAppSettingValueTypeTest.cs" />
     <Compile Include="Logic\Services\AntiAbuseServiceTest.cs" />
     <Compile Include="Logic\Services\CoinAccountServiceTest.cs" />
+    <Compile Include="Logic\Services\IpAddressActivityService.cs" />
     <Compile Include="Logic\Services\NewUserServiceTest.cs" />
     <Compile Include="Logic\Services\UserPreferenceServiceTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
