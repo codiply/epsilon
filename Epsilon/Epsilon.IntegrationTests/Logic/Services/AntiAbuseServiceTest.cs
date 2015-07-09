@@ -2,6 +2,7 @@
 using Epsilon.Logic.Configuration.Interfaces;
 using Epsilon.Logic.Constants;
 using Epsilon.Logic.Constants.Interfaces;
+using Epsilon.Logic.Entities;
 using Epsilon.Logic.Helpers;
 using Epsilon.Logic.Helpers.Interfaces;
 using Epsilon.Logic.Infrastructure.Primitives;
@@ -39,7 +40,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             for (int i = 0; i < 10; i++)
             {
-                await CreateUser(container, String.Format("test{0}@test.com", i), ipAddress);
+                var user = await CreateUser(container, String.Format("test{0}@test.com", i), ipAddress);
             }
 
             var response = await service.CanRegister(ipAddress);
@@ -48,7 +49,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
         }
 
         [Test]
-        public async Task CanRegister_CheckGlobalFrequency()
+        public async Task CanRegister_CheckGlobalFrequency_TheFrequencyTimesIsUsedCorrectly()
         {
             var disableGlobalFrequencyCheck = false;
             var globalMaxFrequency = "2/D";
@@ -68,17 +69,17 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var helperContainer = CreateContainer();
 
             // I create the first user.
-            await CreateUser(helperContainer, "test1@test.com", "1.2.3.1");
+            var user1 = await CreateUser(helperContainer, "test1@test.com", "1.2.3.1");
 
             var firstResponse = await serviceUnderTest.CanRegister("1.2.3.2");
             Assert.IsFalse(firstResponse.IsRejected, "The first check should pass.");
             Assert.AreEqual(string.Empty, adminAlertKey, "Admin alert should not be sent the first time.");
 
             // I create the second user
-            await CreateUser(helperContainer, "test2@test.com", "1.2.3.3");
+            var user2 = await CreateUser(helperContainer, "test2@test.com", "1.2.3.3");
 
             var secondResponse = await serviceUnderTest.CanRegister("1.2.3.4");
-            Assert.IsFalse(firstResponse.IsRejected, "The second check should fail.");
+            Assert.IsTrue(secondResponse.IsRejected, "The second check should fail.");
             Assert.AreEqual(AntiAbuseResources.Register_GlobalFrequencyCheck_RejectionMessage,
                 secondResponse.RejectionReason, "The rejection reason is not the expected.");
             Assert.AreEqual(AdminAlertKey.RegistrationGlobalMaxFrequencyReached, adminAlertKey,
@@ -86,7 +87,43 @@ namespace Epsilon.IntegrationTests.Logic.Services
         }
 
         [Test]
-        public async Task CanRegister_CheckIpAddressFrequency()
+        public async Task CanRegister_CheckGlobalFrequency_TheFrequencyPeriodIsUsedCorrectly()
+        {
+            var periodInSeconds = 0.2;
+            var disableGlobalFrequencyCheck = false;
+            var globalMaxFrequency = String.Format("1/{0}S", periodInSeconds);
+            var disableIpAddressFrequencyCheck = true;
+            var maxFrequencyPerIpAddress = "1/D";
+
+            var containerUnderTest = CreateContainer();
+            SetupContainerForCanRegister(containerUnderTest,
+                disableGlobalFrequencyCheck, globalMaxFrequency,
+                disableIpAddressFrequencyCheck, maxFrequencyPerIpAddress);
+
+            string adminAlertKey = string.Empty;
+            SetupContainerWithMockAdminAlertService(containerUnderTest, x => adminAlertKey = x);
+
+            var serviceUnderTest = containerUnderTest.Get<IAntiAbuseService>();
+
+            var helperContainer = CreateContainer();
+
+            var user = await CreateUser(helperContainer, "test@test.com", "1.2.3.4");
+
+            var firstResponse = await serviceUnderTest.CanRegister("1.2.3.4");
+            Assert.IsTrue(firstResponse.IsRejected, "The first check should fail.");
+            Assert.AreEqual(AntiAbuseResources.Register_GlobalFrequencyCheck_RejectionMessage,
+                firstResponse.RejectionReason, "The rejection reason is not the expected.");
+            Assert.AreEqual(AdminAlertKey.RegistrationGlobalMaxFrequencyReached, adminAlertKey,
+                "The right admin alert was not send the second time.");
+
+            await Task.Delay(TimeSpan.FromSeconds(periodInSeconds));
+
+            var secondResponse = await serviceUnderTest.CanRegister("2.3.4.5");
+            Assert.IsFalse(secondResponse.IsRejected, "The request should not be rejected the second time.");
+        }
+
+        [Test]
+        public async Task CanRegister_CheckIpAddressFrequency_TheFrequencyTimesIsUsedCorrectly()
         {
             var disableGlobalFrequencyCheck = true;
             var globalMaxFrequency = "2/D";
@@ -99,24 +136,55 @@ namespace Epsilon.IntegrationTests.Logic.Services
             SetupContainerForCanRegister(containerUnderTest,
                 disableGlobalFrequencyCheck, globalMaxFrequency,
                 disableIpAddressFrequencyCheck, maxFrequencyPerIpAddress);
-
             var serviceUnderTest = containerUnderTest.Get<IAntiAbuseService>();
 
             var helperContainer = CreateContainer();
 
             // I create the first user.
-            await CreateUser(helperContainer, "test1@test.com", ipAddress);
+            var user1 = await CreateUser(helperContainer, "test1@test.com", ipAddress);
 
             var firstResponse = await serviceUnderTest.CanRegister(ipAddress);
             Assert.IsFalse(firstResponse.IsRejected, "The first check should pass.");
 
             // I create the second user
-            await CreateUser(helperContainer, "test2@test.com", ipAddress);
+            var user2 = await CreateUser(helperContainer, "test2@test.com", ipAddress);
 
             var secondResponse = await serviceUnderTest.CanRegister(ipAddress);
-            Assert.IsFalse(firstResponse.IsRejected, "The second check should fail.");
+            Assert.IsTrue(secondResponse.IsRejected, "The second check should fail.");
             Assert.AreEqual(AntiAbuseResources.Register_IpAddressFrequencyCheck_RejectionMessage,
                 secondResponse.RejectionReason, "The rejection reason is not the expected.");
+        }
+
+        [Test]
+        public async Task CanRegister_CheckIpAddressFrequency_TheFrequencyPeriodIsUsedCorrectly()
+        {
+            var periodInSeconds = 0.2;
+            var disableGlobalFrequencyCheck = true;
+            var globalMaxFrequency = "1/1D";
+            var disableIpAddressFrequencyCheck = false;
+            var maxFrequencyPerIpAddress = String.Format("1/{0}S", periodInSeconds);
+            var ipAddress = "1.2.3.4";
+
+            var containerUnderTest = CreateContainer();
+            SetupContainerForCanRegister(containerUnderTest,
+                disableGlobalFrequencyCheck, globalMaxFrequency,
+                disableIpAddressFrequencyCheck, maxFrequencyPerIpAddress);
+
+            var serviceUnderTest = containerUnderTest.Get<IAntiAbuseService>();
+
+            var helperContainer = CreateContainer();
+
+            var user = await CreateUser(helperContainer, "test@test.com", ipAddress);
+
+            var firstResponse = await serviceUnderTest.CanRegister(ipAddress);
+            Assert.IsTrue(firstResponse.IsRejected, "The first check should fail.");
+            Assert.AreEqual(AntiAbuseResources.Register_IpAddressFrequencyCheck_RejectionMessage,
+                firstResponse.RejectionReason, "The rejection reason is not the expected.");
+
+            await Task.Delay(TimeSpan.FromSeconds(periodInSeconds));
+
+            var secondResponse = await serviceUnderTest.CanRegister(ipAddress);
+            Assert.IsFalse(secondResponse.IsRejected, "The request should not be rejected the second time.");
         }
 
         private static void SetupContainerForCanRegister(IKernel container,
