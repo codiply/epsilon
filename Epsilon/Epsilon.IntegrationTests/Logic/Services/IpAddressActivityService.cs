@@ -12,7 +12,6 @@ using Epsilon.Logic.Constants.Enums;
 
 namespace Epsilon.IntegrationTests.Logic.Services
 {
-    [TestFixture]
     public class IpAddressActivityService : BaseIntegrationTestWithRollback
     {
         [Test]

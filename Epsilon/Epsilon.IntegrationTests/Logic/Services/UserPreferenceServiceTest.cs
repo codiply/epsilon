@@ -11,7 +11,6 @@ using Epsilon.Logic.Services.Interfaces;
 
 namespace Epsilon.IntegrationTests.Logic.Services
 {
-    [TestFixture]
     public class UserPreferenceServiceTest : BaseIntegrationTestWithRollback
     {
         [Test]
