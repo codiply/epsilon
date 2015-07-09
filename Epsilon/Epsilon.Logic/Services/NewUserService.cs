@@ -42,7 +42,7 @@ namespace Epsilon.Logic.Services
 
         private async Task CreateUserPreference(string userId, string languageId)
         {
-            await _userPreferenceService.CreateUserPreference(userId, languageId);
+            await _userPreferenceService.Create(userId, languageId);
         }
     }
 }

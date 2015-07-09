@@ -9,8 +9,8 @@ namespace Epsilon.Logic.Services.Interfaces
 {
     public interface IUserPreferenceService
     {
-        Task CreateUserPreference(string userId, string languageId);
+        Task Create(string userId, string languageId);
 
-        Task<UserPreference> GetUserPreference(string userId);
+        Task<UserPreference> Get(string userId);
     }
 }

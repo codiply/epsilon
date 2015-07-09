@@ -24,7 +24,7 @@ namespace Epsilon.Logic.Services
             _dbContext = dbContext;
         }
 
-        public async Task CreateUserPreference(string userId, string languageId)
+        public async Task Create(string userId, string languageId)
         {
             var newUserPreference = new UserPreference
             {
@@ -35,7 +35,7 @@ namespace Epsilon.Logic.Services
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task<UserPreference> GetUserPreference(string userId)
+        public async Task<UserPreference> Get(string userId)
         {
             var userPreference = await _appCache
                 .Get(AppCacheKey.UserPreference(userId), () => _dbContext.UserPreferences.FindAsync(userId), WithLock.No);
