@@ -96,6 +96,7 @@
     <Compile Include="Logic\Constants\CountryAddressFieldMetadataTest.cs" />
     <Compile Include="Logic\Helpers\AppSettingsHelperTest.cs" />
     <Compile Include="Logic\Helpers\IpAddressHelperTest.cs" />
+    <Compile Include="Logic\Wrappers\SystemClockTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Web\Controllers\BaseControllers\BaseApiControllerTest.cs" />
     <Compile Include="Web\Controllers\BaseControllers\BaseMvcControllerTest.cs" />
