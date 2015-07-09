@@ -10,7 +10,7 @@ namespace Epsilon.Logic.Services.Interfaces
 {
     public interface ICountryService
     {
-        string GetCountryDisplayName(string countryId);
+        string GetDisplayName(string countryId);
 
         IList<Country> GetAvailableCountries();
     }

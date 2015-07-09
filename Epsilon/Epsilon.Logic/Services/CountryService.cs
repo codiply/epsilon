@@ -32,7 +32,7 @@ namespace Epsilon.Logic.Services
             return countries;
         }
 
-        public string GetCountryDisplayName(string countryId)
+        public string GetDisplayName(string countryId)
         {
             var dictionary = GetCountryDictionary();
             var country = dictionary[countryId.ToUpper()];
