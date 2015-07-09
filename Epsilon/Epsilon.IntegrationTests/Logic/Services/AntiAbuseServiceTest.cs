@@ -295,6 +295,79 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.IsFalse(secondResponse.IsRejected, "The request should not be rejected the second time.");
         }
 
+        [Test]
+        public async Task CanAddAddress_CheckUserFrequency_TheFrequencyTimesIsUsedCorrectly()
+        {
+            var disableUserFrequencyCheck = false;
+            var maxFrequencyPerUser = "2/D";
+            var disableIpAddressFrequencyCheck = true;
+            var maxFrequencyPerIpAddress = "2/D";
+
+            var ipAddress1 = "1.2.3.1";
+            var ipAddress2 = "1.2.3.2";
+            var ipAddress3 = "1.2.3.3";
+            var ipAddress4 = "1.2.3.4";
+
+            var containerUnderTest = CreateContainer();
+            SetupContainerForCanAddAddress(containerUnderTest,
+                disableUserFrequencyCheck, maxFrequencyPerUser,
+                disableIpAddressFrequencyCheck, maxFrequencyPerIpAddress);
+            var serviceUnderTest = containerUnderTest.Get<IAntiAbuseService>();
+
+            var helperContainer = CreateContainer();
+
+            var user = await CreateUser(helperContainer, "test@test.com", ipAddress1);
+
+            // I add the first address.
+            var address1 = await CreateAddress(helperContainer, user.Id, ipAddress1);
+
+            var firstResponse = await serviceUnderTest.CanAddAddress(user.Id, ipAddress2);
+            Assert.IsFalse(firstResponse.IsRejected, "The first check should pass.");
+
+            // I add the second user
+            var address2 = await CreateAddress(helperContainer, user.Id, ipAddress3);
+            
+            var secondResponse = await serviceUnderTest.CanAddAddress(user.Id, ipAddress4);
+            Assert.IsTrue(secondResponse.IsRejected, "The second check should fail.");
+            Assert.AreEqual(AntiAbuseResources.AddAddress_UserFrequencyCheck_RejectionMessage,
+                secondResponse.RejectionReason, "The rejection reason is not the expected.");
+        }
+
+        [Test]
+        public async Task CanAddAddress_CheckUserFrequency_TheFrequencyPeriodIsUsedCorrectly()
+        {
+            var periodInSeconds = 0.2;
+            var disableUserFrequencyCheck = false;
+            var maxFrequencyPerUser = String.Format("1/{0}S", periodInSeconds);
+            var disableIpAddressFrequencyCheck = true;
+            var maxFrequencyPerIpAddress = "2/D";
+
+            var ipAddress1 = "1.2.3.1";
+            var ipAddress2 = "1.2.3.2";
+            var ipAddress3 = "1.2.3.3";
+
+            var containerUnderTest = CreateContainer();
+            SetupContainerForCanAddAddress(containerUnderTest,
+                disableUserFrequencyCheck, maxFrequencyPerUser,
+                disableIpAddressFrequencyCheck, maxFrequencyPerIpAddress);
+            var serviceUnderTest = containerUnderTest.Get<IAntiAbuseService>();
+
+            var helperContainer = CreateContainer();
+
+            var user = await CreateUser(helperContainer, "test@test.com", ipAddress1);
+            var address = await CreateAddress(helperContainer, user.Id, ipAddress1);
+
+            var firstResponse = await serviceUnderTest.CanAddAddress(user.Id, ipAddress2);
+            Assert.IsTrue(firstResponse.IsRejected, "The first check should fail.");
+            Assert.AreEqual(AntiAbuseResources.AddAddress_UserFrequencyCheck_RejectionMessage,
+                firstResponse.RejectionReason, "The rejection reason is not the expected.");
+
+            await Task.Delay(TimeSpan.FromSeconds(periodInSeconds));
+
+            var secondResponse = await serviceUnderTest.CanAddAddress(user.Id, ipAddress3);
+            Assert.IsFalse(secondResponse.IsRejected, "The request should not be rejected the second time.");
+        }
+
         #endregion
 
         #region CanCreateTenancyDetailsSubmission
@@ -393,6 +466,79 @@ namespace Epsilon.IntegrationTests.Logic.Services
             await Task.Delay(TimeSpan.FromSeconds(periodInSeconds));
 
             var secondResponse = await serviceUnderTest.CanCreateTenancyDetailsSubmission(user.Id, ipAddress);
+            Assert.IsFalse(secondResponse.IsRejected, "The request should not be rejected the second time.");
+        }
+
+        [Test]
+        public async Task CreateTenancyDetailsSubmission_CheckUserFrequency_TheFrequencyTimesIsUsedCorrectly()
+        {
+            var disableUserFrequencyCheck = false;
+            var maxFrequencyPerUser = "2/D";
+            var disableIpAddressFrequencyCheck = true;
+            var maxFrequencyPerIpAddress = "2/D";
+
+            var ipAddress1 = "1.2.3.1";
+            var ipAddress2 = "1.2.3.2";
+            var ipAddress3 = "1.2.3.3";
+            var ipAddress4 = "1.2.3.4";
+
+            var containerUnderTest = CreateContainer();
+            SetupContainerForCanCreateTenancyDetailsSubmission(containerUnderTest,
+                disableUserFrequencyCheck, maxFrequencyPerUser,
+                disableIpAddressFrequencyCheck, maxFrequencyPerIpAddress);
+            var serviceUnderTest = containerUnderTest.Get<IAntiAbuseService>();
+
+            var helperContainer = CreateContainer();
+
+            var user = await CreateUser(helperContainer, "test@test.com", ipAddress1);
+
+            // I add the first address.
+            var submission1 = await CreateTenancyDetailsSubmission(helperContainer, user.Id, ipAddress1);
+
+            var firstResponse = await serviceUnderTest.CanCreateTenancyDetailsSubmission(user.Id, ipAddress2);
+            Assert.IsFalse(firstResponse.IsRejected, "The first check should pass.");
+
+            // I add the second user
+            var submission2 = await CreateTenancyDetailsSubmission(helperContainer, user.Id, ipAddress3);
+
+            var secondResponse = await serviceUnderTest.CanCreateTenancyDetailsSubmission(user.Id, ipAddress4);
+            Assert.IsTrue(secondResponse.IsRejected, "The second check should fail.");
+            Assert.AreEqual(AntiAbuseResources.CreateTenancyDetailsSubmission_UserFrequencyCheck_RejectionMessage,
+                secondResponse.RejectionReason, "The rejection reason is not the expected.");
+        }
+
+        [Test]
+        public async Task CreateTenancyDetailsSubmission_CheckUserFrequency_TheFrequencyPeriodIsUsedCorrectly()
+        {
+            var periodInSeconds = 0.2;
+            var disableUserFrequencyCheck = false;
+            var maxFrequencyPerUser = String.Format("1/{0}S", periodInSeconds);
+            var disableIpAddressFrequencyCheck = true;
+            var maxFrequencyPerIpAddress = "2/D";
+
+            var ipAddress1 = "1.2.3.1";
+            var ipAddress2 = "1.2.3.2";
+            var ipAddress3 = "1.2.3.3";
+
+            var containerUnderTest = CreateContainer();
+            SetupContainerForCanCreateTenancyDetailsSubmission(containerUnderTest,
+                disableUserFrequencyCheck, maxFrequencyPerUser,
+                disableIpAddressFrequencyCheck, maxFrequencyPerIpAddress);
+            var serviceUnderTest = containerUnderTest.Get<IAntiAbuseService>();
+
+            var helperContainer = CreateContainer();
+
+            var user = await CreateUser(helperContainer, "test@test.com", ipAddress1);
+            var submission = await CreateTenancyDetailsSubmission(helperContainer, user.Id, ipAddress1);
+
+            var firstResponse = await serviceUnderTest.CanCreateTenancyDetailsSubmission(user.Id, ipAddress2);
+            Assert.IsTrue(firstResponse.IsRejected, "The first check should fail.");
+            Assert.AreEqual(AntiAbuseResources.CreateTenancyDetailsSubmission_UserFrequencyCheck_RejectionMessage,
+                firstResponse.RejectionReason, "The rejection reason is not the expected.");
+
+            await Task.Delay(TimeSpan.FromSeconds(periodInSeconds));
+
+            var secondResponse = await serviceUnderTest.CanCreateTenancyDetailsSubmission(user.Id, ipAddress3);
             Assert.IsFalse(secondResponse.IsRejected, "The request should not be rejected the second time.");
         }
 
