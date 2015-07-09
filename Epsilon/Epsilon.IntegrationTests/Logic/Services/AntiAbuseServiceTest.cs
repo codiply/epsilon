@@ -1,12 +1,15 @@
 ﻿using Epsilon.IntegrationTests.BaseFixtures;
 using Epsilon.Logic.Configuration.Interfaces;
 using Epsilon.Logic.Constants;
+using Epsilon.Logic.Constants.Enums;
 using Epsilon.Logic.Constants.Interfaces;
 using Epsilon.Logic.Entities;
 using Epsilon.Logic.Helpers;
 using Epsilon.Logic.Helpers.Interfaces;
 using Epsilon.Logic.Infrastructure.Primitives;
 using Epsilon.Logic.Services.Interfaces;
+using Epsilon.Logic.SqlContext.Interfaces;
+using Epsilon.Logic.Wrappers.Interfaces;
 using Epsilon.Resources.Logic.AntiAbuse;
 using Moq;
 using Ninject;
@@ -22,6 +25,9 @@ namespace Epsilon.IntegrationTests.Logic.Services
 {
     public class AntiAbuseServiceTest : BaseIntegrationTestWithRollback
     {
+
+        #region CanRegister
+
         [Test]
         public async Task CanRegister_WithAllChecksDisabled_ReturnsIsRejectedFalse()
         {
@@ -187,6 +193,81 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.IsFalse(secondResponse.IsRejected, "The request should not be rejected the second time.");
         }
 
+        #endregion
+
+        #region CanAddAddress
+
+        [Test]
+        public async Task CanAddAddress_WithAllChecksDisabled_ReturnsIsRejectedFalse()
+        {
+            var disableUserFrequencyCheck = true;
+            var maxFrequencyPerUser = "1/D";
+            var disableIpAddressFrequencyCheck = true;
+            var maxFrequencyPerIpAddress = "1/D";
+
+            var ipAddress = "1.2.3.4";
+
+            var container = CreateContainer();
+            SetupContainerForCanAddAddress(container,
+                disableUserFrequencyCheck, maxFrequencyPerUser,
+                disableIpAddressFrequencyCheck, maxFrequencyPerIpAddress);
+            var service = container.Get<IAntiAbuseService>();
+
+            var user = await CreateUser(container, "test@test.com", ipAddress);
+
+            for (int i = 0; i < 10; i++)
+            {
+                var address = await CreateAddress(container, user.Id, ipAddress);
+            }
+
+            var response = await service.CanAddAddress(user.Id, ipAddress);
+
+            Assert.IsFalse(response.IsRejected, "The response IsRejected property should be false.");
+        }
+
+        #endregion
+
+        #region CanCreateTenancyDetailsSubmission
+
+
+        #endregion
+
+        #region Private setup methods
+
+        private static async Task<Address> CreateAddress(IKernel container, string userId, string userIpAddress)
+        {
+            var dbContext = container.Get<IEpsilonContext>();
+            var random = container.Get<IRandomWrapper>();
+            var address = new Address
+            {
+                Line1 = RandomStringHelper.GetString(random, 10, RandomStringHelper.CharacterCase.Mixed),
+                Locality = RandomStringHelper.GetString(random, 10, RandomStringHelper.CharacterCase.Mixed),
+                Postcode = RandomStringHelper.GetString(random, 10, RandomStringHelper.CharacterCase.Mixed),
+                CountryId = EnumsHelper.CountryId.ToString(CountryId.GB),
+                CreatedById = userId,
+                CreatedByIpAddress = userIpAddress
+            };
+            dbContext.Addresses.Add(address);
+            await dbContext.SaveChangesAsync();
+            return address;
+        }
+
+        private static async Task<TenancyDetailsSubmission> CreateTenancyDetailsSubmission(IKernel container, string userId, string userIpAddress)
+        {
+            var address = CreateAddress(container, userId, userIpAddress);
+            var dbContext = container.Get<IEpsilonContext>();
+
+            var random = container.Get<IRandomWrapper>();
+            var tenancyDetailsSubmission = new TenancyDetailsSubmission
+            {
+                UserId = userId,
+                CreatedByIpAddress = userIpAddress
+            };
+            dbContext.TenancyDetailsSubmissions.Add(tenancyDetailsSubmission);
+            await dbContext.SaveChangesAsync();
+            return tenancyDetailsSubmission;
+        }
+
         private static void SetupContainerForCanRegister(IKernel container,
             bool disableGlobalFrequencyCheck, string globalMaxFrequency,
             bool disableIpAddressFrequencyCheck, string maxFrequencyPerIpAddress)
@@ -208,7 +289,6 @@ namespace Epsilon.IntegrationTests.Logic.Services
         private static void SetupContainerForCanAddAddress(IKernel container,
             bool disableUserFrequencyCheck, string maxFrequencyPerUser,
             bool disableIpAddressFrequencyCheck, string maxFrequencyPerIpAddress)
-
         {
             var parseHelper = new ParseHelper();
             var mockAntiAbuseServiceConfig = new Mock<IAntiAbuseServiceConfig>();
@@ -227,7 +307,6 @@ namespace Epsilon.IntegrationTests.Logic.Services
         private static void SetupContainerForCanCreateTenancyDetailsSubmission(IKernel container,
             bool disableUserFrequencyCheck, string maxFrequencyPerUser,
             bool disableIpAddressFrequencyCheck, string maxFrequencyPerIpAddress)
-
         {
             var parseHelper = new ParseHelper();
             var mockAntiAbuseServiceConfig = new Mock<IAntiAbuseServiceConfig>();
@@ -250,5 +329,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             mockAdminAlertService.Setup(x => x.SendAlert(It.IsAny<string>())).Callback<string>(callback);
             container.Rebind<IAdminAlertService>().ToConstant(mockAdminAlertService.Object);
         }
+
+        #endregion
     }
 }
