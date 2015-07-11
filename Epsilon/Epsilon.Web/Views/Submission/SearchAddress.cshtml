@@ -1,7 +1,8 @@
 ﻿@model Epsilon.Web.Models.ViewModels.Submission.SearchAddressViewModel
 @using Epsilon.Resources.Common
 @using Epsilon.Resources.Web.Submission
-@using Epsilon.Logic.Constants
+@using Epsilon.Logic.Constants.Enums
+@using Epsilon.Logic.Helpers
 
 @{
     ViewBag.Title = SubmissionResources.SearchAddress_PageTitle;
@@ -25,7 +26,7 @@
         </div>
     </div>
     <div class="form-group row" data-ng-cloak data-ng-show="countryId">
-        <label class="control-label col-md-3" for="postcode">{{ controller.COUNTRY_VARIANT_RESOURCES[countryId].@CountryVariantResourceName.ADDRESS_POSTCODE }}</label>
+        <label class="control-label col-md-3" for="postcode">{{ controller.COUNTRY_VARIANT_RESOURCES[countryId].@(EnumsHelper.CountryVariantResourceName.ToString(CountryVariantResourceName.Address_Postcode)) }}</label>
         <div class="col-md-9">
             <input class="form-control text-box single-line" id="postcode" name="postcode" data-ng-model="postcode" />
         </div>
@@ -99,6 +100,6 @@
     @using Epsilon.Web.Models.ViewModels.Shared
     @Html.Partial("_CountryVariantResources", new CountryVariantResourcesViewModel {
         Constant = "COUNTRY_VARIANT_RESOURCES",
-        ResourceNames = new List<string> { CountryVariantResourceName.ADDRESS_POSTCODE }
+        ResourceNames = new List<CountryVariantResourceName> { CountryVariantResourceName.Address_Postcode }
     })
 }

@@ -1,6 +1,5 @@
 ﻿@model Epsilon.Web.Models.ViewModels.Shared.AddressDetailsViewModel
 
-@using Epsilon.Logic.Constants
 @using Epsilon.Resources.Common
 @using Epsilon.Resources.Web.Submission
 @using Epsilon.Logic.Helpers.Interfaces
@@ -24,14 +23,14 @@
     var fieldMetadata = countryAddressFieldMetadata.GetForCountry(enumCountryId);
 
     var countryVariantResources = countryVariantResourceHelper.GetVariantsForCountry(Model.CountryId,
-        new List<string> {
-                    CountryVariantResourceName.ADDRESS_LINE1,
-                    CountryVariantResourceName.ADDRESS_LINE2,
-                    CountryVariantResourceName.ADDRESS_LINE3,
-                    CountryVariantResourceName.ADDRESS_LINE4,
-                    CountryVariantResourceName.ADDRESS_LOCALITY,
-                    CountryVariantResourceName.ADDRESS_REGION,
-                    CountryVariantResourceName.ADDRESS_POSTCODE
+        new List<CountryVariantResourceName> {
+                    CountryVariantResourceName.Address_Line1,
+                    CountryVariantResourceName.Address_Line2,
+                    CountryVariantResourceName.Address_Line3,
+                    CountryVariantResourceName.Address_Line4,
+                    CountryVariantResourceName.Address_Locality,
+                    CountryVariantResourceName.Address_Region,
+                    CountryVariantResourceName.Address_Postcode
         });
 }
 
@@ -39,7 +38,7 @@
     @if (fieldMetadata.Line1.IsUsed)
     {
         <dt>
-            @countryVariantResources[CountryVariantResourceName.ADDRESS_LINE1]
+            @countryVariantResources[EnumsHelper.CountryVariantResourceName.ToString(CountryVariantResourceName.Address_Line1)]
         </dt>
         <dd>
             @Model.Line1
@@ -49,7 +48,7 @@
     @if (fieldMetadata.Line2.IsUsed)
     {
         <dt>
-            @countryVariantResources[CountryVariantResourceName.ADDRESS_LINE2]
+            @countryVariantResources[EnumsHelper.CountryVariantResourceName.ToString(CountryVariantResourceName.Address_Line2)]
         </dt>
         <dd>
             @Model.Line2
@@ -59,7 +58,7 @@
     @if (fieldMetadata.Line3.IsUsed)
     {
         <dt>
-            @countryVariantResources[CountryVariantResourceName.ADDRESS_LINE3]
+            @countryVariantResources[EnumsHelper.CountryVariantResourceName.ToString(CountryVariantResourceName.Address_Line3)]
         </dt>
         <dd>
             @Model.Line3
@@ -70,7 +69,7 @@
     @if (fieldMetadata.Line4.IsUsed)
     {
         <dt>
-            @countryVariantResources[CountryVariantResourceName.ADDRESS_LINE4]
+            @countryVariantResources[EnumsHelper.CountryVariantResourceName.ToString(CountryVariantResourceName.Address_Line4)]
         </dt>
         <dd>
             @Model.Line4
@@ -80,7 +79,7 @@
     @if (fieldMetadata.Locality.IsUsed)
     {
         <dt>
-            @countryVariantResources[CountryVariantResourceName.ADDRESS_LOCALITY]
+            @countryVariantResources[EnumsHelper.CountryVariantResourceName.ToString(CountryVariantResourceName.Address_Locality)]
         </dt>
         <dd>
             @Model.Locality
@@ -90,7 +89,7 @@
     @if (fieldMetadata.Region.IsUsed)
     {
         <dt>
-            @countryVariantResources[CountryVariantResourceName.ADDRESS_REGION]
+            @countryVariantResources[EnumsHelper.CountryVariantResourceName.ToString(CountryVariantResourceName.Address_Region)]
         </dt>
         <dd>
             @Model.Region
@@ -100,7 +99,7 @@
     @if (fieldMetadata.Postcode.IsUsed)
     {
         <dt>
-            @countryVariantResources[CountryVariantResourceName.ADDRESS_POSTCODE]
+            @countryVariantResources[EnumsHelper.CountryVariantResourceName.ToString(CountryVariantResourceName.Address_Postcode)]
         </dt>
         <dd>
             @Model.Postcode

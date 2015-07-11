@@ -80,7 +80,7 @@
     <Compile Include="Constants\AppConstant.cs" />
     <Compile Include="Constants\AspNetRole.cs" />
     <Compile Include="Constants\CountryAddressFieldMetadata.cs" />
-    <Compile Include="Constants\CountryVariantResourceName.cs" />
+    <Compile Include="Constants\Enums\CountryVariantResourceName.cs" />
     <Compile Include="Constants\Enums\CoinAccountTransactionStatus.cs" />
     <Compile Include="Constants\Enums\CoinAccountTransactionTypeId.cs" />
     <Compile Include="Constants\Enums\CountryId.cs" />

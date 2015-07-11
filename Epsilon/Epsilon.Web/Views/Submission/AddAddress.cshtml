@@ -1,6 +1,6 @@
 ﻿@model Epsilon.Logic.Forms.AddressForm
 
-@using Epsilon.Logic.Constants
+@using Epsilon.Logic.Constants.Enums
 @using Epsilon.Resources.Common
 @using Epsilon.Resources.Web.Submission
 @using Epsilon.Logic.Helpers.Interfaces
@@ -23,14 +23,14 @@
     var fieldMetadata = countryAddressFieldMetadata.GetForCountry(enumCountryId);
 
     var countryVariantResources = countryVariantResourceHelper.GetVariantsForCountry(Model.CountryId,
-        new List<string> {
-                    CountryVariantResourceName.ADDRESS_LINE1,
-                    CountryVariantResourceName.ADDRESS_LINE2,
-                    CountryVariantResourceName.ADDRESS_LINE3,
-                    CountryVariantResourceName.ADDRESS_LINE4,
-                    CountryVariantResourceName.ADDRESS_LOCALITY,
-                    CountryVariantResourceName.ADDRESS_REGION,
-                    CountryVariantResourceName.ADDRESS_POSTCODE
+        new List<CountryVariantResourceName> {
+                    CountryVariantResourceName.Address_Line1,
+                    CountryVariantResourceName.Address_Line2,
+                    CountryVariantResourceName.Address_Line3,
+                    CountryVariantResourceName.Address_Line4,
+                    CountryVariantResourceName.Address_Locality,
+                    CountryVariantResourceName.Address_Region,
+                    CountryVariantResourceName.Address_Postcode
         });
 }
 
@@ -45,8 +45,9 @@
 
         @if (fieldMetadata.Line1.IsUsed)
         {
+            var label = @countryVariantResources[EnumsHelper.CountryVariantResourceName.ToString(CountryVariantResourceName.Address_Line1)];
         <div class="form-group">
-            <label class="control-label col-md-3" for="Line1">@countryVariantResources[CountryVariantResourceName.ADDRESS_LINE1]</label>
+            <label class="control-label col-md-3" for="Line1">@label</label>
             <div class="col-md-9">
                 @Html.EditorFor(model => model.Line1, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Line1, "", new { @class = "text-danger" })
@@ -56,8 +57,9 @@
 
         @if (fieldMetadata.Line2.IsUsed)
         {
+            var label = @countryVariantResources[EnumsHelper.CountryVariantResourceName.ToString(CountryVariantResourceName.Address_Line2)];
         <div class="form-group">
-            <label class="control-label col-md-3" for="Line2">@countryVariantResources[CountryVariantResourceName.ADDRESS_LINE2]</label>
+            <label class="control-label col-md-3" for="Line2">@label</label>
             <div class="col-md-9">
                 @Html.EditorFor(model => model.Line2, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Line2, "", new { @class = "text-danger" })
@@ -67,8 +69,9 @@
 
         @if (fieldMetadata.Line3.IsUsed)
         {
+            var label = @countryVariantResources[EnumsHelper.CountryVariantResourceName.ToString(CountryVariantResourceName.Address_Line3)];
         <div class="form-group">
-            <label class="control-label col-md-3" for="Line3">@countryVariantResources[CountryVariantResourceName.ADDRESS_LINE3]</label>
+            <label class="control-label col-md-3" for="Line3">@label</label>
             <div class="col-md-9">
                 @Html.EditorFor(model => model.Line3, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Line3, "", new { @class = "text-danger" })
@@ -79,8 +82,9 @@
 
         @if (fieldMetadata.Line4.IsUsed)
         {
+            var label = @countryVariantResources[EnumsHelper.CountryVariantResourceName.ToString(CountryVariantResourceName.Address_Line4)];
         <div class="form-group">
-            <label class="control-label col-md-3" for="Line4">@countryVariantResources[CountryVariantResourceName.ADDRESS_LINE4]</label>
+            <label class="control-label col-md-3" for="Line4">@label</label>
             <div class="col-md-9">
                 @Html.EditorFor(model => model.Line4, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Line4, "", new { @class = "text-danger" })
@@ -90,8 +94,9 @@
 
         @if (fieldMetadata.Locality.IsUsed)
         {
+            var label = @countryVariantResources[EnumsHelper.CountryVariantResourceName.ToString(CountryVariantResourceName.Address_Locality)];
         <div class="form-group">
-            <label class="control-label col-md-3" for="Locality">@countryVariantResources[CountryVariantResourceName.ADDRESS_LOCALITY]</label>
+            <label class="control-label col-md-3" for="Locality">@label</label>
             <div class="col-md-9">
                 @Html.EditorFor(model => model.Locality, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Locality, "", new { @class = "text-danger" })
@@ -101,8 +106,9 @@
 
         @if (fieldMetadata.Region.IsUsed)
         {
+            var label = @countryVariantResources[EnumsHelper.CountryVariantResourceName.ToString(CountryVariantResourceName.Address_Region)];
         <div class="form-group">
-            <label class="control-label col-md-3" for="Region">@countryVariantResources[CountryVariantResourceName.ADDRESS_REGION]</label>
+            <label class="control-label col-md-3" for="Region">@label</label>
             <div class="col-md-9">
                 @Html.EditorFor(model => model.Region, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Region, "", new { @class = "text-danger" })
@@ -112,8 +118,9 @@
 
         @if (fieldMetadata.Postcode.IsUsed)
         {
+            var label = @countryVariantResources[EnumsHelper.CountryVariantResourceName.ToString(CountryVariantResourceName.Address_Postcode)];
         <div class="form-group">
-            <label class="control-label col-md-3" for="Postcode">@countryVariantResources[CountryVariantResourceName.ADDRESS_POSTCODE]</label>
+            <label class="control-label col-md-3" for="Postcode">@label</label>
             <div class="col-md-9">
                 @Html.EditorFor(model => model.Postcode, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Postcode, "", new { @class = "text-danger" })

@@ -29,10 +29,12 @@
 <div class="row">
     <div class="col-md-3">
         <h2>Testing area</h2>
-        @using Epsilon.Logic.Constants
+        @using Epsilon.Logic.Constants.Enums
+        @using Epsilon.Logic.Helpers
         @{ 
             var countryVariantResourceHelper = DependencyResolver.Current.GetService<ICountryVariantResourceHelper>();
-            var postcodeVariants = countryVariantResourceHelper.GetVariants(new List<string> { CountryVariantResourceName.ADDRESS_POSTCODE });
+            var postcodeVariants = countryVariantResourceHelper.GetVariants(new List<CountryVariantResourceName> {
+                CountryVariantResourceName.Address_Postcode });
         } 
         @foreach (var countryId in postcodeVariants.Keys)
         {

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Epsilon.Logic.Constants.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,10 +9,10 @@ namespace Epsilon.Logic.Helpers.Interfaces
 {
     public interface ICountryVariantResourceHelper
     {
-        Dictionary<string, string> GetVariants(string resourceName);
+        Dictionary<string, string> GetVariants(CountryVariantResourceName resourceName);
 
-        Dictionary<string, Dictionary<string, string>> GetVariants(IList<string> resourceNames);
+        Dictionary<string, Dictionary<string, string>> GetVariants(IList<CountryVariantResourceName> resourceNames);
 
-        Dictionary<string, string> GetVariantsForCountry(string countryId, IList<string> resourceNames);
+        Dictionary<string, string> GetVariantsForCountry(string countryId, IList<CountryVariantResourceName> resourceNames);
     }
 }

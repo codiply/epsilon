@@ -23,30 +23,33 @@ namespace Epsilon.Logic.Helpers
             _countryIds = Enum.GetNames(typeof(CountryId)).OrderBy(x => x).ToList();
         }
 
-        public Dictionary<string, string> GetVariants(string resourceName)
+        public Dictionary<string, string> GetVariants(CountryVariantResourceName resourceName)
         {
             var answer = new Dictionary<string, string>();
 
             foreach (var countryId in _countryIds)
             {
                 var resourceManager = GetCountryResourceManager(countryId);
-                var value = resourceManager.GetString(resourceName);
+                var value = resourceManager.GetString(EnumsHelper.CountryVariantResourceName.ToString(resourceName));
                 answer.Add(countryId, value);
             }
 
             return answer;
         }
 
-        public Dictionary<string, Dictionary<string, string>> GetVariants(IList<string> resourceNames)
+        public Dictionary<string, Dictionary<string, string>> GetVariants(IList<CountryVariantResourceName> resourceNames)
         {
             var answer = _countryIds.ToDictionary(id => id, id => GetVariantsForCountry(id, resourceNames));
             return answer;
         }
         
-        public Dictionary<string, string> GetVariantsForCountry(string countryId, IList<string> resourceNames)
+        public Dictionary<string, string> GetVariantsForCountry(string countryId, 
+            IList<CountryVariantResourceName> resourceNames)
         {
             var resourceManager = GetCountryResourceManager(countryId);
-            var answer = resourceNames.ToDictionary(name => name, name => resourceManager.GetString(name));
+            var answer = resourceNames
+                .Select(resourceName => EnumsHelper.CountryVariantResourceName.ToString(resourceName)).
+                ToDictionary(name => name, name => resourceManager.GetString(name));
             return answer;
         }
 
