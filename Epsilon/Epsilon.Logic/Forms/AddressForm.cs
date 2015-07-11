@@ -11,6 +11,9 @@ namespace Epsilon.Logic.Forms
 {
     public class AddressForm
     {        
+        // !!! IMPORTANT !!!
+        // If you add new fields, make sure you update methods ToEntity() and Clone() at the bottom
+
         public virtual Guid Id { get; set; }
 
         [MaxLength(AddressMap.LINE_MAX_LENGTH)]
