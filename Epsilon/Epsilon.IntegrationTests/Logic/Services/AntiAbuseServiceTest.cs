@@ -552,6 +552,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var random = container.Get<IRandomWrapper>();
             var address = new Address
             {
+                Id = Guid.NewGuid(),
                 Line1 = RandomStringHelper.GetString(random, 10, RandomStringHelper.CharacterCase.Mixed),
                 Locality = RandomStringHelper.GetString(random, 10, RandomStringHelper.CharacterCase.Mixed),
                 Postcode = RandomStringHelper.GetString(random, 10, RandomStringHelper.CharacterCase.Mixed),
@@ -572,6 +573,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var random = container.Get<IRandomWrapper>();
             var tenancyDetailsSubmission = new TenancyDetailsSubmission
             {
+                Id = Guid.NewGuid(),
                 AddressId = address.Id,
                 UserId = userId,
                 CreatedByIpAddress = userIpAddress
