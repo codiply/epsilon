@@ -75,6 +75,8 @@
     <Compile Include="Configuration\Interfaces\IAdminAlertServiceConfig.cs" />
     <Compile Include="Configuration\Interfaces\IAntiAbuseServiceConfig.cs" />
     <Compile Include="Configuration\Interfaces\ICoinAccountServiceConfig.cs" />
+    <Compile Include="Configuration\Interfaces\ITenancyDetailsSubmissionServiceConfig.cs" />
+    <Compile Include="Configuration\TenancyDetailsSubmissionServiceConfig.cs" />
     <Compile Include="Constants\AdminAlertKey.cs" />
     <Compile Include="Constants\AppSettingsKey.cs" />
     <Compile Include="Constants\AppConstant.cs" />

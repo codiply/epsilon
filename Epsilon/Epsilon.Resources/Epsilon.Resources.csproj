@@ -75,6 +75,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>AntiAbuseResources.el.resx</DependentUpon>
     </Compile>
+    <Compile Include="Logic\TenancyDetailsSubmission\TenancyDetailsSubmissionResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TenancyDetailsSubmissionResources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Web\Home\HomeResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -136,6 +141,10 @@
     <EmbeddedResource Include="Logic\AntiAbuse\AntiAbuseResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>AntiAbuseResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Logic\TenancyDetailsSubmission\TenancyDetailsSubmissionResources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>TenancyDetailsSubmissionResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Web\Home\HomeResources.el.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

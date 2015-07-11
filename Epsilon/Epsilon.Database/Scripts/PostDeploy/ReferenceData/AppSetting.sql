@@ -41,7 +41,11 @@ VALUES
 (N'AntiAbuse_Register_MaxFrequencyPerIpAddress', '3/7D', N'Frequency',
  N'The maximum number of users that can register from a single IP address in a given period of time.'),
 (N'AntiAbuse_Register_DisableIpAddressFrequencyCheck', 'False', N'Boolean',
- N'Disables the anti-abuse IP Address frequency check when a user registers.');
+ N'Disables the anti-abuse IP Address frequency check when a user registers.'),
+(N'TenancyDetailsSubmission_Create_DisableFrequencyPerAddressCheck', 'False', N'Boolean',
+ N'Disables the FrequencyPerAddress check when creating a new TenancyDetailsSubmission'),
+(N'TenancyDetailsSubmission_Create_MaxFrequencyPerAddress', '1/30D', N'Frequency',
+ N'The maximum number of TenancyDetailsSubmission''s that can be created per address in a given period.');
 GO
 
 MERGE [dbo].[AppSetting] AS T -- Target

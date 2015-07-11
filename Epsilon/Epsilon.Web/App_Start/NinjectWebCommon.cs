@@ -97,6 +97,7 @@ namespace Epsilon.Web.App_Start
             kernel.Bind<IAdminAlertServiceConfig>().To<AdminAlertServiceConfig>().InRequestScope();
             kernel.Bind<IAntiAbuseServiceConfig>().To<AntiAbuseServiceConfig>().InRequestScope();
             kernel.Bind<ICoinAccountServiceConfig>().To<CoinAccountServiceConfig>().InRequestScope();
+            kernel.Bind<ITenancyDetailsSubmissionServiceConfig>().To<TenancyDetailsSubmissionServiceConfig>().InRequestScope();
 
             // Constants
             kernel.Bind<IDbAppSettingDefaultValue>().To<DbAppSettingDefaultValue>().InSingletonScope();
