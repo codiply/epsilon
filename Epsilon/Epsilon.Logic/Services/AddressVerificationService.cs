@@ -1,4 +1,5 @@
 ﻿using Epsilon.Logic.Forms;
+using Epsilon.Logic.Helpers.Interfaces;
 using Epsilon.Logic.Services.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -10,14 +11,23 @@ namespace Epsilon.Logic.Services
 {
     public class AddressVerificationService : IAddressVerificationService
     {
+        private readonly IAddressCleansingHelper _addressCleansingHelper;
+
+        public AddressVerificationService(
+            IAddressCleansingHelper addressCleansingHelper)
+        {
+            _addressCleansingHelper = addressCleansingHelper;
+        }
+
         public async Task<AddressVerificationResponse> Verify(AddressForm address)
         {
-            // TODO_PANOS: Wrap any external service calls in a try catch
-            //             and send an admin alert if they throw.
-
-            // TODO_PANOS: Fetch and return coordinates as you use a geocoding service for verification.
-
-            throw new NotImplementedException();
+            var cleansedAddress = _addressCleansingHelper.CleanseForVerification(address);
+            return new AddressVerificationResponse
+            {
+                IsRejected = false,
+                Latitude = 0.0M, // TODO_PANOS
+                Longitude = 0.0M // TODO_PANOS
+            };
         }
     }
 }

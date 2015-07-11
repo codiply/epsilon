@@ -11,6 +11,9 @@ namespace Epsilon.Logic.Services.Interfaces
     {
         public bool IsRejected { get; set; }
         public string RejectionReason { get; set; }
+
+        public virtual decimal? Latitude { get; set; }
+        public virtual decimal? Longitude { get; set; }
     }
 
     public interface IAddressVerificationService

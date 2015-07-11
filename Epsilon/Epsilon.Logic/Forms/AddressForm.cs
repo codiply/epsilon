@@ -52,5 +52,21 @@ namespace Epsilon.Logic.Forms
                 CountryId = this.CountryId
             };
         }
+
+        public AddressForm Clone()
+        {
+            return new AddressForm
+            {
+                Id = this.Id,
+                Line1 = this.Line1,
+                Line2 = this.Line2,
+                Line3 = this.Line3,
+                Line4 = this.Line4,
+                Locality = this.Locality,
+                Region = this.Region,
+                Postcode = this.Postcode,
+                CountryId = this.CountryId
+            };
+        }
     }
 }

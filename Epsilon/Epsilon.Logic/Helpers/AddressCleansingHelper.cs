@@ -14,14 +14,15 @@ namespace Epsilon.Logic.Helpers
     {
         public AddressForm CleanseForVerification(AddressForm address)
         {
-            // TODO_PANOS
-            return address;
+            return address.Clone();
         }
 
         public AddressForm CleanseForStorage(AddressForm address)
         {
-            // TODO_PANOS
-            return address;
+            var clone = address.Clone();
+            var countryId = EnumsHelper.CountryId.Parse(clone.CountryId);
+            clone.Postcode = CleanPostcode(countryId.Value, clone.Postcode);
+            return clone;
         }
 
         public string CleanPostcode(CountryId countryId, string postcode)

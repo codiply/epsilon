@@ -27,6 +27,7 @@ namespace Epsilon.Logic.Services
         private readonly IEpsilonContext _dbContext;
         private readonly IAddressServiceConfig _addressServiceConfig;
         private readonly IAddressCleansingHelper _addressCleansingHelper;
+        private readonly IAddressVerificationService _addressVerificationService;
         private readonly IAntiAbuseService _antiAbuseService;
 
         public AddressService(
@@ -34,12 +35,14 @@ namespace Epsilon.Logic.Services
             IEpsilonContext dbContext,
             IAddressServiceConfig addressServiceConfig,
             IAddressCleansingHelper addresCleansingHelper,
+            IAddressVerificationService addressVerificationService,
             IAntiAbuseService antiAbuseService)
         {
             _appCache = appCache;
             _dbContext = dbContext;
             _addressServiceConfig = addressServiceConfig;
             _addressCleansingHelper = addresCleansingHelper;
+            _addressVerificationService = addressVerificationService;
             _antiAbuseService = antiAbuseService;
         }
 
@@ -127,10 +130,22 @@ namespace Epsilon.Logic.Services
                     AddressId = null
                 };
 
-            var entity = dto.ToEntity();
+            var verificationResponse = await _addressVerificationService.Verify(dto);
+            if (verificationResponse.IsRejected)
+                return new AddAddressOutcome
+                {
+                    IsRejected = true,
+                    RejectionReason = verificationResponse.RejectionReason,
+                    AddressId = null
+                };
+
+            var cleansedDto = _addressCleansingHelper.CleanseForStorage(dto);
+            var entity = cleansedDto.ToEntity();
             entity.CreatedById = userId;
             entity.CreatedByIpAddress = userIpAddress;
             entity.UniqueAddressCode = CalculateUniqueAddressCode(dto);
+            entity.Latitude = verificationResponse.Latitude;
+            entity.Longitude = verificationResponse.Longitude;
 
             _dbContext.Addresses.Add(entity);
 
