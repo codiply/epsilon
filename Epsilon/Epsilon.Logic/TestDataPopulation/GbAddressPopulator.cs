@@ -78,7 +78,7 @@ namespace Epsilon.Logic.TestDataPopulation
             foreach (var area in _areas)
             {
                 var postcodes = Enumerable.Range(0, postCodesPerArea).Select(x =>
-                    String.Format("{0}{1}", area.PostcodePrefix, RandomPostcodeSuffix(random)));
+                    string.Format("{0}{1}", area.PostcodePrefix, RandomPostcodeSuffix(random)));
                 foreach (var postcode in postcodes)
                 {
                     for (int i = 0; i < housesPerPostcode; i++)
@@ -101,13 +101,13 @@ namespace Epsilon.Logic.TestDataPopulation
 
         private static string RandomHouse(IRandomWrapper random)
         {
-            return String.Format("{0} {1}",
+            return string.Format("{0} {1}",
                 random.Pick(_houseNames), random.Pick(_houseType));
         }
 
         private static string RandomStreet(IRandomWrapper random)
         {
-            return String.Format("{0} {1}",
+            return string.Format("{0} {1}",
                 random.Pick(_streetNames), random.Pick(_streetSuffixes));
         }
 
@@ -130,7 +130,7 @@ namespace Epsilon.Logic.TestDataPopulation
             return Enumerable.Range(1, numberOfAddresses).Select(i =>
                 new Address
                 {
-                    Line1 = String.Format("{0} {1}", i, houseName),
+                    Line1 = string.Format("{0} {1}", i, houseName),
                     Line2 = street,
                     Locality = city,
                     Region = county,

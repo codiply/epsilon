@@ -71,7 +71,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
                     expectedBalance += am;
                     actualBalance = await coinAccountServiceForVerification.GetBalance(accountId);
                     Assert.AreEqual(expectedBalance, actualBalance, 
-                        String.Format("The balance is not the expected in iteration {0} after transaction with amount {1}", i, am));
+                        string.Format("The balance is not the expected in iteration {0} after transaction with amount {1}", i, am));
                 }
                 await coinAccountServiceUnderTest.MakeSnapshot(user.Id);
             }

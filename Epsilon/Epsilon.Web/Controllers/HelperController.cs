@@ -102,7 +102,7 @@ namespace Epsilon.Web.Controllers
         public ActionResult SendAdminAlert(string adminAlertKey)
         {
             _adminAlertService.SendAlert(adminAlertKey);
-            Success(String.Format("AdminAlert for key '{0}' sent.", adminAlertKey), true);
+            Success(string.Format("AdminAlert for key '{0}' sent.", adminAlertKey), true);
             return RedirectToAction("Index");
         }
 

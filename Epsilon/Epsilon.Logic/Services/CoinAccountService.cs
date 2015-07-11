@@ -90,7 +90,7 @@ namespace Epsilon.Logic.Services
             var account = await _dbContext.CoinAccounts.FindAsync(accountId);
 
             if (account == null)
-                throw new ArgumentException(String.Format("No account found for acountId: '{0}'", accountId));
+                throw new ArgumentException(string.Format("No account found for acountId: '{0}'", accountId));
 
             var lastSnapshot = await GetLastSnapshot(account.Id);
 
@@ -123,7 +123,7 @@ namespace Epsilon.Logic.Services
                 var account = await _dbContext.CoinAccounts.FindAsync(accountId);
 
                 if (account == null)
-                    throw new ArgumentException(String.Format("No account found for acountId: '{0}'", accountId));
+                    throw new ArgumentException(string.Format("No account found for acountId: '{0}'", accountId));
 
                 var lastSnapshot = await GetLastSnapshot(account.Id);
 

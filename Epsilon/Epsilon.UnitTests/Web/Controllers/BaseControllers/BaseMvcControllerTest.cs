@@ -39,7 +39,7 @@ namespace Epsilon.UnitTests.Web.Controllers.BaseControllers
                     .Append(failingActions.Count() == 1 ? ":" : "s:");
                 foreach (var action in failingActions)
                 {
-                    sb.Append(String.Format("\n{0} in {1}", action.Name, action.DeclaringType.Name));
+                    sb.Append(string.Format("\n{0} in {1}", action.Name, action.DeclaringType.Name));
                 }
                 message = sb.ToString();
             }
@@ -70,7 +70,7 @@ namespace Epsilon.UnitTests.Web.Controllers.BaseControllers
                     .Append(failingControllers.Count() == 1 ? ":" : "s:");
                 foreach (var controller in failingControllers)
                 {
-                    sb.Append(String.Format("\n{0}", controller.Name));
+                    sb.Append(string.Format("\n{0}", controller.Name));
                 }
                 message = sb.ToString();
             }
@@ -87,7 +87,7 @@ namespace Epsilon.UnitTests.Web.Controllers.BaseControllers
                 .Where(type => type.Namespace == apiFiltersNamespace).ToList();
 
             Assert.IsTrue(allApiFilterTypes.Any(),
-                String.Format("No types found in namespace {0}. If namespace changed, please update test.", apiFiltersNamespace));
+                string.Format("No types found in namespace {0}. If namespace changed, please update test.", apiFiltersNamespace));
 
             var failingControllers = typeof(BaseMvcController).Assembly.GetTypes()
                 .Where(controller => typeof(Controller).IsAssignableFrom(controller))
@@ -112,7 +112,7 @@ namespace Epsilon.UnitTests.Web.Controllers.BaseControllers
                     .Append(failingControllers.Count() == 1 ? ":" : "s:");
                 foreach (var controller in failingControllers)
                 {
-                    sb.Append(String.Format("\n{0} with filter {1}",
+                    sb.Append(string.Format("\n{0} with filter {1}",
                         controller.Controller.FullName, controller.ApiFilter.FullName));
                 }
                 message = sb.ToString();
@@ -128,7 +128,7 @@ namespace Epsilon.UnitTests.Web.Controllers.BaseControllers
                     .Append(failingActions.Count() == 1 ? ":" : "s:");
                 foreach (var action in failingActions)
                 {
-                    sb.Append(String.Format("\n{0} in {1} with filter {2}",
+                    sb.Append(string.Format("\n{0} in {1} with filter {2}",
                         action.Action.Name, action.Action.DeclaringType.FullName, action.ApiFilter.FullName));
                 }
                 message = sb.ToString();

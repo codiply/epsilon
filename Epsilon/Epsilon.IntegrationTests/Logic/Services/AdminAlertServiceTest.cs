@@ -23,7 +23,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var email1 = "test1@test.com";
             var email2 = "test2@test.com";
             var email3 = "test3@test.com";
-            var emailList = String.Format("{0};{1} , {2};", email1, email2, email3);
+            var emailList = string.Format("{0};{1} , {2};", email1, email2, email3);
             var snoozePeriod = TimeSpan.FromDays(1);
             var adminAlertKey = "Test-Admin-Alert-Key";
 
@@ -74,7 +74,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var email1 = "test1@test.com";
             var email2 = "test2@test.com";
             var email3 = "test3@test.com";
-            var emailList = String.Format("{0};{1} , {2};", email1, email2, email3);
+            var emailList = string.Format("{0};{1} , {2};", email1, email2, email3);
             var snoozePeriod = TimeSpan.FromSeconds(0.2);
             var adminAlertKey = "Test-Admin-Alert-Key";
 

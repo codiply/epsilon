@@ -16,7 +16,7 @@
     var tmpEnumCountryId = EnumsHelper.CountryId.Parse(Model.CountryId);
     if (!tmpEnumCountryId.HasValue)
     {
-        throw new Exception(String.Format("Uknown CountryId {0}.", Model.CountryId));
+        throw new Exception(string.Format("Uknown CountryId {0}.", Model.CountryId));
     }
     var enumCountryId = tmpEnumCountryId.Value;
 

@@ -431,11 +431,11 @@ namespace Epsilon.UnitTests.Logic.Helpers
             foreach (var ex in validExamples)
             {
                 var frequency = helper.GetFrequency(ex);
-                Assert.IsNotNull(frequency, String.Format("Frequency was null for '{0}'.", ex));
+                Assert.IsNotNull(frequency, string.Format("Frequency was null for '{0}'.", ex));
                 Assert.AreEqual(frequency.Times, expectedTimes, 
-                    String.Format("Times field was not the expected for '{0}'.", ex));
+                    string.Format("Times field was not the expected for '{0}'.", ex));
                 Assert.AreEqual(frequency.Period, expectedPeriod,
-                    String.Format("Period field was not the expected for '{0}'.", ex));
+                    string.Format("Period field was not the expected for '{0}'.", ex));
             }
         }
 
@@ -452,11 +452,11 @@ namespace Epsilon.UnitTests.Logic.Helpers
             foreach (var ex in validExamples)
             {
                 var frequency = helper.GetFrequency(ex);
-                Assert.IsNotNull(frequency, String.Format("Frequency was null for '{0}'.", ex));
+                Assert.IsNotNull(frequency, string.Format("Frequency was null for '{0}'.", ex));
                 Assert.AreEqual(frequency.Times, expectedTimes,
-                    String.Format("Times field was not the expected for '{0}'.", ex));
+                    string.Format("Times field was not the expected for '{0}'.", ex));
                 Assert.AreEqual(frequency.Period, expectedPeriod,
-                    String.Format("Period field was not the expected for '{0}'.", ex));
+                    string.Format("Period field was not the expected for '{0}'.", ex));
             }
         }
 
@@ -474,11 +474,11 @@ namespace Epsilon.UnitTests.Logic.Helpers
             foreach (var ex in validExamples)
             {
                 var frequency = helper.GetFrequency(ex);
-                Assert.IsNotNull(frequency, String.Format("Frequency was null for '{0}'.", ex));
+                Assert.IsNotNull(frequency, string.Format("Frequency was null for '{0}'.", ex));
                 Assert.AreEqual(frequency.Times, expectedTimes,
-                    String.Format("Times field was not the expected for '{0}'.", ex));
+                    string.Format("Times field was not the expected for '{0}'.", ex));
                 Assert.AreEqual(frequency.Period, expectedPeriod,
-                    String.Format("Period field was not the expected for '{0}'.", ex));
+                    string.Format("Period field was not the expected for '{0}'.", ex));
             }
         }
 
@@ -492,7 +492,7 @@ namespace Epsilon.UnitTests.Logic.Helpers
             foreach (var ex in invalidExamples)
             {
                 var frequency = helper.GetFrequency(ex);
-                Assert.IsNull(frequency, String.Format("Frequency was not null for '{0}'.", ex));
+                Assert.IsNull(frequency, string.Format("Frequency was not null for '{0}'.", ex));
             }
         }
 
@@ -509,11 +509,11 @@ namespace Epsilon.UnitTests.Logic.Helpers
             foreach (var ex in validExamples)
             {
                 var frequency = helper.GetFrequency(ex);
-                Assert.IsNotNull(frequency, String.Format("Frequency was null for '{0}'.", ex));
+                Assert.IsNotNull(frequency, string.Format("Frequency was null for '{0}'.", ex));
                 Assert.AreEqual(frequency.Times, expectedTimes,
-                    String.Format("Times field was not the expected for '{0}'.", ex));
+                    string.Format("Times field was not the expected for '{0}'.", ex));
                 Assert.AreEqual(frequency.Period, expectedPeriod,
-                    String.Format("Period field was not the expected for '{0}'.", ex));
+                    string.Format("Period field was not the expected for '{0}'.", ex));
             }
         }
 

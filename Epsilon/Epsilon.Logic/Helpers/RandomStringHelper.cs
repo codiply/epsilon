@@ -131,7 +131,7 @@ namespace Epsilon.Logic.Helpers
                 }
             }
 
-            throw new ArgumentException(String.Format("Unexpected argument {0}.", zeroBasedNumber));
+            throw new ArgumentException(string.Format("Unexpected argument {0}.", zeroBasedNumber));
         }
 
         private static char NumberToCharacterMixedCase(int zeroBasedNumber)
@@ -149,7 +149,7 @@ namespace Epsilon.Logic.Helpers
                 }
             }
 
-            throw new ArgumentException(String.Format("Unexpected argument {0}.", zeroBasedNumber));
+            throw new ArgumentException(string.Format("Unexpected argument {0}.", zeroBasedNumber));
         }
     }
 }

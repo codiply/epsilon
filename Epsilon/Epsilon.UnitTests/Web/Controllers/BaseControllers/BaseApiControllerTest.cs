@@ -36,7 +36,7 @@ namespace Epsilon.UnitTests.Web.Controllers.BaseControllers
                     .Append(failingApiControllers.Count() == 1 ? ":" : "s:");
                 foreach (var controller in failingApiControllers)
                 {
-                    sb.Append(String.Format("\n{0}", controller.Name));
+                    sb.Append(string.Format("\n{0}", controller.Name));
                 }
                 message = sb.ToString();
             }
@@ -53,7 +53,7 @@ namespace Epsilon.UnitTests.Web.Controllers.BaseControllers
                 .Where(type => type.Namespace == mvcFiltersNamespace).ToList();
 
             Assert.IsTrue(allMvcFilterTypes.Any(),
-                String.Format("No types found in namespace {0}. If namespace changed, please update test.", mvcFiltersNamespace));
+                string.Format("No types found in namespace {0}. If namespace changed, please update test.", mvcFiltersNamespace));
 
             var failingControllers = typeof(BaseApiController).Assembly.GetTypes()
                 .Where(controller => typeof(ApiController).IsAssignableFrom(controller))
@@ -78,7 +78,7 @@ namespace Epsilon.UnitTests.Web.Controllers.BaseControllers
                     .Append(failingControllers.Count() == 1 ? ":" : "s:");
                 foreach (var controller in failingControllers)
                 {
-                    sb.Append(String.Format("\n{0} with filter {1}",
+                    sb.Append(string.Format("\n{0} with filter {1}",
                         controller.Controller.FullName, controller.MvcFilter.FullName));
                 }
                 message = sb.ToString();
@@ -94,7 +94,7 @@ namespace Epsilon.UnitTests.Web.Controllers.BaseControllers
                     .Append(failingActions.Count() == 1 ? ":" : "s:");
                 foreach (var action in failingActions)
                 {
-                    sb.Append(String.Format("\n{0} in {1} with filter {2}",
+                    sb.Append(string.Format("\n{0} in {1} with filter {2}",
                         action.Action.Name, action.Action.DeclaringType.FullName, action.MvcFilter.FullName));
                 }
                 message = sb.ToString();

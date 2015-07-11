@@ -47,7 +47,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             for (int i = 0; i < usersToCreate; i++)
             {
-                var user = await CreateUser(container, String.Format("test{0}@test.com", i), ipAddress);
+                var user = await CreateUser(container, string.Format("test{0}@test.com", i), ipAddress);
             }
 
             var response = await service.CanRegister(ipAddress);
@@ -98,7 +98,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
         {
             var periodInSeconds = 0.2;
             var disableGlobalFrequencyCheck = false;
-            var globalMaxFrequency = String.Format("1/{0}S", periodInSeconds);
+            var globalMaxFrequency = string.Format("1/{0}S", periodInSeconds);
             var disableIpAddressFrequencyCheck = true;
             var maxFrequencyPerIpAddress = "1/D";
 
@@ -169,7 +169,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var disableGlobalFrequencyCheck = true;
             var globalMaxFrequency = "1/1D";
             var disableIpAddressFrequencyCheck = false;
-            var maxFrequencyPerIpAddress = String.Format("1/{0}S", periodInSeconds);
+            var maxFrequencyPerIpAddress = string.Format("1/{0}S", periodInSeconds);
             var ipAddress = "1.2.3.4";
 
             var containerUnderTest = CreateContainer();
@@ -269,7 +269,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var disableUserFrequencyCheck = true;
             var maxFrequencyPerUser = "2/D";
             var disableIpAddressFrequencyCheck = false;
-            var maxFrequencyPerIpAddress = String.Format("1/{0}S", periodInSeconds);
+            var maxFrequencyPerIpAddress = string.Format("1/{0}S", periodInSeconds);
 
             var ipAddress = "1.2.3.4";
 
@@ -338,7 +338,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
         {
             var periodInSeconds = 0.2;
             var disableUserFrequencyCheck = false;
-            var maxFrequencyPerUser = String.Format("1/{0}S", periodInSeconds);
+            var maxFrequencyPerUser = string.Format("1/{0}S", periodInSeconds);
             var disableIpAddressFrequencyCheck = true;
             var maxFrequencyPerIpAddress = "2/D";
 
@@ -443,7 +443,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var disableUserFrequencyCheck = true;
             var maxFrequencyPerUser = "2/D";
             var disableIpAddressFrequencyCheck = false;
-            var maxFrequencyPerIpAddress = String.Format("1/{0}S", periodInSeconds);
+            var maxFrequencyPerIpAddress = string.Format("1/{0}S", periodInSeconds);
 
             var ipAddress = "1.2.3.4";
 
@@ -512,7 +512,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
         {
             var periodInSeconds = 0.2;
             var disableUserFrequencyCheck = false;
-            var maxFrequencyPerUser = String.Format("1/{0}S", periodInSeconds);
+            var maxFrequencyPerUser = string.Format("1/{0}S", periodInSeconds);
             var disableIpAddressFrequencyCheck = true;
             var maxFrequencyPerIpAddress = "2/D";
 

@@ -34,7 +34,7 @@ namespace Epsilon.IntegrationTests.Logic.Constants
                     .Append(" with unexpected value type: ");
                 foreach (var x in failingDbAppSettings)
                 {
-                    sb.Append(String.Format("\n{0} with value type '{1}'", x.Id, x.ValueType));
+                    sb.Append(string.Format("\n{0} with value type '{1}'", x.Id, x.ValueType));
                 }
                 message = sb.ToString();
             }
@@ -84,7 +84,7 @@ namespace Epsilon.IntegrationTests.Logic.Constants
                     .Append(" with value that cannot be parsed: ");
                 foreach (var x in failingDbAppSettings)
                 {
-                    sb.Append(String.Format("\n{0} with value type '{1}' and value '{2}'", 
+                    sb.Append(string.Format("\n{0} with value type '{1}' and value '{2}'", 
                         x.Id, x.ValueType, x.Value));
                 }
                 message = sb.ToString();

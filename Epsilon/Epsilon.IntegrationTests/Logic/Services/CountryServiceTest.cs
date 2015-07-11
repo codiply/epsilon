@@ -31,13 +31,13 @@ namespace Epsilon.IntegrationTests.Logic.Services
             {
                 var expectedCountry = expectedAvailableCountries[country.Id];
                 Assert.IsNotNull(expectedCountry,
-                    String.Format("Country with Id '{0}' is not actually an available country.", country.Id));
+                    string.Format("Country with Id '{0}' is not actually an available country.", country.Id));
                 Assert.AreEqual(expectedCountry.EnglishName, country.EnglishName,
-                    String.Format("Field EnglishName is not the expected for Country with Id '{0}'.", country.Id));
+                    string.Format("Field EnglishName is not the expected for Country with Id '{0}'.", country.Id));
                 Assert.AreEqual(expectedCountry.LocalName, country.LocalName,
-                    String.Format("Field LocalName is not the expected for Country with Id '{0}'.", country.Id));
+                    string.Format("Field LocalName is not the expected for Country with Id '{0}'.", country.Id));
                 Assert.AreEqual(expectedCountry.CurrencyId, country.CurrencyId,
-                    String.Format("Field CurrencyId is not the expected for Country with Id '{0}'.", country.Id));
+                    string.Format("Field CurrencyId is not the expected for Country with Id '{0}'.", country.Id));
             }
         }
 
@@ -54,7 +54,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 var expectedDisplayName = AppConstant.COUNTRY_DISPLAY_FIELD_SELECTOR(country);
                 var actualDisplayName = service.GetDisplayName(country.Id);
                 Assert.AreEqual(expectedDisplayName, actualDisplayName,
-                    String.Format("The DisplayName was not the expected for country with Id '{0}'", country.Id));
+                    string.Format("The DisplayName was not the expected for country with Id '{0}'", country.Id));
             }
         }
     }

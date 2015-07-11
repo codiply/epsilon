@@ -40,7 +40,7 @@ namespace Epsilon.UnitTests.Logic.Constants
                     var fieldMetadata = allFieldMappings[field](countryMetadata);
                     if (fieldMetadata.IsRequired)
                         Assert.IsTrue(fieldMetadata.IsUsed,
-                            String.Format("Field {0} for CountryId {1} should be marked as IsUsed because it is marked as IsRequired.", 
+                            string.Format("Field {0} for CountryId {1} should be marked as IsUsed because it is marked as IsRequired.", 
                                 field, EnumsHelper.CountryId.ToString(countryId)));
                 }
             }
@@ -62,7 +62,7 @@ namespace Epsilon.UnitTests.Logic.Constants
                 {
                     var fieldMetadata = allFieldMappings[field](countryMetadata);
                     Assert.IsTrue(fieldMetadata.IsRequired,
-                         String.Format("Field {0} for CountryId {1} should be marked as IsRequired because it is non-nullable in the database.",
+                         string.Format("Field {0} for CountryId {1} should be marked as IsRequired because it is non-nullable in the database.",
                              field, EnumsHelper.CountryId.ToString(countryId)));
                 }
             }
