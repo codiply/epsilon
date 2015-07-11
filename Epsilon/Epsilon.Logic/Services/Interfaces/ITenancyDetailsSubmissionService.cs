@@ -18,6 +18,7 @@ namespace Epsilon.Logic.Services.Interfaces
         Task<CreateTenancyDetailsSubmissionOutcome> Create(
             string userId,
             string userIpAddress,
+            Guid submissionId,
             Guid addressId);
     }
 }

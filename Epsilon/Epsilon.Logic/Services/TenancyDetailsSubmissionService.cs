@@ -33,6 +33,7 @@ namespace Epsilon.Logic.Services
         public async Task<CreateTenancyDetailsSubmissionOutcome> Create(
             string userId, 
             string userIpAddress, 
+            Guid submissionId,
             Guid addressId)
         {
             var address = await _addressService.GetAddress(addressId);
@@ -55,7 +56,7 @@ namespace Epsilon.Logic.Services
                 };
             }
 
-            var tenancyDetailsSubmission = await DoCreate(userId, userIpAddress, addressId);
+            var tenancyDetailsSubmission = await DoCreate(userId, userIpAddress, submissionId, addressId);
             return new CreateTenancyDetailsSubmissionOutcome
             {
                 IsRejected = false,
@@ -66,10 +67,12 @@ namespace Epsilon.Logic.Services
         private async Task<TenancyDetailsSubmission> DoCreate(
             string userId,
             string userIpAddress,
+            Guid submissionId,
             Guid addressId)
         {
             var entity = new TenancyDetailsSubmission
             {
+                Id = submissionId,
                 UserId = userId,
                 CreatedByIpAddress = userIpAddress,
                 AddressId = addressId

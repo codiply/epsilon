@@ -11,6 +11,8 @@ namespace Epsilon.Logic.Forms
 {
     public class AddressForm
     {        
+        public virtual Guid Id { get; set; }
+
         [MaxLength(AddressMap.LINE_MAX_LENGTH)]
         public virtual string Line1 { get; set; }
 
@@ -39,6 +41,7 @@ namespace Epsilon.Logic.Forms
         {
             return new Address
             {
+                Id = this.Id,
                 Line1 = this.Line1,
                 Line2 = this.Line2,
                 Line3 = this.Line3,

@@ -1,4 +1,4 @@
-﻿@model Epsilon.Web.Models.ViewModels.Shared.AddressDetailsViewModel
+﻿@model Epsilon.Web.Models.ViewModels.Submission.UseAddressViewModel
 @using Epsilon.Resources.Web.Submission
 
 @{
@@ -8,7 +8,7 @@
 <h4>@SubmissionResources.UseAddress_PageHeader</h4>
 <hr />
 
-@Html.Partial("_AddressDetails", Model)
+@Html.Partial("_AddressDetails", Model.AddressDetails)
 
 @using (Html.BeginForm("UseAddressConfirmed", "Submission"))
 {
@@ -26,7 +26,8 @@
         </div>
 
         <div class="form-group">
-            <input type="hidden" name="selectedAddressId" value="@Model.Id" />
+            <input type="hidden" name="submissionId" value="@Model.SubmissionId" />
+            <input type="hidden" name="selectedAddressId" value="@Model.AddressDetails.Id" />
             <div>
                 <input type="submit" value="@SubmissionResources.UseAddress_SubmitButton" class="btn btn-default" data-ng-disabled="!confirmedText" />
             </div>

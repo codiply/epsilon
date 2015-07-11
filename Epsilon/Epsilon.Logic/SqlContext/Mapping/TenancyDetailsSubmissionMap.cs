@@ -19,8 +19,6 @@ namespace Epsilon.Logic.SqlContext.Mapping
             this.HasKey(x => x.Id);
 
             // Properties
-            this.Property(x => x.Id)
-                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             this.Property(x => x.Rent)
                 .IsOptional();
             this.Property(x => x.CreatedOn)

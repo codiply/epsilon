@@ -55,6 +55,7 @@ namespace Epsilon.Web.Controllers
 
             var model = new AddressForm
             {
+                Id = Guid.NewGuid(),
                 CountryId = countryId,
                 Postcode = postcode
             };
@@ -65,7 +66,7 @@ namespace Epsilon.Web.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> SaveAddress(
-            [Bind(Include = "Line1,Line2,Line3,Line4,Locality,Region,Postcode,CountryId")] AddressForm address)
+            [Bind(Include = "Id,Line1,Line2,Line3,Line4,Locality,Region,Postcode,CountryId")] AddressForm address)
         {
             if (ModelState.IsValid)
             {
@@ -85,22 +86,26 @@ namespace Epsilon.Web.Controllers
             ViewBag.CountryId = new SelectList(countries, "Id", AppConstant.COUNTRY_DISPLAY_FIELD, address.CountryId);
             return View("AddAddress", address);
         }
-        
+
         public async Task<ActionResult> UseAddress(Guid id)
         {
             var addressId = id;
             var entity = await _addressService.GetAddress(id);
-            var model = AddressDetailsViewModel.FromEntity(entity);
+            var model = new UseAddressViewModel
+            {
+                SubmissionId = Guid.NewGuid(),
+                AddressDetails = AddressDetailsViewModel.FromEntity(entity)
+            };
 
             return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> UseAddressConfirmed(Guid selectedAddressId)
+        public async Task<ActionResult> UseAddressConfirmed(Guid submissionId, Guid selectedAddressId)
         {
             var outcome = await _tenancyDetailsSubmissionService
-                .Create(GetUserId(), GetUserIpAddress(), selectedAddressId);
+                .Create(GetUserId(), GetUserIpAddress(), submissionId, selectedAddressId);
             if (outcome.IsRejected)
             {
                 Danger(outcome.RejectionReason, true);

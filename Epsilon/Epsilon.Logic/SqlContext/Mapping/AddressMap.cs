@@ -27,8 +27,6 @@ namespace Epsilon.Logic.SqlContext.Mapping
             this.HasKey(x => x.Id);
 
             // Properties
-            this.Property(x => x.Id)
-                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             this.Property(x => x.UniqueAddressCode)
                 .HasMaxLength(UNIQUE_ADDRESS_CODE_MAX_LENGTH);
             this.Property(x => x.Line1)
