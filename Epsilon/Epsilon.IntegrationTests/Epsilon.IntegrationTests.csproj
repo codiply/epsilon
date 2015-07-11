@@ -83,6 +83,7 @@
     <Compile Include="Logic\Constants\CoinAccountTransactionTypeIdTest.cs" />
     <Compile Include="Logic\Constants\CountryIdTest.cs" />
     <Compile Include="Logic\Constants\DbAppSettingValueTypeTest.cs" />
+    <Compile Include="Logic\Services\AdminAlertServiceTest.cs" />
     <Compile Include="Logic\Services\AntiAbuseServiceTest.cs" />
     <Compile Include="Logic\Services\CoinAccountServiceTest.cs" />
     <Compile Include="Logic\Services\CountryServiceTest.cs" />

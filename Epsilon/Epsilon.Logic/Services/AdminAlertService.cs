@@ -39,7 +39,6 @@ namespace Epsilon.Logic.Services
             _smtpService = smtpService;
         }
 
-
         public void SendAlert(string key)
         {
             if (IsNotAllowedToSendAgain(key))
