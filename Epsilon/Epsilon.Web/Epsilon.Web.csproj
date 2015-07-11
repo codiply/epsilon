@@ -325,6 +325,7 @@
     <Content Include="Scripts\lib\angularjs\angular-animate.min.js.map" />
     <Content Include="Scripts\lib\angularjs\angular.min.js.map" />
     <Content Include="Unversioned.template.config" />
+    <None Include="Properties\PublishProfiles\Local.pubxml" />
     <None Include="Scripts\lib\jquery\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\lib\angularjs\i18n\angular-locale_aa-dj.js" />
     <Content Include="Scripts\lib\angularjs\i18n\angular-locale_aa-er.js" />
