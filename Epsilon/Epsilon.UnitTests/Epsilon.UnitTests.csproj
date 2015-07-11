@@ -97,6 +97,7 @@
     <Compile Include="Logic\Helpers\AppSettingsHelperTest.cs" />
     <Compile Include="Logic\Helpers\CountryVariantResourceHelperTest.cs" />
     <Compile Include="Logic\Helpers\IpAddressHelperTest.cs" />
+    <Compile Include="Logic\Helpers\RandomStringHelperTest.cs" />
     <Compile Include="Logic\Infrastructure\EnumMemoizerTest.cs" />
     <Compile Include="Logic\Wrappers\SystemClockTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
