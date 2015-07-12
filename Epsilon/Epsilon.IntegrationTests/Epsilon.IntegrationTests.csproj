@@ -91,6 +91,7 @@
     <Compile Include="Logic\Services\IpAddressActivityService.cs" />
     <Compile Include="Logic\Services\LanguageServiceTest.cs" />
     <Compile Include="Logic\Services\NewUserServiceTest.cs" />
+    <Compile Include="Logic\Services\TenancyDetailsSubmissionServiceTest.cs" />
     <Compile Include="Logic\Services\UserPreferenceServiceTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
