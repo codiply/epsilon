@@ -50,7 +50,116 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.IsEmpty(response2.Results, "A request with part of the postcode should return no results.");
             Assert.IsFalse(response2.IsResultsLimitExceeded, 
                 "The results limit should not be flagged as exceeded when the number of results is equal to the limit.");
-            Assert.AreEqual(searchAddressResultsLimit, response2.ResultsLimit, "The results limit on the response was not the expected."); 
+            Assert.AreEqual(searchAddressResultsLimit, response2.ResultsLimit, 
+                "The results limit reported on the response was not the expected."); 
+        }
+
+        [Test]
+        public async Task Search_SearchesTermsInAllFields()
+        {
+            int searchAddressResultsLimit = 3;
+            int numberOfAddressesToCreate = searchAddressResultsLimit;
+            var locality = "Locality";
+            var postcode = "POSTCODE";
+            var countryId = "GB";
+
+            var containerUnderTest = CreateContainer();
+            SetupConfig(containerUnderTest, searchAddressResultsLimit);
+
+            var helperContainer = CreateContainer();
+            var addresses = await CreateAddresses(helperContainer, numberOfAddressesToCreate, "", locality, postcode, countryId);
+
+            var serviceUnderTest = containerUnderTest.Get<IAddressService>();
+
+            var request1 = new AddressSearchRequest { countryId = countryId, postcode = postcode.ToLower(), terms = "" };
+            var response1 = await serviceUnderTest.Search(request1);
+
+            var addressToSearch = addresses.First();
+
+            // I use each field as a term and separate them in different ways in the search terms string.
+            var searchTermsField = string.Format(" {0},{1}, {2} ,{3} {4}   {5}, ",
+                addressToSearch.Line1, addressToSearch.Line2, addressToSearch.Line3, addressToSearch.Line4,
+                addressToSearch.Locality, addressToSearch.Region);
+
+            var request = new AddressSearchRequest { countryId = countryId, postcode = postcode, terms = searchTermsField };
+            var response = await serviceUnderTest.Search(request);
+
+            Assert.AreEqual(1, response.Results.Count, "The response should contain a single result.");
+            Assert.IsFalse(response.IsResultsLimitExceeded, "The results limit should not be flagged as exceeded.");
+            Assert.AreEqual(searchAddressResultsLimit, response.ResultsLimit, 
+                "The results limit on the response was not the expected.");
+
+            var returnedAddress = response.Results.Single();
+
+            Assert.AreEqual(addressToSearch.Id, returnedAddress.addressId, "The id of the address returned is not the expected.");
+            Assert.IsTrue(returnedAddress.fullAddress.Contains(addressToSearch.Line1), "Line1 was not found in the full address.");
+            Assert.IsTrue(returnedAddress.fullAddress.Contains(addressToSearch.Line2), "Line2 was not found in the full address.");
+            Assert.IsTrue(returnedAddress.fullAddress.Contains(addressToSearch.Line3), "Line3 was not found in the full address.");
+            Assert.IsTrue(returnedAddress.fullAddress.Contains(addressToSearch.Line4), "Line4 was not found in the full address.");
+            Assert.IsTrue(returnedAddress.fullAddress.Contains(addressToSearch.Locality), "Locality was not found in the full address.");
+            Assert.IsTrue(returnedAddress.fullAddress.Contains(addressToSearch.Region), "Region was not found in the full address.");
+            Assert.IsTrue(returnedAddress.fullAddress.Contains(addressToSearch.Postcode), "Postcode was not found in the full address.");
+        }
+
+        [Test]
+        public async Task Search_DoesNotUseSearchTermsToSearchCountryIdOrPostcode()
+        {
+            int searchAddressResultsLimit = 3;
+            int numberOfAddressesToCreate = searchAddressResultsLimit;
+            var locality = "Locality";
+            var postcode = "POSTCODE";
+            var countryId = "GB";
+
+            var containerUnderTest = CreateContainer();
+            SetupConfig(containerUnderTest, searchAddressResultsLimit);
+
+            var helperContainer = CreateContainer();
+            var addresses = await CreateAddresses(helperContainer, numberOfAddressesToCreate, "", locality, postcode, countryId);
+
+            var serviceUnderTest = containerUnderTest.Get<IAddressService>();
+
+            var request1 = new AddressSearchRequest { countryId = countryId, postcode = postcode.ToLower(), terms = "" };
+            var response1 = await serviceUnderTest.Search(request1);
+
+            var addressToSearch = addresses.First();
+
+            var searchTermsField = string.Format("{0} {1}", postcode, countryId);
+
+            var request = new AddressSearchRequest { countryId = countryId, postcode = postcode, terms = searchTermsField };
+            var response = await serviceUnderTest.Search(request);
+
+            Assert.IsEmpty(response.Results, "The response should contain no results.");
+            Assert.IsFalse(response.IsResultsLimitExceeded, "The results limit should not be flagged as exceeded.");
+            Assert.AreEqual(searchAddressResultsLimit, response.ResultsLimit,
+                "The results limit on the response was not the expected.");
+        }
+
+        [Test]
+        public async Task Search_ReturnsNoMoreAddressesThanTheLimit()
+        {
+            int searchAddressResultsLimit = 3;
+            int numberOfAddressesToCreate = searchAddressResultsLimit + 1;
+            var locality = "Locality";
+            var postcode = "POSTCODE";
+            var countryId = "GB";
+
+            var containerUnderTest = CreateContainer();
+            SetupConfig(containerUnderTest, searchAddressResultsLimit);
+
+            var helperContainer = CreateContainer();
+            var addresses = await CreateAddresses(helperContainer, numberOfAddressesToCreate, "", locality, postcode, countryId);
+
+            var serviceUnderTest = containerUnderTest.Get<IAddressService>();
+
+            var request = new AddressSearchRequest { countryId = countryId, postcode = postcode.ToLower(), terms = "" };
+            var response = await serviceUnderTest.Search(request);
+
+            Assert.AreEqual(searchAddressResultsLimit, response.Results.Count,
+                "The number of addresses returned should equal the results limit.");
+            Assert.IsTrue(response.IsResultsLimitExceeded,
+                "The results limit should be flagged as exceeded.");
+            Assert.AreEqual(searchAddressResultsLimit, response.ResultsLimit,
+                "The results limit reported on the response was not the expected.");
         }
 
         private async Task<IList<Address>> CreateAddresses(IKernel container, int count, 
