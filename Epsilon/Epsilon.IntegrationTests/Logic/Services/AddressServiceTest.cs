@@ -20,7 +20,9 @@ using Epsilon.Logic.SqlContext.Interfaces;
 namespace Epsilon.IntegrationTests.Logic.Services
 {
     public class AddressServiceTest : BaseIntegrationTestWithRollback
-    { 
+    {
+        #region Search
+
         [Test]
         public async Task Search_ExactPostcode_AndResultsCountEqualToLimit()
         {
@@ -162,7 +164,93 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 "The results limit reported on the response was not the expected.");
         }
 
-        private async Task<IList<Address>> CreateAddresses(IKernel container, int count, 
+        #endregion
+
+        #region AddAddress
+
+        [Test]
+        public async Task AddAddress_FollowedBy_GetAddress_AreConsistent()
+        {
+            
+            var ipAddress = "1.2.3.4";
+            var longitude = 51.50722M;
+            var latitude = -0.12750M;
+            var countryId = "GB";
+
+            var helperContainer = CreateContainer();
+            var user = await CreateUser(helperContainer, "test@test.com", ipAddress);
+
+            var containerForAdd = CreateContainer();
+            SetupAntiAbuseServiceResponse(containerForAdd, new AntiAbuseServiceResponse
+            {
+                IsRejected = false
+            });
+            SetupAddressVerficationServiceResponse(containerForAdd, new AddressVerificationResponse
+            {
+                IsRejected = false,
+                Longitude = longitude,
+                Latitude = latitude
+            });
+            var serviceForAdd = containerForAdd.Get<IAddressService>();
+
+            var addressForm = CreateRandomAddresForm(countryId);
+
+            var timeBefore = DateTimeOffset.Now;
+            var outcome = await serviceForAdd.AddAddress(user.Id, ipAddress, addressForm);
+
+            Assert.IsFalse(outcome.IsRejected, "IsRejected on the outcome should be false.");
+            Assert.AreEqual(addressForm.Id, outcome.AddressId, "The AddressId on the outcome is not the expected.");
+            Assert.IsNullOrEmpty(outcome.RejectionReason, "The rejection reason should not be populated.");
+            var timeAfter = DateTimeOffset.Now;
+
+            var containerForGet = CreateContainer();
+            var serviceForGet = containerForGet.Get<IAddressService>();
+
+            var retrievedAddress = await serviceForGet.GetAddress(addressForm.Id);
+
+            Assert.IsNotNull(retrievedAddress, "Address could not be retrieved.");
+            Assert.AreEqual(addressForm.Line1, retrievedAddress.Line1, "Field Line1 on the retrieved address is not the expected.");
+            Assert.AreEqual(addressForm.Line2, retrievedAddress.Line2, "Field Line2 on the retrieved address is not the expected.");
+            Assert.AreEqual(addressForm.Line3, retrievedAddress.Line3, "Field Line3 on the retrieved address is not the expected.");
+            Assert.AreEqual(addressForm.Line4, retrievedAddress.Line4, "Field Line4 on the retrieved address is not the expected.");
+            Assert.AreEqual(addressForm.Locality, retrievedAddress.Locality, "Field Locality on the retrieved address is not the expected.");
+            Assert.AreEqual(addressForm.Region, retrievedAddress.Region, "Field Region on the retrieved address is not the expected.");
+            Assert.AreEqual(addressForm.CountryId, retrievedAddress.CountryId, "Field CountryId on the retrieved address is not the expected.");
+            Assert.AreEqual(user.Id, retrievedAddress.CreatedById, "Field CreatedById on the retrieved address is not the expected.");
+            Assert.AreEqual(ipAddress, retrievedAddress.CreatedByIpAddress, "Field CreatedByIpAddress on the retrieved address is not the expected.");
+            Assert.AreEqual(longitude, retrievedAddress.Longitude, "Field Longitude on the retrieved address is not set.");
+            Assert.AreEqual(latitude, retrievedAddress.Latitude, "Field Latitude on the retrieved address is not set.");
+            Assert.IsTrue(timeBefore <= retrievedAddress.CreatedOn && retrievedAddress.CreatedOn <= timeAfter,
+                "Field CreatedOn on the retrieved address is not within the expected range.");
+        }
+
+        #endregion
+
+
+        #region Private helper functions
+
+        private AddressForm CreateRandomAddresForm(string countryId)
+        {
+            var random = new RandomWrapper();
+            var randomFieldLength = 10;
+
+            var form = new AddressForm
+            {
+                Id = Guid.NewGuid(),
+                Line1 = RandomStringHelper.GetAlphaNumericString(random, randomFieldLength, RandomStringHelper.CharacterCase.Mixed),
+                Line2 = RandomStringHelper.GetAlphaNumericString(random, randomFieldLength, RandomStringHelper.CharacterCase.Mixed),
+                Line3 = RandomStringHelper.GetAlphaNumericString(random, randomFieldLength, RandomStringHelper.CharacterCase.Mixed),
+                Line4 = RandomStringHelper.GetAlphaNumericString(random, randomFieldLength, RandomStringHelper.CharacterCase.Mixed),
+                Locality = RandomStringHelper.GetAlphaNumericString(random, randomFieldLength, RandomStringHelper.CharacterCase.Mixed),
+                Region = RandomStringHelper.GetAlphaNumericString(random, randomFieldLength, RandomStringHelper.CharacterCase.Mixed),
+                Postcode = RandomStringHelper.GetAlphaNumericString(random, randomFieldLength, RandomStringHelper.CharacterCase.Mixed),
+                CountryId = countryId
+            };
+
+            return form;
+        }
+
+        private async Task<IList<Address>> CreateAddresses(IKernel container, int count,
             string fieldPrefix, string locality, string postcode, string countryId)
         {
             var random = new RandomWrapper();
@@ -220,5 +308,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             container.Rebind<IAddressVerificationService>().ToConstant(mockAddressVerificationService.Object);
         }
+
+        #endregion
     }
 }
