@@ -17,6 +17,7 @@ using Epsilon.Logic.Wrappers;
 using Epsilon.Logic.Helpers;
 using Epsilon.Logic.SqlContext.Interfaces;
 using Epsilon.Resources.Logic.AntiAbuse;
+using Epsilon.Resources.Logic.TenancyDetailsSubmission;
 
 namespace Epsilon.IntegrationTests.Logic.Services
 {
@@ -150,6 +151,53 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.IsTrue(timeBefore <= retrievedTenancyDetailsSubmission.CreatedOn &&
                 retrievedTenancyDetailsSubmission.CreatedOn <= timeAfter,
                 "The CreatedOn field on the retrieved TenancyDetailsSubmission is not within the expected range.");
+        }
+
+        [Test]
+        public async Task Create_MaxFrequencyPerAddressCheckTest()
+        {
+            var ipAddress = "1.2.3.4";
+            var maxFrequencyPerAddressTimes = 1;
+            var maxFrequencyPerAddressPeriod = TimeSpan.FromSeconds(0.2);
+            var helperContainer = CreateContainer();
+            var user = await CreateUser(helperContainer, "test@test.com", ipAddress);
+
+            var address = await CreateRandomAddress(helperContainer, user.Id, ipAddress);
+
+            var container = CreateContainer();
+            var disableFrequencyPerAddressCheck = false;
+            var maxFrequencyPerAddress = new Frequency(maxFrequencyPerAddressTimes, maxFrequencyPerAddressPeriod);
+            SetupConfigForCreate(container, disableFrequencyPerAddressCheck, maxFrequencyPerAddress);
+            SetupAntiAbuseServiceResponse(container, (userId, ipAddr) => { }, new AntiAbuseServiceResponse()
+            {
+                IsRejected = false
+            });
+            var service = container.Get<ITenancyDetailsSubmissionService>();
+
+            var submissionId1 = Guid.NewGuid();
+            var outcome1 = await service.Create(user.Id, ipAddress, submissionId1, address.Id);
+            Assert.IsFalse(outcome1.IsRejected, "The field IsRejected on outcome1 should be false.");
+
+            var submissionId2 = Guid.NewGuid();
+            var outcome2 = await service.Create(user.Id, ipAddress, submissionId2, address.Id);
+            Assert.IsTrue(outcome2.IsRejected, "The field IsRejected on outcome2 should be true.");
+            Assert.AreEqual(TenancyDetailsSubmissionResources.Create_MaxFrequencyPerAddressCheck_RejectionMessage,
+                outcome2.RejectionReason, "RejectionReason on outcome2 is not the expected.");
+
+            await Task.Delay(maxFrequencyPerAddressPeriod);
+
+            var submissionId3 = Guid.NewGuid();
+            var outcome3 = await service.Create(user.Id, ipAddress, submissionId3, address.Id);
+            Assert.IsFalse(outcome3.IsRejected, "The field IsRejected on outcome3 should be false.");
+
+
+            var retrievedTenancyDetailsSubmission1 = await DbProbe.TenancyDetailsSubmissions.FindAsync(submissionId1);
+            var retrievedTenancyDetailsSubmission2 = await DbProbe.TenancyDetailsSubmissions.FindAsync(submissionId2);
+            var retrievedTenancyDetailsSubmission3 = await DbProbe.TenancyDetailsSubmissions.FindAsync(submissionId3);
+
+            Assert.IsNotNull(retrievedTenancyDetailsSubmission1, "Submission 1 should create a TenancyDetailsSubmission.");
+            Assert.IsNull(retrievedTenancyDetailsSubmission2, "Submission 2 should not create a TenancyDetailsSubmission.");
+            Assert.IsNotNull(retrievedTenancyDetailsSubmission3, "Submission 3 should create a TenancyDetailsSubmission.");
         }
 
         #endregion

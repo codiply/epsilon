@@ -64,8 +64,8 @@ namespace Epsilon.Logic.Services
 
             if (!_tenancyDetailsSubmissionServiceConfig.Create_DisableFrequencyPerAddressCheck)
             {
-                var recentSubmissionsExist = await TooManyRecentSubmissionsExist(addressId);
-                if (recentSubmissionsExist)
+                var tooManyRecentSubmissionsExist = await TooManyRecentSubmissionsExist(addressId);
+                if (tooManyRecentSubmissionsExist)
                     return new CreateTenancyDetailsSubmissionOutcome
                     {
                         IsRejected = true,
