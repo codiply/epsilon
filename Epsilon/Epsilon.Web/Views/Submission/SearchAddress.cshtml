@@ -50,7 +50,7 @@
         <div class="alert alert-info" data-ng-clock data-ng-if="addressSearchResponse.Results.length > 0">
             <p>@SubmissionResources.SearchAddress_SelectYourAddressMessage</p>
         </div>
-        <div class="alert alert-warning" data-ng-clock data-ng-if="addressSearchResponse.IsResultsLimitReached">
+        <div class="alert alert-warning" data-ng-clock data-ng-if="addressSearchResponse.IsResultsLimitExceeded">
             <p>{{ '@SubmissionResources.SearchAddress_NarrowDownYourSearchMessage' | stringFormat : addressSearchResponse.ResultsLimit }}</p>
         </div> 
         <table class="table table-striped">
@@ -76,12 +76,12 @@
         <div class="alert alert-info" data-ng-clock data-ng-if="addressSearchResponse.Results.length === 0">
             <p>@SubmissionResources.SearchAddress_NoAddressesFoundMessage</p>
         </div>
-        <div class="alert alert-info" data-ng-clock data-ng-if="addressSearchResponse.Results.length > 0 && !addressSearchResponse.IsResultsLimitReached">
+        <div class="alert alert-info" data-ng-clock data-ng-if="addressSearchResponse.Results.length > 0 && !addressSearchResponse.IsResultsLimitExceeded">
             <p>@SubmissionResources.SearchAddress_AddYourAddressMessage</p>
         </div>
     </div>
 
-    <div class="form-group row" data-ng-cloak data-ng-show="addressSearchResponse && !addressSearchResponse.IsResultsLimitReached">
+    <div class="form-group row" data-ng-cloak data-ng-show="addressSearchResponse && !addressSearchResponse.IsResultsLimitExceeded">
         <div class="col-md-offset-3 col-md-9">
             @using (Html.BeginForm("AddAddress", "Submission"))
             {

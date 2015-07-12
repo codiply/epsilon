@@ -13,7 +13,7 @@ declare module T4TS {
     export interface AddressSearchResponse {
         Results: T4TS.AddressSearchResult[];
         ResultsLimit: number;
-        IsResultsLimitReached: boolean;
+        IsResultsLimitExceeded: boolean;
     }
     /** Generated from Epsilon.Logic.JsonModels.AddressSearchResult **/
     export interface AddressSearchResult {

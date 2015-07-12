@@ -14,6 +14,6 @@ namespace Epsilon.Logic.JsonModels
 
         public int ResultsLimit { get; set; }
         
-        public bool IsResultsLimitReached { get; set; }
+        public bool IsResultsLimitExceeded { get; set; }
     }
 }

@@ -55,7 +55,7 @@ namespace Epsilon.Logic.Services
                 || string.IsNullOrEmpty(request.postcode)
                 || !countryIdOption.HasValue)
             {
-                return new AddressSearchResponse { ResultsLimit = resultsLimit, IsResultsLimitReached = false };
+                return new AddressSearchResponse { ResultsLimit = resultsLimit, IsResultsLimitExceeded = false };
             }
             var countryId = countryIdOption.Value;
 
@@ -91,7 +91,7 @@ namespace Epsilon.Logic.Services
 
             var addresses = await query.Take(resultsLimit + 1).ToListAsync();
             
-            var reachedLimit = addresses.Count > resultsLimit;
+            var exceededLimit = addresses.Count > resultsLimit;
             
             var results = addresses.Select(x => new AddressSearchResult
             {
@@ -99,7 +99,7 @@ namespace Epsilon.Logic.Services
                 fullAddress = x.FullAddress()
             });
 
-            if (reachedLimit)
+            if (exceededLimit)
             {
                 results = results.Take(resultsLimit);
             }
@@ -108,7 +108,7 @@ namespace Epsilon.Logic.Services
             {
                 Results = results.ToList(),
                 ResultsLimit = resultsLimit,
-                IsResultsLimitReached = reachedLimit
+                IsResultsLimitExceeded = exceededLimit
             };
 
             return response; 
