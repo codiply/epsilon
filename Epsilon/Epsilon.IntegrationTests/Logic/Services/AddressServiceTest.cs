@@ -224,6 +224,90 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 "Field CreatedOn on the retrieved address is not within the expected range.");
         }
 
+        [Test]
+        public async Task AddAddress_RejectedByAntiAbuseService()
+        {
+
+            var ipAddress = "1.2.3.4";
+            var longitude = 51.50722M;
+            var latitude = -0.12750M;
+            var countryId = "GB";
+            var rejectionReason = "AntiAbuseService Rejection Reason";
+
+            var helperContainer = CreateContainer();
+            var user = await CreateUser(helperContainer, "test@test.com", ipAddress);
+
+            var containerForAdd = CreateContainer();
+            SetupAntiAbuseServiceResponse(containerForAdd, new AntiAbuseServiceResponse
+            {
+                IsRejected = true,
+                RejectionReason = rejectionReason
+            });
+            SetupAddressVerficationServiceResponse(containerForAdd, new AddressVerificationResponse
+            {
+                IsRejected = false,
+                Longitude = longitude,
+                Latitude = latitude
+            });
+            var service = containerForAdd.Get<IAddressService>();
+
+            var addressForm = CreateRandomAddresForm(countryId);
+            var outcome = await service.AddAddress(user.Id, ipAddress, addressForm);
+
+            Assert.IsTrue(outcome.IsRejected, "IsRejected on the outcome should be true.");
+            Assert.IsNull(outcome.AddressId, "The AddressId on the outcome should be null.");
+            Assert.AreEqual(rejectionReason, outcome.RejectionReason, "The rejection reason is not the expected.");
+
+            var containerForGet = CreateContainer();
+            var serviceForGet = containerForGet.Get<IAddressService>();
+
+            var retrievedAddress = await serviceForGet.GetAddress(addressForm.Id);
+
+            Assert.IsNull(retrievedAddress, "No Address should be created.");
+        }
+
+        [Test]
+        public async Task AddAddress_RejectedByVerificationService()
+        {
+
+            var ipAddress = "1.2.3.4";
+            var longitude = 51.50722M;
+            var latitude = -0.12750M;
+            var countryId = "GB";
+            var rejectionReason = "VerficiationService Rejection Reason";
+
+            var helperContainer = CreateContainer();
+            var user = await CreateUser(helperContainer, "test@test.com", ipAddress);
+
+            var containerForAdd = CreateContainer();
+            SetupAntiAbuseServiceResponse(containerForAdd, new AntiAbuseServiceResponse
+            {
+                IsRejected = false
+            });
+            SetupAddressVerficationServiceResponse(containerForAdd, new AddressVerificationResponse
+            {
+                IsRejected = true,
+                RejectionReason = rejectionReason,
+                Longitude = longitude,
+                Latitude = latitude
+            });
+            var service = containerForAdd.Get<IAddressService>();
+
+            var addressForm = CreateRandomAddresForm(countryId);
+            var outcome = await service.AddAddress(user.Id, ipAddress, addressForm);
+
+            Assert.IsTrue(outcome.IsRejected, "IsRejected on the outcome should be true.");
+            Assert.IsNull(outcome.AddressId, "The AddressId on the outcome should be null.");
+            Assert.AreEqual(rejectionReason, outcome.RejectionReason, "The rejection reason is not the expected.");
+
+            var containerForGet = CreateContainer();
+            var serviceForGet = containerForGet.Get<IAddressService>();
+
+            var retrievedAddress = await serviceForGet.GetAddress(addressForm.Id);
+
+            Assert.IsNull(retrievedAddress, "No Address should be created.");
+        }
+
         #endregion
 
 
