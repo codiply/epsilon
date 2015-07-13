@@ -26,6 +26,7 @@ namespace Epsilon.Logic.SqlContext.Interfaces
         DbSet<Currency> Currencies { get; set; }
         DbSet<IpAddressActivity> IpAddressActivities { get; set; }
         DbSet<Language> Languages { get; set; }
+        DbSet<ResponseTiming> ResponseTimings { get; set; }
         DbSet<TenancyDetailsSubmission> TenancyDetailsSubmissions { get; set; }
         DbSet<TenantVerification> TenantVerifications { get; set; }
         // Users needs to be an IDbSet

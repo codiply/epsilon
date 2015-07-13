@@ -104,6 +104,7 @@
     <Compile Include="Entities\Currency.cs" />
     <Compile Include="Entities\IpAddressActivity.cs" />
     <Compile Include="Entities\Language.cs" />
+    <Compile Include="Entities\ResponseTiming.cs" />
     <Compile Include="Entities\UserPreference.cs" />
     <Compile Include="Forms\AddressForm.cs" />
     <Compile Include="Entities\Address.cs" />
@@ -152,6 +153,7 @@
     <Compile Include="Services\Interfaces\IIpAddressActivityService.cs" />
     <Compile Include="Services\Interfaces\ILanguageService.cs" />
     <Compile Include="Services\Interfaces\INewUserService.cs" />
+    <Compile Include="Services\Interfaces\IResponseTimingService.cs" />
     <Compile Include="Services\Interfaces\ISmtpService.cs" />
     <Compile Include="Services\Interfaces\ITenancyDetailsSubmissionService.cs" />
     <Compile Include="Services\Interfaces\IUserCoinService.cs" />
@@ -159,6 +161,7 @@
     <Compile Include="Services\IpAddressActivityService.cs" />
     <Compile Include="Services\LanguageService.cs" />
     <Compile Include="Services\NewUserService.cs" />
+    <Compile Include="Services\ResponseTimingService.cs" />
     <Compile Include="Services\SmtpService.cs" />
     <Compile Include="Services\TenancyDetailsSubmissionService.cs" />
     <Compile Include="Services\UserCoinService.cs" />
@@ -177,6 +180,7 @@
     <Compile Include="SqlContext\Mapping\LanguageMap.cs" />
     <Compile Include="SqlContext\Mapping\CurrencyMap.cs" />
     <Compile Include="SqlContext\Mapping\CountryMap.cs" />
+    <Compile Include="SqlContext\Mapping\ResponseTimingMap.cs" />
     <Compile Include="SqlContext\Mapping\TenantVerificationMap.cs" />
     <Compile Include="SqlContext\Mapping\TenancyDetailsSubmissionMap.cs" />
     <Compile Include="SqlContext\Mapping\UserPreferenceMap.cs" />

@@ -252,6 +252,7 @@
     <Compile Include="Controllers\ApiControllers\AddressController.cs" />
     <Compile Include="Controllers\BaseControllers\BaseApiController.cs" />
     <Compile Include="Controllers\BaseControllers\BaseMvcController.cs" />
+    <Compile Include="Controllers\Filters\Mvc\ResponseTimingAttribute.cs" />
     <Compile Include="Controllers\Filters\Mvc\AllowIfConfigSettingTrueAttribute.cs" />
     <Compile Include="Controllers\Filters\Mvc\RequireSecureConnectionAttribute.cs" />
     <Compile Include="Controllers\Filters\Mvc\SanitizeIpAddressAttribute.cs" />
