@@ -56,7 +56,7 @@
         <table class="table table-striped">
             <tbody>
                 <tr data-ng-repeat="add in addressSearchResponse.Results">
-                    <td><input type="radio" name="radioSelectedAddressId" data-ng-model="$parent.selectedAddressId" ng-value="add.addressId"></td>
+                    <td><input type="radio" name="radioSelectedAddressUniqueId" data-ng-model="$parent.selectedAddressUniqueId" ng-value="add.addressId"></td>
                     <td>{{add.fullAddress}}</td>
                 </tr>
             </tbody>
@@ -65,8 +65,8 @@
     <div class="form-group row" data-ng-cloak data-ng-show="addressSearchResponse.Results.length > 0">
         <div class="col-md-offset-3 col-md-9">
             <a class="btn btn-default" aria-label="Left Align" 
-               data-ng-href="@(Url.Action("UseAddress") + "/{{selectedAddressId}}")"
-               data-ng-disabled="!selectedAddressId">
+               data-ng-href="@(Url.Action("UseAddress") + "/{{selectedAddressUniqueId}}")"
+               data-ng-disabled="!selectedAddressUniqueId">
                 <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> @SubmissionResources.SearchAddress_UseSelectedAddressButton
             </a>
         </div>

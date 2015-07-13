@@ -8,7 +8,7 @@ namespace Epsilon.Web.Models.ViewModels.Submission
 {
     public class UseAddressViewModel
     {
-        public Guid SubmissionId { get; set; }
+        public Guid SubmissionUniqueId { get; set; }
         public AddressDetailsViewModel AddressDetails { get; set; }
     }
 }

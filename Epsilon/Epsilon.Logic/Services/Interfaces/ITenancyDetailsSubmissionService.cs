@@ -10,7 +10,7 @@ namespace Epsilon.Logic.Services.Interfaces
     {
         public bool IsRejected { get; set; }
         public string RejectionReason { get; set; }
-        public Guid? TenancyDetailsSubmissionId { get; set; }
+        public Guid? TenancyDetailsSubmissionUniqueId { get; set; }
     }
 
     public interface ITenancyDetailsSubmissionService
@@ -18,7 +18,7 @@ namespace Epsilon.Logic.Services.Interfaces
         Task<CreateTenancyDetailsSubmissionOutcome> Create(
             string userId,
             string userIpAddress,
-            Guid submissionId,
-            Guid addressId);
+            Guid submissionUniqueId,
+            Guid addressUniqueId);
     }
 }

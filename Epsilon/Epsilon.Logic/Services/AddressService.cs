@@ -95,7 +95,7 @@ namespace Epsilon.Logic.Services
             
             var results = addresses.Select(x => new AddressSearchResult
             {
-                addressId = x.Id,
+                addressUniqueId = x.UniqueId,
                 fullAddress = x.FullAddress()
             });
 
@@ -114,9 +114,14 @@ namespace Epsilon.Logic.Services
             return response; 
         }
 
-        public async Task<Address> GetAddress(Guid addressId)
+        public async Task<Address> GetAddress(long addressId)
         {
             return await _dbContext.Addresses.FindAsync(addressId);
+        }
+
+        public async Task<Address> GetAddressViaUniqueId(Guid addressUniqueId)
+        {
+            return await _dbContext.Addresses.SingleOrDefaultAsync(x => x.UniqueId.Equals(addressUniqueId));
         }
 
         public async Task<AddAddressOutcome> AddAddress(string userId, string userIpAddress, AddressForm dto)
@@ -127,7 +132,7 @@ namespace Epsilon.Logic.Services
                 {
                     IsRejected = true,
                     RejectionReason = antiAbuseServiceResponse.RejectionReason,
-                    AddressId = null
+                    AddressUniqueId = null
                 };
 
             var verificationResponse = await _addressVerificationService.Verify(dto);
@@ -136,14 +141,14 @@ namespace Epsilon.Logic.Services
                 {
                     IsRejected = true,
                     RejectionReason = verificationResponse.RejectionReason,
-                    AddressId = null
+                    AddressUniqueId = null
                 };
 
             var cleansedDto = _addressCleansingHelper.CleanseForStorage(dto);
             var entity = cleansedDto.ToEntity();
             entity.CreatedById = userId;
             entity.CreatedByIpAddress = userIpAddress;
-            entity.UniqueAddressCode = CalculateUniqueAddressCode(dto);
+            entity.DistinctAddressCode = CalculateDistinctAddressCode(dto);
             entity.Latitude = verificationResponse.Latitude;
             entity.Longitude = verificationResponse.Longitude;
 
@@ -153,11 +158,11 @@ namespace Epsilon.Logic.Services
             return new AddAddressOutcome
             {
                 IsRejected = false,
-                AddressId = entity.Id
+                AddressUniqueId = entity.UniqueId
             };
         }
 
-        public string CalculateUniqueAddressCode(AddressForm dto)
+        public string CalculateDistinctAddressCode(AddressForm dto)
         {
             // TODO_PANOS: Find a mapping from address to a unique id.
             // For UK for example it could be something like

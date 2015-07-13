@@ -11,8 +11,9 @@ namespace Epsilon.Logic.Entities
 {
     public class Address : BaseEntity
     {
-        public virtual Guid Id { get; set; }
-        public virtual string UniqueAddressCode { get; set; }
+        public virtual long Id { get; set; }
+        public virtual Guid UniqueId { get; set; }
+        public virtual string DistinctAddressCode { get; set; }
         public virtual string Line1 { get; set; }
         public virtual string Line2 { get; set; }
         public virtual string Line3 { get; set; }

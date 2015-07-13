@@ -93,7 +93,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             var returnedAddress = response.Results.Single();
 
-            Assert.AreEqual(addressToSearch.Id, returnedAddress.addressId, "The id of the address returned is not the expected.");
+            Assert.AreEqual(addressToSearch.UniqueId, returnedAddress.addressUniqueId, "The id of the address returned is not the expected.");
             Assert.IsTrue(returnedAddress.fullAddress.Contains(addressToSearch.Line1), "Line1 was not found in the full address.");
             Assert.IsTrue(returnedAddress.fullAddress.Contains(addressToSearch.Line2), "Line2 was not found in the full address.");
             Assert.IsTrue(returnedAddress.fullAddress.Contains(addressToSearch.Line3), "Line3 was not found in the full address.");
@@ -208,20 +208,20 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var outcome = await serviceForAdd.AddAddress(user.Id, ipAddress, addressForm);
 
             Assert.IsFalse(outcome.IsRejected, "IsRejected on the outcome should be false.");
-            Assert.AreEqual(addressForm.Id, outcome.AddressId, "The AddressId on the outcome is not the expected.");
+            Assert.AreEqual(addressForm.UniqueId, outcome.AddressUniqueId, "The AddressId on the outcome is not the expected.");
             Assert.IsNullOrEmpty(outcome.RejectionReason, "The rejection reason should not be populated.");
             var timeAfter = DateTimeOffset.Now;
 
             Assert.AreEqual(user.Id, userIdUsedInAntiAbuse, "UserId used in AntiAbuseService is not the expected.");
             Assert.AreEqual(ipAddress, ipAddressUsedInAntiAbuse, "IpAddress used in AntiAbuseService is not the expected");
             Assert.IsNotNull(addressFormUsedInVerification, "Address form used in VerificationService is null.");
-            Assert.AreEqual(addressForm.Id, addressFormUsedInVerification.Id, 
+            Assert.AreEqual(addressForm.UniqueId, addressFormUsedInVerification.UniqueId, 
                 "AddressId on the form submitted for verification is not the expected.");
 
             var containerForGet = CreateContainer();
             var serviceForGet = containerForGet.Get<IAddressService>();
 
-            var retrievedAddress = await serviceForGet.GetAddress(addressForm.Id);
+            var retrievedAddress = await serviceForGet.GetAddressViaUniqueId(addressForm.UniqueId);
 
             Assert.IsNotNull(retrievedAddress, "Address could not be retrieved.");
             Assert.AreEqual(addressForm.Line1, retrievedAddress.Line1, "Field Line1 on the retrieved address is not the expected.");
@@ -279,7 +279,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var outcome = await service.AddAddress(user.Id, ipAddress, addressForm);
 
             Assert.IsTrue(outcome.IsRejected, "IsRejected on the outcome should be true.");
-            Assert.IsNull(outcome.AddressId, "The AddressId on the outcome should be null.");
+            Assert.IsNull(outcome.AddressUniqueId, "The AddressId on the outcome should be null.");
             Assert.AreEqual(rejectionReason, outcome.RejectionReason, "The rejection reason is not the expected.");
 
             Assert.AreEqual(user.Id, userIdUsedInAntiAbuse, "UserId used in AntiAbuseService is not the expected.");
@@ -289,7 +289,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var containerForGet = CreateContainer();
             var serviceForGet = containerForGet.Get<IAddressService>();
 
-            var retrievedAddress = await serviceForGet.GetAddress(addressForm.Id);
+            var retrievedAddress = await serviceForGet.GetAddressViaUniqueId(addressForm.UniqueId);
 
             Assert.IsNull(retrievedAddress, "No Address should be created.");
         }
@@ -334,25 +334,24 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var outcome = await service.AddAddress(user.Id, ipAddress, addressForm);
 
             Assert.IsTrue(outcome.IsRejected, "IsRejected on the outcome should be true.");
-            Assert.IsNull(outcome.AddressId, "The AddressId on the outcome should be null.");
+            Assert.IsNull(outcome.AddressUniqueId, "The AddressId on the outcome should be null.");
             Assert.AreEqual(rejectionReason, outcome.RejectionReason, "The rejection reason is not the expected.");
 
             Assert.AreEqual(user.Id, userIdUsedInAntiAbuse, "UserId used in AntiAbuseService is not the expected.");
             Assert.AreEqual(ipAddress, ipAddressUsedInAntiAbuse, "IpAddress used in AntiAbuseService is not the expected");
             Assert.IsNotNull(addressFormUsedInVerification, "Address form used in VerificationService is null.");
-            Assert.AreEqual(addressForm.Id, addressFormUsedInVerification.Id,
+            Assert.AreEqual(addressForm.UniqueId, addressFormUsedInVerification.UniqueId,
                 "AddressId on the form submitted for verification is not the expected.");
 
             var containerForGet = CreateContainer();
             var serviceForGet = containerForGet.Get<IAddressService>();
 
-            var retrievedAddress = await serviceForGet.GetAddress(addressForm.Id);
+            var retrievedAddress = await serviceForGet.GetAddressViaUniqueId(addressForm.UniqueId);
 
             Assert.IsNull(retrievedAddress, "No Address should be created.");
         }
 
         #endregion
-
 
         #region Private helper functions
 
@@ -363,7 +362,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             var form = new AddressForm
             {
-                Id = Guid.NewGuid(),
+                UniqueId = Guid.NewGuid(),
                 Line1 = RandomStringHelper.GetAlphaNumericString(random, randomFieldLength, RandomStringHelper.CharacterCase.Mixed),
                 Line2 = RandomStringHelper.GetAlphaNumericString(random, randomFieldLength, RandomStringHelper.CharacterCase.Mixed),
                 Line3 = RandomStringHelper.GetAlphaNumericString(random, randomFieldLength, RandomStringHelper.CharacterCase.Mixed),
@@ -390,7 +389,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             {
                 var address = new Address
                 {
-                    Id = Guid.NewGuid(),
+                    UniqueId = Guid.NewGuid(),
                     Line1 = fieldPrefix + RandomStringHelper.GetAlphaNumericString(random, randomFieldLength, RandomStringHelper.CharacterCase.Mixed),
                     Line2 = fieldPrefix + RandomStringHelper.GetAlphaNumericString(random, randomFieldLength, RandomStringHelper.CharacterCase.Mixed),
                     Line3 = fieldPrefix + RandomStringHelper.GetAlphaNumericString(random, randomFieldLength, RandomStringHelper.CharacterCase.Mixed),

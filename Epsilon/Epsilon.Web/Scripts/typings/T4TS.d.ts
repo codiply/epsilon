@@ -17,7 +17,7 @@ declare module T4TS {
     }
     /** Generated from Epsilon.Logic.JsonModels.AddressSearchResult **/
     export interface AddressSearchResult {
-        addressId: string;
+        addressUniqueId: string;
         fullAddress: string;
     }
 }

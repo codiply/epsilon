@@ -10,7 +10,7 @@ namespace Epsilon.Logic.Entities
 {
     public class CoinAccountSnapshot : BaseEntity
     {
-        public virtual Guid Id { get; set; }
+        public virtual long Id { get; set; }
         public virtual string AccountId { get; set; }
         public virtual Decimal Balance { get; set; }
         public virtual DateTimeOffset MadeOn { get; set; }

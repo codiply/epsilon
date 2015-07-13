@@ -13,7 +13,7 @@ namespace Epsilon.Logic.SqlContext.Mapping
 {
     public class AddressMap : EntityTypeConfiguration<Address>
     {
-        public const int UNIQUE_ADDRESS_CODE_MAX_LENGTH = 32;
+        public const int DISTINCT_ADDRESS_CODE_MAX_LENGTH = 32;
         public const int LINE_MAX_LENGTH = 256;
         public const int LOCALITY_MAX_LENGTH = 64;
         public const int REGION_MAX_LENGTH = 64;
@@ -27,8 +27,12 @@ namespace Epsilon.Logic.SqlContext.Mapping
             this.HasKey(x => x.Id);
 
             // Properties
-            this.Property(x => x.UniqueAddressCode)
-                .HasMaxLength(UNIQUE_ADDRESS_CODE_MAX_LENGTH);
+            this.Property(x => x.Id)
+                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            this.Property(x => x.UniqueId)
+                .IsRequired();
+            this.Property(x => x.DistinctAddressCode)
+                .HasMaxLength(DISTINCT_ADDRESS_CODE_MAX_LENGTH);
             this.Property(x => x.Line1)
                 .HasMaxLength(LINE_MAX_LENGTH)
                 .IsRequired();
@@ -66,19 +70,24 @@ namespace Epsilon.Logic.SqlContext.Mapping
                 .WillCascadeOnDelete(false);
 
             // Indexes
+            this.Property(x => x.UniqueId)
+                .HasColumnAnnotation(IndexAnnotation.AnnotationName,
+                    new IndexAnnotation(new IndexAttribute("IX_Address_UniqueId") { IsUnique = true }));
+
             this.Property(x => x.Postcode)
-                .HasColumnAnnotation("Index", new IndexAnnotation(new IndexAttribute()));
+                .HasColumnAnnotation(IndexAnnotation.AnnotationName, 
+                    new IndexAnnotation(new IndexAttribute("IX_Postcode")));
 
             this.Property(x => x.CreatedByIpAddress)
-                .HasColumnAnnotation("Index", 
+                .HasColumnAnnotation(IndexAnnotation.AnnotationName, 
                     new IndexAnnotation(new IndexAttribute("IX_Address_CreatedByIpAddress_CreatedOn", 1)));
 
             this.Property(x => x.CreatedById)
-                .HasColumnAnnotation("Index", 
+                .HasColumnAnnotation(IndexAnnotation.AnnotationName, 
                     new IndexAnnotation(new IndexAttribute("IX_Address_CreatedById_CreatedOn", 1)));
 
             this.Property(x => x.CreatedOn)
-                .HasColumnAnnotation("Index", new IndexAnnotation(new[]
+                .HasColumnAnnotation(IndexAnnotation.AnnotationName, new IndexAnnotation(new[]
                 {
                     new IndexAttribute("IX_Address_CreatedByIpAddress_CreatedOn", 2),
                     new IndexAttribute("IX_Address_CreatedById_CreatedOn", 2)

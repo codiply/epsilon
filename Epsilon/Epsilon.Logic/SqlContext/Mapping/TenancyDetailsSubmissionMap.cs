@@ -19,6 +19,10 @@ namespace Epsilon.Logic.SqlContext.Mapping
             this.HasKey(x => x.Id);
 
             // Properties
+            this.Property(x => x.Id)
+                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            this.Property(x => x.UniqueId)
+                .IsRequired();
             this.Property(x => x.Rent)
                 .IsOptional();
             this.Property(x => x.CreatedOn)
@@ -44,16 +48,20 @@ namespace Epsilon.Logic.SqlContext.Mapping
                 .WillCascadeOnDelete(false);
 
             // Indexes
+            this.Property(x => x.UniqueId)
+                .HasColumnAnnotation(IndexAnnotation.AnnotationName,
+                    new IndexAnnotation(new IndexAttribute("IX_TenancyDetailsSubmission_UniqueId") { IsUnique = true }));
+
             this.Property(x => x.CreatedByIpAddress)
-                .HasColumnAnnotation("Index", 
+                .HasColumnAnnotation(IndexAnnotation.AnnotationName, 
                     new IndexAnnotation(new IndexAttribute("IX_TenancyDetailsSubmission_CreatedByIpAddress_CreatedOn", 1)));
 
             this.Property(x => x.UserId)
-                .HasColumnAnnotation("Index", 
+                .HasColumnAnnotation(IndexAnnotation.AnnotationName, 
                     new IndexAnnotation(new IndexAttribute("IX_TenancyDetailsSubmission_UserId_CreatedOn", 1)));
 
             this.Property(x => x.CreatedOn)
-                .HasColumnAnnotation("Index", new IndexAnnotation(new[]
+                .HasColumnAnnotation(IndexAnnotation.AnnotationName, new IndexAnnotation(new[]
                 {
                     new IndexAttribute("IX_TenancyDetailsSubmission_CreatedByIpAddress_CreatedOn", 2),
                     new IndexAttribute("IX_TenancyDetailsSubmission_UserId_CreatedOn", 2)

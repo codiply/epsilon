@@ -39,10 +39,10 @@ namespace Epsilon.Logic.Services
         public async Task<CreateTenancyDetailsSubmissionOutcome> Create(
             string userId, 
             string userIpAddress, 
-            Guid submissionId,
-            Guid addressId)
+            Guid submissionUniqueId,
+            Guid addressUniqueId)
         {
-            var address = await _addressService.GetAddress(addressId);
+            var address = await _addressService.GetAddressViaUniqueId(addressUniqueId);
             if (address == null)
             {
                 return new CreateTenancyDetailsSubmissionOutcome
@@ -64,7 +64,7 @@ namespace Epsilon.Logic.Services
 
             if (!_tenancyDetailsSubmissionServiceConfig.Create_DisableFrequencyPerAddressCheck)
             {
-                var tooManyRecentSubmissionsExist = await TooManyRecentSubmissionsExist(addressId);
+                var tooManyRecentSubmissionsExist = await TooManyRecentSubmissionsExist(address.Id);
                 if (tooManyRecentSubmissionsExist)
                     return new CreateTenancyDetailsSubmissionOutcome
                     {
@@ -73,21 +73,21 @@ namespace Epsilon.Logic.Services
                     };
             }
 
-            var tenancyDetailsSubmission = await DoCreate(userId, userIpAddress, submissionId, addressId);
+            var tenancyDetailsSubmission = await DoCreate(userId, userIpAddress, submissionUniqueId, address.Id);
             return new CreateTenancyDetailsSubmissionOutcome
             {
                 IsRejected = false,
-                TenancyDetailsSubmissionId = tenancyDetailsSubmission.Id
+                TenancyDetailsSubmissionUniqueId = tenancyDetailsSubmission.UniqueId
             };
         }
 
-        private async Task<bool> TooManyRecentSubmissionsExist(Guid addressId)
+        private async Task<bool> TooManyRecentSubmissionsExist(long addressId)
         {
             var maxFrequency = _tenancyDetailsSubmissionServiceConfig.Create_MaxFrequencyPerAddress;
 
             var windowStart = _clock.OffsetNow - maxFrequency.Period;
             var actualTimes = await _dbContext.TenancyDetailsSubmissions
-                .Where(s => s.AddressId == addressId)
+                .Where(s => s.AddressId.Equals(addressId))
                 .Where(a => a.CreatedOn > windowStart)
                 .CountAsync();
 
@@ -97,12 +97,12 @@ namespace Epsilon.Logic.Services
         private async Task<TenancyDetailsSubmission> DoCreate(
             string userId,
             string userIpAddress,
-            Guid submissionId,
-            Guid addressId)
+            Guid submissionUniqueId,
+            long addressId)
         {
             var entity = new TenancyDetailsSubmission
             {
-                Id = submissionId,
+                UniqueId = submissionUniqueId,
                 UserId = userId,
                 CreatedByIpAddress = userIpAddress,
                 AddressId = addressId

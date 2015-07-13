@@ -42,7 +42,7 @@
         <h4>@SubmissionResources.AddAddress_PageHeader</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.Id)
+        @Html.HiddenFor(model => model.UniqueId)
 
         @if (fieldMetadata.Line1.IsUsed)
         {

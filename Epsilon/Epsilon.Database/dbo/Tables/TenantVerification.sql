@@ -1,6 +1,7 @@
 ﻿CREATE TABLE [dbo].[TenantVerification] (
-    [Id]                         UNIQUEIDENTIFIER   DEFAULT (newsequentialid()) NOT NULL,
-    [TenancyDetailsSubmissionId] UNIQUEIDENTIFIER   NOT NULL,
+    [Id]                         BIGINT             IDENTITY (1, 1) NOT NULL,
+    [UniqueId]                   UNIQUEIDENTIFIER   NOT NULL,
+    [TenancyDetailsSubmissionId] BIGINT             NOT NULL,
     [Code]                       NVARCHAR (16)      NULL,
     [CreatedOn]                  DATETIMEOFFSET (7) NOT NULL,
     [VerifiedOn]                 DATETIMEOFFSET (7) NULL,
@@ -13,7 +14,14 @@
 
 
 
+
+
 GO
 CREATE NONCLUSTERED INDEX [IX_TenancyDetailsSubmissionId]
     ON [dbo].[TenantVerification]([TenancyDetailsSubmissionId] ASC);
+
+
+GO
+CREATE UNIQUE NONCLUSTERED INDEX [IX_TenantVerification_UniqueId]
+    ON [dbo].[TenantVerification]([UniqueId] ASC);
 

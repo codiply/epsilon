@@ -1,7 +1,8 @@
 ﻿CREATE TABLE [dbo].[TenancyDetailsSubmission] (
-    [Id]                 UNIQUEIDENTIFIER   DEFAULT (newsequentialid()) NOT NULL,
+    [Id]                 BIGINT             IDENTITY (1, 1) NOT NULL,
+    [UniqueId]           UNIQUEIDENTIFIER   NOT NULL,
     [UserId]             NVARCHAR (128)     NOT NULL,
-    [AddressId]          UNIQUEIDENTIFIER   NOT NULL,
+    [AddressId]          BIGINT             NOT NULL,
     [Rent]               DECIMAL (18, 2)    NULL,
     [CurrencyId]         NCHAR (3)          NULL,
     [NumberOfBedrooms]   INT                NULL,
@@ -15,6 +16,8 @@
     CONSTRAINT [FK_dbo.TenancyDetailsSubmission_dbo.Currency_CurrencyId] FOREIGN KEY ([CurrencyId]) REFERENCES [dbo].[Currency] ([Id]),
     CONSTRAINT [FK_dbo.TenancyDetailsSubmission_dbo.User_UserId] FOREIGN KEY ([UserId]) REFERENCES [dbo].[User] ([Id])
 );
+
+
 
 
 
@@ -49,4 +52,9 @@ CREATE NONCLUSTERED INDEX [IX_TenancyDetailsSubmission_UserId_CreatedOn]
 GO
 CREATE NONCLUSTERED INDEX [IX_TenancyDetailsSubmission_CreatedByIpAddress_CreatedOn]
     ON [dbo].[TenancyDetailsSubmission]([CreatedByIpAddress] ASC, [CreatedOn] ASC);
+
+
+GO
+CREATE UNIQUE NONCLUSTERED INDEX [IX_TenancyDetailsSubmission_UniqueId]
+    ON [dbo].[TenancyDetailsSubmission]([UniqueId] ASC);
 

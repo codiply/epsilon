@@ -9,9 +9,10 @@ namespace Epsilon.Logic.Entities
 {
     public class TenancyDetailsSubmission : BaseEntity
     {
-        public virtual Guid Id { get; set; }
+        public virtual long Id { get; set; }
+        public virtual Guid UniqueId { get; set; }
         public virtual string UserId { get; set; }
-        public virtual Guid AddressId { get; set; }
+        public virtual long AddressId { get; set; }
         public virtual Decimal? Rent { get; set; }
         public virtual string CurrencyId { get; set; }
         public virtual int? NumberOfBedrooms { get; set; }

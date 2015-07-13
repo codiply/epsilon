@@ -8,7 +8,8 @@ namespace Epsilon.Web.Models.ViewModels.Shared
 {
     public class AddressDetailsViewModel
     {
-        public virtual Guid Id { get; set; }
+        public virtual long Id { get; set; }
+        public virtual Guid UniqueId { get; set; }
         public virtual string Line1 { get; set; }
         public virtual string Line2 { get; set; }
         public virtual string Line3 { get; set; }
@@ -23,6 +24,7 @@ namespace Epsilon.Web.Models.ViewModels.Shared
             return new AddressDetailsViewModel
             {
                 Id = entity.Id,
+                UniqueId = entity.UniqueId,
                 Line1 = entity.Line1,
                 Line2 = entity.Line2,
                 Line3 = entity.Line3,

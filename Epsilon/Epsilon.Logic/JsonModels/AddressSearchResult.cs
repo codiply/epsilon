@@ -10,7 +10,7 @@ namespace Epsilon.Logic.JsonModels
     [TypeScriptInterface]
     public class AddressSearchResult
     {
-        public Guid addressId { get; set; }
+        public Guid addressUniqueId { get; set; }
 
         public string fullAddress { get; set; }
     }

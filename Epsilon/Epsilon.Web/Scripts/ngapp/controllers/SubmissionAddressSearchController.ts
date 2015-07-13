@@ -4,7 +4,7 @@
     terms: string;
     hasHitSearch: boolean;
     searchInProgress: boolean;
-    selectedAddressId: string;
+    selectedAddressUniqueId: string;
     addressSearchResponse: T4TS.AddressSearchResponse;
 }
 
@@ -20,7 +20,7 @@ class SubmissionAddressSearchController {
         this.$scope.postcode = null;
         this.$scope.terms = null;
         this.$scope.hasHitSearch = false;
-        this.$scope.selectedAddressId = null;
+        this.$scope.selectedAddressUniqueId = null;
         this.$scope.addressSearchResponse = null;
     };
 

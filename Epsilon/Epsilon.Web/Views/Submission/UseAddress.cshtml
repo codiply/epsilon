@@ -26,8 +26,8 @@
         </div>
 
         <div class="form-group">
-            <input type="hidden" name="submissionId" value="@Model.SubmissionId" />
-            <input type="hidden" name="selectedAddressId" value="@Model.AddressDetails.Id" />
+            <input type="hidden" name="submissionUniqueId" value="@Model.SubmissionUniqueId" />
+            <input type="hidden" name="selectedAddressUniqueId" value="@Model.AddressDetails.UniqueId" />
             <div>
                 <input type="submit" value="@SubmissionResources.UseAddress_SubmitButton" class="btn btn-default" data-ng-disabled="!confirmedText" />
             </div>

@@ -7,5 +7,6 @@ ALTER TABLE [dbo].[CoinAccountSnapshot] ADD DEFAULT (sysdatetimeoffset()) FOR [M
 ALTER TABLE [dbo].[CoinAccountTransaction] ADD DEFAULT (sysdatetimeoffset()) FOR [MadeOn]; 
 ALTER TABLE [dbo].[IpAddressActivity] ADD DEFAULT (sysdatetimeoffset()) FOR [RecordedOn]; 
 ALTER TABLE [dbo].[TenancyDetailsSubmission] ADD DEFAULT (sysdatetimeoffset()) FOR [CreatedOn]; 
+ALTER TABLE [dbo].[TenantVerification] ADD DEFAULT (sysdatetimeoffset()) FOR [CreatedOn]; 
 
 -- PostDeploy\SchemaChanges\DefaultValue.sql END

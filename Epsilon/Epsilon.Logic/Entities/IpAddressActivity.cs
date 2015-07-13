@@ -11,7 +11,7 @@ namespace Epsilon.Logic.Entities
 {
     public class IpAddressActivity : BaseEntity
     {
-        public virtual Guid Id { get; set; }
+        public virtual long Id { get; set; }
         [ForeignKey("User")]
         public virtual string UserId { get; set; }
         public virtual string ActivityType { get; set; }

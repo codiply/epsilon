@@ -46,9 +46,9 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 }, new AntiAbuseServiceResponse());
             var service = container.Get<ITenancyDetailsSubmissionService>();
 
-            var submissionId = Guid.NewGuid();
-            var addressId = Guid.NewGuid();
-            var outcome = await service.Create(user.Id, ipAddress, submissionId, addressId);
+            var submissionUniqueId = Guid.NewGuid();
+            var addressUniqueId = Guid.NewGuid();
+            var outcome = await service.Create(user.Id, ipAddress, submissionUniqueId, addressUniqueId);
 
             Assert.IsTrue(outcome.IsRejected, "The field IsRejected on the outcome should be true.");
             Assert.AreEqual(SubmissionResources.UseAddressConfirmed_AddressNotFoundMessage, outcome.RejectionReason,
@@ -85,8 +85,8 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 });
             var service = container.Get<ITenancyDetailsSubmissionService>();
 
-            var submissionId = Guid.NewGuid();
-            var outcome = await service.Create(user.Id, ipAddress, submissionId, address.Id);
+            var submissionUniqueId = Guid.NewGuid();
+            var outcome = await service.Create(user.Id, ipAddress, submissionUniqueId, address.UniqueId);
 
             Assert.IsTrue(outcome.IsRejected, "The field IsRejected on the outcome should be true.");
             Assert.AreEqual(antiAbuseRejectionReason, outcome.RejectionReason,
@@ -96,7 +96,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.AreEqual(ipAddress, ipAddressUsedInAntiAbuse, 
                 "The IpAddress used in the call to AntiAbuseService is not the expected.");
 
-            var retrievedTenancyDetailsSubmission = await DbProbe.TenancyDetailsSubmissions.FindAsync(submissionId);
+            var retrievedTenancyDetailsSubmission = await DbProbe.TenancyDetailsSubmissions.FindAsync(submissionUniqueId);
             Assert.IsNull(retrievedTenancyDetailsSubmission, "A TenancyDetailsSubmission should not be created.");
         }
 
@@ -126,12 +126,12 @@ namespace Epsilon.IntegrationTests.Logic.Services
             });
             var service = container.Get<ITenancyDetailsSubmissionService>();
 
-            var submissionId = Guid.NewGuid();
+            var submissionUniqueId = Guid.NewGuid();
             var timeBefore = DateTimeOffset.Now;
-            var outcome = await service.Create(user.Id, ipAddress, submissionId, address.Id);
+            var outcome = await service.Create(user.Id, ipAddress, submissionUniqueId, address.UniqueId);
 
             Assert.IsFalse(outcome.IsRejected, "The field IsRejected on the outcome should be false.");
-            Assert.AreEqual(submissionId, outcome.TenancyDetailsSubmissionId,
+            Assert.AreEqual(submissionUniqueId, outcome.TenancyDetailsSubmissionUniqueId,
                 "The TenancyDetailsSubmissionId on the outcome is not the expected.");
             Assert.AreEqual(user.Id, userIdUsedInAntiAbuse,
                 "The UserId used in the call to AntiAbuseService is not the expected.");
@@ -140,7 +140,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             var timeAfter = DateTimeOffset.Now;
 
-            var retrievedTenancyDetailsSubmission = await DbProbe.TenancyDetailsSubmissions.FindAsync(submissionId);
+            var retrievedTenancyDetailsSubmission = await DbProbe.TenancyDetailsSubmissions.FindAsync(submissionUniqueId);
             Assert.IsNotNull(retrievedTenancyDetailsSubmission, "A TenancyDetailsSubmission should be created.");
             Assert.AreEqual(address.Id, retrievedTenancyDetailsSubmission.AddressId,
                 "The AddressId on the retrieved TenancyDetailsSubmission is not the expected.");
@@ -174,26 +174,29 @@ namespace Epsilon.IntegrationTests.Logic.Services
             });
             var service = container.Get<ITenancyDetailsSubmissionService>();
 
-            var submissionId1 = Guid.NewGuid();
-            var outcome1 = await service.Create(user.Id, ipAddress, submissionId1, address.Id);
+            var submissionUniqueId1 = Guid.NewGuid();
+            var outcome1 = await service.Create(user.Id, ipAddress, submissionUniqueId1, address.UniqueId);
             Assert.IsFalse(outcome1.IsRejected, "The field IsRejected on outcome1 should be false.");
 
-            var submissionId2 = Guid.NewGuid();
-            var outcome2 = await service.Create(user.Id, ipAddress, submissionId2, address.Id);
+            var submissionUniqueId2 = Guid.NewGuid();
+            var outcome2 = await service.Create(user.Id, ipAddress, submissionUniqueId2, address.UniqueId);
             Assert.IsTrue(outcome2.IsRejected, "The field IsRejected on outcome2 should be true.");
             Assert.AreEqual(TenancyDetailsSubmissionResources.Create_MaxFrequencyPerAddressCheck_RejectionMessage,
                 outcome2.RejectionReason, "RejectionReason on outcome2 is not the expected.");
 
             await Task.Delay(maxFrequencyPerAddressPeriod);
 
-            var submissionId3 = Guid.NewGuid();
-            var outcome3 = await service.Create(user.Id, ipAddress, submissionId3, address.Id);
+            var submissionUniqueId3 = Guid.NewGuid();
+            var outcome3 = await service.Create(user.Id, ipAddress, submissionUniqueId3, address.UniqueId);
             Assert.IsFalse(outcome3.IsRejected, "The field IsRejected on outcome3 should be false.");
 
 
-            var retrievedTenancyDetailsSubmission1 = await DbProbe.TenancyDetailsSubmissions.FindAsync(submissionId1);
-            var retrievedTenancyDetailsSubmission2 = await DbProbe.TenancyDetailsSubmissions.FindAsync(submissionId2);
-            var retrievedTenancyDetailsSubmission3 = await DbProbe.TenancyDetailsSubmissions.FindAsync(submissionId3);
+            var retrievedTenancyDetailsSubmission1 = await DbProbe.TenancyDetailsSubmissions
+                .SingleOrDefaultAsync(x => x.UniqueId.Equals(submissionUniqueId1));
+            var retrievedTenancyDetailsSubmission2 = await DbProbe.TenancyDetailsSubmissions
+                .SingleOrDefaultAsync(x => x.UniqueId.Equals(submissionUniqueId2));
+            var retrievedTenancyDetailsSubmission3 = await DbProbe.TenancyDetailsSubmissions
+                .SingleOrDefaultAsync(x => x.UniqueId.Equals(submissionUniqueId3));
 
             Assert.IsNotNull(retrievedTenancyDetailsSubmission1, "Submission 1 should create a TenancyDetailsSubmission.");
             Assert.IsNull(retrievedTenancyDetailsSubmission2, "Submission 2 should not create a TenancyDetailsSubmission.");
@@ -231,7 +234,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var randomFieldLength = 10;
             var address = new Address
             {
-                Id = Guid.NewGuid(),
+                UniqueId = Guid.NewGuid(),
                 Line1 = RandomStringHelper.GetAlphaNumericString(random, randomFieldLength, RandomStringHelper.CharacterCase.Mixed),
                 Line2 = RandomStringHelper.GetAlphaNumericString(random, randomFieldLength, RandomStringHelper.CharacterCase.Mixed),
                 Line3 = RandomStringHelper.GetAlphaNumericString(random, randomFieldLength, RandomStringHelper.CharacterCase.Mixed),

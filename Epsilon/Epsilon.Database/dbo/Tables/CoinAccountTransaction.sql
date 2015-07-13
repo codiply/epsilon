@@ -1,5 +1,5 @@
-CREATE TABLE [dbo].[CoinAccountTransaction] (
-    [Id]        UNIQUEIDENTIFIER   DEFAULT (newsequentialid()) NOT NULL,
+﻿CREATE TABLE [dbo].[CoinAccountTransaction] (
+    [Id]        BIGINT             IDENTITY (1, 1) NOT NULL,
     [AccountId] NVARCHAR (128)     NOT NULL,
     [TypeId]    NVARCHAR (128)     NOT NULL,
     [Amount]    DECIMAL (18, 2)    NOT NULL,
@@ -10,6 +10,8 @@ CREATE TABLE [dbo].[CoinAccountTransaction] (
     CONSTRAINT [FK_dbo.CoinAccountTransaction_dbo.CoinAccount_AccountId] FOREIGN KEY ([AccountId]) REFERENCES [dbo].[CoinAccount] ([Id]) ON DELETE CASCADE,
     CONSTRAINT [FK_dbo.CoinAccountTransaction_dbo.CoinAccountTransactionType_TypeId] FOREIGN KEY ([TypeId]) REFERENCES [dbo].[CoinAccountTransactionType] ([Id])
 );
+
+
 
 
 

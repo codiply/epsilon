@@ -55,7 +55,7 @@ namespace Epsilon.Web.Controllers
 
             var model = new AddressForm
             {
-                Id = Guid.NewGuid(),
+                UniqueId = Guid.NewGuid(),
                 CountryId = countryId,
                 Postcode = postcode
             };
@@ -79,7 +79,7 @@ namespace Epsilon.Web.Controllers
                         AppConstant.AUTHENTICATED_USER_HOME_CONTROLLER);
                 }
                 
-                return RedirectToAction("UseAddress", new { id = outcome.AddressId.Value });
+                return RedirectToAction("UseAddress", new { id = outcome.AddressUniqueId.Value });
             }
 
             var countries = _countryService.GetAvailableCountries();
@@ -89,11 +89,11 @@ namespace Epsilon.Web.Controllers
 
         public async Task<ActionResult> UseAddress(Guid id)
         {
-            var addressId = id;
-            var entity = await _addressService.GetAddress(id);
+            var addressUniqueId = id;
+            var entity = await _addressService.GetAddressViaUniqueId(addressUniqueId);
             var model = new UseAddressViewModel
             {
-                SubmissionId = Guid.NewGuid(),
+                SubmissionUniqueId = Guid.NewGuid(),
                 AddressDetails = AddressDetailsViewModel.FromEntity(entity)
             };
 
@@ -102,10 +102,10 @@ namespace Epsilon.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> UseAddressConfirmed(Guid submissionId, Guid selectedAddressId)
+        public async Task<ActionResult> UseAddressConfirmed(Guid submissionUniqueId, Guid selectedAddressUniqueId)
         {
             var outcome = await _tenancyDetailsSubmissionService
-                .Create(GetUserId(), GetUserIpAddress(), submissionId, selectedAddressId);
+                .Create(GetUserId(), GetUserIpAddress(), submissionUniqueId, selectedAddressUniqueId);
             if (outcome.IsRejected)
             {
                 Danger(outcome.RejectionReason, true);

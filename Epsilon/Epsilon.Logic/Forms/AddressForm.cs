@@ -14,7 +14,7 @@ namespace Epsilon.Logic.Forms
         // !!! IMPORTANT !!!
         // If you add new fields, make sure you update methods ToEntity() and Clone() at the bottom
 
-        public virtual Guid Id { get; set; }
+        public virtual Guid UniqueId { get; set; }
 
         [MaxLength(AddressMap.LINE_MAX_LENGTH)]
         public virtual string Line1 { get; set; }
@@ -44,7 +44,7 @@ namespace Epsilon.Logic.Forms
         {
             return new Address
             {
-                Id = this.Id,
+                UniqueId = this.UniqueId,
                 Line1 = this.Line1,
                 Line2 = this.Line2,
                 Line3 = this.Line3,
@@ -60,7 +60,7 @@ namespace Epsilon.Logic.Forms
         {
             return new AddressForm
             {
-                Id = this.Id,
+                UniqueId = this.UniqueId,
                 Line1 = this.Line1,
                 Line2 = this.Line2,
                 Line3 = this.Line3,
