@@ -96,7 +96,8 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.AreEqual(ipAddress, ipAddressUsedInAntiAbuse, 
                 "The IpAddress used in the call to AntiAbuseService is not the expected.");
 
-            var retrievedTenancyDetailsSubmission = await DbProbe.TenancyDetailsSubmissions.FindAsync(submissionUniqueId);
+            var retrievedTenancyDetailsSubmission = await DbProbe.TenancyDetailsSubmissions
+                .SingleOrDefaultAsync(x => x.UniqueId.Equals(submissionUniqueId));
             Assert.IsNull(retrievedTenancyDetailsSubmission, "A TenancyDetailsSubmission should not be created.");
         }
 
@@ -140,7 +141,8 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             var timeAfter = DateTimeOffset.Now;
 
-            var retrievedTenancyDetailsSubmission = await DbProbe.TenancyDetailsSubmissions.FindAsync(submissionUniqueId);
+            var retrievedTenancyDetailsSubmission = await DbProbe.TenancyDetailsSubmissions
+                .SingleOrDefaultAsync(x => x.UniqueId.Equals(submissionUniqueId));
             Assert.IsNotNull(retrievedTenancyDetailsSubmission, "A TenancyDetailsSubmission should be created.");
             Assert.AreEqual(address.Id, retrievedTenancyDetailsSubmission.AddressId,
                 "The AddressId on the retrieved TenancyDetailsSubmission is not the expected.");
