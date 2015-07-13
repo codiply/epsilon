@@ -130,6 +130,7 @@ namespace Epsilon.Logic.TestDataPopulation
             return Enumerable.Range(1, numberOfAddresses).Select(i =>
                 new Address
                 {
+                    UniqueId = Guid.NewGuid(),
                     Line1 = string.Format("{0} {1}", i, houseName),
                     Line2 = street,
                     Locality = city,
