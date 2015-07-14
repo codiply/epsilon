@@ -37,6 +37,7 @@ class SubmissionAddressSearchController {
         this.$http.post<T4TS.AddressSearchResponse>(url, request)
             .success(function (data, status, headers, config) {
             scope.addressSearchResponse = data;
+        }).finally(function () {
             scope.searchInProgress = false;
         });
     }

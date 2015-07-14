@@ -66,7 +66,7 @@ namespace Epsilon.Web.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> SaveAddress(
-            [Bind(Include = "Id,Line1,Line2,Line3,Line4,Locality,Region,Postcode,CountryId")] AddressForm address)
+            [Bind(Include = "UniqueId,Line1,Line2,Line3,Line4,Locality,Region,Postcode,CountryId")] AddressForm address)
         {
             if (ModelState.IsValid)
             {
