@@ -11,6 +11,9 @@ namespace Epsilon.Web.Controllers.Filters.Mvc
 {
     public class ResponseTimingAttribute : ActionFilterAttribute
     {
+        // NOTE: If you change the logic in this filter update
+        // !!!!! the corresponding WebApi filter as well. !!!!
+
         [Inject]
         public IResponseTimingService ResponseTimingService { get; set; }
 
@@ -22,7 +25,7 @@ namespace Epsilon.Web.Controllers.Filters.Mvc
             stopwatch.Start();
         }
 
-        public override void OnResultExecuted(ResultExecutedContext filterContext)
+        public override void OnActionExecuted(ActionExecutedContext filterContext)
         {
             var stopwatch = (Stopwatch)filterContext.HttpContext.Items["Stopwatch"];
             stopwatch.Stop();
@@ -34,12 +37,9 @@ namespace Epsilon.Web.Controllers.Filters.Mvc
             var routeData = httpContext.Request.RequestContext.RouteData;
             string currentAction = routeData.GetRequiredString("action");
             string currentController = routeData.GetRequiredString("controller");
+            string httpVerb = httpContext.Request.HttpMethod;
 
-            ResponseTimingService.Record(currentController, currentAction, false, timeInMilliseconds);
-
-            var response = httpContext.Response;
-
-            response.AddHeader("X-Runtime", stopwatch.Elapsed.TotalMilliseconds.ToString());
+            ResponseTimingService.Record(currentController, currentAction, httpVerb, false, timeInMilliseconds);
         }
     }
 }

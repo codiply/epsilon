@@ -12,6 +12,7 @@ namespace Epsilon.Web.Controllers.BaseControllers
     [RequireSecureConnection]
     [Internationalization]
     [Authorize]
+    [ResponseTiming]
     public class BaseApiController : ApiController
     {
     }

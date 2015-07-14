@@ -8,6 +8,8 @@ namespace Epsilon.Logic.Services.Interfaces
 {
     public interface IResponseTimingService
     {
-        void Record(string controllerName, string actionName, bool isApi, double timeInMilliseconds);
+        void Record(string controllerName, string actionName, string verb, bool isApi, double timeInMilliseconds);
+
+        Task RecordAsync(string controllerName, string actionName, string httpVerb, bool isApi, double timeInMilliseconds);
     }
 }
