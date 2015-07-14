@@ -10,10 +10,11 @@ using Microsoft.AspNet.Identity;
 
 namespace Epsilon.Web.Controllers.BaseControllers
 {
-    [RequireSecureConnection(Order = 100)]
-    [SanitizeIpAddress(Order = 200)]
-    [Internationalization(Order = 300)]
-    [Authorize(Order = 400)]
+    [ResponseTiming(Order = 100)]
+    [RequireSecureConnection(Order = 200)]
+    [SanitizeIpAddress(Order = 300)]
+    [Internationalization(Order = 400)]
+    [Authorize(Order = 500)]
     public class BaseMvcController : Controller
     {
         internal string GetUserIpAddress()

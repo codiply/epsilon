@@ -4,7 +4,9 @@
     [ControllerName]     NVARCHAR (128)     NOT NULL,
     [ActionName]         NVARCHAR (128)     NOT NULL,
     [IsApi]              BIT                NOT NULL,
-    [TimeInMilliseconds] INT                NOT NULL,
+    [TimeInMilliseconds] FLOAT (53)         NOT NULL,
     CONSTRAINT [PK_dbo.ResponseTiming] PRIMARY KEY CLUSTERED ([Id] ASC)
 );
+
+
 

@@ -76,7 +76,7 @@ namespace Epsilon.Logic.SqlContext.Mapping
 
             this.Property(x => x.Postcode)
                 .HasColumnAnnotation(IndexAnnotation.AnnotationName, 
-                    new IndexAnnotation(new IndexAttribute("IX_Postcode")));
+                    new IndexAnnotation(new IndexAttribute("IX_Address_Postcode")));
 
             this.Property(x => x.CreatedByIpAddress)
                 .HasColumnAnnotation(IndexAnnotation.AnnotationName, 
