@@ -45,7 +45,9 @@ VALUES
 (N'TenancyDetailsSubmission_Create_DisableFrequencyPerAddressCheck', 'False', N'Boolean',
  N'Disables the FrequencyPerAddress check when creating a new TenancyDetailsSubmission'),
 (N'TenancyDetailsSubmission_Create_MaxFrequencyPerAddress', '1/30D', N'Frequency',
- N'The maximum number of TenancyDetailsSubmission''s that can be created per address in a given period.');
+ N'The maximum number of TenancyDetailsSubmission''s that can be created per address in a given period.'),
+(N'EnableResponseTiming', N'False', N'Boolean',
+ N'Enables the logging of the response time for each response.'); 
 GO
 
 MERGE [dbo].[AppSetting] AS T -- Target

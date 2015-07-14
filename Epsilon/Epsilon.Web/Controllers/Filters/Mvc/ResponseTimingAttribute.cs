@@ -1,4 +1,6 @@
-﻿using Epsilon.Logic.Services.Interfaces;
+﻿using Epsilon.Logic.Constants;
+using Epsilon.Logic.Helpers.Interfaces;
+using Epsilon.Logic.Services.Interfaces;
 using Ninject;
 using System;
 using System.Collections.Generic;
@@ -14,32 +16,44 @@ namespace Epsilon.Web.Controllers.Filters.Mvc
         // NOTE: If you change the logic in this filter update
         // !!!!! the corresponding WebApi filter as well. !!!!
 
+        private const string ITEMS_KEY = "Stopwatch";
+
         [Inject]
         public IResponseTimingService ResponseTimingService { get; set; }
 
+        [Inject]
+        public IDbAppSettingsHelper DbAppSettingsHelper { get; set; }
+
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            var stopwatch = new Stopwatch();
-            filterContext.HttpContext.Items["Stopwatch"] = stopwatch;
+            if (DbAppSettingsHelper.GetBool(DbAppSettingKey.EnableResponseTiming) == true)
+            {
+                var stopwatch = new Stopwatch();
+                filterContext.HttpContext.Items[ITEMS_KEY] = stopwatch;
 
-            stopwatch.Start();
+                stopwatch.Start();
+            }
         }
 
         public override void OnActionExecuted(ActionExecutedContext filterContext)
         {
-            var stopwatch = (Stopwatch)filterContext.HttpContext.Items["Stopwatch"];
-            stopwatch.Stop();
+            if (filterContext.HttpContext.Items.Contains(ITEMS_KEY))
+            {
+                var stopwatch = (Stopwatch)filterContext.HttpContext.Items[ITEMS_KEY];
 
-            var timeInMilliseconds = stopwatch.Elapsed.TotalMilliseconds;
+                stopwatch.Stop();
 
-            var httpContext = filterContext.HttpContext;
+                var timeInMilliseconds = stopwatch.Elapsed.TotalMilliseconds;
 
-            var routeData = httpContext.Request.RequestContext.RouteData;
-            string currentAction = routeData.GetRequiredString("action");
-            string currentController = routeData.GetRequiredString("controller");
-            string httpVerb = httpContext.Request.HttpMethod;
+                var httpContext = filterContext.HttpContext;
 
-            ResponseTimingService.Record(currentController, currentAction, httpVerb, false, timeInMilliseconds);
+                var routeData = httpContext.Request.RequestContext.RouteData;
+                string currentAction = routeData.GetRequiredString("action");
+                string currentController = routeData.GetRequiredString("controller");
+                string httpVerb = httpContext.Request.HttpMethod;
+
+                ResponseTimingService.Record(currentController, currentAction, httpVerb, false, timeInMilliseconds);
+            }
         }
     }
 }

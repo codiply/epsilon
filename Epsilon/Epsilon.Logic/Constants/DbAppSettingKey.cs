@@ -33,5 +33,7 @@ namespace Epsilon.Logic.Constants
         public const string TenancyDetailsSubmission_Create_DisableFrequencyPerAddressCheck = "TenancyDetailsSubmission_Create_DisableFrequencyPerAddressCheck";
 
         public const string SearchAddressResultsLimit = "SearchAddressResultsLimit";
+
+        public const string EnableResponseTiming = "EnableResponseTiming";
     }
 }

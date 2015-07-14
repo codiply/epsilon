@@ -27,30 +27,42 @@ namespace Epsilon.Web.Controllers.Filters.WebApi
         // NOTE: If you change the logic in this filter update
         // !!!!! the corresponding MVC filter as well. !!!!!!!
 
+        private const string PROPERTIES_KEY = "Stopwatch";
+
         [Inject]
         public IResponseTimingService ResponseTimingService { get; set; }
 
+        [Inject]
+        public IDbAppSettingsHelper DbAppSettingsHelper { get; set; }
+
         public override void OnActionExecuting(HttpActionContext actionContext)
         {
-            var stopwatch = new Stopwatch();
-            actionContext.Request.Properties["Stopwatch"] = stopwatch;
+            if (DbAppSettingsHelper.GetBool(DbAppSettingKey.EnableResponseTiming) == true)
+            {
+                var stopwatch = new Stopwatch();
+                actionContext.Request.Properties[PROPERTIES_KEY] = stopwatch;
 
-            stopwatch.Start();
+                stopwatch.Start();
+            }
         }
 
         public override async Task OnActionExecutedAsync(HttpActionExecutedContext actionExecutedContext, CancellationToken cancellationToken)
         {
-            var stopwatch = (Stopwatch)actionExecutedContext.Request.Properties["Stopwatch"];
-            stopwatch.Stop();
+            if (actionExecutedContext.Request.Properties.ContainsKey(PROPERTIES_KEY))
+            {
+                var stopwatch = (Stopwatch)actionExecutedContext.Request.Properties[PROPERTIES_KEY];
 
-            var timeInMilliseconds = stopwatch.Elapsed.TotalMilliseconds;
+                stopwatch.Stop();
 
-            var routeData = actionExecutedContext.Request.GetRouteData();
-            string currentAction = (string)routeData.Values["action"];
-            string currentController = (string)routeData.Values["controller"];
-            string httpVerb = actionExecutedContext.Request.Method.Method;
+                var timeInMilliseconds = stopwatch.Elapsed.TotalMilliseconds;
 
-            await ResponseTimingService.RecordAsync(currentController, currentAction, httpVerb, true, timeInMilliseconds);
+                var routeData = actionExecutedContext.Request.GetRouteData();
+                string currentAction = (string)routeData.Values["action"];
+                string currentController = (string)routeData.Values["controller"];
+                string httpVerb = actionExecutedContext.Request.Method.Method;
+
+                await ResponseTimingService.RecordAsync(currentController, currentAction, httpVerb, true, timeInMilliseconds);
+            }
         }
     }
 }
