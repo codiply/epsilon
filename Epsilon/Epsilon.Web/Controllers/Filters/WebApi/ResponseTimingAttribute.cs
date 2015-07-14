@@ -19,6 +19,7 @@ using System.Web.Http.Filters;
 using System.Web.Http.Controllers;
 using System.Net.Http;
 using System.Diagnostics;
+using System.Web.Http;
 
 namespace Epsilon.Web.Controllers.Filters.WebApi
 {
@@ -29,15 +30,13 @@ namespace Epsilon.Web.Controllers.Filters.WebApi
 
         private const string PROPERTIES_KEY = "Stopwatch";
 
-        [Inject]
-        public IResponseTimingService ResponseTimingService { get; set; }
-
-        [Inject]
-        public IDbAppSettingsHelper DbAppSettingsHelper { get; set; }
-
         public override void OnActionExecuting(HttpActionContext actionContext)
         {
-            if (DbAppSettingsHelper.GetBool(DbAppSettingKey.EnableResponseTiming) == true)
+            var dbAppSettingsHelper =
+                (IDbAppSettingsHelper)GlobalConfiguration.Configuration.DependencyResolver
+                    .GetService(typeof(IDbAppSettingsHelper));
+
+            if (dbAppSettingsHelper.GetBool(DbAppSettingKey.EnableResponseTiming) == true)
             {
                 var stopwatch = new Stopwatch();
                 actionContext.Request.Properties[PROPERTIES_KEY] = stopwatch;
@@ -50,6 +49,10 @@ namespace Epsilon.Web.Controllers.Filters.WebApi
         {
             if (actionExecutedContext.Request.Properties.ContainsKey(PROPERTIES_KEY))
             {
+                var responseTimingService =
+                    (IResponseTimingService)GlobalConfiguration.Configuration.DependencyResolver
+                        .GetService(typeof(IResponseTimingService));
+
                 var stopwatch = (Stopwatch)actionExecutedContext.Request.Properties[PROPERTIES_KEY];
 
                 stopwatch.Stop();
@@ -61,7 +64,7 @@ namespace Epsilon.Web.Controllers.Filters.WebApi
                 string currentController = (string)routeData.Values["controller"];
                 string httpVerb = actionExecutedContext.Request.Method.Method;
 
-                await ResponseTimingService.RecordAsync(currentController, currentAction, httpVerb, true, timeInMilliseconds);
+                await responseTimingService.RecordAsync(currentController, currentAction, httpVerb, true, timeInMilliseconds);
             }
         }
     }

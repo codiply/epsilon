@@ -18,14 +18,12 @@ using Epsilon.Logic.Services.Interfaces;
 using System.Web.Http.Filters;
 using System.Web.Http.Controllers;
 using System.Net.Http;
+using System.Web.Http;
 
 namespace Epsilon.Web.Controllers.Filters.WebApi
 {
     public class InternationalizationAttribute : ActionFilterAttribute
     {
-        [Inject]
-        public ILanguageService LanguageService { get; set; }
-
         [Inject]
         public IAppSettingsHelper AppSettingsHelper { get; set; }
 
@@ -40,7 +38,10 @@ namespace Epsilon.Web.Controllers.Filters.WebApi
             string languageId = (string)actionContext.RequestContext.RouteData.Values["languageId"] 
                 ?? AppSettingsHelper.GetString(AppSettingsKey.DefaultLanguageId);
             
-            var language = LanguageService.GetLanguage(languageId);
+            var languageService = 
+                (ILanguageService)GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof(ILanguageService));
+
+            var language = languageService.GetLanguage(languageId);
 
             if (language == null || !language.IsAvailable)
             {

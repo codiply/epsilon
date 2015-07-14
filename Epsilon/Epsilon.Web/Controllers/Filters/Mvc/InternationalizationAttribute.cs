@@ -22,9 +22,6 @@ namespace Epsilon.Web.Controllers.Filters.Mvc
     public class InternationalizationAttribute : ActionFilterAttribute
     {
         [Inject]
-        public ILanguageService LanguageService { get; set; }
-
-        [Inject]
         public IAppSettingsHelper AppSettingsHelper { get; set; }
 
         [Inject]
@@ -37,8 +34,10 @@ namespace Epsilon.Web.Controllers.Filters.Mvc
 
             string languageId = (string)filterContext.RouteData.Values["languageId"] 
                 ?? AppSettingsHelper.GetString(AppSettingsKey.DefaultLanguageId);
-            
-            var language = LanguageService.GetLanguage(languageId);
+
+            var languageService = DependencyResolver.Current.GetService<ILanguageService>();
+
+            var language = languageService.GetLanguage(languageId);
 
             if (language == null || !language.IsAvailable)
             {

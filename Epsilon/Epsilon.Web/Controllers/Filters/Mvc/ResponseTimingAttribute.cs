@@ -18,15 +18,10 @@ namespace Epsilon.Web.Controllers.Filters.Mvc
 
         private const string ITEMS_KEY = "Stopwatch";
 
-        [Inject]
-        public IResponseTimingService ResponseTimingService { get; set; }
-
-        [Inject]
-        public IDbAppSettingsHelper DbAppSettingsHelper { get; set; }
-
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            if (DbAppSettingsHelper.GetBool(DbAppSettingKey.EnableResponseTiming) == true)
+            var dbAppSettingsHelper = DependencyResolver.Current.GetService<IDbAppSettingsHelper>();
+            if (dbAppSettingsHelper.GetBool(DbAppSettingKey.EnableResponseTiming) == true)
             {
                 var stopwatch = new Stopwatch();
                 filterContext.HttpContext.Items[ITEMS_KEY] = stopwatch;
@@ -39,6 +34,8 @@ namespace Epsilon.Web.Controllers.Filters.Mvc
         {
             if (filterContext.HttpContext.Items.Contains(ITEMS_KEY))
             {
+                var responseTimingService = DependencyResolver.Current.GetService<IResponseTimingService>();
+
                 var stopwatch = (Stopwatch)filterContext.HttpContext.Items[ITEMS_KEY];
 
                 stopwatch.Stop();
@@ -52,7 +49,7 @@ namespace Epsilon.Web.Controllers.Filters.Mvc
                 string currentController = routeData.GetRequiredString("controller");
                 string httpVerb = httpContext.Request.HttpMethod;
 
-                ResponseTimingService.Record(currentController, currentAction, httpVerb, false, timeInMilliseconds);
+                responseTimingService.Record(currentController, currentAction, httpVerb, false, timeInMilliseconds);
             }
         }
     }
