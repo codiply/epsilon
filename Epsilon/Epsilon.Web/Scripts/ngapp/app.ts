@@ -8,7 +8,7 @@ angular.module('ngEpsilon', ['ngEpsilon.config'])
     .controller('SubmissionAddressSearchController',
         ['$scope', '$http', 'BASE_URL_WITH_LANGUAGE', 'COUNTRY_VARIANT_RESOURCES',
             Controllers.SubmissionAddressSearchController])
-    // Directives
-    .directive("clickOnce", ['$timeout', Directives.ClickOnce])
+// Directives
+    .directive("clickOnce", Directives.ClickOnce.factory())
     // Filters
-    .filter("stringFormat", [Filters.stringFormat]);
+    .filter("stringFormat", Filters.stringFormat);
