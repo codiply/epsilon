@@ -1,4 +1,4 @@
-﻿module NgFilters {
+﻿module Epsilon.NgApp.Filters {
     export function stringFormat() {
         return function (str) {
             if (!str || arguments.length <= 1) return str;
