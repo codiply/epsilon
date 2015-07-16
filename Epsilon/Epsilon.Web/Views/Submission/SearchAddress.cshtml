@@ -47,22 +47,22 @@
         </div>
     </div>
     <div class="form-group" data-ng-cloak data-ng-show="addressSearchResponse">
-        <div class="alert alert-info" data-ng-clock data-ng-if="addressSearchResponse.Results.length > 0">
+        <div class="alert alert-info" data-ng-clock data-ng-if="addressSearchResponse.results.length > 0">
             <p>@SubmissionResources.SearchAddress_SelectYourAddressMessage</p>
         </div>
-        <div class="alert alert-warning" data-ng-clock data-ng-if="addressSearchResponse.IsResultsLimitExceeded">
-            <p>{{ '@SubmissionResources.SearchAddress_NarrowDownYourSearchMessage' | stringFormat : addressSearchResponse.ResultsLimit }}</p>
+        <div class="alert alert-warning" data-ng-clock data-ng-if="addressSearchResponse.isResultsLimitExceeded">
+            <p>{{ '@SubmissionResources.SearchAddress_NarrowDownYourSearchMessage' | stringFormat : addressSearchResponse.resultsLimit }}</p>
         </div> 
         <table class="table table-striped">
             <tbody>
-                <tr data-ng-repeat="add in addressSearchResponse.Results">
+                <tr data-ng-repeat="add in addressSearchResponse.results">
                     <td><input type="radio" name="radioSelectedAddressUniqueId" data-ng-model="$parent.selectedAddressUniqueId" ng-value="add.addressUniqueId"></td>
                     <td>{{add.fullAddress}}</td>
                 </tr>
             </tbody>
         </table>
     </div>
-    <div class="form-group row" data-ng-cloak data-ng-show="addressSearchResponse.Results.length > 0">
+    <div class="form-group row" data-ng-cloak data-ng-show="addressSearchResponse.results.length > 0">
         <div class="col-md-offset-3 col-md-9">
             <a class="btn btn-default" aria-label="Left Align" 
                data-ng-href="@(Url.Action("UseAddress") + "/{{selectedAddressUniqueId}}")"
@@ -73,15 +73,15 @@
     </div>
 
     <div class="form-group" data-ng-cloak data-ng-show="addressSearchResponse">
-        <div class="alert alert-info" data-ng-clock data-ng-if="addressSearchResponse.Results.length === 0">
+        <div class="alert alert-info" data-ng-clock data-ng-if="addressSearchResponse.results.length === 0">
             <p>@SubmissionResources.SearchAddress_NoAddressesFoundMessage</p>
         </div>
-        <div class="alert alert-info" data-ng-clock data-ng-if="addressSearchResponse.Results.length > 0 && !addressSearchResponse.IsResultsLimitExceeded">
+        <div class="alert alert-info" data-ng-clock data-ng-if="addressSearchResponse.results.length > 0 && !addressSearchResponse.isResultsLimitExceeded">
             <p>@SubmissionResources.SearchAddress_AddYourAddressMessage</p>
         </div>
     </div>
 
-    <div class="form-group row" data-ng-cloak data-ng-show="addressSearchResponse && !addressSearchResponse.IsResultsLimitExceeded">
+    <div class="form-group row" data-ng-cloak data-ng-show="addressSearchResponse && !addressSearchResponse.isResultsLimitExceeded">
         <div class="col-md-offset-3 col-md-9">
             @using (Html.BeginForm("AddAddress", "Submission"))
             {

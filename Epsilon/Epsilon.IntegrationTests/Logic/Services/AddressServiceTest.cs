@@ -43,16 +43,16 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var request1 = new AddressSearchRequest { countryId = countryId, postcode = postcode.ToLower(), terms = "" };
             var response1 = await serviceUnderTest.Search(request1);
 
-            Assert.AreEqual(addresses.Count, response1.Results.Count,
+            Assert.AreEqual(addresses.Count, response1.results.Count,
                 "A request with exact postcode (case-insensitive) should match all the addresses.");
 
             var request2 = new AddressSearchRequest { countryId = countryId, postcode = "POSTCO", terms = "" };
             var response2 = await serviceUnderTest.Search(request2);
 
-            Assert.IsEmpty(response2.Results, "A request with part of the postcode should return no results.");
-            Assert.IsFalse(response2.IsResultsLimitExceeded, 
+            Assert.IsEmpty(response2.results, "A request with part of the postcode should return no results.");
+            Assert.IsFalse(response2.isResultsLimitExceeded, 
                 "The results limit should not be flagged as exceeded when the number of results is equal to the limit.");
-            Assert.AreEqual(searchAddressResultsLimit, response2.ResultsLimit, 
+            Assert.AreEqual(searchAddressResultsLimit, response2.resultsLimit, 
                 "The results limit reported on the response was not the expected."); 
         }
 
@@ -86,12 +86,12 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var request = new AddressSearchRequest { countryId = countryId, postcode = postcode, terms = searchTermsField };
             var response = await serviceUnderTest.Search(request);
 
-            Assert.AreEqual(1, response.Results.Count, "The response should contain a single result.");
-            Assert.IsFalse(response.IsResultsLimitExceeded, "The results limit should not be flagged as exceeded.");
-            Assert.AreEqual(searchAddressResultsLimit, response.ResultsLimit, 
+            Assert.AreEqual(1, response.results.Count, "The response should contain a single result.");
+            Assert.IsFalse(response.isResultsLimitExceeded, "The results limit should not be flagged as exceeded.");
+            Assert.AreEqual(searchAddressResultsLimit, response.resultsLimit, 
                 "The results limit on the response was not the expected.");
 
-            var returnedAddress = response.Results.Single();
+            var returnedAddress = response.results.Single();
 
             Assert.AreEqual(addressToSearch.UniqueId, returnedAddress.addressUniqueId, "The id of the address returned is not the expected.");
             Assert.IsTrue(returnedAddress.fullAddress.Contains(addressToSearch.Line1), "Line1 was not found in the full address.");
@@ -130,9 +130,9 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var request = new AddressSearchRequest { countryId = countryId, postcode = postcode, terms = searchTermsField };
             var response = await serviceUnderTest.Search(request);
 
-            Assert.IsEmpty(response.Results, "The response should contain no results.");
-            Assert.IsFalse(response.IsResultsLimitExceeded, "The results limit should not be flagged as exceeded.");
-            Assert.AreEqual(searchAddressResultsLimit, response.ResultsLimit,
+            Assert.IsEmpty(response.results, "The response should contain no results.");
+            Assert.IsFalse(response.isResultsLimitExceeded, "The results limit should not be flagged as exceeded.");
+            Assert.AreEqual(searchAddressResultsLimit, response.resultsLimit,
                 "The results limit on the response was not the expected.");
         }
 
@@ -156,11 +156,11 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var request = new AddressSearchRequest { countryId = countryId, postcode = postcode.ToLower(), terms = "" };
             var response = await serviceUnderTest.Search(request);
 
-            Assert.AreEqual(searchAddressResultsLimit, response.Results.Count,
+            Assert.AreEqual(searchAddressResultsLimit, response.results.Count,
                 "The number of addresses returned should equal the results limit.");
-            Assert.IsTrue(response.IsResultsLimitExceeded,
+            Assert.IsTrue(response.isResultsLimitExceeded,
                 "The results limit should be flagged as exceeded.");
-            Assert.AreEqual(searchAddressResultsLimit, response.ResultsLimit,
+            Assert.AreEqual(searchAddressResultsLimit, response.resultsLimit,
                 "The results limit reported on the response was not the expected.");
         }
 

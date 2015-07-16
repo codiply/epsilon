@@ -55,7 +55,7 @@ namespace Epsilon.Logic.Services
                 || string.IsNullOrEmpty(request.postcode)
                 || !countryIdOption.HasValue)
             {
-                return new AddressSearchResponse { ResultsLimit = resultsLimit, IsResultsLimitExceeded = false };
+                return new AddressSearchResponse { resultsLimit = resultsLimit, isResultsLimitExceeded = false };
             }
             var countryId = countryIdOption.Value;
 
@@ -106,9 +106,9 @@ namespace Epsilon.Logic.Services
 
             var response = new AddressSearchResponse
             {
-                Results = results.ToList(),
-                ResultsLimit = resultsLimit,
-                IsResultsLimitExceeded = exceededLimit
+                results = results.ToList(),
+                resultsLimit = resultsLimit,
+                isResultsLimitExceeded = exceededLimit
             };
 
             return response; 

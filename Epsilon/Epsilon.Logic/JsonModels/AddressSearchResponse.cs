@@ -10,10 +10,10 @@ namespace Epsilon.Logic.JsonModels
     [TypeScriptInterface]
     public class AddressSearchResponse
     {
-        public IList<AddressSearchResult> Results { get; set; }
+        public IList<AddressSearchResult> results { get; set; }
 
-        public int ResultsLimit { get; set; }
+        public int resultsLimit { get; set; }
         
-        public bool IsResultsLimitExceeded { get; set; }
+        public bool isResultsLimitExceeded { get; set; }
     }
 }
