@@ -19,6 +19,7 @@ namespace Epsilon.Logic.Constants
         public const string DisableHttps = "Epsilon.DisableHttps";
         public const string DisableRegistrationEmailConfirmation = "Epsilon.DisableRegistrationEmailConfirmation";
         public const string EnableDevHelperController = "Epsilon.EnableDevHelperController";
+        public const string GoogleApiServerKey = "Epsilon.GoogleApiServerKey";
         public const string SmtpServiceHost = "Epsilon.SmtpServiceHost";
         public const string SmtpServicePort = "Epsilon.SmtpServicePort";
         public const string SmtpServiceTimeoutMilliseconds = "Epsilon.SmtpServiceTimeoutMilliseconds";

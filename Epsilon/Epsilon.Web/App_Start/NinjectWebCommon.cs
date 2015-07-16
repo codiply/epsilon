@@ -94,6 +94,7 @@ namespace Epsilon.Web.App_Start
 
             // Configuration
             kernel.Bind<IAddressServiceConfig>().To<AddressServiceConfig>().InRequestScope();
+            kernel.Bind<IAddressVerificationService>().To<AddressVerificationService>().InRequestScope();
             kernel.Bind<IAdminAlertServiceConfig>().To<AdminAlertServiceConfig>().InRequestScope();
             kernel.Bind<IAntiAbuseServiceConfig>().To<AntiAbuseServiceConfig>().InRequestScope();
             kernel.Bind<ICoinAccountServiceConfig>().To<CoinAccountServiceConfig>().InRequestScope();

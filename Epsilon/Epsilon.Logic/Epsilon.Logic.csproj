@@ -68,10 +68,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration\AddressServiceConfig.cs" />
+    <Compile Include="Configuration\AddressVerificationServiceConfig.cs" />
     <Compile Include="Configuration\AdminAlertServiceConfig.cs" />
     <Compile Include="Configuration\CoinAccountServiceConfig.cs" />
     <Compile Include="Configuration\AntiAbuseServiceConfig.cs" />
     <Compile Include="Configuration\Interfaces\IAddressServiceConfig.cs" />
+    <Compile Include="Configuration\Interfaces\IAddressVerificationServiceConfig.cs" />
     <Compile Include="Configuration\Interfaces\IAdminAlertServiceConfig.cs" />
     <Compile Include="Configuration\Interfaces\IAntiAbuseServiceConfig.cs" />
     <Compile Include="Configuration\Interfaces\ICoinAccountServiceConfig.cs" />
@@ -198,6 +200,10 @@
     <Compile Include="Wrappers\SystemClock.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Epsilon.Logic.FSharp\Epsilon.Logic.FSharp.fsproj">
+      <Project>{d5b985f6-8b53-40c3-ac6b-815952cdbb23}</Project>
+      <Name>Epsilon.Logic.FSharp</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Epsilon.Resources\Epsilon.Resources.csproj">
       <Project>{3cb53361-5bc7-40c9-88de-a7dc7f311431}</Project>
       <Name>Epsilon.Resources</Name>

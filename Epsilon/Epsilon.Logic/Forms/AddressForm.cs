@@ -71,5 +71,14 @@ namespace Epsilon.Logic.Forms
                 CountryId = this.CountryId
             };
         }
+
+        public IList<string> AllWords()
+        {
+            var allFields = new List<string> { Line1, Line2, Line3, Line4, Locality, Region, Postcode, CountryId };
+            return allFields
+                .Select(x => x.Trim().Trim(',') + ",")
+                .SelectMany(f => f.Split(' ').Where(x => !string.IsNullOrWhiteSpace(x)))
+                .ToList();
+        }
     }
 }
