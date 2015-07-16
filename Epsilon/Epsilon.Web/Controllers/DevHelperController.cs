@@ -15,15 +15,15 @@ using Microsoft.AspNet.Identity;
 namespace Epsilon.Web.Controllers
 {
     [Authorize(Roles = AspNetRole.Admin)]
-    [AllowIfConfigSettingTrue(AppSettingsKey.EnableHelperController)]
-    public class HelperController : BaseMvcController
+    [AllowIfConfigSettingTrue(AppSettingsKey.EnableDevHelperController)]
+    public class DevHelperController : BaseMvcController
     {
         private readonly IEpsilonContext _dbContext;
         private readonly ITestDataPopulator _testDataPopulator;
         private readonly IAdminAlertService _adminAlertService;
         private readonly IUserCoinService _userCointService;
 
-        public HelperController(
+        public DevHelperController(
             IEpsilonContext dbContext,
             ITestDataPopulator testDataPopulator,
             IAdminAlertService adminAlertService,

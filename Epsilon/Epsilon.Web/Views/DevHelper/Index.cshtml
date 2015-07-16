@@ -47,7 +47,7 @@
     </div>
     <div class="col-md-3">
         <h2>Send Admin Alert</h2>
-        @using (Html.BeginForm("SendAdminAlert", "Helper"))
+        @using (Html.BeginForm("SendAdminAlert", "DevHelper"))
         {
             @Html.AntiForgeryToken()
             <input type="text" name="adminAlertKey" />

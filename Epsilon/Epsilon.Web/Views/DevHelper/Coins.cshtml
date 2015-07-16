@@ -12,7 +12,7 @@
     </div>
     <div class="col-md-4">
         <h3>Credit</h3>
-        @using (Html.BeginForm("CoinsCredit", "Helper"))
+        @using (Html.BeginForm("CoinsCredit", "DevHelper"))
         {
             @Html.AntiForgeryToken()
             <input type="number" name="amount" />
@@ -21,7 +21,7 @@
     </div>
     <div class="col-md-4">
         <h3>Debit</h3>
-        @using (Html.BeginForm("CoinsDebit", "Helper"))
+        @using (Html.BeginForm("CoinsDebit", "DevHelper"))
         {
             @Html.AntiForgeryToken()
             <input type="number"name="amount" />

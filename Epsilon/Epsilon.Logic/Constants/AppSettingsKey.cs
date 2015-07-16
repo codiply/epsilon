@@ -18,7 +18,7 @@ namespace Epsilon.Logic.Constants
         public const string DisableLockingInAppCache = "Epsilon.DisableLockingInAppCache";
         public const string DisableHttps = "Epsilon.DisableHttps";
         public const string DisableRegistrationEmailConfirmation = "Epsilon.DisableRegistrationEmailConfirmation";
-        public const string EnableHelperController = "Epsilon.EnableHelperController";
+        public const string EnableDevHelperController = "Epsilon.EnableDevHelperController";
         public const string SmtpServiceHost = "Epsilon.SmtpServiceHost";
         public const string SmtpServicePort = "Epsilon.SmtpServicePort";
         public const string SmtpServiceTimeoutMilliseconds = "Epsilon.SmtpServiceTimeoutMilliseconds";

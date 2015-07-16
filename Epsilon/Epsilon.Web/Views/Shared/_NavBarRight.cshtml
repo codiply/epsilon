@@ -18,9 +18,9 @@
                 @{ 
                     var appSettingsHelper = DependencyResolver.Current.GetService<IAppSettingsHelper>();
                 }
-                @if (appSettingsHelper.GetBool(AppSettingsKey.EnableHelperController) == true)
+                @if (appSettingsHelper.GetBool(AppSettingsKey.EnableDevHelperController) == true)
                 {
-                    <li><a href="@Url.Action("Index", "Helper")">Helper</a></li>
+                    <li><a href="@Url.Action("Index", "DevHelper")">Helper</a></li>
                 }
             </ul>
         </li>

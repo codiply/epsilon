@@ -261,7 +261,7 @@
     <Compile Include="Controllers\Filters\WebApi\InternationalizationAttribute.cs" />
     <Compile Include="Controllers\Filters\WebApi\RequireSecureConnectionAttribute.cs" />
     <Compile Include="Controllers\Handlers\EnforceHttpsHandler.cs" />
-    <Compile Include="Controllers\HelperController.cs" />
+    <Compile Include="Controllers\DevHelperController.cs" />
     <Compile Include="Controllers\Filters\Mvc\InternationalizationAttribute.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -1131,10 +1131,10 @@
     <Content Include="Scripts\lib\angularjs\version.json" />
     <Content Include="Scripts\typings\T4TS.tt.settings.t4" />
     <Content Include="Views\UserHome\Index.cshtml" />
-    <Content Include="Views\Helper\Index.cshtml" />
+    <Content Include="Views\DevHelper\Index.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\Admin\AppCacheKeys.cshtml" />
-    <Content Include="Views\Helper\Coins.cshtml" />
+    <Content Include="Views\DevHelper\Coins.cshtml" />
     <Content Include="Views\Shared\_CountryVariantResources.cshtml" />
     <Content Include="Views\Shared\_AddressDetails.cshtml" />
     <Content Include="Views\Submission\UseAddress.cshtml" />
