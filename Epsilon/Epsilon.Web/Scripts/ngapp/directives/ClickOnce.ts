@@ -1,28 +1,28 @@
 ﻿module Epsilon.NgApp.Directives {
+    export interface ClickOnceScope extends ng.IScope {
+
+    }
+
     export class ClickOnce implements ng.IDirective {
-        public restrict = 'A';
-        // TODO_PANOS: this is a workaround so that I can share the timeout service
-        //             between the constructor and the link function.
-        private static timeout: ng.ITimeoutService;
-
-        public constructor(private $timeout: ng.ITimeoutService) {
-            ClickOnce.timeout = $timeout;
+        constructor($timeout: ng.ITimeoutService) {
+            return {
+                restrict: 'A',
+                link: (scope: ClickOnceScope, element: ng.IAugmentedJQuery, attributes: ng.IAttributes) => {
+                    new ClickOnceLink(scope, element, attributes, $timeout);
+                }
+            };
         }
+    }
 
-        public link($scope: ng.IScope, element: ng.IAugmentedJQuery, attributes: ng.IAttributes) {
+    export class ClickOnceLink {
+        scope: ClickOnceScope;
+        constructor(scope: ClickOnceScope, element: ng.IAugmentedJQuery, attributes: ng.IAttributes, $timeout: ng.ITimeoutService) {
+            this.scope = scope;
             element.click(function () {
-                ClickOnce.timeout(function () {
+                $timeout(function () {
                     element.attr('disabled', 'true');
                 }, 0);
             });
-        }
-
-        static factory(): ng.IDirectiveFactory {
-            const directive = ($timeout: ng.ITimeoutService) => {
-                return new ClickOnce($timeout);
-            }
-            directive.$inject = ['$timeout'];
-            return directive;
         }
     }
 }
