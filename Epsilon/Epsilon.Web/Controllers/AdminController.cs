@@ -1,11 +1,13 @@
 ﻿using Epsilon.Logic.Constants;
 using Epsilon.Logic.Entities;
 using Epsilon.Logic.Forms;
+using Epsilon.Logic.FSharp;
 using Epsilon.Logic.Helpers.Interfaces;
 using Epsilon.Logic.Infrastructure.Interfaces;
 using Epsilon.Logic.Services.Interfaces;
 using Epsilon.Web.Controllers.BaseControllers;
 using Epsilon.Web.Models.ViewModels.Admin;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,15 +22,18 @@ namespace Epsilon.Web.Controllers
     public class AdminController : BaseMvcController
     {
         private readonly IAppCache _appCache;
+        private readonly IAppSettingsHelper _appSettingsHelper;
         private readonly IDbAppSettingsHelper _dbAppSettingsHelper;
         private readonly ISmtpService _smtpService;
 
         public AdminController(
             IAppCache appCache,
+            IAppSettingsHelper appSettingsHelper,
             IDbAppSettingsHelper dbAppSettingsHelper,
             ISmtpService smtpService)
         {
             _appCache = appCache;
+            _appSettingsHelper = appSettingsHelper;
             _dbAppSettingsHelper = dbAppSettingsHelper;
             _smtpService = smtpService;
         }
@@ -92,6 +97,30 @@ namespace Epsilon.Web.Controllers
                 return RedirectToAction("DbAppSettingDetails", new { id = form.Id });
             }
             return View(form);
+        }
+
+        #endregion
+
+        #region TestGoogleGeocode
+
+        public ActionResult TestGoogleGeocode()
+        {
+            var model = new TestGoogleGeocodeViewModel();
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> TestGoogleGeocode(TestGoogleGeocodeViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var googleApiKey = _appSettingsHelper.GetString(AppSettingsKey.GoogleApiServerKey);
+                var response = await GoogleGeocode.getResponse(model.Address, model.Region, googleApiKey);
+                model.Response = JsonConvert.SerializeObject(response, Formatting.Indented);
+                return View(model);
+            }
+            return View(model);
         }
 
         #endregion

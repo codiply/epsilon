@@ -4,7 +4,7 @@ open System
 open FSharp.Data
 
 [<RequireQualifiedAccess>]
-module Google = 
+module GoogleGeocode = 
 
     type private GeocodeJsonProvider = JsonProvider<"""{
    "results" : [
@@ -71,11 +71,23 @@ module Google =
    "status" : "OK"
 }""">
 
-    let geocode(addressWords: seq<string>, googleApiKey: string) =
+    let private getResponseAsync (address: string) (region: string) (googleApiKey: string) =
         async {
+            let addressWords = 
+                address.Split(' ') 
+                |> Array.filter (fun x -> String.IsNullOrWhiteSpace(x) |> not)
             let joinedAddressWords = String.Join("+", addressWords)
-            let url = sprintf "https://maps.googleapis.com/maps/api/geocode/json?address=%s&key=%s" joinedAddressWords googleApiKey 
-            let! response = WebPage.downloadAsync(url)
+            let url = 
+                sprintf "https://maps.googleapis.com/maps/api/geocode/json?address=%s&region=%s&key=%s" joinedAddressWords region googleApiKey 
+            return! WebPage.downloadAsync(url)
+        }
+
+    let getResponse(address: string, region: string, googleApiKey: string) = 
+        getResponseAsync address region googleApiKey |> Async.StartAsTask
+
+    let geocode(address: string, region: string, googleApiKey: string) =
+        async {
+            let! response = getResponseAsync address region googleApiKey
             let answer = GeocodeJsonProvider.Parse(response)
             return answer
         }

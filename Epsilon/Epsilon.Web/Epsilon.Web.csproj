@@ -274,6 +274,7 @@
     <Compile Include="Models\ViewAlerts\ViewAlert.cs" />
     <Compile Include="Models\ViewAlerts\ViewAlertStyles.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\ViewModels\Admin\TestGoogleGeocodeViewModel.cs" />
     <Compile Include="Models\ViewModels\Admin\TestEmailViewModel.cs" />
     <Compile Include="Models\ViewModels\Shared\AddressDetailsViewModel.cs" />
     <Compile Include="Models\ViewModels\Shared\CountryVariantResourcesViewModel.cs" />
@@ -1143,6 +1144,7 @@
     <Content Include="Views\Admin\DbAppSettingDetails.cshtml" />
     <Content Include="Views\Admin\DbAppSettingEdit.cshtml" />
     <Content Include="Views\Admin\TestEmail.cshtml" />
+    <Content Include="Views\Admin\TestGoogleGeocode.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1155,6 +1157,10 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Epsilon.Logic.FSharp\Epsilon.Logic.FSharp.fsproj">
+      <Project>{d5b985f6-8b53-40c3-ac6b-815952cdbb23}</Project>
+      <Name>Epsilon.Logic.FSharp</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Epsilon.Logic\Epsilon.Logic.csproj">
       <Project>{4d73faee-51ba-4e25-b506-5c9c8107d488}</Project>
       <Name>Epsilon.Logic</Name>
