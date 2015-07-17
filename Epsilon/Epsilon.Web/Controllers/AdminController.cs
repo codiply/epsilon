@@ -3,10 +3,13 @@ using Epsilon.Logic.Entities;
 using Epsilon.Logic.Forms;
 using Epsilon.Logic.Helpers.Interfaces;
 using Epsilon.Logic.Infrastructure.Interfaces;
+using Epsilon.Logic.Services.Interfaces;
 using Epsilon.Web.Controllers.BaseControllers;
+using Epsilon.Web.Models.ViewModels.Admin;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mail;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -16,15 +19,18 @@ namespace Epsilon.Web.Controllers
     [Authorize(Roles = AspNetRole.Admin)]
     public class AdminController : BaseMvcController
     {
-        private IAppCache _appCache;
-        private IDbAppSettingsHelper _dbAppSettingsHelper;
+        private readonly IAppCache _appCache;
+        private readonly IDbAppSettingsHelper _dbAppSettingsHelper;
+        private readonly ISmtpService _smtpService;
 
         public AdminController(
             IAppCache appCache,
-            IDbAppSettingsHelper dbAppSettingsHelper)
+            IDbAppSettingsHelper dbAppSettingsHelper,
+            ISmtpService smtpService)
         {
             _appCache = appCache;
             _dbAppSettingsHelper = dbAppSettingsHelper;
+            _smtpService = smtpService;
         }
 
         public ActionResult Index()
@@ -87,7 +93,38 @@ namespace Epsilon.Web.Controllers
             }
             return View(form);
         }
-    
+
+        #endregion
+
+        #region TestEmail
+
+        public ActionResult TestEmail()
+        {
+            var model = new TestEmailViewModel();
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult TestEmail(TestEmailViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var message = new MailMessage
+                {
+                    Subject = model.Subject,
+                    Body = model.Body,
+                    IsBodyHtml = true
+                };
+                message.To.Add(new MailAddress(model.ToEmailAddress, model.ToDisplayName));
+                _smtpService.Send(message);
+
+                Success(String.Format("Message sent to <strong>{0}<strong>.", model.ToEmailAddress), true);
+                return RedirectToAction("Index");
+            }
+            return View(model);
+        }
+
         #endregion
     }
 }
