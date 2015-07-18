@@ -117,7 +117,7 @@ namespace Epsilon.Web.Controllers
             {
                 var googleApiKey = _appSettingsHelper.GetString(AppSettingsKey.GoogleApiServerKey);
                 var response = await GoogleGeocode.getResponse(model.Address, model.Region, googleApiKey);
-                model.Response = JsonConvert.SerializeObject(response, Formatting.Indented);
+                model.Response = response;
                 return View(model);
             }
             return View(model);

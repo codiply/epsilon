@@ -12,6 +12,9 @@ namespace Epsilon.Web
                         "~/Content/bootstrap.css",
                         "~/Content/site.css"));
 
+            bundles.Add(new StyleBundle("~/Content/prettify").Include(
+                        "~/Content/prettify/prettify.css"));
+
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/lib/jquery/jquery-{version}.js"));
 
@@ -38,6 +41,9 @@ namespace Epsilon.Web
                         // Directives
                         "~/Scripts/ngapp/directives/ClickOnce.js",
                         "~/Scripts/ngapp/app.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/run_prettify").Include(
+                        "~/Scripts/lib/prettify/run_prettify.js"));
         }
     }
 }
