@@ -3,6 +3,14 @@
 open System
 open FSharp.Data
 
+type Location = { Longitude: decimal; Latitude: decimal }
+
+type Viewport = { Northeast: Location; Southwest: Location }
+
+type Geometry = { Location: Location; Viewport: Viewport}
+
+type Geocode = { Geometry: Geometry }
+
 [<RequireQualifiedAccess>]
 module GoogleGeocode = 
 
@@ -77,6 +85,7 @@ module GoogleGeocode =
                 address.Split(' ') 
                 |> Array.filter (fun x -> String.IsNullOrWhiteSpace(x) |> not)
             let joinedAddressWords = String.Join("+", addressWords)
+            // TODO_PANOS: Sanitize the address so that the url is valid.
             let url = 
                 sprintf "https://maps.googleapis.com/maps/api/geocode/json?address=%s&region=%s&key=%s" joinedAddressWords region googleApiKey 
             return! WebPage.downloadAsync(url)
@@ -84,6 +93,23 @@ module GoogleGeocode =
 
     let getResponse(address: string, region: string, googleApiKey: string) = 
         getResponseAsync address region googleApiKey |> Async.StartAsTask
+
+    let parseResponse(response: string) =
+        let typedResponse = GeocodeJsonProvider.Parse(response)
+        // TODO_PANOS: This will blow up if there are no results.
+        let firstResult = typedResponse.Results |> Array.head
+        let viewport = 
+            { Northeast = 
+                { Longitude = firstResult.Geometry.Viewport.Northeast.Lng
+                  Latitude = firstResult.Geometry.Viewport.Northeast.Lat }
+              Southwest = 
+                { Longitude = firstResult.Geometry.Viewport.Southwest.Lng
+                  Latitude = firstResult.Geometry.Viewport.Southwest.Lat } }
+        { Geometry = 
+            { Location = 
+                { Longitude = firstResult.Geometry.Location.Lng
+                  Latitude = firstResult.Geometry.Location.Lat }
+              Viewport = viewport }}
 
     let geocode(address: string, region: string, googleApiKey: string) =
         async {

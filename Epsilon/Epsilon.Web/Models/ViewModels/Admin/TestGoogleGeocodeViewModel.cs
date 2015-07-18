@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Epsilon.Logic.FSharp;
 
 namespace Epsilon.Web.Models.ViewModels.Admin
 {
@@ -16,5 +17,7 @@ namespace Epsilon.Web.Models.ViewModels.Admin
         [Required]
         public string Region { get; set; }
         public string Response { get; set; }
+
+        public Geocode ParsedResponse { get; set;}
     }
 }

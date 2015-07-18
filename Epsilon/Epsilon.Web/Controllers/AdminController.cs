@@ -118,6 +118,7 @@ namespace Epsilon.Web.Controllers
                 var googleApiKey = _appSettingsHelper.GetString(AppSettingsKey.GoogleApiServerKey);
                 var response = await GoogleGeocode.getResponse(model.Address, model.Region, googleApiKey);
                 model.Response = response;
+                model.ParsedResponse = GoogleGeocode.parseResponse(response);
                 return View(model);
             }
             return View(model);
