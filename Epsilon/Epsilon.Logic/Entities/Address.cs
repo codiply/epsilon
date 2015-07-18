@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Epsilon.Logic.Entities.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Epsilon.Logic.Entities
 {
-    public class Address : BaseEntity
+    public class Address : BaseEntity, IAddress
     {
         public virtual long Id { get; set; }
         public virtual Guid UniqueId { get; set; }
@@ -37,11 +38,12 @@ namespace Epsilon.Logic.Entities
         public string FullAddress()
         {
             var sb = new StringBuilder();
-            var pieces = new List<string> { Line1, Line2, Line3, Line4, Locality, Region, Postcode };
+            sb.Append(this.FullAddressWithoutCountry());
             if (Country != null)
-                pieces.Add(Country.LocalName);
-
-            return string.Join(", ", pieces.Where(x => !string.IsNullOrWhiteSpace(x)));
+            {
+                sb.Append(", ").Append(Country.LocalName);
+            }
+            return sb.ToString();
         }
     }
 }

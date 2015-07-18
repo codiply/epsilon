@@ -1,4 +1,5 @@
 ﻿using Epsilon.Logic.Entities;
+using Epsilon.Logic.Entities.Interfaces;
 using Epsilon.Logic.SqlContext.Mapping;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Epsilon.Logic.Forms
 {
-    public class AddressForm
+    public class AddressForm : IAddress
     {        
         // !!! IMPORTANT !!!
         // If you add new fields, make sure you update methods ToEntity() and Clone() at the bottom
@@ -70,15 +71,6 @@ namespace Epsilon.Logic.Forms
                 Postcode = this.Postcode,
                 CountryId = this.CountryId
             };
-        }
-
-        public IList<string> AllWords()
-        {
-            var allFields = new List<string> { Line1, Line2, Line3, Line4, Locality, Region, Postcode, CountryId };
-            return allFields
-                .Select(x => x.Trim().Trim(',') + ",")
-                .SelectMany(f => f.Split(' ').Where(x => !string.IsNullOrWhiteSpace(x)))
-                .ToList();
         }
     }
 }

@@ -102,7 +102,7 @@ namespace Epsilon.Web.Controllers
 
         #endregion
 
-        #region TestGoogleGeocode
+        #region TestGoogleGeocodeApi
 
         public ActionResult TestGoogleGeocodeApi()
         {

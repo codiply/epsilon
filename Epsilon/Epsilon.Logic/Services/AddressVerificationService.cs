@@ -26,8 +26,6 @@ namespace Epsilon.Logic.Services
 
         public async Task<AddressVerificationResponse> Verify(AddressForm address)
         {
-            var allWords = address.AllWords();
-            //var response = await Google.geocode(allWords, "");
             var cleansedAddress = _addressCleansingHelper.CleanseForVerification(address);
             return new AddressVerificationResponse
             {
