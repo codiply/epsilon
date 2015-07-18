@@ -2,6 +2,7 @@
 using Epsilon.Logic.Entities;
 using Epsilon.Logic.Forms;
 using Epsilon.Logic.FSharp;
+using Epsilon.Logic.FSharp.GoogleGeocode;
 using Epsilon.Logic.Helpers.Interfaces;
 using Epsilon.Logic.Infrastructure.Interfaces;
 using Epsilon.Logic.Services.Interfaces;
@@ -103,22 +104,22 @@ namespace Epsilon.Web.Controllers
 
         #region TestGoogleGeocode
 
-        public ActionResult TestGoogleGeocode()
+        public ActionResult TestGoogleGeocodeApi()
         {
-            var model = new TestGoogleGeocodeViewModel();
+            var model = new TestGoogleGeocodeApiViewModel();
             return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> TestGoogleGeocode(TestGoogleGeocodeViewModel model)
+        public async Task<ActionResult> TestGoogleGeocodeApi(TestGoogleGeocodeApiViewModel model)
         {
             if (ModelState.IsValid)
             {
                 var googleApiKey = _appSettingsHelper.GetString(AppSettingsKey.GoogleApiServerKey);
-                var response = await GoogleGeocode.getResponse(model.Address, model.Region, googleApiKey);
+                var response = await Geocoder.getResponse(model.Address, model.Region, googleApiKey);
                 model.Response = response;
-                model.ParsedResponse = GoogleGeocode.parseResponse(response);
+                model.Geometries = Geocoder.parseGeometries(response).ToList();
                 return View(model);
             }
             return View(model);

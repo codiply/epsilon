@@ -1,7 +1,9 @@
-﻿namespace Epsilon.Logic.FSharp
+﻿namespace Epsilon.Logic.FSharp.GoogleGeocode
 
 open System
+open System.Web
 open FSharp.Data
+open Epsilon.Logic.FSharp
 
 type Location = { Longitude: decimal; Latitude: decimal }
 
@@ -9,10 +11,8 @@ type Viewport = { Northeast: Location; Southwest: Location }
 
 type Geometry = { Location: Location; Viewport: Viewport}
 
-type Geocode = { Geometry: Geometry }
-
 [<RequireQualifiedAccess>]
-module GoogleGeocode = 
+module Geocoder = 
 
     type private GeocodeJsonProvider = JsonProvider<"""{
    "results" : [
@@ -81,40 +81,27 @@ module GoogleGeocode =
 
     let private getResponseAsync (address: string) (region: string) (googleApiKey: string) =
         async {
-            let addressWords = 
-                address.Split(' ') 
-                |> Array.filter (fun x -> String.IsNullOrWhiteSpace(x) |> not)
-            let joinedAddressWords = String.Join("+", addressWords)
-            // TODO_PANOS: Sanitize the address so that the url is valid.
+            let encodedAddress = HttpUtility.UrlEncode(address) 
+            let encodedRegion = HttpUtility.UrlEncode(region)
             let url = 
-                sprintf "https://maps.googleapis.com/maps/api/geocode/json?address=%s&region=%s&key=%s" joinedAddressWords region googleApiKey 
+                sprintf "https://maps.googleapis.com/maps/api/geocode/json?address=%s&region=%s&key=%s" encodedAddress encodedRegion googleApiKey 
             return! WebPage.downloadAsync(url)
         }
 
     let getResponse(address: string, region: string, googleApiKey: string) = 
         getResponseAsync address region googleApiKey |> Async.StartAsTask
 
-    let parseResponse(response: string) =
+    let parseGeometries(response: string) =
         let typedResponse = GeocodeJsonProvider.Parse(response)
-        // TODO_PANOS: This will blow up if there are no results.
-        let firstResult = typedResponse.Results |> Array.head
-        let viewport = 
-            { Northeast = 
-                { Longitude = firstResult.Geometry.Viewport.Northeast.Lng
-                  Latitude = firstResult.Geometry.Viewport.Northeast.Lat }
-              Southwest = 
-                { Longitude = firstResult.Geometry.Viewport.Southwest.Lng
-                  Latitude = firstResult.Geometry.Viewport.Southwest.Lat } }
-        { Geometry = 
+        typedResponse.Results |> Seq.map(fun res ->
+            let viewport = 
+                { Northeast = 
+                    { Longitude = res.Geometry.Viewport.Northeast.Lng
+                      Latitude = res.Geometry.Viewport.Northeast.Lat }
+                  Southwest = 
+                    { Longitude = res.Geometry.Viewport.Southwest.Lng
+                      Latitude = res.Geometry.Viewport.Southwest.Lat } }
             { Location = 
-                { Longitude = firstResult.Geometry.Location.Lng
-                  Latitude = firstResult.Geometry.Location.Lat }
-              Viewport = viewport }}
-
-    let geocode(address: string, region: string, googleApiKey: string) =
-        async {
-            let! response = getResponseAsync address region googleApiKey
-            let answer = GeocodeJsonProvider.Parse(response)
-            return answer
-        }
-        |> Async.StartAsTask
+                { Longitude = res.Geometry.Location.Lng
+                  Latitude = res.Geometry.Location.Lat }
+              Viewport = viewport })

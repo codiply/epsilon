@@ -1,4 +1,4 @@
-﻿@model Epsilon.Web.Models.ViewModels.Admin.TestGoogleGeocodeViewModel
+﻿@model Epsilon.Web.Models.ViewModels.Admin.TestGoogleGeocodeApiViewModel
 
 @{
     ViewBag.Title = "Test Google Geocode API";
@@ -39,12 +39,15 @@
 
         @if (!string.IsNullOrWhiteSpace(Model.Response))
         {
+            for (var i = 0; i < Model.Geometries.Count(); i++)
+            { 
             <div class="form-group">
                 <div class="col-md-2"></div>
                 <div class="col-md-10">
-                    <div id="map-canvas"></div>
+                    <div id="map-canvas-@i" class="map-canvas"></div>
                 </div>
             </div>
+            }
 
             <div class="form-group">
                 @Html.LabelFor(model => model.Response, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -64,7 +67,7 @@
 
 @section Styles {
     <style>
-        #map-canvas {
+        .map-canvas {
             width: 500px;
             height: 400px;
         }
@@ -79,19 +82,25 @@
         <script src="https://maps.googleapis.com/maps/api/js"></script>
         <script>
             function initialize() {
-                var mapCanvas = document.getElementById('map-canvas');
-                var mapOptions = {
-                    center: new google.maps.LatLng(@Model.ParsedResponse.Geometry.Location.Latitude, @Model.ParsedResponse.Geometry.Location.Longitude),
-                    zoom: 8,
-                    mapTypeId: google.maps.MapTypeId.ROADMAP
+                @for (var i = 0; i < Model.Geometries.Count; i++)
+                {
+                    var geometry = Model.Geometries[i];
+                <text>
+                    var mapCanvas@(i) = document.getElementById('map-canvas-@i');
+                    var mapOptions@(i) = {
+                        center: new google.maps.LatLng(@geometry.Location.Latitude, @geometry.Location.Longitude),
+                        zoom: 8,
+                        mapTypeId: google.maps.MapTypeId.ROADMAP
+                    }
+                    var map@(i) = new google.maps.Map(mapCanvas@(i), mapOptions@(i));
+                    var bounds@(i) = new google.maps.LatLngBounds();
+                    var northeast@(i) = new google.maps.LatLng(@geometry.Viewport.Northeast.Latitude, @geometry.Viewport.Northeast.Longitude);
+                    bounds@(i).extend(northeast@(i));
+                    var southwest@(i) = new google.maps.LatLng(@geometry.Viewport.Southwest.Latitude, @geometry.Viewport.Southwest.Longitude);
+                    bounds@(i).extend(southwest@(i));
+                    map@(i).fitBounds(bounds@(i));
+                </text>
                 }
-                var map = new google.maps.Map(mapCanvas, mapOptions);
-                var bounds = new google.maps.LatLngBounds();
-                var northeast = new google.maps.LatLng(@Model.ParsedResponse.Geometry.Viewport.Northeast.Latitude, @Model.ParsedResponse.Geometry.Viewport.Northeast.Longitude);
-                bounds.extend(northeast);
-                var southwest = new google.maps.LatLng(@Model.ParsedResponse.Geometry.Viewport.Southwest.Latitude, @Model.ParsedResponse.Geometry.Viewport.Southwest.Longitude);
-                bounds.extend(southwest);
-                map.fitBounds(bounds);
             }
             google.maps.event.addDomListener(window, 'load', initialize);
         </script>
