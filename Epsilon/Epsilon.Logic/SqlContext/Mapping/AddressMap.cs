@@ -18,8 +18,6 @@ namespace Epsilon.Logic.SqlContext.Mapping
         public const int LOCALITY_MAX_LENGTH = 64;
         public const int REGION_MAX_LENGTH = 64;
         public const int POSTCODE_MAX_LENGTH = 16;
-        public const byte LATITUDE_LONGITUDE_PRECISION = 18;
-        public const byte LATITUDE_LONGITUDE_SCALE = 9;
 
         public AddressMap()
         {
@@ -52,10 +50,6 @@ namespace Epsilon.Logic.SqlContext.Mapping
                 .IsRequired();
             this.Property(x => x.CreatedOn)
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Computed);
-            this.Property(a => a.Latitude)
-                .HasPrecision(LATITUDE_LONGITUDE_PRECISION, LATITUDE_LONGITUDE_SCALE);
-            this.Property(a => a.Longitude)
-                .HasPrecision(LATITUDE_LONGITUDE_PRECISION, LATITUDE_LONGITUDE_SCALE);
             this.Property(a => a.CreatedByIpAddress)
                 .HasMaxLength(AppConstant.IP_ADDRESS_MAX_LENGTH);
 

@@ -23,5 +23,11 @@ namespace Epsilon.Logic.Helpers
 
         public static EnumMemoizer<CountryVariantResourceName> CountryVariantResourceName =
             new EnumMemoizer<CountryVariantResourceName>();
+
+        public static EnumMemoizer<GeocodeFailureType> GeocodeFailureType =
+            new EnumMemoizer<GeocodeFailureType>();
+
+        public static EnumMemoizer<GeocodeQueryType> GeocodeQueryType =
+            new EnumMemoizer<GeocodeQueryType>();
     }
 }

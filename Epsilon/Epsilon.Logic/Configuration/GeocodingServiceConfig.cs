@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace Epsilon.Logic.Configuration
 {
-    public class AddressVerificationServiceConfig : IAddressVerificationServiceConfig
+    public class GeocodingServiceConfig : IGeocodingServiceConfig
     {
         public IAppSettingsHelper _appSettingsHelper;
 
-        public AddressVerificationServiceConfig(
+        public GeocodingServiceConfig(
             IAppSettingsHelper appSettingsHelper)
         {
             _appSettingsHelper = appSettingsHelper;

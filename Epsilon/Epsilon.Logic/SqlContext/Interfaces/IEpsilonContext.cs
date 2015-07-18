@@ -16,6 +16,7 @@ namespace Epsilon.Logic.SqlContext.Interfaces
         DbEntityEntry<TEntity> Entry<TEntity>(TEntity entity) where TEntity : class;
 
         DbSet<Address> Addresses { get; set; }
+        DbSet<AddressGeometry> AddressGeometries { get; set; }
         DbSet<AdminAlert> AdminAlerts { get; set; }
         DbSet<AppSetting> AppSettings { get; set; }
         DbSet<CoinAccount> CoinAccounts { get; set; }
@@ -24,8 +25,10 @@ namespace Epsilon.Logic.SqlContext.Interfaces
         DbSet<CoinAccountTransactionType> CoinAccountTransactionTypes { get; set; }
         DbSet<Country> Countries { get; set; }
         DbSet<Currency> Currencies { get; set; }
+        DbSet<GeocodeFailure> GeocodeFailures { get; set; }
         DbSet<IpAddressActivity> IpAddressActivities { get; set; }
         DbSet<Language> Languages { get; set; }
+        DbSet<PostcodeGeometry> PostcodeGeometries { get; set; }
         DbSet<ResponseTiming> ResponseTimings { get; set; }
         DbSet<TenancyDetailsSubmission> TenancyDetailsSubmissions { get; set; }
         DbSet<TenantVerification> TenantVerifications { get; set; }

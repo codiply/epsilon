@@ -233,8 +233,6 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.AreEqual(addressForm.CountryId, retrievedAddress.CountryId, "Field CountryId on the retrieved address is not the expected.");
             Assert.AreEqual(user.Id, retrievedAddress.CreatedById, "Field CreatedById on the retrieved address is not the expected.");
             Assert.AreEqual(ipAddress, retrievedAddress.CreatedByIpAddress, "Field CreatedByIpAddress on the retrieved address is not the expected.");
-            Assert.AreEqual(longitude, retrievedAddress.Longitude, "Field Longitude on the retrieved address is not set.");
-            Assert.AreEqual(latitude, retrievedAddress.Latitude, "Field Latitude on the retrieved address is not set.");
             Assert.IsTrue(timeBefore <= retrievedAddress.CreatedOn && retrievedAddress.CreatedOn <= timeAfter,
                 "Field CreatedOn on the retrieved address is not within the expected range.");
         }

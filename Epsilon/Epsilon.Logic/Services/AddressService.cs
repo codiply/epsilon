@@ -149,8 +149,6 @@ namespace Epsilon.Logic.Services
             entity.CreatedById = userId;
             entity.CreatedByIpAddress = userIpAddress;
             entity.DistinctAddressCode = CalculateDistinctAddressCode(dto);
-            entity.Latitude = verificationResponse.Latitude;
-            entity.Longitude = verificationResponse.Longitude;
 
             _dbContext.Addresses.Add(entity);
 

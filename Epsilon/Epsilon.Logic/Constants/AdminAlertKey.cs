@@ -9,5 +9,6 @@ namespace Epsilon.Logic.Constants
     public static class AdminAlertKey
     {
         public const string RegistrationGlobalMaxFrequencyReached = "RegistrationGlobalMaxFrequencyReached";
+        public const string GoogleGeocodeApiError = "GoogleGeocodeApiError";
     }
 }

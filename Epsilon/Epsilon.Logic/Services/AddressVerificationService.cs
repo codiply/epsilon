@@ -13,14 +13,11 @@ namespace Epsilon.Logic.Services
 {
     public class AddressVerificationService : IAddressVerificationService
     {
-        private readonly IAddressVerificationServiceConfig _addressVerificationServiceConfig;
         private readonly IAddressCleansingHelper _addressCleansingHelper;
 
         public AddressVerificationService(
-            IAddressVerificationServiceConfig addressVerificationServiceConfig,
             IAddressCleansingHelper addressCleansingHelper)
         {
-            _addressVerificationServiceConfig = addressVerificationServiceConfig;
             _addressCleansingHelper = addressCleansingHelper;
         }
 

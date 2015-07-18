@@ -97,6 +97,7 @@ namespace Epsilon.Web.App_Start
             kernel.Bind<IAddressVerificationService>().To<AddressVerificationService>().InRequestScope();
             kernel.Bind<IAdminAlertServiceConfig>().To<AdminAlertServiceConfig>().InRequestScope();
             kernel.Bind<IAntiAbuseServiceConfig>().To<AntiAbuseServiceConfig>().InRequestScope();
+            kernel.Bind<IGeocodingService>().To<GeocodingService>().InRequestScope();
             kernel.Bind<ICoinAccountServiceConfig>().To<CoinAccountServiceConfig>().InRequestScope();
             kernel.Bind<ITenancyDetailsSubmissionServiceConfig>().To<TenancyDetailsSubmissionServiceConfig>().InRequestScope();
 
@@ -107,6 +108,8 @@ namespace Epsilon.Web.App_Start
 
             // DbContext
             kernel.Bind<IEpsilonContext>().To<EpsilonContext>().InRequestScope();
+
+            // Factories
 
             // Helpers
             kernel.Bind<IAddressCleansingHelper>().To<AddressCleansingHelper>().InSingletonScope();
@@ -128,6 +131,7 @@ namespace Epsilon.Web.App_Start
             kernel.Bind<IAntiAbuseService>().To<AntiAbuseService>().InRequestScope();
             kernel.Bind<ICoinAccountService>().To<CoinAccountService>().InRequestScope();
             kernel.Bind<ICountryService>().To<CountryService>().InRequestScope();
+            kernel.Bind<IGeocodingService>().To<GeocodingService>().InRequestScope();
             kernel.Bind<IIpAddressActivityService>().To<IpAddressActivityService>().InRequestScope();
             kernel.Bind<ILanguageService>().To<LanguageService>().InRequestScope();
             kernel.Bind<INewUserService>().To<NewUserService>().InRequestScope();

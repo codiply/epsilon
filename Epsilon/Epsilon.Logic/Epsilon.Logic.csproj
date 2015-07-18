@@ -76,12 +76,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration\AddressServiceConfig.cs" />
-    <Compile Include="Configuration\AddressVerificationServiceConfig.cs" />
+    <Compile Include="Configuration\GeocodingServiceConfig.cs" />
     <Compile Include="Configuration\AdminAlertServiceConfig.cs" />
     <Compile Include="Configuration\CoinAccountServiceConfig.cs" />
     <Compile Include="Configuration\AntiAbuseServiceConfig.cs" />
     <Compile Include="Configuration\Interfaces\IAddressServiceConfig.cs" />
-    <Compile Include="Configuration\Interfaces\IAddressVerificationServiceConfig.cs" />
+    <Compile Include="Configuration\Interfaces\IGeocodingServiceConfig.cs" />
     <Compile Include="Configuration\Interfaces\IAdminAlertServiceConfig.cs" />
     <Compile Include="Configuration\Interfaces\IAntiAbuseServiceConfig.cs" />
     <Compile Include="Configuration\Interfaces\ICoinAccountServiceConfig.cs" />
@@ -100,11 +100,14 @@
     <Compile Include="Constants\DbAppSettingDefaultValue.cs" />
     <Compile Include="Constants\AppSettingsDefaultValue.cs" />
     <Compile Include="Constants\Enums\DbAppSettingValueType.cs" />
+    <Compile Include="Constants\Enums\GeocodeFailureType.cs" />
+    <Compile Include="Constants\Enums\GeocodeQueryType.cs" />
     <Compile Include="Constants\HttpContextItemsKey.cs" />
     <Compile Include="Constants\Interfaces\IAppSettingsDefaultValue.cs" />
     <Compile Include="Constants\Interfaces\ICountryAddressFieldMetadata.cs" />
     <Compile Include="Constants\Interfaces\IDbAppSettingDefaultValue.cs" />
     <Compile Include="Constants\Enums\IpAddressActivityType.cs" />
+    <Compile Include="Entities\AddressGeometry.cs" />
     <Compile Include="Entities\AdminAlert.cs" />
     <Compile Include="Entities\AppSetting.cs" />
     <Compile Include="Entities\CoinAccount.cs" />
@@ -112,9 +115,12 @@
     <Compile Include="Entities\CoinAccountTransaction.cs" />
     <Compile Include="Entities\CoinAccountTransactionType.cs" />
     <Compile Include="Entities\Currency.cs" />
+    <Compile Include="Entities\GeocodeFailure.cs" />
     <Compile Include="Entities\Interfaces\IAddress.cs" />
+    <Compile Include="Entities\Interfaces\IGeometry.cs" />
     <Compile Include="Entities\IpAddressActivity.cs" />
     <Compile Include="Entities\Language.cs" />
+    <Compile Include="Entities\PostcodeGeometry.cs" />
     <Compile Include="Entities\ResponseTiming.cs" />
     <Compile Include="Entities\UserPreference.cs" />
     <Compile Include="Forms\AddressForm.cs" />
@@ -154,6 +160,7 @@
     <Compile Include="Services\CoinAccountService.cs" />
     <Compile Include="Services\CountryService.cs" />
     <Compile Include="Helpers\CountryVariantResourceHelper.cs" />
+    <Compile Include="Services\GeocodingService.cs" />
     <Compile Include="Services\Interfaces\IAddressService.cs" />
     <Compile Include="Services\Interfaces\IAddressVerificationService.cs" />
     <Compile Include="Services\Interfaces\IAdminAlertService.cs" />
@@ -161,6 +168,8 @@
     <Compile Include="Services\Interfaces\ICoinAccountService.cs" />
     <Compile Include="Services\Interfaces\ICountryService.cs" />
     <Compile Include="Helpers\Interfaces\ICountryVariantResourceHelper.cs" />
+    <Compile Include="Services\Interfaces\IGeocodeClientFactory.cs" />
+    <Compile Include="Services\Interfaces\IGeocodingService.cs" />
     <Compile Include="Services\Interfaces\IIpAddressActivityService.cs" />
     <Compile Include="Services\Interfaces\ILanguageService.cs" />
     <Compile Include="Services\Interfaces\INewUserService.cs" />
@@ -180,6 +189,7 @@
     <Compile Include="SqlContext\EpsilonContext.cs" />
     <Compile Include="SqlContext\ApplicationDbContext.cs" />
     <Compile Include="SqlContext\Interfaces\IEpsilonContext.cs" />
+    <Compile Include="SqlContext\Mapping\AddressGeometryMap.cs" />
     <Compile Include="SqlContext\Mapping\AddressMap.cs" />
     <Compile Include="SqlContext\Mapping\AdminAlertMap.cs" />
     <Compile Include="SqlContext\Mapping\AppSettingMap.cs" />
@@ -187,10 +197,12 @@
     <Compile Include="SqlContext\Mapping\CoinAccountSnapshotMap.cs" />
     <Compile Include="SqlContext\Mapping\CoinAccountTransactionMap.cs" />
     <Compile Include="SqlContext\Mapping\CoinAccountTransactionTypeMap.cs" />
+    <Compile Include="SqlContext\Mapping\GeocodeFailureMap.cs" />
     <Compile Include="SqlContext\Mapping\IpAddressActivityMap.cs" />
     <Compile Include="SqlContext\Mapping\LanguageMap.cs" />
     <Compile Include="SqlContext\Mapping\CurrencyMap.cs" />
     <Compile Include="SqlContext\Mapping\CountryMap.cs" />
+    <Compile Include="SqlContext\Mapping\PostcodeGeometryMap.cs" />
     <Compile Include="SqlContext\Mapping\ResponseTimingMap.cs" />
     <Compile Include="SqlContext\Mapping\TenantVerificationMap.cs" />
     <Compile Include="SqlContext\Mapping\TenancyDetailsSubmissionMap.cs" />
