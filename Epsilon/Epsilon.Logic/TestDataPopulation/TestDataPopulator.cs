@@ -11,14 +11,14 @@ namespace Epsilon.Logic.TestDataPopulation
 {
     public class TestDataPopulator : ITestDataPopulator
     {
-        private readonly IRandomWrapper _random;
+        private readonly IRandomFactory _randomFactory;
         private readonly IEpsilonContext  _dbContext;
 
         public TestDataPopulator(
-            IRandomWrapper random,
+            IRandomFactory randomFactory,
             IEpsilonContext dbContext)
         {
-            _random = random;
+            _randomFactory = randomFactory;
             _dbContext = dbContext;
         }
 
@@ -28,8 +28,11 @@ namespace Epsilon.Logic.TestDataPopulation
             int housesPerPostcode = 5;
             int minAddressesPerHouse = 10;
             int maxAddressesPerHouse = 20;
+            int seed = 2015;
+            var random = _randomFactory.Create(seed);
+
             await GbAddressPopulator.Populate(
-                _random, _dbContext, userId, postCodesPerArea, housesPerPostcode, minAddressesPerHouse, maxAddressesPerHouse);
+                random, _dbContext, userId, postCodesPerArea, housesPerPostcode, minAddressesPerHouse, maxAddressesPerHouse);
         }
     }
 }

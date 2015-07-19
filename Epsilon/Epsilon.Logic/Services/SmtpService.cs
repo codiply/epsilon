@@ -54,7 +54,7 @@ namespace Epsilon.Logic.Services
             }
             catch (Exception ex)
             {
-                // TODO_PANOS: log the exception and do not throw.
+                // TODO_PANOS: decide whether to throw or just log the exception.
                 throw ex;
             }
         }

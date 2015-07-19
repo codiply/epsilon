@@ -147,6 +147,7 @@ namespace Epsilon.Web.App_Start
             kernel.Bind<ICacheWrapper>().To<HttpRuntimeCache>().InSingletonScope();
             kernel.Bind<IClock>().To<SystemClock>().InSingletonScope();
             kernel.Bind<IRandomWrapper>().To<RandomWrapper>().InTransientScope();
+            kernel.Bind<IRandomFactory>().ToFactory();
             kernel.Bind<ISmtpClientWrapper>().To<SmtpClientWrapper>().InTransientScope();
             kernel.Bind<ISmtpClientWrapperFactory>().ToFactory();
         }        

@@ -43,13 +43,13 @@ namespace Epsilon.Logic.Services
         private async Task<GeocodeResponse> Geocode(string address, string region)
         {
             try {
-                var geocodeClient = _geocodeClientFactory.CreateGeocodeClient(_geocodingServiceConfig.GoogleApiServerKey);
+                var geocodeClient = _geocodeClientFactory.Create(_geocodingServiceConfig.GoogleApiServerKey);
                 var response = await geocodeClient.GeocodeAddress(address, region);
                 return response;
             }
             catch(Exception ex)
             {
-                // TODO_PANOS: log the exception.
+                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
                 _adminAlertService.SendAlert(AdminAlertKey.GoogleGeocodeApiError);
             }
             return null;

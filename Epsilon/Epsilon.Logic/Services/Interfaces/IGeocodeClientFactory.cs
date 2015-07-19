@@ -9,6 +9,6 @@ namespace Epsilon.Logic.Services.Interfaces
 {
     public interface IGeocodeClientFactory
     {
-        GeocodeClient CreateGeocodeClient(string apiKey);
+        GeocodeClient Create(string apiKey);
     }
 }

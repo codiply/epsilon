@@ -21,6 +21,8 @@ namespace Epsilon.Logic.TestDataPopulation
             public string PostcodePrefix { get; set; }
         }
 
+        private static string _countryId = EnumsHelper.CountryId.ToString(CountryId.GB);
+
         private static string[] _streetNames =
             {
                 "Isaac Newton",
@@ -81,6 +83,10 @@ namespace Epsilon.Logic.TestDataPopulation
                     string.Format("{0}{1}", area.PostcodePrefix, RandomPostcodeSuffix(random)));
                 foreach (var postcode in postcodes)
                 {
+                    var postcodeGeometry = PostcodeGeometry(random, _countryId, postcode);
+                    dbContext.PostcodeGeometries.Add(postcodeGeometry);
+                    await dbContext.SaveChangesAsync();
+
                     for (int i = 0; i < housesPerPostcode; i++)
                     {
                         var numberOfAddresses = random.Next(minAddressesPerHouse, maxAddressesPerHouse + 1);
@@ -136,9 +142,25 @@ namespace Epsilon.Logic.TestDataPopulation
                     Locality = city,
                     Region = county,
                     Postcode = postcode,
-                    CountryId = EnumsHelper.CountryId.ToString(CountryId.GB),
+                    CountryId = _countryId,
                     CreatedById = userId
                 }).ToList();
+        }
+
+        private static PostcodeGeometry PostcodeGeometry(IRandomWrapper random, string countryId, string postcode)
+        {
+            var postcodeGeometry = new PostcodeGeometry()
+            {
+                CountryId = countryId,
+                Postcode = postcode,
+                Latitude = 0.0,
+                Longitude = 0.0,
+                ViewportNortheastLatitude = 0.0,
+                ViewportNortheastLongitude = 0.0,
+                ViewportSouthwestLatitude = 0.0,
+                ViewportSouthwestLongitude = 0.0
+            };
+            return postcodeGeometry;
         }
     }
 }

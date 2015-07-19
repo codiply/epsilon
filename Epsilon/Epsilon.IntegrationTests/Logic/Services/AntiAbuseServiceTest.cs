@@ -9,6 +9,7 @@ using Epsilon.Logic.Helpers.Interfaces;
 using Epsilon.Logic.Infrastructure.Primitives;
 using Epsilon.Logic.Services.Interfaces;
 using Epsilon.Logic.SqlContext.Interfaces;
+using Epsilon.Logic.Wrappers;
 using Epsilon.Logic.Wrappers.Interfaces;
 using Epsilon.Resources.Logic.AntiAbuse;
 using Moq;
@@ -217,7 +218,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             var user = await CreateUser(container, "test@test.com", ipAddress);
 
-            var random = container.Get<IRandomWrapper>();
+            var random = new RandomWrapper(2015);
             for (int i = 0; i < addressesToCreate; i++)
             {
                 var address = await CreateAddress(random, container, user.Id, ipAddress);
@@ -245,9 +246,10 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var serviceUnderTest = containerUnderTest.Get<IAntiAbuseService>();
 
             var helperContainer = CreateContainer();
-            var random = helperContainer.Get<IRandomWrapper>();
 
             var user = await CreateUser(helperContainer, "test@test.com", ipAddress);
+
+            var random = new RandomWrapper(2015);
 
             // I add the first address.
             var address1 = await CreateAddress(random, helperContainer, user.Id, ipAddress);
@@ -282,7 +284,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var serviceUnderTest = containerUnderTest.Get<IAntiAbuseService>();
 
             var helperContainer = CreateContainer();
-            var random = helperContainer.Get<IRandomWrapper>();
+            var random = new RandomWrapper(2015);
 
             var user = await CreateUser(helperContainer, "test@test.com", ipAddress);
             var address = await CreateAddress(random, helperContainer, user.Id, ipAddress);
@@ -318,7 +320,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var serviceUnderTest = containerUnderTest.Get<IAntiAbuseService>();
 
             var helperContainer = CreateContainer();
-            var random = helperContainer.Get<IRandomWrapper>();
+            var random = new RandomWrapper(2015);
 
             var user = await CreateUser(helperContainer, "test@test.com", ipAddress1);
 
@@ -357,7 +359,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var serviceUnderTest = containerUnderTest.Get<IAntiAbuseService>();
 
             var helperContainer = CreateContainer();
-            var random = helperContainer.Get<IRandomWrapper>();
+            var random = new RandomWrapper(2015);
 
             var user = await CreateUser(helperContainer, "test@test.com", ipAddress1);
             var address = await CreateAddress(random, helperContainer, user.Id, ipAddress1);
@@ -396,7 +398,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             var user = await CreateUser(container, "test@test.com", ipAddress);
 
-            var random = container.Get<IRandomWrapper>();
+            var random = new RandomWrapper(2015);
             for (int i = 0; i < submissionsToCreate; i++)
             {
                 var submission = await CreateTenancyDetailsSubmission(random, container, user.Id, ipAddress);
@@ -427,7 +429,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             var user = await CreateUser(helperContainer, "test@test.com", ipAddress);
 
-            var random = helperContainer.Get<IRandomWrapper>();
+            var random = new RandomWrapper(2015);
 
             // I add the first address.
             var submission1 = await CreateTenancyDetailsSubmission(random, helperContainer, user.Id, ipAddress);
@@ -463,7 +465,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             var helperContainer = CreateContainer();
 
-            var random = helperContainer.Get<IRandomWrapper>();
+            var random = new RandomWrapper(2015);
 
             var user = await CreateUser(helperContainer, "test@test.com", ipAddress);
             var submission = await CreateTenancyDetailsSubmission(random, helperContainer, user.Id, ipAddress);
@@ -499,7 +501,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var serviceUnderTest = containerUnderTest.Get<IAntiAbuseService>();
 
             var helperContainer = CreateContainer();
-            var random = helperContainer.Get<IRandomWrapper>();
+            var random = new RandomWrapper(2015);
 
             var user = await CreateUser(helperContainer, "test@test.com", ipAddress1);
 
@@ -538,7 +540,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var serviceUnderTest = containerUnderTest.Get<IAntiAbuseService>();
 
             var helperContainer = CreateContainer();
-            var random = helperContainer.Get<IRandomWrapper>();
+            var random = new RandomWrapper(2015);
 
             var user = await CreateUser(helperContainer, "test@test.com", ipAddress1);
             var submission = await CreateTenancyDetailsSubmission(random, helperContainer, user.Id, ipAddress1);
