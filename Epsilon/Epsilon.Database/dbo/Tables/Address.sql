@@ -16,8 +16,11 @@
     [Timestamp]           ROWVERSION         NOT NULL,
     CONSTRAINT [PK_dbo.Address] PRIMARY KEY CLUSTERED ([Id] ASC),
     CONSTRAINT [FK_dbo.Address_dbo.Country_CountryId] FOREIGN KEY ([CountryId]) REFERENCES [dbo].[Country] ([Id]),
+    CONSTRAINT [FK_dbo.Address_dbo.PostcodeGeometry_CountryId_Postcode] FOREIGN KEY ([CountryId], [Postcode]) REFERENCES [dbo].[PostcodeGeometry] ([CountryId], [Postcode]) ON DELETE CASCADE,
     CONSTRAINT [FK_dbo.Address_dbo.User_CreatedById] FOREIGN KEY ([CreatedById]) REFERENCES [dbo].[User] ([Id])
 );
+
+
 
 
 
@@ -73,4 +76,9 @@ CREATE UNIQUE NONCLUSTERED INDEX [IX_Address_UniqueId]
 GO
 CREATE NONCLUSTERED INDEX [IX_Address_Postcode]
     ON [dbo].[Address]([Postcode] ASC);
+
+
+GO
+CREATE NONCLUSTERED INDEX [IX_CountryId_Postcode]
+    ON [dbo].[Address]([CountryId] ASC, [Postcode] ASC);
 

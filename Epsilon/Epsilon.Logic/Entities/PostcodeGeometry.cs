@@ -20,5 +20,8 @@ namespace Epsilon.Logic.Entities
         public virtual double ViewportSouthwestLongitude { get; set; }
 
         public virtual DateTimeOffset GeocodedOn { get; set; }
+
+        public virtual ICollection<Address> Addresses { get; set; }
+        public virtual Country Country { get; set; }
     }
 }

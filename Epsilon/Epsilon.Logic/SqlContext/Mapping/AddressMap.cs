@@ -62,6 +62,9 @@ namespace Epsilon.Logic.SqlContext.Mapping
                 .WithMany()
                 .HasForeignKey(x => x.CreatedById)
                 .WillCascadeOnDelete(false);
+            this.HasRequired(x => x.PostcodeGeometry)
+                .WithMany(x => x.Addresses)
+                .HasForeignKey(x => new { x.CountryId, x.Postcode });
 
             // Indexes
             this.Property(x => x.UniqueId)
