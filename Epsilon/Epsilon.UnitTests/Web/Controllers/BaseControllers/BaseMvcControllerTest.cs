@@ -84,7 +84,10 @@ namespace Epsilon.UnitTests.Web.Controllers.BaseControllers
             var apiFiltersNamespace = "Epsilon.Web.Controllers.Filters.WebApi";
             var allApiFilterTypes =
                 typeof(BaseApiController).Assembly.GetTypes()
-                .Where(type => type.Namespace == apiFiltersNamespace).ToList();
+                .Where(type => type.Namespace == apiFiltersNamespace)
+                // Extra filters appear in this list when using asynchronous filters.
+                .Where(type => !type.FullName.Contains("+"))
+                .ToList();
 
             Assert.IsTrue(allApiFilterTypes.Any(),
                 string.Format("No types found in namespace {0}. If namespace changed, please update test.", apiFiltersNamespace));

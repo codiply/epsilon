@@ -203,6 +203,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var serviceForAdd = containerForAdd.Get<IAddressService>();
 
             var addressForm = CreateRandomAddresForm(countryId);
+            await CreatePostcodeGeometry(helperContainer, addressForm.CountryId, addressForm.Postcode);
 
             var timeBefore = DateTimeOffset.Now;
             var outcome = await serviceForAdd.AddAddress(user.Id, ipAddress, addressForm);
@@ -353,6 +354,25 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
         #region Private helper functions
 
+        private async Task<PostcodeGeometry> CreatePostcodeGeometry(IKernel container, string countryId, string postcode)
+        {
+            var dbContext = container.Get<IEpsilonContext>();
+            var postcodeGeometry = new PostcodeGeometry()
+            {
+                CountryId = countryId,
+                Postcode = postcode,
+                Latitude = 0.0,
+                Longitude = 0.0,
+                ViewportNortheastLatitude = 0.0,
+                ViewportNortheastLongitude = 0.0,
+                ViewportSouthwestLatitude = 0.0,
+                ViewportSouthwestLongitude = 0.0
+            };
+            dbContext.PostcodeGeometries.Add(postcodeGeometry);
+            await dbContext.SaveChangesAsync();
+            return postcodeGeometry;
+        }
+
         private AddressForm CreateRandomAddresForm(string countryId)
         {
             var random = new RandomWrapper();
@@ -383,6 +403,17 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var ipAddress = "1.2.3.4";
             var user = await CreateUser(container, email, ipAddress);
             var addresses = new List<Address>();
+            var postcodeGeometry = new PostcodeGeometry()
+            {
+                CountryId = countryId,
+                Postcode = postcode,
+                Latitude = 0.0,
+                Longitude = 0.0,
+                ViewportNortheastLatitude = 0.0,
+                ViewportNortheastLongitude = 0.0,
+                ViewportSouthwestLatitude = 0.0,
+                ViewportSouthwestLongitude = 0.0
+            };
             for (int i = 0; i < count; i++)
             {
                 var address = new Address
@@ -397,7 +428,8 @@ namespace Epsilon.IntegrationTests.Logic.Services
                     Postcode = postcode,
                     CountryId = countryId,
                     CreatedById = user.Id,
-                    CreatedByIpAddress = ipAddress
+                    CreatedByIpAddress = ipAddress,
+                    PostcodeGeometry = postcodeGeometry
                 };
                 addresses.Add(address);
             }

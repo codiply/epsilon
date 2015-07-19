@@ -18,6 +18,7 @@ using Epsilon.Logic.Helpers;
 using Epsilon.Logic.SqlContext.Interfaces;
 using Epsilon.Resources.Logic.AntiAbuse;
 using Epsilon.Resources.Logic.TenancyDetailsSubmission;
+using Epsilon.Logic.Constants.Enums;
 
 namespace Epsilon.IntegrationTests.Logic.Services
 {
@@ -234,6 +235,19 @@ namespace Epsilon.IntegrationTests.Logic.Services
         {
             var random = new RandomWrapper();
             var randomFieldLength = 10;
+            var countryId = EnumsHelper.CountryId.ToString(CountryId.GB);
+            var postcode = RandomStringHelper.GetAlphaNumericString(random, randomFieldLength, RandomStringHelper.CharacterCase.Mixed);
+            var postcodeGeometry = new PostcodeGeometry()
+            {
+                CountryId = countryId,
+                Postcode = postcode,
+                Latitude = 0.0,
+                Longitude = 0.0,
+                ViewportNortheastLatitude = 0.0,
+                ViewportNortheastLongitude = 0.0,
+                ViewportSouthwestLatitude = 0.0,
+                ViewportSouthwestLongitude = 0.0
+            };
             var address = new Address
             {
                 UniqueId = Guid.NewGuid(),
@@ -243,10 +257,11 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 Line4 = RandomStringHelper.GetAlphaNumericString(random, randomFieldLength, RandomStringHelper.CharacterCase.Mixed),
                 Locality = RandomStringHelper.GetAlphaNumericString(random, randomFieldLength, RandomStringHelper.CharacterCase.Mixed),
                 Region = RandomStringHelper.GetAlphaNumericString(random, randomFieldLength, RandomStringHelper.CharacterCase.Mixed),
-                Postcode = RandomStringHelper.GetAlphaNumericString(random, randomFieldLength, RandomStringHelper.CharacterCase.Mixed),
-                CountryId = "GB",
+                Postcode = postcode,
+                CountryId = countryId,
                 CreatedById = userId,
-                CreatedByIpAddress = userIpAddress
+                CreatedByIpAddress = userIpAddress,
+                PostcodeGeometry = postcodeGeometry
             };
             var dbContext = container.Get<IEpsilonContext>();
             dbContext.Addresses.Add(address);
