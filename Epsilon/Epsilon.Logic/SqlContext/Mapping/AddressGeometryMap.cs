@@ -17,12 +17,13 @@ namespace Epsilon.Logic.SqlContext.Mapping
             this.HasKey(x => x.Id);
 
             // Properties
-            this.Property(x => x.Id)
-                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             this.Property(x => x.GeocodedOn)
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Computed);
 
             // Relationships
+            this.HasRequired(x => x.Address)
+                .WithOptional(y => y.Geometry)
+                .WillCascadeOnDelete(true);
         }
     }
 }

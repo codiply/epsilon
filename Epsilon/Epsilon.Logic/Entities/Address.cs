@@ -28,7 +28,7 @@ namespace Epsilon.Logic.Entities
         public virtual string CreatedById { get; set; }
         public virtual string CreatedByIpAddress { get; set; }
         
-        //public virtual AddressGeometry Geometry { get; set; }
+        public virtual AddressGeometry Geometry { get; set; }
         public virtual User CreatedBy { get; set; }
         public virtual Country Country { get; set; }
         public virtual ICollection<TenancyDetailsSubmission> TenancyDetailsSubmissions { get; set; }
