@@ -18,5 +18,7 @@ namespace Epsilon.Logic.Entities
         public virtual double ViewportNortheastLongitude { get; set; }
         public virtual double ViewportSouthwestLatitude { get; set; }
         public virtual double ViewportSouthwestLongitude { get; set; }
+
+        public virtual DateTimeOffset GeocodedOn { get; set; }
     }
 }

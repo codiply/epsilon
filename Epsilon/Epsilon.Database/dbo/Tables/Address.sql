@@ -10,8 +10,6 @@
     [Region]              NVARCHAR (64)      NULL,
     [Postcode]            NVARCHAR (16)      NOT NULL,
     [CountryId]           NCHAR (2)          NOT NULL,
-    [Latitude]            DECIMAL (18, 9)    NULL,
-    [Longitude]           DECIMAL (18, 9)    NULL,
     [CreatedOn]           DATETIMEOFFSET (7) NOT NULL,
     [CreatedById]         NVARCHAR (128)     NOT NULL,
     [CreatedByIpAddress]  NVARCHAR (39)      NULL,
@@ -20,6 +18,8 @@
     CONSTRAINT [FK_dbo.Address_dbo.Country_CountryId] FOREIGN KEY ([CountryId]) REFERENCES [dbo].[Country] ([Id]),
     CONSTRAINT [FK_dbo.Address_dbo.User_CreatedById] FOREIGN KEY ([CreatedById]) REFERENCES [dbo].[User] ([Id])
 );
+
+
 
 
 

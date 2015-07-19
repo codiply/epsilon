@@ -95,6 +95,9 @@
     <None Include="Scripts\PostDeploy\ReferenceData\CoinAccountTransactionType.sql" />
     <Build Include="dbo\Tables\IpAddressActivity.sql" />
     <Build Include="dbo\Tables\ResponseTiming.sql" />
+    <Build Include="dbo\Tables\PostcodeGeometry.sql" />
+    <Build Include="dbo\Tables\GeocodeFailure.sql" />
+    <Build Include="dbo\Tables\AddressGeometry.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Scripts\PostDeploy\Script.PostDeployment.sql" />

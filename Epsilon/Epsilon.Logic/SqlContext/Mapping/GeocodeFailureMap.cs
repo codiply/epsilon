@@ -20,15 +20,15 @@ namespace Epsilon.Logic.SqlContext.Mapping
             // Properties
             this.Property(x => x.Id)
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
-            this.Property(x => x.CreatedOn)
+            this.Property(x => x.MadeOn)
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Computed);
-            this.Property(a => a.CreatedByIpAddress)
+            this.Property(a => a.MadeByIpAddress)
                 .HasMaxLength(AppConstant.IP_ADDRESS_MAX_LENGTH);
 
             // Relationships
-            this.HasRequired(x => x.CreatedBy)
+            this.HasRequired(x => x.MadeBy)
                 .WithMany()
-                .HasForeignKey(x => x.CreatedById)
+                .HasForeignKey(x => x.MadeById)
                 .WillCascadeOnDelete(false);
         }
     }

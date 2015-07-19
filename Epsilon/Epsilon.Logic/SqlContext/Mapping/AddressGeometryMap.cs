@@ -19,11 +19,10 @@ namespace Epsilon.Logic.SqlContext.Mapping
             // Properties
             this.Property(x => x.Id)
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            this.Property(x => x.GeocodedOn)
+                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Computed);
 
             // Relationships
-            this.HasRequired(x => x.Address)
-                .WithOptional(x => x.Geometry)
-                .Map(x => x.MapKey("AddressId"));
         }
     }
 }

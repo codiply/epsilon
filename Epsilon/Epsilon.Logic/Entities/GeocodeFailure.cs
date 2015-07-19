@@ -13,10 +13,10 @@ namespace Epsilon.Logic.Entities
         public virtual string Region { get; set; }
         public virtual string QueryType { get; set; }
         public virtual string FailureType { get; set; }
-        public virtual DateTimeOffset CreatedOn { get; set; }
-        public virtual string CreatedById { get; set; }
-        public virtual string CreatedByIpAddress { get; set; }
+        public virtual DateTimeOffset MadeOn { get; set; }
+        public virtual string MadeById { get; set; }
+        public virtual string MadeByIpAddress { get; set; }
 
-        public virtual User CreatedBy { get; set; }
+        public virtual User MadeBy { get; set; }
     }
 }
