@@ -40,6 +40,8 @@ namespace Epsilon.Logic.SqlContext
         public virtual DbSet<TokenAccountSnapshot> TokenAccountSnapshots { get; set; }
         public virtual DbSet<TokenAccountTransaction> TokenAccountTransactions { get; set; }
         public virtual DbSet<TokenAccountTransactionType> TokenAccountTransactionTypes { get; set; }
+        public virtual DbSet<TokenReward> TokenRewards { get; set; }
+        public virtual DbSet<TokenRewardScheme> TokenRewardSchemes { get; set; }
         // Users DbSet is defined in IdentityDbContext (base of ApplicationDbContext).
         public virtual DbSet<UserPreference> UserPreferences { get; set; }
 
@@ -54,10 +56,6 @@ namespace Epsilon.Logic.SqlContext
             modelBuilder.Configurations.Add(new AdminAlertMap());
             modelBuilder.Configurations.Add(new AdminEventLogMap());
             modelBuilder.Configurations.Add(new AppSettingMap());
-            modelBuilder.Configurations.Add(new TokenAccountMap());
-            modelBuilder.Configurations.Add(new TokenAccountSnapshotMap());
-            modelBuilder.Configurations.Add(new TokenAccountTransactionMap());
-            modelBuilder.Configurations.Add(new TokenAccountTransactionTypeMap());
             modelBuilder.Configurations.Add(new CountryMap());
             modelBuilder.Configurations.Add(new CurrencyMap());
             modelBuilder.Configurations.Add(new GeocodeFailureMap());
@@ -67,6 +65,12 @@ namespace Epsilon.Logic.SqlContext
             modelBuilder.Configurations.Add(new ResponseTimingMap());
             modelBuilder.Configurations.Add(new TenancyDetailsSubmissionMap());
             modelBuilder.Configurations.Add(new TenantVerificationMap());
+            modelBuilder.Configurations.Add(new TokenAccountMap());
+            modelBuilder.Configurations.Add(new TokenAccountSnapshotMap());
+            modelBuilder.Configurations.Add(new TokenAccountTransactionMap());
+            modelBuilder.Configurations.Add(new TokenAccountTransactionTypeMap());
+            modelBuilder.Configurations.Add(new TokenRewardMap());
+            modelBuilder.Configurations.Add(new TokenRewardSchemeMap());
             modelBuilder.Configurations.Add(new UserPreferenceMap());
         }
 

@@ -8,11 +8,14 @@ using System.Threading.Tasks;
 
 namespace Epsilon.Logic.Entities
 {
-    public class UserPreference : BaseEntity
+    public class UserPreference
     {
         [Key, ForeignKey("User")]
         public virtual string Id { get; set; }
         public virtual string LanguageId { get; set; }
+
+        [Timestamp]
+        public virtual Byte[] Timestamp { get; set; }
 
         public virtual User User { get; set; }
         public virtual Language Language { get; set; } 

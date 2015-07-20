@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Epsilon.Logic.Entities
 {
-    public class Address : BaseEntity, IAddress
+    public class Address : IAddress
     {
         public virtual long Id { get; set; }
         public virtual Guid UniqueId { get; set; }
@@ -27,7 +27,10 @@ namespace Epsilon.Logic.Entities
         public virtual DateTimeOffset CreatedOn { get; set; }
         public virtual string CreatedById { get; set; }
         public virtual string CreatedByIpAddress { get; set; }
-        
+
+        [Timestamp]
+        public virtual Byte[] Timestamp { get; set; }
+
         public virtual User CreatedBy { get; set; }
         public virtual Country Country { get; set; }
         public virtual AddressGeometry Geometry { get; set; }

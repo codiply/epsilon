@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Epsilon.Logic.Entities
 {
-    public class TokenAccountTransactionType : BaseEntity
+    public class TokenAccountTransactionType
     {
         public virtual string Id { get; set; }
         public virtual string Description { get; set; }

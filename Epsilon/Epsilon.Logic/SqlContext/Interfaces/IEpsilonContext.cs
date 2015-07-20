@@ -33,6 +33,8 @@ namespace Epsilon.Logic.SqlContext.Interfaces
         DbSet<TokenAccountSnapshot> TokenAccountSnapshots { get; set; }
         DbSet<TokenAccountTransaction> TokenAccountTransactions { get; set; }
         DbSet<TokenAccountTransactionType> TokenAccountTransactionTypes { get; set; }
+        DbSet<TokenReward> TokenRewards { get; set; }
+        DbSet<TokenRewardScheme> TokenRewardSchemes { get; set; }
         // Users needs to be an IDbSet
         IDbSet<User> Users { get; set; }
         DbSet<UserPreference> UserPreferences { get; set; }

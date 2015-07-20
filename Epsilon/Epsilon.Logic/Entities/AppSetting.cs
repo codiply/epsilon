@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Epsilon.Logic.Entities
 {
-    public class AppSetting : BaseEntity
+    public class AppSetting
     {
         public virtual string Id { get; set; }
 
@@ -23,7 +23,10 @@ namespace Epsilon.Logic.Entities
         public virtual string UpdatedById { get; set; }
 
         public virtual DateTimeOffset? UpdatedOn { get; set; }
-        
+
+        [Timestamp]
+        public virtual Byte[] Timestamp { get; set; }
+
         public virtual User UpdatedBy { get; set; }
 
         [NotMapped]

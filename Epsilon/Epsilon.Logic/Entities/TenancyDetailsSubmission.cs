@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Epsilon.Logic.Entities
 {
-    public class TenancyDetailsSubmission : BaseEntity
+    public class TenancyDetailsSubmission
     {
         public virtual long Id { get; set; }
         public virtual Guid UniqueId { get; set; }
@@ -20,6 +20,9 @@ namespace Epsilon.Logic.Entities
         public virtual DateTimeOffset CreatedOn { get; set; }
         public virtual DateTimeOffset? SubmittedOn { get; set; }
         public virtual string CreatedByIpAddress { get; set; }
+
+        [Timestamp]
+        public virtual Byte[] Timestamp { get; set; }
 
         public virtual User User { get; set; }
         public virtual Address Address { get; set; }

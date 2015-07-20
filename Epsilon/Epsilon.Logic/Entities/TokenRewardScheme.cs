@@ -7,9 +7,11 @@ using System.Threading.Tasks;
 
 namespace Epsilon.Logic.Entities
 {
-    public class BaseEntity
+    public class TokenRewardScheme
     {
-        [Timestamp]
-        public virtual Byte[] Timestamp { get; set; }
+        public virtual int Id { get; set; }
+        public virtual DateTimeOffset EffectiveFrom { get; set;}
+
+        public virtual ICollection<TokenReward> Rewards { get; set; }
     }
 }

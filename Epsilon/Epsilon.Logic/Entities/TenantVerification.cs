@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Epsilon.Logic.Entities
 {
-    public class TenantVerification : BaseEntity
+    public class TenantVerification
     {
         public virtual long Id { get; set; }
         public virtual Guid UniqueId { get; set; }
@@ -16,6 +16,9 @@ namespace Epsilon.Logic.Entities
         public virtual DateTimeOffset CreatedOn { get; set; }
         public virtual DateTimeOffset? VerifiedOn { get; set; }
         public virtual string CreatedByIpAddress { get; set; }
+
+        [Timestamp]
+        public virtual Byte[] Timestamp { get; set; }
 
         public virtual TenancyDetailsSubmission TenancyDetailsSubmission { get; set; }
     }

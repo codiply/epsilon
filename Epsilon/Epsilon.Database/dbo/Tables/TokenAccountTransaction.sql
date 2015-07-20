@@ -5,11 +5,12 @@
     [Amount]    DECIMAL (18, 2)    NOT NULL,
     [MadeOn]    DATETIMEOFFSET (7) NOT NULL,
     [Reference] NVARCHAR (256)     NULL,
-    [Timestamp] ROWVERSION         NOT NULL,
     CONSTRAINT [PK_dbo.TokenAccountTransaction] PRIMARY KEY CLUSTERED ([Id] ASC),
     CONSTRAINT [FK_dbo.TokenAccountTransaction_dbo.TokenAccount_AccountId] FOREIGN KEY ([AccountId]) REFERENCES [dbo].[TokenAccount] ([Id]) ON DELETE CASCADE,
     CONSTRAINT [FK_dbo.TokenAccountTransaction_dbo.TokenAccountTransactionType_TypeId] FOREIGN KEY ([TypeId]) REFERENCES [dbo].[TokenAccountTransactionType] ([Id])
 );
+
+
 
 
 

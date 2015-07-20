@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Epsilon.Logic.Entities
 {
-    public class TokenAccountTransaction : BaseEntity
+    public class TokenAccountTransaction
     {
         public virtual long Id { get; set; }
         public virtual string AccountId { get; set; }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,5 +14,8 @@ namespace Epsilon.Logic.Entities
         public virtual string LocalName { get; set; }
         public virtual string CultureCode { get; set; }
         public virtual bool IsAvailable { get; set; }
+
+        [Timestamp]
+        public virtual Byte[] Timestamp { get; set; }
     }
 }

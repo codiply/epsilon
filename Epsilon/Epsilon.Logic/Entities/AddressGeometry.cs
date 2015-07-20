@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Epsilon.Logic.Entities
 {
-    public class AddressGeometry : BaseEntity, IGeometry
+    public class AddressGeometry : IGeometry
     {
         [Key, ForeignKey("Address")]
         public virtual long Id { get; set; }
@@ -20,7 +20,10 @@ namespace Epsilon.Logic.Entities
         public virtual double ViewportSouthwestLatitude { get; set; }
         public virtual double ViewportSouthwestLongitude { get; set; }
         public virtual DateTimeOffset GeocodedOn { get; set; }
-        
+
+        [Timestamp]
+        public virtual Byte[] Timestamp { get; set; }
+
         public virtual Address Address { get; set; }
     }
 }

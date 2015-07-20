@@ -127,10 +127,11 @@
     <Compile Include="Entities\Language.cs" />
     <Compile Include="Entities\PostcodeGeometry.cs" />
     <Compile Include="Entities\ResponseTiming.cs" />
+    <Compile Include="Entities\TokenReward.cs" />
+    <Compile Include="Entities\TokenRewardScheme.cs" />
     <Compile Include="Entities\UserPreference.cs" />
     <Compile Include="Forms\AddressForm.cs" />
     <Compile Include="Entities\Address.cs" />
-    <Compile Include="Entities\BaseEntity.cs" />
     <Compile Include="Entities\Country.cs" />
     <Compile Include="Entities\TenancyDetailsSubmission.cs" />
     <Compile Include="Entities\TenantVerification.cs" />
@@ -174,6 +175,8 @@
     <Compile Include="Services\Interfaces\ICountryService.cs" />
     <Compile Include="Helpers\Interfaces\ICountryVariantResourceHelper.cs" />
     <Compile Include="SqlContext\Mapping\AdminEventLogMap.cs" />
+    <Compile Include="SqlContext\Mapping\TokenRewardMap.cs" />
+    <Compile Include="SqlContext\Mapping\TokenRewardSchemeMap.cs" />
     <Compile Include="Wrappers\Interfaces\IGeocodeClientFactory.cs" />
     <Compile Include="Services\Interfaces\IGeocodingService.cs" />
     <Compile Include="Services\Interfaces\IIpAddressActivityService.cs" />

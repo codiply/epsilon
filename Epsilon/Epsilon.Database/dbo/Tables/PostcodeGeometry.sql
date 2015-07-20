@@ -8,9 +8,12 @@
     [ViewportSouthwestLatitude]  FLOAT (53)         NOT NULL,
     [ViewportSouthwestLongitude] FLOAT (53)         NOT NULL,
     [GeocodedOn]                 DATETIMEOFFSET (7) NOT NULL,
+    [Timestamp]                  ROWVERSION         NOT NULL,
     CONSTRAINT [PK_dbo.PostcodeGeometry] PRIMARY KEY CLUSTERED ([CountryId] ASC, [Postcode] ASC),
     CONSTRAINT [FK_dbo.PostcodeGeometry_dbo.Country_CountryId] FOREIGN KEY ([CountryId]) REFERENCES [dbo].[Country] ([Id])
 );
+
+
 
 
 

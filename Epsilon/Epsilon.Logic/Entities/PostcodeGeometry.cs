@@ -1,6 +1,7 @@
 ﻿using Epsilon.Logic.Entities.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,6 +21,9 @@ namespace Epsilon.Logic.Entities
         public virtual double ViewportSouthwestLongitude { get; set; }
 
         public virtual DateTimeOffset GeocodedOn { get; set; }
+
+        [Timestamp]
+        public virtual Byte[] Timestamp { get; set; }
 
         public virtual ICollection<Address> Addresses { get; set; }
         public virtual Country Country { get; set; }

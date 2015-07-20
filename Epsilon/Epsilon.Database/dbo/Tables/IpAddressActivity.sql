@@ -4,10 +4,11 @@
     [ActivityType] NVARCHAR (32)      NULL,
     [IpAddress]    NVARCHAR (39)      NULL,
     [RecordedOn]   DATETIMEOFFSET (7) NOT NULL,
-    [Timestamp]    ROWVERSION         NOT NULL,
     CONSTRAINT [PK_dbo.IpAddressActivity] PRIMARY KEY CLUSTERED ([Id] ASC),
     CONSTRAINT [FK_dbo.IpAddressActivity_dbo.User_UserId] FOREIGN KEY ([UserId]) REFERENCES [dbo].[User] ([Id])
 );
+
+
 
 
 

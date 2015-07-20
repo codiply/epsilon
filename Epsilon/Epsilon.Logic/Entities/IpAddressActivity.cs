@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Epsilon.Logic.Entities
 {
-    public class IpAddressActivity : BaseEntity
+    public class IpAddressActivity
     {
         public virtual long Id { get; set; }
         [ForeignKey("User")]
