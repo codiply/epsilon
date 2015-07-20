@@ -1,5 +1,9 @@
 ﻿namespace Epsilon.Logic.FSharp.GoogleGeocode
 
+// !!!!! NOTE !!!!!
+// The code here is only used to test the Google Geocode API in the admin controller.
+// For actual geocoding we use the GeocodeSharp library.
+
 open System
 open System.Web
 open FSharp.Data
