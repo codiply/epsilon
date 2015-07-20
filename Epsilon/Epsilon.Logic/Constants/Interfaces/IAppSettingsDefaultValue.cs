@@ -8,7 +8,7 @@ namespace Epsilon.Logic.Constants.Interfaces
 {
     public interface IAppSettingsDefaultValue
     {
-        double CoinAccountSnapshotSnoozePeriodInHours { get; }
-        int CoinAccountSnapshotNumberOfTransactionsThreshold { get; }
+        double TokenAccountSnapshotSnoozePeriodInHours { get; }
+        int TokenAccountSnapshotNumberOfTransactionsThreshold { get; }
     }
 }

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Epsilon.Logic.Entities
 {
-    public class CoinAccount : BaseEntity
+    public class TokenAccount : BaseEntity
     {
         [Key, ForeignKey("User")]
         public virtual string Id { get; set; }
@@ -16,7 +16,7 @@ namespace Epsilon.Logic.Entities
         public virtual DateTimeOffset LastSnapshotOn { get; set; }
 
         public virtual User User { get; set; }
-        public virtual ICollection<CoinAccountSnapshot> Snapshots { get; set; }
-        public virtual ICollection<CoinAccountTransaction> Transactions { get; set; }
+        public virtual ICollection<TokenAccountSnapshot> Snapshots { get; set; }
+        public virtual ICollection<TokenAccountTransaction> Transactions { get; set; }
     }
 }

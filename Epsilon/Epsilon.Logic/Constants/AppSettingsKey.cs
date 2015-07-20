@@ -10,8 +10,6 @@ namespace Epsilon.Logic.Constants
     {
         public const string AdminAlertEmailList = "Epsilon.AdminAlertEmailList";
         public const string ApplicationName = "Epsilon.ApplicationName";
-        public const string CoinAccountSnapshotNumberOfTransactionsThreshold = "Epsilon.CoinAccountSnapshotNumberOfTransactionsThreshold";
-        public const string CoinAccountSnapshotSnoozePeriodInHours = "Epsilon.CoinAccountSnapshotSnoozePeriodInHours";
         public const string CompanyName = "Epsilon.CompanyName";
         public const string DefaultLanguageId = "Epsilon.DefaultLanguageId";
         public const string DisableAppCache = "Epsilon.DisableAppCache";
@@ -28,5 +26,8 @@ namespace Epsilon.Logic.Constants
         public const string SmtpServicePassword = "Epsilon.SmtpServicePassword";
         public const string SmtpServiceFromAddress = "Epsilon.SmtpServiceFromAddress";
         public const string SmtpServiceFromDisplayName = "Epsilon.SmtpServiceFromDisplayName";
+        public const string TokenAccountSnapshotNumberOfTransactionsThreshold = "Epsilon.TokenAccountSnapshotNumberOfTransactionsThreshold";
+        public const string TokenAccountSnapshotSnoozePeriodInHours = "Epsilon.TokenAccountSnapshotSnoozePeriodInHours";
+
     }
 }

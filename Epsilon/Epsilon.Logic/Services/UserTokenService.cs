@@ -11,41 +11,41 @@ using System.Threading.Tasks;
 
 namespace Epsilon.Logic.Services
 {
-    public class UserCoinService : IUserCoinService
+    public class UserTokenService : IUserTokenService
     {
         private readonly IEpsilonContext _dbContext;
-        private readonly ICoinAccountService _coinAccountService;
+        private readonly ITokenAccountService _tokenAccountService;
 
-        public UserCoinService(
+        public UserTokenService(
             IEpsilonContext dbContext,
-            ICoinAccountService coinAccountService)
+            ITokenAccountService tokenAccountService)
         {
             _dbContext = dbContext;
-            _coinAccountService = coinAccountService;
+            _tokenAccountService = tokenAccountService;
         }
 
         public async Task CreateAccount(string userId)
         {
-            await _coinAccountService.CreateAccount(userId);
+            await _tokenAccountService.CreateAccount(userId);
         }
 
         public async Task<decimal> GetBalance(string userId)
         {
-            return await _coinAccountService.GetBalance(userId);
+            return await _tokenAccountService.GetBalance(userId);
         }
 
-        public async Task<CoinAccountTransactionStatus> Credit(string userId, Decimal amount)
+        public async Task<TokenAccountTransactionStatus> Credit(string userId, Decimal amount)
         {
             if (amount < 0)
-                return CoinAccountTransactionStatus.WrongAmount;
-            return await _coinAccountService.MakeTransaction(userId, amount, CoinAccountTransactionTypeId.CREDIT, "");
+                return TokenAccountTransactionStatus.WrongAmount;
+            return await _tokenAccountService.MakeTransaction(userId, amount, TokenAccountTransactionTypeId.CREDIT, "");
         }
 
-        public async Task<CoinAccountTransactionStatus> Debit(string userId, Decimal amount)
+        public async Task<TokenAccountTransactionStatus> Debit(string userId, Decimal amount)
         {
             if (amount < 0)
-                return CoinAccountTransactionStatus.WrongAmount;
-            return await _coinAccountService.MakeTransaction(userId, -amount, CoinAccountTransactionTypeId.DEBIT, "");
+                return TokenAccountTransactionStatus.WrongAmount;
+            return await _tokenAccountService.MakeTransaction(userId, -amount, TokenAccountTransactionTypeId.DEBIT, "");
         }
     }
 }

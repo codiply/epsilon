@@ -1,12 +1,12 @@
-﻿CREATE TABLE [dbo].[CoinAccountSnapshot] (
+﻿CREATE TABLE [dbo].[TokenAccountSnapshot] (
     [Id]          BIGINT             IDENTITY (1, 1) NOT NULL,
     [AccountId]   NVARCHAR (128)     NOT NULL,
     [Balance]     DECIMAL (18, 2)    NOT NULL,
     [MadeOn]      DATETIMEOFFSET (7) NOT NULL,
     [IsFinalised] BIT                NOT NULL,
     [Timestamp]   ROWVERSION         NOT NULL,
-    CONSTRAINT [PK_dbo.CoinAccountSnapshot] PRIMARY KEY CLUSTERED ([Id] ASC),
-    CONSTRAINT [FK_dbo.CoinAccountSnapshot_dbo.CoinAccount_AccountId] FOREIGN KEY ([AccountId]) REFERENCES [dbo].[CoinAccount] ([Id]) ON DELETE CASCADE
+    CONSTRAINT [PK_dbo.TokenAccountSnapshot] PRIMARY KEY CLUSTERED ([Id] ASC),
+    CONSTRAINT [FK_dbo.TokenAccountSnapshot_dbo.TokenAccount_AccountId] FOREIGN KEY ([AccountId]) REFERENCES [dbo].[TokenAccount] ([Id]) ON DELETE CASCADE
 );
 
 
@@ -19,6 +19,6 @@
 
 
 GO
-CREATE NONCLUSTERED INDEX [IX_CoinAccountSnapshot_AccountId_IsFinalised_MadeOn]
-    ON [dbo].[CoinAccountSnapshot]([AccountId] ASC, [IsFinalised] ASC, [MadeOn] ASC);
+CREATE NONCLUSTERED INDEX [IX_TokenAccountSnapshot_AccountId_IsFinalised_MadeOn]
+    ON [dbo].[TokenAccountSnapshot]([AccountId] ASC, [IsFinalised] ASC, [MadeOn] ASC);
 

@@ -20,19 +20,19 @@ using Epsilon.Logic.Configuration.Interfaces;
 
 namespace Epsilon.IntegrationTests.Logic.Services
 {
-    public class CoinAccountServiceTest : BaseIntegrationTestWithRollback
+    public class TokenAccountServiceTest : BaseIntegrationTestWithRollback
     {
         [Test]
         public async Task GetBalance_ForNewUserWithoutTransactions_ReturnsZero()
         {
             var container = CreateContainer();
-            var coinAccountService = container.Get<ICoinAccountService>();
+            var tokenAccountService = container.Get<ITokenAccountService>();
             // This also sets up the account for the user.
             var user = await CreateUser(container, "test@test.com", "1.2.3.4");
             var accountId = user.Id;
             
             var expectedBalance = 0.0M;
-            var actualBalance = await coinAccountService.GetBalance(accountId);
+            var actualBalance = await tokenAccountService.GetBalance(accountId);
 
             Assert.AreEqual(expectedBalance, actualBalance);
         }
@@ -41,10 +41,10 @@ namespace Epsilon.IntegrationTests.Logic.Services
         public void GetBalance_ForNonExistingAccount_ThrowsArgumentException()
         {
             var container = CreateContainer();
-            var coinAccountService = container.Get<ICoinAccountService>();
+            var tokenAccountService = container.Get<ITokenAccountService>();
             var accountId = "non-existing-account-id";
 
-            Assert.Throws(typeof(ArgumentException), async () => await coinAccountService.GetBalance(accountId));
+            Assert.Throws(typeof(ArgumentException), async () => await tokenAccountService.GetBalance(accountId));
         }
 
         [Test]
@@ -54,8 +54,8 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var containerForVerification = CreateContainer();
             var amounts = new List<Decimal> { 200, -100, 300, -200, 400, -300, 500, -400, 600, -500 };
             var numberOfRounds = 10;
-            var coinAccountServiceUnderTest = containerUnderTest.Get<ICoinAccountService>();
-            var coinAccountServiceForVerification = containerForVerification.Get<ICoinAccountService>();
+            var tokenAccountServiceUnderTest = containerUnderTest.Get<ITokenAccountService>();
+            var tokenAccountServiceForVerification = containerForVerification.Get<ITokenAccountService>();
             // This also sets up the account for the user.
             var user = await CreateUser(containerUnderTest, "test@test.com", "1.2.3.4");
             var accountId = user.Id;
@@ -66,17 +66,17 @@ namespace Epsilon.IntegrationTests.Logic.Services
             {
                 foreach (var am in amounts)
                 {
-                    var typeId = am < 0 ? CoinAccountTransactionTypeId.DEBIT : CoinAccountTransactionTypeId.CREDIT;
-                    await coinAccountServiceUnderTest.MakeTransaction(user.Id, am, typeId, "");
+                    var typeId = am < 0 ? TokenAccountTransactionTypeId.DEBIT : TokenAccountTransactionTypeId.CREDIT;
+                    await tokenAccountServiceUnderTest.MakeTransaction(user.Id, am, typeId, "");
                     expectedBalance += am;
-                    actualBalance = await coinAccountServiceForVerification.GetBalance(accountId);
+                    actualBalance = await tokenAccountServiceForVerification.GetBalance(accountId);
                     Assert.AreEqual(expectedBalance, actualBalance, 
                         string.Format("The balance is not the expected in iteration {0} after transaction with amount {1}", i, am));
                 }
-                await coinAccountServiceUnderTest.MakeSnapshot(user.Id);
+                await tokenAccountServiceUnderTest.MakeSnapshot(user.Id);
             }
 
-            actualBalance = await coinAccountServiceForVerification.GetBalance(accountId);
+            actualBalance = await tokenAccountServiceForVerification.GetBalance(accountId);
 
             Assert.AreEqual(expectedBalance, actualBalance);
         }
@@ -85,12 +85,12 @@ namespace Epsilon.IntegrationTests.Logic.Services
         public async Task MakeTransaction_ForNonExistingAccount_ReturnsAccountNotFound()
         {
             var container = CreateContainer();
-            var coinAccountService = container.Get<ICoinAccountService>();
+            var tokenAccountService = container.Get<ITokenAccountService>();
             var accountId = "non-existing-account-id";
 
-            var status = await coinAccountService.MakeTransaction(accountId, 100, CoinAccountTransactionTypeId.CREDIT, "");
+            var status = await tokenAccountService.MakeTransaction(accountId, 100, TokenAccountTransactionTypeId.CREDIT, "");
 
-            Assert.AreEqual(CoinAccountTransactionStatus.AccountNotFound, status);
+            Assert.AreEqual(TokenAccountTransactionStatus.AccountNotFound, status);
         }
 
         [Test]
@@ -99,8 +99,8 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var containerUnderTest = CreateContainer();
             var containerForVerification = CreateContainer();
 
-            var coinAccountServiceUnderTest = containerUnderTest.Get<ICoinAccountService>();
-            var coinAccountServiceForVerification = containerForVerification.Get<ICoinAccountService>();
+            var tokenAccountServiceUnderTest = containerUnderTest.Get<ITokenAccountService>();
+            var tokenAccountServiceForVerification = containerForVerification.Get<ITokenAccountService>();
             // This also sets up the account for the user.
             var user = await CreateUser(containerUnderTest, "test@test.com", "1.2.3.4");
             var accountId = user.Id;
@@ -108,15 +108,15 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var creditAmount = 100M;
             var debitAmount = -creditAmount - 1.0M;
 
-            var creditStatus = await coinAccountServiceUnderTest.MakeTransaction(accountId, creditAmount, CoinAccountTransactionTypeId.CREDIT, "");
-            var balanceAfterCredit = await coinAccountServiceForVerification.GetBalance(accountId);
-            var debitStatus = await coinAccountServiceUnderTest.MakeTransaction(accountId, debitAmount, CoinAccountTransactionTypeId.DEBIT, "");
-            var balanceAfterDebit = await coinAccountServiceForVerification.GetBalance(accountId);
+            var creditStatus = await tokenAccountServiceUnderTest.MakeTransaction(accountId, creditAmount, TokenAccountTransactionTypeId.CREDIT, "");
+            var balanceAfterCredit = await tokenAccountServiceForVerification.GetBalance(accountId);
+            var debitStatus = await tokenAccountServiceUnderTest.MakeTransaction(accountId, debitAmount, TokenAccountTransactionTypeId.DEBIT, "");
+            var balanceAfterDebit = await tokenAccountServiceForVerification.GetBalance(accountId);
 
-            Assert.AreEqual(CoinAccountTransactionStatus.Success, creditStatus,
+            Assert.AreEqual(TokenAccountTransactionStatus.Success, creditStatus,
                 "Status returned by Credit transaction is not the expected.");
             Assert.AreEqual(creditAmount, balanceAfterCredit, "Balance after Credit transaction is not the expected.");
-            Assert.AreEqual(CoinAccountTransactionStatus.InsufficientFunds, debitStatus,
+            Assert.AreEqual(TokenAccountTransactionStatus.InsufficientFunds, debitStatus,
                 "Status returned by Debit transaction is not the expected.");
             Assert.AreEqual(creditAmount, balanceAfterDebit, 
                 "Balance after unsuccessful Debit transaction should be the same as before.");
@@ -126,20 +126,20 @@ namespace Epsilon.IntegrationTests.Logic.Services
         public async Task MakeTransaction_SetsAmountTypeAndReferenceCorrectly()
         {
             var container = CreateContainer();
-            var coinAccountService = container.Get<ICoinAccountService>();
+            var tokenAccountService = container.Get<ITokenAccountService>();
             // This also sets up the account for the user.
             var user = await CreateUser(container, "test@test.com", "1.2.3.4");
             var accountId = user.Id;
 
             var amount = 100M;
-            var transactionTypeId = CoinAccountTransactionTypeId.CREDIT;
+            var transactionTypeId = TokenAccountTransactionTypeId.CREDIT;
             var reference = "Test-Reference";
 
-            var status = await coinAccountService.MakeTransaction(accountId, amount, transactionTypeId, reference);
+            var status = await tokenAccountService.MakeTransaction(accountId, amount, transactionTypeId, reference);
 
-            Assert.AreEqual(CoinAccountTransactionStatus.Success, status, "Transaction status was not Success.");
+            Assert.AreEqual(TokenAccountTransactionStatus.Success, status, "Transaction status was not Success.");
 
-            var retrievedAcount = await DbProbe.CoinAccounts.Include(x => x.Transactions).SingleAsync(x => x.Id.Equals(accountId));
+            var retrievedAcount = await DbProbe.TokenAccounts.Include(x => x.Transactions).SingleAsync(x => x.Id.Equals(accountId));
             var retrievedTransactions = retrievedAcount.Transactions;
 
             Assert.AreEqual(1, retrievedTransactions.Count, "The account should contain a single transaction.");
@@ -147,7 +147,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var transaction = retrievedTransactions.Single();
 
             Assert.AreEqual(amount, transaction.Amount, "The amount on the transaction was not the expected.");
-            Assert.AreEqual(EnumsHelper.CoinAccountTransactionTypeId.ToString(transactionTypeId), transaction.TypeId, "The transaction TypeId was not the expected.");
+            Assert.AreEqual(EnumsHelper.TokenAccountTransactionTypeId.ToString(transactionTypeId), transaction.TypeId, "The transaction TypeId was not the expected.");
             Assert.AreEqual(reference, transaction.Reference, "The reference on the transaction was not the expected.");
         }
 
@@ -160,17 +160,17 @@ namespace Epsilon.IntegrationTests.Logic.Services
             int numberOfTransactions = 10;
             SetupContainer(container, snoozePeriodInHours, snapshotTransactionsThreshold);
 
-            var coinAccountService = container.Get<ICoinAccountService>();
+            var tokenAccountService = container.Get<ITokenAccountService>();
             // This also sets up the account for the user.
             var user = await CreateUser(container, "test@test.com", "1.2.3.4");
             var accountId = user.Id;
 
             for (int i = 0; i < numberOfTransactions; i++)
             {
-                await coinAccountService.MakeTransaction(accountId, 100, CoinAccountTransactionTypeId.CREDIT, "reference");
+                await tokenAccountService.MakeTransaction(accountId, 100, TokenAccountTransactionTypeId.CREDIT, "reference");
             }
 
-            var account = await DbProbe.CoinAccounts.Include(x => x.Snapshots).SingleAsync(x => x.Id.Equals(accountId));
+            var account = await DbProbe.TokenAccounts.Include(x => x.Snapshots).SingleAsync(x => x.Id.Equals(accountId));
             var snapshots = account.Snapshots;
 
             Assert.IsEmpty(snapshots, "There should be no snapshots created.");
@@ -184,24 +184,24 @@ namespace Epsilon.IntegrationTests.Logic.Services
             int snapshotTransactionsThreshold = 2;
             SetupContainer(container, snoozePeriodInHours, snapshotTransactionsThreshold);
 
-            var coinAccountService = container.Get<ICoinAccountService>();
+            var tokenAccountService = container.Get<ITokenAccountService>();
             // This also sets up the account for the user.
             var user = await CreateUser(container, "test@test.com", "1.2.3.4");
             var accountId = user.Id;
 
             for (int i = 0; i < snapshotTransactionsThreshold; i++)
             {
-                await coinAccountService.MakeTransaction(accountId, 100, CoinAccountTransactionTypeId.CREDIT, "reference");
+                await tokenAccountService.MakeTransaction(accountId, 100, TokenAccountTransactionTypeId.CREDIT, "reference");
             }
 
-            var account = await DbProbe.CoinAccounts.Include(x => x.Snapshots).SingleAsync(x => x.Id.Equals(accountId));
+            var account = await DbProbe.TokenAccounts.Include(x => x.Snapshots).SingleAsync(x => x.Id.Equals(accountId));
             var snapshots = account.Snapshots;
 
             Assert.IsEmpty(snapshots, "There should be no snapshots created until the threshold is reached.");
 
             // I make one more transaction
-            await coinAccountService.MakeTransaction(accountId, 100, CoinAccountTransactionTypeId.CREDIT, "reference");
-            account = await DbProbe.CoinAccounts.Include(x => x.Snapshots).SingleAsync(x => x.Id.Equals(accountId));
+            await tokenAccountService.MakeTransaction(accountId, 100, TokenAccountTransactionTypeId.CREDIT, "reference");
+            account = await DbProbe.TokenAccounts.Include(x => x.Snapshots).SingleAsync(x => x.Id.Equals(accountId));
             snapshots = account.Snapshots;
 
             Assert.AreEqual(1, snapshots.Count, "There should be a single snapshot after the threshold is exceeded.");
@@ -216,25 +216,25 @@ namespace Epsilon.IntegrationTests.Logic.Services
             int expectedNumberOfSnapshots = 5;
             SetupContainer(container, snoozePeriodInHours, snapshotTransactionsThreshold);
 
-            var coinAccountService = container.Get<ICoinAccountService>();
+            var tokenAccountService = container.Get<ITokenAccountService>();
             // This also sets up the account for the user.
             var user = await CreateUser(container, "test@test.com", "1.2.3.4");
             var accountId = user.Id;
 
             for (int i = 0; i < expectedNumberOfSnapshots * snapshotTransactionsThreshold; i++)
             {
-                await coinAccountService.MakeTransaction(accountId, 100, CoinAccountTransactionTypeId.CREDIT, "reference");
+                await tokenAccountService.MakeTransaction(accountId, 100, TokenAccountTransactionTypeId.CREDIT, "reference");
             }
 
-            var account = await DbProbe.CoinAccounts.Include(x => x.Snapshots).SingleAsync(x => x.Id.Equals(accountId));
+            var account = await DbProbe.TokenAccounts.Include(x => x.Snapshots).SingleAsync(x => x.Id.Equals(accountId));
             var snapshots = account.Snapshots;
 
             Assert.AreEqual(expectedNumberOfSnapshots - 1, snapshots.Count, 
                 "The number of snapshots before the last transaction is not the expected.");
 
             // I make one more transaction
-            await coinAccountService.MakeTransaction(accountId, 100, CoinAccountTransactionTypeId.CREDIT, "reference");
-            account = await DbProbe.CoinAccounts.Include(x => x.Snapshots).SingleAsync(x => x.Id.Equals(accountId));
+            await tokenAccountService.MakeTransaction(accountId, 100, TokenAccountTransactionTypeId.CREDIT, "reference");
+            account = await DbProbe.TokenAccounts.Include(x => x.Snapshots).SingleAsync(x => x.Id.Equals(accountId));
             snapshots = account.Snapshots;
 
             Assert.AreEqual(expectedNumberOfSnapshots, snapshots.Count, "The final number of snapshots is not the expected.");
@@ -242,10 +242,10 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
         private static void SetupContainer(IKernel container, double snoozePeriodInHours, int snapshotTransactionsThreshold)
         {
-            var mockCoinAccountServiceConfig = new Mock<ICoinAccountServiceConfig>();
-            mockCoinAccountServiceConfig.Setup(x => x.SnapshotSnoozePeriod).Returns(TimeSpan.FromHours(snoozePeriodInHours));
-            mockCoinAccountServiceConfig.Setup(x => x.SnapshotNumberOfTransactionsThreshold).Returns(snapshotTransactionsThreshold);
-            container.Rebind<ICoinAccountServiceConfig>().ToConstant(mockCoinAccountServiceConfig.Object);            
+            var mockTokenAccountServiceConfig = new Mock<ITokenAccountServiceConfig>();
+            mockTokenAccountServiceConfig.Setup(x => x.SnapshotSnoozePeriod).Returns(TimeSpan.FromHours(snoozePeriodInHours));
+            mockTokenAccountServiceConfig.Setup(x => x.SnapshotNumberOfTransactionsThreshold).Returns(snapshotTransactionsThreshold);
+            container.Rebind<ITokenAccountServiceConfig>().ToConstant(mockTokenAccountServiceConfig.Object);            
         }
     }
 }

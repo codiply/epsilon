@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Epsilon.Logic.Entities
 {
-    public class CoinAccountSnapshot : BaseEntity
+    public class TokenAccountSnapshot : BaseEntity
     {
         public virtual long Id { get; set; }
         public virtual string AccountId { get; set; }
@@ -16,6 +16,6 @@ namespace Epsilon.Logic.Entities
         public virtual DateTimeOffset MadeOn { get; set; }
         public virtual bool IsFinalised { get; set; }
 
-        public virtual CoinAccount Account { get; set; }
+        public virtual TokenAccount Account { get; set; }
     }
 }

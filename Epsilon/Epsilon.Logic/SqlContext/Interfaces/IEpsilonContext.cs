@@ -19,10 +19,6 @@ namespace Epsilon.Logic.SqlContext.Interfaces
         DbSet<AddressGeometry> AddressGeometries { get; set; }
         DbSet<AdminAlert> AdminAlerts { get; set; }
         DbSet<AppSetting> AppSettings { get; set; }
-        DbSet<CoinAccount> CoinAccounts { get; set; }
-        DbSet<CoinAccountSnapshot> CoinAccountSnapshots { get; set; }
-        DbSet<CoinAccountTransaction> CoinAccountTransactions { get; set; }
-        DbSet<CoinAccountTransactionType> CoinAccountTransactionTypes { get; set; }
         DbSet<Country> Countries { get; set; }
         DbSet<Currency> Currencies { get; set; }
         DbSet<GeocodeFailure> GeocodeFailures { get; set; }
@@ -32,6 +28,10 @@ namespace Epsilon.Logic.SqlContext.Interfaces
         DbSet<ResponseTiming> ResponseTimings { get; set; }
         DbSet<TenancyDetailsSubmission> TenancyDetailsSubmissions { get; set; }
         DbSet<TenantVerification> TenantVerifications { get; set; }
+        DbSet<TokenAccount> TokenAccounts { get; set; }
+        DbSet<TokenAccountSnapshot> TokenAccountSnapshots { get; set; }
+        DbSet<TokenAccountTransaction> TokenAccountTransactions { get; set; }
+        DbSet<TokenAccountTransactionType> TokenAccountTransactionTypes { get; set; }
         // Users needs to be an IDbSet
         IDbSet<User> Users { get; set; }
         DbSet<UserPreference> UserPreferences { get; set; }

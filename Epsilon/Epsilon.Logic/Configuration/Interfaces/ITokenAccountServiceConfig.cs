@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Epsilon.Logic.Configuration.Interfaces
 {
-    public interface ICoinAccountServiceConfig
+    public interface ITokenAccountServiceConfig
     {
         TimeSpan SnapshotSnoozePeriod { get; }
         int SnapshotNumberOfTransactionsThreshold { get; }

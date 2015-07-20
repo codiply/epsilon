@@ -8,14 +8,14 @@ using System.Threading.Tasks;
 
 namespace Epsilon.Logic.Services.Interfaces
 {
-    public interface IUserCoinService
+    public interface IUserTokenService
     {
         Task CreateAccount(string userId);
 
         Task<decimal> GetBalance(string userId);
 
-        Task<CoinAccountTransactionStatus> Credit(string userId, Decimal amount);
+        Task<TokenAccountTransactionStatus> Credit(string userId, Decimal amount);
 
-        Task<CoinAccountTransactionStatus> Debit(string userId, Decimal amount);
+        Task<TokenAccountTransactionStatus> Debit(string userId, Decimal amount);
     }
 }

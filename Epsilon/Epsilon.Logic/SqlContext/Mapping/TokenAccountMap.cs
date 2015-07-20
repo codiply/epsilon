@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace Epsilon.Logic.SqlContext.Mapping
 {
-    public class CoinAccountMap : EntityTypeConfiguration<CoinAccount>
+    public class TokenAccountMap : EntityTypeConfiguration<TokenAccount>
     {
-        public CoinAccountMap()
+        public TokenAccountMap()
         {
             // Properties
             this.Property(x => x.CreatedOn)

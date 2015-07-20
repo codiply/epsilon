@@ -1,9 +1,9 @@
 ﻿@model Decimal
 @{
-    ViewBag.Title = "Coins";
+    ViewBag.Title = "Tokens";
 }
 
-<h2>Coins</h2>
+<h2>@ViewBag.Title</h2>
 
 <div class="row">
     <div class="col-md-4">
@@ -12,7 +12,7 @@
     </div>
     <div class="col-md-4">
         <h3>Credit</h3>
-        @using (Html.BeginForm("CoinsCredit", "DevHelper"))
+        @using (Html.BeginForm("TokensCredit", "DevHelper"))
         {
             @Html.AntiForgeryToken()
             <input type="number" name="amount" />
@@ -21,7 +21,7 @@
     </div>
     <div class="col-md-4">
         <h3>Debit</h3>
-        @using (Html.BeginForm("CoinsDebit", "DevHelper"))
+        @using (Html.BeginForm("TokensDebit", "DevHelper"))
         {
             @Html.AntiForgeryToken()
             <input type="number"name="amount" />

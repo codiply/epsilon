@@ -10,11 +10,11 @@ using System.Threading.Tasks;
 
 namespace Epsilon.Logic.SqlContext.Mapping
 {
-    public class CoinAccountTransactionMap : EntityTypeConfiguration<CoinAccountTransaction>
+    public class TokenAccountTransactionMap : EntityTypeConfiguration<TokenAccountTransaction>
     {
         public const int REFERENCE_MAX_LENGTH = 256;
 
-        public CoinAccountTransactionMap()
+        public TokenAccountTransactionMap()
         {
             // Primary Key
             this.HasKey(x => x.Id);
@@ -40,10 +40,10 @@ namespace Epsilon.Logic.SqlContext.Mapping
             // Indexes
             this.Property(x => x.AccountId)
                 .HasColumnAnnotation(IndexAnnotation.AnnotationName, 
-                    new IndexAnnotation(new IndexAttribute("IX_CoinAccountTransaction_AccountId_MadeOn", 1)));
+                    new IndexAnnotation(new IndexAttribute("IX_TokenAccountTransaction_AccountId_MadeOn", 1)));
             this.Property(x => x.MadeOn)
                 .HasColumnAnnotation(IndexAnnotation.AnnotationName, 
-                    new IndexAnnotation(new IndexAttribute("IX_CoinAccountTransaction_AccountId_MadeOn", 2)));
+                    new IndexAnnotation(new IndexAttribute("IX_TokenAccountTransaction_AccountId_MadeOn", 2)));
         }
     }
 }

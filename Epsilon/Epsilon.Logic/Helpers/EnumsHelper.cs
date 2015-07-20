@@ -10,8 +10,8 @@ namespace Epsilon.Logic.Helpers
 {
     public static class EnumsHelper
     {
-        public static EnumMemoizer<CoinAccountTransactionTypeId> CoinAccountTransactionTypeId =
-            new EnumMemoizer<Constants.Enums.CoinAccountTransactionTypeId>();
+        public static EnumMemoizer<TokenAccountTransactionTypeId> TokenAccountTransactionTypeId =
+            new EnumMemoizer<TokenAccountTransactionTypeId>();
 
         public static EnumMemoizer<CountryId> CountryId = new EnumMemoizer<CountryId>();
 

@@ -16,7 +16,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
     public class NewUserServiceTest : BaseIntegrationTestWithRollback
     { 
         [Test]
-        public async Task Setup_CreatesCoinAccount()
+        public async Task Setup_CreatesTokenAccount()
         {
             var container = CreateContainer();
             var ipAddress = "1.2.3.5";
@@ -28,17 +28,17 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var service = container.Get<INewUserService>();
             await service.Setup(user.Id, ipAddress, languageId);
 
-            var coinAccountId = user.Id;
-            var coinAccount = await DbProbe.CoinAccounts.FindAsync(coinAccountId);
+            var tokenAccountId = user.Id;
+            var tokenAccount = await DbProbe.TokenAccounts.FindAsync(tokenAccountId);
 
-            Assert.IsNotNull(coinAccount, "The coin account was not found.");
+            Assert.IsNotNull(tokenAccount, "The token account was not found.");
             var timeAfter = DateTimeOffset.Now;
-            Assert.IsTrue(timeBefore <= coinAccount.CreatedOn && coinAccount.CreatedOn <= timeAfter, 
+            Assert.IsTrue(timeBefore <= tokenAccount.CreatedOn && tokenAccount.CreatedOn <= timeAfter, 
                 "The field CreatedOn was not set.");
 
-            var coinAccountService = container.Get<ICoinAccountService>();
-            var balance = await coinAccountService.GetBalance(coinAccountId);
-            Assert.AreEqual(0.0M, balance, "Balance of new coin account was expected to be zero.");
+            var tokenAccountService = container.Get<ITokenAccountService>();
+            var balance = await tokenAccountService.GetBalance(tokenAccountId);
+            Assert.AreEqual(0.0M, balance, "Balance of new token account was expected to be zero.");
         }
 
         [Test]

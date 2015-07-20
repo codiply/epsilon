@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace Epsilon.Logic.SqlContext.Mapping
 {
-    public class CoinAccountTransactionTypeMap : EntityTypeConfiguration<CoinAccountTransactionType>
+    public class TokenAccountTransactionTypeMap : EntityTypeConfiguration<TokenAccountTransactionType>
     {
-        public CoinAccountTransactionTypeMap()
+        public TokenAccountTransactionTypeMap()
         {
 
         }

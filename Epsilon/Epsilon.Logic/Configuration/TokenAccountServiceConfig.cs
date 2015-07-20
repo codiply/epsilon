@@ -10,12 +10,12 @@ using System.Threading.Tasks;
 
 namespace Epsilon.Logic.Configuration
 {
-    public class CoinAccountServiceConfig : ICoinAccountServiceConfig
+    public class TokenAccountServiceConfig : ITokenAccountServiceConfig
     {
         private readonly IAppSettingsHelper _appSettingsHelper;
         private readonly IAppSettingsDefaultValue _appSettingsDefaultValue;
 
-        public CoinAccountServiceConfig(
+        public TokenAccountServiceConfig(
             IAppSettingsHelper appSettingsHelper,
             IAppSettingsDefaultValue appSettingsDefaultValue)
         {
@@ -28,8 +28,8 @@ namespace Epsilon.Logic.Configuration
             get
             {
                 return TimeSpan.FromHours(_appSettingsHelper.GetDouble(
-                    AppSettingsKey.CoinAccountSnapshotSnoozePeriodInHours,
-                    _appSettingsDefaultValue.CoinAccountSnapshotSnoozePeriodInHours));
+                    AppSettingsKey.TokenAccountSnapshotSnoozePeriodInHours,
+                    _appSettingsDefaultValue.TokenAccountSnapshotSnoozePeriodInHours));
             }
         }
 
@@ -38,8 +38,8 @@ namespace Epsilon.Logic.Configuration
             get
             {
                 return  _appSettingsHelper.GetInt(
-                    AppSettingsKey.CoinAccountSnapshotNumberOfTransactionsThreshold,
-                    _appSettingsDefaultValue.CoinAccountSnapshotNumberOfTransactionsThreshold);
+                    AppSettingsKey.TokenAccountSnapshotNumberOfTransactionsThreshold,
+                    _appSettingsDefaultValue.TokenAccountSnapshotNumberOfTransactionsThreshold);
             }
         }
     }

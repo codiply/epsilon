@@ -12,29 +12,29 @@ using Epsilon.Logic.Helpers;
 
 namespace Epsilon.IntegrationTests.Logic.Constants
 {
-    public class CoinAccountTransactionTypeIdTest : BaseIntegrationTestWithRollback
+    public class TokenAccountTransactionTypeIdTest : BaseIntegrationTestWithRollback
     {
         [Test]
-        public async Task ThereShouldBeACoinAccountTransactionTypeId_ForAllCoinAccountTransactionTypesInTheDatabase()
+        public async Task ThereShouldBeATokenAccountTransactionTypeId_ForAllTokenAccountTransactionTypesInTheDatabase()
         {
-            var enumCoinAccountTransactionTypeIds = EnumsHelper.CoinAccountTransactionTypeId.GetNames().ToDictionary(x => x);
+            var enumTokenAccountTransactionTypeIds = EnumsHelper.TokenAccountTransactionTypeId.GetNames().ToDictionary(x => x);
 
-            var coinAccountTransactionTypesInDb = await DbProbe.CoinAccountTransactionTypes.ToListAsync();
+            var tokenAccountTransactionTypesInDb = await DbProbe.TokenAccountTransactionTypes.ToListAsync();
 
-            var failingCoinAccountTransactionTypes = coinAccountTransactionTypesInDb
-                .Where(c => !enumCoinAccountTransactionTypeIds.ContainsKey(c.Id))
+            var failingTokenAccountTransactionTypes = tokenAccountTransactionTypesInDb
+                .Where(c => !enumTokenAccountTransactionTypeIds.ContainsKey(c.Id))
                 .ToList();
 
             var message = "";
-            if (failingCoinAccountTransactionTypes.Any())
+            if (failingTokenAccountTransactionTypes.Any())
             {
                 var sb = new StringBuilder();
                 sb.Append("There")
-                    .Append(failingCoinAccountTransactionTypes.Count() == 1 ? " is " : " are ")
-                    .Append(failingCoinAccountTransactionTypes.Count())
-                    .Append(failingCoinAccountTransactionTypes.Count() == 1 ? " CoinAccountTransactionType" : " CoinAccountTransactionTypes")
-                    .Append(" with missing Id in Constants.CoinAccountTransactionTypeId enumeration.");
-                foreach (var c in failingCoinAccountTransactionTypes)
+                    .Append(failingTokenAccountTransactionTypes.Count() == 1 ? " is " : " are ")
+                    .Append(failingTokenAccountTransactionTypes.Count())
+                    .Append(failingTokenAccountTransactionTypes.Count() == 1 ? " TokenAccountTransactionType" : " TokenAccountTransactionTypes")
+                    .Append(" with missing Id in Constants.TokenAccountTransactionTypeId enumeration.");
+                foreach (var c in failingTokenAccountTransactionTypes)
                 {
                     sb.Append("\n").Append(c.Id).Append(" - ").Append(c.Description);
                 }
@@ -42,37 +42,37 @@ namespace Epsilon.IntegrationTests.Logic.Constants
                 message = sb.ToString();
             }
 
-            Assert.IsFalse(failingCoinAccountTransactionTypes.Any(), message);
+            Assert.IsFalse(failingTokenAccountTransactionTypes.Any(), message);
         }
 
         [Test]
-        public async Task EveryCoinAccountTransactionTypeIdShouldHaveACoinAccountTransactionTypeInTheDatabase()
+        public async Task EveryTokenAccountTransactionTypeIdShouldHaveATokenAccountTransactionTypeInTheDatabase()
         {
-            var enumCoinAccountTransactionTypeIds = EnumsHelper.CoinAccountTransactionTypeId.GetNames();
+            var enumTokenAccountTransactionTypeIds = EnumsHelper.TokenAccountTransactionTypeId.GetNames();
 
-            var availableCoinAccountTransactionTypesInDb = 
-                await DbProbe.CoinAccountTransactionTypes.ToDictionaryAsync(x => x.Id);
+            var availableTokenAccountTransactionTypesInDb = 
+                await DbProbe.TokenAccountTransactionTypes.ToDictionaryAsync(x => x.Id);
 
-            var failingCoinAccountTransactionTypeIds = enumCoinAccountTransactionTypeIds
-                .Where(id => !availableCoinAccountTransactionTypesInDb.ContainsKey(id))
+            var failingTokenAccountTransactionTypeIds = enumTokenAccountTransactionTypeIds
+                .Where(id => !availableTokenAccountTransactionTypesInDb.ContainsKey(id))
                 .ToList();
 
             var message = "";
-            if (failingCoinAccountTransactionTypeIds.Any())
+            if (failingTokenAccountTransactionTypeIds.Any())
             {
                 var sb = new StringBuilder();
                 sb.Append("There")
-                    .Append(failingCoinAccountTransactionTypeIds.Count() == 1 ? " is " : " are ")
-                    .Append(failingCoinAccountTransactionTypeIds.Count())
-                    .Append(" CoinAccountTransactionTypeId")
-                    .Append(failingCoinAccountTransactionTypeIds.Count() == 1 ? "" : "'s")
-                    .Append(" in Constants.CoinAccountTransactionTypeId enumeration with missing CoinAccountTransactionType in the database: ")
-                    .Append(String.Join(", ", failingCoinAccountTransactionTypeIds))
+                    .Append(failingTokenAccountTransactionTypeIds.Count() == 1 ? " is " : " are ")
+                    .Append(failingTokenAccountTransactionTypeIds.Count())
+                    .Append(" TokenAccountTransactionTypeId")
+                    .Append(failingTokenAccountTransactionTypeIds.Count() == 1 ? "" : "'s")
+                    .Append(" in Constants.TokenAccountTransactionTypeId enumeration with missing TokenAccountTransactionType in the database: ")
+                    .Append(String.Join(", ", failingTokenAccountTransactionTypeIds))
                     .Append(".");
                 message = sb.ToString();
             }
 
-            Assert.IsFalse(failingCoinAccountTransactionTypeIds.Any(), message);
+            Assert.IsFalse(failingTokenAccountTransactionTypeIds.Any(), message);
         }
     }
 }

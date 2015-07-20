@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Epsilon.Logic.Services.Interfaces
 {
-    public interface ICoinAccountService
+    public interface ITokenAccountService
     {
         Task CreateAccount(string accountId);
 
@@ -29,10 +29,10 @@ namespace Epsilon.Logic.Services.Interfaces
         /// Usually it will be the Id of an Entity related to the specific transaction type.
         /// </param>
         /// <returns></returns>
-        Task<CoinAccountTransactionStatus> MakeTransaction(
+        Task<TokenAccountTransactionStatus> MakeTransaction(
             string accountId, 
-            Decimal amount, 
-            CoinAccountTransactionTypeId transactionTypeId, 
+            Decimal amount,
+            TokenAccountTransactionTypeId transactionTypeId, 
             string reference);
 
         Task<Decimal> GetBalance(string accountId);

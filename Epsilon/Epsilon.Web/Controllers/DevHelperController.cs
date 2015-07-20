@@ -21,18 +21,18 @@ namespace Epsilon.Web.Controllers
         private readonly IEpsilonContext _dbContext;
         private readonly ITestDataPopulator _testDataPopulator;
         private readonly IAdminAlertService _adminAlertService;
-        private readonly IUserCoinService _userCointService;
+        private readonly IUserTokenService _userTokenService;
 
         public DevHelperController(
             IEpsilonContext dbContext,
             ITestDataPopulator testDataPopulator,
             IAdminAlertService adminAlertService,
-            IUserCoinService userCoinService)
+            IUserTokenService userTokenService)
         {
             _dbContext = dbContext;
             _testDataPopulator = testDataPopulator;
             _adminAlertService = adminAlertService;
-            _userCointService = userCoinService;
+            _userTokenService = userTokenService;
         }
         
         public async Task<ActionResult> Index()
@@ -107,29 +107,29 @@ namespace Epsilon.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> Coins()
+        public async Task<ActionResult> Tokens()
         {
-            var balance = await _userCointService.GetBalance(User.Identity.GetUserId());
+            var balance = await _userTokenService.GetBalance(User.Identity.GetUserId());
 
             return View(balance);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> CoinsCredit(Decimal amount)
+        public async Task<ActionResult> TokensCredit(Decimal amount)
         {
-            var status = await _userCointService.Credit(User.Identity.GetUserId(), amount);
+            var status = await _userTokenService.Credit(User.Identity.GetUserId(), amount);
 
-            return RedirectToAction("Coins");
+            return RedirectToAction("Tokens");
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> CoinsDebit(Decimal amount)
+        public async Task<ActionResult> TokensDebit(Decimal amount)
         {
-            var status = await _userCointService.Debit(User.Identity.GetUserId(), amount);
+            var status = await _userTokenService.Debit(User.Identity.GetUserId(), amount);
 
-            return RedirectToAction("Coins");
+            return RedirectToAction("Tokens");
         }
     }
 }

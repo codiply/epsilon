@@ -9,7 +9,7 @@ namespace Epsilon.Logic.Constants
 {
     public class AppSettingsDefaultValue : IAppSettingsDefaultValue
     {
-        public double CoinAccountSnapshotSnoozePeriodInHours { get { return 24; } }
-        public int CoinAccountSnapshotNumberOfTransactionsThreshold { get { return 16; } }
+        public double TokenAccountSnapshotSnoozePeriodInHours { get { return 24; } }
+        public int TokenAccountSnapshotNumberOfTransactionsThreshold { get { return 16; } }
     }
 }

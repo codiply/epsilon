@@ -10,9 +10,9 @@ using System.Threading.Tasks;
 
 namespace Epsilon.Logic.SqlContext.Mapping
 {
-    public class CoinAccountSnapshotMap : EntityTypeConfiguration<CoinAccountSnapshot>
+    public class TokenAccountSnapshotMap : EntityTypeConfiguration<TokenAccountSnapshot>
     {
-        public CoinAccountSnapshotMap()
+        public TokenAccountSnapshotMap()
         {
             // Primary Key
             this.HasKey(x => x.Id);
@@ -32,13 +32,13 @@ namespace Epsilon.Logic.SqlContext.Mapping
             // Indexes
             this.Property(x => x.AccountId)
                 .HasColumnAnnotation(IndexAnnotation.AnnotationName, 
-                    new IndexAnnotation(new IndexAttribute("IX_CoinAccountSnapshot_AccountId_IsFinalised_MadeOn", 1)));
+                    new IndexAnnotation(new IndexAttribute("IX_TokenAccountSnapshot_AccountId_IsFinalised_MadeOn", 1)));
             this.Property(x => x.IsFinalised)
                 .HasColumnAnnotation(IndexAnnotation.AnnotationName, 
-                    new IndexAnnotation(new IndexAttribute("IX_CoinAccountSnapshot_AccountId_IsFinalised_MadeOn", 2)));
+                    new IndexAnnotation(new IndexAttribute("IX_TokenAccountSnapshot_AccountId_IsFinalised_MadeOn", 2)));
             this.Property(x => x.MadeOn)
                 .HasColumnAnnotation(IndexAnnotation.AnnotationName, 
-                    new IndexAnnotation(new IndexAttribute("IX_CoinAccountSnapshot_AccountId_IsFinalised_MadeOn", 3)));
+                    new IndexAnnotation(new IndexAttribute("IX_TokenAccountSnapshot_AccountId_IsFinalised_MadeOn", 3)));
         }
     }
 }

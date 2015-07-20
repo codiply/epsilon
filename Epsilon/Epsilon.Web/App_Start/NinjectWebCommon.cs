@@ -97,8 +97,8 @@ namespace Epsilon.Web.App_Start
             kernel.Bind<IAdminAlertServiceConfig>().To<AdminAlertServiceConfig>().InRequestScope();
             kernel.Bind<IAntiAbuseServiceConfig>().To<AntiAbuseServiceConfig>().InRequestScope();
             kernel.Bind<IGeocodingService>().To<GeocodingService>().InRequestScope();
-            kernel.Bind<ICoinAccountServiceConfig>().To<CoinAccountServiceConfig>().InRequestScope();
             kernel.Bind<ITenancyDetailsSubmissionServiceConfig>().To<TenancyDetailsSubmissionServiceConfig>().InRequestScope();
+            kernel.Bind<ITokenAccountServiceConfig>().To<TokenAccountServiceConfig>().InRequestScope();
 
             // Constants
             kernel.Bind<IDbAppSettingDefaultValue>().To<DbAppSettingDefaultValue>().InSingletonScope();
@@ -128,7 +128,6 @@ namespace Epsilon.Web.App_Start
             kernel.Bind<IAddressVerificationService>().To<AddressVerificationService>().InRequestScope();
             kernel.Bind<IAdminAlertService>().To<AdminAlertService>().InRequestScope();
             kernel.Bind<IAntiAbuseService>().To<AntiAbuseService>().InRequestScope();
-            kernel.Bind<ICoinAccountService>().To<CoinAccountService>().InRequestScope();
             kernel.Bind<ICountryService>().To<CountryService>().InRequestScope();
             kernel.Bind<IGeocodingService>().To<GeocodingService>().InRequestScope();
             kernel.Bind<IIpAddressActivityService>().To<IpAddressActivityService>().InRequestScope();
@@ -137,8 +136,9 @@ namespace Epsilon.Web.App_Start
             kernel.Bind<IResponseTimingService>().To<ResponseTimingService>().InRequestScope();
             kernel.Bind<ISmtpService>().To<SmtpService>().InRequestScope();
             kernel.Bind<ITenancyDetailsSubmissionService>().To<TenancyDetailsSubmissionService>().InRequestScope();
+            kernel.Bind<ITokenAccountService>().To<TokenAccountService>().InRequestScope();
             kernel.Bind<IUserPreferenceService>().To<UserPreferenceService>().InRequestScope();
-            kernel.Bind<IUserCoinService>().To<UserCoinService>().InRequestScope();
+            kernel.Bind<IUserTokenService>().To<UserTokenService>().InRequestScope();
 
             // TestDataPopulation
             kernel.Bind<ITestDataPopulator>().To<TestDataPopulator>().InRequestScope();

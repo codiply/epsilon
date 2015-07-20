@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Epsilon.Logic.Constants.Enums
 {
-    public enum CoinAccountTransactionStatus
+    public enum TokenAccountTransactionStatus
     {
         AccountNotFound,
         InsufficientFunds,
