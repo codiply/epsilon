@@ -1171,7 +1171,7 @@
     <Content Include="Views\DevHelper\Index.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\Admin\AppCacheKeys.cshtml" />
-    <Content Include="Views\DevHelper\Coins.cshtml" />
+    <Content Include="Views\DevHelper\Tokens.cshtml" />
     <Content Include="Views\Shared\_CountryVariantResources.cshtml" />
     <Content Include="Views\Shared\_AddressDetails.cshtml" />
     <Content Include="Views\Submission\UseAddress.cshtml" />

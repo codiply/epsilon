@@ -80,13 +80,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseFixtures\BaseIntegrationTestWithRollback.cs" />
-    <Compile Include="Logic\Constants\CoinAccountTransactionTypeIdTest.cs" />
+    <Compile Include="Logic\Constants\TokenAccountTransactionTypeIdTest.cs" />
     <Compile Include="Logic\Constants\CountryIdTest.cs" />
     <Compile Include="Logic\Constants\DbAppSettingValueTypeTest.cs" />
     <Compile Include="Logic\Services\AddressServiceTest.cs" />
     <Compile Include="Logic\Services\AdminAlertServiceTest.cs" />
     <Compile Include="Logic\Services\AntiAbuseServiceTest.cs" />
-    <Compile Include="Logic\Services\CoinAccountServiceTest.cs" />
+    <Compile Include="Logic\Services\TokenAccountServiceTest.cs" />
     <Compile Include="Logic\Services\CountryServiceTest.cs" />
     <Compile Include="Logic\Services\IpAddressActivityService.cs" />
     <Compile Include="Logic\Services\LanguageServiceTest.cs" />
