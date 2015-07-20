@@ -98,6 +98,7 @@
     <Build Include="dbo\Tables\PostcodeGeometry.sql" />
     <Build Include="dbo\Tables\GeocodeFailure.sql" />
     <Build Include="dbo\Tables\AddressGeometry.sql" />
+    <Build Include="dbo\Tables\AdminEventLog.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Scripts\PostDeploy\Script.PostDeployment.sql" />

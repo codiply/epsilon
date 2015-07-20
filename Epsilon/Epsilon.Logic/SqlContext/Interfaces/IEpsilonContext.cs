@@ -18,6 +18,7 @@ namespace Epsilon.Logic.SqlContext.Interfaces
         DbSet<Address> Addresses { get; set; }
         DbSet<AddressGeometry> AddressGeometries { get; set; }
         DbSet<AdminAlert> AdminAlerts { get; set; }
+        DbSet<AdminEventLog> AdminEventLogs { get; set; }
         DbSet<AppSetting> AppSettings { get; set; }
         DbSet<Country> Countries { get; set; }
         DbSet<Currency> Currencies { get; set; }

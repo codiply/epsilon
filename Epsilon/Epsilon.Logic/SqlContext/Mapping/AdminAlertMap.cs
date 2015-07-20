@@ -12,7 +12,7 @@ namespace Epsilon.Logic.SqlContext.Mapping
 {
     public class AdminAlertMap : EntityTypeConfiguration<AdminAlert>
     {
-        public const int KEY_MAX_LENGTH = 256;
+        public const int KEY_MAX_LENGTH = 128;
 
         public AdminAlertMap()
         {
@@ -31,10 +31,10 @@ namespace Epsilon.Logic.SqlContext.Mapping
             // Indexes
             this.Property(x => x.Key)
                 .HasColumnAnnotation(IndexAnnotation.AnnotationName, 
-                    new IndexAnnotation(new IndexAttribute("IX_AdminAlert_Key_Sent_On", 1)));
+                    new IndexAnnotation(new IndexAttribute("IX_AdminAlert_Key_SentOn", 1)));
             this.Property(x => x.SentOn)
                 .HasColumnAnnotation(IndexAnnotation.AnnotationName, 
-                    new IndexAnnotation(new IndexAttribute("IX_AdminAlert_Key_Sent_On", 2)));
+                    new IndexAnnotation(new IndexAttribute("IX_AdminAlert_Key_SentOn", 2)));
         }
     }
 }

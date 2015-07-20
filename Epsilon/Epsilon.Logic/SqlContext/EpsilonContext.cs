@@ -25,6 +25,7 @@ namespace Epsilon.Logic.SqlContext
         public virtual DbSet<Address> Addresses { get; set; }
         public virtual DbSet<AddressGeometry> AddressGeometries { get; set; }
         public virtual DbSet<AdminAlert> AdminAlerts { get; set; }
+        public virtual DbSet<AdminEventLog> AdminEventLogs { get; set; }
         public virtual DbSet<AppSetting> AppSettings { get; set; }
         public virtual DbSet<Country> Countries { get; set; }
         public virtual DbSet<Currency> Currencies { get; set; }
@@ -51,6 +52,7 @@ namespace Epsilon.Logic.SqlContext
             modelBuilder.Configurations.Add(new AddressMap());
             modelBuilder.Configurations.Add(new AddressGeometryMap());
             modelBuilder.Configurations.Add(new AdminAlertMap());
+            modelBuilder.Configurations.Add(new AdminEventLogMap());
             modelBuilder.Configurations.Add(new AppSettingMap());
             modelBuilder.Configurations.Add(new TokenAccountMap());
             modelBuilder.Configurations.Add(new TokenAccountSnapshotMap());

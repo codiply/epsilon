@@ -3,6 +3,7 @@
 ALTER TABLE [dbo].[Address] ADD DEFAULT (sysdatetimeoffset()) FOR [CreatedOn]; 
 ALTER TABLE [dbo].[AddressGeometry] ADD DEFAULT (sysdatetimeoffset()) FOR [GeocodedOn];
 ALTER TABLE [dbo].[AdminAlert] ADD DEFAULT (sysdatetimeoffset()) FOR [SentOn]; 
+ALTER TABLE [dbo].[AdminEventLog] ADD DEFAULT (sysdatetimeoffset()) FOR [RecordedOn]; 
 ALTER TABLE [dbo].[GeocodeFailure] ADD DEFAULT (sysdatetimeoffset()) FOR [MadeOn];
 ALTER TABLE [dbo].[IpAddressActivity] ADD DEFAULT (sysdatetimeoffset()) FOR [RecordedOn]; 
 ALTER TABLE [dbo].[PostcodeGeometry] ADD DEFAULT (sysdatetimeoffset()) FOR [GeocodedOn];

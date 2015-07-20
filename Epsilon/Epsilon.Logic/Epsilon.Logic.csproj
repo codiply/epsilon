@@ -113,6 +113,7 @@
     <Compile Include="Constants\Enums\IpAddressActivityType.cs" />
     <Compile Include="Entities\AddressGeometry.cs" />
     <Compile Include="Entities\AdminAlert.cs" />
+    <Compile Include="Entities\AdminEventLog.cs" />
     <Compile Include="Entities\AppSetting.cs" />
     <Compile Include="Entities\TokenAccount.cs" />
     <Compile Include="Entities\TokenAccountSnapshot.cs" />
@@ -172,6 +173,7 @@
     <Compile Include="Services\Interfaces\ITokenAccountService.cs" />
     <Compile Include="Services\Interfaces\ICountryService.cs" />
     <Compile Include="Helpers\Interfaces\ICountryVariantResourceHelper.cs" />
+    <Compile Include="SqlContext\Mapping\AdminEventLogMap.cs" />
     <Compile Include="Wrappers\Interfaces\IGeocodeClientFactory.cs" />
     <Compile Include="Services\Interfaces\IGeocodingService.cs" />
     <Compile Include="Services\Interfaces\IIpAddressActivityService.cs" />
