@@ -5,10 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Epsilon.Logic.Services.Interfaces
+namespace Epsilon.Logic.Wrappers.Interfaces
 {
     public interface IGeocodeClientFactory
     {
-        GeocodeClient Create(string apiKey);
+        IGeocodeClientWrapper Create(string apiKey);
     }
 }

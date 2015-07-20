@@ -172,7 +172,7 @@
     <Compile Include="Services\Interfaces\ITokenAccountService.cs" />
     <Compile Include="Services\Interfaces\ICountryService.cs" />
     <Compile Include="Helpers\Interfaces\ICountryVariantResourceHelper.cs" />
-    <Compile Include="Services\Interfaces\IGeocodeClientFactory.cs" />
+    <Compile Include="Wrappers\Interfaces\IGeocodeClientFactory.cs" />
     <Compile Include="Services\Interfaces\IGeocodingService.cs" />
     <Compile Include="Services\Interfaces\IIpAddressActivityService.cs" />
     <Compile Include="Services\Interfaces\ILanguageService.cs" />
@@ -214,9 +214,11 @@
     <Compile Include="TestDataPopulation\Interfaces\ITestDataPopulator.cs" />
     <Compile Include="TestDataPopulation\TestDataPopulator.cs" />
     <Compile Include="TestDataPopulation\GbAddressPopulator.cs" />
+    <Compile Include="Wrappers\GeocodeClientWrapper.cs" />
     <Compile Include="Wrappers\HttpRuntimeCache.cs" />
     <Compile Include="Wrappers\Interfaces\ICacheWrapper.cs" />
     <Compile Include="Wrappers\Interfaces\IClock.cs" />
+    <Compile Include="Wrappers\Interfaces\IGeocodeClientWrapper.cs" />
     <Compile Include="Wrappers\Interfaces\IRandomFactory.cs" />
     <Compile Include="Wrappers\Interfaces\IRandomWrapper.cs" />
     <Compile Include="Wrappers\Interfaces\ISmtpClientWrapper.cs" />

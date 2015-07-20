@@ -2,6 +2,7 @@
 using Epsilon.Logic.Constants;
 using Epsilon.Logic.Entities;
 using Epsilon.Logic.Services.Interfaces;
+using Epsilon.Logic.Wrappers.Interfaces;
 using GeocodeSharp.Google;
 using System;
 using System.Collections.Generic;
