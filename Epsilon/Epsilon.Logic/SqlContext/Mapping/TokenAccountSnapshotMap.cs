@@ -1,4 +1,5 @@
-﻿using Epsilon.Logic.Entities;
+﻿using Epsilon.Logic.Constants;
+using Epsilon.Logic.Entities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -22,6 +23,8 @@ namespace Epsilon.Logic.SqlContext.Mapping
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             this.Property(x => x.MadeOn)
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Computed);
+            this.Property(x => x.Balance)
+                .HasPrecision(AppConstant.TOKEN_AMOUNT_PRECISION, AppConstant.TOKEN_AMOUNT_SCALE);
 
             // Relationships
             this.HasRequired(x => x.Account)

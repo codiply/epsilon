@@ -14,6 +14,8 @@ namespace Epsilon.Logic.Entities
         public virtual string Id { get; set; }
         public virtual string LanguageId { get; set; }
 
+        public virtual DateTimeOffset UpdatedOn { get; set; }
+
         [Timestamp]
         public virtual Byte[] Timestamp { get; set; }
 

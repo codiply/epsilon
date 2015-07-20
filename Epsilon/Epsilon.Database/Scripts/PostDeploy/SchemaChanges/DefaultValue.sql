@@ -13,5 +13,6 @@ ALTER TABLE [dbo].[TenantVerification] ADD DEFAULT (sysdatetimeoffset()) FOR [Cr
 ALTER TABLE [dbo].[TokenAccount] ADD DEFAULT (sysdatetimeoffset()) FOR [CreatedOn]; 
 ALTER TABLE [dbo].[TokenAccountSnapshot] ADD DEFAULT (sysdatetimeoffset()) FOR [MadeOn];
 ALTER TABLE [dbo].[TokenAccountTransaction] ADD DEFAULT (sysdatetimeoffset()) FOR [MadeOn]; 
+ALTER TABLE [dbo].[User] ADD DEFAULT (sysdatetimeoffset()) FOR [CreatedOn]; 
 
 -- PostDeploy\SchemaChanges\DefaultValue.sql END

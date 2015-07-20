@@ -99,6 +99,8 @@
     <Build Include="dbo\Tables\GeocodeFailure.sql" />
     <Build Include="dbo\Tables\AddressGeometry.sql" />
     <Build Include="dbo\Tables\AdminEventLog.sql" />
+    <Build Include="dbo\Tables\TokenRewardScheme.sql" />
+    <Build Include="dbo\Tables\TokenReward.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Scripts\PostDeploy\Script.PostDeployment.sql" />

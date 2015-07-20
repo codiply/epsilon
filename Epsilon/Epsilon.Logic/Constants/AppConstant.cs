@@ -21,5 +21,8 @@ namespace Epsilon.Logic.Constants
         public static Func<Country, string> COUNTRY_DISPLAY_FIELD_SELECTOR = (x => x.EnglishName);
 
         public const byte IP_ADDRESS_MAX_LENGTH = 39;
+
+        public const byte TOKEN_AMOUNT_PRECISION = 16;
+        public const byte TOKEN_AMOUNT_SCALE = 4;
     }
 }

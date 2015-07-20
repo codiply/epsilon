@@ -26,9 +26,7 @@ namespace Epsilon.Logic.Services
             var cleansedAddress = _addressCleansingHelper.CleanseForVerification(address);
             return new AddressVerificationResponse
             {
-                IsRejected = false,
-                Latitude = 0.0M, // TODO_PANOS
-                Longitude = 0.0M // TODO_PANOS
+                IsRejected = false
             };
         }
     }

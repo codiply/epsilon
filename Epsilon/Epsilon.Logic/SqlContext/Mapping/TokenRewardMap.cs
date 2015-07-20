@@ -1,4 +1,5 @@
-﻿using Epsilon.Logic.Entities;
+﻿using Epsilon.Logic.Constants;
+using Epsilon.Logic.Entities;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.ModelConfiguration;
@@ -21,6 +22,8 @@ namespace Epsilon.Logic.SqlContext.Mapping
             this.Property(x => x.Key)
                 .HasMaxLength(KEY_MAX_LENGTH)
                 .IsRequired();
+            this.Property(x => x.Value)
+                .HasPrecision(AppConstant.TOKEN_AMOUNT_PRECISION, AppConstant.TOKEN_AMOUNT_SCALE);
 
             // Relationships
             this.HasRequired(x => x.Scheme)

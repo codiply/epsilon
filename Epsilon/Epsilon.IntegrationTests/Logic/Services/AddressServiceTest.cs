@@ -173,8 +173,6 @@ namespace Epsilon.IntegrationTests.Logic.Services
         {
             
             var ipAddress = "1.2.3.4";
-            var longitude = 51.50722M;
-            var latitude = -0.12750M;
             var countryId = "GB";
 
             var helperContainer = CreateContainer();
@@ -196,9 +194,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             SetupAddressVerficationServiceResponse(containerForAdd, form => addressFormUsedInVerification = form,
                 new AddressVerificationResponse
                 {
-                    IsRejected = false,
-                    Longitude = longitude,
-                    Latitude = latitude
+                    IsRejected = false
                 });
             var serviceForAdd = containerForAdd.Get<IAddressService>();
 
@@ -243,8 +239,6 @@ namespace Epsilon.IntegrationTests.Logic.Services
         {
 
             var ipAddress = "1.2.3.4";
-            var longitude = 51.50722M;
-            var latitude = -0.12750M;
             var countryId = "GB";
             var rejectionReason = "AntiAbuseService Rejection Reason";
 
@@ -268,9 +262,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             SetupAddressVerficationServiceResponse(containerForAdd, form => addressFormUsedInVerification = form,
                 new AddressVerificationResponse
                 {
-                    IsRejected = false,
-                    Longitude = longitude,
-                    Latitude = latitude
+                    IsRejected = false
                 });
             var service = containerForAdd.Get<IAddressService>();
 
@@ -298,8 +290,6 @@ namespace Epsilon.IntegrationTests.Logic.Services
         {
 
             var ipAddress = "1.2.3.4";
-            var longitude = 51.50722M;
-            var latitude = -0.12750M;
             var countryId = "GB";
             var rejectionReason = "VerficiationService Rejection Reason";
 
@@ -323,9 +313,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 new AddressVerificationResponse
                 {
                     IsRejected = true,
-                    RejectionReason = rejectionReason,
-                    Longitude = longitude,
-                    Latitude = latitude
+                    RejectionReason = rejectionReason
                 });
             var service = containerForAdd.Get<IAddressService>();
 

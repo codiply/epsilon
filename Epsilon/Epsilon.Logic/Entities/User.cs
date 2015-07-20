@@ -12,6 +12,8 @@ namespace Epsilon.Logic.Entities
 {
     public class User : IdentityUser
     {
+        public virtual DateTimeOffset CreatedOn { get; set; }
+
         public virtual UserPreference Preference { get; set; }
 
         [Timestamp]
