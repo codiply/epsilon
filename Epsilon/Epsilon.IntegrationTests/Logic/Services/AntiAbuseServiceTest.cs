@@ -521,6 +521,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
         }
 
         [Test]
+        // PANOS_TODO: Fragile
         public async Task CreateTenancyDetailsSubmission_CheckUserFrequency_TheFrequencyPeriodIsUsedCorrectly()
         {
             var periodInSeconds = 0.2;
