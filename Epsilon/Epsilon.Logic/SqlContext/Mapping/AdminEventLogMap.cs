@@ -33,12 +33,12 @@ namespace Epsilon.Logic.SqlContext.Mapping
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Computed);
 
             // Indexes
-            this.Property(x => x.Key)
-                .HasColumnAnnotation(IndexAnnotation.AnnotationName,
-                    new IndexAnnotation(new IndexAttribute("IX_AdminEventLog_Key_RecordedOn", 1)));
             this.Property(x => x.RecordedOn)
                 .HasColumnAnnotation(IndexAnnotation.AnnotationName,
-                    new IndexAnnotation(new IndexAttribute("IX_AdminEventLog_Key_RecordedOn", 2)));
+                    new IndexAnnotation(new IndexAttribute("IX_AdminEventLog_RecordedOn_Key", 1)));
+            this.Property(x => x.Key)
+                .HasColumnAnnotation(IndexAnnotation.AnnotationName,
+                    new IndexAnnotation(new IndexAttribute("IX_AdminEventLog_RecordedOn_Key", 2)));
         }
     }
 }

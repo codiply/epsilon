@@ -41,12 +41,12 @@ namespace Epsilon.Logic.SqlContext.Mapping
                 .WillCascadeOnDelete(false);
 
             // Indexes
-            this.Property(x => x.AccountId)
-                .HasColumnAnnotation(IndexAnnotation.AnnotationName, 
-                    new IndexAnnotation(new IndexAttribute("IX_TokenAccountTransaction_AccountId_MadeOn", 1)));
             this.Property(x => x.MadeOn)
                 .HasColumnAnnotation(IndexAnnotation.AnnotationName, 
-                    new IndexAnnotation(new IndexAttribute("IX_TokenAccountTransaction_AccountId_MadeOn", 2)));
+                    new IndexAnnotation(new IndexAttribute("IX_TokenAccountTransaction_MadeOn_AccountId", 1)));
+            this.Property(x => x.AccountId)
+                .HasColumnAnnotation(IndexAnnotation.AnnotationName, 
+                    new IndexAnnotation(new IndexAttribute("IX_TokenAccountTransaction_MadeOn_AccountId", 2)));
         }
     }
 }

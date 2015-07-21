@@ -52,20 +52,20 @@ namespace Epsilon.Logic.SqlContext.Mapping
                 .HasColumnAnnotation(IndexAnnotation.AnnotationName,
                     new IndexAnnotation(new IndexAttribute("IX_TenancyDetailsSubmission_UniqueId") { IsUnique = true }));
 
-            this.Property(x => x.CreatedByIpAddress)
-                .HasColumnAnnotation(IndexAnnotation.AnnotationName, 
-                    new IndexAnnotation(new IndexAttribute("IX_TenancyDetailsSubmission_CreatedByIpAddress_CreatedOn", 1)));
-
-            this.Property(x => x.UserId)
-                .HasColumnAnnotation(IndexAnnotation.AnnotationName, 
-                    new IndexAnnotation(new IndexAttribute("IX_TenancyDetailsSubmission_UserId_CreatedOn", 1)));
-
             this.Property(x => x.CreatedOn)
                 .HasColumnAnnotation(IndexAnnotation.AnnotationName, new IndexAnnotation(new[]
                 {
-                    new IndexAttribute("IX_TenancyDetailsSubmission_CreatedByIpAddress_CreatedOn", 2),
-                    new IndexAttribute("IX_TenancyDetailsSubmission_UserId_CreatedOn", 2)
+                    new IndexAttribute("IX_TenancyDetailsSubmission_CreatedOn_CreatedByIpAddress", 1),
+                    new IndexAttribute("IX_TenancyDetailsSubmission_CreatedOn_UserId", 1)
                 }));
+
+            this.Property(x => x.CreatedByIpAddress)
+                .HasColumnAnnotation(IndexAnnotation.AnnotationName,
+                    new IndexAnnotation(new IndexAttribute("IX_TenancyDetailsSubmission_CreatedOn_CreatedByIpAddress", 2)));
+
+            this.Property(x => x.UserId)
+                .HasColumnAnnotation(IndexAnnotation.AnnotationName,
+                    new IndexAnnotation(new IndexAttribute("IX_TenancyDetailsSubmission_CreatedOn_UserId", 2)));
         }
     }
 }

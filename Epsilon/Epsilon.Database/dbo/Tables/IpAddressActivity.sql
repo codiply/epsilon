@@ -1,4 +1,4 @@
-﻿CREATE TABLE [dbo].[IpAddressActivity] (
+CREATE TABLE [dbo].[IpAddressActivity] (
     [Id]           BIGINT             IDENTITY (1, 1) NOT NULL,
     [UserId]       NVARCHAR (128)     NULL,
     [ActivityType] NVARCHAR (32)      NULL,
@@ -17,12 +17,14 @@
 
 
 
+
+
 GO
 CREATE NONCLUSTERED INDEX [IX_UserId]
     ON [dbo].[IpAddressActivity]([UserId] ASC);
 
 
 GO
-CREATE NONCLUSTERED INDEX [IX_IpAddressActivity_ActivityType_IpAddress_RecordedOn]
-    ON [dbo].[IpAddressActivity]([ActivityType] ASC, [IpAddress] ASC, [RecordedOn] ASC);
+CREATE NONCLUSTERED INDEX [IX_IpAddressActivity_RecordedOn_ActivityType_IpAddress]
+    ON [dbo].[IpAddressActivity]([RecordedOn] ASC, [ActivityType] ASC, [IpAddress] ASC);
 

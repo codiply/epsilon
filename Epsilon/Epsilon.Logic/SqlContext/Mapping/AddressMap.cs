@@ -75,20 +75,21 @@ namespace Epsilon.Logic.SqlContext.Mapping
                 .HasColumnAnnotation(IndexAnnotation.AnnotationName, 
                     new IndexAnnotation(new IndexAttribute("IX_Address_Postcode")));
 
-            this.Property(x => x.CreatedByIpAddress)
-                .HasColumnAnnotation(IndexAnnotation.AnnotationName, 
-                    new IndexAnnotation(new IndexAttribute("IX_Address_CreatedByIpAddress_CreatedOn", 1)));
-
-            this.Property(x => x.CreatedById)
-                .HasColumnAnnotation(IndexAnnotation.AnnotationName, 
-                    new IndexAnnotation(new IndexAttribute("IX_Address_CreatedById_CreatedOn", 1)));
-
             this.Property(x => x.CreatedOn)
                 .HasColumnAnnotation(IndexAnnotation.AnnotationName, new IndexAnnotation(new[]
                 {
-                    new IndexAttribute("IX_Address_CreatedByIpAddress_CreatedOn", 2),
-                    new IndexAttribute("IX_Address_CreatedById_CreatedOn", 2)
+                    new IndexAttribute("IX_Address_CreatedOn_CreatedByIpAddress", 1),
+                    new IndexAttribute("IX_Address_CreatedOn_CreatedById", 1)
                 }));
+
+            this.Property(x => x.CreatedByIpAddress)
+                .HasColumnAnnotation(IndexAnnotation.AnnotationName,
+                    new IndexAnnotation(new IndexAttribute("IX_Address_CreatedOn_CreatedByIpAddress", 2)));
+
+            this.Property(x => x.CreatedById)
+                .HasColumnAnnotation(IndexAnnotation.AnnotationName,
+                    new IndexAnnotation(new IndexAttribute("IX_Address_CreatedOn_CreatedById", 2)));
+
         }
     }
 }

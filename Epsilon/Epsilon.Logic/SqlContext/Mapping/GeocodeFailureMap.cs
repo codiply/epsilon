@@ -3,6 +3,7 @@ using Epsilon.Logic.Entities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Data.Entity.Infrastructure.Annotations;
 using System.Data.Entity.ModelConfiguration;
 using System.Linq;
 using System.Text;
@@ -20,16 +21,31 @@ namespace Epsilon.Logic.SqlContext.Mapping
             // Properties
             this.Property(x => x.Id)
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
-            this.Property(x => x.MadeOn)
+            this.Property(x => x.CreatedOn)
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Computed);
-            this.Property(a => a.MadeByIpAddress)
+            this.Property(a => a.CreatedByIpAddress)
                 .HasMaxLength(AppConstant.IP_ADDRESS_MAX_LENGTH);
 
             // Relationships
-            this.HasRequired(x => x.MadeBy)
+            this.HasRequired(x => x.CreatedBy)
                 .WithMany()
-                .HasForeignKey(x => x.MadeById)
+                .HasForeignKey(x => x.CreatedById)
                 .WillCascadeOnDelete(false);
+
+            // Indexes
+            this.Property(x => x.CreatedOn)
+                .HasColumnAnnotation(IndexAnnotation.AnnotationName,
+                    new IndexAnnotation(new IndexAttribute("IX_GeocodeFailure_CreatedOn_CreatedById", 1)));
+            this.Property(x => x.CreatedById)
+                .HasColumnAnnotation(IndexAnnotation.AnnotationName,
+                    new IndexAnnotation(new IndexAttribute("IX_GeocodeFailure_CreatedOn_CreatedById", 2)));
+
+            this.Property(x => x.CreatedOn)
+                .HasColumnAnnotation(IndexAnnotation.AnnotationName,
+                    new IndexAnnotation(new IndexAttribute("IX_GeocodeFailure_CreatedOn_CreatedByIpAddress", 1)));
+            this.Property(x => x.CreatedByIpAddress)
+                .HasColumnAnnotation(IndexAnnotation.AnnotationName,
+                    new IndexAnnotation(new IndexAttribute("IX_GeocodeFailure_CreatedOn_CreatedByIpAddress", 2)));
         }
     }
 }

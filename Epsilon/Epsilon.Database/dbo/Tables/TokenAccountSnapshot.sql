@@ -1,4 +1,4 @@
-﻿CREATE TABLE [dbo].[TokenAccountSnapshot] (
+CREATE TABLE [dbo].[TokenAccountSnapshot] (
     [Id]          BIGINT             IDENTITY (1, 1) NOT NULL,
     [AccountId]   NVARCHAR (128)     NOT NULL,
     [Balance]     DECIMAL (16, 4)    NOT NULL,
@@ -20,7 +20,9 @@
 
 
 
+
+
 GO
-CREATE NONCLUSTERED INDEX [IX_TokenAccountSnapshot_AccountId_IsFinalised_MadeOn]
-    ON [dbo].[TokenAccountSnapshot]([AccountId] ASC, [IsFinalised] ASC, [MadeOn] ASC);
+CREATE NONCLUSTERED INDEX [IX_TokenAccountSnapshot_MadeOn_AccountId_IsFinalised]
+    ON [dbo].[TokenAccountSnapshot]([MadeOn] ASC, [AccountId] ASC, [IsFinalised] ASC);
 

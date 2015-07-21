@@ -49,6 +49,8 @@
 
 
 
+
+
 GO
 CREATE NONCLUSTERED INDEX [IX_CountryId]
     ON [dbo].[Address]([CountryId] ASC);
@@ -59,13 +61,11 @@ GO
 
 
 GO
-CREATE NONCLUSTERED INDEX [IX_Address_CreatedByIpAddress_CreatedOn]
-    ON [dbo].[Address]([CreatedByIpAddress] ASC, [CreatedOn] ASC);
+
 
 
 GO
-CREATE NONCLUSTERED INDEX [IX_Address_CreatedById_CreatedOn]
-    ON [dbo].[Address]([CreatedById] ASC, [CreatedOn] ASC);
+
 
 
 GO
@@ -81,4 +81,14 @@ CREATE NONCLUSTERED INDEX [IX_Address_Postcode]
 GO
 CREATE NONCLUSTERED INDEX [IX_CountryId_Postcode]
     ON [dbo].[Address]([CountryId] ASC, [Postcode] ASC);
+
+
+GO
+CREATE NONCLUSTERED INDEX [IX_Address_CreatedOn_CreatedByIpAddress]
+    ON [dbo].[Address]([CreatedOn] ASC, [CreatedByIpAddress] ASC);
+
+
+GO
+CREATE NONCLUSTERED INDEX [IX_Address_CreatedOn_CreatedById]
+    ON [dbo].[Address]([CreatedOn] ASC, [CreatedById] ASC);
 

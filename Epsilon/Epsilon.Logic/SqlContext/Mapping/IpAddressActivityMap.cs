@@ -31,15 +31,15 @@ namespace Epsilon.Logic.SqlContext.Mapping
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Computed);
 
             // Indexes
-            this.Property(x => x.ActivityType)
-                .HasColumnAnnotation(IndexAnnotation.AnnotationName, 
-                    new IndexAnnotation(new IndexAttribute("IX_IpAddressActivity_ActivityType_IpAddress_RecordedOn", 1)));
-            this.Property(x => x.IpAddress)
-                .HasColumnAnnotation(IndexAnnotation.AnnotationName, 
-                    new IndexAnnotation(new IndexAttribute("IX_IpAddressActivity_ActivityType_IpAddress_RecordedOn", 2)));
             this.Property(x => x.RecordedOn)
                 .HasColumnAnnotation(IndexAnnotation.AnnotationName, 
-                    new IndexAnnotation(new IndexAttribute("IX_IpAddressActivity_ActivityType_IpAddress_RecordedOn", 3)));
+                    new IndexAnnotation(new IndexAttribute("IX_IpAddressActivity_RecordedOn_ActivityType_IpAddress", 1)));
+            this.Property(x => x.ActivityType)
+                .HasColumnAnnotation(IndexAnnotation.AnnotationName, 
+                    new IndexAnnotation(new IndexAttribute("IX_IpAddressActivity_RecordedOn_ActivityType_IpAddress", 2)));
+            this.Property(x => x.IpAddress)
+                .HasColumnAnnotation(IndexAnnotation.AnnotationName, 
+                    new IndexAnnotation(new IndexAttribute("IX_IpAddressActivity_RecordedOn_ActivityType_IpAddress", 3)));
         }
     }
 }

@@ -14,7 +14,9 @@ CREATE TABLE [dbo].[AdminAlert] (
 
 
 
+
+
 GO
-CREATE NONCLUSTERED INDEX [IX_AdminAlert_Key_SentOn]
-    ON [dbo].[AdminAlert]([Key] ASC, [SentOn] ASC);
+CREATE NONCLUSTERED INDEX [IX_AdminAlert_SentOn_Key]
+    ON [dbo].[AdminAlert]([SentOn] ASC, [Key] ASC);
 
