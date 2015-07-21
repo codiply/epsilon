@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace Epsilon.Logic.Configuration
 {
-    public class GeocodingServiceConfig : IGeocodingServiceConfig
+    public class GeocodeServiceConfig : IGeocodeServiceConfig
     {
         public IAppSettingsHelper _appSettingsHelper;
 
-        public GeocodingServiceConfig(
+        public GeocodeServiceConfig(
             IAppSettingsHelper appSettingsHelper)
         {
             _appSettingsHelper = appSettingsHelper;

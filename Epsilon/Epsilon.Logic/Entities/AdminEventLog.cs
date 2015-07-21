@@ -9,7 +9,7 @@ namespace Epsilon.Logic.Entities
     public class AdminEventLog
     {
         public virtual long Id { get; set; }
-        public virtual string Type { get; set; }
+        public virtual string Key { get; set; }
         public virtual string ExtraInfo { get; set; }
         public virtual DateTimeOffset RecordedOn { get; set; }
     }

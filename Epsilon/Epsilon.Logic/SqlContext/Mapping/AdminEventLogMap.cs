@@ -12,8 +12,8 @@ namespace Epsilon.Logic.SqlContext.Mapping
 {
     public class AdminEventLogMap : EntityTypeConfiguration<AdminEventLog>
     {
-        public const int TYPE_MAX_LENGTH = 128;
         public const int EXTRA_INFO_MAX_LENGTH = 256;
+        public const int KEY_MAX_LENGTH = 128;
 
         public AdminEventLogMap()
         {
@@ -23,8 +23,8 @@ namespace Epsilon.Logic.SqlContext.Mapping
             // Properties
             this.Property(x => x.Id)
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
-            this.Property(x => x.Type)
-                .HasMaxLength(TYPE_MAX_LENGTH)
+            this.Property(x => x.Key)
+                .HasMaxLength(KEY_MAX_LENGTH)
                 .IsRequired();
             this.Property(x => x.ExtraInfo)
                 .HasMaxLength(EXTRA_INFO_MAX_LENGTH)
@@ -33,12 +33,12 @@ namespace Epsilon.Logic.SqlContext.Mapping
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Computed);
 
             // Indexes
-            this.Property(x => x.Type)
+            this.Property(x => x.Key)
                 .HasColumnAnnotation(IndexAnnotation.AnnotationName,
-                    new IndexAnnotation(new IndexAttribute("IX_AdminEventLog_Type_RecordedOn", 1)));
+                    new IndexAnnotation(new IndexAttribute("IX_AdminEventLog_Key_RecordedOn", 1)));
             this.Property(x => x.RecordedOn)
                 .HasColumnAnnotation(IndexAnnotation.AnnotationName,
-                    new IndexAnnotation(new IndexAttribute("IX_AdminEventLog_Type_RecordedOn", 2)));
+                    new IndexAnnotation(new IndexAttribute("IX_AdminEventLog_Key_RecordedOn", 2)));
         }
     }
 }

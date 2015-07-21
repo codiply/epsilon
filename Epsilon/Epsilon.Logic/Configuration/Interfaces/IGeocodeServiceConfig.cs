@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Epsilon.Logic.Configuration.Interfaces
 {
-    public interface IGeocodingServiceConfig
+    public interface IGeocodeServiceConfig
     {
         string GoogleApiServerKey { get; }
     }

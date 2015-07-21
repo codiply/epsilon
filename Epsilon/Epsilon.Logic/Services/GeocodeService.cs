@@ -12,18 +12,18 @@ using System.Threading.Tasks;
 
 namespace Epsilon.Logic.Services
 {
-    public class GeocodingService : IGeocodingService
+    public class GeocodeService : IGeocodeService
     {
-        private readonly IGeocodingServiceConfig _geocodingServiceConfig;
+        private readonly IGeocodeServiceConfig _geocodeServiceConfig;
         private readonly IGeocodeClientFactory _geocodeClientFactory;
         private readonly IAdminAlertService _adminAlertService;
 
-        public GeocodingService(
-            IGeocodingServiceConfig geocodingServiceConfig,
+        public GeocodeService(
+            IGeocodeServiceConfig geocodeServiceConfig,
             IGeocodeClientFactory geocodeClientFactory,
             IAdminAlertService adminAlertService)
         {
-            _geocodingServiceConfig = geocodingServiceConfig;
+            _geocodeServiceConfig = geocodeServiceConfig;
             _geocodeClientFactory = geocodeClientFactory;
             _adminAlertService = adminAlertService;
         }
@@ -44,7 +44,7 @@ namespace Epsilon.Logic.Services
         private async Task<GeocodeResponse> Geocode(string address, string region)
         {
             try {
-                var geocodeClient = _geocodeClientFactory.Create(_geocodingServiceConfig.GoogleApiServerKey);
+                var geocodeClient = _geocodeClientFactory.Create(_geocodeServiceConfig.GoogleApiServerKey);
                 var response = await geocodeClient.GeocodeAddress(address, region);
                 return response;
             }

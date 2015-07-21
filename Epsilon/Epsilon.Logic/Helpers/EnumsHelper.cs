@@ -10,24 +10,28 @@ namespace Epsilon.Logic.Helpers
 {
     public static class EnumsHelper
     {
-        public static EnumMemoizer<TokenAccountTransactionTypeId> TokenAccountTransactionTypeId =
-            new EnumMemoizer<TokenAccountTransactionTypeId>();
+        public static EnumMemoizer<AdminEventLogKey> AdminEventLogKey =
+            new EnumMemoizer<AdminEventLogKey>();
 
         public static EnumMemoizer<CountryId> CountryId = new EnumMemoizer<CountryId>();
 
-        public static EnumMemoizer<DbAppSettingValueType> DbAppSettingValueType =
-            new EnumMemoizer<DbAppSettingValueType>();
-
-        public static EnumMemoizer<IpAddressActivityType> IpAddressActivityType =
-            new EnumMemoizer<IpAddressActivityType>();
-
         public static EnumMemoizer<CountryVariantResourceName> CountryVariantResourceName =
             new EnumMemoizer<CountryVariantResourceName>();
+
+        public static EnumMemoizer<DbAppSettingValueType> DbAppSettingValueType =
+            new EnumMemoizer<DbAppSettingValueType>();
 
         public static EnumMemoizer<GeocodeFailureType> GeocodeFailureType =
             new EnumMemoizer<GeocodeFailureType>();
 
         public static EnumMemoizer<GeocodeQueryType> GeocodeQueryType =
             new EnumMemoizer<GeocodeQueryType>();
+
+        public static EnumMemoizer<IpAddressActivityType> IpAddressActivityType =
+            new EnumMemoizer<IpAddressActivityType>();
+
+        public static EnumMemoizer<TokenAccountTransactionTypeId> TokenAccountTransactionTypeId =
+            new EnumMemoizer<TokenAccountTransactionTypeId>();
+
     }
 }

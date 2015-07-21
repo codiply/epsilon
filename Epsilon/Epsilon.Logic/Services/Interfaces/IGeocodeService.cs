@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Epsilon.Logic.Services.Interfaces
 {
-    public interface IGeocodingService
+    public interface IGeocodeService
     {
         Task<AddressGeometry> GeocodeAddress(string address, string region);
 
