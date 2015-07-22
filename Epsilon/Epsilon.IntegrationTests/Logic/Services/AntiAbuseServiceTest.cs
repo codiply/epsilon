@@ -211,7 +211,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var ipAddress = "1.2.3.4";
 
             var container = CreateContainer();
-            SetupContainerForCanAddAddress(container,
+            SetupContainerForCanAddAddressWithoutGeocodeFailureCheck(container,
                 disableUserFrequencyCheck, maxFrequencyPerUser,
                 disableIpAddressFrequencyCheck, maxFrequencyPerIpAddress);
             var service = container.Get<IAntiAbuseService>();
@@ -240,7 +240,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var ipAddress = "1.2.3.4";
 
             var containerUnderTest = CreateContainer();
-            SetupContainerForCanAddAddress(containerUnderTest,
+            SetupContainerForCanAddAddressWithoutGeocodeFailureCheck(containerUnderTest,
                 disableUserFrequencyCheck, maxFrequencyPerUser,
                 disableIpAddressFrequencyCheck, maxFrequencyPerIpAddress);
             var serviceUnderTest = containerUnderTest.Get<IAntiAbuseService>();
@@ -257,7 +257,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var firstResponse = await serviceUnderTest.CanAddAddress(user.Id, ipAddress);
             Assert.IsFalse(firstResponse.IsRejected, "The first check should pass.");
 
-            // I add the second user
+            // I add the second address.
             var address2 = await CreateAddress(random, helperContainer, user.Id, ipAddress);
 
             var secondResponse = await serviceUnderTest.CanAddAddress(user.Id, ipAddress);
@@ -278,7 +278,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var ipAddress = "1.2.3.4";
 
             var containerUnderTest = CreateContainer();
-            SetupContainerForCanAddAddress(containerUnderTest,
+            SetupContainerForCanAddAddressWithoutGeocodeFailureCheck(containerUnderTest,
                 disableUserFrequencyCheck, maxFrequencyPerUser,
                 disableIpAddressFrequencyCheck, maxFrequencyPerIpAddress);
             var serviceUnderTest = containerUnderTest.Get<IAntiAbuseService>();
@@ -314,7 +314,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var ipAddress4 = "1.2.3.4";
 
             var containerUnderTest = CreateContainer();
-            SetupContainerForCanAddAddress(containerUnderTest,
+            SetupContainerForCanAddAddressWithoutGeocodeFailureCheck(containerUnderTest,
                 disableUserFrequencyCheck, maxFrequencyPerUser,
                 disableIpAddressFrequencyCheck, maxFrequencyPerIpAddress);
             var serviceUnderTest = containerUnderTest.Get<IAntiAbuseService>();
@@ -353,7 +353,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var ipAddress3 = "1.2.3.3";
 
             var containerUnderTest = CreateContainer();
-            SetupContainerForCanAddAddress(containerUnderTest,
+            SetupContainerForCanAddAddressWithoutGeocodeFailureCheck(containerUnderTest,
                 disableUserFrequencyCheck, maxFrequencyPerUser,
                 disableIpAddressFrequencyCheck, maxFrequencyPerIpAddress);
             var serviceUnderTest = containerUnderTest.Get<IAntiAbuseService>();
@@ -367,6 +367,150 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var firstResponse = await serviceUnderTest.CanAddAddress(user.Id, ipAddress2);
             Assert.IsTrue(firstResponse.IsRejected, "The first check should fail.");
             Assert.AreEqual(AntiAbuseResources.AddAddress_UserFrequencyCheck_RejectionMessage,
+                firstResponse.RejectionReason, "The rejection reason is not the expected.");
+
+            await Task.Delay(TimeSpan.FromSeconds(periodInSeconds));
+
+            var secondResponse = await serviceUnderTest.CanAddAddress(user.Id, ipAddress3);
+            Assert.IsFalse(secondResponse.IsRejected, "The request should not be rejected the second time.");
+        }
+
+        [Test]
+        public async Task CanAddAddress_GeocodeFailureCheckIpAddressFrequency_TheFrequencyTimesIsUsedCorrectly()
+        {
+            var disableGeocodeFailureUserFrequencyCheck = true;
+            var maxGeocodeFailureFrequencyPerUser = "2/H";
+            var disableGeocodeFailureIpAddressFrequencyCheck = false;
+            var maxGeocodeFailureFrequencyPerIpAddress = "2/H";
+
+            var ipAddress = "1.2.3.4";
+
+            var containerUnderTest = CreateContainer();
+            SetupContainerForCanAddAddressWithOnlyGeocodeFailureCheck(containerUnderTest,
+                disableGeocodeFailureUserFrequencyCheck, maxGeocodeFailureFrequencyPerUser,
+                disableGeocodeFailureIpAddressFrequencyCheck, maxGeocodeFailureFrequencyPerIpAddress);
+            var serviceUnderTest = containerUnderTest.Get<IAntiAbuseService>();
+
+            var helperContainer = CreateContainer();
+
+            var user = await CreateUser(helperContainer, "test@test.com", ipAddress);
+            
+            // I add the first failure.
+            var geocodeFailure1 = await CreateGeocodeFailure(helperContainer, user.Id, ipAddress);
+
+            var firstResponse = await serviceUnderTest.CanAddAddress(user.Id, ipAddress);
+            Assert.IsFalse(firstResponse.IsRejected, "The first check should pass.");
+
+            // I add the second failure.
+            var geocodeFailure2 = await CreateGeocodeFailure(helperContainer, user.Id, ipAddress);
+
+            var secondResponse = await serviceUnderTest.CanAddAddress(user.Id, ipAddress);
+            Assert.IsTrue(secondResponse.IsRejected, "The second check should fail.");
+            Assert.AreEqual(AntiAbuseResources.AddAddress_GeocodeFailureIpAddressFrequencyCheck_RejectionMessage,
+                secondResponse.RejectionReason, "The rejection reason is not the expected.");
+        }
+
+        [Test]
+        public async Task CanAddAddress_GeocodeFailureCheckIpAddressFrequency_TheFrequencyPeriodIsUsedCorrectly()
+        {
+            var periodInSeconds = 0.2;
+            var disableGeocodeFailureUserFrequencyCheck = true;
+            var maxGeocodeFailureFrequencyPerUser = "2/H";
+            var disableGeocodeFailureIpAddressFrequencyCheck = false;
+            var maxGeocodeFailureFrequencyPerIpAddress = string.Format("1/{0}S", periodInSeconds);
+
+            var ipAddress = "1.2.3.4";
+
+            var containerUnderTest = CreateContainer();
+            SetupContainerForCanAddAddressWithOnlyGeocodeFailureCheck(containerUnderTest,
+                disableGeocodeFailureUserFrequencyCheck, maxGeocodeFailureFrequencyPerUser,
+                disableGeocodeFailureIpAddressFrequencyCheck, maxGeocodeFailureFrequencyPerIpAddress);
+            var serviceUnderTest = containerUnderTest.Get<IAntiAbuseService>();
+
+            var helperContainer = CreateContainer();
+            var random = new RandomWrapper(2015);
+
+            var user = await CreateUser(helperContainer, "test@test.com", ipAddress);
+            var geocodeFailure = await CreateGeocodeFailure(helperContainer, user.Id, ipAddress);
+
+            var firstResponse = await serviceUnderTest.CanAddAddress(user.Id, ipAddress);
+            Assert.IsTrue(firstResponse.IsRejected, "The first check should fail.");
+            Assert.AreEqual(AntiAbuseResources.AddAddress_GeocodeFailureIpAddressFrequencyCheck_RejectionMessage,
+                firstResponse.RejectionReason, "The rejection reason is not the expected.");
+
+            await Task.Delay(TimeSpan.FromSeconds(periodInSeconds));
+
+            var secondResponse = await serviceUnderTest.CanAddAddress(user.Id, ipAddress);
+            Assert.IsFalse(secondResponse.IsRejected, "The request should not be rejected the second time.");
+        }
+
+        [Test]
+        public async Task CanAddAddress_GeocodeFailureCheckUserFrequency_TheFrequencyTimesIsUsedCorrectly()
+        {
+            var disableGeocodeFailureUserFrequencyCheck = false;
+            var maxGeocodeFailureFrequencyPerUser = "2/H";
+            var disableGeocodeFailureIpAddressFrequencyCheck = true;
+            var maxGeocodeFailureFrequencyPerIpAddress = "2/H";
+
+            var ipAddress1 = "1.2.3.1";
+            var ipAddress2 = "1.2.3.2";
+            var ipAddress3 = "1.2.3.3";
+            var ipAddress4 = "1.2.3.4";
+
+            var containerUnderTest = CreateContainer();
+            SetupContainerForCanAddAddressWithOnlyGeocodeFailureCheck(containerUnderTest,
+                disableGeocodeFailureUserFrequencyCheck, maxGeocodeFailureFrequencyPerUser,
+                disableGeocodeFailureIpAddressFrequencyCheck, maxGeocodeFailureFrequencyPerIpAddress);
+            var serviceUnderTest = containerUnderTest.Get<IAntiAbuseService>();
+
+            var helperContainer = CreateContainer();
+            var random = new RandomWrapper(2015);
+
+            var user = await CreateUser(helperContainer, "test@test.com", ipAddress1);
+
+            // I add the first failure.
+            var geocodeFailure1 = await CreateGeocodeFailure(helperContainer, user.Id, ipAddress1);
+
+            var firstResponse = await serviceUnderTest.CanAddAddress(user.Id, ipAddress2);
+            Assert.IsFalse(firstResponse.IsRejected, "The first check should pass.");
+
+            // I add the second failure
+            var geocodeFailure2 = await CreateGeocodeFailure(helperContainer, user.Id, ipAddress1);
+
+            var secondResponse = await serviceUnderTest.CanAddAddress(user.Id, ipAddress4);
+            Assert.IsTrue(secondResponse.IsRejected, "The second check should fail.");
+            Assert.AreEqual(AntiAbuseResources.AddAddress_GeocodeFailureUserFrequencyCheck_RejectionMessage,
+                secondResponse.RejectionReason, "The rejection reason is not the expected.");
+        }
+
+        [Test]
+        public async Task CanAddAddress_GeocodeFailureCheckUserFrequency_TheFrequencyPeriodIsUsedCorrectly()
+        {
+            var periodInSeconds = 0.2;
+            var disableGeocodeFailureUserFrequencyCheck = false;
+            var maxGeocodeFailureFrequencyPerUser = string.Format("1/{0}S", periodInSeconds);
+            var disableGeocodeFailureIpAddressFrequencyCheck = true;
+            var maxGeocodeFailureFrequencyPerIpAddress = "2/H";
+
+            var ipAddress1 = "1.2.3.1";
+            var ipAddress2 = "1.2.3.2";
+            var ipAddress3 = "1.2.3.3";
+
+            var containerUnderTest = CreateContainer();
+            SetupContainerForCanAddAddressWithOnlyGeocodeFailureCheck(containerUnderTest,
+                disableGeocodeFailureUserFrequencyCheck, maxGeocodeFailureFrequencyPerUser,
+                disableGeocodeFailureIpAddressFrequencyCheck, maxGeocodeFailureFrequencyPerIpAddress);
+            var serviceUnderTest = containerUnderTest.Get<IAntiAbuseService>();
+
+            var helperContainer = CreateContainer();
+            var random = new RandomWrapper(2015);
+
+            var user = await CreateUser(helperContainer, "test@test.com", ipAddress1);
+            var geocodeFailure = await CreateGeocodeFailure(helperContainer, user.Id, ipAddress1);
+
+            var firstResponse = await serviceUnderTest.CanAddAddress(user.Id, ipAddress2);
+            Assert.IsTrue(firstResponse.IsRejected, "The first check should fail.");
+            Assert.AreEqual(AntiAbuseResources.AddAddress_GeocodeFailureUserFrequencyCheck_RejectionMessage,
                 firstResponse.RejectionReason, "The rejection reason is not the expected.");
 
             await Task.Delay(TimeSpan.FromSeconds(periodInSeconds));
@@ -431,13 +575,13 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             var random = new RandomWrapper(2015);
 
-            // I add the first address.
+            // I add the first submission.
             var submission1 = await CreateTenancyDetailsSubmission(random, helperContainer, user.Id, ipAddress);
 
             var firstResponse = await serviceUnderTest.CanCreateTenancyDetailsSubmission(user.Id, ipAddress);
             Assert.IsFalse(firstResponse.IsRejected, "The first check should pass.");
 
-            // I add the second user
+            // I add the second submission.
             var submission2 = await CreateTenancyDetailsSubmission(random, helperContainer, user.Id, ipAddress);
 
             var secondResponse = await serviceUnderTest.CanCreateTenancyDetailsSubmission(user.Id, ipAddress);
@@ -505,13 +649,13 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             var user = await CreateUser(helperContainer, "test@test.com", ipAddress1);
 
-            // I add the first address.
+            // I add the first submission.
             var submission1 = await CreateTenancyDetailsSubmission(random, helperContainer, user.Id, ipAddress1);
 
             var firstResponse = await serviceUnderTest.CanCreateTenancyDetailsSubmission(user.Id, ipAddress2);
             Assert.IsFalse(firstResponse.IsRejected, "The first check should pass.");
 
-            // I add the second user
+            // I add the second submission.
             var submission2 = await CreateTenancyDetailsSubmission(random, helperContainer, user.Id, ipAddress3);
 
             var secondResponse = await serviceUnderTest.CanCreateTenancyDetailsSubmission(user.Id, ipAddress4);
@@ -611,6 +755,23 @@ namespace Epsilon.IntegrationTests.Logic.Services
             return tenancyDetailsSubmission;
         }
 
+        private static async Task<GeocodeFailure> CreateGeocodeFailure(
+            IKernel container, string userId, string userIpAddress)
+        {
+            var dbContext = container.Get<IEpsilonContext>();
+
+            var geocodeFailure = new GeocodeFailure
+            {
+                Address = "Geocode-Failure-Address",
+                Region = "GB",
+                CreatedById = userId,
+                CreatedByIpAddress = userIpAddress
+            };
+            dbContext.GeocodeFailures.Add(geocodeFailure);
+            await dbContext.SaveChangesAsync();
+            return geocodeFailure;
+        }
+
         private static void SetupContainerForCanRegister(IKernel container,
             bool disableGlobalFrequencyCheck, string globalMaxFrequency,
             bool disableIpAddressFrequencyCheck, string maxFrequencyPerIpAddress)
@@ -629,7 +790,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             container.Rebind<IAntiAbuseServiceConfig>().ToConstant(mockAntiAbuseServiceConfig.Object);
         }
 
-        private static void SetupContainerForCanAddAddress(IKernel container,
+        private static void SetupContainerForCanAddAddressWithoutGeocodeFailureCheck(IKernel container,
             bool disableUserFrequencyCheck, string maxFrequencyPerUser,
             bool disableIpAddressFrequencyCheck, string maxFrequencyPerIpAddress)
         {
@@ -644,6 +805,34 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 .Returns(disableIpAddressFrequencyCheck);
             mockAntiAbuseServiceConfig.Setup(x => x.AddAddress_MaxFrequencyPerIpAddress)
                 .Returns(parseHelper.ParseFrequency(maxFrequencyPerIpAddress));
+
+            mockAntiAbuseServiceConfig.Setup(x => x.AddAddress_DisableGeocodeFailureIpAddressFrequencyCheck)
+                .Returns(true);
+            mockAntiAbuseServiceConfig.Setup(x => x.AddAddress_DisableGeocodeFailureUserFrequencyCheck)
+                .Returns(true);
+            container.Rebind<IAntiAbuseServiceConfig>().ToConstant(mockAntiAbuseServiceConfig.Object);
+        }
+
+        private static void SetupContainerForCanAddAddressWithOnlyGeocodeFailureCheck(IKernel container,
+            bool disableGeocodeFailureUserFrequencyCheck, string maxGeocodeFailureFrequencyPerUser,
+            bool disableGeocodeFailureIpAddressFrequencyCheck, string maxGeocodeFailureFrequencyPerIpAddress)
+        {
+            var parseHelper = new ParseHelper();
+            var mockAntiAbuseServiceConfig = new Mock<IAntiAbuseServiceConfig>();
+
+            mockAntiAbuseServiceConfig.Setup(x => x.AddAddress_DisableGeocodeFailureUserFrequencyCheck)
+                .Returns(disableGeocodeFailureUserFrequencyCheck);
+            mockAntiAbuseServiceConfig.Setup(x => x.AddAddress_MaxGeocodeFailureFrequencyPerUser)
+                .Returns(parseHelper.ParseFrequency(maxGeocodeFailureFrequencyPerUser));
+            mockAntiAbuseServiceConfig.Setup(x => x.AddAddress_DisableGeocodeFailureIpAddressFrequencyCheck)
+                .Returns(disableGeocodeFailureIpAddressFrequencyCheck);
+            mockAntiAbuseServiceConfig.Setup(x => x.AddAddress_MaxGeocodeFailureFrequencyPerIpAddress)
+                .Returns(parseHelper.ParseFrequency(maxGeocodeFailureFrequencyPerIpAddress));
+
+            mockAntiAbuseServiceConfig.Setup(x => x.AddAddress_DisableUserFrequencyCheck)
+                .Returns(true);
+            mockAntiAbuseServiceConfig.Setup(x => x.AddAddress_DisableIpAddressFrequencyCheck)
+                .Returns(true);
             container.Rebind<IAntiAbuseServiceConfig>().ToConstant(mockAntiAbuseServiceConfig.Object);
         }
 
