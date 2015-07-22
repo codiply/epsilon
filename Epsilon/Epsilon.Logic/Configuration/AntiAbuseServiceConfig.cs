@@ -137,5 +137,43 @@ namespace Epsilon.Logic.Configuration
                     _dbAppSettingDefaultValue.AntiAbuse_CreateTenancyDetailsSubmission_MaxFrequencyPerUser);
             }
         }
+
+        public Frequency GeocodeFailure_MaxFrequencyPerIpAddress
+        {
+            get
+            {
+                return _dbAppSettingsHelper.GetFrequency(
+                    DbAppSettingKey.AntiAbuse_GeocodeFailure_MaxFrequencyPerIpAddress,
+                    _dbAppSettingDefaultValue.AntiAbuse_GeocodeFailure_MaxFrequencyPerIpAddress);
+            }
+        }
+
+        public bool GeocodeFailure_DisableIpAddressFrequencyCheck
+        {
+            get
+            {
+                return _dbAppSettingsHelper
+                    .GetBool(DbAppSettingKey.AntiAbuse_GeocodeFailure_DisableIpAddressFrequencyCheck) == true;
+            }
+        }
+
+        public Frequency GeocodeFailure_MaxFrequencyPerUser
+        {
+            get
+            {
+                return _dbAppSettingsHelper.GetFrequency(
+                    DbAppSettingKey.AntiAbuse_GeocodeFailure_MaxFrequencyPerUser,
+                    _dbAppSettingDefaultValue.AntiAbuse_GeocodeFailure_MaxFrequencyPerUser);
+            }
+        }
+
+        public bool GeocodeFailure_DisableUserFrequencyCheck
+        {
+            get
+            {
+                return _dbAppSettingsHelper
+                    .GetBool(DbAppSettingKey.AntiAbuse_GeocodeFailure_DisableUserFrequencyCheck) == true;
+            }
+        }
     }
 }
