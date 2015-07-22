@@ -18,7 +18,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
         [Test]
         public async Task Log_CreatesLogEntryAndSetsRecordedOn()
         {
-            var key = AdminEventLogKey.GeocodeServiceRetryDueToOverQueryLimit;
+            var key = AdminEventLogKey.GooglGeocodeApiStatusOverQueryLimitSuccessAfterRetrying;
             var keyToString = EnumsHelper.AdminEventLogKey.ToString(key);
             var extraInfo = "extra-info";
 

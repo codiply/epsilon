@@ -100,6 +100,8 @@
     <Compile Include="Constants\CountryAddressFieldMetadata.cs" />
     <Compile Include="Constants\Enums\AdminEventLogKey.cs" />
     <Compile Include="Constants\Enums\CountryVariantResourceName.cs" />
+    <Compile Include="Constants\Enums\GeocodeAddressStatus.cs" />
+    <Compile Include="Constants\Enums\GeocodePostcodeStatus.cs" />
     <Compile Include="Constants\Enums\TokenAccountTransactionStatus.cs" />
     <Compile Include="Constants\Enums\TokenAccountTransactionTypeId.cs" />
     <Compile Include="Constants\Enums\CountryId.cs" />

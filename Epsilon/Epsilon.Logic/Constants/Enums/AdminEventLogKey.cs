@@ -8,6 +8,11 @@ namespace Epsilon.Logic.Constants.Enums
 {
     public enum AdminEventLogKey
     {
-        GeocodeServiceRetryDueToOverQueryLimit
+        GooglGeocodeApiStatusOverQueryLimitMaxRetriesReached,
+        GooglGeocodeApiStatusOverQueryLimitSuccessAfterRetrying,
+        GoogleGeocodeApiStatusInvalidRequest,
+        GoogleGeocodeApiStatusRequestDenied,
+        GoogleGeocodeApiStatusUnexpected,
+        GoogleGeocodeApiStatusUknownError
     }
 }

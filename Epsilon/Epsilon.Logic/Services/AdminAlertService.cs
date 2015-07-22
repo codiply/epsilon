@@ -41,18 +41,25 @@ namespace Epsilon.Logic.Services
 
         public void SendAlert(string key)
         {
-            if (IsNotAllowedToSendAgain(key))
-                return;
-
-            lock (GetLock(key))
+            try
             {
                 if (IsNotAllowedToSendAgain(key))
                     return;
 
-                DoSendAlert(key);
-                RecordAlertSent(key);
+                lock (GetLock(key))
+                {
+                    if (IsNotAllowedToSendAgain(key))
+                        return;
+
+                    DoSendAlert(key);
+                    RecordAlertSent(key);
+                }
             }
-        }
+            catch (Exception ex)
+            {
+                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+            }
+            }
 
         private bool IsNotAllowedToSendAgain(string key)
         {
