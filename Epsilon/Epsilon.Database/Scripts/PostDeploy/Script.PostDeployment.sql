@@ -18,4 +18,6 @@ Post-Deployment Script Template
 :r .\ReferenceData\Country.sql
 :r .\ReferenceData\Language.sql
 :r .\ReferenceData\TokenAccountTransactionType.sql
+:r .\ReferenceData\TokenRewardScheme.sql
+:r .\ReferenceData\TokenReward.sql -- Needs to be after TokenRewardScheme
 GO

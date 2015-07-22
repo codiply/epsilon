@@ -16,6 +16,8 @@ namespace Epsilon.Logic.SqlContext.Mapping
         {
             // Primary Key
             this.HasKey(x => x.Id);
+            this.Property(x => x.Id)
+                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
 
             // Indexes
             this.Property(x => x.EffectiveFrom)

@@ -110,5 +110,7 @@
     <None Include="Scripts\PostDeploy\ReferenceData\AppSetting.sql" />
     <None Include="Scripts\PostDeploy\ReferenceData\AspNetRoles.sql" />
     <None Include="Scripts\PostDeploy\SchemaChanges\DefaultValue.sql" />
+    <None Include="Scripts\PostDeploy\ReferenceData\TokenRewardScheme.sql" />
+    <None Include="Scripts\PostDeploy\ReferenceData\TokenReward.sql" />
   </ItemGroup>
 </Project>

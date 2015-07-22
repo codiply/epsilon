@@ -1,4 +1,4 @@
-﻿-- PostDeploy\ReferenceData\TokenAccountTransactionType.sql START
+﻿-- PostDeploy\ReferenceData\TokenRewardScheme.sql START
 
 GO
 -- I drop the temporary table  #TMP if it exists.
@@ -35,4 +35,4 @@ GO
 DROP TABLE #TMP;
 GO
 
--- PostDeploy\ReferenceData\TokenAccountTransactionType.sql END
+-- PostDeploy\ReferenceData\TokenRewardScheme.sql END
