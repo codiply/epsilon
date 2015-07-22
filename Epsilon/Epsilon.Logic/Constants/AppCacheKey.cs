@@ -13,6 +13,7 @@ namespace Epsilon.Logic.Constants
         public const string COUNTRIES_DICTIONARY = "APPCACHE:COUNTRIES_DICTIONARY";
         public const string LANGUAGES_DICTIONARY = "APPCACHE:LANGUAGES_DICTIONARY";
         public const string DB_APP_SETTINGS = "APPCACHE:DB_APP_SETTINGS";
+        public const string CURRENT_TOKEN_REWARD_SCHEME = "APPCACHE:CURRENT_TOKEN_REWARD_SCHEME";
 
 
         public static string Language(string languageId)

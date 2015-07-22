@@ -82,6 +82,7 @@
     <Compile Include="Configuration\AddressServiceConfig.cs" />
     <Compile Include="Configuration\GeocodeServiceConfig.cs" />
     <Compile Include="Configuration\AdminAlertServiceConfig.cs" />
+    <Compile Include="Configuration\Interfaces\ICommonConfig.cs" />
     <Compile Include="Configuration\TokenAccountServiceConfig.cs" />
     <Compile Include="Configuration\AntiAbuseServiceConfig.cs" />
     <Compile Include="Configuration\Interfaces\IAddressServiceConfig.cs" />
@@ -91,6 +92,7 @@
     <Compile Include="Configuration\Interfaces\ITokenAccountServiceConfig.cs" />
     <Compile Include="Configuration\Interfaces\ITenancyDetailsSubmissionServiceConfig.cs" />
     <Compile Include="Configuration\TenancyDetailsSubmissionServiceConfig.cs" />
+    <Compile Include="Configuration\CommonConfig.cs" />
     <Compile Include="Constants\AdminAlertKey.cs" />
     <Compile Include="Constants\AppSettingsKey.cs" />
     <Compile Include="Constants\AppConstant.cs" />
@@ -166,6 +168,7 @@
     <Compile Include="Services\AdminEventLogService.cs" />
     <Compile Include="Services\AntiAbuseService.cs" />
     <Compile Include="Services\Interfaces\IAdminEventLogService.cs" />
+    <Compile Include="Services\Interfaces\ITokenRewardSchemeService.cs" />
     <Compile Include="Services\TokenAccountService.cs" />
     <Compile Include="Services\CountryService.cs" />
     <Compile Include="Helpers\CountryVariantResourceHelper.cs" />
@@ -177,6 +180,7 @@
     <Compile Include="Services\Interfaces\ITokenAccountService.cs" />
     <Compile Include="Services\Interfaces\ICountryService.cs" />
     <Compile Include="Helpers\Interfaces\ICountryVariantResourceHelper.cs" />
+    <Compile Include="Services\TokenRewardSchemeService.cs" />
     <Compile Include="SqlContext\Mapping\AdminEventLogMap.cs" />
     <Compile Include="SqlContext\Mapping\TokenRewardMap.cs" />
     <Compile Include="SqlContext\Mapping\TokenRewardSchemeMap.cs" />

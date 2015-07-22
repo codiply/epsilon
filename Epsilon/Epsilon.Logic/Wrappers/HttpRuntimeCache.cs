@@ -33,11 +33,6 @@ namespace Epsilon.Logic.Wrappers
             _cache.Insert(key, value, null, Cache.NoAbsoluteExpiration, slidingExpiration);
         }
 
-        public void Insert(string key, Object value, DateTime absoluteExpiration)
-        {
-            _cache.Insert(key, value, null, absoluteExpiration, Cache.NoSlidingExpiration);
-        }
-
         public void Remove(string key)
         {
             _cache.Remove(key);

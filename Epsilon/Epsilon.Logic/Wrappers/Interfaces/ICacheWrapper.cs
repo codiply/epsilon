@@ -16,8 +16,6 @@ namespace Epsilon.Logic.Wrappers.Interfaces
 
         void Insert(string key, Object value, TimeSpan slidingExpiration);
 
-        void Insert(string key, Object value, DateTime absoluteExpiration);
-
         void Remove(string key);
 
         IEnumerable<string> AllKeys();

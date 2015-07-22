@@ -17,9 +17,12 @@ namespace Epsilon.Logic.Infrastructure.Interfaces
 
         T Get<T>(string key, Func<T> getItemCallback, WithLock lockOption) where T : class;
 
-        T Get<T>(string key, Func<T> getItemCallback, TimeSpan slidingExpiration, WithLock lockOption) where T : class;
-
-        T Get<T>(string key, Func<T> getItemCallback, DateTime absoluteExpiration, WithLock lockOption) where T : class;
+        T Get<T>(
+            string key, 
+            Func<T> getItemCallback, 
+            Func<T, TimeSpan> slidingExpirationFunc, 
+            TimeSpan defaultSlidingExpiration,
+            WithLock lockOption) where T : class;
         
         void Remove(string key);
 

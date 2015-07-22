@@ -11,6 +11,7 @@ namespace Epsilon.Logic.Constants
         public const string AdminAlertEmailList = "Epsilon.AdminAlertEmailList";
         public const string ApplicationName = "Epsilon.ApplicationName";
         public const string CompanyName = "Epsilon.CompanyName";
+        public const string DefaultAppCacheSlidingExpiration = "Epsilon.DefaultAppCacheSlidingExpiration";
         public const string DefaultLanguageId = "Epsilon.DefaultLanguageId";
         public const string DisableAppCache = "Epsilon.DisableAppCache";
         public const string DisableLockingInAppCache = "Epsilon.DisableLockingInAppCache";

@@ -96,6 +96,7 @@ namespace Epsilon.Web.App_Start
             kernel.Bind<IAddressServiceConfig>().To<AddressServiceConfig>().InRequestScope();
             kernel.Bind<IAdminAlertServiceConfig>().To<AdminAlertServiceConfig>().InRequestScope();
             kernel.Bind<IAntiAbuseServiceConfig>().To<AntiAbuseServiceConfig>().InRequestScope();
+            kernel.Bind<ICommonConfig>().To<CommonConfig>().InRequestScope();
             kernel.Bind<IGeocodeServiceConfig>().To<GeocodeServiceConfig>().InRequestScope();
             kernel.Bind<ITenancyDetailsSubmissionServiceConfig>().To<TenancyDetailsSubmissionServiceConfig>().InRequestScope();
             kernel.Bind<ITokenAccountServiceConfig>().To<TokenAccountServiceConfig>().InRequestScope();
@@ -107,8 +108,6 @@ namespace Epsilon.Web.App_Start
 
             // DbContext
             kernel.Bind<IEpsilonContext>().To<EpsilonContext>().InRequestScope();
-
-            // Factories
 
             // Helpers
             kernel.Bind<IAddressCleansingHelper>().To<AddressCleansingHelper>().InSingletonScope();
@@ -138,6 +137,7 @@ namespace Epsilon.Web.App_Start
             kernel.Bind<ISmtpService>().To<SmtpService>().InRequestScope();
             kernel.Bind<ITenancyDetailsSubmissionService>().To<TenancyDetailsSubmissionService>().InRequestScope();
             kernel.Bind<ITokenAccountService>().To<TokenAccountService>().InRequestScope();
+            kernel.Bind<ITokenRewardSchemeService>().To<TokenRewardSchemeService>().InRequestScope();
             kernel.Bind<IUserPreferenceService>().To<UserPreferenceService>().InRequestScope();
             kernel.Bind<IUserTokenService>().To<UserTokenService>().InRequestScope();
 

@@ -34,19 +34,17 @@ namespace Epsilon.Logic.Infrastructure
         public T Get<T>(
             string key, Func<T> getItemCallback, WithLock lockOption) where T : class
         {
-            return GenericGet(key, getItemCallback, (c, k, o) => c.Insert(k, o), lockOption);
+            return GenericGet(key, getItemCallback, null, null, lockOption);
         }
 
         public T Get<T>(
-            string key, Func<T> getItemCallback, TimeSpan slidingExpiration, WithLock lockOption) where T : class
+            string key, 
+            Func<T> getItemCallback, 
+            Func<T, TimeSpan> slidingExpirationFunc,
+            TimeSpan defaultSlidingExpiration,
+            WithLock lockOption) where T : class
         {
-            return GenericGet(key, getItemCallback, (c, k, o) => c.Insert(k, o, slidingExpiration), lockOption);
-        }
-
-        public T Get<T>(
-            string key, Func<T> getItemCallback, DateTime absoluteExpiration, WithLock lockOption) where T : class
-        {
-            return GenericGet(key, getItemCallback, (c, k, o) => c.Insert(k, o, absoluteExpiration), lockOption);
+            return GenericGet(key, getItemCallback, slidingExpirationFunc, defaultSlidingExpiration, lockOption);
         }
         
         public void Remove(string key)
@@ -74,7 +72,11 @@ namespace Epsilon.Logic.Infrastructure
         }
         
         private T GenericGet<T>(
-            string key, Func<T> getItemCallback, Action<ICacheWrapper, string, Object> insertFunc, WithLock lockOption) where T : class
+            string key, 
+            Func<T> getItemCallback, 
+            Func<T, TimeSpan> slidingExpirationFunc,
+            TimeSpan? defaultSlidingExpiration,
+            WithLock lockOption) where T : class
         {
             var disableCache = _appSettingsHelper.GetBool(AppSettingsKey.DisableAppCache) == true;
             if (disableCache)
@@ -87,15 +89,19 @@ namespace Epsilon.Logic.Infrastructure
             switch (lockOption)
             {
                 case WithLock.Yes:
-                    return GenericGetWithLock<T>(key, getItemCallback, insertFunc);
+                    return GenericGetWithLock<T>(key, getItemCallback, slidingExpirationFunc, defaultSlidingExpiration);
                 case WithLock.No:
-                    return GenericGetWithoutLock<T>(key, getItemCallback, insertFunc);
+                    return GenericGetWithoutLock<T>(key, getItemCallback, slidingExpirationFunc, defaultSlidingExpiration);
                 default:
                     throw new NotImplementedException();
             }
         }
 
-        private T GenericGetWithLock<T>(string key, Func<T> getItemCallback, Action<ICacheWrapper, string, Object> insertFunc) where T : class
+        private T GenericGetWithLock<T>(
+            string key, 
+            Func<T> getItemCallback, 
+            Func<T, TimeSpan> slidingExpirationFunc,
+            TimeSpan? defaultSlidingExpiration) where T : class
         {
             bool shouldReturnNull;
             T item = GetFromCache<T>(key, out shouldReturnNull);
@@ -119,13 +125,16 @@ namespace Epsilon.Logic.Infrastructure
                 // get it using the callback function. 
                 item = getItemCallback();
 
-                Insert(key, item, insertFunc);
+                Insert(key, item, slidingExpirationFunc, defaultSlidingExpiration);
             }
 
             return item;
         }
 
-        private T GenericGetWithoutLock<T>(string key, Func<T> getItemCallback, Action<ICacheWrapper, string, Object> insertFunc) where T : class
+        private T GenericGetWithoutLock<T>(
+            string key, Func<T> getItemCallback, 
+            Func<T, TimeSpan> slidingExpirationFunc, 
+            TimeSpan? defaultSlidingExpiration) where T : class
         {
             bool shouldReturnNull;
             T item = GetFromCache<T>(key, out shouldReturnNull);
@@ -139,22 +148,36 @@ namespace Epsilon.Logic.Infrastructure
             // get it using the callback function. 
             item = getItemCallback();
 
-            Insert(key, item, insertFunc);
+            Insert(key, item, slidingExpirationFunc, defaultSlidingExpiration);
 
             return item;
         }
 
-        private void Insert<T>(string key, T item, Action<ICacheWrapper, string, Object> insertFunc)
+        private void Insert<T>(string key, T item, Func<T, TimeSpan> slidingExpirationFunc, TimeSpan? defaultSlidingExpiration)
         {
             if (item == null)
             {
                 // If the item is actually null, store a CacheableNull object instead.
-                insertFunc(_cache, key, new CacheableNull());
+                if (defaultSlidingExpiration.HasValue)
+                {
+                    _cache.Insert(key, new CacheableNull(), defaultSlidingExpiration.Value);
+                }
+                else
+                {
+                    _cache.Insert(key, new CacheableNull());
+                }
             }
             else
             {
                 // If the item is not null, store it in the cache.
-                insertFunc(_cache, key, item);
+                if (slidingExpirationFunc == null)
+                {
+                    _cache.Insert(key, item);
+                }
+                else
+                {
+                    _cache.Insert(key, item, slidingExpirationFunc(item));
+                }
             }
         }
 
