@@ -10,17 +10,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data.Entity;
+using Epsilon.Logic.Constants.Enums;
+using Epsilon.Logic.Helpers;
 
 namespace Epsilon.Logic.Services
 {
-    public class TokenRewardSchemeService : ITokenRewardSchemeService
+    public class TokenRewardService : ITokenRewardService
     {
         private readonly IClock _clock;
         private readonly ICommonConfig _commonConfig;
         private readonly IAppCache _appCache;
         private readonly IEpsilonContext _dbContext;
 
-        public TokenRewardSchemeService(
+        public TokenRewardService(
             IClock clock,
             ICommonConfig commonConfig,
             IAppCache appCache,
@@ -32,7 +35,7 @@ namespace Epsilon.Logic.Services
             _dbContext = dbContext;
         }
 
-        public TokenRewardScheme GetCurrent()
+        public TokenRewardScheme GetCurrentScheme()
         {
             var now = _clock.OffsetNow;
             return _appCache.Get(AppCacheKey.CURRENT_TOKEN_REWARD_SCHEME, 
@@ -44,6 +47,7 @@ namespace Epsilon.Logic.Services
                 }, 
                 ignoredCurrentScheme => {
                     var nextScheme = _dbContext.TokenRewardSchemes
+                        .Include(x => x.Rewards)
                         .OrderBy(x => x.EffectiveFrom)
                         .FirstOrDefault(x => x.EffectiveFrom > now);
                     if (nextScheme == null)
@@ -58,6 +62,15 @@ namespace Epsilon.Logic.Services
                 },
                 _commonConfig.DefaultAppCacheSlidingExpiration, 
                 WithLock.No);
+        }
+
+        public TokenReward GetCurrentReward(TokenRewardKey key)
+        {
+            var currentScheme = GetCurrentScheme();
+            var keyToString = EnumsHelper.TokenRewardKey.ToString(key);
+            var currentReward = currentScheme.Rewards
+                .SingleOrDefault(x => x.Key.Equals(keyToString));
+            return currentReward;
         }
     }
 }

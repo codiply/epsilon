@@ -137,7 +137,7 @@ namespace Epsilon.Web.App_Start
             kernel.Bind<ISmtpService>().To<SmtpService>().InRequestScope();
             kernel.Bind<ITenancyDetailsSubmissionService>().To<TenancyDetailsSubmissionService>().InRequestScope();
             kernel.Bind<ITokenAccountService>().To<TokenAccountService>().InRequestScope();
-            kernel.Bind<ITokenRewardSchemeService>().To<TokenRewardSchemeService>().InRequestScope();
+            kernel.Bind<ITokenRewardService>().To<TokenRewardService>().InRequestScope();
             kernel.Bind<IUserPreferenceService>().To<UserPreferenceService>().InRequestScope();
             kernel.Bind<IUserTokenService>().To<UserTokenService>().InRequestScope();
 

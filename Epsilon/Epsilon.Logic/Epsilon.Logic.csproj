@@ -169,7 +169,7 @@
     <Compile Include="Services\AdminEventLogService.cs" />
     <Compile Include="Services\AntiAbuseService.cs" />
     <Compile Include="Services\Interfaces\IAdminEventLogService.cs" />
-    <Compile Include="Services\Interfaces\ITokenRewardSchemeService.cs" />
+    <Compile Include="Services\Interfaces\ITokenRewardService.cs" />
     <Compile Include="Services\TokenAccountService.cs" />
     <Compile Include="Services\CountryService.cs" />
     <Compile Include="Helpers\CountryVariantResourceHelper.cs" />
@@ -181,7 +181,7 @@
     <Compile Include="Services\Interfaces\ITokenAccountService.cs" />
     <Compile Include="Services\Interfaces\ICountryService.cs" />
     <Compile Include="Helpers\Interfaces\ICountryVariantResourceHelper.cs" />
-    <Compile Include="Services\TokenRewardSchemeService.cs" />
+    <Compile Include="Services\TokenRewardService.cs" />
     <Compile Include="SqlContext\Mapping\AdminEventLogMap.cs" />
     <Compile Include="SqlContext\Mapping\TokenRewardMap.cs" />
     <Compile Include="SqlContext\Mapping\TokenRewardSchemeMap.cs" />
