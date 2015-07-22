@@ -20,6 +20,9 @@ namespace Epsilon.Logic.Constants.Interfaces
         Frequency AntiAbuse_AddAddress_MaxGeocodeFailureFrequencyPerIpAddress { get; }
         Frequency AntiAbuse_AddAddress_MaxGeocodeFailureFrequencyPerUser { get; }
 
+        int GeocodeService_OverQueryLimitMaxRetries { get; }
+        double GeocodeService_OverQueryLimitDelayBetweenRetriesInSeconds { get; }
+
         Frequency TenancyDetailsSubmission_Create_MaxFrequencyPerAddress { get; }
 
         int SearchAddressResultsLimit { get; }

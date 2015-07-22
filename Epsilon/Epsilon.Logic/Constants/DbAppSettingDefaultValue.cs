@@ -21,6 +21,9 @@ namespace Epsilon.Logic.Constants
         public Frequency AntiAbuse_AddAddress_MaxGeocodeFailureFrequencyPerIpAddress { get { return new Frequency(8, TimeSpan.FromHours(1)); } }
         public Frequency AntiAbuse_AddAddress_MaxGeocodeFailureFrequencyPerUser { get { return new Frequency(4, TimeSpan.FromHours(2)); } }
 
+        public int GeocodeService_OverQueryLimitMaxRetries { get { return 3; } }
+        public double GeocodeService_OverQueryLimitDelayBetweenRetriesInSeconds {get { return 1.0; }}
+
         public Frequency TenancyDetailsSubmission_Create_MaxFrequencyPerAddress { get { return new Frequency(1, TimeSpan.FromDays(30)); } }
         
         public int SearchAddressResultsLimit { get { return 30; } }

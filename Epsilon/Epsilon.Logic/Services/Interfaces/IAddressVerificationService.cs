@@ -1,4 +1,5 @@
-﻿using Epsilon.Logic.Forms;
+﻿using Epsilon.Logic.Entities;
+using Epsilon.Logic.Forms;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,7 @@ namespace Epsilon.Logic.Services.Interfaces
     {
         public bool IsRejected { get; set; }
         public string RejectionReason { get; set; }
+        public AddressGeometry AddressGeometry { get; set; }
     }
 
     public interface IAddressVerificationService

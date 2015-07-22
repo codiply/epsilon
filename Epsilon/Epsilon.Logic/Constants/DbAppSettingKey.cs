@@ -48,6 +48,11 @@ namespace Epsilon.Logic.Constants
         public const string TenancyDetailsSubmission_Create_DisableFrequencyPerAddressCheck = 
             "TenancyDetailsSubmission_Create_DisableFrequencyPerAddressCheck";
 
+        public const string GeocodeService_OverQueryLimitMaxRetries =
+            "GeocodeService_OverQueryLimitMaxRetries";
+        public const string GeocodeService_OverQueryLimitDelayBetweenRetriesInSeconds =
+            "GeocodeService_OverQueryLimitDelayBetweenRetriesInSeconds";
+
         public const string SearchAddressResultsLimit = "SearchAddressResultsLimit";
 
         public const string EnableResponseTiming = "EnableResponseTiming";

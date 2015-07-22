@@ -51,8 +51,7 @@ namespace Epsilon.Logic.Services
 
         private async Task<GeocodeAddressResponse> GeocodeAddress(string address, string countryId, int retryNo)
         {
-            var maxRetries = 3; // TODO_PANOS: Save this in Web.config
-            if (retryNo > maxRetries)
+            if (retryNo > _geocodeServiceConfig.OverQueryLimitMaxRetries)
             {
                 await RaiseOverQueryLimitMaxRetriesReached(TYPE_ADDRESS);
                 return new GeocodeAddressResponse { Status = GeocodeAddressStatus.OverQueryLimitTriedMaxTimes };
@@ -69,7 +68,7 @@ namespace Epsilon.Logic.Services
 
             if (response.Status == GeocodeStatus.OverQueryLimit)
             {
-                await Task.Delay(1000); // TODO_PANOS save in Web.config
+                await Task.Delay(_geocodeServiceConfig.OverQueryLimitDelayBetweenRetries);
                 return await GeocodeAddress(address, countryId, retryNo + 1);
             }
 
@@ -105,8 +104,7 @@ namespace Epsilon.Logic.Services
 
         private async Task<GeocodePostcodeStatus> GeocodePostcode(string postcode, string countryId, int retryNo)
         {
-            var maxRetries = 3; // TODO_PANOS: Save this in Web.config
-            if (retryNo > maxRetries)
+            if (retryNo > _geocodeServiceConfig.OverQueryLimitMaxRetries)
             {
                 await RaiseOverQueryLimitMaxRetriesReached(TYPE_POSTCODE);
                 return GeocodePostcodeStatus.OverQueryLimitTriedMaxTimes;
@@ -123,7 +121,7 @@ namespace Epsilon.Logic.Services
 
             if (response.Status == GeocodeStatus.OverQueryLimit)
             {
-                await Task.Delay(1000); // TODO_PANOS save in Web.config
+                await Task.Delay(_geocodeServiceConfig.OverQueryLimitDelayBetweenRetries);
                 return await GeocodePostcode(postcode, countryId, retryNo + 1);
             }
 
@@ -159,9 +157,8 @@ namespace Epsilon.Logic.Services
         
         private async Task RaiseOverQueryLimitMaxRetriesReached(string type)
         {
-            var maxRetries = 3; // TODO_PANOS
             _adminAlertService.SendAlert(AdminAlertKey.GooglGeocodeApiStatusOverQueryLimitMaxRetriesReached);
-            var extraInfo = string.Format("Maximum retries: {0} Type: {1}", maxRetries, type);
+            var extraInfo = string.Format("Maximum retries: {0} Type: {1}", _geocodeServiceConfig.OverQueryLimitMaxRetries, type);
             await _adminEventLogService.Log(AdminEventLogKey.GooglGeocodeApiStatusOverQueryLimitMaxRetriesReached, extraInfo);
         }
 
@@ -206,8 +203,9 @@ namespace Epsilon.Logic.Services
             catch(Exception ex)
             {
                 Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
-                _adminAlertService.SendAlert(AdminAlertKey.GoogleGeocodeApiError);
+                _adminAlertService.SendAlert(AdminAlertKey.GoogleGeocodeApiClientException);
             }
+
             return null;
         }
     }
