@@ -135,7 +135,7 @@ namespace Epsilon.Logic.Services
                     AddressUniqueId = null
                 };
 
-            var verificationResponse = await _addressVerificationService.Verify(dto);
+            var verificationResponse = await _addressVerificationService.Verify(userId, userIpAddress, dto);
             if (verificationResponse.IsRejected)
                 return new AddAddressOutcome
                 {

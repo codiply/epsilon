@@ -15,6 +15,6 @@ namespace Epsilon.Logic.Services.Interfaces
 
     public interface IAddressVerificationService
     {
-        Task<AddressVerificationResponse> Verify(AddressForm address);
+        Task<AddressVerificationResponse> Verify(string userId, string userIpAddress, AddressForm address);
     }
 }

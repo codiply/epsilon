@@ -1,4 +1,4 @@
-﻿-- PostDeploy\ReferenceData\TokenRewardScheme.sql START
+﻿-- PostDeploy\ReferenceData\TokenRewardSchemeType.sql START
 
 GO
 -- I drop the temporary table  #TMP if it exists.
