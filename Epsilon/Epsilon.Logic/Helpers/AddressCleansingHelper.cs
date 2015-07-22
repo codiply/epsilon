@@ -31,8 +31,10 @@ namespace Epsilon.Logic.Helpers
             {
                 case CountryId.GB:
                     return Regex.Replace(postcode, @"\s+", "").ToUpperInvariant();
-                default:
+                case CountryId.GR:
                     return postcode;
+                default:
+                    throw new NotImplementedException("Unexpected CountrId.");
             }
         }
     }

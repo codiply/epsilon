@@ -41,6 +41,7 @@ You will need to use a Google Api Key in order to access the [Google Geocoding A
 - Add Country Id in `CountryId` enumeration script
 - Add two Resource files in CountryVariants folder with names **ResourcesXX** and **ResourceXX.yy**, where **XX** is the Id of the Country and **yy** is the culture code of the language of the country.
 - Add field metadata in `CountryAddressFieldMetadata` constants class.
+- Add case for new country in AddressCleansingHelper.CleanPostcode method.
 
 ### New Language Checklist
 
