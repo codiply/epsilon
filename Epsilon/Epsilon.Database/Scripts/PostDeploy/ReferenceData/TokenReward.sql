@@ -14,11 +14,14 @@ INSERT INTO #TMP
 ([SchemeId], [Key], [Value])
 VALUES
 -- !!! IMPORTANT !!! 
--- Do not edit the values for the current or past schemes. 
--- Only insert new value.
+-- 1. Do not edit the values for the current or past schemes. Only insert new value.
+-- 2. All keys should either start with Earn or Spend.
+-- 3. Keys starting with Earn should have positive value.
+-- 4. Keys starting with Spend should have negative value.
 -- Scheme 1
-(N'1', N'Key1', 1.0),
-(N'1', N'Key2', 1.0);
+(N'1', N'EarnPerTenancyDetailsSubmission', 2.0),
+(N'1', N'EarnPerVerificationCodeEntered', 1.0),
+(N'1', N'EarnPerVerificationMailSent', 2.0);
 GO
 
 MERGE [dbo].[TokenReward] AS T -- Target
