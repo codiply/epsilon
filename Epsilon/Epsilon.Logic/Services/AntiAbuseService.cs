@@ -59,6 +59,14 @@ namespace Epsilon.Logic.Services
             if (checkUserFrequency.IsRejected)
                 return checkUserFrequency;
 
+            var checkGeocodeFailureIpFrequency = await CanAddAddressCheckGeocodeFailureIpFrequency(userIpAddress);
+            if (checkGeocodeFailureIpFrequency.IsRejected)
+                return checkGeocodeFailureIpFrequency;
+
+            var checkGeocodeFailureUserFrequency = await CanAddAddressCheckGeocodeFailureUserFrequency(userId);
+            if (checkGeocodeFailureUserFrequency.IsRejected)
+                return checkGeocodeFailureUserFrequency;
+
             return new AntiAbuseServiceResponse { IsRejected = false };
         }
 
@@ -168,6 +176,52 @@ namespace Epsilon.Logic.Services
                 {
                     IsRejected = true,
                     RejectionReason = AntiAbuseResources.AddAddress_UserFrequencyCheck_RejectionMessage
+                };
+
+            return new AntiAbuseServiceResponse { IsRejected = false };
+        }
+
+        private async Task<AntiAbuseServiceResponse> CanAddAddressCheckGeocodeFailureIpFrequency(string ipAddress)
+        {
+            if (_antiAbuseServiceConfig.AddAddress_DisableGeocodeFailureIpAddressFrequencyCheck)
+                return new AntiAbuseServiceResponse { IsRejected = false };
+
+            var maxFrequency = _antiAbuseServiceConfig.AddAddress_MaxGeocodeFailureFrequencyPerIpAddress;
+
+            var windowStart = _clock.OffsetNow - maxFrequency.Period;
+            var actualTimes = await _dbContext.GeocodeFailures
+                .Where(a => a.CreatedByIpAddress.Equals(ipAddress))
+                .Where(a => a.CreatedOn > windowStart)
+                .CountAsync();
+
+            if (actualTimes >= maxFrequency.Times)
+                return new AntiAbuseServiceResponse
+                {
+                    IsRejected = true,
+                    RejectionReason = AntiAbuseResources.AddAddress_GeocodeFailureIpAddressFrequencyCheck_RejectionMessage
+                };
+
+            return new AntiAbuseServiceResponse { IsRejected = false };
+        }
+
+        private async Task<AntiAbuseServiceResponse> CanAddAddressCheckGeocodeFailureUserFrequency(string userId)
+        {
+            if (_antiAbuseServiceConfig.AddAddress_DisableGeocodeFailureUserFrequencyCheck)
+                return new AntiAbuseServiceResponse { IsRejected = false };
+
+            var maxFrequency = _antiAbuseServiceConfig.AddAddress_MaxGeocodeFailureFrequencyPerUser;
+
+            var windowStart = _clock.OffsetNow - maxFrequency.Period;
+            var actualTimes = await _dbContext.GeocodeFailures
+                .Where(a => a.CreatedById.Equals(userId))
+                .Where(a => a.CreatedOn > windowStart)
+                .CountAsync();
+
+            if (actualTimes >= maxFrequency.Times)
+                return new AntiAbuseServiceResponse
+                {
+                    IsRejected = true,
+                    RejectionReason = AntiAbuseResources.AddAddress_GeocodeFailureUserFrequencyCheck_RejectionMessage
                 };
 
             return new AntiAbuseServiceResponse { IsRejected = false };

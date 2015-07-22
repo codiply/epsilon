@@ -26,16 +26,16 @@ namespace Epsilon.Logic.Constants
             "AntiAbuse_CreateTenancyDetailsSubmission_DisableIpAddressFrequencyCheck";
         public const string AntiAbuse_CreateTenancyDetailsSubmission_DisableUserFrequencyCheck =
             "AntiAbuse_CreateTenancyDetailsSubmission_DisableUserFrequencyCheck";
-        public const string AntiAbuse_GeocodeFailure_MaxFrequencyPerIpAddress = 
-            "AntiAbuse_GeocodeFailure_MaxFrequencyPerIpAddress";
-        public const string AntiAbuse_GeocodeFailure_DisableIpAddressFrequencyCheck =
-            "AntiAbuse_GeocodeFailure_DisableIpAddressFrequencyCheck";
-        public const string AntiAbuse_GeocodeFailure_MaxFrequencyPerUser = 
-            "AntiAbuse_GeocodeFailure_MaxFrequencyPerUser";
-        public const string AntiAbuse_GeocodeFailure_DisableUserFrequencyCheck =
-            "AntiAbuse_GeocodeFailure_DisableUserFrequencyCheck";
-        public const string AntiAbuse_Register_GlobalMaxFrequency = 
-            "AntiAbuse_Register_GlobalMaxFrequency";
+        public const string AntiAbuse_AddAddress_MaxGeocodeFailureFrequencyPerIpAddress =
+            "AntiAbuse_AddAddress_MaxGeocodeFailureFrequencyPerIpAddress";
+        public const string AntiAbuse_AddAddress_DisableGeocodeFailureIpAddressFrequencyCheck =
+            "AntiAbuse_AddAddress_DisableGeocodeFailureIpAddressFrequencyCheck";
+        public const string AntiAbuse_AddAddress_MaxGeocodeFailureFrequencyPerUser =
+            "AntiAbuse_AddAddress_MaxGeocodeFailureFrequencyPerUser";
+        public const string AntiAbuse_AddAddress_DisableGeocodeFailureUserFrequencyCheck =
+            "AntiAbuse_AddAddress_DisableGeocodeFailureUserFrequencyCheck";
+        public const string AntiAbuse_Register_GlobalMaxFrequency =
+            "AntiAbuse_AddAddress_DisableGeocodeFailureUserFrequencyCheck";
         public const string AntiAbuse_Register_DisableGlobalFrequencyCheck = 
             "AntiAbuse_Register_DisableGlobalFrequencyCheck";
         public const string AntiAbuse_Register_MaxFrequencyPerIpAddress = 

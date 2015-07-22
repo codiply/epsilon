@@ -23,9 +23,9 @@ namespace Epsilon.Logic.Configuration.Interfaces
         Frequency CreateTenancyDetailsSubmission_MaxFrequencyPerUser { get; }
         
 
-        Frequency GeocodeFailure_MaxFrequencyPerIpAddress { get; }
-        bool GeocodeFailure_DisableIpAddressFrequencyCheck { get; }
-        Frequency GeocodeFailure_MaxFrequencyPerUser { get; }
-        bool GeocodeFailure_DisableUserFrequencyCheck { get; }
+        Frequency AddAddress_MaxGeocodeFailureFrequencyPerIpAddress { get; }
+        bool AddAddress_DisableGeocodeFailureIpAddressFrequencyCheck { get; }
+        Frequency AddAddress_MaxGeocodeFailureFrequencyPerUser { get; }
+        bool AddAddress_DisableGeocodeFailureUserFrequencyCheck { get; }
     }
 }

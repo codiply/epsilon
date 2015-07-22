@@ -138,41 +138,41 @@ namespace Epsilon.Logic.Configuration
             }
         }
 
-        public Frequency GeocodeFailure_MaxFrequencyPerIpAddress
+        public Frequency AddAddress_MaxGeocodeFailureFrequencyPerIpAddress
         {
             get
             {
                 return _dbAppSettingsHelper.GetFrequency(
-                    DbAppSettingKey.AntiAbuse_GeocodeFailure_MaxFrequencyPerIpAddress,
-                    _dbAppSettingDefaultValue.AntiAbuse_GeocodeFailure_MaxFrequencyPerIpAddress);
+                    DbAppSettingKey.AntiAbuse_AddAddress_MaxGeocodeFailureFrequencyPerIpAddress,
+                    _dbAppSettingDefaultValue.AntiAbuse_AddAddress_MaxGeocodeFailureFrequencyPerIpAddress);
             }
         }
 
-        public bool GeocodeFailure_DisableIpAddressFrequencyCheck
+        public bool AddAddress_DisableGeocodeFailureIpAddressFrequencyCheck
         {
             get
             {
                 return _dbAppSettingsHelper
-                    .GetBool(DbAppSettingKey.AntiAbuse_GeocodeFailure_DisableIpAddressFrequencyCheck) == true;
+                    .GetBool(DbAppSettingKey.AntiAbuse_AddAddress_DisableGeocodeFailureIpAddressFrequencyCheck) == true;
             }
         }
 
-        public Frequency GeocodeFailure_MaxFrequencyPerUser
+        public Frequency AddAddress_MaxGeocodeFailureFrequencyPerUser
         {
             get
             {
                 return _dbAppSettingsHelper.GetFrequency(
-                    DbAppSettingKey.AntiAbuse_GeocodeFailure_MaxFrequencyPerUser,
-                    _dbAppSettingDefaultValue.AntiAbuse_GeocodeFailure_MaxFrequencyPerUser);
+                    DbAppSettingKey.AntiAbuse_AddAddress_MaxGeocodeFailureFrequencyPerUser,
+                    _dbAppSettingDefaultValue.AntiAbuse_AddAddress_MaxGeocodeFailureFrequencyPerUser);
             }
         }
 
-        public bool GeocodeFailure_DisableUserFrequencyCheck
+        public bool AddAddress_DisableGeocodeFailureUserFrequencyCheck
         {
             get
             {
                 return _dbAppSettingsHelper
-                    .GetBool(DbAppSettingKey.AntiAbuse_GeocodeFailure_DisableUserFrequencyCheck) == true;
+                    .GetBool(DbAppSettingKey.AntiAbuse_AddAddress_DisableGeocodeFailureUserFrequencyCheck) == true;
             }
         }
     }

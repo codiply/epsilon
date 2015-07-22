@@ -61,6 +61,24 @@ namespace Epsilon.Resources.Logic.AntiAbuse {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to There have been too many failed attempts to add an address from your IP address. Please try again in a few hours..
+        /// </summary>
+        public static string AddAddress_GeocodeFailureIpAddressFrequencyCheck_RejectionMessage {
+            get {
+                return ResourceManager.GetString("AddAddress_GeocodeFailureIpAddressFrequencyCheck_RejectionMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You have exceeded the maximum number of attempts to add an address. Please try again in a few hours..
+        /// </summary>
+        public static string AddAddress_GeocodeFailureUserFrequencyCheck_RejectionMessage {
+            get {
+                return ResourceManager.GetString("AddAddress_GeocodeFailureUserFrequencyCheck_RejectionMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to There have been too many addresses added by your IP address..
         /// </summary>
         public static string AddAddress_IpAddressFrequencyCheck_RejectionMessage {
