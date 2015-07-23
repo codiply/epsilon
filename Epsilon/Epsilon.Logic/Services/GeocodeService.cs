@@ -158,13 +158,21 @@ namespace Epsilon.Logic.Services
         private async Task RaiseOverQueryLimitMaxRetriesReached(string type)
         {
             _adminAlertService.SendAlert(AdminAlertKey.GooglGeocodeApiStatusOverQueryLimitMaxRetriesReached);
-            var extraInfo = string.Format("Maximum retries: {0} Type: {1}", _geocodeServiceConfig.OverQueryLimitMaxRetries, type);
+            var extraInfo = new Dictionary<string, object>
+            {
+                { "Type", type },
+                { "MaximumRetries", _geocodeServiceConfig.OverQueryLimitMaxRetries }
+            };
             await _adminEventLogService.Log(AdminEventLogKey.GooglGeocodeApiStatusOverQueryLimitMaxRetriesReached, extraInfo);
         }
 
         private async Task LogOverQueryLimitSuccessAfterRetrying(int retryNo, string type)
         {
-            var extraInfo = string.Format("Retries until success: {0} Type: {1}", retryNo, type);
+            var extraInfo = new Dictionary<string, object>
+            {
+                { "Type", type },
+                { "RetriesUntilSuccess", retryNo }
+            };
             await _adminEventLogService.Log(AdminEventLogKey.GooglGeocodeApiStatusOverQueryLimitSuccessAfterRetrying, extraInfo);
         }
 
@@ -181,20 +189,23 @@ namespace Epsilon.Logic.Services
                 {
                     case GeocodeStatus.InvalidRequest:
                         _adminAlertService.SendAlert(AdminAlertKey.GoogleGeocodeApiStatusInvalidRequest);
-                        var extraInfo = string.Format("Address:'{0}' Region: '{1}'", address, region);
+                        var extraInfo = new Dictionary<string, object>
+                        {
+                            { "Address", address }, { "Region", region }
+                        };
                         await _adminEventLogService.Log(AdminEventLogKey.GoogleGeocodeApiStatusInvalidRequest, extraInfo);
                         return response;
                     case GeocodeStatus.RequestDenied:
                         _adminAlertService.SendAlert(AdminAlertKey.GoogleGeocodeApiStatusRequestDenied);
-                        await _adminEventLogService.Log(AdminEventLogKey.GoogleGeocodeApiStatusRequestDenied,"");
+                        await _adminEventLogService.Log(AdminEventLogKey.GoogleGeocodeApiStatusRequestDenied, null);
                         return response;
                     case GeocodeStatus.Unexpected:
                         _adminAlertService.SendAlert(AdminAlertKey.GoogleGeocodeApiStatusUnexpected);
-                        await _adminEventLogService.Log(AdminEventLogKey.GoogleGeocodeApiStatusUnexpected, "");
+                        await _adminEventLogService.Log(AdminEventLogKey.GoogleGeocodeApiStatusUnexpected, null);
                         return response;
                     case GeocodeStatus.UnknownError:
                         _adminAlertService.SendAlert(AdminAlertKey.GoogleGeocodeApiStatusUknownError);
-                        await _adminEventLogService.Log(AdminEventLogKey.GoogleGeocodeApiStatusUknownError, "");
+                        await _adminEventLogService.Log(AdminEventLogKey.GoogleGeocodeApiStatusUknownError, null);
                         return response;
                     default:
                         return response;
