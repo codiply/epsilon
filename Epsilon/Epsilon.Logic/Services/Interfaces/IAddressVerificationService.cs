@@ -12,6 +12,7 @@ namespace Epsilon.Logic.Services.Interfaces
     {
         public bool IsRejected { get; set; }
         public string RejectionReason { get; set; }
+        public bool AskUserToModify { get; set; }
         public AddressGeometry AddressGeometry { get; set; }
     }
 

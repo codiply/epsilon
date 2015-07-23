@@ -74,16 +74,23 @@ namespace Epsilon.Web.Controllers
                 if (outcome.IsRejected)
                 {
                     Danger(outcome.RejectionReason, true);
-                    return RedirectToAction(
-                        AppConstant.AUTHENTICATED_USER_HOME_ACTION,
-                        AppConstant.AUTHENTICATED_USER_HOME_CONTROLLER);
+                    if (outcome.ReturnToForm)
+                    {
+                        ViewBag.CountryId = new SelectList(_countryService.GetAvailableCountries(), "Id", AppConstant.COUNTRY_DISPLAY_FIELD, address.CountryId);
+                        return View("AddAddress", address);
+                    }
+                    else
+                    {
+                        return RedirectToAction(
+                            AppConstant.AUTHENTICATED_USER_HOME_ACTION,
+                            AppConstant.AUTHENTICATED_USER_HOME_CONTROLLER);
+                    }
                 }
                 
                 return RedirectToAction("UseAddress", new { id = outcome.AddressUniqueId.Value });
             }
 
-            var countries = _countryService.GetAvailableCountries();
-            ViewBag.CountryId = new SelectList(countries, "Id", AppConstant.COUNTRY_DISPLAY_FIELD, address.CountryId);
+            ViewBag.CountryId = new SelectList(_countryService.GetAvailableCountries(), "Id", AppConstant.COUNTRY_DISPLAY_FIELD, address.CountryId);
             return View("AddAddress", address);
         }
 

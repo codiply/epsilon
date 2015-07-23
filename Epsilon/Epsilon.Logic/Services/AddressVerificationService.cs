@@ -57,6 +57,7 @@ namespace Epsilon.Logic.Services
                     return new AddressVerificationResponse
                     {
                         IsRejected = true,
+                        AskUserToModify = true,
                         RejectionReason = AddressVerificationResource.GeocodePostcodeVerificationFailureRejectionMessage
                     };
                 // This group is for failure due to technical reasons. Do not log a GeocodeFailure.
@@ -65,6 +66,7 @@ namespace Epsilon.Logic.Services
                     return new AddressVerificationResponse
                     {
                         IsRejected = true,
+                        AskUserToModify = false,
                         RejectionReason = AddressVerificationResource.GeocodeTehnicalFailureRejectionMessage
                     };
                 default:
@@ -85,6 +87,7 @@ namespace Epsilon.Logic.Services
                     return new AddressVerificationResponse
                     {
                         IsRejected = false,
+                        AskUserToModify = false,
                         AddressGeometry = geocodeServiceResponse.Geometry
                     };
                 // This group below are the cases where the verification truly failed because the address was not correct.
@@ -95,6 +98,7 @@ namespace Epsilon.Logic.Services
                     return new AddressVerificationResponse
                     {
                         IsRejected = true,
+                        AskUserToModify = true,
                         RejectionReason = AddressVerificationResource.GeocodeAddressVerificationFailureRejectionMessage
                     };
                 // This group is for failure due to technical reasons. Do not log a GeocodeFailure.
@@ -103,6 +107,7 @@ namespace Epsilon.Logic.Services
                     return new AddressVerificationResponse
                     {
                         IsRejected = true,
+                        AskUserToModify = false,
                         RejectionReason = AddressVerificationResource.GeocodeTehnicalFailureRejectionMessage
                     };
                 default:

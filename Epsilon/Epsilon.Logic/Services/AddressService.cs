@@ -138,6 +138,7 @@ namespace Epsilon.Logic.Services
                 return new AddAddressOutcome
                 {
                     IsRejected = true,
+                    ReturnToForm = false,
                     RejectionReason = antiAbuseServiceResponse.RejectionReason,
                     AddressUniqueId = null
                 };
@@ -147,6 +148,7 @@ namespace Epsilon.Logic.Services
                 return new AddAddressOutcome
                 {
                     IsRejected = true,
+                    ReturnToForm = verificationResponse.AskUserToModify,
                     RejectionReason = verificationResponse.RejectionReason,
                     AddressUniqueId = null
                 };
