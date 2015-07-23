@@ -26,5 +26,11 @@ namespace Epsilon.Web.Controllers.ApiControllers
         {
             return await _addressService.Search(request);
         }
+
+        [HttpPost]
+        public async Task<AddressGeometryResponse> Geometry(AddressGeometryRequest request)
+        {
+            return await _addressService.GetGeometryViaUniqueId(request.uniqueId);
+        }
     }
 }

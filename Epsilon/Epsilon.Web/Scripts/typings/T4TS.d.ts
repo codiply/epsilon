@@ -3,6 +3,19 @@
 ****************************************************************************/
 
 declare module T4TS {
+    /** Generated from Epsilon.Logic.JsonModels.AddressGeometryRequest **/
+    export interface AddressGeometryRequest {
+        uniqueId: string;
+    }
+    /** Generated from Epsilon.Logic.JsonModels.AddressGeometryResponse **/
+    export interface AddressGeometryResponse {
+        latitude: number;
+        longitude: number;
+        viewportNortheastLatitude: number;
+        viewportNortheastLongitude: number;
+        viewportSouthwestLatitude: number;
+        viewportSouthwestLongitude: number;
+    }
     /** Generated from Epsilon.Logic.JsonModels.AddressSearchRequest **/
     export interface AddressSearchRequest {
         countryId: string;

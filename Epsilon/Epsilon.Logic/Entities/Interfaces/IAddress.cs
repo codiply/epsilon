@@ -30,5 +30,4 @@ namespace Epsilon.Logic.Entities.Interfaces
             return string.Join(", ", pieces.Where(x => !string.IsNullOrWhiteSpace(x)));
         }
     }
-
 }

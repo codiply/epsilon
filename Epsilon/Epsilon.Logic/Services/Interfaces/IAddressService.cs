@@ -25,6 +25,8 @@ namespace Epsilon.Logic.Services.Interfaces
 
         Task<Address> GetAddressViaUniqueId(Guid addressUniqueId);
 
+        Task<AddressGeometryResponse> GetGeometryViaUniqueId(Guid addressUniqueId);
+
         Task<AddAddressOutcome> AddAddress(string userId, string userIpAddress, AddressForm dto);
     }
 }

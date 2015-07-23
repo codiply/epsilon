@@ -161,6 +161,8 @@
     <Compile Include="Infrastructure\Extensions\HttpContextBaseExtensions.cs" />
     <Compile Include="Infrastructure\Interfaces\IAppCache.cs" />
     <Compile Include="Infrastructure\Primitives\Frequency.cs" />
+    <Compile Include="JsonModels\AddressGeometryRequest.cs" />
+    <Compile Include="JsonModels\AddressGeometryResponse.cs" />
     <Compile Include="JsonModels\AddressSearchRequest.cs" />
     <Compile Include="JsonModels\AddressSearchResponse.cs" />
     <Compile Include="JsonModels\AddressSearchResult.cs" />

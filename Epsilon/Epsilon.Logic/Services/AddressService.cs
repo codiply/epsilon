@@ -18,7 +18,7 @@ using Epsilon.Logic.Constants.Interfaces;
 using Epsilon.Logic.Constants.Enums;
 using Epsilon.Logic.Helpers;
 using Epsilon.Logic.Configuration.Interfaces;
-using System.Data.Entity;
+using Epsilon.Logic.Entities.Interfaces;
 
 namespace Epsilon.Logic.Services
 {
@@ -128,7 +128,15 @@ namespace Epsilon.Logic.Services
             return await _dbContext.Addresses
                 .Include(a => a.Geometry)
                 .Include(a => a.PostcodeGeometry)
-                .SingleOrDefaultAsync(x => x.UniqueId.Equals(addressUniqueId));
+                .SingleOrDefaultAsync(a => a.UniqueId.Equals(addressUniqueId));
+        }
+
+        public async Task<AddressGeometryResponse> GetGeometryViaUniqueId(Guid addressUniqueId)
+        {
+            var addressWithGeometry = await _dbContext.Addresses
+                .Include(a => a.Geometry)
+                .SingleOrDefaultAsync(a => a.UniqueId.Equals(addressUniqueId));
+            return addressWithGeometry.Geometry.ToAddressGeometryResponse();
         }
 
         public async Task<AddAddressOutcome> AddAddress(string userId, string userIpAddress, AddressForm dto)
