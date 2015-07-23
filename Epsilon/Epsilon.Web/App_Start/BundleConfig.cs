@@ -39,6 +39,7 @@ namespace Epsilon.Web
                         // Filters
                         "~/Scripts/ngapp/filters/StringFormat.js",
                         // Directives
+                        "~/Scripts/ngapp/directives/AddressMap.js",
                         "~/Scripts/ngapp/directives/ClickOnce.js",
                         "~/Scripts/ngapp/app.js"));
 
