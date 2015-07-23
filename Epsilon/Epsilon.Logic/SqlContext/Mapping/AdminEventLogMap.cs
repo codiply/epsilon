@@ -12,7 +12,8 @@ namespace Epsilon.Logic.SqlContext.Mapping
 {
     public class AdminEventLogMap : EntityTypeConfiguration<AdminEventLog>
     {
-        public const int EXTRA_INFO_MAX_LENGTH = 256;
+        // NOTE: This needs to fit at least a full address (plus json field key etc)!
+        public const int EXTRA_INFO_MAX_LENGTH = 1024;
         public const int KEY_MAX_LENGTH = 128;
 
         public AdminEventLogMap()

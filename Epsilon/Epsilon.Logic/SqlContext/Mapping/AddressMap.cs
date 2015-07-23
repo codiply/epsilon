@@ -14,7 +14,7 @@ namespace Epsilon.Logic.SqlContext.Mapping
     public class AddressMap : EntityTypeConfiguration<Address>
     {
         public const int DISTINCT_ADDRESS_CODE_MAX_LENGTH = 32;
-        public const int LINE_MAX_LENGTH = 256;
+        public const int LINE_MAX_LENGTH = 128;
         public const int LOCALITY_MAX_LENGTH = 64;
         public const int REGION_MAX_LENGTH = 64;
         public const int POSTCODE_MAX_LENGTH = 16;

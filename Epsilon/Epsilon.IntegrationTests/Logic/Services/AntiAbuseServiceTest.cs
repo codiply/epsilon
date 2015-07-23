@@ -763,7 +763,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var geocodeFailure = new GeocodeFailure
             {
                 Address = "Geocode-Failure-Address",
-                Region = "GB",
+                CountryId = "GB",
                 CreatedById = userId,
                 CreatedByIpAddress = userIpAddress
             };

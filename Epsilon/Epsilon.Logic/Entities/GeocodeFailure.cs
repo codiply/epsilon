@@ -10,7 +10,7 @@ namespace Epsilon.Logic.Entities
     {
         public virtual long Id { get; set; }
         public virtual string Address { get; set; }
-        public virtual string Region { get; set; }
+        public virtual string CountryId { get; set; }
         public virtual string QueryType { get; set; }
         public virtual string FailureType { get; set; }
         public virtual DateTimeOffset CreatedOn { get; set; }
@@ -18,5 +18,6 @@ namespace Epsilon.Logic.Entities
         public virtual string CreatedByIpAddress { get; set; }
 
         public virtual User CreatedBy { get; set; }
+        public virtual Country Country { get; set; }
     }
 }

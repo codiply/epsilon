@@ -13,6 +13,8 @@ namespace Epsilon.Logic.SqlContext.Mapping
 {
     class GeocodeFailureMap : EntityTypeConfiguration<GeocodeFailure>
     {
+        public const int ADDRESS_MAX_LENGTH = 675;
+
         public GeocodeFailureMap()
         {
             // Primary Key
@@ -21,6 +23,8 @@ namespace Epsilon.Logic.SqlContext.Mapping
             // Properties
             this.Property(x => x.Id)
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            this.Property(x => x.Address)
+                .HasMaxLength(ADDRESS_MAX_LENGTH);
             this.Property(x => x.CreatedOn)
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Computed);
             this.Property(a => a.CreatedByIpAddress)
@@ -30,6 +34,10 @@ namespace Epsilon.Logic.SqlContext.Mapping
             this.HasRequired(x => x.CreatedBy)
                 .WithMany()
                 .HasForeignKey(x => x.CreatedById)
+                .WillCascadeOnDelete(false);
+            this.HasRequired(x => x.Country)
+                .WithMany()
+                .HasForeignKey(x => x.CountryId)
                 .WillCascadeOnDelete(false);
 
             // Indexes

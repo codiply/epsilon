@@ -2,10 +2,10 @@
     [Id]                  BIGINT             IDENTITY (1, 1) NOT NULL,
     [UniqueId]            UNIQUEIDENTIFIER   NOT NULL,
     [DistinctAddressCode] NVARCHAR (32)      NULL,
-    [Line1]               NVARCHAR (256)     NOT NULL,
-    [Line2]               NVARCHAR (256)     NULL,
-    [Line3]               NVARCHAR (256)     NULL,
-    [Line4]               NVARCHAR (256)     NULL,
+    [Line1]               NVARCHAR (128)     NOT NULL,
+    [Line2]               NVARCHAR (128)     NULL,
+    [Line3]               NVARCHAR (128)     NULL,
+    [Line4]               NVARCHAR (128)     NULL,
     [Locality]            NVARCHAR (64)      NOT NULL,
     [Region]              NVARCHAR (64)      NULL,
     [Postcode]            NVARCHAR (16)      NOT NULL,
@@ -19,6 +19,8 @@
     CONSTRAINT [FK_dbo.Address_dbo.PostcodeGeometry_CountryId_Postcode] FOREIGN KEY ([CountryId], [Postcode]) REFERENCES [dbo].[PostcodeGeometry] ([CountryId], [Postcode]) ON DELETE CASCADE,
     CONSTRAINT [FK_dbo.Address_dbo.User_CreatedById] FOREIGN KEY ([CreatedById]) REFERENCES [dbo].[User] ([Id])
 );
+
+
 
 
 
