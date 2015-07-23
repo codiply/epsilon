@@ -1,7 +1,6 @@
 ﻿module Epsilon.NgApp.Directives {
     export interface AddressMapScope extends ng.IScope {
         addressUniqueId: string;
-        addressGeometry: T4TS.AddressGeometryResponse;
     }
 
     export class AddressMap implements ng.IDirective {
@@ -13,7 +12,8 @@
                 scope: {
                     addressUniqueId: "@"
                 },
-                template: '<p>{{addressGeometry.latitude}} - {{addressGeometry.longitude}}</p>',
+                // TODO_PANOS: remove inline styling.
+                template: '<div id="address-map-canvas" style="height: 512px; width: 512px;"></div>',
                 link: (scope: AddressMapScope, element: ng.IAugmentedJQuery, attributes: ng.IAttributes) => {
                     new AddressMapLink(scope, element, attributes, $http, BASE_URL_WITH_LANGUAGE);
                 }
@@ -22,24 +22,30 @@
     }
 
     export class AddressMapLink {
-        scope: AddressMapScope;
-
-        constructor(scope: AddressMapScope, element: ng.IAugmentedJQuery, attributes: ng.IAttributes,
-            private $http: ng.IHttpService,
-            private BASE_URL_WITH_LANGUAGE: string) {
-            this.scope = scope;
-            this.fetchAddressGeometry();    
+        constructor(private scope: AddressMapScope, element: ng.IAugmentedJQuery, attributes: ng.IAttributes,
+            private $http: ng.IHttpService, private BASE_URL_WITH_LANGUAGE: string) {
+            var mapDiv = document.getElementById("address-map-canvas");
+            this.buildMap(mapDiv);
         }
 
-        private fetchAddressGeometry() {
+        private buildMap(mapDiv: Element) {
             var url = this.BASE_URL_WITH_LANGUAGE + '/api/address/geometry/';
             var request: T4TS.AddressGeometryRequest = {
                 uniqueId: this.scope.addressUniqueId
             };
-            var scope = this.scope;
-            this.$http.post<T4TS.AddressGeometryResponse>(url, request)
-                .success(function (data, status, headers, config) {
-                scope.addressGeometry = data;
+            this.$http.post<T4TS.AddressGeometryResponse>(url, request).success(function (data, status, headers, config) {
+                var geometry = data;
+                var opts: google.maps.MapOptions = {
+                    center: new google.maps.LatLng(geometry.latitude, geometry.longitude),
+                    mapTypeId: google.maps.MapTypeId.ROADMAP,
+                };
+                var map = new google.maps.Map(mapDiv, opts);
+                var bounds = new google.maps.LatLngBounds();
+                var northeast = new google.maps.LatLng(geometry.viewportNortheastLatitude, geometry.viewportNortheastLongitude);
+                bounds.extend(northeast)
+                var southwest = new google.maps.LatLng(geometry.viewportSouthwestLatitude, geometry.viewportSouthwestLongitude);
+                bounds.extend(southwest);
+                map.fitBounds(bounds);
             });
         }
     }

@@ -62,13 +62,13 @@ namespace Epsilon.Logic.Forms
             return new AddressForm
             {
                 UniqueId = this.UniqueId,
-                Line1 = this.Line1.Trim(),
-                Line2 = this.Line2.Trim(),
-                Line3 = this.Line3.Trim(),
-                Line4 = this.Line4.Trim(),
-                Locality = this.Locality.Trim(),
-                Region = this.Region.Trim(),
-                Postcode = this.Postcode.Trim(),
+                Line1 = this.Line1 == null ? null : this.Line1.Trim(),
+                Line2 = this.Line2 == null ? null : this.Line2.Trim(),
+                Line3 = this.Line3 == null ? null : this.Line3.Trim(),
+                Line4 = this.Line4 == null ? null : this.Line4.Trim(),
+                Locality = this.Locality == null ? null : this.Locality.Trim(),
+                Region = this.Region == null ? null : this.Region.Trim(),
+                Postcode = this.Postcode == null ? null : this.Postcode.Trim(),
                 CountryId = this.CountryId
             };
         }

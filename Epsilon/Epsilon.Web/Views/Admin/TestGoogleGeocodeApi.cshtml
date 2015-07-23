@@ -73,7 +73,6 @@
         }
     </style>
     @Styles.Render("~/Content/prettify")
-
 }
 
 @section Scripts {
@@ -89,7 +88,6 @@
                     var mapCanvas@(i) = document.getElementById('map-canvas-@i');
                     var mapOptions@(i) = {
                         center: new google.maps.LatLng(@geometry.Location.Latitude, @geometry.Location.Longitude),
-                        zoom: 8,
                         mapTypeId: google.maps.MapTypeId.ROADMAP
                     }
                     var map@(i) = new google.maps.Map(mapCanvas@(i), mapOptions@(i));
