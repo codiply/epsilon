@@ -19,6 +19,8 @@ namespace Epsilon.Logic.Services
         private const string TYPE_POSTCODE = "postcode";
         private const string TYPE_ADDRESS = "address";
 
+        private readonly IClock _clock;
+        private readonly IRandomFactory _randomFactory;
         private readonly IEpsilonContext _dbContext;
         private readonly IGeocodeServiceConfig _geocodeServiceConfig;
         private readonly IGeocodeClientFactory _geocodeClientFactory;
@@ -26,12 +28,16 @@ namespace Epsilon.Logic.Services
         private readonly IAdminEventLogService _adminEventLogService;
 
         public GeocodeService(
+            IClock clock,
+            IRandomFactory randomFactory,
             IEpsilonContext dbContext,
             IGeocodeServiceConfig geocodeServiceConfig,
             IGeocodeClientFactory geocodeClientFactory,
             IAdminAlertService adminAlertService,
             IAdminEventLogService adminEventLogService)
         {
+            _clock = clock;
+            _randomFactory = randomFactory;
             _dbContext = dbContext;
             _geocodeServiceConfig = geocodeServiceConfig;
             _geocodeClientFactory = geocodeClientFactory;
@@ -68,7 +74,7 @@ namespace Epsilon.Logic.Services
 
             if (response.Status == GeocodeStatus.OverQueryLimit)
             {
-                await Task.Delay(_geocodeServiceConfig.OverQueryLimitDelayBetweenRetries);
+                await Task.Delay(GetDelayWithRandomNoise());
                 return await GeocodeAddress(address, countryId, retryNo + 1);
             }
 
@@ -129,7 +135,7 @@ namespace Epsilon.Logic.Services
 
             if (response.Status == GeocodeStatus.OverQueryLimit)
             {
-                await Task.Delay(_geocodeServiceConfig.OverQueryLimitDelayBetweenRetries);
+                await Task.Delay(GetDelayWithRandomNoise());
                 return await GeocodePostcode(postcode, countryId, retryNo + 1);
             }
 
@@ -226,6 +232,14 @@ namespace Epsilon.Logic.Services
             }
 
             return null;
+        }
+
+        private TimeSpan GetDelayWithRandomNoise()
+        {
+            var random = _randomFactory.Create(_clock.OffsetNow.Millisecond);
+            var delayMilliseconds = _geocodeServiceConfig.OverQueryLimitDelayBetweenRetries.Milliseconds;
+            var randomMilliseconds = (0.75 + 0.5 * random.NextDouble()) * delayMilliseconds;
+            return TimeSpan.FromMilliseconds(randomMilliseconds);
         }
     }
 }
