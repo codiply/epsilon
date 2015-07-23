@@ -52,6 +52,8 @@ namespace Epsilon.Logic.Services
                 // This group below are the cases where the verification truly failed because the address was not correct.
                 case GeocodePostcodeStatus.MultipleMatches:
                 case GeocodePostcodeStatus.NoMatches:
+                case GeocodePostcodeStatus.ResultInWrongCountry:
+                case GeocodePostcodeStatus.ResultWithWrongType:
                     await SaveGeocodeFailure(userId, userIpAddress, postcode, countryId,
                         EnumsHelper.GeocodePostcodeStatus.ToString(geocodePostcodeStatus), AppConstant.GEOCODE_QUERY_TYPE_POSTCODE);
                     return new AddressVerificationResponse
@@ -93,6 +95,7 @@ namespace Epsilon.Logic.Services
                 // This group below are the cases where the verification truly failed because the address was not correct.
                 case GeocodeAddressStatus.MultipleMatches:
                 case GeocodeAddressStatus.NoMatches:
+                case GeocodeAddressStatus.ResultInWrongCountry:
                     await SaveGeocodeFailure(userId, userIpAddress, fullAddressWithoutCountry, countryId,
                         EnumsHelper.GeocodeAddressStatus.ToString(geocodeServiceResponse.Status), AppConstant.GEOCODE_QUERY_TYPE_ADDRESS);
                     return new AddressVerificationResponse

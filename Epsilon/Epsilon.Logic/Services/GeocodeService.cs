@@ -2,6 +2,7 @@
 using Epsilon.Logic.Constants;
 using Epsilon.Logic.Constants.Enums;
 using Epsilon.Logic.Entities;
+using Epsilon.Logic.Helpers;
 using Epsilon.Logic.Services.Interfaces;
 using Epsilon.Logic.SqlContext.Interfaces;
 using Epsilon.Logic.Wrappers.Interfaces;
@@ -16,7 +17,8 @@ namespace Epsilon.Logic.Services
 {
     public class GeocodeService : IGeocodeService
     {
-
+        public const string TYPE_COUNTRY = "country";
+        public const string TYPE_POSTAL_CODE = "postal_code";
 
         private readonly IClock _clock;
         private readonly IRandomFactory _randomFactory;
@@ -84,6 +86,11 @@ namespace Epsilon.Logic.Services
                 return new GeocodeAddressResponse { Status = GeocodeAddressStatus.MultipleMatches };
 
             var result = response.Results.Single();
+
+            var inspectionOutcome = InspectGeocodeAddressResult(result, countryId);
+            if (inspectionOutcome != GeocodeAddressStatus.Success)
+                return new GeocodeAddressResponse { Status = inspectionOutcome };
+
             var addressGeometry = new AddressGeometry
             {
                 Latitude = result.Geometry.Location.Latitude,
@@ -145,6 +152,11 @@ namespace Epsilon.Logic.Services
                 return GeocodePostcodeStatus.MultipleMatches;
 
             var result = response.Results.Single();
+
+            var inspectionOutcome = InspectGeocodePostcodeResult(result, countryId);
+            if (inspectionOutcome != GeocodePostcodeStatus.Success)
+                return inspectionOutcome;
+
             var postcodeGeometry = new PostcodeGeometry
             {
                 CountryId = countryId,
@@ -187,6 +199,37 @@ namespace Epsilon.Logic.Services
                 { "RetriesUntilSuccess", retryNo }
             };
             await _adminEventLogService.Log(AdminEventLogKey.GooglGeocodeApiStatusOverQueryLimitSuccessAfterRetrying, extraInfo);
+        }
+
+        private GeocodeAddressStatus InspectGeocodeAddressResult(GeocodeResult result, string countryId)
+        {
+            var countryComponent = result.AddressComponents.SingleOrDefault(x =>
+                x.Types.Any(t => t.ToLowerInvariant().Equals(TYPE_COUNTRY)));
+            if (countryComponent.ShortName.ToLowerInvariant() != countryId.ToLowerInvariant())
+            {
+                return GeocodeAddressStatus.ResultInWrongCountry;
+            }
+
+            return GeocodeAddressStatus.Success;
+        }
+
+        private GeocodePostcodeStatus InspectGeocodePostcodeResult(GeocodeResult result, string countryId)
+        {
+            var countryComponent = result.AddressComponents.SingleOrDefault(x => 
+                x.Types.Any(t => t.ToLowerInvariant().Equals(TYPE_COUNTRY)));
+            if (countryComponent.ShortName.ToLowerInvariant() != countryId.ToLowerInvariant())
+            {
+                return GeocodePostcodeStatus.ResultInWrongCountry;
+            }
+            
+            var isPostalCodeType = result.Types.Any(t => t.ToLowerInvariant().Equals(TYPE_POSTAL_CODE));
+
+            if (!isPostalCodeType)
+            {
+                return GeocodePostcodeStatus.ResultWithWrongType;
+            }
+
+            return GeocodePostcodeStatus.Success;
         }
 
         private async Task<GeocodeResponse> Geocode(string address, string countryId)

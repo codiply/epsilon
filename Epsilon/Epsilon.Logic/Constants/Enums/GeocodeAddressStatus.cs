@@ -13,6 +13,7 @@ namespace Epsilon.Logic.Constants.Enums
         Success,
         NoMatches,
         MultipleMatches,
+        ResultInWrongCountry,
         OverQueryLimitTriedMaxTimes,
         ServiceUnavailable
     }

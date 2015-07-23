@@ -35,8 +35,9 @@
             };
             this.$http.post<T4TS.AddressGeometryResponse>(url, request).success(function (data, status, headers, config) {
                 var geometry = data;
+                var center = new google.maps.LatLng(geometry.latitude, geometry.longitude);
                 var opts: google.maps.MapOptions = {
-                    center: new google.maps.LatLng(geometry.latitude, geometry.longitude),
+                    center: center,
                     mapTypeId: google.maps.MapTypeId.ROADMAP,
                 };
                 var map = new google.maps.Map(mapDiv, opts);
@@ -46,6 +47,10 @@
                 var southwest = new google.maps.LatLng(geometry.viewportSouthwestLatitude, geometry.viewportSouthwestLongitude);
                 bounds.extend(southwest);
                 map.fitBounds(bounds);
+                var marker = new google.maps.Marker({
+                    position: center,
+                    map: map
+                })
             });
         }
     }
