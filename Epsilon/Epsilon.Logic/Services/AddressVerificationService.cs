@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using Epsilon.Logic.Entities.Interfaces;
 using Epsilon.Logic.Constants.Enums;
 using Epsilon.Logic.Helpers;
+using Epsilon.Resources.Logic.AddressVerification;
 
 namespace Epsilon.Logic.Services
 {
@@ -42,7 +43,7 @@ namespace Epsilon.Logic.Services
             switch (geocodePostcodeStatus)
             {
                 case GeocodePostcodeStatus.Success:
-                    // Don nothing, all OK, move on.
+                    // Do nothing, all OK, move on.
                     break;
                 // This group below are the cases where the verification truly failed because the address was not correct.
                 case GeocodePostcodeStatus.MultipleMatches:
@@ -51,8 +52,7 @@ namespace Epsilon.Logic.Services
                     return new AddressVerificationResponse
                     {
                         IsRejected = true,
-                        // TODO_PANOS: put in a resource
-                        RejectionReason = "We couldn't verify your postcode. Please check it is correct and if not submit again."
+                        RejectionReason = AddressVerificationResource.GeocodePostcodeVerificationFailureRejectionMessage
                     };
                 // This group is for failure due to technical reasons. Do not log a GeocodeFailure.
                 case GeocodePostcodeStatus.OverQueryLimitTriedMaxTimes:
@@ -60,8 +60,7 @@ namespace Epsilon.Logic.Services
                     return new AddressVerificationResponse
                     {
                         IsRejected = true,
-                        // TODO_PANOS: put in a resource, same message as below
-                        RejectionReason = "Due to technical issues we couldn't verify your address. Please try again in a few moments."
+                        RejectionReason = AddressVerificationResource.GeocodeTehnicalFailureRejectionMessage
                     };
                 default:
                     throw new NotImplementedException(string.Format("Unexpected GeocodePostcodeStatus: '{0}'",
@@ -87,8 +86,7 @@ namespace Epsilon.Logic.Services
                     return new AddressVerificationResponse
                     {
                         IsRejected = true,
-                        // TODO_PANOS: put in a resource
-                        RejectionReason = "We couldn't verify your address. Please check the details provided are correct and if not submit again."
+                        RejectionReason = AddressVerificationResource.GeocodeAddressVerificationFailureRejectionMessage
                     };
                 // This group is for failure due to technical reasons. Do not log a GeocodeFailure.
                 case GeocodeAddressStatus.OverQueryLimitTriedMaxTimes:
@@ -96,29 +94,11 @@ namespace Epsilon.Logic.Services
                     return new AddressVerificationResponse
                     {
                         IsRejected = true,
-                        // TODO_PANOS: put in a resource
-                        RejectionReason = "Due to technical issues we couldn't verify your address. Please try again in a few moments."
+                        RejectionReason = AddressVerificationResource.GeocodeTehnicalFailureRejectionMessage
                     };
                 default:
                     throw new NotImplementedException(string.Format("Unexpected GeocodeAddressStatus: '{0}'", 
                         EnumsHelper.GeocodeAddressStatus.ToString(geocodeServiceResponse.Status)));
-            }
-
-            if (geocodeServiceResponse.Status == GeocodeAddressStatus.Success)
-            {
-
-            }
-
-            if (geocodeServiceResponse.Status == GeocodeAddressStatus.MultipleMatches
-                || geocodeServiceResponse.Status == GeocodeAddressStatus.NoMatches)
-            {
-
-            }
-
-            if (geocodeServiceResponse.Status == GeocodeAddressStatus.OverQueryLimitTriedMaxTimes
-                || geocodeServiceResponse.Status == GeocodeAddressStatus.ServiceUnavailable)
-            {
-                
             }
         }
     }
