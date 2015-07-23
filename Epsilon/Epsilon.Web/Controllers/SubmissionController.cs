@@ -97,7 +97,7 @@ namespace Epsilon.Web.Controllers
         public async Task<ActionResult> UseAddress(Guid id)
         {
             var addressUniqueId = id;
-            var entity = await _addressService.GetAddressViaUniqueId(addressUniqueId);
+            var entity = await _addressService.GetAddress(addressUniqueId);
             var model = new UseAddressViewModel
             {
                 SubmissionUniqueId = Guid.NewGuid(),

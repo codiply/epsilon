@@ -21,11 +21,11 @@ namespace Epsilon.Logic.Services.Interfaces
     {
         Task<AddressSearchResponse> Search(AddressSearchRequest request);
 
-        Task<Address> GetAddress(long addressId);
+        Task<Address> GetAddress(Guid addressUniqueId);
 
-        Task<Address> GetAddressViaUniqueId(Guid addressUniqueId);
+        Task<Address> GetAddressWithGeometries(Guid addressUniqueId);
 
-        Task<AddressGeometryResponse> GetGeometryViaUniqueId(Guid addressUniqueId);
+        Task<AddressGeometryResponse> GetGeometry(Guid addressUniqueId);
 
         Task<AddAddressOutcome> AddAddress(string userId, string userIpAddress, AddressForm dto);
     }

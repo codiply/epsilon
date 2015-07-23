@@ -115,15 +115,13 @@ namespace Epsilon.Logic.Services
             return response; 
         }
 
-        public async Task<Address> GetAddress(long addressId)
+        public async Task<Address> GetAddress(Guid addressUniqueId)
         {
             return await _dbContext.Addresses
-                .Include(a => a.Geometry)
-                .Include(a => a.PostcodeGeometry)
-                .SingleOrDefaultAsync(a => a.Id.Equals(addressId));
+                .SingleOrDefaultAsync(a => a.UniqueId.Equals(addressUniqueId));
         }
 
-        public async Task<Address> GetAddressViaUniqueId(Guid addressUniqueId)
+        public async Task<Address> GetAddressWithGeometries(Guid addressUniqueId)
         {
             return await _dbContext.Addresses
                 .Include(a => a.Geometry)
@@ -131,7 +129,7 @@ namespace Epsilon.Logic.Services
                 .SingleOrDefaultAsync(a => a.UniqueId.Equals(addressUniqueId));
         }
 
-        public async Task<AddressGeometryResponse> GetGeometryViaUniqueId(Guid addressUniqueId)
+        public async Task<AddressGeometryResponse> GetGeometry(Guid addressUniqueId)
         {
             var addressWithGeometry = await _dbContext.Addresses
                 .Include(a => a.Geometry)

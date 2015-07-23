@@ -238,7 +238,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var containerForGet = CreateContainer();
             var serviceForGet = containerForGet.Get<IAddressService>();
 
-            var retrievedAddress = await serviceForGet.GetAddressViaUniqueId(addressForm.UniqueId);
+            var retrievedAddress = await serviceForGet.GetAddressWithGeometries(addressForm.UniqueId);
 
             Assert.IsNotNull(retrievedAddress, "Address could not be retrieved.");
             Assert.AreEqual(addressForm.Line1, retrievedAddress.Line1, "Field Line1 on the retrieved address is not the expected.");
@@ -253,7 +253,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.IsTrue(timeBefore <= retrievedAddress.CreatedOn && retrievedAddress.CreatedOn <= timeAfter,
                 "Field CreatedOn on the retrieved address is not within the expected range.");
 
-            Assert.IsNotNull(retrievedAddress.Geometry, "Geometry field on retrieved address is null");
+            Assert.IsNotNull(retrievedAddress.Geometry, "Geometry field on retrieved address is null.");
             Assert.AreEqual(addressGeometry.Latitude, retrievedAddress.Geometry.Latitude,
                 "Field Latitude on Geometry of the retrieved address is not the expected.");
             Assert.AreEqual(addressGeometry.Longitude, retrievedAddress.Geometry.Longitude,
@@ -275,6 +275,22 @@ namespace Epsilon.IntegrationTests.Logic.Services
             //    "Field Latitude on PostcodeGeometry of the retrieved address is not the expected.");
             //Assert.AreEqual(postcodeGeometry.Longitude, retrievedAddress.PostcodeGeometry.Longitude,
             //    "Field Longitude on PostcodeGeometry of the retrieved address is not the expected.");
+
+            // I test the GetGeometry method here as I have already set up the data.
+            var retrievedAddressGeometry = await serviceForGet.GetGeometry(addressForm.UniqueId);
+            Assert.IsNotNull(retrievedAddressGeometry, "Retrieved AddressGeometry is null.");
+            Assert.AreEqual(addressGeometry.Latitude, retrievedAddressGeometry.latitude,
+                "Field latitude on retrieved AddressGeometry is not the expected.");
+            Assert.AreEqual(addressGeometry.Longitude, retrievedAddressGeometry.longitude,
+                "Field longitude on retrieved AddressGeometry is not the expected.");
+            Assert.AreEqual(addressGeometry.ViewportNortheastLatitude, retrievedAddressGeometry.viewportNortheastLatitude,
+                "Field viewportNortheastLatitude on retrieved AddressGeometry is not the expected.");
+            Assert.AreEqual(addressGeometry.ViewportNortheastLongitude, retrievedAddressGeometry.viewportNortheastLongitude,
+                "Field viewportNortheastLongitude on retrieved AddressGeometry is not the expected.");
+            Assert.AreEqual(addressGeometry.ViewportSouthwestLatitude, retrievedAddressGeometry.viewportSouthwestLatitude,
+                "Field viewportSouthwestLatitude on retrieved AddressGeometry is not the expected.");
+            Assert.AreEqual(addressGeometry.ViewportSouthwestLongitude, retrievedAddressGeometry.viewportSouthwestLongitude,
+                "Field viewportSouthwestLatitude on retrieved AddressGeometry is not the expected.");
         }
 
         [Test]
@@ -330,7 +346,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var containerForGet = CreateContainer();
             var serviceForGet = containerForGet.Get<IAddressService>();
 
-            var retrievedAddress = await serviceForGet.GetAddressViaUniqueId(addressForm.UniqueId);
+            var retrievedAddress = await serviceForGet.GetAddress(addressForm.UniqueId);
 
             Assert.IsNull(retrievedAddress, "No Address should be created.");
         }
@@ -391,7 +407,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var containerForGet = CreateContainer();
             var serviceForGet = containerForGet.Get<IAddressService>();
 
-            var retrievedAddress = await serviceForGet.GetAddressViaUniqueId(addressForm.UniqueId);
+            var retrievedAddress = await serviceForGet.GetAddress(addressForm.UniqueId);
 
             Assert.IsNull(retrievedAddress, "No Address should be created.");
         }

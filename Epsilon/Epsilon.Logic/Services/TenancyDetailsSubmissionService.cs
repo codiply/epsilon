@@ -42,7 +42,7 @@ namespace Epsilon.Logic.Services
             Guid submissionUniqueId,
             Guid addressUniqueId)
         {
-            var address = await _addressService.GetAddressViaUniqueId(addressUniqueId);
+            var address = await _addressService.GetAddress(addressUniqueId);
             if (address == null)
             {
                 return new CreateTenancyDetailsSubmissionOutcome

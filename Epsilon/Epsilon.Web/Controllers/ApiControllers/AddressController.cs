@@ -30,7 +30,7 @@ namespace Epsilon.Web.Controllers.ApiControllers
         [HttpPost]
         public async Task<AddressGeometryResponse> Geometry(AddressGeometryRequest request)
         {
-            return await _addressService.GetGeometryViaUniqueId(request.uniqueId);
+            return await _addressService.GetGeometry(request.uniqueId);
         }
     }
 }
