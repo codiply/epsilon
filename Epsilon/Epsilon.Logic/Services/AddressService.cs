@@ -119,7 +119,7 @@ namespace Epsilon.Logic.Services
         {
             return await _dbContext.Addresses
                 .Include(a => a.Geometry)
-                .Include(a => a.PostcodeGeometry) 
+                .Include(a => a.PostcodeGeometry)
                 .SingleOrDefaultAsync(a => a.Id.Equals(addressId));
         }
 
