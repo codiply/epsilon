@@ -60,7 +60,7 @@ namespace Epsilon.Logic.Services
             }
             var countryId = countryIdOption.Value;
 
-            var cleanPostcode = _addressCleansingHelper.CleanPostcode(countryId, request.postcode);
+            var cleanPostcode = _addressCleansingHelper.CleansePostcode(countryId, request.postcode);
 
             var query = _dbContext.Addresses
                 .Include(x => x.Country)
@@ -151,7 +151,7 @@ namespace Epsilon.Logic.Services
                     AddressUniqueId = null
                 };
 
-            var cleansedDto = _addressCleansingHelper.CleanseForStorage(dto);
+            var cleansedDto = _addressCleansingHelper.Cleanse(dto);
             var entity = cleansedDto.ToEntity();
             entity.CreatedById = userId;
             entity.CreatedByIpAddress = userIpAddress;

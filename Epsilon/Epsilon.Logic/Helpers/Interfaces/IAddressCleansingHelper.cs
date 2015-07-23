@@ -10,10 +10,8 @@ namespace Epsilon.Logic.Helpers.Interfaces
 {
     public interface IAddressCleansingHelper
     {
-        AddressForm CleanseForVerification(AddressForm address);
+        AddressForm Cleanse(AddressForm address);
 
-        AddressForm CleanseForStorage(AddressForm address);
-
-        string CleanPostcode(CountryId countryId, string postcode);
+        string CleansePostcode(CountryId countryId, string postcode);
     }
 }

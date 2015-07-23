@@ -176,11 +176,11 @@ namespace Epsilon.Logic.Services
             await _adminEventLogService.Log(AdminEventLogKey.GooglGeocodeApiStatusOverQueryLimitSuccessAfterRetrying, extraInfo);
         }
 
-        private async Task<GeocodeResponse> Geocode(string address, string region)
+        private async Task<GeocodeResponse> Geocode(string address, string countryId)
         {
             try {
                 var geocodeClient = _geocodeClientFactory.Create(_geocodeServiceConfig.GoogleApiServerKey);
-                var response = await geocodeClient.GeocodeAddress(address, region);
+                var response = await geocodeClient.GeocodeAddress(address, countryId);
 
                 if (response == null)
                     return null;
@@ -191,7 +191,7 @@ namespace Epsilon.Logic.Services
                         _adminAlertService.SendAlert(AdminAlertKey.GoogleGeocodeApiStatusInvalidRequest);
                         var extraInfo = new Dictionary<string, object>
                         {
-                            { "Address", address }, { "Region", region }
+                            { "Address", address }, { "Region", countryId }
                         };
                         await _adminEventLogService.Log(AdminEventLogKey.GoogleGeocodeApiStatusInvalidRequest, extraInfo);
                         return response;

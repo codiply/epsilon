@@ -21,6 +21,12 @@ namespace Epsilon.Logic.Helpers
         public static EnumMemoizer<DbAppSettingValueType> DbAppSettingValueType =
             new EnumMemoizer<DbAppSettingValueType>();
 
+        public static EnumMemoizer<GeocodeAddressStatus> GeocodeAddressStatus =
+            new EnumMemoizer<GeocodeAddressStatus>();
+
+        public static EnumMemoizer<GeocodePostcodeStatus> GeocodePostcodeStatus =
+            new EnumMemoizer<GeocodePostcodeStatus>();
+
         public static EnumMemoizer<GeocodeFailureType> GeocodeFailureType =
             new EnumMemoizer<GeocodeFailureType>();
 

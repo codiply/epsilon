@@ -17,7 +17,7 @@ namespace Epsilon.Logic.Services.Interfaces
 
     public interface IGeocodeService
     {
-        Task<GeocodeAddressResponse> GeocodeAddress(string address, string region);
+        Task<GeocodeAddressResponse> GeocodeAddress(string address, string countryId);
 
         Task<GeocodePostcodeStatus> GeocodePostcode(string postcode, string countryId);
     }

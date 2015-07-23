@@ -1,6 +1,7 @@
 ﻿using Epsilon.Logic.Constants.Enums;
 using Epsilon.Logic.Constants.Interfaces;
 using Epsilon.Logic.Constants.Interfaces.CountryAddressFieldMetadata;
+using Epsilon.Logic.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,7 +39,8 @@ namespace Epsilon.Logic.Constants
                         Postcode = new FieldMetadata { IsUsed = true, IsRequired = true }
                     };
                 default:
-                    throw new NotImplementedException("Unexpected CountrId.");
+                    throw new NotImplementedException(string.Format("Unexpected CountryId: '{0}'",
+                        EnumsHelper.CountryId.ToString(countryId)));
             }
         }
     }

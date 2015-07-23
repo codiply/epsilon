@@ -12,20 +12,15 @@ namespace Epsilon.Logic.Helpers
 {
     public class AddressCleansingHelper : IAddressCleansingHelper
     {
-        public AddressForm CleanseForVerification(AddressForm address)
-        {
-            return address.Clone();
-        }
-
-        public AddressForm CleanseForStorage(AddressForm address)
+        public AddressForm Cleanse(AddressForm address)
         {
             var clone = address.Clone();
             var countryId = EnumsHelper.CountryId.Parse(clone.CountryId);
-            clone.Postcode = CleanPostcode(countryId.Value, clone.Postcode);
+            clone.Postcode = CleansePostcode(countryId.Value, clone.Postcode);
             return clone;
         }
 
-        public string CleanPostcode(CountryId countryId, string postcode)
+        public string CleansePostcode(CountryId countryId, string postcode)
         {
             switch (countryId)
             {
@@ -34,7 +29,8 @@ namespace Epsilon.Logic.Helpers
                 case CountryId.GR:
                     return postcode;
                 default:
-                    throw new NotImplementedException("Unexpected CountrId.");
+                    throw new NotImplementedException(string.Format("Unexpected CountryId: '{0}'",
+                        EnumsHelper.CountryId.ToString(countryId)));
             }
         }
     }
