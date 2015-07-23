@@ -104,12 +104,20 @@ namespace Epsilon.Logic.Services
 
         private async Task<GeocodePostcodeStatus> GeocodePostcode(string postcode, string countryId, int retryNo)
         {
+            // Terminate the recursion if needed.
             if (retryNo > _geocodeServiceConfig.OverQueryLimitMaxRetries)
             {
                 await RaiseOverQueryLimitMaxRetriesReached(TYPE_POSTCODE);
                 return GeocodePostcodeStatus.OverQueryLimitTriedMaxTimes;
             }
 
+            // Check if we have already geocoded the postcode.
+            var existingPostcodeGeometry = _dbContext.PostcodeGeometries
+                .FindAsync(countryId, postcode);
+            if (existingPostcodeGeometry != null)
+                return GeocodePostcodeStatus.Success;
+
+            // This is a new postcode, geocode it!
             var response = await Geocode(postcode, countryId);
 
             if (response == null ||
