@@ -117,7 +117,7 @@ namespace Epsilon.Logic.Services
             }
 
             // Check if we have already geocoded the postcode.
-            var existingPostcodeGeometry = _dbContext.PostcodeGeometries
+            var existingPostcodeGeometry = await _dbContext.PostcodeGeometries
                 .FindAsync(countryId, postcode);
             if (existingPostcodeGeometry != null)
                 return GeocodePostcodeStatus.Success;
