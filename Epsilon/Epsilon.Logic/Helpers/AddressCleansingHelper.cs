@@ -14,7 +14,7 @@ namespace Epsilon.Logic.Helpers
     {
         public AddressForm Cleanse(AddressForm address)
         {
-            var clone = address.Clone();
+            var clone = address.CloneAndTrim();
             var countryId = EnumsHelper.CountryId.Parse(clone.CountryId);
             clone.Postcode = CleansePostcode(countryId.Value, clone.Postcode);
             return clone;

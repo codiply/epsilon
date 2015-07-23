@@ -57,18 +57,18 @@ namespace Epsilon.Logic.Forms
             };
         }
 
-        public AddressForm Clone()
+        public AddressForm CloneAndTrim()
         {
             return new AddressForm
             {
                 UniqueId = this.UniqueId,
-                Line1 = this.Line1,
-                Line2 = this.Line2,
-                Line3 = this.Line3,
-                Line4 = this.Line4,
-                Locality = this.Locality,
-                Region = this.Region,
-                Postcode = this.Postcode,
+                Line1 = this.Line1.Trim(),
+                Line2 = this.Line2.Trim(),
+                Line3 = this.Line3.Trim(),
+                Line4 = this.Line4.Trim(),
+                Locality = this.Locality.Trim(),
+                Region = this.Region.Trim(),
+                Postcode = this.Postcode.Trim(),
                 CountryId = this.CountryId
             };
         }
