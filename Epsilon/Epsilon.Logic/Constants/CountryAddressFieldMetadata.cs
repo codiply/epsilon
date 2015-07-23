@@ -14,7 +14,8 @@ namespace Epsilon.Logic.Constants
     {
         public CountryMetadata GetForCountry(CountryId countryId)
         {
-            switch(countryId)
+            // EnumSwitch:CountryId
+            switch (countryId)
             {
                 case CountryId.GB:
                     return new CountryMetadata

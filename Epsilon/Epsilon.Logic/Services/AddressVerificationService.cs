@@ -38,6 +38,7 @@ namespace Epsilon.Logic.Services
             var geocodePostcodeStatus =
                 await _geocodeService.GeocodePostcode(cleanAddress.Postcode, cleanAddress.CountryId);
 
+            // EnumSwitch:GeocodePostcodeStatus
             switch (geocodePostcodeStatus)
             {
                 case GeocodePostcodeStatus.Success:
@@ -70,6 +71,7 @@ namespace Epsilon.Logic.Services
             var geocodeServiceResponse = 
                 await _geocodeService.GeocodeAddress(cleanAddress.FullAddressWithoutCountry(), cleanAddress.CountryId);
 
+            // EnumSwitch:GeocodeAddressStatus
             switch (geocodeServiceResponse.Status)
             {
                 case GeocodeAddressStatus.Success:

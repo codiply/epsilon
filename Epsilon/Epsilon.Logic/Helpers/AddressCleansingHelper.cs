@@ -22,6 +22,7 @@ namespace Epsilon.Logic.Helpers
 
         public string CleansePostcode(CountryId countryId, string postcode)
         {
+            // EnumSwitch:CountryId
             switch (countryId)
             {
                 case CountryId.GB:
