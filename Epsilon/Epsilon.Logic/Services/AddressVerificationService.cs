@@ -13,6 +13,8 @@ using Epsilon.Logic.Entities.Interfaces;
 using Epsilon.Logic.Constants.Enums;
 using Epsilon.Logic.Helpers;
 using Epsilon.Resources.Logic.AddressVerification;
+using Epsilon.Logic.Entities;
+using Epsilon.Logic.Constants;
 
 namespace Epsilon.Logic.Services
 {
@@ -36,8 +38,10 @@ namespace Epsilon.Logic.Services
         {
             var cleanAddress = _addressCleansingHelper.Cleanse(address);
 
+            var countryId = cleanAddress.CountryId;
+            var postcode = cleanAddress.Postcode;
             var geocodePostcodeStatus =
-                await _geocodeService.GeocodePostcode(cleanAddress.Postcode, cleanAddress.CountryId);
+                await _geocodeService.GeocodePostcode(postcode, countryId);
 
             // EnumSwitch:GeocodePostcodeStatus
             switch (geocodePostcodeStatus)
@@ -48,7 +52,8 @@ namespace Epsilon.Logic.Services
                 // This group below are the cases where the verification truly failed because the address was not correct.
                 case GeocodePostcodeStatus.MultipleMatches:
                 case GeocodePostcodeStatus.NoMatches:
-                    // PANOS_TODO: Save a GeocodeFailure
+                    await SaveGeocodeFailure(userId, userIpAddress, postcode, countryId,
+                        EnumsHelper.GeocodePostcodeStatus.ToString(geocodePostcodeStatus), AppConstant.GEOCODE_QUERY_TYPE_POSTCODE);
                     return new AddressVerificationResponse
                     {
                         IsRejected = true,
@@ -67,8 +72,11 @@ namespace Epsilon.Logic.Services
                         EnumsHelper.GeocodePostcodeStatus.ToString(geocodePostcodeStatus)));
             }
 
+
+            // Move on to geocode the full address
+            var fullAddressWithoutCountry = cleanAddress.FullAddressWithoutCountry();
             var geocodeServiceResponse = 
-                await _geocodeService.GeocodeAddress(cleanAddress.FullAddressWithoutCountry(), cleanAddress.CountryId);
+                await _geocodeService.GeocodeAddress(fullAddressWithoutCountry, countryId);
 
             // EnumSwitch:GeocodeAddressStatus
             switch (geocodeServiceResponse.Status)
@@ -82,7 +90,8 @@ namespace Epsilon.Logic.Services
                 // This group below are the cases where the verification truly failed because the address was not correct.
                 case GeocodeAddressStatus.MultipleMatches:
                 case GeocodeAddressStatus.NoMatches:
-                    // PANOS_TODO: Save a GeocodeFailure
+                    await SaveGeocodeFailure(userId, userIpAddress, fullAddressWithoutCountry, countryId,
+                        EnumsHelper.GeocodeAddressStatus.ToString(geocodeServiceResponse.Status), AppConstant.GEOCODE_QUERY_TYPE_ADDRESS);
                     return new AddressVerificationResponse
                     {
                         IsRejected = true,
@@ -100,6 +109,24 @@ namespace Epsilon.Logic.Services
                     throw new NotImplementedException(string.Format("Unexpected GeocodeAddressStatus: '{0}'", 
                         EnumsHelper.GeocodeAddressStatus.ToString(geocodeServiceResponse.Status)));
             }
+        }
+
+        private async Task SaveGeocodeFailure(
+            string userId, string userIpAddress, 
+            string address, string countryId,
+            string failureType, string queryType)
+        {
+            var geocodeFailure = new GeocodeFailure
+            {
+                CreatedById = userId,
+                CreatedByIpAddress = userIpAddress,
+                Address = address,
+                CountryId = countryId,
+                FailureType = failureType,
+                QueryType = queryType
+            };
+            _dbContext.GeocodeFailures.Add(geocodeFailure);
+            await _dbContext.SaveChangesAsync();
         }
     }
 }

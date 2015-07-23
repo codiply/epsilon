@@ -16,8 +16,7 @@ namespace Epsilon.Logic.Services
 {
     public class GeocodeService : IGeocodeService
     {
-        private const string TYPE_POSTCODE = "postcode";
-        private const string TYPE_ADDRESS = "address";
+
 
         private readonly IClock _clock;
         private readonly IRandomFactory _randomFactory;
@@ -59,7 +58,7 @@ namespace Epsilon.Logic.Services
         {
             if (retryNo > _geocodeServiceConfig.OverQueryLimitMaxRetries)
             {
-                await RaiseOverQueryLimitMaxRetriesReached(TYPE_ADDRESS);
+                await RaiseOverQueryLimitMaxRetriesReached(AppConstant.GEOCODE_QUERY_TYPE_ADDRESS);
                 return new GeocodeAddressResponse { Status = GeocodeAddressStatus.OverQueryLimitTriedMaxTimes };
             }
 
@@ -98,7 +97,7 @@ namespace Epsilon.Logic.Services
             // If this was a retry but you succeeded, log it.
             if (retryNo > 0)
             {
-                await LogOverQueryLimitSuccessAfterRetrying(retryNo, TYPE_ADDRESS);
+                await LogOverQueryLimitSuccessAfterRetrying(retryNo, AppConstant.GEOCODE_QUERY_TYPE_ADDRESS);
             }
 
             return new GeocodeAddressResponse
@@ -113,7 +112,7 @@ namespace Epsilon.Logic.Services
             // Terminate the recursion if needed.
             if (retryNo > _geocodeServiceConfig.OverQueryLimitMaxRetries)
             {
-                await RaiseOverQueryLimitMaxRetriesReached(TYPE_POSTCODE);
+                await RaiseOverQueryLimitMaxRetriesReached(AppConstant.GEOCODE_QUERY_TYPE_POSTCODE);
                 return GeocodePostcodeStatus.OverQueryLimitTriedMaxTimes;
             }
 
@@ -163,28 +162,28 @@ namespace Epsilon.Logic.Services
             // If this was a retry but you succeeded, log it.
             if (retryNo > 0)
             {
-                await LogOverQueryLimitSuccessAfterRetrying(retryNo, TYPE_POSTCODE);
+                await LogOverQueryLimitSuccessAfterRetrying(retryNo, AppConstant.GEOCODE_QUERY_TYPE_POSTCODE);
             }
 
             return GeocodePostcodeStatus.Success;
         }
         
-        private async Task RaiseOverQueryLimitMaxRetriesReached(string type)
+        private async Task RaiseOverQueryLimitMaxRetriesReached(string queryType)
         {
             _adminAlertService.SendAlert(AdminAlertKey.GooglGeocodeApiStatusOverQueryLimitMaxRetriesReached);
             var extraInfo = new Dictionary<string, object>
             {
-                { "Type", type },
+                { "QueryType", queryType },
                 { "MaximumRetries", _geocodeServiceConfig.OverQueryLimitMaxRetries }
             };
             await _adminEventLogService.Log(AdminEventLogKey.GooglGeocodeApiStatusOverQueryLimitMaxRetriesReached, extraInfo);
         }
 
-        private async Task LogOverQueryLimitSuccessAfterRetrying(int retryNo, string type)
+        private async Task LogOverQueryLimitSuccessAfterRetrying(int retryNo, string queryType)
         {
             var extraInfo = new Dictionary<string, object>
             {
-                { "Type", type },
+                { "QueryType", queryType },
                 { "RetriesUntilSuccess", retryNo }
             };
             await _adminEventLogService.Log(AdminEventLogKey.GooglGeocodeApiStatusOverQueryLimitSuccessAfterRetrying, extraInfo);

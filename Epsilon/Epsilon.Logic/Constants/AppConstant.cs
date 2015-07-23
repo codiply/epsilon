@@ -24,5 +24,8 @@ namespace Epsilon.Logic.Constants
 
         public const byte TOKEN_AMOUNT_PRECISION = 16;
         public const byte TOKEN_AMOUNT_SCALE = 4;
+
+        public const string GEOCODE_QUERY_TYPE_POSTCODE = "postcode";
+        public const string GEOCODE_QUERY_TYPE_ADDRESS = "address";
     }
 }

@@ -14,6 +14,8 @@ namespace Epsilon.Logic.SqlContext.Mapping
     class GeocodeFailureMap : EntityTypeConfiguration<GeocodeFailure>
     {
         public const int ADDRESS_MAX_LENGTH = 675;
+        public const int FAILURE_TYPE_MAX_LENGTH = 128;
+        public const int QUERY_TYPE_MAX_LENGTH = 16;
 
         public GeocodeFailureMap()
         {
@@ -25,6 +27,10 @@ namespace Epsilon.Logic.SqlContext.Mapping
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             this.Property(x => x.Address)
                 .HasMaxLength(ADDRESS_MAX_LENGTH);
+            this.Property(x => x.FailureType)
+                .HasMaxLength(FAILURE_TYPE_MAX_LENGTH);
+            this.Property(x => x.QueryType)
+                .HasMaxLength(QUERY_TYPE_MAX_LENGTH);
             this.Property(x => x.CreatedOn)
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Computed);
             this.Property(a => a.CreatedByIpAddress)
