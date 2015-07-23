@@ -16,6 +16,7 @@ using Epsilon.Logic.Helpers;
 using Epsilon.Logic.Entities;
 using Epsilon.Logic.Wrappers;
 using Epsilon.Logic.SqlContext.Interfaces;
+using Epsilon.Logic.Helpers.Interfaces;
 
 namespace Epsilon.IntegrationTests.Logic.Services
 {
@@ -175,6 +176,16 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var ipAddress = "1.2.3.4";
             var countryId = "GB";
 
+            var addressGeometry = new AddressGeometry
+            {
+                Latitude = 1.0,
+                Longitude = 2.0,
+                ViewportNortheastLatitude = 3.0,
+                ViewportNortheastLongitude = 4.0,
+                ViewportSouthwestLatitude = 5.0,
+                ViewportSouthwestLongitude = 6.0
+            };
+
             var helperContainer = CreateContainer();
             var user = await CreateUser(helperContainer, "test@test.com", ipAddress);
 
@@ -200,12 +211,13 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 },
                 new AddressVerificationResponse
                 {
-                    IsRejected = false
+                    IsRejected = false,
+                    AddressGeometry = addressGeometry
                 });
             var serviceForAdd = containerForAdd.Get<IAddressService>();
 
             var addressForm = CreateRandomAddresForm(countryId);
-            await CreatePostcodeGeometry(helperContainer, addressForm.CountryId, addressForm.Postcode);
+            var postcodeGeometry = await CreatePostcodeGeometry(helperContainer, addressForm.CountryId, addressForm.Postcode);
 
             var timeBefore = DateTimeOffset.Now;
             var outcome = await serviceForAdd.AddAddress(user.Id, ipAddress, addressForm);
@@ -240,6 +252,28 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.AreEqual(ipAddress, retrievedAddress.CreatedByIpAddress, "Field CreatedByIpAddress on the retrieved address is not the expected.");
             Assert.IsTrue(timeBefore <= retrievedAddress.CreatedOn && retrievedAddress.CreatedOn <= timeAfter,
                 "Field CreatedOn on the retrieved address is not within the expected range.");
+
+            Assert.IsNotNull(retrievedAddress.Geometry, "Geometry field on retrieved address is null");
+            Assert.AreEqual(addressGeometry.Latitude, retrievedAddress.Geometry.Latitude,
+                "Field Latitude on Geometry of the retrieved address is not the expected.");
+            Assert.AreEqual(addressGeometry.Longitude, retrievedAddress.Geometry.Longitude,
+                "Field Longitude on Geometry of the retrieved address is not the expected.");
+            Assert.AreEqual(addressGeometry.ViewportNortheastLatitude, retrievedAddress.Geometry.ViewportNortheastLatitude,
+                "Field ViewportNortheastLatitude on Geometry of the retrieved address is not the expected.");
+            Assert.AreEqual(addressGeometry.ViewportNortheastLongitude, retrievedAddress.Geometry.ViewportNortheastLongitude,
+                "Field ViewportNortheastLongitude on Geometry of the retrieved address is not the expected.");
+            Assert.AreEqual(addressGeometry.ViewportSouthwestLatitude, retrievedAddress.Geometry.ViewportSouthwestLatitude,
+                "Field ViewportSouthwestLatitude on Geometry of the retrieved address is not the expected.");
+            Assert.AreEqual(addressGeometry.ViewportSouthwestLongitude, retrievedAddress.Geometry.ViewportSouthwestLongitude,
+                "Field ViewportSouthwestLatitude on Geometry of the retrieved address is not the expected.");
+            Assert.IsTrue(timeBefore <= retrievedAddress.Geometry.GeocodedOn && retrievedAddress.Geometry.GeocodedOn <= timeAfter,
+                "Field GeocodedOn on retrieved address Geometry was not in the expected range.");
+
+            Assert.IsNotNull(retrievedAddress.PostcodeGeometry, "PostcodeGeometry field on retrieved address is null");
+            Assert.AreEqual(postcodeGeometry.Latitude, retrievedAddress.PostcodeGeometry.Latitude,
+                "Field Latitude on PostcodeGeometry of the retrieved address is not the expected.");
+            Assert.AreEqual(postcodeGeometry.Longitude, retrievedAddress.PostcodeGeometry.Longitude,
+                "Field Longitude on PostcodeGeometry of the retrieved address is not the expected.");
         }
 
         [Test]
@@ -367,17 +401,18 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
         private async Task<PostcodeGeometry> CreatePostcodeGeometry(IKernel container, string countryId, string postcode)
         {
+            var addressCleansingHelper = container.Get<IAddressCleansingHelper>();
             var dbContext = container.Get<IEpsilonContext>();
             var postcodeGeometry = new PostcodeGeometry()
             {
                 CountryId = countryId,
                 Postcode = postcode,
-                Latitude = 0.0,
-                Longitude = 0.0,
-                ViewportNortheastLatitude = 0.0,
-                ViewportNortheastLongitude = 0.0,
-                ViewportSouthwestLatitude = 0.0,
-                ViewportSouthwestLongitude = 0.0
+                Latitude = 10.0,
+                Longitude = 11.0,
+                ViewportNortheastLatitude = 12.0,
+                ViewportNortheastLongitude = 13.0,
+                ViewportSouthwestLatitude = 14.0,
+                ViewportSouthwestLongitude = 15.0
             };
             dbContext.PostcodeGeometries.Add(postcodeGeometry);
             await dbContext.SaveChangesAsync();

@@ -18,6 +18,7 @@ using Epsilon.Logic.Constants.Interfaces;
 using Epsilon.Logic.Constants.Enums;
 using Epsilon.Logic.Helpers;
 using Epsilon.Logic.Configuration.Interfaces;
+using System.Data.Entity;
 
 namespace Epsilon.Logic.Services
 {
@@ -116,12 +117,18 @@ namespace Epsilon.Logic.Services
 
         public async Task<Address> GetAddress(long addressId)
         {
-            return await _dbContext.Addresses.FindAsync(addressId);
+            return await _dbContext.Addresses
+                .Include(a => a.Geometry)
+                .Include(a => a.PostcodeGeometry) 
+                .SingleOrDefaultAsync(a => a.Id.Equals(addressId));
         }
 
         public async Task<Address> GetAddressViaUniqueId(Guid addressUniqueId)
         {
-            return await _dbContext.Addresses.SingleOrDefaultAsync(x => x.UniqueId.Equals(addressUniqueId));
+            return await _dbContext.Addresses
+                .Include(a => a.Geometry)
+                .Include(a => a.PostcodeGeometry)
+                .SingleOrDefaultAsync(x => x.UniqueId.Equals(addressUniqueId));
         }
 
         public async Task<AddAddressOutcome> AddAddress(string userId, string userIpAddress, AddressForm dto)
@@ -149,8 +156,11 @@ namespace Epsilon.Logic.Services
             entity.CreatedById = userId;
             entity.CreatedByIpAddress = userIpAddress;
             entity.DistinctAddressCode = CalculateDistinctAddressCode(dto);
-            entity.Geometry = verificationResponse.AddressGeometry;
-
+            if (verificationResponse.AddressGeometry != null)
+            {
+                _dbContext.AddressGeometries.Add(verificationResponse.AddressGeometry);
+                entity.Geometry = verificationResponse.AddressGeometry;
+            }
             _dbContext.Addresses.Add(entity);
 
             await _dbContext.SaveChangesAsync();
