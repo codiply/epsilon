@@ -3,6 +3,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
@@ -12,6 +13,7 @@ namespace Epsilon.Logic.Entities
 {
     public class User : IdentityUser
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public virtual DateTimeOffset CreatedOn { get; set; }
 
         public virtual UserPreference Preference { get; set; }
