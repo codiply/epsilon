@@ -16,6 +16,10 @@ From **Tools > Extension and Updates...** install
 * **HgSccPackage**
 * **CodeLineage**
 
+### SQL Server
+
+Install SQL Server 2014 Express with Advanced Services 64 Bit.
+
 ### Code coverage
 
 Install free version of [TestDriven.Net](http://www.testdriven.net/) that includes NCover.
