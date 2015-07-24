@@ -31,6 +31,7 @@ Preferred client: [TortoiseHg](http://tortoisehg.bitbucket.org/).
 ### NUnit Gui Runner
 
 Download and install from [here](http://www.nunit.org/index.php?p=download).
+The NUnit Gui Runner groups tests in a better way than running them from within Visual Studio.
 
 ## Email server
 
