@@ -7,6 +7,8 @@
     [CurrencyId]         NCHAR (3)          NULL,
     [NumberOfBedrooms]   INT                NULL,
     [IsPartOfProperty]   BIT                NULL,
+    [MoveInDate]         DATETIME           NULL,
+    [MoveOutDate]        DATETIME           NULL,
     [CreatedOn]          DATETIMEOFFSET (7) NOT NULL,
     [SubmittedOn]        DATETIMEOFFSET (7) NULL,
     [CreatedByIpAddress] NVARCHAR (39)      NOT NULL,
@@ -16,6 +18,8 @@
     CONSTRAINT [FK_dbo.TenancyDetailsSubmission_dbo.Currency_CurrencyId] FOREIGN KEY ([CurrencyId]) REFERENCES [dbo].[Currency] ([Id]),
     CONSTRAINT [FK_dbo.TenancyDetailsSubmission_dbo.User_UserId] FOREIGN KEY ([UserId]) REFERENCES [dbo].[User] ([Id])
 );
+
+
 
 
 

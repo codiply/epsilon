@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Epsilon.Logic.JsonModels;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -17,6 +18,8 @@ namespace Epsilon.Logic.Entities
         public virtual string CurrencyId { get; set; }
         public virtual int? NumberOfBedrooms { get; set; }
         public virtual bool? IsPartOfProperty { get; set; }
+        public virtual DateTime? MoveInDate { get; set; }
+        public virtual DateTime? MoveOutDate { get; set; }
         public virtual DateTimeOffset CreatedOn { get; set; }
         public virtual DateTimeOffset? SubmittedOn { get; set; }
         public virtual string CreatedByIpAddress { get; set; }
@@ -28,5 +31,76 @@ namespace Epsilon.Logic.Entities
         public virtual Address Address { get; set; }
         public virtual Currency Currency { get; set; }
         public virtual ICollection<TenantVerification> TenantVerifications { get; set; }
+
+        /// <summary>
+        /// Note: You will need to Include the TenantVerifications in your entity for this to work.
+        /// </summary>
+        /// <returns></returns>
+        public bool StepVerificationCodeSentOutDone()
+        {
+            return TenantVerifications.Any(v => v.SentOn.HasValue);
+        }
+
+        /// <summary>
+        /// Note: You will need to Include the TenantVerifications in your entity for this to work.
+        /// </summary>
+        /// <returns></returns>
+        public bool StepVerificationCodeEnteredDone()
+        {
+            return TenantVerifications.Any(v => v.VerifiedOn.HasValue);
+        }
+
+        public bool StepDetailsSubmittedDone()
+        {
+            return SubmittedOn.HasValue && Rent.HasValue;
+        }
+
+        public bool StepMoveOutDateEnteredDone()
+        {
+            return MoveOutDate.HasValue;
+        }
+
+        /// <summary>
+        /// Note: You will need to Include the TenantVerifications in your entity for this to work.
+        /// </summary>
+        /// <returns></returns>
+        public bool CanEnterVerificationCode()
+        {
+            return TenantVerifications.Any(v => !v.VerifiedOn.HasValue);
+        }
+
+        /// <summary>
+        /// Note: You will need to Include the TenantVerifications in your entity for this to work.
+        /// </summary>
+        /// <returns></returns>
+        public bool CanSubmitDetails()
+        {
+            return StepVerificationCodeEnteredDone() && !StepDetailsSubmittedDone();
+        }
+        
+        public bool CanEnterMoveOutDate()
+        {
+            return StepDetailsSubmittedDone() && !StepMoveOutDateEnteredDone();
+        }
+
+        /// <summary>
+        /// Note: You will need to Include the TenantVerifications in your entity for this to work.
+        /// </summary>
+        /// <returns></returns>
+
+        public TenancyDetailsSubmissionInfo ToInfo()
+        {
+            return new TenancyDetailsSubmissionInfo
+            {
+                uniqueId = UniqueId,
+                canEnterVerificationCode = CanEnterVerificationCode(),
+                canSubmitDetails = CanSubmitDetails(),
+                canEnterMoveOutDate = CanEnterMoveOutDate(),
+                stepVerificationCodeSentOutDone = StepVerificationCodeSentOutDone(),
+                stepVerificationCodeEnteredDone = StepVerificationCodeEnteredDone(),
+                stepDetailsSubmittedDone = StepDetailsSubmittedDone(),
+                stepMoveOutDateEnteredDone = StepMoveOutDateEnteredDone()
+            };
+        }
     }
 }

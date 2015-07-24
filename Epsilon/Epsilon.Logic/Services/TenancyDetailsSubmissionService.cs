@@ -11,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.Entity;
+using Epsilon.Logic.JsonModels;
 
 namespace Epsilon.Logic.Services
 {
@@ -78,6 +79,19 @@ namespace Epsilon.Logic.Services
             {
                 IsRejected = false,
                 TenancyDetailsSubmissionUniqueId = tenancyDetailsSubmission.UniqueId
+            };
+        }
+
+        public async Task<UserTenancyDetailsSubmissionInfo> GetUserSubmissionInfo(string userId)
+        {
+            var submissions = await _dbContext.TenancyDetailsSubmissions
+                .Include(x => x.TenantVerifications)
+                .Where(x => x.UserId.Equals(userId))
+                .ToListAsync();
+
+            return new UserTenancyDetailsSubmissionInfo
+            {
+                submissions = submissions.Select(x => x.ToInfo()).ToList()
             };
         }
 

@@ -166,7 +166,9 @@
     <Compile Include="JsonModels\AddressSearchRequest.cs" />
     <Compile Include="JsonModels\AddressSearchResponse.cs" />
     <Compile Include="JsonModels\AddressSearchResult.cs" />
+    <Compile Include="JsonModels\TenancyDetailsSubmissionInfo.cs" />
     <Compile Include="JsonModels\TokenBalanceResponse.cs" />
+    <Compile Include="JsonModels\UserTenancyDetailsSubmissionInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\AddressService.cs" />
     <Compile Include="Services\AddressVerificationService.cs" />
