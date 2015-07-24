@@ -1188,7 +1188,7 @@
     <Content Include="Views\Admin\DbAppSettingEdit.cshtml" />
     <Content Include="Views\Admin\TestEmail.cshtml" />
     <Content Include="Views\Admin\TestGoogleGeocodeApi.cshtml" />
-    <Content Include="Views\NgDirectiveTemplate\MySubmissionSummary.cshtml" />
+    <Content Include="Views\NgDirectiveTemplate\MySubmissionsSummary.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1217,7 +1217,7 @@
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\ngapp\app.ts" />
     <TypeScriptCompile Include="Scripts\ngapp\controllers\SubmissionAddressSearchController.ts" />
-    <TypeScriptCompile Include="Scripts\ngapp\directives\MySubmissionSummary.ts" />
+    <TypeScriptCompile Include="Scripts\ngapp\directives\MySubmissionsSummary.ts" />
     <TypeScriptCompile Include="Scripts\ngapp\directives\TokenBalanceBadge.ts" />
     <TypeScriptCompile Include="Scripts\ngapp\directives\AddressMap.ts">
       <SubType>Code</SubType>

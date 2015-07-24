@@ -15,7 +15,7 @@ namespace Epsilon.Web.Controllers
             return Content("");
         }
 
-        public ActionResult MySubmissionSummary()
+        public ActionResult MySubmissionsSummary()
         {
             return View();
         }

@@ -49,8 +49,8 @@ declare module T4TS {
     export interface TokenBalanceResponse {
         balance: number;
     }
-    /** Generated from Epsilon.Logic.JsonModels.UserSubmissionSummary **/
-    export interface UserSubmissionSummary {
+    /** Generated from Epsilon.Logic.JsonModels.UserSubmissionsSummary **/
+    export interface UserSubmissionsSummary {
         tenancyDetailsSubmissions: T4TS.TenancyDetailsSubmissionInfo[];
     }
 }

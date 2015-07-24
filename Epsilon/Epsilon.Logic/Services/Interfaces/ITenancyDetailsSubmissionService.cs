@@ -22,6 +22,6 @@ namespace Epsilon.Logic.Services.Interfaces
             Guid submissionUniqueId,
             Guid addressUniqueId);
 
-        Task<UserSubmissionSummary> GetUserSubmissionSummary(string userId);
+        Task<UserSubmissionsSummary> GetUserSubmissionsSummary(string userId);
     }
 }

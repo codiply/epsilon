@@ -10,7 +10,7 @@ angular.module('ngEpsilon', ['ngEpsilon.config'])
 // Directives
     .directive("addressMap", ['$http', 'BASE_URL_WITH_LANGUAGE', Directives.AddressMap])
     .directive("clickOnce", ['$timeout', Directives.ClickOnce])
-    .directive("mySubmissionSummary", ['$http', 'BASE_URL_WITH_LANGUAGE', 'DIRECTIVE_TEMPLATE_FOLDER_URL', Directives.MySubmissionSummary])
+    .directive("mySubmissionsSummary", ['$http', 'BASE_URL_WITH_LANGUAGE', 'DIRECTIVE_TEMPLATE_FOLDER_URL', Directives.MySubmissionsSummary])
     .directive("tokenBalanceBadge", ['$http', 'BASE_URL_WITH_LANGUAGE', Directives.TokenBalanceBadge])
 // Filters
     .filter("stringFormat", Filters.stringFormat);

@@ -3,31 +3,31 @@
 }
 @using Epsilon.Resources.Web.Submission
 
-<div data-ng-if="userSubmissionSummary.tenancyDetailsSubmissions.length > 0">
-    <h3>@SubmissionResources.MySubmissionSummary_Header</h3>
+<div data-ng-if="userSubmissionsSummary.tenancyDetailsSubmissions.length > 0">
+    <h3>@SubmissionResources.MySubmissionsSummary_Header</h3>
     <table class="table table-striped">
         <thead>
             <tr>
-                <th>@SubmissionResources.MySubmissionSummary_ProgressColumnHeader</th>
-                <th>@SubmissionResources.MySubmissionSummary_AddressColumnHeader</th>
-                <th>@SubmissionResources.MySubmissionSummary_ActionsColumnHeader</th>
+                <th>@SubmissionResources.MySubmissionsSummary_ProgressColumnHeader</th>
+                <th>@SubmissionResources.MySubmissionsSummary_AddressColumnHeader</th>
+                <th>@SubmissionResources.MySubmissionsSummary_ActionsColumnHeader</th>
             </tr>
         </thead>
         <tbody>
-            <tr data-ng-repeat="subm in userSubmissionSummary.tenancyDetailsSubmissions">
+            <tr data-ng-repeat="subm in userSubmissionsSummary.tenancyDetailsSubmissions">
                 <td>
                     <!-- TODO_PANOS: fix the ng-if's, the logic is currently inverted. -->
                     <span data-ng-if="!subm.stepVerificationCodeSentOutDone" 
-                          title="@SubmissionResources.MySubmissionSummary_StepVerificationCodeSentOutDone_IconTitle"
+                          title="@SubmissionResources.MySubmissionsSummary_StepVerificationCodeSentOutDone_IconTitle"
                           class="glyphicon glyphicon-envelope" aria-hidden="true" />
                     <span data-ng-if="!subm.stepVerificationCodeEnteredDone" 
-                          title="@SubmissionResources.MySubmissionSummary_StepVerificationCodeEnteredDone_IconTitle"
+                          title="@SubmissionResources.MySubmissionsSummary_StepVerificationCodeEnteredDone_IconTitle"
                           class="glyphicon glyphicon-inbox" aria-hidden="true" />
                     <span data-ng-if="!subm.stepDetailsSubmittedDone" 
-                          title="@SubmissionResources.MySubmissionSummary_StepDetailsSubmittedDone_IconTitle"
+                          title="@SubmissionResources.MySubmissionsSummary_StepDetailsSubmittedDone_IconTitle"
                           class="glyphicon glyphicon-check" aria-hidden="true" />
                     <span data-ng-if="!subm.stepMoveOutDateEnteredDone" 
-                          title="@SubmissionResources.MySubmissionSummary_StepMoveOutDateEnteredDone_IconTitle"
+                          title="@SubmissionResources.MySubmissionsSummary_StepMoveOutDateEnteredDone_IconTitle"
                           class="glyphicon glyphicon-share" aria-hidden="true" />
                 </td>
                 <td>{{subm.displayAddress}}</td>

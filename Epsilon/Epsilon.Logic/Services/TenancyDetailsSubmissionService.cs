@@ -82,7 +82,7 @@ namespace Epsilon.Logic.Services
             };
         }
 
-        public async Task<UserSubmissionSummary> GetUserSubmissionSummary(string userId)
+        public async Task<UserSubmissionsSummary> GetUserSubmissionsSummary(string userId)
         {
             var submissions = await _dbContext.TenancyDetailsSubmissions
                 .Include(x => x.TenantVerifications)
@@ -91,7 +91,7 @@ namespace Epsilon.Logic.Services
                 .Where(x => x.UserId.Equals(userId))
                 .ToListAsync();
 
-            return new UserSubmissionSummary
+            return new UserSubmissionsSummary
             {
                 tenancyDetailsSubmissions = submissions.Select(x => x.ToInfo()).ToList()
             };

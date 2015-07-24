@@ -132,28 +132,28 @@
   <data name="AddAddress_SubmitButton" xml:space="preserve">
     <value>Submit</value>
   </data>
-  <data name="MySubmissionSummary_ActionsColumnHeader" xml:space="preserve">
+  <data name="MySubmissionsSummary_ActionsColumnHeader" xml:space="preserve">
     <value>Actions</value>
   </data>
-  <data name="MySubmissionSummary_AddressColumnHeader" xml:space="preserve">
+  <data name="MySubmissionsSummary_AddressColumnHeader" xml:space="preserve">
     <value>Address</value>
   </data>
-  <data name="MySubmissionSummary_Header" xml:space="preserve">
+  <data name="MySubmissionsSummary_Header" xml:space="preserve">
     <value>My submissions</value>
   </data>
-  <data name="MySubmissionSummary_ProgressColumnHeader" xml:space="preserve">
+  <data name="MySubmissionsSummary_ProgressColumnHeader" xml:space="preserve">
     <value>Progress</value>
   </data>
-  <data name="MySubmissionSummary_StepDetailsSubmittedDone_IconTitle" xml:space="preserve">
+  <data name="MySubmissionsSummary_StepDetailsSubmittedDone_IconTitle" xml:space="preserve">
     <value>You have submitted the details for this address.</value>
   </data>
-  <data name="MySubmissionSummary_StepMoveOutDateEnteredDone_IconTitle" xml:space="preserve">
+  <data name="MySubmissionsSummary_StepMoveOutDateEnteredDone_IconTitle" xml:space="preserve">
     <value>You have moved out from this address.</value>
   </data>
-  <data name="MySubmissionSummary_StepVerificationCodeEnteredDone_IconTitle" xml:space="preserve">
+  <data name="MySubmissionsSummary_StepVerificationCodeEnteredDone_IconTitle" xml:space="preserve">
     <value>You have verified this address.</value>
   </data>
-  <data name="MySubmissionSummary_StepVerificationCodeSentOutDone_IconTitle" xml:space="preserve">
+  <data name="MySubmissionsSummary_StepVerificationCodeSentOutDone_IconTitle" xml:space="preserve">
     <value>A verification code has been sent to this address.</value>
   </data>
   <data name="SearchAddress_AddNewAddressButton" xml:space="preserve">
