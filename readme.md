@@ -18,7 +18,7 @@ From **Tools > Extension and Updates...** install
 
 ### SQL Server
 
-Install SQL Server 2014 Express with Advanced Services 64 Bit.
+Install SQL Server 2014 Express with Advanced Services 64 Bit. In the Instance Configuration step choose **Default Instance**.
 
 ### Code coverage
 
