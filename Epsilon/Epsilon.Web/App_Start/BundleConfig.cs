@@ -41,6 +41,7 @@ namespace Epsilon.Web
                         // Directives
                         "~/Scripts/ngapp/directives/AddressMap.js",
                         "~/Scripts/ngapp/directives/ClickOnce.js",
+                        "~/Scripts/ngapp/directives/TokenBalanceBadge.js",
                         "~/Scripts/ngapp/app.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/run_prettify").Include(

@@ -33,4 +33,8 @@ declare module T4TS {
         addressUniqueId: string;
         fullAddress: string;
     }
+    /** Generated from Epsilon.Logic.JsonModels.TokenBalanceResponse **/
+    export interface TokenBalanceResponse {
+        balance: number;
+    }
 }
