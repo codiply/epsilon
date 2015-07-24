@@ -11,8 +11,7 @@
                 restrict: 'E',
                 scope: {
                 },
-                // data-ng-cloak data-ng-show={{tokenBalanceResponse.balance}}
-                template: '<span class="badge">{{tokenBalanceResponse.balance}}</span>',
+                template: '<span class="badge" data-ng-cloak data-ng-show="tokenBalanceResponse">{{tokenBalanceResponse.balance}}</span>',
                 link: (scope: TokenBalanceBadgeScope, element: ng.IAugmentedJQuery, attributes: ng.IAttributes) => {
                     new TokenBalanceBadgeLink(scope, element, attributes, $http, BASE_URL_WITH_LANGUAGE);
                 }

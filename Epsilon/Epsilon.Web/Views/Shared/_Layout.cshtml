@@ -75,6 +75,7 @@
         angular.module('ngEpsilon.config', [])
             .constant('BASE_URL', '@baseUrl')
             .constant('BASE_URL_WITH_LANGUAGE', '@baseUrlWithLanguage')
+            .constant('DIRECTIVE_TEMPLATE_FOLDER_URL', '@(baseUrlWithLanguage)NgDirectiveTemplate/')
             .constant('LANGUAGE_ID', '@languageId');
     </script>
     @RenderSection("CountryVariantResources", required:false)

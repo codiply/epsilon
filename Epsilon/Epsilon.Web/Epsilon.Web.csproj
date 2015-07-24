@@ -272,6 +272,7 @@
     <Compile Include="Controllers\Filters\Mvc\InternationalizationAttribute.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\NgDirectiveTemplateController.cs" />
     <Compile Include="Controllers\SubmissionController.cs" />
     <Compile Include="Controllers\UserHomeController.cs" />
     <Compile Include="Global.asax.cs">
@@ -1187,6 +1188,7 @@
     <Content Include="Views\Admin\DbAppSettingEdit.cshtml" />
     <Content Include="Views\Admin\TestEmail.cshtml" />
     <Content Include="Views\Admin\TestGoogleGeocodeApi.cshtml" />
+    <Content Include="Views\NgDirectiveTemplate\MySubmissionSummary.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1215,6 +1217,7 @@
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\ngapp\app.ts" />
     <TypeScriptCompile Include="Scripts\ngapp\controllers\SubmissionAddressSearchController.ts" />
+    <TypeScriptCompile Include="Scripts\ngapp\directives\MySubmissionSummary.ts" />
     <TypeScriptCompile Include="Scripts\ngapp\directives\TokenBalanceBadge.ts" />
     <TypeScriptCompile Include="Scripts\ngapp\directives\AddressMap.ts">
       <SubType>Code</SubType>

@@ -84,7 +84,8 @@ namespace Epsilon.Logic.Entities
         }
 
         /// <summary>
-        /// Note: You will need to Include the TenantVerifications in your entity for this to work.
+        /// Note: You will need to Include Address, Address.Country and 
+        ///       TenantVerifications in your entity for this to work.
         /// </summary>
         /// <returns></returns>
 
@@ -93,6 +94,7 @@ namespace Epsilon.Logic.Entities
             return new TenancyDetailsSubmissionInfo
             {
                 uniqueId = UniqueId,
+                displayAddress = this.Address.FullAddress(),
                 canEnterVerificationCode = CanEnterVerificationCode(),
                 canSubmitDetails = CanSubmitDetails(),
                 canEnterMoveOutDate = CanEnterMoveOutDate(),

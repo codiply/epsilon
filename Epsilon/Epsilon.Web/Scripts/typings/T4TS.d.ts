@@ -33,8 +33,24 @@ declare module T4TS {
         addressUniqueId: string;
         fullAddress: string;
     }
+    /** Generated from Epsilon.Logic.JsonModels.TenancyDetailsSubmissionInfo **/
+    export interface TenancyDetailsSubmissionInfo {
+        uniqueId: string;
+        displayAddress: string;
+        stepVerificationCodeSentOutDone: boolean;
+        stepVerificationCodeEnteredDone: boolean;
+        stepDetailsSubmittedDone: boolean;
+        stepMoveOutDateEnteredDone: boolean;
+        canEnterVerificationCode: boolean;
+        canSubmitDetails: boolean;
+        canEnterMoveOutDate: boolean;
+    }
     /** Generated from Epsilon.Logic.JsonModels.TokenBalanceResponse **/
     export interface TokenBalanceResponse {
         balance: number;
+    }
+    /** Generated from Epsilon.Logic.JsonModels.UserSubmissionSummary **/
+    export interface UserSubmissionSummary {
+        tenancyDetailsSubmissions: T4TS.TenancyDetailsSubmissionInfo[];
     }
 }
