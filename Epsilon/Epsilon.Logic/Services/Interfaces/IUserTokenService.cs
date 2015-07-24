@@ -1,5 +1,6 @@
 ﻿using Epsilon.Logic.Constants.Enums;
 using Epsilon.Logic.Entities;
+using Epsilon.Logic.JsonModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace Epsilon.Logic.Services.Interfaces
     {
         Task CreateAccount(string userId);
 
-        Task<decimal> GetBalance(string userId);
+        TokenBalanceResponse GetBalance(string userId);
 
         Task<TokenAccountTransactionStatus> Credit(string userId, Decimal amount);
 

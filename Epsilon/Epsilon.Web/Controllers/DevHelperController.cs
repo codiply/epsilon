@@ -107,9 +107,9 @@ namespace Epsilon.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> Tokens()
+        public ActionResult Tokens()
         {
-            var balance = await _userTokenService.GetBalance(User.Identity.GetUserId());
+            var balance = _userTokenService.GetBalance(GetUserId());
 
             return View(balance);
         }
@@ -118,7 +118,7 @@ namespace Epsilon.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> TokensCredit(Decimal amount)
         {
-            var status = await _userTokenService.Credit(User.Identity.GetUserId(), amount);
+            var status = await _userTokenService.Credit(GetUserId(), amount);
 
             return RedirectToAction("Tokens");
         }
@@ -127,7 +127,7 @@ namespace Epsilon.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> TokensDebit(Decimal amount)
         {
-            var status = await _userTokenService.Debit(User.Identity.GetUserId(), amount);
+            var status = await _userTokenService.Debit(GetUserId(), amount);
 
             return RedirectToAction("Tokens");
         }
