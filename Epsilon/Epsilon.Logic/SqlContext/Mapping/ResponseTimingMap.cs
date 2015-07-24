@@ -33,6 +33,11 @@ namespace Epsilon.Logic.SqlContext.Mapping
             this.Property(x => x.HttpVerb)
                 .IsRequired()
                 .HasMaxLength(HTTP_VERB_MAX_LENGTH);
+
+            // Relationships
+            this.HasRequired(x => x.Language)
+                .WithMany()
+                .HasForeignKey(x => x.LanguageId);
         }
     }
 }

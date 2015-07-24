@@ -45,11 +45,12 @@ namespace Epsilon.Web.Controllers.Filters.Mvc
                 var httpContext = filterContext.HttpContext;
 
                 var routeData = httpContext.Request.RequestContext.RouteData;
-                string currentAction = routeData.GetRequiredString("action");
-                string currentController = routeData.GetRequiredString("controller");
-                string httpVerb = httpContext.Request.HttpMethod;
+                string languageId = routeData.GetRequiredString("languageId").ToLowerInvariant();
+                string currentAction = routeData.GetRequiredString("action").ToLowerInvariant();
+                string currentController = routeData.GetRequiredString("controller").ToLowerInvariant();
+                string httpVerb = httpContext.Request.HttpMethod.ToLowerInvariant();
 
-                responseTimingService.Record(currentController, currentAction, httpVerb, false, timeInMilliseconds);
+                responseTimingService.Record(languageId, currentController, currentAction, httpVerb, false, timeInMilliseconds);
             }
         }
     }

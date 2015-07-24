@@ -60,11 +60,12 @@ namespace Epsilon.Web.Controllers.Filters.WebApi
                 var timeInMilliseconds = stopwatch.Elapsed.TotalMilliseconds;
 
                 var routeData = actionExecutedContext.Request.GetRouteData();
-                string currentAction = (string)routeData.Values["action"];
-                string currentController = (string)routeData.Values["controller"];
-                string httpVerb = actionExecutedContext.Request.Method.Method;
+                string languageId = ((string)routeData.Values["languageId"]).ToLowerInvariant();
+                string currentAction = ((string)routeData.Values["action"]).ToLowerInvariant();
+                string currentController = ((string)routeData.Values["controller"]).ToLowerInvariant();
+                string httpVerb = actionExecutedContext.Request.Method.Method.ToLowerInvariant();
 
-                await responseTimingService.RecordAsync(currentController, currentAction, httpVerb, true, timeInMilliseconds);
+                await responseTimingService.RecordAsync(languageId, currentController, currentAction, httpVerb, true, timeInMilliseconds);
             }
         }
     }

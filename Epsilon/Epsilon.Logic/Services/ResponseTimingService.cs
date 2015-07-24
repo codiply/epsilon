@@ -19,10 +19,11 @@ namespace Epsilon.Logic.Services
             _dbContext = dbContext;
         }
 
-        public void Record(string controllerName, string actionName, string httpVerb, bool isApi, double timeInMilliseconds)
+        public void Record(string languageId, string controllerName, string actionName, string httpVerb, bool isApi, double timeInMilliseconds)
         {
             var responseTiming = new ResponseTiming
             {
+                LanguageId = languageId,
                 ControllerName = controllerName,
                 ActionName = actionName,
                 HttpVerb = httpVerb,
@@ -33,10 +34,11 @@ namespace Epsilon.Logic.Services
             _dbContext.SaveChanges();
         }
 
-        public async Task RecordAsync(string controllerName, string actionName, string httpVerb, bool isApi, double timeInMilliseconds)
+        public async Task RecordAsync(string languageId, string controllerName, string actionName, string httpVerb, bool isApi, double timeInMilliseconds)
         {
             var responseTiming = new ResponseTiming
             {
+                LanguageId = languageId,
                 ControllerName = controllerName,
                 ActionName = actionName,
                 HttpVerb = httpVerb,
