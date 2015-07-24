@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Epsilon.Logic.JsonModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,5 +21,7 @@ namespace Epsilon.Logic.Services.Interfaces
             string userIpAddress,
             Guid submissionUniqueId,
             Guid addressUniqueId);
+
+        Task<UserTenancyDetailsSubmissionInfo> GetUserSubmissionInfo(string userId);
     }
 }
