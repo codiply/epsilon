@@ -9,6 +9,13 @@
     @Html.AntiForgeryToken()
 }
 <ul class="nav navbar-nav navbar-right">
+
+    @if (User.Identity.IsAuthenticated)
+    {
+        <li>
+            <a href="#"><token-balance-badge /></a>
+        </li>
+    }
     @if (User.IsInRole(AspNetRole.Admin))
     {
         <li class="dropdown">

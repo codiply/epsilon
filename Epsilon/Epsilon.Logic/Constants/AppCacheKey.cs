@@ -25,5 +25,10 @@ namespace Epsilon.Logic.Constants
         {
             return "APPCACHE:USER_PREFERENCE:" + userId.ToLowerInvariant();
         }
+
+        public static string UserTokenBalance(string userId)
+        {
+            return "APPCACHE:USER_TOKEN_BALANCE:" + userId.ToLowerInvariant();
+        }
     }
 }

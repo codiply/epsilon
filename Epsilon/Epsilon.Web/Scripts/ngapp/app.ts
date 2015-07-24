@@ -10,5 +10,6 @@ angular.module('ngEpsilon', ['ngEpsilon.config'])
 // Directives
     .directive("addressMap", ['$http', 'BASE_URL_WITH_LANGUAGE', Directives.AddressMap])
     .directive("clickOnce", ['$timeout', Directives.ClickOnce])
+    .directive("tokenBalanceBadge", ['$http', 'BASE_URL_WITH_LANGUAGE', Directives.TokenBalanceBadge])
 // Filters
     .filter("stringFormat", Filters.stringFormat);

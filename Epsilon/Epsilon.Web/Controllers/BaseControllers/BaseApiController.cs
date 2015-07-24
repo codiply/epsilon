@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using Microsoft.AspNet.Identity;
 
 namespace Epsilon.Web.Controllers.BaseControllers
 {
@@ -15,5 +16,9 @@ namespace Epsilon.Web.Controllers.BaseControllers
     [ResponseTiming]
     public class BaseApiController : ApiController
     {
+        internal string GetUserId()
+        {
+            return User.Identity.GetUserId();
+        }
     }
 }
