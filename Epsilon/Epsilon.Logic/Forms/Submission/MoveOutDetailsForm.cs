@@ -8,5 +8,6 @@ namespace Epsilon.Logic.Forms.Submission
 {
     public class MoveOutDetailsForm
     {
+        public Guid TenancyDetailsSubmissionUniqueId { get; set; }
     }
 }

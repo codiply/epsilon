@@ -8,7 +8,7 @@ namespace Epsilon.Logic.Forms.Submission
 {
     public class VerificationCodeForm
     {
-        public Guid AddressUniqueId { get; set; }
+        public Guid TenancyDetailsSubmissionUniqueId { get; set; }
         public string VerificationCode { get; set; }
     }
 }

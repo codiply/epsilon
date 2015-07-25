@@ -66,8 +66,7 @@ namespace Epsilon.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> SaveAddress(
-            [Bind(Include = "UniqueId,Line1,Line2,Line3,Line4,Locality,Region,Postcode,CountryId")] AddressForm address)
+        public async Task<ActionResult> SaveAddress(AddressForm address)
         {
             if (ModelState.IsValid)
             {
@@ -88,7 +87,7 @@ namespace Epsilon.Web.Controllers
                     }
                 }
                 
-                return RedirectToAction("UseAddress", new { id = outcome.AddressUniqueId.Value });
+                return RedirectToAction("UseAddress", new { id = address.UniqueId });
             }
 
             ViewBag.CountryId = new SelectList(_countryService.GetAvailableCountries(), "Id", AppConstant.COUNTRY_DISPLAY_FIELD, address.CountryId);
@@ -130,48 +129,115 @@ namespace Epsilon.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> EnterVerificationCode(Guid id)
+        public ActionResult EnterVerificationCode(Guid id)
         {
-            var addressUniqueId = id;
-            throw new NotImplementedException();
+            var model = new VerificationCodeForm { TenancyDetailsSubmissionUniqueId = id };
+            return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> EnterVerificationCode(VerificationCodeForm form)
         {
-            var outcome = await _tenancyDetailsSubmissionService.EnterVerificationCode(GetUserId(), form);
-            throw new NotImplementedException();
+            if (ModelState.IsValid)
+            {
+                var outcome = await _tenancyDetailsSubmissionService.EnterVerificationCode(GetUserId(), form);
+                if (outcome.IsRejected)
+                {
+                    Danger(outcome.RejectionReason, true);
+                    if (outcome.ReturnToForm)
+                    {
+                        return View("EnterVerificationCode", form);
+                    }
+                    else
+                    {
+                        return RedirectToAction(
+                            AppConstant.AUTHENTICATED_USER_HOME_ACTION,
+                            AppConstant.AUTHENTICATED_USER_HOME_CONTROLLER);
+                    }
+                }
+
+                // TODO_PANOS: uncomment to go straight to next step.
+                //return RedirectToAction("EnterVerificationCode", new { id = form.TenancyDetailsSubmissionUniqueId });
+            }
+
+            return View("EnterVerificationCode", form);
         }
 
         [HttpGet]
-        public async Task<ActionResult> SubmitTenancyDetails(Guid id)
+        public ActionResult SubmitTenancyDetails(Guid id)
         {
-            var addressUniqueId = id;
-            throw new NotImplementedException();
+            var model = new TenancyDetailsForm { TenancyDetailsSubmissionUniqueId = id };
+            return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> SubmitTenancyDetails(TenancyDetailsForm form)
         {
-            var outcome = await _tenancyDetailsSubmissionService.SubmitTenancyDetails(GetUserId(), form);
-            throw new NotImplementedException();
+            if (ModelState.IsValid)
+            {
+                var outcome = await _tenancyDetailsSubmissionService.SubmitTenancyDetails(GetUserId(), form);
+                if (outcome.IsRejected)
+                {
+                    Danger(outcome.RejectionReason, true);
+                    if (outcome.ReturnToForm)
+                    {
+                        return View("SubmitTenancyDetails", form);
+                    }
+                    else
+                    {
+                        return RedirectToAction(
+                            AppConstant.AUTHENTICATED_USER_HOME_ACTION,
+                            AppConstant.AUTHENTICATED_USER_HOME_CONTROLLER);
+                    }
+                }
+
+                // TODO_PANOS: add a Success message here.
+                return RedirectToAction(
+                    AppConstant.AUTHENTICATED_USER_HOME_ACTION,
+                    AppConstant.AUTHENTICATED_USER_HOME_CONTROLLER);
+            }
+
+            return View("SubmitTenancyDetails", form);
         }
 
         [HttpGet]
-        public async Task<ActionResult> SubmitMoveOutDetails(Guid id)
+        public ActionResult SubmitMoveOutDetails(Guid id)
         {
-            var addressUniqueId = id;
-            throw new NotImplementedException();
+            var model = new MoveOutDetailsForm { TenancyDetailsSubmissionUniqueId = id };
+            return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> SubmitMoveOutDetails(MoveOutDetailsForm form)
         {
-            var outcome = await _tenancyDetailsSubmissionService.SubmitMoveOutDetails(GetUserId(), form);
-            throw new NotImplementedException();
+            if (ModelState.IsValid)
+            {
+                var outcome = await _tenancyDetailsSubmissionService.SubmitMoveOutDetails(GetUserId(), form);
+                if (outcome.IsRejected)
+                {
+                    Danger(outcome.RejectionReason, true);
+                    if (outcome.ReturnToForm)
+                    {
+                        return View("SubmitMoveOutDetails", form);
+                    }
+                    else
+                    {
+                        return RedirectToAction(
+                            AppConstant.AUTHENTICATED_USER_HOME_ACTION,
+                            AppConstant.AUTHENTICATED_USER_HOME_CONTROLLER);
+                    }
+                }
+
+                // TODO_PANOS: add a Success message here.
+                return RedirectToAction(
+                    AppConstant.AUTHENTICATED_USER_HOME_ACTION,
+                    AppConstant.AUTHENTICATED_USER_HOME_CONTROLLER);
+            }
+
+            return View("SubmitMoveOutDetails", form);
         }
     }
 }

@@ -15,6 +15,7 @@ namespace Epsilon.Logic.Services.Interfaces
         {
             public bool IsRejected { get; set; }
             public string RejectionReason { get; set; }
+            public bool ReturnToForm { get; set; }
         }
 
         public class CreateTenancyDetailsSubmissionOutcome : BaseOutcome
