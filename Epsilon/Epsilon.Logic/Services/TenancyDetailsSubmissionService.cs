@@ -25,6 +25,19 @@ namespace Epsilon.Logic.Services
         private readonly IAddressService _addressService;
         private readonly IAntiAbuseService _antiAbuseService;
 
+        public TenancyDetailsSubmissionService(
+            IClock clock,
+            ITenancyDetailsSubmissionServiceConfig tenancyDetailsSubmissionServiceConfig,
+            IEpsilonContext dbContext,
+            IAddressService addressService,
+            IAntiAbuseService antiAbuseService)
+        {
+            _clock = clock;
+            _tenancyDetailsSubmissionServiceConfig = tenancyDetailsSubmissionServiceConfig;
+            _dbContext = dbContext;
+            _addressService = addressService;
+            _antiAbuseService = antiAbuseService;
+        }
 
         public async Task<UserSubmissionsSummary> GetUserSubmissionsSummary(string userId)
         {
@@ -39,20 +52,6 @@ namespace Epsilon.Logic.Services
             {
                 tenancyDetailsSubmissions = submissions.Select(x => x.ToInfo()).ToList()
             };
-        }
-
-        public TenancyDetailsSubmissionService(
-            IClock clock,
-            ITenancyDetailsSubmissionServiceConfig tenancyDetailsSubmissionServiceConfig,
-            IEpsilonContext dbContext,
-            IAddressService addressService,
-            IAntiAbuseService antiAbuseService)
-        {
-            _clock = clock;
-            _tenancyDetailsSubmissionServiceConfig = tenancyDetailsSubmissionServiceConfig;
-            _dbContext = dbContext;
-            _addressService = addressService;
-            _antiAbuseService = antiAbuseService;
         }
 
         public async Task<CreateTenancyDetailsSubmissionOutcome> Create(
@@ -102,17 +101,60 @@ namespace Epsilon.Logic.Services
 
         public async Task<EnterVerificationCodeOutcome> EnterVerificationCode(string userId, VerificationCodeForm form)
         {
+            var submission = await GetSubmissionForUser(userId, form.TenancyDetailsSubmissionUniqueId);
+            if (submission == null)
+            {
+                return new EnterVerificationCodeOutcome
+                {
+                    IsRejected = true,
+                    // TODO_PANOS: put in a resource, use the same resource accross all 3 methods
+                    RejectionReason = "Sorry something went wrong."
+                };
+            }
+
             throw new NotImplementedException();
         }
 
         public async Task<SubmitTenancyDetailsOutcome> SubmitTenancyDetails(string userId, TenancyDetailsForm form)
         {
+            var submission = await GetSubmissionForUser(userId, form.TenancyDetailsSubmissionUniqueId);
+            if (submission == null)
+            {
+                return new SubmitTenancyDetailsOutcome
+                {
+                    IsRejected = true,
+                    // TODO_PANOS: put in a resource, use the same resource accross all 3 methods
+                    RejectionReason = "Sorry something went wrong."
+                };
+            }
+
             throw new NotImplementedException();
         }
 
         public async Task<SubmitMoveOutDetailsOutcome> SubmitMoveOutDetails(string userId, MoveOutDetailsForm form)
         {
+            var submission = await GetSubmissionForUser(userId, form.TenancyDetailsSubmissionUniqueId);
+            if (submission == null)
+            {
+                return new SubmitMoveOutDetailsOutcome
+                {
+                    IsRejected = true,
+                    // TODO_PANOS: put in a resource, use the same resource accross all 3 methods
+                    RejectionReason = "Sorry something went wrong."
+                };
+            }
+
             throw new NotImplementedException();
+        }
+
+        private async Task<TenancyDetailsSubmission> GetSubmissionForUser(string userId, Guid uniqueId)
+        {
+            var submission = await  _dbContext.TenancyDetailsSubmissions
+                .Where(s => s.UniqueId.Equals(uniqueId))
+                .Where(s => s.UserId.Equals(userId))
+                .SingleOrDefaultAsync();
+
+            return submission;
         }
 
         private async Task<bool> TooManyRecentSubmissionsExist(long addressId)

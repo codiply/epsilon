@@ -49,8 +49,10 @@ namespace Epsilon.Logic.SqlContext.Mapping
 
             // Indexes
             this.Property(x => x.UniqueId)
-                .HasColumnAnnotation(IndexAnnotation.AnnotationName,
-                    new IndexAnnotation(new IndexAttribute("IX_TenancyDetailsSubmission_UniqueId") { IsUnique = true }));
+                .HasColumnAnnotation(IndexAnnotation.AnnotationName, new IndexAnnotation(new[] {
+                    new IndexAttribute("IX_TenancyDetailsSubmission_UniqueId") { IsUnique = true },
+                    new IndexAttribute("IX_TenancyDetailsSubmission_UniqueId_UserId", 1)
+                }));
 
             this.Property(x => x.CreatedOn)
                 .HasColumnAnnotation(IndexAnnotation.AnnotationName, new IndexAnnotation(new[]
@@ -64,8 +66,10 @@ namespace Epsilon.Logic.SqlContext.Mapping
                     new IndexAnnotation(new IndexAttribute("IX_TenancyDetailsSubmission_CreatedOn_CreatedByIpAddress", 2)));
 
             this.Property(x => x.UserId)
-                .HasColumnAnnotation(IndexAnnotation.AnnotationName,
-                    new IndexAnnotation(new IndexAttribute("IX_TenancyDetailsSubmission_CreatedOn_UserId", 2)));
+                .HasColumnAnnotation(IndexAnnotation.AnnotationName, new IndexAnnotation(new[] {
+                    new IndexAttribute("IX_TenancyDetailsSubmission_CreatedOn_UserId", 2),
+                    new IndexAttribute("IX_TenancyDetailsSubmission_UniqueId_UserId", 2)
+                }));
         }
     }
 }

@@ -36,6 +36,8 @@
 
 
 
+
+
 GO
 CREATE NONCLUSTERED INDEX [IX_AddressId]
     ON [dbo].[TenancyDetailsSubmission]([AddressId] ASC);
@@ -71,4 +73,9 @@ CREATE NONCLUSTERED INDEX [IX_TenancyDetailsSubmission_CreatedOn_UserId]
 GO
 CREATE NONCLUSTERED INDEX [IX_TenancyDetailsSubmission_CreatedOn_CreatedByIpAddress]
     ON [dbo].[TenancyDetailsSubmission]([CreatedOn] ASC, [CreatedByIpAddress] ASC);
+
+
+GO
+CREATE NONCLUSTERED INDEX [IX_TenancyDetailsSubmission_UniqueId_UserId]
+    ON [dbo].[TenancyDetailsSubmission]([UniqueId] ASC, [UserId] ASC);
 
