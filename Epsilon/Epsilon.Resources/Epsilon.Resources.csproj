@@ -179,6 +179,7 @@
     <EmbeddedResource Include="Web\Submission\SubmissionResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>SubmissionResources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Web\UserHome\UserHomeResources.el.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

@@ -142,20 +142,20 @@ namespace Epsilon.Resources.Web.Submission {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You have submitted the details for this address..
+        ///   Looks up a localized string similar to You have moved out from this address..
         /// </summary>
-        public static string MySubmissionsSummary_StepDetailsSubmittedDone_IconTitle {
+        public static string MySubmissionsSummary_StepMoveOutDetailsSubmittedDone_IconTitle {
             get {
-                return ResourceManager.GetString("MySubmissionsSummary_StepDetailsSubmittedDone_IconTitle", resourceCulture);
+                return ResourceManager.GetString("MySubmissionsSummary_StepMoveOutDetailsSubmittedDone_IconTitle", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You have moved out from this address..
+        ///   Looks up a localized string similar to You have submitted the details for this address..
         /// </summary>
-        public static string MySubmissionsSummary_StepMoveOutDateEnteredDone_IconTitle {
+        public static string MySubmissionsSummary_StepTenancyDetailsSubmittedDone_IconTitle {
             get {
-                return ResourceManager.GetString("MySubmissionsSummary_StepMoveOutDateEnteredDone_IconTitle", resourceCulture);
+                return ResourceManager.GetString("MySubmissionsSummary_StepTenancyDetailsSubmittedDone_IconTitle", resourceCulture);
             }
         }
         

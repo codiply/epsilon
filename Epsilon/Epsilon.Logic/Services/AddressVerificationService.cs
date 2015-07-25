@@ -15,6 +15,7 @@ using Epsilon.Logic.Helpers;
 using Epsilon.Resources.Logic.AddressVerification;
 using Epsilon.Logic.Entities;
 using Epsilon.Logic.Constants;
+using Epsilon.Logic.Forms.Submission;
 
 namespace Epsilon.Logic.Services
 {

@@ -16,11 +16,11 @@ namespace Epsilon.Logic.JsonModels
 
         public bool stepVerificationCodeSentOutDone { get; set; }
         public bool stepVerificationCodeEnteredDone { get; set; }
-        public bool stepDetailsSubmittedDone { get; set; }
-        public bool stepMoveOutDateEnteredDone { get; set; }
+        public bool stepTenancyDetailsSubmittedDone { get; set; }
+        public bool stepMoveOutDetailsSubmittedDone { get; set; }
 
         public bool canEnterVerificationCode { get; set; }
-        public bool canSubmitDetails { get; set; }
-        public bool canEnterMoveOutDate { get; set; }
+        public bool canSubmitTenancyDetails { get; set; }
+        public bool canEnterMoveOutDetails { get; set; }
     }
 }

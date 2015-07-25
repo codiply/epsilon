@@ -19,6 +19,7 @@ using Epsilon.Logic.Constants.Enums;
 using Epsilon.Logic.Helpers;
 using Epsilon.Logic.Configuration.Interfaces;
 using Epsilon.Logic.Entities.Interfaces;
+using Epsilon.Logic.Forms.Submission;
 
 namespace Epsilon.Logic.Services
 {

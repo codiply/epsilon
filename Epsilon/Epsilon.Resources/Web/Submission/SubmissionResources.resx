@@ -144,11 +144,11 @@
   <data name="MySubmissionsSummary_ProgressColumnHeader" xml:space="preserve">
     <value>Progress</value>
   </data>
-  <data name="MySubmissionsSummary_StepDetailsSubmittedDone_IconTitle" xml:space="preserve">
-    <value>You have submitted the details for this address.</value>
-  </data>
-  <data name="MySubmissionsSummary_StepMoveOutDateEnteredDone_IconTitle" xml:space="preserve">
+  <data name="MySubmissionsSummary_StepMoveOutDetailsSubmittedDone_IconTitle" xml:space="preserve">
     <value>You have moved out from this address.</value>
+  </data>
+  <data name="MySubmissionsSummary_StepTenancyDetailsSubmittedDone_IconTitle" xml:space="preserve">
+    <value>You have submitted the details for this address.</value>
   </data>
   <data name="MySubmissionsSummary_StepVerificationCodeEnteredDone_IconTitle" xml:space="preserve">
     <value>You have verified this address.</value>

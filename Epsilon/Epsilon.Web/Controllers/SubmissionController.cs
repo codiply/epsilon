@@ -15,6 +15,7 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Epsilon.Web.Models.ViewModels.Shared;
 using Epsilon.Resources.Web.Submission;
+using Epsilon.Logic.Forms.Submission;
 
 namespace Epsilon.Web.Controllers
 { 
@@ -128,7 +129,7 @@ namespace Epsilon.Web.Controllers
         }
 
 
-        public async Task<ActionResult> VerifyAddress()
+        public async Task<ActionResult> EnterVerificationCode()
         {
             throw new NotImplementedException();
         }

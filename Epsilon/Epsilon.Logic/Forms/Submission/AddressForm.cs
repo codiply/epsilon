@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Epsilon.Logic.Forms
+namespace Epsilon.Logic.Forms.Submission
 {
     public class AddressForm : IAddress
     {        

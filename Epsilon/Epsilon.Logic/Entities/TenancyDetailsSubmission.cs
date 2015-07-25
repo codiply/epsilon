@@ -50,12 +50,12 @@ namespace Epsilon.Logic.Entities
             return TenantVerifications.Any(v => v.VerifiedOn.HasValue);
         }
 
-        public bool StepDetailsSubmittedDone()
+        public bool StepTenancyDetailsSubmittedDone()
         {
             return SubmittedOn.HasValue && Rent.HasValue;
         }
 
-        public bool StepMoveOutDateEnteredDone()
+        public bool StepMoveOutDetailsSubmittedDone()
         {
             return MoveOutDate.HasValue;
         }
@@ -73,14 +73,14 @@ namespace Epsilon.Logic.Entities
         /// Note: You will need to Include the TenantVerifications in your entity for this to work.
         /// </summary>
         /// <returns></returns>
-        public bool CanSubmitDetails()
+        public bool CanSubmitTenancyDetails()
         {
-            return StepVerificationCodeEnteredDone() && !StepDetailsSubmittedDone();
+            return StepVerificationCodeEnteredDone() && !StepTenancyDetailsSubmittedDone();
         }
         
-        public bool CanEnterMoveOutDate()
+        public bool CanEnterMoveOutDetails()
         {
-            return StepDetailsSubmittedDone() && !StepMoveOutDateEnteredDone();
+            return StepTenancyDetailsSubmittedDone() && !StepMoveOutDetailsSubmittedDone();
         }
 
         /// <summary>
@@ -96,12 +96,12 @@ namespace Epsilon.Logic.Entities
                 uniqueId = UniqueId,
                 displayAddress = this.Address.FullAddress(),
                 canEnterVerificationCode = CanEnterVerificationCode(),
-                canSubmitDetails = CanSubmitDetails(),
-                canEnterMoveOutDate = CanEnterMoveOutDate(),
+                canSubmitTenancyDetails = CanSubmitTenancyDetails(),
+                canEnterMoveOutDetails = CanEnterMoveOutDetails(),
                 stepVerificationCodeSentOutDone = StepVerificationCodeSentOutDone(),
                 stepVerificationCodeEnteredDone = StepVerificationCodeEnteredDone(),
-                stepDetailsSubmittedDone = StepDetailsSubmittedDone(),
-                stepMoveOutDateEnteredDone = StepMoveOutDateEnteredDone()
+                stepTenancyDetailsSubmittedDone = StepTenancyDetailsSubmittedDone(),
+                stepMoveOutDetailsSubmittedDone = StepMoveOutDetailsSubmittedDone()
             };
         }
     }

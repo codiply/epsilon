@@ -22,12 +22,12 @@
                           class="glyphicon glyphicon-envelope" aria-hidden="true" />
                     <span data-ng-if="!subm.stepVerificationCodeEnteredDone" 
                           title="@SubmissionResources.MySubmissionsSummary_StepVerificationCodeEnteredDone_IconTitle"
-                          class="glyphicon glyphicon-inbox" aria-hidden="true" />
-                    <span data-ng-if="!subm.stepDetailsSubmittedDone" 
-                          title="@SubmissionResources.MySubmissionsSummary_StepDetailsSubmittedDone_IconTitle"
                           class="glyphicon glyphicon-check" aria-hidden="true" />
-                    <span data-ng-if="!subm.stepMoveOutDateEnteredDone" 
-                          title="@SubmissionResources.MySubmissionsSummary_StepMoveOutDateEnteredDone_IconTitle"
+                    <span data-ng-if="!subm.stepTenancyDetailsSubmittedDone" 
+                          title="@SubmissionResources.MySubmissionsSummary_StepTenancyDetailsSubmittedDone_IconTitle"
+                          class="glyphicon glyphicon-info-sign" aria-hidden="true" />
+                    <span data-ng-if="!subm.stepMoveOutDetailsSubmittedDone" 
+                          title="@SubmissionResources.MySubmissionsSummary_StepMoveOutDetailsSubmittedDone_IconTitle"
                           class="glyphicon glyphicon-log-out" aria-hidden="true" />
                 </td>
                 <td>{{subm.displayAddress}}</td>
@@ -39,8 +39,8 @@
 
 <!--
         canEnterVerificationCode;
-        canSubmitDetails;
-        canEnterMoveOutDate;
+        canSubmitTenancyDetails;
+        canEnterMoveOutDetails;
 -->
 
 

@@ -17,6 +17,7 @@ using Epsilon.Logic.Entities;
 using Epsilon.Logic.Wrappers;
 using Epsilon.Logic.SqlContext.Interfaces;
 using Epsilon.Logic.Helpers.Interfaces;
+using Epsilon.Logic.Forms.Submission;
 
 namespace Epsilon.IntegrationTests.Logic.Services
 {
