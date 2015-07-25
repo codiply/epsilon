@@ -141,4 +141,7 @@
   <data name="GenericErrorMessage" xml:space="preserve">
     <value>An error occurred while processing your request.</value>
   </data>
+  <data name="TokenBalanceBadgeHoverText" xml:space="preserve">
+    <value>This is the balance of tokens currently in your account.</value>
+  </data>
 </root>

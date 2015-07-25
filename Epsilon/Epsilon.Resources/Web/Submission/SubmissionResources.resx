@@ -144,16 +144,16 @@
   <data name="MySubmissionsSummary_ProgressColumnHeader" xml:space="preserve">
     <value>Progress</value>
   </data>
-  <data name="MySubmissionsSummary_StepMoveOutDetailsSubmittedDone_IconTitle" xml:space="preserve">
+  <data name="MySubmissionsSummary_StepMoveOutDetailsSubmittedDone_IconHoverText" xml:space="preserve">
     <value>You have moved out from this address.</value>
   </data>
-  <data name="MySubmissionsSummary_StepTenancyDetailsSubmittedDone_IconTitle" xml:space="preserve">
+  <data name="MySubmissionsSummary_StepTenancyDetailsSubmittedDone_IconHoverText" xml:space="preserve">
     <value>You have submitted the details for this address.</value>
   </data>
-  <data name="MySubmissionsSummary_StepVerificationCodeEnteredDone_IconTitle" xml:space="preserve">
+  <data name="MySubmissionsSummary_StepVerificationCodeEnteredDone_IconHoverText" xml:space="preserve">
     <value>You have verified this address.</value>
   </data>
-  <data name="MySubmissionsSummary_StepVerificationCodeSentOutDone_IconTitle" xml:space="preserve">
+  <data name="MySubmissionsSummary_StepVerificationCodeSentOutDone_IconHoverText" xml:space="preserve">
     <value>A verification code has been sent to this address.</value>
   </data>
   <data name="SearchAddress_AddNewAddressButton" xml:space="preserve">

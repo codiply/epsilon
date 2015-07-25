@@ -144,36 +144,36 @@ namespace Epsilon.Resources.Web.Submission {
         /// <summary>
         ///   Looks up a localized string similar to You have moved out from this address..
         /// </summary>
-        public static string MySubmissionsSummary_StepMoveOutDetailsSubmittedDone_IconTitle {
+        public static string MySubmissionsSummary_StepMoveOutDetailsSubmittedDone_IconHoverText {
             get {
-                return ResourceManager.GetString("MySubmissionsSummary_StepMoveOutDetailsSubmittedDone_IconTitle", resourceCulture);
+                return ResourceManager.GetString("MySubmissionsSummary_StepMoveOutDetailsSubmittedDone_IconHoverText", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to You have submitted the details for this address..
         /// </summary>
-        public static string MySubmissionsSummary_StepTenancyDetailsSubmittedDone_IconTitle {
+        public static string MySubmissionsSummary_StepTenancyDetailsSubmittedDone_IconHoverText {
             get {
-                return ResourceManager.GetString("MySubmissionsSummary_StepTenancyDetailsSubmittedDone_IconTitle", resourceCulture);
+                return ResourceManager.GetString("MySubmissionsSummary_StepTenancyDetailsSubmittedDone_IconHoverText", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to You have verified this address..
         /// </summary>
-        public static string MySubmissionsSummary_StepVerificationCodeEnteredDone_IconTitle {
+        public static string MySubmissionsSummary_StepVerificationCodeEnteredDone_IconHoverText {
             get {
-                return ResourceManager.GetString("MySubmissionsSummary_StepVerificationCodeEnteredDone_IconTitle", resourceCulture);
+                return ResourceManager.GetString("MySubmissionsSummary_StepVerificationCodeEnteredDone_IconHoverText", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to A verification code has been sent to this address..
         /// </summary>
-        public static string MySubmissionsSummary_StepVerificationCodeSentOutDone_IconTitle {
+        public static string MySubmissionsSummary_StepVerificationCodeSentOutDone_IconHoverText {
             get {
-                return ResourceManager.GetString("MySubmissionsSummary_StepVerificationCodeSentOutDone_IconTitle", resourceCulture);
+                return ResourceManager.GetString("MySubmissionsSummary_StepVerificationCodeSentOutDone_IconHoverText", resourceCulture);
             }
         }
         
