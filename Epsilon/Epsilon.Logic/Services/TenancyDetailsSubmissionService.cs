@@ -102,7 +102,7 @@ namespace Epsilon.Logic.Services
         public async Task<EnterVerificationCodeOutcome> EnterVerificationCode(string userId, VerificationCodeForm form)
         {
             var submission = await GetSubmissionForUser(userId, form.TenancyDetailsSubmissionUniqueId);
-            if (submission == null)
+            if (submission == null || !submission.CanEnterVerificationCode())
             {
                 return new EnterVerificationCodeOutcome
                 {
@@ -118,7 +118,7 @@ namespace Epsilon.Logic.Services
         public async Task<SubmitTenancyDetailsOutcome> SubmitTenancyDetails(string userId, TenancyDetailsForm form)
         {
             var submission = await GetSubmissionForUser(userId, form.TenancyDetailsSubmissionUniqueId);
-            if (submission == null)
+            if (submission == null || !submission.CanSubmitTenancyDetails())
             {
                 return new SubmitTenancyDetailsOutcome
                 {
@@ -134,7 +134,7 @@ namespace Epsilon.Logic.Services
         public async Task<SubmitMoveOutDetailsOutcome> SubmitMoveOutDetails(string userId, MoveOutDetailsForm form)
         {
             var submission = await GetSubmissionForUser(userId, form.TenancyDetailsSubmissionUniqueId);
-            if (submission == null)
+            if (submission == null || submission.CanSubmitMoveOutDetails())
             {
                 return new SubmitMoveOutDetailsOutcome
                 {
@@ -150,6 +150,8 @@ namespace Epsilon.Logic.Services
         private async Task<TenancyDetailsSubmission> GetSubmissionForUser(string userId, Guid uniqueId)
         {
             var submission = await  _dbContext.TenancyDetailsSubmissions
+                .Include(s => s.Address)
+                .Include(s => s.TenantVerifications)
                 .Where(s => s.UniqueId.Equals(uniqueId))
                 .Where(s => s.UserId.Equals(userId))
                 .SingleOrDefaultAsync();

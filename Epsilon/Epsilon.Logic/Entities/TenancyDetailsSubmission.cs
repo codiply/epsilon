@@ -78,7 +78,7 @@ namespace Epsilon.Logic.Entities
             return StepVerificationCodeEnteredDone() && !StepTenancyDetailsSubmittedDone();
         }
         
-        public bool CanEnterMoveOutDetails()
+        public bool CanSubmitMoveOutDetails()
         {
             return StepTenancyDetailsSubmittedDone() && !StepMoveOutDetailsSubmittedDone();
         }
@@ -97,7 +97,7 @@ namespace Epsilon.Logic.Entities
                 displayAddress = this.Address.FullAddress(),
                 canEnterVerificationCode = CanEnterVerificationCode(),
                 canSubmitTenancyDetails = CanSubmitTenancyDetails(),
-                canEnterMoveOutDetails = CanEnterMoveOutDetails(),
+                canSubmitMoveOutDetails = CanSubmitMoveOutDetails(),
                 stepVerificationCodeSentOutDone = StepVerificationCodeSentOutDone(),
                 stepVerificationCodeEnteredDone = StepVerificationCodeEnteredDone(),
                 stepTenancyDetailsSubmittedDone = StepTenancyDetailsSubmittedDone(),

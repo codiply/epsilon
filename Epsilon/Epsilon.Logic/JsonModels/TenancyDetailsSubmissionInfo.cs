@@ -21,6 +21,6 @@ namespace Epsilon.Logic.JsonModels
 
         public bool canEnterVerificationCode { get; set; }
         public bool canSubmitTenancyDetails { get; set; }
-        public bool canEnterMoveOutDetails { get; set; }
+        public bool canSubmitMoveOutDetails { get; set; }
     }
 }

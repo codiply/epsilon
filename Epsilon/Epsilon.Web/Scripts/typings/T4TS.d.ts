@@ -43,7 +43,7 @@ declare module T4TS {
         stepMoveOutDetailsSubmittedDone: boolean;
         canEnterVerificationCode: boolean;
         canSubmitTenancyDetails: boolean;
-        canEnterMoveOutDetails: boolean;
+        canSubmitMoveOutDetails: boolean;
     }
     /** Generated from Epsilon.Logic.JsonModels.TokenBalanceResponse **/
     export interface TokenBalanceResponse {
