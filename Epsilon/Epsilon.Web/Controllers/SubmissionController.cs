@@ -95,6 +95,7 @@ namespace Epsilon.Web.Controllers
             return View("AddAddress", address);
         }
 
+        [HttpGet]
         public async Task<ActionResult> UseAddress(Guid id)
         {
             var addressUniqueId = id;
@@ -128,14 +129,48 @@ namespace Epsilon.Web.Controllers
                 AppConstant.AUTHENTICATED_USER_HOME_CONTROLLER);
         }
 
-
-        public async Task<ActionResult> EnterVerificationCode()
+        [HttpGet]
+        public async Task<ActionResult> EnterVerificationCode(Guid id)
         {
+            var addressUniqueId = id;
             throw new NotImplementedException();
         }
 
-        public async Task<ActionResult> SubmitTenancyDetails()
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> EnterVerificationCode(VerificationCodeForm form)
         {
+            var outcome = await _tenancyDetailsSubmissionService.EnterVerificationCode(GetUserId(), form);
+            throw new NotImplementedException();
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> SubmitTenancyDetails(Guid id)
+        {
+            var addressUniqueId = id;
+            throw new NotImplementedException();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> SubmitTenancyDetails(TenancyDetailsForm form)
+        {
+            var outcome = await _tenancyDetailsSubmissionService.SubmitTenancyDetails(GetUserId(), form);
+            throw new NotImplementedException();
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> SubmitMoveOutDetails(Guid id)
+        {
+            var addressUniqueId = id;
+            throw new NotImplementedException();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> SubmitMoveOutDetails(MoveOutDetailsForm form)
+        {
+            var outcome = await _tenancyDetailsSubmissionService.SubmitMoveOutDetails(GetUserId(), form);
             throw new NotImplementedException();
         }
     }

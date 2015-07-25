@@ -12,6 +12,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.Entity;
 using Epsilon.Logic.JsonModels;
+using Epsilon.Logic.Services.Interfaces.TenancyDetailsSubmission;
+using Epsilon.Logic.Forms.Submission;
 
 namespace Epsilon.Logic.Services
 {
@@ -22,6 +24,22 @@ namespace Epsilon.Logic.Services
         private readonly IEpsilonContext _dbContext;
         private readonly IAddressService _addressService;
         private readonly IAntiAbuseService _antiAbuseService;
+
+
+        public async Task<UserSubmissionsSummary> GetUserSubmissionsSummary(string userId)
+        {
+            var submissions = await _dbContext.TenancyDetailsSubmissions
+                .Include(x => x.TenantVerifications)
+                .Include(x => x.Address)
+                .Include(x => x.Address.Country)
+                .Where(x => x.UserId.Equals(userId))
+                .ToListAsync();
+
+            return new UserSubmissionsSummary
+            {
+                tenancyDetailsSubmissions = submissions.Select(x => x.ToInfo()).ToList()
+            };
+        }
 
         public TenancyDetailsSubmissionService(
             IClock clock,
@@ -82,19 +100,19 @@ namespace Epsilon.Logic.Services
             };
         }
 
-        public async Task<UserSubmissionsSummary> GetUserSubmissionsSummary(string userId)
+        public async Task<EnterVerificationCodeOutcome> EnterVerificationCode(string userId, VerificationCodeForm form)
         {
-            var submissions = await _dbContext.TenancyDetailsSubmissions
-                .Include(x => x.TenantVerifications)
-                .Include(x => x.Address)
-                .Include(x => x.Address.Country)
-                .Where(x => x.UserId.Equals(userId))
-                .ToListAsync();
+            throw new NotImplementedException();
+        }
 
-            return new UserSubmissionsSummary
-            {
-                tenancyDetailsSubmissions = submissions.Select(x => x.ToInfo()).ToList()
-            };
+        public async Task<SubmitTenancyDetailsOutcome> SubmitTenancyDetails(string userId, TenancyDetailsForm form)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<SubmitMoveOutDetailsOutcome> SubmitMoveOutDetails(string userId, MoveOutDetailsForm form)
+        {
+            throw new NotImplementedException();
         }
 
         private async Task<bool> TooManyRecentSubmissionsExist(long addressId)
