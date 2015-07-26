@@ -3,7 +3,7 @@
 }
 @using Epsilon.Resources.Web.Submission
 
-<div data-ng-if="userSubmissionsSummary.tenancyDetailsSubmissions.length > 0">
+<div data-ng-if="response.tenancyDetailsSubmissions.length > 0">
     <h3>@SubmissionResources.MySubmissionsSummary_Header</h3>
     <table class="table table-striped">
         <thead>
@@ -14,7 +14,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr data-ng-repeat="subm in userSubmissionsSummary.tenancyDetailsSubmissions">
+            <tr data-ng-repeat="subm in response.tenancyDetailsSubmissions">
                 <td>
                     <!-- TODO_PANOS: fix the ng-if's, the logic is currently inverted. -->
                     <span data-ng-if="!subm.stepVerificationCodeSentOutDone" 
@@ -35,6 +35,9 @@
             </tr>
         </tbody>
     </table>
+    <p class="text-right" data-ng-cloak data-ng-show="response.moreItemsExist">
+        @Html.ActionLink(SubmissionResources.MySubmissionSummary_ViewAllLinkText, "MySubmissionsSummary", "Submission")
+    </p>
 </div>
 
 <!--

@@ -1,6 +1,7 @@
 ﻿module Epsilon.NgApp.Directives {
     export interface MySubmissionsSummaryScope extends ng.IScope {
-        userSubmissionsSummary: T4TS.UserSubmissionsSummary;
+        limitItemsReturned: string;
+        response: T4TS.MySubmissionsSummaryResponse;
     }
 
     export class MySubmissionsSummary implements ng.IDirective {
@@ -11,6 +12,7 @@
             return {
                 restrict: 'E',
                 scope: {
+                    limitItemsReturned: "@"
                 },
                 templateUrl: DIRECTIVE_TEMPLATE_FOLDER_URL + 'MySubmissionsSummary',
                 link: (scope: MySubmissionsSummaryScope, element: ng.IAugmentedJQuery, attributes: ng.IAttributes) => {
@@ -29,8 +31,11 @@
         private fetchSummary() {
             var url = this.BASE_URL_WITH_LANGUAGE + '/api/submission/mysubmissionssummary/';
             var scope = this.scope;
-            this.$http.get<T4TS.UserSubmissionsSummary>(url).success(function (data, status, headers, config) {
-                scope.userSubmissionsSummary = data;
+            var request: T4TS.MySubmissionsSummaryRequest = {
+                limitItemsReturned: scope.limitItemsReturned && scope.limitItemsReturned.toLowerCase() === "true"
+            };
+            this.$http.post<T4TS.MySubmissionsSummaryResponse>(url, request).success(function (data, status, headers, config) {
+                scope.response = data;
             });
         }
     }

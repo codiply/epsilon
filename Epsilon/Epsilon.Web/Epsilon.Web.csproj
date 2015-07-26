@@ -1192,6 +1192,7 @@
     <Content Include="Views\Submission\SubmitMoveOutDetails.cshtml" />
     <Content Include="Views\Submission\SubmitTenancyDetails.cshtml" />
     <Content Include="Views\Submission\EnterVerificationCode.cshtml" />
+    <Content Include="Views\Submission\MySubmissionsSummary.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

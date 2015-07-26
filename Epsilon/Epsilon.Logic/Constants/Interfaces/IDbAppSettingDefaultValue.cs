@@ -24,6 +24,7 @@ namespace Epsilon.Logic.Constants.Interfaces
         double GeocodeService_OverQueryLimitDelayBetweenRetriesInSeconds { get; }
 
         Frequency TenancyDetailsSubmission_Create_MaxFrequencyPerAddress { get; }
+        int TenancyDetailsSubmission_MySubmissionsSummary_ItemsLimit { get; }
 
         int SearchAddressResultsLimit { get; }
     }

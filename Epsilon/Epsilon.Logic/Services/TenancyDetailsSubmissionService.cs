@@ -39,17 +39,35 @@ namespace Epsilon.Logic.Services
             _antiAbuseService = antiAbuseService;
         }
 
-        public async Task<UserSubmissionsSummary> GetUserSubmissionsSummary(string userId)
+        public async Task<MySubmissionsSummaryResponse> GetUserSubmissionsSummary(string userId, MySubmissionsSummaryRequest request)
         {
-            var submissions = await _dbContext.TenancyDetailsSubmissions
+            var query = _dbContext.TenancyDetailsSubmissions
                 .Include(x => x.TenantVerifications)
                 .Include(x => x.Address)
                 .Include(x => x.Address.Country)
                 .Where(x => x.UserId.Equals(userId))
-                .ToListAsync();
+                .OrderByDescending(x => x.CreatedOn);
 
-            return new UserSubmissionsSummary
+            List<TenancyDetailsSubmission> submissions;
+            var moreItemsExist = false;
+            if (request.limitItemsReturned)
             {
+                var limit = _tenancyDetailsSubmissionServiceConfig.MySubmissionsSummary_ItemsLimit;
+                submissions = await query.Take(limit + 1).ToListAsync();
+                if (submissions.Count > limit)
+                {
+                    moreItemsExist = true;
+                    submissions = submissions.Take(limit).ToList();
+                }
+            }
+            else
+            {
+                submissions = await query.ToListAsync();
+            }        
+
+            return new MySubmissionsSummaryResponse
+            {
+                moreItemsExist = moreItemsExist,
                 tenancyDetailsSubmissions = submissions.Select(x => x.ToInfo()).ToList()
             };
         }

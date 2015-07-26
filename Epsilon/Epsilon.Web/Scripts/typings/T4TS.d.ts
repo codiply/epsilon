@@ -33,6 +33,15 @@ declare module T4TS {
         addressUniqueId: string;
         fullAddress: string;
     }
+    /** Generated from Epsilon.Logic.JsonModels.MySubmissionsSummaryRequest **/
+    export interface MySubmissionsSummaryRequest {
+        limitItemsReturned: boolean;
+    }
+    /** Generated from Epsilon.Logic.JsonModels.MySubmissionsSummaryResponse **/
+    export interface MySubmissionsSummaryResponse {
+        tenancyDetailsSubmissions: T4TS.TenancyDetailsSubmissionInfo[];
+        moreItemsExist: boolean;
+    }
     /** Generated from Epsilon.Logic.JsonModels.TenancyDetailsSubmissionInfo **/
     export interface TenancyDetailsSubmissionInfo {
         uniqueId: string;
@@ -48,9 +57,5 @@ declare module T4TS {
     /** Generated from Epsilon.Logic.JsonModels.TokenBalanceResponse **/
     export interface TokenBalanceResponse {
         balance: number;
-    }
-    /** Generated from Epsilon.Logic.JsonModels.UserSubmissionsSummary **/
-    export interface UserSubmissionsSummary {
-        tenancyDetailsSubmissions: T4TS.TenancyDetailsSubmissionInfo[];
     }
 }

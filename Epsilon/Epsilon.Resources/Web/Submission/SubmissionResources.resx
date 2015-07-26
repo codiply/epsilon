@@ -141,6 +141,9 @@
   <data name="MySubmissionsSummary_Header" xml:space="preserve">
     <value>My submissions</value>
   </data>
+  <data name="MySubmissionsSummary_PageTitle" xml:space="preserve">
+    <value>My submissions</value>
+  </data>
   <data name="MySubmissionsSummary_ProgressColumnHeader" xml:space="preserve">
     <value>Progress</value>
   </data>
@@ -155,6 +158,9 @@
   </data>
   <data name="MySubmissionsSummary_StepVerificationCodeSentOutDone_IconHoverText" xml:space="preserve">
     <value>A verification code has been sent to this address.</value>
+  </data>
+  <data name="MySubmissionSummary_ViewAllLinkText" xml:space="preserve">
+    <value>View all submissions</value>
   </data>
   <data name="SearchAddress_AddNewAddressButton" xml:space="preserve">
     <value>Add new address</value>

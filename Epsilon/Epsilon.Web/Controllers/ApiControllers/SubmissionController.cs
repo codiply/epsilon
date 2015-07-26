@@ -21,10 +21,10 @@ namespace Epsilon.Web.Controllers.ApiControllers
             _tenancyDetailsSubmissionService = tenancyDetailsSubmissionService;
         }
 
-        [HttpGet]
-        public async Task<UserSubmissionsSummary> MySubmissionsSummary()
+        [HttpPost]
+        public async Task<MySubmissionsSummaryResponse> MySubmissionsSummary(MySubmissionsSummaryRequest request)
         {
-            return await _tenancyDetailsSubmissionService.GetUserSubmissionsSummary(GetUserId());
+            return await _tenancyDetailsSubmissionService.GetUserSubmissionsSummary(GetUserId(), request);
         }
     }
 }

@@ -8,8 +8,8 @@ using T4TS;
 namespace Epsilon.Logic.JsonModels
 {
     [TypeScriptInterface]
-    public class UserSubmissionsSummary
+    public class MySubmissionsSummaryRequest
     {
-        public IList<TenancyDetailsSubmissionInfo> tenancyDetailsSubmissions { get; set; }
+        public bool limitItemsReturned { get; set; }
     }
 }

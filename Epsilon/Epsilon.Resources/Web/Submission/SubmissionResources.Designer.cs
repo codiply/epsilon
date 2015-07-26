@@ -133,6 +133,15 @@ namespace Epsilon.Resources.Web.Submission {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to My submissions.
+        /// </summary>
+        public static string MySubmissionsSummary_PageTitle {
+            get {
+                return ResourceManager.GetString("MySubmissionsSummary_PageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Progress.
         /// </summary>
         public static string MySubmissionsSummary_ProgressColumnHeader {
@@ -174,6 +183,15 @@ namespace Epsilon.Resources.Web.Submission {
         public static string MySubmissionsSummary_StepVerificationCodeSentOutDone_IconHoverText {
             get {
                 return ResourceManager.GetString("MySubmissionsSummary_StepVerificationCodeSentOutDone_IconHoverText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to View all submissions.
+        /// </summary>
+        public static string MySubmissionSummary_ViewAllLinkText {
+            get {
+                return ResourceManager.GetString("MySubmissionSummary_ViewAllLinkText", resourceCulture);
             }
         }
         

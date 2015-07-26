@@ -42,5 +42,15 @@ namespace Epsilon.Logic.Configuration
                     .GetBool(DbAppSettingKey.TenancyDetailsSubmission_Create_DisableFrequencyPerAddressCheck) == true;
             }
         }
+
+        public int MySubmissionsSummary_ItemsLimit
+        {
+            get
+            {
+                return _dbAppSettingsHelper.GetInt(
+                    DbAppSettingKey.TenancyDetailsSubmission_MySubmissionsSummary_ItemsLimit,
+                    _dbAppSettingDefaultValue.TenancyDetailsSubmission_MySubmissionsSummary_ItemsLimit);
+            }
+        }
     }
 }

@@ -239,5 +239,11 @@ namespace Epsilon.Web.Controllers
 
             return View("SubmitMoveOutDetails", form);
         }
+
+        [HttpGet]
+        public ActionResult MySubmissionsSummary()
+        {
+            return View();
+        }
     }
 }
