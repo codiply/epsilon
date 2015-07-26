@@ -144,4 +144,7 @@
   <data name="TokenBalanceBadgeHoverText" xml:space="preserve">
     <value>This is the balance of tokens currently in your account.</value>
   </data>
+  <data name="GenericInvalidRequestMessage" xml:space="preserve">
+    <value>Sorry, there was something wrong with your request.</value>
+  </data>
 </root>

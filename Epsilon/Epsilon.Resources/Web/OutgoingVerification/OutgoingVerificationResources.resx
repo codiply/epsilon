@@ -120,4 +120,16 @@
   <data name="MyOutgoingVerificationsSummary_PageTitle" xml:space="preserve">
     <value>My Outgoing Verifications</value>
   </data>
+  <data name="Pick_ConfirmationText" xml:space="preserve">
+    <value>You will be assigned to send a verification mail by post to verify another user.</value>
+  </data>
+  <data name="Pick_Header" xml:space="preserve">
+    <value>New Outgoing Verification</value>
+  </data>
+  <data name="Pick_PageTitle" xml:space="preserve">
+    <value>New Outgoing Verification</value>
+  </data>
+  <data name="Pick_SubmitButton" xml:space="preserve">
+    <value>Proceed</value>
+  </data>
 </root>

@@ -1,5 +1,6 @@
 ﻿using Epsilon.Logic.Constants;
 using Epsilon.Logic.Services.Interfaces;
+using Epsilon.Resources.Common;
 using Epsilon.Web.Controllers.BaseControllers;
 using Epsilon.Web.Models.ViewModels.OutgoingVerification;
 using System;
@@ -13,6 +14,8 @@ namespace Epsilon.Web.Controllers
 {
     public class OutgoingVerificationController : BaseMvcController
     {
+        public const string MY_OUTGOING_VERIFICATION_SUMMARY = "MyOutgoingVerificationsSummary";
+
         private readonly IOutgoingVerificationService _outgoingVerificationService;
 
         public OutgoingVerificationController(
@@ -23,9 +26,28 @@ namespace Epsilon.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Pick(Guid verificationUniqueId)
+        public async Task<ActionResult> Pick(PickOutgoingVerificationViewModel model)
         {
-            throw new NotImplementedException();
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> PickConfirmed(Guid verificationUniqueId, bool returnToSummary)
+        {
+            var outcome = await _outgoingVerificationService.Pick(GetUserId(), GetUserIpAddress(), verificationUniqueId);
+            if (outcome.IsRejected)
+            {
+                Danger(outcome.RejectionReason, true);
+                return RedirectHome(returnToSummary);
+            }
+            else
+            {
+                // TODO_PANOS: put in a resource.
+                Success("A new outgoing verification has been assigned to you.", true);
+                // TODO_PANOS: redirect to instructions instead
+                return RedirectHome(returnToSummary);
+            }
         }
 
         public async Task<ActionResult> Instructions(Guid id)
@@ -36,7 +58,7 @@ namespace Epsilon.Web.Controllers
 
             if (tenantVerifications == null)
             {
-                Danger("Sorry something went wrong.", true);
+                Danger(CommonResources.GenericInvalidRequestMessage, true);
                 return RedirectToAction(
                     AppConstant.AUTHENTICATED_USER_HOME_ACTION,
                     AppConstant.AUTHENTICATED_USER_HOME_CONTROLLER);
@@ -56,6 +78,20 @@ namespace Epsilon.Web.Controllers
         public ActionResult MyOutgoingVerificationsSummary()
         {
             return View();
+        }
+
+        private ActionResult RedirectHome(bool returnToSummary)
+        {
+            if (returnToSummary)
+            {
+                return RedirectToAction(MY_OUTGOING_VERIFICATION_SUMMARY);
+            }
+            else
+            {
+                return RedirectToAction(
+                    AppConstant.AUTHENTICATED_USER_HOME_ACTION,
+                    AppConstant.AUTHENTICATED_USER_HOME_CONTROLLER);
+            }
         }
     }
 }

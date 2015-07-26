@@ -11,21 +11,31 @@
 
     <div class="col-md-4">
         <div>
-            <h3>Start</h3>
+            <h3>@UserHomeResources.SectionCreateSubmission_Header</h3>
             <p>
-                Start by providing your address details.
+                @UserHomeResources.SectionCreateSubmission_Text
             </p>
-            <p><a class="btn btn-default" href="@Url.Action("SearchAddress", "Submission")">Start &raquo;</a></p>
+            <p><a class="btn btn-default" href="@Url.Action("SearchAddress", "Submission")">@UserHomeResources.SectionCreateSubmission_Button &raquo;</a></p>
         </div>
         <div>
-            <h3>Help</h3>
-            <p>Help by sending verification mail to other users. Earn tokens.</p>
-            <p><a class="btn btn-default" href="#">Help &raquo;</a></p>
+            <h3>@UserHomeResources.SectionPickOutgoingVerification_Header</h3>
+            <p>@UserHomeResources.SectionPickOutgoingVerification_Text</p>
+            <p>
+                @using (Html.BeginForm("Pick","OutgoingVerification"))
+                {
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="verificationUniqueId" value="@Guid.NewGuid()" />
+                    <input type="hidden" name="returnToSummary" value="false" />
+                    <input type="submit" value="@UserHomeResources.SectionPickOutgoingVerification_Button &raquo"
+                           data-click-once
+                           class="btn btn-default" />
+                }
+            </p>
         </div>
         <div>
-            <h3>Explore</h3>
-            <p>Explore properties.</p>
-            <p><a class="btn btn-default" href="#">Explore &raquo;</a></p>
+            <h3>@UserHomeResources.SectionExploreProperties_Header</h3>
+            <p>@UserHomeResources.SectionExploreProperties_Text</p>
+            <p><a class="btn btn-default" href="#">@UserHomeResources.SectionExploreProperties_Button &raquo;</a></p>
         </div>
     </div>
 </div>

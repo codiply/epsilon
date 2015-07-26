@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Epsilon.Resources.Web.OutgoingVerification {
+namespace Epsilon.Resources.Logic.OutgoingVerification {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Epsilon.Resources.Web.OutgoingVerification {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Epsilon.Resources.Web.OutgoingVerification.OutgoingVerificationResources", typeof(OutgoingVerificationResources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Epsilon.Resources.Logic.OutgoingVerification.OutgoingVerificationResources", typeof(OutgoingVerificationResources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,47 +61,11 @@ namespace Epsilon.Resources.Web.OutgoingVerification {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to My Outgoing Verifications.
+        ///   Looks up a localized string similar to There are no verifications that can be assinged to you at the moment, please try again later..
         /// </summary>
-        public static string MyOutgoingVerificationsSummary_PageTitle {
+        public static string Pick_NoVerificationAssignableToUser_RejectionMessage {
             get {
-                return ResourceManager.GetString("MyOutgoingVerificationsSummary_PageTitle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to You will be assigned to send a verification mail by post to verify another user..
-        /// </summary>
-        public static string Pick_ConfirmationText {
-            get {
-                return ResourceManager.GetString("Pick_ConfirmationText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to New Outgoing Verification.
-        /// </summary>
-        public static string Pick_Header {
-            get {
-                return ResourceManager.GetString("Pick_Header", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to New Outgoing Verification.
-        /// </summary>
-        public static string Pick_PageTitle {
-            get {
-                return ResourceManager.GetString("Pick_PageTitle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Proceed.
-        /// </summary>
-        public static string Pick_SubmitButton {
-            get {
-                return ResourceManager.GetString("Pick_SubmitButton", resourceCulture);
+                return ResourceManager.GetString("Pick_NoVerificationAssignableToUser_RejectionMessage", resourceCulture);
             }
         }
     }

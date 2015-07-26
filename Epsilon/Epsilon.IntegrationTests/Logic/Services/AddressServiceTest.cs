@@ -270,7 +270,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.IsTrue(timeBefore <= retrievedAddress.Geometry.GeocodedOn && retrievedAddress.Geometry.GeocodedOn <= timeAfter,
                 "Field GeocodedOn on retrieved address Geometry was not in the expected range.");
 
-            // PANOS_TODO: Fix this! It is currently not fetching the PostcodeGeometry from the database. 
+            // TODO_PANOS: Fix this! It is currently not fetching the PostcodeGeometry from the database. 
             //Assert.IsNotNull(retrievedAddress.PostcodeGeometry, "PostcodeGeometry field on retrieved address is null");
             //Assert.AreEqual(postcodeGeometry.Latitude, retrievedAddress.PostcodeGeometry.Latitude,
             //    "Field Latitude on PostcodeGeometry of the retrieved address is not the expected.");

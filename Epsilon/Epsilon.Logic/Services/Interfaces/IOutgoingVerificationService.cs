@@ -18,6 +18,7 @@ namespace Epsilon.Logic.Services.Interfaces
 
         public class PickVerificationOutcome : BaseOutcome
         {
+            public Guid? VerificationUniqueId { get; set; }
         }
 
         public class MarkVerificationAsSentOutcome : BaseOutcome

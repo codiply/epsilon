@@ -83,6 +83,12 @@ namespace Epsilon.Logic.Services
             return new AntiAbuseServiceResponse { IsRejected = false };
         }
 
+        public async Task<AntiAbuseServiceResponse> CanPickOutgoingVerifications(string userId, string userIpAddress)
+        {
+            // TODO_PANOS
+            return new AntiAbuseServiceResponse { IsRejected = false };
+        }
+
         private async Task<AntiAbuseServiceResponse> CanRegisterCheckGlobalFrequency()
         {
             if (_antiAbuseServiceConfig.Register_DisableGlobalFrequencyCheck)

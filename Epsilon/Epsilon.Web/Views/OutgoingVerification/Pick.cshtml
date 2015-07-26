@@ -1,0 +1,35 @@
+﻿@model Epsilon.Web.Models.ViewModels.OutgoingVerification.PickOutgoingVerificationViewModel
+
+@using Epsilon.Resources.Web.OutgoingVerification
+
+@{
+    ViewBag.Title = OutgoingVerificationResources.Pick_PageTitle;
+}
+
+<h2>@OutgoingVerificationResources.Pick_Header</h2>
+
+
+@using (Html.BeginForm("PickConfirmed", "OutgoingVerification"))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.VerificationUniqueId)
+    @Html.HiddenFor(model => model.ReturnToSummary)
+
+    <div class="form-horizontal">
+        <div class="form-group">
+            <div class="alert alert-info">
+                <p>
+                    @OutgoingVerificationResources.Pick_ConfirmationText
+                </p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div>
+                <input type="submit" value="@OutgoingVerificationResources.Pick_SubmitButton"
+                       class="btn btn-default"
+                       data-click-once />
+            </div>
+        </div>
+    </div>
+}

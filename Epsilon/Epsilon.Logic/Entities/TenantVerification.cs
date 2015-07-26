@@ -12,7 +12,7 @@ namespace Epsilon.Logic.Entities
         public virtual long Id { get; set; }
         public virtual Guid UniqueId { get; set; }
         public virtual long TenancyDetailsSubmissionId { get; set; }
-        public virtual string Code { get; set; }
+        public virtual string SecretCode { get; set; }
         public virtual DateTimeOffset CreatedOn { get; set; }
         public virtual DateTimeOffset? SentOn { get; set; }
         public virtual DateTimeOffset? VerifiedOn { get; set; }

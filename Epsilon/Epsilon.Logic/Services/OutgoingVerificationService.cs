@@ -8,17 +8,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.Entity;
+using System.Transactions;
+using Epsilon.Resources.Logic.OutgoingVerification;
 
 namespace Epsilon.Logic.Services
 {
     public class OutgoingVerificationService : IOutgoingVerificationService
     {
         private readonly IEpsilonContext _dbContext;
+        private readonly IAntiAbuseService _antiAbuseService;
 
         public OutgoingVerificationService(
-            IEpsilonContext dbContext)
+            IEpsilonContext dbContext,
+            IAntiAbuseService antiAbuseService)
         {
             _dbContext = dbContext;
+            _antiAbuseService = antiAbuseService;
         }
 
         public async Task<PickVerificationOutcome> Pick(
@@ -26,12 +31,69 @@ namespace Epsilon.Logic.Services
             string userIpAddress,
             Guid verificationUniqueId)
         {
-            // TODO_PANOS: Anti-abuse check
+            using (var transaction = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+            {
+                var antiAbuseServiceResponse = await _antiAbuseService.CanPickOutgoingVerifications(userId, userIpAddress);
+                if (antiAbuseServiceResponse.IsRejected)
+                    return new PickVerificationOutcome
+                    {
+                        IsRejected = true,
+                        RejectionReason = antiAbuseServiceResponse.RejectionReason,
+                        VerificationUniqueId = null
+                    };
 
-            // TODO_PANOS: make sure you don't pick a submission from the same user or ipaddress.
+                // TODO_PANOS: put this in the config
+                var maxVerifications = 2;
 
+                var submissionIdsToAvoid = await _dbContext.TenantVerifications
+                    .Where(v => v.AssignedToId.Equals(userId) || v.AssignedByIpAddress.Equals(userId))
+                    .Select(v => v.TenancyDetailsSubmissionId)
+                    .Distinct()
+                    .ToListAsync();
 
-            throw new NotImplementedException();
+                // TODO_PANOS: pick a submission from the same country.
+                var pickedSubmission = await _dbContext.TenancyDetailsSubmissions
+                    .Include(s => s.Address)
+                    .Include(s => s.TenantVerifications)
+                    .Where(s => s.UserId != userId)
+                    .Where(s => s.CreatedByIpAddress != userIpAddress)
+                    .Where(s => s.Address.CreatedById != userId)
+                    .Where(s => s.Address.CreatedByIpAddress != userIpAddress)
+                    .Where(s => s.TenantVerifications.Count() < maxVerifications)
+                    .Where(s => !submissionIdsToAvoid.Contains(s.Id))
+                    .OrderBy(s => s.TenantVerifications.Count())
+                    .FirstOrDefaultAsync();
+                
+                if (pickedSubmission == null)
+                {
+                    return new PickVerificationOutcome
+                    {
+                        IsRejected = true,
+                        RejectionReason = OutgoingVerificationResources.Pick_NoVerificationAssignableToUser_RejectionMessage,
+                        VerificationUniqueId = null
+                    };
+                }
+
+                var tenantVerification = new TenantVerification()
+                {
+                    UniqueId = verificationUniqueId,
+                    TenancyDetailsSubmissionId = pickedSubmission.Id,
+                    AssignedToId = userId,
+                    AssignedByIpAddress = userIpAddress,
+                    SecretCode = "secret-code" // PANOS_TODO
+                };
+
+                _dbContext.TenantVerifications.Add(tenantVerification);
+                await _dbContext.SaveChangesAsync();
+
+                transaction.Complete();
+
+                return new PickVerificationOutcome
+                {
+                    IsRejected = false,
+                    VerificationUniqueId = tenantVerification.UniqueId
+                };
+            }
         }
 
         public async Task<TenantVerification> GetVerificationForUser(string assignedUserId, Guid uniqueId)

@@ -26,11 +26,13 @@ namespace Epsilon.Logic.SqlContext.Mapping
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             this.Property(x => x.UniqueId)
                 .IsRequired();
-            this.Property(x => x.Code)
+            this.Property(x => x.SecretCode)
+                .IsRequired()
                 .HasMaxLength(CODE_MAX_LENGTH);
             this.Property(x => x.CreatedOn)
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Computed);
             this.Property(x => x.AssignedByIpAddress)
+                .IsRequired()
                 .HasMaxLength(AppConstant.IP_ADDRESS_MAX_LENGTH);
 
             // Relationships

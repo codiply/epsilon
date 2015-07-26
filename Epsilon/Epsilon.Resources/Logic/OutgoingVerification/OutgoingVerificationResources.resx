@@ -117,34 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Index_PageTitle" xml:space="preserve">
-    <value>User Home Page</value>
-  </data>
-  <data name="SectionCreateSubmission_Button" xml:space="preserve">
-    <value>Start</value>
-  </data>
-  <data name="SectionCreateSubmission_Header" xml:space="preserve">
-    <value>Start</value>
-  </data>
-  <data name="SectionCreateSubmission_Text" xml:space="preserve">
-    <value>Start by providing your address details.</value>
-  </data>
-  <data name="SectionExploreProperties_Button" xml:space="preserve">
-    <value>Explore</value>
-  </data>
-  <data name="SectionExploreProperties_Header" xml:space="preserve">
-    <value>Explore</value>
-  </data>
-  <data name="SectionExploreProperties_Text" xml:space="preserve">
-    <value>Explore properties.</value>
-  </data>
-  <data name="SectionPickOutgoingVerification_Button" xml:space="preserve">
-    <value>Help</value>
-  </data>
-  <data name="SectionPickOutgoingVerification_Header" xml:space="preserve">
-    <value>Help</value>
-  </data>
-  <data name="SectionPickOutgoingVerification_Text" xml:space="preserve">
-    <value>Help by sending verification mail to other users. Earn tokens.</value>
+  <data name="Pick_NoVerificationAssignableToUser_RejectionMessage" xml:space="preserve">
+    <value>There are no verifications that can be assinged to you at the moment, please try again later.</value>
   </data>
 </root>

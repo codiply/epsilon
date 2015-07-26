@@ -287,6 +287,7 @@
     <Compile Include="Models\ViewModels\Admin\TestGoogleGeocodeApiViewModel.cs" />
     <Compile Include="Models\ViewModels\Admin\TestEmailViewModel.cs" />
     <Compile Include="Models\ViewModels\OutgoingVerification\OutgoingVerificationInstructionsViewModel.cs" />
+    <Compile Include="Models\ViewModels\OutgoingVerification\PickOutgoingVerificationViewModel.cs" />
     <Compile Include="Models\ViewModels\Shared\AddressDetailsViewModel.cs" />
     <Compile Include="Models\ViewModels\Shared\CountryVariantResourcesViewModel.cs" />
     <Compile Include="Models\ViewModels\Submission\SearchAddressViewModel.cs" />
@@ -1198,7 +1199,7 @@
     <Content Include="Views\Submission\MySubmissionsSummary.cshtml" />
     <Content Include="Views\NgDirectiveTemplate\MyOutgoingVerificationsSummary.cshtml" />
     <Content Include="Views\OutgoingVerification\MyOutgoingVerificationsSummary.cshtml" />
-    <Content Include="Views\Submission\MyOutgoingVerificationsSummary.cshtml" />
+    <Content Include="Views\OutgoingVerification\Pick.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

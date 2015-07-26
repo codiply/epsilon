@@ -14,6 +14,7 @@ using System.Data.Entity;
 using Epsilon.Logic.JsonModels;
 using Epsilon.Logic.Services.Interfaces.TenancyDetailsSubmission;
 using Epsilon.Logic.Forms.Submission;
+using Epsilon.Resources.Common;
 
 namespace Epsilon.Logic.Services
 {
@@ -125,11 +126,11 @@ namespace Epsilon.Logic.Services
                 return new EnterVerificationCodeOutcome
                 {
                     IsRejected = true,
-                    // TODO_PANOS: put in a resource, use the same resource accross all 3 methods
-                    RejectionReason = "Sorry something went wrong."
+                    RejectionReason = CommonResources.GenericInvalidRequestMessage
                 };
             }
 
+            // TODO_PANOS
             throw new NotImplementedException();
         }
 
@@ -141,11 +142,11 @@ namespace Epsilon.Logic.Services
                 return new SubmitTenancyDetailsOutcome
                 {
                     IsRejected = true,
-                    // TODO_PANOS: put in a resource, use the same resource accross all 3 methods
-                    RejectionReason = "Sorry something went wrong."
+                    RejectionReason = CommonResources.GenericInvalidRequestMessage
                 };
             }
 
+            // TODO_PANOS
             throw new NotImplementedException();
         }
 
@@ -157,11 +158,11 @@ namespace Epsilon.Logic.Services
                 return new SubmitMoveOutDetailsOutcome
                 {
                     IsRejected = true,
-                    // TODO_PANOS: put in a resource, use the same resource accross all 3 methods
-                    RejectionReason = "Sorry something went wrong."
+                    RejectionReason = CommonResources.GenericInvalidRequestMessage
                 };
             }
 
+            // TODO_PANOS
             throw new NotImplementedException();
         }
 

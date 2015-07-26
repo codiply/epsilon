@@ -85,6 +85,16 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>AntiAbuseResources.el.resx</DependentUpon>
     </Compile>
+    <Compile Include="Logic\OutgoingVerification\OutgoingVerificationResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>OutgoingVerificationResources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Logic\OutgoingVerification\OutgoingVerificationResources.el.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>OutgoingVerificationResources.el.resx</DependentUpon>
+    </Compile>
     <Compile Include="Logic\TenancyDetailsSubmission\TenancyDetailsSubmissionResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -169,6 +179,14 @@
     <EmbeddedResource Include="Logic\AntiAbuse\AntiAbuseResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>AntiAbuseResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Logic\OutgoingVerification\OutgoingVerificationResources.el.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>OutgoingVerificationResources.el.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Logic\OutgoingVerification\OutgoingVerificationResources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>OutgoingVerificationResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Logic\TenancyDetailsSubmission\TenancyDetailsSubmissionResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

@@ -88,6 +88,15 @@ namespace Epsilon.Resources.Common {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sorry, there was something wrong with your request..
+        /// </summary>
+        public static string GenericInvalidRequestMessage {
+            get {
+                return ResourceManager.GetString("GenericInvalidRequestMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Language.
         /// </summary>
         public static string Language {
