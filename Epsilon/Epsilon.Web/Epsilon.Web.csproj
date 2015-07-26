@@ -255,6 +255,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\ApiControllers\AddressController.cs" />
+    <Compile Include="Controllers\ApiControllers\OutgoingVerificationController.cs" />
     <Compile Include="Controllers\ApiControllers\SubmissionController.cs" />
     <Compile Include="Controllers\ApiControllers\TokenController.cs" />
     <Compile Include="Controllers\BaseControllers\BaseApiController.cs" />
@@ -273,6 +274,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\NgDirectiveTemplateController.cs" />
+    <Compile Include="Controllers\OutgoingVerificationController.cs" />
     <Compile Include="Controllers\SubmissionController.cs" />
     <Compile Include="Controllers\UserHomeController.cs" />
     <Compile Include="Global.asax.cs">
@@ -1196,6 +1198,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\OutgoingVerification\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
