@@ -33,6 +33,15 @@ declare module T4TS {
         addressUniqueId: string;
         fullAddress: string;
     }
+    /** Generated from Epsilon.Logic.JsonModels.MyOutgoingVerificationsSummaryRequest **/
+    export interface MyOutgoingVerificationsSummaryRequest {
+        limitItemsReturned: boolean;
+    }
+    /** Generated from Epsilon.Logic.JsonModels.MyOutgoingVerificationsSummaryResponse **/
+    export interface MyOutgoingVerificationsSummaryResponse {
+        tenantVerifications: T4TS.TenantVerificationInfo[];
+        moreItemsExist: boolean;
+    }
     /** Generated from Epsilon.Logic.JsonModels.MySubmissionsSummaryRequest **/
     export interface MySubmissionsSummaryRequest {
         limitItemsReturned: boolean;
@@ -53,6 +62,14 @@ declare module T4TS {
         canEnterVerificationCode: boolean;
         canSubmitTenancyDetails: boolean;
         canSubmitMoveOutDetails: boolean;
+    }
+    /** Generated from Epsilon.Logic.JsonModels.TenantVerificationInfo **/
+    export interface TenantVerificationInfo {
+        uniqueId: string;
+        displayId: string;
+        stepVerificationSentOutDone: boolean;
+        stepVerificationReceivedDone: boolean;
+        canMarkAsSent: boolean;
     }
     /** Generated from Epsilon.Logic.JsonModels.TokenBalanceResponse **/
     export interface TokenBalanceResponse {

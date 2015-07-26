@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Epsilon.Logic.JsonModels;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -25,9 +26,36 @@ namespace Epsilon.Logic.Entities
         public virtual User AssignedTo { get; set; }
         public virtual TenancyDetailsSubmission TenancyDetailsSubmission { get; set; }
 
+        public bool StepVerificationSentOutDone()
+        {
+            return SentOn.HasValue;
+        }
+
+        public bool StepVerificationReceivedDone()
+        {
+            return VerifiedOn.HasValue;
+        }
+
         public bool CanMarkAsSent()
         {
-            return !SentOn.HasValue;
+            return !StepVerificationSentOutDone();
+        }
+
+        public string DisplayId()
+        {
+            return UniqueId.ToString().ToUpperInvariant();
+        }
+
+        public TenantVerificationInfo ToInfo()
+        {
+            return new TenantVerificationInfo
+            {
+                uniqueId = UniqueId,
+                displayId = DisplayId(),
+                canMarkAsSent = CanMarkAsSent(),
+                stepVerificationSentOutDone = StepVerificationSentOutDone(),
+                stepVerificationReceivedDone = StepVerificationReceivedDone()
+            };
         }
     }
 }

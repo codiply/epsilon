@@ -88,7 +88,6 @@ namespace Epsilon.Logic.Entities
         ///       TenantVerifications in your entity for this to work.
         /// </summary>
         /// <returns></returns>
-
         public TenancyDetailsSubmissionInfo ToInfo()
         {
             return new TenancyDetailsSubmissionInfo

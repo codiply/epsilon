@@ -169,8 +169,11 @@
     <Compile Include="JsonModels\AddressSearchRequest.cs" />
     <Compile Include="JsonModels\AddressSearchResponse.cs" />
     <Compile Include="JsonModels\AddressSearchResult.cs" />
+    <Compile Include="JsonModels\MyOutgoingVerificationsSummaryRequest.cs" />
     <Compile Include="JsonModels\MySubmissionsSummaryRequest.cs" />
+    <Compile Include="JsonModels\MyOutgoingVerificationsSummaryResponse.cs" />
     <Compile Include="JsonModels\MySubmissionsSummaryResponse.cs" />
+    <Compile Include="JsonModels\TenantVerificationInfo.cs" />
     <Compile Include="JsonModels\TenancyDetailsSubmissionInfo.cs" />
     <Compile Include="JsonModels\TokenBalanceResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

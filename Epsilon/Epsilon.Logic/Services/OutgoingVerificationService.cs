@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Data.Entity;
 using System.Transactions;
 using Epsilon.Resources.Logic.OutgoingVerification;
+using Epsilon.Logic.JsonModels;
 
 namespace Epsilon.Logic.Services
 {
@@ -24,6 +25,37 @@ namespace Epsilon.Logic.Services
         {
             _dbContext = dbContext;
             _antiAbuseService = antiAbuseService;
+        }
+
+        public async Task<MyOutgoingVerificationsSummaryResponse> GetUserOutgoingVerificationsSummary(
+            string userId, MyOutgoingVerificationsSummaryRequest request)
+        {
+            var query = _dbContext.TenantVerifications
+                .Where(x => x.AssignedToId.Equals(userId))
+                .OrderByDescending(x => x.CreatedOn);
+
+            List<TenantVerification> verifications;
+            var moreItemsExist = false;
+            if (request.limitItemsReturned)
+            {
+                var limit = 2; // TODO_PANOS: put this in a config
+                verifications = await query.Take(limit + 1).ToListAsync();
+                if (verifications.Count > limit)
+                {
+                    moreItemsExist = true;
+                    verifications = verifications.Take(limit).ToList();
+                }
+            }
+            else
+            {
+                verifications = await query.ToListAsync();
+            }
+
+            return new MyOutgoingVerificationsSummaryResponse
+            {
+                moreItemsExist = moreItemsExist,
+                tenantVerifications = verifications.Select(x => x.ToInfo()).ToList()
+            };
         }
 
         public async Task<PickVerificationOutcome> Pick(
@@ -80,7 +112,7 @@ namespace Epsilon.Logic.Services
                     TenancyDetailsSubmissionId = pickedSubmission.Id,
                     AssignedToId = userId,
                     AssignedByIpAddress = userIpAddress,
-                    SecretCode = "secret-code" // PANOS_TODO
+                    SecretCode = "secret-code" // TODO_PANOS
                 };
 
                 _dbContext.TenantVerifications.Add(tenantVerification);

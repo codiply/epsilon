@@ -1,4 +1,5 @@
 ﻿using Epsilon.Logic.Entities;
+using Epsilon.Logic.JsonModels;
 using Epsilon.Logic.Services.Interfaces.OutgoingVerification;
 using System;
 using System.Collections.Generic;
@@ -29,6 +30,9 @@ namespace Epsilon.Logic.Services.Interfaces
     public interface IOutgoingVerificationService
     {
         Task<TenantVerification> GetVerificationForUser(string assingedUserId, Guid uniqueId);
+
+        Task<MyOutgoingVerificationsSummaryResponse> GetUserOutgoingVerificationsSummary(
+            string userId, MyOutgoingVerificationsSummaryRequest request);
 
         Task<PickVerificationOutcome> Pick(
             string userId,
