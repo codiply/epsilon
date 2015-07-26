@@ -117,8 +117,32 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="MyOutgoingVerificationsSummary_ActionsColumnHeader" xml:space="preserve">
+    <value>Actions</value>
+  </data>
+  <data name="MyOutgoingVerificationsSummary_AddressColumnHeader" xml:space="preserve">
+    <value>Verification</value>
+  </data>
+  <data name="MyOutgoingVerificationsSummary_Header" xml:space="preserve">
+    <value>My Outgoing Verifications</value>
+  </data>
   <data name="MyOutgoingVerificationsSummary_PageTitle" xml:space="preserve">
     <value>My Outgoing Verifications</value>
+  </data>
+  <data name="MyOutgoingVerificationsSummary_ProgressColumnHeader" xml:space="preserve">
+    <value>Progress</value>
+  </data>
+  <data name="MyOutgoingVerificationsSummary_StepVerificationReceivedDone_IconHoverText" xml:space="preserve">
+    <value>This verification has been received.</value>
+  </data>
+  <data name="MyOutgoingVerificationsSummary_StepVerificationSentOutDone_IconHoverText" xml:space="preserve">
+    <value>You have marked this verification as sent.</value>
+  </data>
+  <data name="MyOutgoingVerificationsSummary_ViewAllLinkText" xml:space="preserve">
+    <value>View all outgoing verifications</value>
+  </data>
+  <data name="MyOutgoingVerificationsSummary_WithLimit_Header" xml:space="preserve">
+    <value>My Latest Outgoing Verifications</value>
   </data>
   <data name="Pick_ConfirmationText" xml:space="preserve">
     <value>You will be assigned to send a verification mail by post to verify another user.</value>

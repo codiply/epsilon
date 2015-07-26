@@ -139,10 +139,10 @@
     <value>Address</value>
   </data>
   <data name="MySubmissionsSummary_Header" xml:space="preserve">
-    <value>My submissions</value>
+    <value>My Submissions</value>
   </data>
   <data name="MySubmissionsSummary_PageTitle" xml:space="preserve">
-    <value>My submissions</value>
+    <value>My Submissions</value>
   </data>
   <data name="MySubmissionsSummary_ProgressColumnHeader" xml:space="preserve">
     <value>Progress</value>
@@ -209,5 +209,8 @@
   </data>
   <data name="UseAddress_SubmitButton" xml:space="preserve">
     <value>Confirm</value>
+  </data>
+  <data name="MySubmissionsSummary_WithLimit_Header" xml:space="preserve">
+    <value>My Latest Submissions</value>
   </data>
 </root>

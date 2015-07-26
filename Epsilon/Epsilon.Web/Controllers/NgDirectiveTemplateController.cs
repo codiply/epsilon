@@ -9,6 +9,11 @@ namespace Epsilon.Web.Controllers
 {
     public class NgDirectiveTemplateController : BaseMvcController
     {
+        public ActionResult MyOutgoingVerificationsSummary()
+        {
+            return View();
+        }
+
         public ActionResult MySubmissionsSummary()
         {
             return View();

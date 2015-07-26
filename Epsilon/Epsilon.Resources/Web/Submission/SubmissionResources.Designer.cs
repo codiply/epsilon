@@ -124,7 +124,7 @@ namespace Epsilon.Resources.Web.Submission {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to My submissions.
+        ///   Looks up a localized string similar to My Submissions.
         /// </summary>
         public static string MySubmissionsSummary_Header {
             get {
@@ -133,7 +133,7 @@ namespace Epsilon.Resources.Web.Submission {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to My submissions.
+        ///   Looks up a localized string similar to My Submissions.
         /// </summary>
         public static string MySubmissionsSummary_PageTitle {
             get {
@@ -183,6 +183,15 @@ namespace Epsilon.Resources.Web.Submission {
         public static string MySubmissionsSummary_StepVerificationCodeSentOutDone_IconHoverText {
             get {
                 return ResourceManager.GetString("MySubmissionsSummary_StepVerificationCodeSentOutDone_IconHoverText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to My Latest Submissions.
+        /// </summary>
+        public static string MySubmissionsSummary_WithLimit_Header {
+            get {
+                return ResourceManager.GetString("MySubmissionsSummary_WithLimit_Header", resourceCulture);
             }
         }
         

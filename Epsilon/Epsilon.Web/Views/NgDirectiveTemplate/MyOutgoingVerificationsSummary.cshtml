@@ -1,3 +1,41 @@
 ﻿@{
     Layout = null;
 }
+
+@using Epsilon.Resources.Web.OutgoingVerification
+
+<div dataa-ng-cloak data-ng-if="response.tenantVerifications.length > 0">
+    <h3 data-ng-cloak data-ng-show="response.moreItemsExist">@OutgoingVerificationResources.MyOutgoingVerificationsSummary_WithLimit_Header</h3>
+    <h3 data-ng-cloak data-ng-show="!response.moreItemsExist">@OutgoingVerificationResources.MyOutgoingVerificationsSummary_Header</h3>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>@OutgoingVerificationResources.MyOutgoingVerificationsSummary_ProgressColumnHeader</th>
+                <th>@OutgoingVerificationResources.MyOutgoingVerificationsSummary_AddressColumnHeader</th>
+                <th>@OutgoingVerificationResources.MyOutgoingVerificationsSummary_ActionsColumnHeader</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr data-ng-repeat="ver in response.tenantVerifications">
+                <td>
+                    <!-- TODO_PANOS: fix the ng-if's, the logic is currently inverted. -->
+                    <span data-ng-if="!ver.stepVerificationSentOutDone"
+                          title="@OutgoingVerificationResources.MyOutgoingVerificationsSummary_StepVerificationSentOutDone_IconHoverText"
+                          class="glyphicon glyphicon-envelope" aria-hidden="true" />
+                    <span data-ng-if="!ver.stepVerificationReceivedDone"
+                          title="@OutgoingVerificationResources.MyOutgoingVerificationsSummary_StepVerificationReceivedDone_IconHoverText"
+                          class="glyphicon glyphicon-check" aria-hidden="true" />
+                </td>
+                <td>{{ver.displayId}}</td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+    <p class="text-right" data-ng-cloak data-ng-show="response.moreItemsExist">
+        @Html.ActionLink(OutgoingVerificationResources.MyOutgoingVerificationsSummary_ViewAllLinkText, "MyOutgoingVerificationsSummary", "OutgoingVerification")
+    </p>
+</div>
+
+<!--
+        canMarkAsSent
+-->

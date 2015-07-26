@@ -61,11 +61,83 @@ namespace Epsilon.Resources.Web.OutgoingVerification {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Actions.
+        /// </summary>
+        public static string MyOutgoingVerificationsSummary_ActionsColumnHeader {
+            get {
+                return ResourceManager.GetString("MyOutgoingVerificationsSummary_ActionsColumnHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Verification.
+        /// </summary>
+        public static string MyOutgoingVerificationsSummary_AddressColumnHeader {
+            get {
+                return ResourceManager.GetString("MyOutgoingVerificationsSummary_AddressColumnHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to My Outgoing Verifications.
+        /// </summary>
+        public static string MyOutgoingVerificationsSummary_Header {
+            get {
+                return ResourceManager.GetString("MyOutgoingVerificationsSummary_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to My Outgoing Verifications.
         /// </summary>
         public static string MyOutgoingVerificationsSummary_PageTitle {
             get {
                 return ResourceManager.GetString("MyOutgoingVerificationsSummary_PageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Progress.
+        /// </summary>
+        public static string MyOutgoingVerificationsSummary_ProgressColumnHeader {
+            get {
+                return ResourceManager.GetString("MyOutgoingVerificationsSummary_ProgressColumnHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This verification has been received..
+        /// </summary>
+        public static string MyOutgoingVerificationsSummary_StepVerificationReceivedDone_IconHoverText {
+            get {
+                return ResourceManager.GetString("MyOutgoingVerificationsSummary_StepVerificationReceivedDone_IconHoverText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You have marked this verification as sent..
+        /// </summary>
+        public static string MyOutgoingVerificationsSummary_StepVerificationSentOutDone_IconHoverText {
+            get {
+                return ResourceManager.GetString("MyOutgoingVerificationsSummary_StepVerificationSentOutDone_IconHoverText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to View all outgoing verifications.
+        /// </summary>
+        public static string MyOutgoingVerificationsSummary_ViewAllLinkText {
+            get {
+                return ResourceManager.GetString("MyOutgoingVerificationsSummary_ViewAllLinkText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to My Latest Outgoing Verifications.
+        /// </summary>
+        public static string MyOutgoingVerificationsSummary_WithLimit_Header {
+            get {
+                return ResourceManager.GetString("MyOutgoingVerificationsSummary_WithLimit_Header", resourceCulture);
             }
         }
         

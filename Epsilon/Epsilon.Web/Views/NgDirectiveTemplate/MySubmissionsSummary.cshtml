@@ -3,8 +3,9 @@
 }
 @using Epsilon.Resources.Web.Submission
 
-<div data-ng-if="response.tenancyDetailsSubmissions.length > 0">
-    <h3>@SubmissionResources.MySubmissionsSummary_Header</h3>
+<div data-ng-cloak data-ng-if="response.tenancyDetailsSubmissions.length > 0">
+    <h3 data-ng-cloak data-ng-show="response.moreItemsExist">@SubmissionResources.MySubmissionsSummary_WithLimit_Header</h3>
+    <h3 data-ng-cloak data-ng-show="!response.moreItemsExist">@SubmissionResources.MySubmissionsSummary_Header</h3>
     <table class="table table-striped">
         <thead>
             <tr>
