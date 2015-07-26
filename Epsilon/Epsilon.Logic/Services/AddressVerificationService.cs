@@ -61,7 +61,7 @@ namespace Epsilon.Logic.Services
                     {
                         IsRejected = true,
                         AskUserToModify = true,
-                        RejectionReason = AddressVerificationResource.GeocodePostcodeVerificationFailureRejectionMessage
+                        RejectionReason = AddressVerificationResources.GeocodePostcodeVerificationFailureRejectionMessage
                     };
                 // This group is for failure due to technical reasons. Do not log a GeocodeFailure.
                 case GeocodePostcodeStatus.OverQueryLimitTriedMaxTimes:
@@ -70,7 +70,7 @@ namespace Epsilon.Logic.Services
                     {
                         IsRejected = true,
                         AskUserToModify = false,
-                        RejectionReason = AddressVerificationResource.GeocodeTehnicalFailureRejectionMessage
+                        RejectionReason = AddressVerificationResources.GeocodeTehnicalFailureRejectionMessage
                     };
                 default:
                     throw new NotImplementedException(string.Format("Unexpected GeocodePostcodeStatus: '{0}'",
@@ -103,7 +103,7 @@ namespace Epsilon.Logic.Services
                     {
                         IsRejected = true,
                         AskUserToModify = true,
-                        RejectionReason = AddressVerificationResource.GeocodeAddressVerificationFailureRejectionMessage
+                        RejectionReason = AddressVerificationResources.GeocodeAddressVerificationFailureRejectionMessage
                     };
                 // This group is for failure due to technical reasons. Do not log a GeocodeFailure.
                 case GeocodeAddressStatus.OverQueryLimitTriedMaxTimes:
@@ -112,7 +112,7 @@ namespace Epsilon.Logic.Services
                     {
                         IsRejected = true,
                         AskUserToModify = false,
-                        RejectionReason = AddressVerificationResource.GeocodeTehnicalFailureRejectionMessage
+                        RejectionReason = AddressVerificationResources.GeocodeTehnicalFailureRejectionMessage
                     };
                 default:
                     throw new NotImplementedException(string.Format("Unexpected GeocodeAddressStatus: '{0}'", 

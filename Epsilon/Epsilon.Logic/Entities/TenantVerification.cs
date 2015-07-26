@@ -16,11 +16,18 @@ namespace Epsilon.Logic.Entities
         public virtual DateTimeOffset CreatedOn { get; set; }
         public virtual DateTimeOffset? SentOn { get; set; }
         public virtual DateTimeOffset? VerifiedOn { get; set; }
-        public virtual string CreatedByIpAddress { get; set; }
+        public virtual string AssignedToId { get; set; }
+        public virtual string AssignedByIpAddress { get; set; }
 
         [Timestamp]
         public virtual Byte[] Timestamp { get; set; }
 
+        public virtual User AssignedTo { get; set; }
         public virtual TenancyDetailsSubmission TenancyDetailsSubmission { get; set; }
+
+        public bool CanMarkAsSent()
+        {
+            return !SentOn.HasValue;
+        }
     }
 }

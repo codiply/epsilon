@@ -30,7 +30,7 @@ namespace Epsilon.Logic.SqlContext.Mapping
                 .HasMaxLength(CODE_MAX_LENGTH);
             this.Property(x => x.CreatedOn)
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Computed);
-            this.Property(x => x.CreatedByIpAddress)
+            this.Property(x => x.AssignedByIpAddress)
                 .HasMaxLength(AppConstant.IP_ADDRESS_MAX_LENGTH);
 
             // Relationships
@@ -38,11 +38,34 @@ namespace Epsilon.Logic.SqlContext.Mapping
                 .WithMany(y => y.TenantVerifications)
                 .HasForeignKey(x => x.TenancyDetailsSubmissionId)
                 .WillCascadeOnDelete(true);
+            this.HasRequired(x => x.AssignedTo)
+                .WithMany()
+                .HasForeignKey(x => x.AssignedToId)
+                .WillCascadeOnDelete(false);
 
             // Indexes
             this.Property(x => x.UniqueId)
+                .HasColumnAnnotation(IndexAnnotation.AnnotationName, new IndexAnnotation(new[] {
+                    new IndexAttribute("IX_TenantVerification_UniqueId") { IsUnique = true },
+                    new IndexAttribute("IX_TenantVerification_UniqueId_AssignedToId", 1)
+                }));
+
+            this.Property(x => x.CreatedOn)
+                .HasColumnAnnotation(IndexAnnotation.AnnotationName, new IndexAnnotation(new[]
+                {
+                    new IndexAttribute("IX_TenantVerification_CreatedOn_AssignedByIpAddress", 1),
+                    new IndexAttribute("IX_TenantVerification_CreatedOn_AssignedToId", 1)
+                }));
+
+            this.Property(x => x.AssignedByIpAddress)
                 .HasColumnAnnotation(IndexAnnotation.AnnotationName,
-                    new IndexAnnotation(new IndexAttribute("IX_TenantVerification_UniqueId") { IsUnique = true }));
+                    new IndexAnnotation(new IndexAttribute("IX_TenantVerification_CreatedOn_AssignedByIpAddress", 2)));
+
+            this.Property(x => x.AssignedToId)
+                .HasColumnAnnotation(IndexAnnotation.AnnotationName, new IndexAnnotation(new[] {
+                    new IndexAttribute("IX_TenantVerification_CreatedOn_AssignedToId", 2),
+                    new IndexAttribute("IX_TenantVerification_UniqueId_AssignedToId", 2)
+                }));
         }
     }
 }

@@ -65,15 +65,15 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ResourcesGR.el.resx</DependentUpon>
     </Compile>
-    <Compile Include="Logic\AddressVerification\AddressVerificationResource.Designer.cs">
+    <Compile Include="Logic\AddressVerification\AddressVerificationResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>AddressVerificationResource.resx</DependentUpon>
+      <DependentUpon>AddressVerificationResources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Logic\AddressVerification\AddressVerificationResource.el.Designer.cs">
+    <Compile Include="Logic\AddressVerification\AddressVerificationResources.el.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>AddressVerificationResource.el.resx</DependentUpon>
+      <DependentUpon>AddressVerificationResources.el.resx</DependentUpon>
     </Compile>
     <Compile Include="Logic\AntiAbuse\AntiAbuseResources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -101,6 +101,16 @@
       <DependentUpon>HomeResources.el.resx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Web\OutgoingVerification\OutgoingVerificationResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>OutgoingVerificationResources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Web\OutgoingVerification\OutgoingVerificationResources.el.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>OutgoingVerificationResources.el.resx</DependentUpon>
+    </Compile>
     <Compile Include="Web\Submission\SubmissionResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -144,13 +154,13 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>ResourcesGR.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Logic\AddressVerification\AddressVerificationResource.el.resx">
+    <EmbeddedResource Include="Logic\AddressVerification\AddressVerificationResources.el.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>AddressVerificationResource.el.Designer.cs</LastGenOutput>
+      <LastGenOutput>AddressVerificationResources.el.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Logic\AddressVerification\AddressVerificationResource.resx">
+    <EmbeddedResource Include="Logic\AddressVerification\AddressVerificationResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>AddressVerificationResource.Designer.cs</LastGenOutput>
+      <LastGenOutput>AddressVerificationResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Logic\AntiAbuse\AntiAbuseResources.el.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
@@ -172,6 +182,14 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>HomeResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Web\OutgoingVerification\OutgoingVerificationResources.el.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>OutgoingVerificationResources.el.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Web\OutgoingVerification\OutgoingVerificationResources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>OutgoingVerificationResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Web\Submission\SubmissionResources.el.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>SubmissionResources.el.Designer.cs</LastGenOutput>
@@ -190,6 +208,7 @@
       <LastGenOutput>UserHomeResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
