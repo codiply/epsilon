@@ -59,14 +59,17 @@ namespace Epsilon.Logic.SqlContext.Mapping
                     new IndexAttribute("IX_TenantVerification_CreatedOn_AssignedToId", 1)
                 }));
 
-            this.Property(x => x.AssignedByIpAddress)
-                .HasColumnAnnotation(IndexAnnotation.AnnotationName,
-                    new IndexAnnotation(new IndexAttribute("IX_TenantVerification_CreatedOn_AssignedByIpAddress", 2)));
-
             this.Property(x => x.AssignedToId)
                 .HasColumnAnnotation(IndexAnnotation.AnnotationName, new IndexAnnotation(new[] {
                     new IndexAttribute("IX_TenantVerification_CreatedOn_AssignedToId", 2),
-                    new IndexAttribute("IX_TenantVerification_UniqueId_AssignedToId", 2)
+                    new IndexAttribute("IX_TenantVerification_UniqueId_AssignedToId", 2),
+                    new IndexAttribute("IX_TenantVerification_AssignedToId_AssignedByIpAddress", 1)
+                }));
+
+            this.Property(x => x.AssignedByIpAddress)
+                .HasColumnAnnotation(IndexAnnotation.AnnotationName, new IndexAnnotation(new[] {
+                    new IndexAttribute("IX_TenantVerification_CreatedOn_AssignedByIpAddress", 2),
+                    new IndexAttribute("IX_TenantVerification_AssignedToId_AssignedByIpAddress", 2)
                 }));
         }
     }
