@@ -27,6 +27,8 @@
 
 
 
+
+
 GO
 CREATE NONCLUSTERED INDEX [IX_TenancyDetailsSubmissionId]
     ON [dbo].[TenantVerification]([TenancyDetailsSubmissionId] ASC);
@@ -55,4 +57,9 @@ CREATE NONCLUSTERED INDEX [IX_TenantVerification_CreatedOn_AssignedByIpAddress]
 GO
 CREATE NONCLUSTERED INDEX [IX_TenantVerification_AssignedToId_AssignedByIpAddress]
     ON [dbo].[TenantVerification]([AssignedToId] ASC, [AssignedByIpAddress] ASC);
+
+
+GO
+CREATE NONCLUSTERED INDEX [IX_TenantVerification_CreatedOn]
+    ON [dbo].[TenantVerification]([CreatedOn] ASC);
 

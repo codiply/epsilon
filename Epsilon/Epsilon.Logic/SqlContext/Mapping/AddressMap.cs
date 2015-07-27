@@ -78,6 +78,7 @@ namespace Epsilon.Logic.SqlContext.Mapping
             this.Property(x => x.CreatedOn)
                 .HasColumnAnnotation(IndexAnnotation.AnnotationName, new IndexAnnotation(new[]
                 {
+                    new IndexAttribute("IX_Address_CreatedOn"),
                     new IndexAttribute("IX_Address_CreatedOn_CreatedByIpAddress", 1),
                     new IndexAttribute("IX_Address_CreatedOn_CreatedById", 1)
                 }));
