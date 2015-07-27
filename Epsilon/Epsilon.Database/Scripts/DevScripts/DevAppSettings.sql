@@ -20,29 +20,29 @@ INSERT INTO #TMP
 VALUES
 -- Edit the values below to update the target table.
 (N'AdminAlertSnoozePeriodInHours', N'12.0'),
-(N'SearchAddressResultsLimit', N'30'),
-(N'AntiAbuse_AddAddress_MaxFrequencyPerUser', N'10/30D'),
-(N'AntiAbuse_AddAddress_MaxFrequencyPerIpAddress', N'10/D'),
+(N'AntiAbuse_AddAddress_DisableGeocodeFailureIpAddressFrequencyCheck', 'False'),
+(N'AntiAbuse_AddAddress_DisableGeocodeFailureUserFrequencyCheck', 'False'),
 (N'AntiAbuse_AddAddress_DisableIpAddressFrequencyCheck', N'False'),
 (N'AntiAbuse_AddAddress_DisableUserFrequencyCheck', N'False'),
+(N'AntiAbuse_AddAddress_MaxFrequencyPerIpAddress', N'10/D'),
+(N'AntiAbuse_AddAddress_MaxFrequencyPerUser', N'10/30D'),
+(N'AntiAbuse_AddAddress_MaxGeocodeFailureFrequencyPerIpAddress', N'8/H'),
+(N'AntiAbuse_AddAddress_MaxGeocodeFailureFrequencyPerUser', N'4/2H'),
 (N'AntiAbuse_CreateTenancyDetailsSubmission_DisableIpAddressFrequencyCheck', N'False'),
 (N'AntiAbuse_CreateTenancyDetailsSubmission_DisableUserFrequencyCheck', N'False'),
 (N'AntiAbuse_CreateTenancyDetailsSubmission_MaxFrequencyPerIpAddress', N'10/D'),
 (N'AntiAbuse_CreateTenancyDetailsSubmission_MaxFrequencyPerUser', N'10/30D'),
-(N'AntiAbuse_AddAddress_MaxGeocodeFailureFrequencyPerUser', N'4/2H'),
-(N'AntiAbuse_AddAddress_DisableGeocodeFailureUserFrequencyCheck', 'False'),
-(N'AntiAbuse_AddAddress_MaxGeocodeFailureFrequencyPerIpAddress', N'8/H'),
-(N'AntiAbuse_AddAddress_DisableGeocodeFailureIpAddressFrequencyCheck', 'False'),
-(N'AntiAbuse_Register_GlobalMaxFrequency', '300/D'),
 (N'AntiAbuse_Register_DisableGlobalFrequencyCheck', 'False'),
-(N'AntiAbuse_Register_MaxFrequencyPerIpAddress', '10/7D'),
 (N'AntiAbuse_Register_DisableIpAddressFrequencyCheck', 'False'),
-(N'GeocodeService_OverQueryLimitMaxRetries', N'3'),
+(N'AntiAbuse_Register_GlobalMaxFrequency', '300/D'),
+(N'AntiAbuse_Register_MaxFrequencyPerIpAddress', '10/7D'),
+(N'EnableResponseTiming', N'True'),
 (N'GeocodeService_OverQueryLimitDelayBetweenRetriesInSeconds', N'1.0'),
-(N'TenancyDetailsSubmission_Create_DisableFrequencyPerAddressCheck', 'False'),
+(N'GeocodeService_OverQueryLimitMaxRetries', N'3'),
+(N'SearchAddressResultsLimit', N'30'),
 (N'TenancyDetailsSubmission_Create_MaxFrequencyPerAddress', '10/30D'),
-(N'TenancyDetailsSubmission_MySubmissionsSummary_ItemsLimit', N'2'),
-(N'EnableResponseTiming', N'True'); 
+(N'TenancyDetailsSubmission_Create_DisableFrequencyPerAddressCheck', 'False'),
+(N'TenancyDetailsSubmission_MySubmissionsSummary_ItemsLimit', N'2');
 GO
 
 MERGE [dbo].[AppSetting] AS T -- Target
