@@ -26,7 +26,7 @@ namespace Epsilon.Logic.SqlContext.Mapping
             this.HasRequired(x => x.AppSetting)
                 .WithMany(y => y.Labels)
                 .HasForeignKey(x => x.AppSettingId)
-                .WillCascadeOnDelete(false);
+                .WillCascadeOnDelete(true);
         }
     }
 }

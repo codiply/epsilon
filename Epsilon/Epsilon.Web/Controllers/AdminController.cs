@@ -69,10 +69,19 @@ namespace Epsilon.Web.Controllers
 
         #region DbAppSettings
 
-        public async Task<ActionResult> DbAppSettingList()
+        public async Task<ActionResult> DbAppSettingList(string id)
         {
-            var model = await _dbAppSettingsHelper.GetAllAppSettingEntities();
-            return View(model);
+            var label = id;
+            if (string.IsNullOrWhiteSpace(label))
+            {
+                var model = await _dbAppSettingsHelper.GetAllAppSettingEntities();
+                return View(model);
+            }
+            else
+            {
+                var model = await _dbAppSettingsHelper.GetAllAppSettingEntitiesForLabel(label);
+                return View(model);
+            };
         }
 
         public async Task<ActionResult> DbAppSettingDetails(string id)

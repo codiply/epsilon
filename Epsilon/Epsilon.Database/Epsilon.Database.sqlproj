@@ -117,5 +117,6 @@
     <None Include="Scripts\PostDeploy\ReferenceData\TokenRewardScheme.sql" />
     <None Include="Scripts\PostDeploy\ReferenceData\TokenReward.sql" />
     <None Include="Scripts\DevScripts\DevAppSettings.sql" />
+    <None Include="Scripts\PostDeploy\ReferenceData\AppSettingLabel.sql" />
   </ItemGroup>
 </Project>

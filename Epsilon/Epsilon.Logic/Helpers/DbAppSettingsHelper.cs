@@ -37,12 +37,26 @@ namespace Epsilon.Logic.Helpers
 
         public async Task<IList<AppSetting>> GetAllAppSettingEntities()
         {
-            return await _dbContext.AppSettings.OrderBy(s => s.Id).ToListAsync();
+            return await _dbContext.AppSettings
+                .Include(x => x.Labels)
+                .OrderBy(s => s.Id)
+                .ToListAsync();
+        }
+
+        public async Task<IList<AppSetting>> GetAllAppSettingEntitiesForLabel(string label)
+        {
+            return await _dbContext.AppSettings
+                .Include(x => x.Labels)
+                .Where(x => x.Labels.Any(l => l.Label.Equals(label)))
+                .OrderBy(s => s.Id)
+                .ToListAsync();
         }
 
         public async Task<AppSetting> GetAppSettingEntity(string id)
         {
-            return await _dbContext.AppSettings.FindAsync(id);
+            return await _dbContext.AppSettings
+                .Include(x => x.Labels)
+                .SingleOrDefaultAsync(x => x.Id.Equals(id));
         }
 
         public async Task Update(DbAppSettingForm form, string userId)
