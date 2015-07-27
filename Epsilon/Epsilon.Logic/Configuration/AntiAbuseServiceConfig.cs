@@ -1,6 +1,8 @@
 ﻿using Epsilon.Logic.Configuration.Interfaces;
 using Epsilon.Logic.Constants;
+using Epsilon.Logic.Constants.Enums;
 using Epsilon.Logic.Constants.Interfaces;
+using Epsilon.Logic.Helpers;
 using Epsilon.Logic.Helpers.Interfaces;
 using Epsilon.Logic.Infrastructure.Primitives;
 using System;
@@ -31,7 +33,7 @@ namespace Epsilon.Logic.Configuration
             get
             {
                 return _dbAppSettingsHelper
-                    .GetBool(DbAppSettingKey.AntiAbuse_AddAddress_DisableGlobalFrequencyCheck) == true;
+                    .GetBool(EnumsHelper.DbAppSettingKey.ToString(DbAppSettingKey.AntiAbuse_AddAddress_DisableGlobalFrequencyCheck)) == true;
             }
         }
 
@@ -40,7 +42,7 @@ namespace Epsilon.Logic.Configuration
             get
             {
                 return _dbAppSettingsHelper.GetFrequency(
-                    DbAppSettingKey.AntiAbuse_AddAddress_GlobalMaxFrequency,
+                    EnumsHelper.DbAppSettingKey.ToString(DbAppSettingKey.AntiAbuse_AddAddress_GlobalMaxFrequency),
                     _dbAppSettingDefaultValue.AntiAbuse_AddAddress_GlobalMaxFrequency);
             }
         }
@@ -50,7 +52,7 @@ namespace Epsilon.Logic.Configuration
             get
             {
                 return _dbAppSettingsHelper
-                    .GetBool(DbAppSettingKey.AntiAbuse_AddAddress_DisableIpAddressFrequencyCheck) == true;
+                    .GetBool(EnumsHelper.DbAppSettingKey.ToString(DbAppSettingKey.AntiAbuse_AddAddress_DisableIpAddressFrequencyCheck)) == true;
             }
         }
 
@@ -59,7 +61,7 @@ namespace Epsilon.Logic.Configuration
             get
             {
                 return _dbAppSettingsHelper.GetFrequency(
-                    DbAppSettingKey.AntiAbuse_AddAddress_MaxFrequencyPerIpAddress,
+                    EnumsHelper.DbAppSettingKey.ToString(DbAppSettingKey.AntiAbuse_AddAddress_MaxFrequencyPerIpAddress),
                     _dbAppSettingDefaultValue.AntiAbuse_AddAddress_MaxFrequencyPerIpAddress);
             }
         }
@@ -69,7 +71,7 @@ namespace Epsilon.Logic.Configuration
             get
             {
                 return _dbAppSettingsHelper
-                    .GetBool(DbAppSettingKey.AntiAbuse_AddAddress_DisableUserFrequencyCheck) == true;
+                    .GetBool(EnumsHelper.DbAppSettingKey.ToString(DbAppSettingKey.AntiAbuse_AddAddress_DisableUserFrequencyCheck)) == true;
             }
         }
 
@@ -78,7 +80,7 @@ namespace Epsilon.Logic.Configuration
             get
             {
                 return _dbAppSettingsHelper.GetFrequency(
-                    DbAppSettingKey.AntiAbuse_AddAddress_MaxFrequencyPerUser,
+                    EnumsHelper.DbAppSettingKey.ToString(DbAppSettingKey.AntiAbuse_AddAddress_MaxFrequencyPerUser),
                     _dbAppSettingDefaultValue.AntiAbuse_AddAddress_MaxFrequencyPerUser);
             }
         }
@@ -88,7 +90,7 @@ namespace Epsilon.Logic.Configuration
             get
             {
                 return _dbAppSettingsHelper
-                    .GetBool(DbAppSettingKey.AntiAbuse_AddAddress_DisableGeocodeFailureIpAddressFrequencyCheck) == true;
+                    .GetBool(EnumsHelper.DbAppSettingKey.ToString(DbAppSettingKey.AntiAbuse_AddAddress_DisableGeocodeFailureIpAddressFrequencyCheck)) == true;
             }
         }
 
@@ -97,7 +99,7 @@ namespace Epsilon.Logic.Configuration
             get
             {
                 return _dbAppSettingsHelper.GetFrequency(
-                    DbAppSettingKey.AntiAbuse_AddAddress_MaxGeocodeFailureFrequencyPerIpAddress,
+                    EnumsHelper.DbAppSettingKey.ToString(DbAppSettingKey.AntiAbuse_AddAddress_MaxGeocodeFailureFrequencyPerIpAddress),
                     _dbAppSettingDefaultValue.AntiAbuse_AddAddress_MaxGeocodeFailureFrequencyPerIpAddress);
             }
         }
@@ -107,7 +109,7 @@ namespace Epsilon.Logic.Configuration
             get
             {
                 return _dbAppSettingsHelper
-                    .GetBool(DbAppSettingKey.AntiAbuse_AddAddress_DisableGeocodeFailureUserFrequencyCheck) == true;
+                    .GetBool(EnumsHelper.DbAppSettingKey.ToString(DbAppSettingKey.AntiAbuse_AddAddress_DisableGeocodeFailureUserFrequencyCheck)) == true;
             }
         }
 
@@ -116,7 +118,7 @@ namespace Epsilon.Logic.Configuration
             get
             {
                 return _dbAppSettingsHelper.GetFrequency(
-                    DbAppSettingKey.AntiAbuse_AddAddress_MaxGeocodeFailureFrequencyPerUser,
+                    EnumsHelper.DbAppSettingKey.ToString(DbAppSettingKey.AntiAbuse_AddAddress_MaxGeocodeFailureFrequencyPerUser),
                     _dbAppSettingDefaultValue.AntiAbuse_AddAddress_MaxGeocodeFailureFrequencyPerUser);
             }
         }
@@ -130,7 +132,7 @@ namespace Epsilon.Logic.Configuration
             get
             {
                 return _dbAppSettingsHelper
-                    .GetBool(DbAppSettingKey.AntiAbuse_CreateTenancyDetailsSubmission_DisableGlobalFrequencyCheck) == true;
+                    .GetBool(EnumsHelper.DbAppSettingKey.ToString(DbAppSettingKey.AntiAbuse_CreateTenancyDetailsSubmission_DisableGlobalFrequencyCheck)) == true;
             }
         }
 
@@ -139,7 +141,7 @@ namespace Epsilon.Logic.Configuration
             get
             {
                 return _dbAppSettingsHelper.GetFrequency(
-                    DbAppSettingKey.AntiAbuse_CreateTenancyDetailsSubmission_GlobalMaxFrequency,
+                    EnumsHelper.DbAppSettingKey.ToString(DbAppSettingKey.AntiAbuse_CreateTenancyDetailsSubmission_GlobalMaxFrequency),
                     _dbAppSettingDefaultValue.AntiAbuse_CreateTenancyDetailsSubmission_GlobalMaxFrequency);
             }
         }
@@ -149,7 +151,7 @@ namespace Epsilon.Logic.Configuration
             get
             {
                 return _dbAppSettingsHelper
-                    .GetBool(DbAppSettingKey.AntiAbuse_CreateTenancyDetailsSubmission_DisableIpAddressFrequencyCheck) == true;
+                    .GetBool(EnumsHelper.DbAppSettingKey.ToString(DbAppSettingKey.AntiAbuse_CreateTenancyDetailsSubmission_DisableIpAddressFrequencyCheck)) == true;
             }
         }
 
@@ -158,7 +160,7 @@ namespace Epsilon.Logic.Configuration
             get
             {
                 return _dbAppSettingsHelper.GetFrequency(
-                    DbAppSettingKey.AntiAbuse_CreateTenancyDetailsSubmission_MaxFrequencyPerIpAddress,
+                    EnumsHelper.DbAppSettingKey.ToString(DbAppSettingKey.AntiAbuse_CreateTenancyDetailsSubmission_MaxFrequencyPerIpAddress),
                     _dbAppSettingDefaultValue.AntiAbuse_CreateTenancyDetailsSubmission_MaxFrequencyPerIpAddress);
             }
         }
@@ -168,7 +170,7 @@ namespace Epsilon.Logic.Configuration
             get
             {
                 return _dbAppSettingsHelper
-                    .GetBool(DbAppSettingKey.AntiAbuse_CreateTenancyDetailsSubmission_DisableUserFrequencyCheck) == true;
+                    .GetBool(EnumsHelper.DbAppSettingKey.ToString(DbAppSettingKey.AntiAbuse_CreateTenancyDetailsSubmission_DisableUserFrequencyCheck)) == true;
             }
         }
 
@@ -177,7 +179,7 @@ namespace Epsilon.Logic.Configuration
             get
             {
                 return _dbAppSettingsHelper.GetFrequency(
-                    DbAppSettingKey.AntiAbuse_CreateTenancyDetailsSubmission_MaxFrequencyPerUser,
+                    EnumsHelper.DbAppSettingKey.ToString(DbAppSettingKey.AntiAbuse_CreateTenancyDetailsSubmission_MaxFrequencyPerUser),
                     _dbAppSettingDefaultValue.AntiAbuse_CreateTenancyDetailsSubmission_MaxFrequencyPerUser);
             }
         }
@@ -191,7 +193,7 @@ namespace Epsilon.Logic.Configuration
             get
             {
                 return _dbAppSettingsHelper
-                    .GetBool(DbAppSettingKey.AntiAbuse_PickOutgoingVerification_DisableGlobalFrequencyCheck) == true;
+                    .GetBool(EnumsHelper.DbAppSettingKey.ToString(DbAppSettingKey.AntiAbuse_PickOutgoingVerification_DisableGlobalFrequencyCheck)) == true;
             }
         }
 
@@ -200,7 +202,7 @@ namespace Epsilon.Logic.Configuration
             get
             {
                 return _dbAppSettingsHelper.GetFrequency(
-                    DbAppSettingKey.AntiAbuse_PickOutgoingVerification_GlobalMaxFrequency,
+                    EnumsHelper.DbAppSettingKey.ToString(DbAppSettingKey.AntiAbuse_PickOutgoingVerification_GlobalMaxFrequency),
                     _dbAppSettingDefaultValue.AntiAbuse_PickOutgoingVerification_GlobalMaxFrequency);
             }
         }
@@ -215,7 +217,7 @@ namespace Epsilon.Logic.Configuration
             get
             {
                 return _dbAppSettingsHelper
-                    .GetBool(DbAppSettingKey.AntiAbuse_Register_DisableGlobalFrequencyCheck) == true;
+                    .GetBool(EnumsHelper.DbAppSettingKey.ToString(DbAppSettingKey.AntiAbuse_Register_DisableGlobalFrequencyCheck)) == true;
             }
         }
 
@@ -224,7 +226,7 @@ namespace Epsilon.Logic.Configuration
             get
             {
                 return _dbAppSettingsHelper.GetFrequency(
-                    DbAppSettingKey.AntiAbuse_Register_GlobalMaxFrequency,
+                    EnumsHelper.DbAppSettingKey.ToString(DbAppSettingKey.AntiAbuse_Register_GlobalMaxFrequency),
                     _dbAppSettingDefaultValue.AntiAbuse_Register_GlobalMaxFrequency);
             }
         }
@@ -234,7 +236,7 @@ namespace Epsilon.Logic.Configuration
             get
             {
                 return _dbAppSettingsHelper
-                    .GetBool(DbAppSettingKey.AntiAbuse_Register_DisableIpAddressFrequencyCheck) == true;
+                    .GetBool(EnumsHelper.DbAppSettingKey.ToString(DbAppSettingKey.AntiAbuse_Register_DisableIpAddressFrequencyCheck)) == true;
             }
         }
 
@@ -243,7 +245,7 @@ namespace Epsilon.Logic.Configuration
             get
             {
                 return _dbAppSettingsHelper.GetFrequency(
-                    DbAppSettingKey.AntiAbuse_Register_MaxFrequencyPerIpAddress,
+                    EnumsHelper.DbAppSettingKey.ToString(DbAppSettingKey.AntiAbuse_Register_MaxFrequencyPerIpAddress),
                     _dbAppSettingDefaultValue.AntiAbuse_Register_MaxFrequencyPerIpAddress);
             }
         }

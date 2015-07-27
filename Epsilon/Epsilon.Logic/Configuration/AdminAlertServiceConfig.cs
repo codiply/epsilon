@@ -1,6 +1,8 @@
 ﻿using Epsilon.Logic.Configuration.Interfaces;
 using Epsilon.Logic.Constants;
+using Epsilon.Logic.Constants.Enums;
 using Epsilon.Logic.Constants.Interfaces;
+using Epsilon.Logic.Helpers;
 using Epsilon.Logic.Helpers.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -47,7 +49,7 @@ namespace Epsilon.Logic.Configuration
             get
             {
                 var value = _dbAppSettingsHelper.GetDouble(
-                    DbAppSettingKey.AdminAlertSnoozePeriodInHours,
+                    EnumsHelper.DbAppSettingKey.ToString(DbAppSettingKey.AdminAlertSnoozePeriodInHours),
                     _dbAppSettingDefaultValue.AdminAlertSnoozePeriodInHours);
                 return TimeSpan.FromHours(value);
             }

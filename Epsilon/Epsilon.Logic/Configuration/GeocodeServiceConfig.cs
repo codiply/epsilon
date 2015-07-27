@@ -1,6 +1,8 @@
 ﻿using Epsilon.Logic.Configuration.Interfaces;
 using Epsilon.Logic.Constants;
+using Epsilon.Logic.Constants.Enums;
 using Epsilon.Logic.Constants.Interfaces;
+using Epsilon.Logic.Helpers;
 using Epsilon.Logic.Helpers.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -39,7 +41,7 @@ namespace Epsilon.Logic.Configuration
             get
             {
                 return _dbAppSettingsHelper.GetInt(
-                    DbAppSettingKey.GeocodeService_OverQueryLimitMaxRetries,
+                    EnumsHelper.DbAppSettingKey.ToString(DbAppSettingKey.GeocodeService_OverQueryLimitMaxRetries),
                     _dbAppSettingDefaultValue.GeocodeService_OverQueryLimitMaxRetries);
             }
         }
@@ -49,7 +51,7 @@ namespace Epsilon.Logic.Configuration
             get
             {
                 var delayInSeconds = _dbAppSettingsHelper.GetDouble(
-                    DbAppSettingKey.GeocodeService_OverQueryLimitDelayBetweenRetriesInSeconds,
+                    EnumsHelper.DbAppSettingKey.ToString(DbAppSettingKey.GeocodeService_OverQueryLimitDelayBetweenRetriesInSeconds),
                     _dbAppSettingDefaultValue.GeocodeService_OverQueryLimitDelayBetweenRetriesInSeconds);
                 return TimeSpan.FromSeconds(delayInSeconds);
             }

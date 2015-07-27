@@ -20,6 +20,8 @@ using System.Web.Http.Controllers;
 using System.Net.Http;
 using System.Diagnostics;
 using System.Web.Http;
+using Epsilon.Logic.Helpers;
+using Epsilon.Logic.Constants.Enums;
 
 namespace Epsilon.Web.Controllers.Filters.WebApi
 {
@@ -36,7 +38,7 @@ namespace Epsilon.Web.Controllers.Filters.WebApi
                 (IDbAppSettingsHelper)GlobalConfiguration.Configuration.DependencyResolver
                     .GetService(typeof(IDbAppSettingsHelper));
 
-            if (dbAppSettingsHelper.GetBool(DbAppSettingKey.EnableResponseTiming) == true)
+            if (dbAppSettingsHelper.GetBool(EnumsHelper.DbAppSettingKey.ToString(DbAppSettingKey.EnableResponseTiming)) == true)
             {
                 var stopwatch = new Stopwatch();
                 actionContext.Request.Properties[PROPERTIES_KEY] = stopwatch;

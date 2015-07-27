@@ -100,12 +100,12 @@
     <Compile Include="Constants\CountryAddressFieldMetadata.cs" />
     <Compile Include="Constants\Enums\AdminEventLogKey.cs" />
     <Compile Include="Constants\Enums\CountryVariantResourceName.cs" />
+    <Compile Include="Constants\Enums\DbAppSettingKey.cs" />
     <Compile Include="Constants\Enums\GeocodeAddressStatus.cs" />
     <Compile Include="Constants\Enums\GeocodePostcodeStatus.cs" />
     <Compile Include="Constants\Enums\TokenAccountTransactionStatus.cs" />
     <Compile Include="Constants\Enums\TokenAccountTransactionTypeId.cs" />
     <Compile Include="Constants\Enums\CountryId.cs" />
-    <Compile Include="Constants\DbAppSettingKey.cs" />
     <Compile Include="Constants\DbAppSettingDefaultValue.cs" />
     <Compile Include="Constants\AppSettingsDefaultValue.cs" />
     <Compile Include="Constants\Enums\DbAppSettingValueType.cs" />

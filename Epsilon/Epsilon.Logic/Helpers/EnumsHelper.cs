@@ -18,6 +18,9 @@ namespace Epsilon.Logic.Helpers
         public static EnumMemoizer<CountryVariantResourceName> CountryVariantResourceName =
             new EnumMemoizer<CountryVariantResourceName>();
 
+        public static EnumMemoizer<DbAppSettingKey> DbAppSettingKey =
+            new EnumMemoizer<DbAppSettingKey>();
+
         public static EnumMemoizer<DbAppSettingValueType> DbAppSettingValueType =
             new EnumMemoizer<DbAppSettingValueType>();
 

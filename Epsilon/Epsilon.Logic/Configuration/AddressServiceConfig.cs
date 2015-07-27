@@ -1,6 +1,8 @@
 ﻿using Epsilon.Logic.Configuration.Interfaces;
 using Epsilon.Logic.Constants;
+using Epsilon.Logic.Constants.Enums;
 using Epsilon.Logic.Constants.Interfaces;
+using Epsilon.Logic.Helpers;
 using Epsilon.Logic.Helpers.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -28,7 +30,7 @@ namespace Epsilon.Logic.Configuration
             get
             {
                 return _dbAppSettingsHelper.GetInt(
-                    DbAppSettingKey.SearchAddressResultsLimit,
+                    EnumsHelper.DbAppSettingKey.ToString(DbAppSettingKey.SearchAddressResultsLimit),
                     _dbAppSettingDefaultValue.SearchAddressResultsLimit);
             }
         }

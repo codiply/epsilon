@@ -1,4 +1,6 @@
 ﻿using Epsilon.Logic.Constants;
+using Epsilon.Logic.Constants.Enums;
+using Epsilon.Logic.Helpers;
 using Epsilon.Logic.Helpers.Interfaces;
 using Epsilon.Logic.Services.Interfaces;
 using Ninject;
@@ -21,7 +23,7 @@ namespace Epsilon.Web.Controllers.Filters.Mvc
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             var dbAppSettingsHelper = DependencyResolver.Current.GetService<IDbAppSettingsHelper>();
-            if (dbAppSettingsHelper.GetBool(DbAppSettingKey.EnableResponseTiming) == true)
+            if (dbAppSettingsHelper.GetBool(EnumsHelper.DbAppSettingKey.ToString(DbAppSettingKey.EnableResponseTiming)) == true)
             {
                 var stopwatch = new Stopwatch();
                 filterContext.HttpContext.Items[ITEMS_KEY] = stopwatch;
