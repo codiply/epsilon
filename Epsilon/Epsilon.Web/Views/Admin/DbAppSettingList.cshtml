@@ -1,5 +1,4 @@
-﻿@using Epsilon.Logic.Entities
-@model IEnumerable<AppSetting>
+﻿@model Epsilon.Web.Models.ViewModels.Admin.DbAppSettingListViewModel
 
 @{
     ViewBag.Title = "Database AppSettings";
@@ -7,26 +6,34 @@
 
 <h2>@ViewBag.Title</h2>
 
+@using Epsilon.Web.Models.ViewModels.Admin
+
+@Html.Partial("_DbAppSettingLabelCloud", 
+    new DbAppSettingLabelCloudViewModel { Labels = Model.AllLabels, SelectedLabel = Model.SelectedLabel })
+
+@if (Model.Settings.Any())
+{
+    var first = Model.Settings.First();
 <table class="table table-striped">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Id)
+                @Html.DisplayNameFor(model => first.Id)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Value)
+                @Html.DisplayNameFor(model => first.Value)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ValueType)
+                @Html.DisplayNameFor(model => first.ValueType)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Description)
+                @Html.DisplayNameFor(model => first.Description)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
+        @foreach (var item in Model.Settings)
         {
             <tr>
                 <td>
@@ -49,3 +56,4 @@
         }
     </tbody>
 </table>
+}

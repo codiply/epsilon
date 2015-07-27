@@ -15,6 +15,8 @@ namespace Epsilon.Logic.Helpers.Interfaces
 
         Task<IList<AppSetting>> GetAllAppSettingEntitiesForLabel(string label);
 
+        Task<IList<string>> GetAllLabels();
+
         Task<AppSetting> GetAppSettingEntity(string id);
 
         Task Update(DbAppSettingForm form, string userId);

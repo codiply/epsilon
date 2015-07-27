@@ -20,6 +20,8 @@ namespace Epsilon.Logic.Forms.Admin
         public string Description { get; set; }
         [Display(Name ="Updated On")]
         public DateTimeOffset? UpdatedOn { get; set; }
+
+        public IList<string> Labels { get; set; }
         
         public DbAppSettingValueType? ValueTypeAsEnum
         {
@@ -38,7 +40,8 @@ namespace Epsilon.Logic.Forms.Admin
                 Value = entity.Value,
                 ValueType = entity.ValueType,
                 Description = entity.Description,
-                UpdatedOn = entity.UpdatedOn
+                UpdatedOn = entity.UpdatedOn,
+                Labels = entity.Labels == null ? new List<string>() : entity.Labels.Select(x => x.Label).ToList()
             };
         }
     }

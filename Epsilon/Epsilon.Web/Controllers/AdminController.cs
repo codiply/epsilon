@@ -72,16 +72,18 @@ namespace Epsilon.Web.Controllers
         public async Task<ActionResult> DbAppSettingList(string id)
         {
             var label = id;
+            var allLabels = await _dbAppSettingsHelper.GetAllLabels();
+            var model = new DbAppSettingListViewModel() { AllLabels = allLabels, SelectedLabel = label };
             if (string.IsNullOrWhiteSpace(label))
             {
-                var model = await _dbAppSettingsHelper.GetAllAppSettingEntities();
-                return View(model);
+                model.Settings = await _dbAppSettingsHelper.GetAllAppSettingEntities();
             }
             else
             {
-                var model = await _dbAppSettingsHelper.GetAllAppSettingEntitiesForLabel(label);
-                return View(model);
+                model.Settings = await _dbAppSettingsHelper.GetAllAppSettingEntitiesForLabel(label);
             };
+
+            return View(model);
         }
 
         public async Task<ActionResult> DbAppSettingDetails(string id)

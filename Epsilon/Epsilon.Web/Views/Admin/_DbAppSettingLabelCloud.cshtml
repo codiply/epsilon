@@ -1,0 +1,24 @@
+﻿@model Epsilon.Web.Models.ViewModels.Admin.DbAppSettingLabelCloudViewModel
+
+@if (string.IsNullOrWhiteSpace(Model.SelectedLabel))
+{
+    <span class="label label-default">all</span>
+}
+else
+{
+    <a href="@Url.Action("DbAppSettingList", "Admin", new { id = "" })"><span class="label label-primary">all</span></a>
+}
+
+@foreach (var label in Model.Labels)
+{
+
+
+    if (label.Equals(Model.SelectedLabel))
+    {
+        <span class="label label-default">@label</span>
+    }
+    else
+    {
+        <a href="@Url.Action("DbAppSettingList", "Admin", new { id = label })"><span class="label label-primary">@label</span></a>
+    }
+}

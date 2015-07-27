@@ -52,6 +52,16 @@ namespace Epsilon.Logic.Helpers
                 .ToListAsync();
         }
 
+        public async Task<IList<string>> GetAllLabels()
+        {
+            var allLabels = await _dbContext.AppSettingLabels
+                .Select(x => x.Label)
+                .Distinct()
+                .ToListAsync();
+            allLabels = allLabels.OrderBy(x => x).ToList();
+            return allLabels;
+        }
+
         public async Task<AppSetting> GetAppSettingEntity(string id)
         {
             return await _dbContext.AppSettings

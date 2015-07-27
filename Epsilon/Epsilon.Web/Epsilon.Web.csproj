@@ -284,6 +284,8 @@
     <Compile Include="Models\ViewAlerts\ViewAlert.cs" />
     <Compile Include="Models\ViewAlerts\ViewAlertStyles.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\ViewModels\Admin\DbAppSettingLabelCloudViewModel.cs" />
+    <Compile Include="Models\ViewModels\Admin\DbAppSettingListViewModel.cs" />
     <Compile Include="Models\ViewModels\Admin\TestGoogleGeocodeApiViewModel.cs" />
     <Compile Include="Models\ViewModels\Admin\TestEmailViewModel.cs" />
     <Compile Include="Models\ViewModels\OutgoingVerification\OutgoingVerificationInstructionsViewModel.cs" />
@@ -1200,6 +1202,7 @@
     <Content Include="Views\NgDirectiveTemplate\MyOutgoingVerificationsSummary.cshtml" />
     <Content Include="Views\OutgoingVerification\MyOutgoingVerificationsSummary.cshtml" />
     <Content Include="Views\OutgoingVerification\Pick.cshtml" />
+    <Content Include="Views\Admin\_DbAppSettingLabelCloud.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

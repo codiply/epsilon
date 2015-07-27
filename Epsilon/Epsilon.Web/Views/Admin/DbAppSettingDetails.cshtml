@@ -53,6 +53,13 @@
     </dl>
 </div>
 <p>
+    @foreach (var label in Model.Labels)
+    {
+        <a href="@Url.Action("DbAppSettingList", "Admin", new { id = label })"><span class="label label-primary">@label</span></a>
+    }
+</p>
+
+<p>
     @Html.ActionLink("Edit", "DbAppSettingEdit", new { id = Model.Id }) |
     @Html.ActionLink("Back to List", "DbAppSettingList")
 </p>
