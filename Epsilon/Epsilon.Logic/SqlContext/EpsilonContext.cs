@@ -27,6 +27,7 @@ namespace Epsilon.Logic.SqlContext
         public virtual DbSet<AdminAlert> AdminAlerts { get; set; }
         public virtual DbSet<AdminEventLog> AdminEventLogs { get; set; }
         public virtual DbSet<AppSetting> AppSettings { get; set; }
+        public virtual DbSet<AppSettingLabel> AppSettingLabels { get; set; }
         public virtual DbSet<Country> Countries { get; set; }
         public virtual DbSet<Currency> Currencies { get; set; }
         public virtual DbSet<GeocodeFailure> GeocodeFailures { get; set; }
@@ -56,6 +57,7 @@ namespace Epsilon.Logic.SqlContext
             modelBuilder.Configurations.Add(new AdminAlertMap());
             modelBuilder.Configurations.Add(new AdminEventLogMap());
             modelBuilder.Configurations.Add(new AppSettingMap());
+            modelBuilder.Configurations.Add(new AppSettingLabelMap());
             modelBuilder.Configurations.Add(new CountryMap());
             modelBuilder.Configurations.Add(new CurrencyMap());
             modelBuilder.Configurations.Add(new GeocodeFailureMap());

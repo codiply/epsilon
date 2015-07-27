@@ -29,6 +29,8 @@ namespace Epsilon.Logic.Entities
 
         public virtual User UpdatedBy { get; set; }
 
+        public virtual ICollection<AppSettingLabel> Labels { get; set; }
+
         [NotMapped]
         public virtual DbAppSettingValueType? ValueTypeAsEnum
         {

@@ -104,6 +104,7 @@
     <Build Include="dbo\Tables\TokenRewardScheme.sql" />
     <Build Include="dbo\Tables\TokenReward.sql" />
     <Build Include="dbo\Views\ResponseTimingStatistics.sql" />
+    <Build Include="dbo\Tables\AppSettingLabel.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Scripts\PostDeploy\Script.PostDeployment.sql" />

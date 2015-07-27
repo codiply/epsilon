@@ -20,6 +20,7 @@ namespace Epsilon.Logic.SqlContext.Interfaces
         DbSet<AdminAlert> AdminAlerts { get; set; }
         DbSet<AdminEventLog> AdminEventLogs { get; set; }
         DbSet<AppSetting> AppSettings { get; set; }
+        DbSet<AppSettingLabel> AppSettingLabels { get; set; }
         DbSet<Country> Countries { get; set; }
         DbSet<Currency> Currencies { get; set; }
         DbSet<GeocodeFailure> GeocodeFailures { get; set; }
