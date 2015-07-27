@@ -1,4 +1,5 @@
-﻿using Epsilon.Web.Controllers.BaseControllers;
+﻿using Epsilon.Logic.Constants;
+using Epsilon.Web.Controllers.BaseControllers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,13 @@ namespace Epsilon.Web.Controllers
         [AllowAnonymous]
         public ActionResult Index()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction(
+                    AppConstant.AUTHENTICATED_USER_HOME_ACTION,
+                    AppConstant.AUTHENTICATED_USER_HOME_CONTROLLER);
+            }
+
             return View();
         }
     }
