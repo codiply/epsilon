@@ -203,6 +203,8 @@ namespace Epsilon.IntegrationTests.Logic.Services
         public async Task CanAddAddress_WithAllChecksDisabled_ReturnsIsRejectedFalse()
         {
             var addressesToCreate = 10;
+            var disableGlobalFrequencyCheck = true;
+            var globalMaxFrequency = "10/D";
             var disableUserFrequencyCheck = true;
             var maxFrequencyPerUser = "1/D";
             var disableIpAddressFrequencyCheck = true;
@@ -212,6 +214,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             var container = CreateContainer();
             SetupContainerForCanAddAddressWithoutGeocodeFailureCheck(container,
+                disableGlobalFrequencyCheck, globalMaxFrequency,
                 disableUserFrequencyCheck, maxFrequencyPerUser,
                 disableIpAddressFrequencyCheck, maxFrequencyPerIpAddress);
             var service = container.Get<IAntiAbuseService>();
@@ -232,6 +235,8 @@ namespace Epsilon.IntegrationTests.Logic.Services
         [Test]
         public async Task CanAddAddress_CheckIpAddressFrequency_TheFrequencyTimesIsUsedCorrectly()
         {
+            var disableGlobalFrequencyCheck = true;
+            var globalMaxFrequency = "10/D";
             var disableUserFrequencyCheck = true;
             var maxFrequencyPerUser = "2/D";
             var disableIpAddressFrequencyCheck = false;
@@ -241,6 +246,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             var containerUnderTest = CreateContainer();
             SetupContainerForCanAddAddressWithoutGeocodeFailureCheck(containerUnderTest,
+                disableGlobalFrequencyCheck, globalMaxFrequency,
                 disableUserFrequencyCheck, maxFrequencyPerUser,
                 disableIpAddressFrequencyCheck, maxFrequencyPerIpAddress);
             var serviceUnderTest = containerUnderTest.Get<IAntiAbuseService>();
@@ -270,6 +276,8 @@ namespace Epsilon.IntegrationTests.Logic.Services
         public async Task CanAddAddress_CheckIpAddressFrequency_TheFrequencyPeriodIsUsedCorrectly()
         {
             var periodInSeconds = 0.2;
+            var disableGlobalFrequencyCheck = true;
+            var globalMaxFrequency = "10/D";
             var disableUserFrequencyCheck = true;
             var maxFrequencyPerUser = "2/D";
             var disableIpAddressFrequencyCheck = false;
@@ -279,6 +287,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             var containerUnderTest = CreateContainer();
             SetupContainerForCanAddAddressWithoutGeocodeFailureCheck(containerUnderTest,
+                disableGlobalFrequencyCheck, globalMaxFrequency,
                 disableUserFrequencyCheck, maxFrequencyPerUser,
                 disableIpAddressFrequencyCheck, maxFrequencyPerIpAddress);
             var serviceUnderTest = containerUnderTest.Get<IAntiAbuseService>();
@@ -303,6 +312,8 @@ namespace Epsilon.IntegrationTests.Logic.Services
         [Test]
         public async Task CanAddAddress_CheckUserFrequency_TheFrequencyTimesIsUsedCorrectly()
         {
+            var disableGlobalFrequencyCheck = true;
+            var globalMaxFrequency = "10/D";
             var disableUserFrequencyCheck = false;
             var maxFrequencyPerUser = "2/D";
             var disableIpAddressFrequencyCheck = true;
@@ -315,6 +326,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             var containerUnderTest = CreateContainer();
             SetupContainerForCanAddAddressWithoutGeocodeFailureCheck(containerUnderTest,
+                disableGlobalFrequencyCheck, globalMaxFrequency,
                 disableUserFrequencyCheck, maxFrequencyPerUser,
                 disableIpAddressFrequencyCheck, maxFrequencyPerIpAddress);
             var serviceUnderTest = containerUnderTest.Get<IAntiAbuseService>();
@@ -343,6 +355,8 @@ namespace Epsilon.IntegrationTests.Logic.Services
         public async Task CanAddAddress_CheckUserFrequency_TheFrequencyPeriodIsUsedCorrectly()
         {
             var periodInSeconds = 0.2;
+            var disableGlobalFrequencyCheck = true;
+            var globalMaxFrequency = "10/D";
             var disableUserFrequencyCheck = false;
             var maxFrequencyPerUser = string.Format("1/{0}S", periodInSeconds);
             var disableIpAddressFrequencyCheck = true;
@@ -354,6 +368,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             var containerUnderTest = CreateContainer();
             SetupContainerForCanAddAddressWithoutGeocodeFailureCheck(containerUnderTest,
+                disableGlobalFrequencyCheck, globalMaxFrequency,
                 disableUserFrequencyCheck, maxFrequencyPerUser,
                 disableIpAddressFrequencyCheck, maxFrequencyPerIpAddress);
             var serviceUnderTest = containerUnderTest.Get<IAntiAbuseService>();
@@ -527,6 +542,8 @@ namespace Epsilon.IntegrationTests.Logic.Services
         public async Task CanCreateTenancyDetailsSubmission_WithAllChecksDisabled_ReturnsIsRejectedFalse()
         {
             var submissionsToCreate = 10;
+            var disableGlobalFrequencyCheck = true;
+            var globalMaxFrequency = "10/D";
             var disableUserFrequencyCheck = true;
             var maxFrequencyPerUser = "1/D";
             var disableIpAddressFrequencyCheck = true;
@@ -536,6 +553,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             var container = CreateContainer();
             SetupContainerForCanCreateTenancyDetailsSubmission(container,
+                disableGlobalFrequencyCheck, globalMaxFrequency,
                 disableUserFrequencyCheck, maxFrequencyPerUser,
                 disableIpAddressFrequencyCheck, maxFrequencyPerIpAddress);
             var service = container.Get<IAntiAbuseService>();
@@ -556,6 +574,8 @@ namespace Epsilon.IntegrationTests.Logic.Services
         [Test]
         public async Task CreateTenancyDetailsSubmission_CheckIpAddressFrequency_TheFrequencyTimesIsUsedCorrectly()
         {
+            var disableGlobalFrequencyCheck = true;
+            var globalMaxFrequency = "10/D";
             var disableUserFrequencyCheck = true;
             var maxFrequencyPerUser = "2/D";
             var disableIpAddressFrequencyCheck = false;
@@ -565,6 +585,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             var containerUnderTest = CreateContainer();
             SetupContainerForCanCreateTenancyDetailsSubmission(containerUnderTest,
+                disableGlobalFrequencyCheck, globalMaxFrequency,
                 disableUserFrequencyCheck, maxFrequencyPerUser,
                 disableIpAddressFrequencyCheck, maxFrequencyPerIpAddress);
             var serviceUnderTest = containerUnderTest.Get<IAntiAbuseService>();
@@ -594,6 +615,8 @@ namespace Epsilon.IntegrationTests.Logic.Services
         public async Task CreateTenancyDetailsSubmission_CheckIpAddressFrequency_TheFrequencyPeriodIsUsedCorrectly()
         {
             var periodInSeconds = 0.2;
+            var disableGlobalFrequencyCheck = true;
+            var globalMaxFrequency = "10/D";
             var disableUserFrequencyCheck = true;
             var maxFrequencyPerUser = "2/D";
             var disableIpAddressFrequencyCheck = false;
@@ -603,6 +626,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             var containerUnderTest = CreateContainer();
             SetupContainerForCanCreateTenancyDetailsSubmission(containerUnderTest,
+                disableGlobalFrequencyCheck, globalMaxFrequency,
                 disableUserFrequencyCheck, maxFrequencyPerUser,
                 disableIpAddressFrequencyCheck, maxFrequencyPerIpAddress);
             var serviceUnderTest = containerUnderTest.Get<IAntiAbuseService>();
@@ -628,6 +652,8 @@ namespace Epsilon.IntegrationTests.Logic.Services
         [Test]
         public async Task CreateTenancyDetailsSubmission_CheckUserFrequency_TheFrequencyTimesIsUsedCorrectly()
         {
+            var disableGlobalFrequencyCheck = true;
+            var globalMaxFrequency = "10/D";
             var disableUserFrequencyCheck = false;
             var maxFrequencyPerUser = "2/D";
             var disableIpAddressFrequencyCheck = true;
@@ -640,6 +666,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             var containerUnderTest = CreateContainer();
             SetupContainerForCanCreateTenancyDetailsSubmission(containerUnderTest,
+                disableGlobalFrequencyCheck, globalMaxFrequency,
                 disableUserFrequencyCheck, maxFrequencyPerUser,
                 disableIpAddressFrequencyCheck, maxFrequencyPerIpAddress);
             var serviceUnderTest = containerUnderTest.Get<IAntiAbuseService>();
@@ -669,6 +696,8 @@ namespace Epsilon.IntegrationTests.Logic.Services
         public async Task CreateTenancyDetailsSubmission_CheckUserFrequency_TheFrequencyPeriodIsUsedCorrectly()
         {
             var periodInSeconds = 0.2;
+            var disableGlobalFrequencyCheck = true;
+            var globalMaxFrequency = "10/D";
             var disableUserFrequencyCheck = false;
             var maxFrequencyPerUser = string.Format("1/{0}S", periodInSeconds);
             var disableIpAddressFrequencyCheck = true;
@@ -680,6 +709,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             var containerUnderTest = CreateContainer();
             SetupContainerForCanCreateTenancyDetailsSubmission(containerUnderTest,
+                disableGlobalFrequencyCheck, globalMaxFrequency,
                 disableUserFrequencyCheck, maxFrequencyPerUser,
                 disableIpAddressFrequencyCheck, maxFrequencyPerIpAddress);
             var serviceUnderTest = containerUnderTest.Get<IAntiAbuseService>();
@@ -791,12 +821,17 @@ namespace Epsilon.IntegrationTests.Logic.Services
         }
 
         private static void SetupContainerForCanAddAddressWithoutGeocodeFailureCheck(IKernel container,
+            bool disableGlobalFrequencyCheck, string globalMaxFrequency,
             bool disableUserFrequencyCheck, string maxFrequencyPerUser,
             bool disableIpAddressFrequencyCheck, string maxFrequencyPerIpAddress)
         {
             var parseHelper = new ParseHelper();
             var mockAntiAbuseServiceConfig = new Mock<IAntiAbuseServiceConfig>();
 
+            mockAntiAbuseServiceConfig.Setup(x => x.AddAddress_DisableGlobalFrequencyCheck)
+                .Returns(disableGlobalFrequencyCheck);
+            mockAntiAbuseServiceConfig.Setup(x => x.AddAddress_GlobalMaxFrequency)
+                .Returns(parseHelper.ParseFrequency(globalMaxFrequency));
             mockAntiAbuseServiceConfig.Setup(x => x.AddAddress_DisableUserFrequencyCheck)
                 .Returns(disableUserFrequencyCheck);
             mockAntiAbuseServiceConfig.Setup(x => x.AddAddress_MaxFrequencyPerUser)
@@ -820,6 +855,8 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var parseHelper = new ParseHelper();
             var mockAntiAbuseServiceConfig = new Mock<IAntiAbuseServiceConfig>();
 
+            mockAntiAbuseServiceConfig.Setup(x => x.AddAddress_DisableGlobalFrequencyCheck)
+                .Returns(true);
             mockAntiAbuseServiceConfig.Setup(x => x.AddAddress_DisableGeocodeFailureUserFrequencyCheck)
                 .Returns(disableGeocodeFailureUserFrequencyCheck);
             mockAntiAbuseServiceConfig.Setup(x => x.AddAddress_MaxGeocodeFailureFrequencyPerUser)
@@ -837,12 +874,17 @@ namespace Epsilon.IntegrationTests.Logic.Services
         }
 
         private static void SetupContainerForCanCreateTenancyDetailsSubmission(IKernel container,
+            bool disableGlobalFrequencyCheck, string globalMaxFrequency,
             bool disableUserFrequencyCheck, string maxFrequencyPerUser,
             bool disableIpAddressFrequencyCheck, string maxFrequencyPerIpAddress)
         {
             var parseHelper = new ParseHelper();
             var mockAntiAbuseServiceConfig = new Mock<IAntiAbuseServiceConfig>();
 
+            mockAntiAbuseServiceConfig.Setup(x => x.CreateTenancyDetailsSubmission_DisableGlobalFrequencyCheck)
+                .Returns(disableGlobalFrequencyCheck);
+            mockAntiAbuseServiceConfig.Setup(x => x.CreateTenancyDetailsSubmission_GlobalMaxFrequency)
+                .Returns(parseHelper.ParseFrequency(globalMaxFrequency));
             mockAntiAbuseServiceConfig.Setup(x => x.CreateTenancyDetailsSubmission_DisableUserFrequencyCheck)
                 .Returns(disableUserFrequencyCheck);
             mockAntiAbuseServiceConfig.Setup(x => x.CreateTenancyDetailsSubmission_MaxFrequencyPerUser)
