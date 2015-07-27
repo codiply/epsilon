@@ -8,11 +8,15 @@ namespace Epsilon.Logic.Constants.Enums
 {
     public enum AdminEventLogKey
     {
+        AddAddressGlobalMaxFrequencyReached,
+        CreateTenancyDetailsSubmissionGlobalMaxFrequencyReached,
         GooglGeocodeApiStatusOverQueryLimitMaxRetriesReached,
         GooglGeocodeApiStatusOverQueryLimitSuccessAfterRetrying,
         GoogleGeocodeApiStatusInvalidRequest,
         GoogleGeocodeApiStatusRequestDenied,
         GoogleGeocodeApiStatusUnexpected,
-        GoogleGeocodeApiStatusUknownError
+        GoogleGeocodeApiStatusUknownError,
+        PickOutgoingVerificationGlobalMaxFrequencyReached,
+        RegistrationGlobalMaxFrequencyReached
     }
 }

@@ -182,7 +182,7 @@ namespace Epsilon.Logic.Services
         
         private async Task RaiseOverQueryLimitMaxRetriesReached(string queryType)
         {
-            _adminAlertService.SendAlert(AdminAlertKey.GooglGeocodeApiStatusOverQueryLimitMaxRetriesReached);
+            _adminAlertService.SendAlert(AdminAlertKey.GoogleGeocodeApiStatusOverQueryLimitMaxRetriesReached);
             var extraInfo = new Dictionary<string, object>
             {
                 { "QueryType", queryType },

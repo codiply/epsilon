@@ -24,41 +24,24 @@ namespace Epsilon.Logic.Configuration
             _dbAppSettingDefaultValue = dbAppSettingDefaultValue;
         }
 
-        public bool Register_DisableGlobalFrequencyCheck
+        #region Add Address
+
+        public bool AddAddress_DisableGlobalFrequencyCheck
         {
             get
             {
                 return _dbAppSettingsHelper
-                    .GetBool(DbAppSettingKey.AntiAbuse_Register_DisableGlobalFrequencyCheck) == true;
+                    .GetBool(DbAppSettingKey.AntiAbuse_AddAddress_DisableGlobalFrequencyCheck) == true;
             }
         }
 
-        public Frequency Register_GlobalMaxFrequency
+        public Frequency AddAddress_GlobalMaxFrequency
         {
             get
             {
                 return _dbAppSettingsHelper.GetFrequency(
-                    DbAppSettingKey.AntiAbuse_Register_GlobalMaxFrequency,
-                    _dbAppSettingDefaultValue.AntiAbuse_Register_GlobalMaxFrequency);
-            }
-        }
-
-        public bool Register_DisableIpAddressFrequencyCheck
-        {
-            get
-            {
-                return _dbAppSettingsHelper
-                    .GetBool(DbAppSettingKey.AntiAbuse_Register_DisableIpAddressFrequencyCheck) == true;
-            }
-        }
-
-        public Frequency Register_MaxFrequencyPerIpAddress
-        {
-            get
-            {
-                return _dbAppSettingsHelper.GetFrequency(
-                    DbAppSettingKey.AntiAbuse_Register_MaxFrequencyPerIpAddress,
-                    _dbAppSettingDefaultValue.AntiAbuse_Register_MaxFrequencyPerIpAddress);
+                    DbAppSettingKey.AntiAbuse_AddAddress_GlobalMaxFrequency,
+                    _dbAppSettingDefaultValue.AntiAbuse_AddAddress_GlobalMaxFrequency);
             }
         }
 
@@ -100,6 +83,67 @@ namespace Epsilon.Logic.Configuration
             }
         }
 
+        public bool AddAddress_DisableGeocodeFailureIpAddressFrequencyCheck
+        {
+            get
+            {
+                return _dbAppSettingsHelper
+                    .GetBool(DbAppSettingKey.AntiAbuse_AddAddress_DisableGeocodeFailureIpAddressFrequencyCheck) == true;
+            }
+        }
+
+        public Frequency AddAddress_MaxGeocodeFailureFrequencyPerIpAddress
+        {
+            get
+            {
+                return _dbAppSettingsHelper.GetFrequency(
+                    DbAppSettingKey.AntiAbuse_AddAddress_MaxGeocodeFailureFrequencyPerIpAddress,
+                    _dbAppSettingDefaultValue.AntiAbuse_AddAddress_MaxGeocodeFailureFrequencyPerIpAddress);
+            }
+        }
+
+        public bool AddAddress_DisableGeocodeFailureUserFrequencyCheck
+        {
+            get
+            {
+                return _dbAppSettingsHelper
+                    .GetBool(DbAppSettingKey.AntiAbuse_AddAddress_DisableGeocodeFailureUserFrequencyCheck) == true;
+            }
+        }
+
+        public Frequency AddAddress_MaxGeocodeFailureFrequencyPerUser
+        {
+            get
+            {
+                return _dbAppSettingsHelper.GetFrequency(
+                    DbAppSettingKey.AntiAbuse_AddAddress_MaxGeocodeFailureFrequencyPerUser,
+                    _dbAppSettingDefaultValue.AntiAbuse_AddAddress_MaxGeocodeFailureFrequencyPerUser);
+            }
+        }
+
+        #endregion
+
+        #region Create Tenancy Details Submission
+
+        public bool CreateTenancyDetailsSubmission_DisableGlobalFrequencyCheck
+        {
+            get
+            {
+                return _dbAppSettingsHelper
+                    .GetBool(DbAppSettingKey.AntiAbuse_CreateTenancyDetailsSubmission_DisableGlobalFrequencyCheck) == true;
+            }
+        }
+
+        public Frequency CreateTenancyDetailsSubmission_GlobalMaxFrequency
+        {
+            get
+            {
+                return _dbAppSettingsHelper.GetFrequency(
+                    DbAppSettingKey.AntiAbuse_CreateTenancyDetailsSubmission_GlobalMaxFrequency,
+                    _dbAppSettingDefaultValue.AntiAbuse_CreateTenancyDetailsSubmission_GlobalMaxFrequency);
+            }
+        }
+
         public bool CreateTenancyDetailsSubmission_DisableIpAddressFrequencyCheck
         {
             get
@@ -138,42 +182,72 @@ namespace Epsilon.Logic.Configuration
             }
         }
 
-        public Frequency AddAddress_MaxGeocodeFailureFrequencyPerIpAddress
-        {
-            get
-            {
-                return _dbAppSettingsHelper.GetFrequency(
-                    DbAppSettingKey.AntiAbuse_AddAddress_MaxGeocodeFailureFrequencyPerIpAddress,
-                    _dbAppSettingDefaultValue.AntiAbuse_AddAddress_MaxGeocodeFailureFrequencyPerIpAddress);
-            }
-        }
+        #endregion
 
-        public bool AddAddress_DisableGeocodeFailureIpAddressFrequencyCheck
+        #region Pick Outgoing Verification
+
+        public bool PickOutgoingVerification_DisableGlobalFrequencyCheck
         {
             get
             {
                 return _dbAppSettingsHelper
-                    .GetBool(DbAppSettingKey.AntiAbuse_AddAddress_DisableGeocodeFailureIpAddressFrequencyCheck) == true;
+                    .GetBool(DbAppSettingKey.AntiAbuse_PickOutgoingVerification_DisableGlobalFrequencyCheck) == true;
             }
         }
 
-        public Frequency AddAddress_MaxGeocodeFailureFrequencyPerUser
+        public Frequency PickOutgoingVerification_GlobalMaxFrequency
         {
             get
             {
                 return _dbAppSettingsHelper.GetFrequency(
-                    DbAppSettingKey.AntiAbuse_AddAddress_MaxGeocodeFailureFrequencyPerUser,
-                    _dbAppSettingDefaultValue.AntiAbuse_AddAddress_MaxGeocodeFailureFrequencyPerUser);
+                    DbAppSettingKey.AntiAbuse_PickOutgoingVerification_GlobalMaxFrequency,
+                    _dbAppSettingDefaultValue.AntiAbuse_PickOutgoingVerification_GlobalMaxFrequency);
             }
         }
 
-        public bool AddAddress_DisableGeocodeFailureUserFrequencyCheck
+        #endregion
+
+
+        #region Register
+
+        public bool Register_DisableGlobalFrequencyCheck
         {
             get
             {
                 return _dbAppSettingsHelper
-                    .GetBool(DbAppSettingKey.AntiAbuse_AddAddress_DisableGeocodeFailureUserFrequencyCheck) == true;
+                    .GetBool(DbAppSettingKey.AntiAbuse_Register_DisableGlobalFrequencyCheck) == true;
             }
         }
+
+        public Frequency Register_GlobalMaxFrequency
+        {
+            get
+            {
+                return _dbAppSettingsHelper.GetFrequency(
+                    DbAppSettingKey.AntiAbuse_Register_GlobalMaxFrequency,
+                    _dbAppSettingDefaultValue.AntiAbuse_Register_GlobalMaxFrequency);
+            }
+        }
+
+        public bool Register_DisableIpAddressFrequencyCheck
+        {
+            get
+            {
+                return _dbAppSettingsHelper
+                    .GetBool(DbAppSettingKey.AntiAbuse_Register_DisableIpAddressFrequencyCheck) == true;
+            }
+        }
+
+        public Frequency Register_MaxFrequencyPerIpAddress
+        {
+            get
+            {
+                return _dbAppSettingsHelper.GetFrequency(
+                    DbAppSettingKey.AntiAbuse_Register_MaxFrequencyPerIpAddress,
+                    _dbAppSettingDefaultValue.AntiAbuse_Register_MaxFrequencyPerIpAddress);
+            }
+        }
+
+        #endregion
     }
 }

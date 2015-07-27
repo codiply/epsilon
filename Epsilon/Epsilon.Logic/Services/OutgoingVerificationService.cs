@@ -65,7 +65,7 @@ namespace Epsilon.Logic.Services
         {
             using (var transaction = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
-                var antiAbuseServiceResponse = await _antiAbuseService.CanPickOutgoingVerifications(userId, userIpAddress);
+                var antiAbuseServiceResponse = await _antiAbuseService.CanPickOutgoingVerification(userId, userIpAddress);
                 if (antiAbuseServiceResponse.IsRejected)
                     return new PickVerificationOutcome
                     {
@@ -75,7 +75,7 @@ namespace Epsilon.Logic.Services
                     };
 
                 // TODO_PANOS: put this in the config
-                var maxVerifications = 2;
+                var maxVerificationsPerSubmission = 2;
 
                 var submissionIdsToAvoid = await _dbContext.TenantVerifications
                     .Where(v => v.AssignedToId.Equals(userId) || v.AssignedByIpAddress.Equals(userId))
@@ -91,7 +91,7 @@ namespace Epsilon.Logic.Services
                     .Where(s => s.CreatedByIpAddress != userIpAddress)
                     .Where(s => s.Address.CreatedById != userId)
                     .Where(s => s.Address.CreatedByIpAddress != userIpAddress)
-                    .Where(s => s.TenantVerifications.Count() < maxVerifications)
+                    .Where(s => s.TenantVerifications.Count() < maxVerificationsPerSubmission)
                     .Where(s => !submissionIdsToAvoid.Contains(s.Id))
                     .OrderBy(s => s.TenantVerifications.Count())
                     .FirstOrDefaultAsync();

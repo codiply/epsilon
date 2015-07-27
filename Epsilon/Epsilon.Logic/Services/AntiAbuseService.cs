@@ -22,17 +22,20 @@ namespace Epsilon.Logic.Services
         private readonly IClock _clock;
         private readonly IAntiAbuseServiceConfig _antiAbuseServiceConfig;
         private readonly IAdminAlertService _adminAlertService;
+        private readonly IAdminEventLogService _adminEventLogService;
         private readonly IEpsilonContext _dbContext;
 
         public AntiAbuseService(
             IClock clock,
             IAntiAbuseServiceConfig antiAbuseServiceConfig,
             IAdminAlertService adminAlertService,
+            IAdminEventLogService adminEventLogService,
             IEpsilonContext dbContext)
         {
             _clock = clock;
             _antiAbuseServiceConfig = antiAbuseServiceConfig;
             _adminAlertService = adminAlertService;
+            _adminEventLogService = adminEventLogService;
             _dbContext = dbContext;
         }
 
@@ -51,6 +54,11 @@ namespace Epsilon.Logic.Services
 
         public async Task<AntiAbuseServiceResponse> CanAddAddress(string userId, string userIpAddress)
         {
+            // TODO_PANOS_TEST
+            var checkGlobalFrequency = await CanAddAddressCheckGlobalFrequency();
+            if (checkGlobalFrequency.IsRejected)
+                return checkGlobalFrequency;
+
             var checkIpFrequency = await CanAddAddressCheckIpFrequency(userIpAddress);
             if (checkIpFrequency.IsRejected)
                 return checkIpFrequency;
@@ -72,6 +80,11 @@ namespace Epsilon.Logic.Services
 
         public async Task<AntiAbuseServiceResponse> CanCreateTenancyDetailsSubmission(string userId, string userIpAddress)
         {
+            // TODO_PANOS_TEST
+            var checkGlobalFrequency = await CanCreateTenancyDetailsSubmissionCheckGlobalFrequency();
+            if (checkGlobalFrequency.IsRejected)
+                return checkGlobalFrequency;
+
             var checkIpFrequency = await CanCreateTenancyDetailsSubmissionCheckIpFrequency(userIpAddress);
             if (checkIpFrequency.IsRejected)
                 return checkIpFrequency;
@@ -83,8 +96,13 @@ namespace Epsilon.Logic.Services
             return new AntiAbuseServiceResponse { IsRejected = false };
         }
 
-        public async Task<AntiAbuseServiceResponse> CanPickOutgoingVerifications(string userId, string userIpAddress)
+        public async Task<AntiAbuseServiceResponse> CanPickOutgoingVerification(string userId, string userIpAddress)
         {
+            // TODO_PANOS_TEST
+            var checkGlobalFrequency = await CanPickOutgoingVerificationCheckGlobalFrequency();
+            if (checkGlobalFrequency.IsRejected)
+                return checkGlobalFrequency;
+
             // TODO_PANOS
             return new AntiAbuseServiceResponse { IsRejected = false };
         }
@@ -106,11 +124,97 @@ namespace Epsilon.Logic.Services
             if (actualTimes >= maxFrequency.Times)
             {
                 _adminAlertService.SendAlert(AdminAlertKey.RegistrationGlobalMaxFrequencyReached);
+                // TODO_PANOS_TEST
+                await _adminEventLogService.Log(AdminEventLogKey.RegistrationGlobalMaxFrequencyReached, null);
 
                 return new AntiAbuseServiceResponse
                 {
                     IsRejected = true,
                     RejectionReason = AntiAbuseResources.Register_GlobalFrequencyCheck_RejectionMessage
+                };
+            }
+            return new AntiAbuseServiceResponse { IsRejected = false };
+        }
+
+        private async Task<AntiAbuseServiceResponse> CanAddAddressCheckGlobalFrequency()
+        {
+            if (_antiAbuseServiceConfig.AddAddress_DisableGlobalFrequencyCheck)
+                return new AntiAbuseServiceResponse { IsRejected = false };
+
+            var maxFrequency = _antiAbuseServiceConfig.AddAddress_GlobalMaxFrequency;
+
+            var windowStart = _clock.OffsetNow - maxFrequency.Period;
+            var actualTimes = await _dbContext.Addresses
+                .Where(a => a.CreatedOn > windowStart)
+                .CountAsync();
+
+            if (actualTimes >= maxFrequency.Times)
+            {
+                // TODO_PANOS_TEST
+                _adminAlertService.SendAlert(AdminAlertKey.AddAddressGlobalMaxFrequencyReached);
+                // TODO_PANOS_TEST
+                await _adminEventLogService.Log(AdminEventLogKey.AddAddressGlobalMaxFrequencyReached, null);
+
+                return new AntiAbuseServiceResponse
+                {
+                    IsRejected = true,
+                    RejectionReason = AntiAbuseResources.AddAddress_GlobalFrequencyCheck_RejectionMessage
+                };
+            }
+            return new AntiAbuseServiceResponse { IsRejected = false };
+        }
+
+        private async Task<AntiAbuseServiceResponse> CanCreateTenancyDetailsSubmissionCheckGlobalFrequency()
+        {
+            if (_antiAbuseServiceConfig.CreateTenancyDetailsSubmission_DisableGlobalFrequencyCheck)
+                return new AntiAbuseServiceResponse { IsRejected = false };
+
+            var maxFrequency = _antiAbuseServiceConfig.CreateTenancyDetailsSubmission_GlobalMaxFrequency;
+
+            var windowStart = _clock.OffsetNow - maxFrequency.Period;
+            var actualTimes = await _dbContext.TenancyDetailsSubmissions
+                .Where(a => a.CreatedOn > windowStart)
+                .CountAsync();
+
+            if (actualTimes >= maxFrequency.Times)
+            {
+                // TODO_PANOS_TEST
+                _adminAlertService.SendAlert(AdminAlertKey.CreateTenancyDetailsSubmissionGlobalMaxFrequencyReached);
+                // TODO_PANOS_TEST
+                await _adminEventLogService.Log(AdminEventLogKey.CreateTenancyDetailsSubmissionGlobalMaxFrequencyReached, null);
+
+                return new AntiAbuseServiceResponse
+                {
+                    IsRejected = true,
+                    RejectionReason = AntiAbuseResources.CreateTenancyDetailsSubmission_GlobalFrequencyCheck_RejectionMessage
+                };
+            }
+            return new AntiAbuseServiceResponse { IsRejected = false };
+        }
+
+        private async Task<AntiAbuseServiceResponse> CanPickOutgoingVerificationCheckGlobalFrequency()
+        {
+            if (_antiAbuseServiceConfig.PickOutgoingVerification_DisableGlobalFrequencyCheck)
+                return new AntiAbuseServiceResponse { IsRejected = false };
+
+            var maxFrequency = _antiAbuseServiceConfig.PickOutgoingVerification_GlobalMaxFrequency;
+
+            var windowStart = _clock.OffsetNow - maxFrequency.Period;
+            var actualTimes = await _dbContext.TenantVerifications
+                .Where(v => v.CreatedOn > windowStart)
+                .CountAsync();
+
+            if (actualTimes >= maxFrequency.Times)
+            {
+                // TODO_PANOS_TEST
+                _adminAlertService.SendAlert(AdminAlertKey.PickOutgoingVerificationGlobalMaxFrequencyReached);
+                // TODO_PANOS_TEST
+                await _adminEventLogService.Log(AdminEventLogKey.PickOutgoingVerificationGlobalMaxFrequencyReached, null);
+
+                return new AntiAbuseServiceResponse
+                {
+                    IsRejected = true,
+                    RejectionReason = AntiAbuseResources.PickOutgoingVerification_GlobalFrequencyCheck_RejectionMessage
                 };
             }
             return new AntiAbuseServiceResponse { IsRejected = false };

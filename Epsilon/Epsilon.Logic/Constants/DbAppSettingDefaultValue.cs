@@ -12,12 +12,18 @@ namespace Epsilon.Logic.Constants
     {
         public double AdminAlertSnoozePeriodInHours { get { return 24.0; } }
 
+        public Frequency AntiAbuse_AddAddress_GlobalMaxFrequency { get { return new Frequency(1000, TimeSpan.FromDays(1)); } }
         public Frequency AntiAbuse_AddAddress_MaxFrequencyPerIpAddress { get { return new Frequency(2, TimeSpan.FromDays(1)); } }
         public Frequency AntiAbuse_AddAddress_MaxFrequencyPerUser { get { return new Frequency(2, TimeSpan.FromDays(30)); } }
         public Frequency AntiAbuse_AddAddress_MaxGeocodeFailureFrequencyPerIpAddress { get { return new Frequency(8, TimeSpan.FromHours(1)); } }
         public Frequency AntiAbuse_AddAddress_MaxGeocodeFailureFrequencyPerUser { get { return new Frequency(4, TimeSpan.FromHours(2)); } }
+ 
+        public Frequency AntiAbuse_CreateTenancyDetailsSubmission_GlobalMaxFrequency { get { return new Frequency(10000, TimeSpan.FromDays(1)); } }
         public Frequency AntiAbuse_CreateTenancyDetailsSubmission_MaxFrequencyPerIpAddress { get { return new Frequency(2, TimeSpan.FromDays(1)); } }
         public Frequency AntiAbuse_CreateTenancyDetailsSubmission_MaxFrequencyPerUser { get { return new Frequency(1, TimeSpan.FromDays(30)); } }
+
+        public Frequency AntiAbuse_PickOutgoingVerification_GlobalMaxFrequency { get { return new Frequency(10000, TimeSpan.FromDays(1)); } }
+
         public Frequency AntiAbuse_Register_GlobalMaxFrequency { get { return new Frequency(300, TimeSpan.FromDays(1)); } }
         public Frequency AntiAbuse_Register_MaxFrequencyPerIpAddress { get { return new Frequency(3, TimeSpan.FromDays(7)); } }
 

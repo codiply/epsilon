@@ -13,10 +13,14 @@ namespace Epsilon.Logic.Constants
             "AntiAbuse_AddAddress_DisableGeocodeFailureIpAddressFrequencyCheck";
         public const string AntiAbuse_AddAddress_DisableGeocodeFailureUserFrequencyCheck =
             "AntiAbuse_AddAddress_DisableGeocodeFailureUserFrequencyCheck";
+        public const string AntiAbuse_AddAddress_DisableGlobalFrequencyCheck =
+            "AntiAbuse_AddAddress_DisableGlobalFrequencyCheck";
         public const string AntiAbuse_AddAddress_DisableIpAddressFrequencyCheck =
             "AntiAbuse_AddAddress_DisableIpAddressFrequencyCheck";
         public const string AntiAbuse_AddAddress_DisableUserFrequencyCheck =
             "AntiAbuse_AddAddress_DisableUserFrequencyCheck";
+        public const string AntiAbuse_AddAddress_GlobalMaxFrequency =
+            "AntiAbuse_AddAddress_GlobalMaxFrequency";
         public const string AntiAbuse_AddAddress_MaxFrequencyPerIpAddress = 
             "AntiAbuse_AddAddress_MaxFrequencyPerIpAddress";
         public const string AntiAbuse_AddAddress_MaxFrequencyPerUser = 
@@ -25,14 +29,22 @@ namespace Epsilon.Logic.Constants
             "AntiAbuse_AddAddress_MaxGeocodeFailureFrequencyPerIpAddress";
         public const string AntiAbuse_AddAddress_MaxGeocodeFailureFrequencyPerUser =
             "AntiAbuse_AddAddress_MaxGeocodeFailureFrequencyPerUser";
+        public const string AntiAbuse_CreateTenancyDetailsSubmission_DisableGlobalFrequencyCheck =
+            "AntiAbuse_CreateTenancyDetailsSubmission_DisableGlobalFrequencyCheck";
         public const string AntiAbuse_CreateTenancyDetailsSubmission_DisableIpAddressFrequencyCheck =
             "AntiAbuse_CreateTenancyDetailsSubmission_DisableIpAddressFrequencyCheck";
         public const string AntiAbuse_CreateTenancyDetailsSubmission_DisableUserFrequencyCheck =
             "AntiAbuse_CreateTenancyDetailsSubmission_DisableUserFrequencyCheck";
+        public const string AntiAbuse_CreateTenancyDetailsSubmission_GlobalMaxFrequency =
+            "AntiAbuse_CreateTenancyDetailsSubmission_GlobalMaxFrequency";
         public const string AntiAbuse_CreateTenancyDetailsSubmission_MaxFrequencyPerIpAddress = 
             "AntiAbuse_CreateTenancyDetailsSubmission_MaxFrequencyPerIpAddress";
         public const string AntiAbuse_CreateTenancyDetailsSubmission_MaxFrequencyPerUser =
             "AntiAbuse_CreateTenancyDetailsSubmission_MaxFrequencyPerUser";
+        public const string AntiAbuse_PickOutgoingVerification_DisableGlobalFrequencyCheck =
+            "AntiAbuse_PickOutgoingVerification_DisableGlobalFrequencyCheck";
+        public const string AntiAbuse_PickOutgoingVerification_GlobalMaxFrequency =
+            "AntiAbuse_PickOutgoingVerification_GlobalMaxFrequency";
         public const string AntiAbuse_Register_DisableGlobalFrequencyCheck =
             "AntiAbuse_Register_DisableGlobalFrequencyCheck";
         public const string AntiAbuse_Register_DisableIpAddressFrequencyCheck =
