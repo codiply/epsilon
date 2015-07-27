@@ -470,7 +470,6 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var ipAddress1 = "1.2.3.1";
             var ipAddress2 = "1.2.3.2";
             var ipAddress3 = "1.2.3.3";
-            var ipAddress4 = "1.2.3.4";
 
             var containerUnderTest = CreateContainer();
             SetupContainerForCanAddAddressWithOnlyGeocodeFailureCheck(containerUnderTest,
@@ -492,7 +491,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             // I add the second failure
             var geocodeFailure2 = await CreateGeocodeFailure(helperContainer, user.Id, ipAddress1);
 
-            var secondResponse = await serviceUnderTest.CanAddAddress(user.Id, ipAddress4);
+            var secondResponse = await serviceUnderTest.CanAddAddress(user.Id, ipAddress3);
             Assert.IsTrue(secondResponse.IsRejected, "The second check should fail.");
             Assert.AreEqual(AntiAbuseResources.AddAddress_GeocodeFailureUserFrequencyCheck_RejectionMessage,
                 secondResponse.RejectionReason, "The rejection reason is not the expected.");

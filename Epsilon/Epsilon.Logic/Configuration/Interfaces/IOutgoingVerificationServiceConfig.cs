@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace Epsilon.Logic.Configuration.Interfaces
 {
-    public interface IAddressServiceConfig
+    public interface IOutgoingVerificationServiceConfig
     {
-        bool GlobalSwitch_DisableAddAddress { get; }
-        int SearchAddressResultsLimit { get; }
+        bool GlobalSwitch_DisablePickOutgoingVerification { get; }
     }
 }

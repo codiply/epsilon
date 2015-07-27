@@ -79,6 +79,16 @@ namespace Epsilon.Logic.Services
             Guid submissionUniqueId,
             Guid addressUniqueId)
         {
+            // TODO_PANOS_TEST
+            if (_tenancyDetailsSubmissionServiceConfig.GlobalSwitch_DisableCreateTenancyDetailsSubmission)
+                return new CreateTenancyDetailsSubmissionOutcome
+                {
+                    IsRejected = true,
+                    RejectionReason = TenancyDetailsSubmissionResources.GlobalSwitch_CreateTenancyDetailsSubmissionDisabled_Message,
+                    ReturnToForm = false,
+                    TenancyDetailsSubmissionUniqueId = null
+                };
+
             var address = await _addressService.GetAddress(addressUniqueId);
             if (address == null)
             {

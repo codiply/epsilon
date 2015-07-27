@@ -83,6 +83,8 @@
     <Compile Include="Configuration\GeocodeServiceConfig.cs" />
     <Compile Include="Configuration\AdminAlertServiceConfig.cs" />
     <Compile Include="Configuration\Interfaces\ICommonConfig.cs" />
+    <Compile Include="Configuration\Interfaces\IOutgoingVerificationServiceConfig.cs" />
+    <Compile Include="Configuration\OutgoingVerificationServiceConfig.cs" />
     <Compile Include="Configuration\TokenAccountServiceConfig.cs" />
     <Compile Include="Configuration\AntiAbuseServiceConfig.cs" />
     <Compile Include="Configuration\Interfaces\IAddressServiceConfig.cs" />

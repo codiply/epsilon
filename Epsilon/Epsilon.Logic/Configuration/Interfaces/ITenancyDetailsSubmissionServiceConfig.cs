@@ -11,6 +11,7 @@ namespace Epsilon.Logic.Configuration.Interfaces
     {
         bool Create_DisableFrequencyPerAddressCheck { get; }
         Frequency Create_MaxFrequencyPerAddress { get; }
+        bool GlobalSwitch_DisableCreateTenancyDetailsSubmission { get; }
         int MySubmissionsSummary_ItemsLimit { get; }
     }
 }

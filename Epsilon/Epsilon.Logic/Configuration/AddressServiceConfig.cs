@@ -25,6 +25,15 @@ namespace Epsilon.Logic.Configuration
             _dbAppSettingDefaultValue = dbAppSettingDefaultValue;
         }
 
+        public bool GlobalSwitch_DisableAddAddress
+        {
+            get
+            {
+                return _dbAppSettingsHelper
+                    .GetBool(EnumsHelper.DbAppSettingKey.ToString(DbAppSettingKey.GlobalSwitch_DisableAddAddress)) == true;
+            }
+        }
+
         public int SearchAddressResultsLimit
         {
             get

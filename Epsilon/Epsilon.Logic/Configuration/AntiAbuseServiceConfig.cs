@@ -212,6 +212,15 @@ namespace Epsilon.Logic.Configuration
 
         #region Register
 
+        public bool GlobalSwitch_DisableRegister
+        {
+            get
+            {
+                return _dbAppSettingsHelper
+                    .GetBool(EnumsHelper.DbAppSettingKey.ToString(DbAppSettingKey.GlobalSwitch_DisableRegister)) == true;
+            }
+        }
+
         public bool Register_DisableGlobalFrequencyCheck
         {
             get

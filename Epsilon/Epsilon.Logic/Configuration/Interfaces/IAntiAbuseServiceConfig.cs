@@ -27,6 +27,8 @@ namespace Epsilon.Logic.Configuration.Interfaces
         bool CreateTenancyDetailsSubmission_DisableUserFrequencyCheck { get; }
         Frequency CreateTenancyDetailsSubmission_MaxFrequencyPerUser { get; }
 
+        bool GlobalSwitch_DisableRegister { get; }
+
         bool PickOutgoingVerification_DisableGlobalFrequencyCheck { get; }
         Frequency PickOutgoingVerification_GlobalMaxFrequency { get; }
 

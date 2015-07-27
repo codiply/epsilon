@@ -133,6 +133,15 @@ namespace Epsilon.Resources.Logic.AntiAbuse {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Registration is temporarily disabled. Please try again later..
+        /// </summary>
+        public static string GlobalSwitch_RegisterDisabled_Message {
+            get {
+                return ResourceManager.GetString("GlobalSwitch_RegisterDisabled_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Due to big number of outgoing verifications today, this function has been disabled. Please try again tomorrow..
         /// </summary>
         public static string PickOutgoingVerification_GlobalFrequencyCheck_RejectionMessage {

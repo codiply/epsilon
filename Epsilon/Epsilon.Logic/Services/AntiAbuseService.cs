@@ -41,6 +41,14 @@ namespace Epsilon.Logic.Services
 
         public async Task<AntiAbuseServiceResponse> CanRegister(string userIpAddress)
         {
+            // TODO_PANOS_TEST
+            if (_antiAbuseServiceConfig.GlobalSwitch_DisableRegister)
+                return new AntiAbuseServiceResponse
+                {
+                    IsRejected = true,
+                    RejectionReason = AntiAbuseResources.GlobalSwitch_RegisterDisabled_Message
+                };
+
             var checkGlobalFrequency = await CanRegisterCheckGlobalFrequency();
             if (checkGlobalFrequency.IsRejected)
                 return checkGlobalFrequency;

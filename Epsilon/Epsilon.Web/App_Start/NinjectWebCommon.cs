@@ -98,6 +98,7 @@ namespace Epsilon.Web.App_Start
             kernel.Bind<IAntiAbuseServiceConfig>().To<AntiAbuseServiceConfig>().InRequestScope();
             kernel.Bind<ICommonConfig>().To<CommonConfig>().InRequestScope();
             kernel.Bind<IGeocodeServiceConfig>().To<GeocodeServiceConfig>().InRequestScope();
+            kernel.Bind<IOutgoingVerificationServiceConfig>().To<OutgoingVerificationServiceConfig>().InRequestScope();
             kernel.Bind<ITenancyDetailsSubmissionServiceConfig>().To<TenancyDetailsSubmissionServiceConfig>().InRequestScope();
             kernel.Bind<ITokenAccountServiceConfig>().To<TokenAccountServiceConfig>().InRequestScope();
 

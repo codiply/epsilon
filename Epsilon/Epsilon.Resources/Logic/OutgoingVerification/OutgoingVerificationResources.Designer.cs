@@ -61,6 +61,15 @@ namespace Epsilon.Resources.Logic.OutgoingVerification {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Creating a new outgoing verification is temporarily disabled. Please try again later..
+        /// </summary>
+        public static string GlobalSwitch_PickOutgoingVerificationDisabled_Message {
+            get {
+                return ResourceManager.GetString("GlobalSwitch_PickOutgoingVerificationDisabled_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to There are no verifications that can be assinged to you at the moment, please try again later..
         /// </summary>
         public static string Pick_NoVerificationAssignableToUser_RejectionMessage {

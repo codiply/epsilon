@@ -75,6 +75,16 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>AddressVerificationResources.el.resx</DependentUpon>
     </Compile>
+    <Compile Include="Logic\Address\AddressResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AddressResources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Logic\Address\AddressResources.el.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AddressResources.el.resx</DependentUpon>
+    </Compile>
     <Compile Include="Logic\AntiAbuse\AntiAbuseResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -171,6 +181,14 @@
     <EmbeddedResource Include="Logic\AddressVerification\AddressVerificationResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>AddressVerificationResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Logic\Address\AddressResources.el.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>AddressResources.el.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Logic\Address\AddressResources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>AddressResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Logic\AntiAbuse\AntiAbuseResources.el.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

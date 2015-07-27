@@ -120,4 +120,7 @@
   <data name="Create_MaxFrequencyPerAddressCheck_RejectionMessage" xml:space="preserve">
     <value>There has been a recent submission for this address. Please try again in a few weeks.</value>
   </data>
+  <data name="GlobalSwitch_CreateTenancyDetailsSubmissionDisabled_Message" xml:space="preserve">
+    <value>Creating a new submission is temporarily disabled. Please try again later.</value>
+  </data>
 </root>

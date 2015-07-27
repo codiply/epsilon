@@ -45,6 +45,15 @@ namespace Epsilon.Logic.Configuration
             }
         }
 
+        public bool GlobalSwitch_DisableCreateTenancyDetailsSubmission
+        {
+            get
+            {
+                return _dbAppSettingsHelper
+                    .GetBool(EnumsHelper.DbAppSettingKey.ToString(DbAppSettingKey.GlobalSwitch_DisableCreateTenancyDetailsSubmission)) == true;
+            }
+        }
+
         public int MySubmissionsSummary_ItemsLimit
         {
             get

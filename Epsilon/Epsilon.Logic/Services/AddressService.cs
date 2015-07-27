@@ -20,6 +20,7 @@ using Epsilon.Logic.Helpers;
 using Epsilon.Logic.Configuration.Interfaces;
 using Epsilon.Logic.Entities.Interfaces;
 using Epsilon.Logic.Forms.Submission;
+using Epsilon.Resources.Logic.Address;
 
 namespace Epsilon.Logic.Services
 {
@@ -140,6 +141,16 @@ namespace Epsilon.Logic.Services
 
         public async Task<AddAddressOutcome> AddAddress(string userId, string userIpAddress, AddressForm dto)
         {
+            // TODO_PANOS_TEST
+            if (_addressServiceConfig.GlobalSwitch_DisableAddAddress)
+                return new AddAddressOutcome
+                {
+                    IsRejected = true,
+                    ReturnToForm = false,
+                    RejectionReason = AddressResources.GlobalSwitch_AddAddressDisabled_Message,
+                    AddressUniqueId = null
+                };
+
             var antiAbuseServiceResponse = await _antiAbuseService.CanAddAddress(userId, userIpAddress);
             if (antiAbuseServiceResponse.IsRejected)
                 return new AddAddressOutcome

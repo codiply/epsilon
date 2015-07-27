@@ -127,6 +127,10 @@ VALUES
 (N'global-switch', N'AntiAbuse_CreateTenancyDetailsSubmission_DisableGlobalFrequencyCheck'),
 (N'global-switch', N'AntiAbuse_Register_DisableGlobalFrequencyCheck'),
 (N'global-switch', N'AntiAbuse_PickOutgoingVerification_DisableGlobalFrequencyCheck'),
+(N'global-switch', N'GlobalSwitch_DisableAddAddress'),
+(N'global-switch', N'GlobalSwitch_DisableCreateTenancyDetailsSubmission'),
+(N'global-switch', N'GlobalSwitch_DisablePickOutgoingVerification'),
+(N'global-switch', N'GlobalSwitch_DisableRegister'),
 -- max-frequency
 (N'max-frequency', N'AntiAbuse_AddAddress_GlobalMaxFrequency'),
 (N'max-frequency', N'AntiAbuse_AddAddress_MaxFrequencyPerIpAddress'),
@@ -155,6 +159,10 @@ VALUES
 (N'switch', N'AntiAbuse_PickOutgoingVerification_DisableGlobalFrequencyCheck'),
 (N'switch', N'AntiAbuse_Register_DisableIpAddressFrequencyCheck'),
 (N'switch', N'EnableResponseTiming'),
+(N'switch', N'GlobalSwitch_DisableAddAddress'),
+(N'switch', N'GlobalSwitch_DisableCreateTenancyDetailsSubmission'),
+(N'switch', N'GlobalSwitch_DisablePickOutgoingVerification'),
+(N'switch', N'GlobalSwitch_DisableRegister'),
 (N'switch', N'TenancyDetailsSubmission_Create_DisableFrequencyPerAddressCheck'),
 -- tenancy-details-submission
 (N'tenancy-details-submission', N'TenancyDetailsSubmission_Create_DisableFrequencyPerAddressCheck'),

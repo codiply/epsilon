@@ -11,6 +11,7 @@ using System.Data.Entity;
 using System.Transactions;
 using Epsilon.Resources.Logic.OutgoingVerification;
 using Epsilon.Logic.JsonModels;
+using Epsilon.Logic.Configuration.Interfaces;
 
 namespace Epsilon.Logic.Services
 {
@@ -18,13 +19,16 @@ namespace Epsilon.Logic.Services
     {
         private readonly IEpsilonContext _dbContext;
         private readonly IAntiAbuseService _antiAbuseService;
+        private readonly IOutgoingVerificationServiceConfig _outgoingVerificationServiceConfig;
 
         public OutgoingVerificationService(
             IEpsilonContext dbContext,
-            IAntiAbuseService antiAbuseService)
+            IAntiAbuseService antiAbuseService,
+            IOutgoingVerificationServiceConfig outgoingVerificationServiceConfig)
         {
             _dbContext = dbContext;
             _antiAbuseService = antiAbuseService;
+            _outgoingVerificationServiceConfig = outgoingVerificationServiceConfig;
         }
 
         public async Task<MyOutgoingVerificationsSummaryResponse> GetUserOutgoingVerificationsSummary(
@@ -65,6 +69,15 @@ namespace Epsilon.Logic.Services
         {
             using (var transaction = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
+                // TODO_PANOS_TEST
+                if (_outgoingVerificationServiceConfig.GlobalSwitch_DisablePickOutgoingVerification)
+                    return new PickVerificationOutcome
+                    {
+                        IsRejected = true,
+                        RejectionReason = OutgoingVerificationResources.GlobalSwitch_PickOutgoingVerificationDisabled_Message,
+                        VerificationUniqueId = null
+                    };
+
                 var antiAbuseServiceResponse = await _antiAbuseService.CanPickOutgoingVerification(userId, userIpAddress);
                 if (antiAbuseServiceResponse.IsRejected)
                     return new PickVerificationOutcome

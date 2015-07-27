@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Epsilon.Resources.Logic.TenancyDetailsSubmission {
+namespace Epsilon.Resources.Logic.Address {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace Epsilon.Resources.Logic.TenancyDetailsSubmission {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class TenancyDetailsSubmissionResources {
+    public class AddressResources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal TenancyDetailsSubmissionResources() {
+        internal AddressResources() {
         }
         
         /// <summary>
@@ -39,8 +39,7 @@ namespace Epsilon.Resources.Logic.TenancyDetailsSubmission {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Epsilon.Resources.Logic.TenancyDetailsSubmission.TenancyDetailsSubmissionResource" +
-                            "s", typeof(TenancyDetailsSubmissionResources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Epsilon.Resources.Logic.Address.AddressResources", typeof(AddressResources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -62,20 +61,11 @@ namespace Epsilon.Resources.Logic.TenancyDetailsSubmission {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to There has been a recent submission for this address. Please try again in a few weeks..
+        ///   Looks up a localized string similar to Adding a new address is temporarily disabled. Please try again later..
         /// </summary>
-        public static string Create_MaxFrequencyPerAddressCheck_RejectionMessage {
+        public static string GlobalSwitch_AddAddressDisabled_Message {
             get {
-                return ResourceManager.GetString("Create_MaxFrequencyPerAddressCheck_RejectionMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Creating a new submission is temporarily disabled. Please try again later..
-        /// </summary>
-        public static string GlobalSwitch_CreateTenancyDetailsSubmissionDisabled_Message {
-            get {
-                return ResourceManager.GetString("GlobalSwitch_CreateTenancyDetailsSubmissionDisabled_Message", resourceCulture);
+                return ResourceManager.GetString("GlobalSwitch_AddAddressDisabled_Message", resourceCulture);
             }
         }
     }
