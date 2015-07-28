@@ -79,7 +79,6 @@ namespace Epsilon.Logic.Services
             Guid submissionUniqueId,
             Guid addressUniqueId)
         {
-            // TODO_PANOS_TEST
             if (_tenancyDetailsSubmissionServiceConfig.GlobalSwitch_DisableCreateTenancyDetailsSubmission)
                 return new CreateTenancyDetailsSubmissionOutcome
                 {

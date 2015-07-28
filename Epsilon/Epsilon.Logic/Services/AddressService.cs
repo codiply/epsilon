@@ -141,7 +141,6 @@ namespace Epsilon.Logic.Services
 
         public async Task<AddAddressOutcome> AddAddress(string userId, string userIpAddress, AddressForm dto)
         {
-            // TODO_PANOS_TEST
             if (_addressServiceConfig.GlobalSwitch_DisableAddAddress)
                 return new AddAddressOutcome
                 {

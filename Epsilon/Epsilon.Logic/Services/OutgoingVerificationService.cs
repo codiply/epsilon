@@ -69,7 +69,6 @@ namespace Epsilon.Logic.Services
         {
             using (var transaction = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
-                // TODO_PANOS_TEST
                 if (_outgoingVerificationServiceConfig.GlobalSwitch_DisablePickOutgoingVerification)
                     return new PickVerificationOutcome
                     {

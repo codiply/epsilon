@@ -100,6 +100,10 @@
     <Compile Include="Logic\Helpers\IpAddressHelperTest.cs" />
     <Compile Include="Logic\Helpers\RandomStringHelperTest.cs" />
     <Compile Include="Logic\Infrastructure\EnumMemoizerTest.cs" />
+    <Compile Include="Logic\Services\AddressServiceTest.cs" />
+    <Compile Include="Logic\Services\AntiAbuseServiceTest.cs" />
+    <Compile Include="Logic\Services\OutgoingVerificationServiceTest.cs" />
+    <Compile Include="Logic\Services\TenancyDetailsSubmissionServiceTest.cs" />
     <Compile Include="Logic\Wrappers\SystemClockTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Web\Controllers\BaseControllers\BaseApiControllerTest.cs" />
@@ -109,6 +113,10 @@
     <ProjectReference Include="..\Epsilon.Logic\Epsilon.Logic.csproj">
       <Project>{4d73faee-51ba-4e25-b506-5c9c8107d488}</Project>
       <Name>Epsilon.Logic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Epsilon.Resources\Epsilon.Resources.csproj">
+      <Project>{3cb53361-5bc7-40c9-88de-a7dc7f311431}</Project>
+      <Name>Epsilon.Resources</Name>
     </ProjectReference>
     <ProjectReference Include="..\Epsilon.Web\Epsilon.Web.csproj">
       <Project>{78bec197-b73a-4b21-97d8-4f58fb2d6b50}</Project>
