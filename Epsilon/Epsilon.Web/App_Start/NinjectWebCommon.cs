@@ -141,6 +141,7 @@ namespace Epsilon.Web.App_Start
             kernel.Bind<ITokenAccountService>().To<TokenAccountService>().InRequestScope();
             kernel.Bind<ITokenRewardService>().To<TokenRewardService>().InRequestScope();
             kernel.Bind<IUserPreferenceService>().To<UserPreferenceService>().InRequestScope();
+            kernel.Bind<IUserResidenceService>().To<UserResidenceService>().InRequestScope();
             kernel.Bind<IUserTokenService>().To<UserTokenService>().InRequestScope();
 
             // TestDataPopulation

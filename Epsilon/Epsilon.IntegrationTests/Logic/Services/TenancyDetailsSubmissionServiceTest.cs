@@ -19,6 +19,7 @@ using Epsilon.Logic.SqlContext.Interfaces;
 using Epsilon.Resources.Logic.AntiAbuse;
 using Epsilon.Resources.Logic.TenancyDetailsSubmission;
 using Epsilon.Logic.Constants.Enums;
+using Epsilon.IntegrationTests.TestHelpers;
 
 namespace Epsilon.IntegrationTests.Logic.Services
 {
@@ -66,7 +67,9 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var helperContainer = CreateContainer();
             var user = await CreateUser(helperContainer, "test@test.com", ipAddress);
 
-            var address = await CreateRandomAddress(helperContainer, user.Id, ipAddress);
+            var random = new RandomWrapper(2015);
+
+            var address = await AddressHelper.CreateRandomAddress(random, helperContainer, user.Id, ipAddress, CountryId.GB);
 
             var userIdUsedInAntiAbuse = string.Empty;
             var ipAddressUsedInAntiAbuse = string.Empty;
@@ -109,7 +112,9 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var helperContainer = CreateContainer();
             var user = await CreateUser(helperContainer, "test@test.com", ipAddress);
 
-            var address = await CreateRandomAddress(helperContainer, user.Id, ipAddress);
+            var random = new RandomWrapper(2015);
+
+            var address = await AddressHelper.CreateRandomAddress(random, helperContainer, user.Id, ipAddress, CountryId.GB);
 
             var userIdUsedInAntiAbuse = string.Empty;
             var ipAddressUsedInAntiAbuse = string.Empty;
@@ -165,7 +170,9 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var helperContainer = CreateContainer();
             var user = await CreateUser(helperContainer, "test@test.com", ipAddress);
 
-            var address = await CreateRandomAddress(helperContainer, user.Id, ipAddress);
+            var random = new RandomWrapper(2015);
+
+            var address = await AddressHelper.CreateRandomAddress(random, helperContainer, user.Id, ipAddress, CountryId.GB);
 
             var container = CreateContainer();
             var disableFrequencyPerAddressCheck = false;
@@ -229,44 +236,6 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 .Returns(Task.FromResult(response));
 
             container.Rebind<IAntiAbuseService>().ToConstant(mockAntiAbuseService.Object);
-        }
-
-        private async Task<Address> CreateRandomAddress(IKernel container, string userId, string userIpAddress)
-        {
-            var random = new RandomWrapper();
-            var randomFieldLength = 10;
-            var countryId = EnumsHelper.CountryId.ToString(CountryId.GB);
-            var postcode = RandomStringHelper.GetAlphaNumericString(random, randomFieldLength, RandomStringHelper.CharacterCase.Mixed);
-            var postcodeGeometry = new PostcodeGeometry()
-            {
-                CountryId = countryId,
-                Postcode = postcode,
-                Latitude = 0.0,
-                Longitude = 0.0,
-                ViewportNortheastLatitude = 0.0,
-                ViewportNortheastLongitude = 0.0,
-                ViewportSouthwestLatitude = 0.0,
-                ViewportSouthwestLongitude = 0.0
-            };
-            var address = new Address
-            {
-                UniqueId = Guid.NewGuid(),
-                Line1 = RandomStringHelper.GetAlphaNumericString(random, randomFieldLength, RandomStringHelper.CharacterCase.Mixed),
-                Line2 = RandomStringHelper.GetAlphaNumericString(random, randomFieldLength, RandomStringHelper.CharacterCase.Mixed),
-                Line3 = RandomStringHelper.GetAlphaNumericString(random, randomFieldLength, RandomStringHelper.CharacterCase.Mixed),
-                Line4 = RandomStringHelper.GetAlphaNumericString(random, randomFieldLength, RandomStringHelper.CharacterCase.Mixed),
-                Locality = RandomStringHelper.GetAlphaNumericString(random, randomFieldLength, RandomStringHelper.CharacterCase.Mixed),
-                Region = RandomStringHelper.GetAlphaNumericString(random, randomFieldLength, RandomStringHelper.CharacterCase.Mixed),
-                Postcode = postcode,
-                CountryId = countryId,
-                CreatedById = userId,
-                CreatedByIpAddress = userIpAddress,
-                PostcodeGeometry = postcodeGeometry
-            };
-            var dbContext = container.Get<IEpsilonContext>();
-            dbContext.Addresses.Add(address);
-            await dbContext.SaveChangesAsync();
-            return address;
         }
 
         #endregion

@@ -188,6 +188,7 @@
     <Compile Include="Services\Interfaces\IAdminEventLogService.cs" />
     <Compile Include="Services\Interfaces\IOutgoingVerificationService.cs" />
     <Compile Include="Services\Interfaces\ITokenRewardService.cs" />
+    <Compile Include="Services\Interfaces\IUserResidenceService.cs" />
     <Compile Include="Services\OutgoingVerificationService.cs" />
     <Compile Include="Services\TokenAccountService.cs" />
     <Compile Include="Services\CountryService.cs" />
@@ -201,6 +202,7 @@
     <Compile Include="Services\Interfaces\ICountryService.cs" />
     <Compile Include="Helpers\Interfaces\ICountryVariantResourceHelper.cs" />
     <Compile Include="Services\TokenRewardService.cs" />
+    <Compile Include="Services\UserResidenceService.cs" />
     <Compile Include="SqlContext\Mapping\AdminEventLogMap.cs" />
     <Compile Include="SqlContext\Mapping\AppSettingLabelMap.cs" />
     <Compile Include="SqlContext\Mapping\TokenRewardMap.cs" />
