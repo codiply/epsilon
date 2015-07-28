@@ -16,6 +16,8 @@ namespace Epsilon.Logic.Entities
 
         public Dictionary<string, object> ExtraInfoDict()
         {
+            if (ExtraInfo == null)
+                return new Dictionary<string, object>();
             return JsonConvert.DeserializeObject<Dictionary<string, object>>(ExtraInfo);
         }
     }

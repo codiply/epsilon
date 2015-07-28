@@ -61,7 +61,6 @@ namespace Epsilon.Logic.Services
 
         public async Task<AntiAbuseServiceResponse> CanAddAddress(string userId, string userIpAddress)
         {
-            // TODO_PANOS_TEST
             var checkGlobalFrequency = await CanAddAddressCheckGlobalFrequency();
             if (checkGlobalFrequency.IsRejected)
                 return checkGlobalFrequency;
@@ -131,7 +130,6 @@ namespace Epsilon.Logic.Services
             if (actualTimes >= maxFrequency.Times)
             {
                 _adminAlertService.SendAlert(AdminAlertKey.RegistrationGlobalMaxFrequencyReached);
-                // TODO_PANOS_TEST
                 await _adminEventLogService.Log(AdminEventLogKey.RegistrationGlobalMaxFrequencyReached, null);
 
                 return new AntiAbuseServiceResponse
@@ -157,9 +155,7 @@ namespace Epsilon.Logic.Services
 
             if (actualTimes >= maxFrequency.Times)
             {
-                // TODO_PANOS_TEST
                 _adminAlertService.SendAlert(AdminAlertKey.AddAddressGlobalMaxFrequencyReached);
-                // TODO_PANOS_TEST
                 await _adminEventLogService.Log(AdminEventLogKey.AddAddressGlobalMaxFrequencyReached, null);
 
                 return new AntiAbuseServiceResponse
