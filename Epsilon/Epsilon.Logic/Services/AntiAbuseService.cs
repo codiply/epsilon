@@ -86,7 +86,6 @@ namespace Epsilon.Logic.Services
 
         public async Task<AntiAbuseServiceResponse> CanCreateTenancyDetailsSubmission(string userId, string userIpAddress)
         {
-            // TODO_PANOS_TEST
             var checkGlobalFrequency = await CanCreateTenancyDetailsSubmissionCheckGlobalFrequency();
             if (checkGlobalFrequency.IsRejected)
                 return checkGlobalFrequency;
@@ -182,9 +181,7 @@ namespace Epsilon.Logic.Services
 
             if (actualTimes >= maxFrequency.Times)
             {
-                // TODO_PANOS_TEST
                 _adminAlertService.SendAlert(AdminAlertKey.CreateTenancyDetailsSubmissionGlobalMaxFrequencyReached);
-                // TODO_PANOS_TEST
                 await _adminEventLogService.Log(AdminEventLogKey.CreateTenancyDetailsSubmissionGlobalMaxFrequencyReached, null);
 
                 return new AntiAbuseServiceResponse

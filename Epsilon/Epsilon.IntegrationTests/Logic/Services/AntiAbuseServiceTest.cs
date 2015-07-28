@@ -505,6 +505,111 @@ namespace Epsilon.IntegrationTests.Logic.Services
         }
 
         [Test]
+        public async Task CanCreateTenancyDetailsSubmission_CheckGlobalFrequency_TheFrequencyTimesIsUsedCorrectly()
+        {
+            var disableGlobalFrequencyCheck = false;
+            var globalMaxFrequency = "2/D";
+            var disableUserFrequencyCheck = true;
+            var maxFrequencyPerUser = "1/D";
+            var disableIpAddressFrequencyCheck = true;
+            var maxFrequencyPerIpAddress = "1/D";
+
+            var ipAddress = "1.2.3.4";
+
+            var containerUnderTest = CreateContainer();
+            SetupContainerForCanCreateTenancyDetailsSubmission(containerUnderTest,
+                disableGlobalFrequencyCheck, globalMaxFrequency,
+                disableUserFrequencyCheck, maxFrequencyPerUser,
+                disableIpAddressFrequencyCheck, maxFrequencyPerIpAddress);
+
+            string adminAlertKey = string.Empty;
+            AdminEventLogKey? adminEventLogKey = null;
+            SetupContainerWithMockAdminAlertService(containerUnderTest, x => adminAlertKey = x);
+            SetupContainerWithMockAdminEventLogService(containerUnderTest, (x, info) => adminEventLogKey = x);
+
+            var serviceUnderTest = containerUnderTest.Get<IAntiAbuseService>();
+
+            var helperContainer = CreateContainer();
+
+            var user = await CreateUser(helperContainer, "test@test.com", ipAddress);
+
+            var random = new RandomWrapper(2015);
+
+
+            // I add the first submission.
+            var submission1 = await CreateTenancyDetailsSubmission(random, helperContainer, user.Id, ipAddress);
+
+            var firstResponse = await serviceUnderTest.CanCreateTenancyDetailsSubmission(user.Id, ipAddress);
+            Assert.IsFalse(firstResponse.IsRejected, "The first check should pass.");
+            Assert.AreEqual(string.Empty, adminAlertKey, "Admin alert should not be sent the first time.");
+            Assert.IsNull(adminEventLogKey, "Admin event should not be logged the first time.");
+
+            // I add the second submission.
+            var submission2 = await CreateTenancyDetailsSubmission(random, helperContainer, user.Id, ipAddress);
+
+            var secondResponse = await serviceUnderTest.CanCreateTenancyDetailsSubmission(user.Id, ipAddress);
+            Assert.IsTrue(secondResponse.IsRejected, "The second check should fail.");
+            Assert.AreEqual(AntiAbuseResources.CreateTenancyDetailsSubmission_GlobalFrequencyCheck_RejectionMessage,
+                secondResponse.RejectionReason, "The rejection reason is not the expected.");
+            Assert.IsNotNull(adminAlertKey, "The AdminAlertService was not called.");
+            Assert.AreEqual(AdminAlertKey.CreateTenancyDetailsSubmissionGlobalMaxFrequencyReached, adminAlertKey,
+                "The right admin alert was not send the second time.");
+            Assert.IsNotNull(adminEventLogKey, "The AdminEventLogService was not called.");
+            Assert.AreEqual(AdminEventLogKey.CreateTenancyDetailsSubmissionGlobalMaxFrequencyReached, adminEventLogKey,
+                "The right admin event log key was not used the second time.");
+        }
+
+        [Test]
+        public async Task CanCreateTenancyDetailsSubmission_CheckGlobalFrequency_TheFrequencyPeriodIsUsedCorrectly()
+        {
+            var periodInSeconds = 0.2;
+            var disableGlobalFrequencyCheck = false;
+            var globalMaxFrequency = string.Format("1/{0}S", periodInSeconds);
+            var disableUserFrequencyCheck = true;
+            var maxFrequencyPerUser = "1/D";
+            var disableIpAddressFrequencyCheck = true;
+            var maxFrequencyPerIpAddress = "1/D";
+
+            var ipAddress = "1.2.3.4";
+
+
+            var containerUnderTest = CreateContainer();
+            SetupContainerForCanCreateTenancyDetailsSubmission(containerUnderTest,
+                disableGlobalFrequencyCheck, globalMaxFrequency,
+                disableUserFrequencyCheck, maxFrequencyPerUser,
+                disableIpAddressFrequencyCheck, maxFrequencyPerIpAddress);
+
+            string adminAlertKey = string.Empty;
+            AdminEventLogKey? adminEventLogKey = null;
+            SetupContainerWithMockAdminAlertService(containerUnderTest, x => adminAlertKey = x);
+            SetupContainerWithMockAdminEventLogService(containerUnderTest, (x, info) => adminEventLogKey = x);
+
+            var serviceUnderTest = containerUnderTest.Get<IAntiAbuseService>();
+
+            var helperContainer = CreateContainer();
+
+            var user = await CreateUser(helperContainer, "test@test.com", ipAddress);
+
+            var random = new RandomWrapper(2015);
+
+            var submission = await CreateTenancyDetailsSubmission(random, helperContainer, user.Id, ipAddress);
+
+            var firstResponse = await serviceUnderTest.CanCreateTenancyDetailsSubmission(user.Id, ipAddress);
+            Assert.IsTrue(firstResponse.IsRejected, "The first check should fail.");
+            Assert.AreEqual(AntiAbuseResources.CreateTenancyDetailsSubmission_GlobalFrequencyCheck_RejectionMessage,
+                firstResponse.RejectionReason, "The rejection reason is not the expected.");
+            Assert.AreEqual(AdminAlertKey.CreateTenancyDetailsSubmissionGlobalMaxFrequencyReached, adminAlertKey,
+                "The right admin alert was not send the second time.");
+            Assert.AreEqual(AdminEventLogKey.CreateTenancyDetailsSubmissionGlobalMaxFrequencyReached, adminEventLogKey,
+                "The right admin event log was not created the second time.");
+
+            await Task.Delay(TimeSpan.FromSeconds(periodInSeconds));
+
+            var secondResponse = await serviceUnderTest.CanCreateTenancyDetailsSubmission(user.Id, ipAddress);
+            Assert.IsFalse(secondResponse.IsRejected, "The request should not be rejected the second time.");
+        }
+
+        [Test]
         public async Task CreateTenancyDetailsSubmission_CheckIpAddressFrequency_TheFrequencyTimesIsUsedCorrectly()
         {
             var disableGlobalFrequencyCheck = true;
