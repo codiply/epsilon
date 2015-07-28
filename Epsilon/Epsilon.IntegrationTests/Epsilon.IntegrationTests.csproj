@@ -83,6 +83,7 @@
     <Compile Include="Logic\Constants\TokenAccountTransactionTypeIdTest.cs" />
     <Compile Include="Logic\Constants\CountryIdTest.cs" />
     <Compile Include="Logic\Constants\DbAppSettingValueTypeTest.cs" />
+    <Compile Include="Logic\Helpers\DbAppSettingsHelperTest.cs" />
     <Compile Include="Logic\Services\AddressServiceTest.cs" />
     <Compile Include="Logic\Services\AdminAlertServiceTest.cs" />
     <Compile Include="Logic\Services\AdminEventLogServiceTest.cs" />
@@ -94,6 +95,7 @@
     <Compile Include="Logic\Services\NewUserServiceTest.cs" />
     <Compile Include="Logic\Services\ResponseTimingServiceTest.cs" />
     <Compile Include="Logic\Services\TenancyDetailsSubmissionServiceTest.cs" />
+    <Compile Include="Logic\Services\TokenRewardServiceTest.cs" />
     <Compile Include="Logic\Services\UserPreferenceServiceTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
