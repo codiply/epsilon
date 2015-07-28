@@ -109,7 +109,8 @@ namespace Epsilon.Logic.Services
             if (checkGlobalFrequency.IsRejected)
                 return checkGlobalFrequency;
 
-            // TODO_PANOS
+            // TODO_PANOS: Implement logic for user
+            // TODO_PANOS_TEST: test logic after implementing.
             return new AntiAbuseServiceResponse { IsRejected = false };
         }
 

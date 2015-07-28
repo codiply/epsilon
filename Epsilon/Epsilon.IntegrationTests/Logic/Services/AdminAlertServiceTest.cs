@@ -75,7 +75,9 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var email2 = "test2@test.com";
             var email3 = "test3@test.com";
             var emailList = string.Format("{0};{1} , {2};", email1, email2, email3);
-            var snoozePeriod = TimeSpan.FromSeconds(0.2);
+            var snoozePeriodInSeconds = 0.2;
+            var smallDelay = TimeSpan.FromSeconds(snoozePeriodInSeconds / 100);
+            var snoozePeriod = TimeSpan.FromSeconds(snoozePeriodInSeconds);
             var adminAlertKey = "Test-Admin-Alert-Key";
 
             var container = CreateContainer();
@@ -87,7 +89,9 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var service1 = container.Get<IAdminAlertService>();
 
             var time1 = DateTimeOffset.Now;
+            await Task.Delay(smallDelay);
             service1.SendAlert(adminAlertKey);
+            await Task.Delay(smallDelay);
             var time2 = DateTimeOffset.Now;
 
             MailMessage mailMessage2 = null;
@@ -95,6 +99,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var service2 = container.Get<IAdminAlertService>();
 
             service2.SendAlert(adminAlertKey);
+            await Task.Delay(smallDelay);
             var time3 = DateTimeOffset.Now;
 
             await Task.Delay(snoozePeriod);
@@ -104,6 +109,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var service3 = container.Get<IAdminAlertService>();
 
             service3.SendAlert(adminAlertKey);
+            await Task.Delay(smallDelay);
             var time4 = DateTimeOffset.Now;
 
             var retrievedAdminAlert1 = await DbProbe.AdminAlerts
