@@ -29,7 +29,7 @@ namespace Epsilon.Logic.Helpers
                 case CountryId.GB:
                     return Regex.Replace(postcode, @"\s+", "").ToUpperInvariant();
                 case CountryId.GR:
-                    return postcode;
+                    return Regex.Replace(postcode, @"\s+", "");
                 default:
                     throw new NotImplementedException(string.Format("Unexpected CountryId: '{0}'",
                         EnumsHelper.CountryId.ToString(countryId)));

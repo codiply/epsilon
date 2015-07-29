@@ -19,6 +19,7 @@ namespace Epsilon.Logic.Services
     {
         public const string TYPE_COUNTRY = "country";
         public const string TYPE_POSTAL_CODE = "postal_code";
+        public const string TYPE_POSTAL_CODE_PREFIX = "postal_code_prefix";
 
         private readonly IClock _clock;
         private readonly IRandomFactory _randomFactory;
@@ -223,8 +224,9 @@ namespace Epsilon.Logic.Services
             }
             
             var isPostalCodeType = result.Types.Any(t => t.ToLowerInvariant().Equals(TYPE_POSTAL_CODE));
+            var isPostalCodePrefixType = result.Types.Any(t => t.ToLowerInvariant().Equals(TYPE_POSTAL_CODE_PREFIX));
 
-            if (!isPostalCodeType)
+            if (!isPostalCodeType || isPostalCodePrefixType)
             {
                 return GeocodePostcodeStatus.ResultWithWrongType;
             }

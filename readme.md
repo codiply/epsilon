@@ -41,6 +41,9 @@ You can setup the application to use your gmail account to send emails by copyin
 
 You will need to use a Google Api Key in order to access the [Google Geocoding Api](https://developers.google.com/maps/documentation/geocoding/intro) (see link on how to setup one). The key should be entered in the `Unversioned.config`. 
 
+## Running the Integration Tests
+
+To run the integration tests publish first the Database project into a new local database named **EpsilonTest**.  
 
 ## Checklists
 
@@ -52,6 +55,7 @@ You will need to use a Google Api Key in order to access the [Google Geocoding A
 - Add two Resource files in CountryVariants folder with names **ResourcesXX** and **ResourceXX.yy**, where **XX** is the Id of the Country and **yy** is the culture code of the language of the country.
 - Add field metadata in `CountryAddressFieldMetadata` constants class.
 - Add case for new country in AddressCleansingHelper.CleansePostcode method.
+- Add Country-specific integration tests in GeocodeServiceTest
 
 ### New Language Checklist
 

@@ -11,6 +11,9 @@ bin\
 
 Unversioned.config
 
+Epsilon\TestResults\*
+
+
 # I switch to regexp syntax.
 syntax: regexp
 

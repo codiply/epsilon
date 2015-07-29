@@ -42,6 +42,10 @@
       <HintPath>..\packages\EntityFramework.6.1.2\lib\net45\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="GeocodeSharp, Version=1.1.0.0, Culture=neutral, PublicKeyToken=1ae1b40d2ef46f2d, processorArchitecture=MSIL">
+      <HintPath>..\packages\GeocodeSharp.1.1.0.0\lib\net45\GeocodeSharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.0\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
       <Private>True</Private>
@@ -52,6 +56,10 @@
     </Reference>
     <Reference Include="Moq, Version=4.2.1507.118, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
       <HintPath>..\packages\Moq.4.2.1507.0118\lib\net40\Moq.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.5\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Ninject, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
@@ -88,6 +96,7 @@
     <Compile Include="Logic\Services\AdminAlertServiceTest.cs" />
     <Compile Include="Logic\Services\AdminEventLogServiceTest.cs" />
     <Compile Include="Logic\Services\AntiAbuseServiceTest.cs" />
+    <Compile Include="Logic\Services\GeocodeServiceTest.cs" />
     <Compile Include="Logic\Services\OutgoingVerificationServiceTest.cs" />
     <Compile Include="Logic\Services\TokenAccountServiceTest.cs" />
     <Compile Include="Logic\Services\CountryServiceTest.cs" />
