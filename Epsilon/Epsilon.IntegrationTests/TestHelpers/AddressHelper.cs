@@ -3,6 +3,7 @@ using Epsilon.Logic.Entities;
 using Epsilon.Logic.Helpers;
 using Epsilon.Logic.SqlContext.Interfaces;
 using Epsilon.Logic.Wrappers;
+using Epsilon.Logic.Wrappers.Interfaces;
 using Ninject;
 using System;
 using System.Collections.Generic;
@@ -15,7 +16,7 @@ namespace Epsilon.IntegrationTests.TestHelpers
     public static class AddressHelper
     {
         public static async Task<Address> CreateRandomAddress(
-            RandomWrapper random, IKernel container, string userId, string userIpAddress, CountryId countryId)
+            IRandomWrapper random, IKernel container, string userId, string userIpAddress, CountryId countryId)
         {
             var randomFieldLength = 10;
             var stringCountryId = EnumsHelper.CountryId.ToString(countryId);
