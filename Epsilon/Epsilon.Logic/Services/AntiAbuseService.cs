@@ -422,13 +422,14 @@ namespace Epsilon.Logic.Services
                 return new AntiAbuseServiceResponse { IsRejected = false };
 
             // TODO_PANOS_TEST
-            var numberOfCompleteVerifications = await _dbContext.TenantVerifications
+            var isNotNewUser = await _dbContext.TenantVerifications
                 .Where(v => v.AssignedToId.Equals(userId))
                 .Where(v => !v.VerifiedOn.HasValue)
-                .LongCountAsync();
+                .AnyAsync();
 
-            var maxOutstandingVerifications =
-                _antiAbuseServiceConfig.PickOutgoingVerification_MaxOutstandingPerUserConstant + numberOfCompleteVerifications;
+            var maxOutstandingVerifications = isNotNewUser 
+                ? _antiAbuseServiceConfig.PickOutgoingVerification_MaxOutstandingPerUser
+                : _antiAbuseServiceConfig.PickOutgoingVerification_MaxOutstandingPerUserForNewUser;
 
             var numberOfOutstandingVerifications = await _dbContext.TenantVerifications
                 .Where(v => v.AssignedToId.Equals(userId))

@@ -42,7 +42,7 @@ namespace Epsilon.Logic.Services
             var moreItemsExist = false;
             if (request.limitItemsReturned)
             {
-                var limit = 2; // TODO_PANOS: put this in a config
+                var limit = _outgoingVerificationServiceConfig.MyOutgoingVerificationsSummary_ItemsLimit;
                 verifications = await query.Take(limit + 1).ToListAsync();
                 if (verifications.Count > limit)
                 {
@@ -86,8 +86,7 @@ namespace Epsilon.Logic.Services
                         VerificationUniqueId = null
                     };
 
-                // TODO_PANOS: put this in the config
-                var maxVerificationsPerSubmission = 2;
+                var verificationsPerTenancyDetailsSubmission = _outgoingVerificationServiceConfig.VerificationsPerTenancyDetailsSubmission;
 
                 var submissionIdsToAvoid = await _dbContext.TenantVerifications
                     .Where(v => v.AssignedToId.Equals(userId) || v.AssignedByIpAddress.Equals(userId))
@@ -103,7 +102,7 @@ namespace Epsilon.Logic.Services
                     .Where(s => s.CreatedByIpAddress != userIpAddress)
                     .Where(s => s.Address.CreatedById != userId)
                     .Where(s => s.Address.CreatedByIpAddress != userIpAddress)
-                    .Where(s => s.TenantVerifications.Count() < maxVerificationsPerSubmission)
+                    .Where(s => s.TenantVerifications.Count() < verificationsPerTenancyDetailsSubmission)
                     .Where(s => !submissionIdsToAvoid.Contains(s.Id))
                     .OrderBy(s => s.TenantVerifications.Count())
                     .FirstOrDefaultAsync();

@@ -36,7 +36,8 @@ VALUES
 (N'anti-abuse', N'AntiAbuse_PickOutgoingVerification_DisableMaxOutstandingPerUserCheck'),
 (N'anti-abuse', N'AntiAbuse_PickOutgoingVerification_GlobalMaxFrequency'),
 (N'anti-abuse', N'AntiAbuse_PickOutgoingVerification_MaxFrequencyPerIpAddress'),
-(N'anti-abuse', N'AntiAbuse_PickOutgoingVerification_MaxOutstandingPerUserConstant'),
+(N'anti-abuse', N'AntiAbuse_PickOutgoingVerification_MaxOutstandingPerUser'),
+(N'anti-abuse', N'AntiAbuse_PickOutgoingVerification_MaxOutstandingPerUserForNewUser'),
 (N'anti-abuse', N'AntiAbuse_Register_DisableGlobalFrequencyCheck'),
 (N'anti-abuse', N'AntiAbuse_Register_DisableIpAddressFrequencyCheck'),
 (N'anti-abuse', N'AntiAbuse_Register_GlobalMaxFrequency'),
@@ -70,7 +71,8 @@ VALUES
 (N'anti-abuse-ip-address', N'AntiAbuse_Register_DisableIpAddressFrequencyCheck'),
 (N'anti-abuse-ip-address', N'AntiAbuse_Register_MaxFrequencyPerIpAddress'),
 -- anti-abuse-max-limit
-(N'anti-abuse-max-limit', N'AntiAbuse_PickOutgoingVerification_MaxOutstandingPerUserConstant'),
+(N'anti-abuse-max-limit', N'AntiAbuse_PickOutgoingVerification_MaxOutstandingPerUser'),
+(N'anti-abuse-max-limit', N'AntiAbuse_PickOutgoingVerification_MaxOutstandingPerUserForNewUser'),
 -- anti-abuse-max-frequency
 (N'anti-abuse-max-frequency', N'AntiAbuse_AddAddress_GlobalMaxFrequency'),
 (N'anti-abuse-max-frequency', N'AntiAbuse_AddAddress_MaxFrequencyPerIpAddress'),
@@ -90,7 +92,8 @@ VALUES
 (N'anti-abuse-pick-outgoing-verification', N'AntiAbuse_PickOutgoingVerification_DisableMaxOutstandingPerUserCheck'),
 (N'anti-abuse-pick-outgoing-verification', N'AntiAbuse_PickOutgoingVerification_GlobalMaxFrequency'),
 (N'anti-abuse-pick-outgoing-verification', N'AntiAbuse_PickOutgoingVerification_MaxFrequencyPerIpAddress'),
-(N'anti-abuse-pick-outgoing-verification', N'AntiAbuse_PickOutgoingVerification_MaxOutstandingPerUserConstant'),
+(N'anti-abuse-pick-outgoing-verification', N'AntiAbuse_PickOutgoingVerification_MaxOutstandingPerUser'),
+(N'anti-abuse-pick-outgoing-verification', N'AntiAbuse_PickOutgoingVerification_MaxOutstandingPerUserForNewUser'),
 -- anti-abuse-register
 (N'anti-abuse-register', N'AntiAbuse_Register_DisableGlobalFrequencyCheck'),
 (N'anti-abuse-register', N'AntiAbuse_Register_DisableIpAddressFrequencyCheck'),
@@ -159,7 +162,11 @@ VALUES
 (N'max-frequency', N'AntiAbuse_Register_GlobalMaxFrequency'),
 (N'max-frequency', N'AntiAbuse_Register_MaxFrequencyPerIpAddress'),
 (N'max-frequency', N'TenancyDetailsSubmission_Create_MaxFrequencyPerAddress'),
+-- outgoing-verification
+(N'outgoing-verification', N'OutgoingVerification_MyOutgoingVerificationsSummary_ItemsLimit'),
+(N'outgoing-verification', N'OutgoingVerification_VerificationsPerTenancyDetailsSubmission'),
 -- results-limit
+(N'results-limit', N'OutgoingVerification_MyOutgoingVerificationsSummary_ItemsLimit'),
 (N'results-limit', N'SearchAddressResultsLimit'),
 (N'results-limit', N'TenancyDetailsSubmission_MySubmissionsSummary_ItemsLimit'),
 -- switch

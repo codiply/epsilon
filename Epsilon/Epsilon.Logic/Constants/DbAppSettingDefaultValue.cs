@@ -23,7 +23,8 @@ namespace Epsilon.Logic.Constants
         public Frequency AntiAbuse_CreateTenancyDetailsSubmission_MaxFrequencyPerUser { get { return new Frequency(1, TimeSpan.FromDays(30)); } }
 
         public Frequency AntiAbuse_PickOutgoingVerification_GlobalMaxFrequency { get { return new Frequency(10000, TimeSpan.FromDays(1)); } }
-        public int AntiAbuse_PickOutgoingVerification_MaxOutstandingPerUserConstant { get { return 4; } }
+        public int AntiAbuse_PickOutgoingVerification_MaxOutstandingPerUser { get { return 4; } }
+        public int AntiAbuse_PickOutgoingVerification_MaxOutstandingPerUserForNewUser { get { return 8; } }
         public Frequency AntiAbuse_PickOutgoingVerification_MaxFrequencyPerIpAddress { get { return new Frequency(8, TimeSpan.FromDays(3)); } }
         
         public Frequency AntiAbuse_Register_GlobalMaxFrequency { get { return new Frequency(300, TimeSpan.FromDays(1)); } }
@@ -31,6 +32,9 @@ namespace Epsilon.Logic.Constants
 
         public double GeocodeService_OverQueryLimitDelayBetweenRetriesInSeconds { get { return 1.0; } }
         public int GeocodeService_OverQueryLimitMaxRetries { get { return 3; } }
+
+        public int OutgoingVerification_MyOutgoingVerificationsSummary_ItemsLimit { get { return 10; } }
+        public int OutgoingVerification_VerificationsPerTenancyDetailsSubmission { get { return 2; } }
 
         public int SearchAddressResultsLimit { get { return 30; } }
 

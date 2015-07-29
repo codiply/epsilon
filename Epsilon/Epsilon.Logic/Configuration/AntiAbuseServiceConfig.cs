@@ -226,13 +226,23 @@ namespace Epsilon.Logic.Configuration
         }
 
         
-        public int PickOutgoingVerification_MaxOutstandingPerUserConstant
+        public int PickOutgoingVerification_MaxOutstandingPerUser
         {
             get
             {
                 return _dbAppSettingsHelper.GetInt(
-                    EnumsHelper.DbAppSettingKey.ToString(DbAppSettingKey.AntiAbuse_PickOutgoingVerification_MaxOutstandingPerUserConstant),
-                    _dbAppSettingDefaultValue.AntiAbuse_PickOutgoingVerification_MaxOutstandingPerUserConstant);
+                    EnumsHelper.DbAppSettingKey.ToString(DbAppSettingKey.AntiAbuse_PickOutgoingVerification_MaxOutstandingPerUser),
+                    _dbAppSettingDefaultValue.AntiAbuse_PickOutgoingVerification_MaxOutstandingPerUser);
+            }
+        }
+
+        public int PickOutgoingVerification_MaxOutstandingPerUserForNewUser
+        {
+            get
+            {
+                return _dbAppSettingsHelper.GetInt(
+                    EnumsHelper.DbAppSettingKey.ToString(DbAppSettingKey.AntiAbuse_PickOutgoingVerification_MaxOutstandingPerUserForNewUser),
+                    _dbAppSettingDefaultValue.AntiAbuse_PickOutgoingVerification_MaxOutstandingPerUserForNewUser);
             }
         }
 
