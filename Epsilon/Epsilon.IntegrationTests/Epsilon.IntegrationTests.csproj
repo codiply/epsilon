@@ -88,6 +88,7 @@
     <Compile Include="Logic\Services\AdminAlertServiceTest.cs" />
     <Compile Include="Logic\Services\AdminEventLogServiceTest.cs" />
     <Compile Include="Logic\Services\AntiAbuseServiceTest.cs" />
+    <Compile Include="Logic\Services\OutgoingVerificationServiceTest.cs" />
     <Compile Include="Logic\Services\TokenAccountServiceTest.cs" />
     <Compile Include="Logic\Services\CountryServiceTest.cs" />
     <Compile Include="Logic\Services\IpAddressActivityService.cs" />

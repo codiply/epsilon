@@ -46,6 +46,7 @@ namespace Epsilon.IntegrationTests.BaseFixtures
         {
             _transactionScope.Dispose();
             _transactionScope = null;
+            _dbProbe.Dispose();
             _dbProbe = null;
         }
 
