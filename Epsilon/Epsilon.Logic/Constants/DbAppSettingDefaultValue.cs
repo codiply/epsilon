@@ -23,8 +23,8 @@ namespace Epsilon.Logic.Constants
         public Frequency AntiAbuse_CreateTenancyDetailsSubmission_MaxFrequencyPerUser { get { return new Frequency(1, TimeSpan.FromDays(30)); } }
 
         public Frequency AntiAbuse_PickOutgoingVerification_GlobalMaxFrequency { get { return new Frequency(10000, TimeSpan.FromDays(1)); } }
-        public int AntiAbuse_PickOutgoingVerification_MaxOutstandingPerUser { get { return 4; } }
-        public int AntiAbuse_PickOutgoingVerification_MaxOutstandingPerUserForNewUser { get { return 8; } }
+        public int AntiAbuse_PickOutgoingVerification_MaxOutstandingPerUser { get { return 8; } }
+        public int AntiAbuse_PickOutgoingVerification_MaxOutstandingPerUserForNewUser { get { return 4; } }
         public Frequency AntiAbuse_PickOutgoingVerification_MaxFrequencyPerIpAddress { get { return new Frequency(8, TimeSpan.FromDays(3)); } }
         
         public Frequency AntiAbuse_Register_GlobalMaxFrequency { get { return new Frequency(300, TimeSpan.FromDays(1)); } }
