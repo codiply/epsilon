@@ -141,4 +141,7 @@
   <data name="SearchAddress_PostcodePlaceholder" xml:space="preserve">
     <value>exact postal code</value>
   </data>
+  <data name="SearchAddress_TermsPlaceholder" xml:space="preserve">
+    <value>street number or any part of address</value>
+  </data>
 </root>

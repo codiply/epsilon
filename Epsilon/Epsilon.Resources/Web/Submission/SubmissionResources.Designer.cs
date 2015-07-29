@@ -286,15 +286,6 @@ namespace Epsilon.Resources.Web.Submission {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to any part of the address.
-        /// </summary>
-        public static string SearchAddress_TermsPlaceholder {
-            get {
-                return ResourceManager.GetString("SearchAddress_TermsPlaceholder", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Use Selected Address.
         /// </summary>
         public static string SearchAddress_UseSelectedAddressButton {

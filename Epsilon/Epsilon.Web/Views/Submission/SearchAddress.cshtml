@@ -36,7 +36,7 @@
         <label class="control-label col-md-3" for="postcode">@SubmissionResources.SearchAddress_SearchTermsLabel</label>
         <div class="col-md-9">
             <input class="form-control text-box single-line" id="terms" name="terms" data-ng-model="terms" 
-                   placeholder="@SubmissionResources.SearchAddress_TermsPlaceholder"/>
+                   placeholder="{{ controller.COUNTRY_VARIANT_RESOURCES[countryId].@(EnumsHelper.CountryVariantResourceName.ToString(CountryVariantResourceName.SearchAddress_TermsPlaceholder)) }}"/>
         </div>
     </div>
     <div class="form-group row" data-ng-cloak data-ng-show="countryId">
@@ -103,6 +103,10 @@
     @Html.Partial("_CountryVariantResources", new CountryVariantResourcesViewModel {
     Constant = "COUNTRY_VARIANT_RESOURCES",
     ResourceNames = new List<CountryVariantResourceName>
-        { CountryVariantResourceName.Address_Postcode, CountryVariantResourceName.SearchAddress_PostcodePlaceholder }
+    {
+        CountryVariantResourceName.Address_Postcode,
+        CountryVariantResourceName.SearchAddress_PostcodePlaceholder,
+        CountryVariantResourceName.SearchAddress_TermsPlaceholder
+    }
 })
 }

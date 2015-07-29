@@ -15,6 +15,7 @@ namespace Epsilon.Logic.Constants.Enums
         Address_Locality,
         Address_Region,
         Address_Postcode,
-        SearchAddress_PostcodePlaceholder
+        SearchAddress_PostcodePlaceholder,
+        SearchAddress_TermsPlaceholder
     }
 }

@@ -141,4 +141,7 @@
   <data name="SearchAddress_PostcodePlaceholder" xml:space="preserve">
     <value>ακριβής ταχυδρομικός κώδικας</value>
   </data>
+  <data name="SearchAddress_TermsPlaceholder" xml:space="preserve">
+    <value />
+  </data>
 </root>

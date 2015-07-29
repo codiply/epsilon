@@ -131,5 +131,14 @@ namespace Epsilon.Resources.CountryVariants {
                 return ResourceManager.GetString("SearchAddress_PostcodePlaceholder", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to street number or any part of address.
+        /// </summary>
+        public static string SearchAddress_TermsPlaceholder {
+            get {
+                return ResourceManager.GetString("SearchAddress_TermsPlaceholder", resourceCulture);
+            }
+        }
     }
 }

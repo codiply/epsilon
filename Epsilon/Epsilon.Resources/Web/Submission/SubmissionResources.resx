@@ -213,7 +213,4 @@
   <data name="MySubmissionsSummary_WithLimit_Header" xml:space="preserve">
     <value>My Latest Submissions</value>
   </data>
-  <data name="SearchAddress_TermsPlaceholder" xml:space="preserve">
-    <value>any part of the address</value>
-  </data>
 </root>
