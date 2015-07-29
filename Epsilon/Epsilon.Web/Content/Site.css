@@ -22,3 +22,16 @@ select,
 textarea {
     max-width: 280px;
 }
+
+.google-map-container {
+    max-width: 512px;
+    max-height: 512px;
+}
+
+.google-map-canvas {
+    position:relative;
+    padding-bottom:56.25%; /* 16:9 */
+    padding-top:25px;
+    height:0;
+    margin:0 auto;
+}
