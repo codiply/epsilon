@@ -12,7 +12,6 @@
                 scope: {
                     addressUniqueId: "@"
                 },
-                // TODO_PANOS: remove inline styling.
                 template: '<div id="address-map-container" class="google-map-container"><div id="address-map-canvas" class="google-map-canvas"></div></div>',
                 link: (scope: AddressMapScope, element: ng.IAugmentedJQuery, attributes: ng.IAttributes) => {
                     new AddressMapLink(scope, element, attributes, $http, BASE_URL_WITH_LANGUAGE);
