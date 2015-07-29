@@ -144,16 +144,14 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.IsNotNull(retrievedPostcodeGeometryBefore2, "A PostcodeGeometry should be present in the database after the first geocoding.");
 
             var container2 = CreateContainer();
-            var addressUsed = string.Empty;
-            var regionUsed = string.Empty;
-            SetupMockGeocodeClient((add, reg) => { addressUsed = add; regionUsed = reg; }, new GeocodeResponse());
+            var geocodeClientUsed = false;
+            SetupMockGeocodeClient((add, reg) => { geocodeClientUsed = true; }, new GeocodeResponse());
             var service2 = container2.Get<IGeocodeService>();
 
             await Task.Delay(DelayBetweenCallsToTheAPI);
             var status2 = await service2.GeocodePostcode(postcode, countryId);
             Assert.AreEqual(GeocodePostcodeStatus.Success, status2, "The status of the second geocoding was not the expected.");
-            Assert.IsNullOrEmpty(addressUsed, "The addressUsed should be null which means that the geocoding API was not called.");
-            Assert.IsNullOrEmpty(regionUsed, "The addressUsed should be null which means that the geocoding API was not called.");
+            Assert.IsFalse(geocodeClientUsed, "The geocoding API should not be called the second time.");
         }
 
         #endregion
