@@ -103,17 +103,14 @@ namespace Epsilon.Logic.Services
 
         public async Task<AntiAbuseServiceResponse> CanPickOutgoingVerification(string userId, string userIpAddress)
         {
-            // TODO_PANOS_TEST
             var checkGlobalFrequency = await CanPickOutgoingVerificationCheckGlobalFrequency();
             if (checkGlobalFrequency.IsRejected)
                 return checkGlobalFrequency;
 
-            // TODO_PANOS_TEST
             var checkIpFrequency = await CanPickOutgoingVerificationCheckIpFrequency(userIpAddress);
             if (checkIpFrequency.IsRejected)
                 return checkIpFrequency;
 
-            // TODO_PANOS_TEST
             var checkOutstandingOutgoingVerifications = await CanPickOutgoingVerificationCheckMaxOutstandingForUser(userId);
             if (checkOutstandingOutgoingVerifications.IsRejected)
                 return checkOutstandingOutgoingVerifications;
@@ -378,9 +375,7 @@ namespace Epsilon.Logic.Services
 
             if (actualTimes >= maxFrequency.Times)
             {
-                // TODO_PANOS_TEST
                 _adminAlertService.SendAlert(AdminAlertKey.PickOutgoingVerificationGlobalMaxFrequencyReached);
-                // TODO_PANOS_TEST
                 await _adminEventLogService.Log(AdminEventLogKey.PickOutgoingVerificationGlobalMaxFrequencyReached, null);
 
                 return new AntiAbuseServiceResponse
@@ -397,7 +392,6 @@ namespace Epsilon.Logic.Services
             if (_antiAbuseServiceConfig.PickOutgoingVerification_DisableIpAddressFrequencyCheck)
                 return new AntiAbuseServiceResponse { IsRejected = false };
 
-            // TODO_PANOS_TEST
             var maxFrequency = _antiAbuseServiceConfig.PickOutgoingVerification_MaxFrequencyPerIpAddress;
 
             var windowStart = _clock.OffsetNow - maxFrequency.Period;
@@ -421,10 +415,9 @@ namespace Epsilon.Logic.Services
             if (_antiAbuseServiceConfig.PickOutgoingVerification_DisableMaxOutstandingPerUserCheck)
                 return new AntiAbuseServiceResponse { IsRejected = false };
 
-            // TODO_PANOS_TEST
             var isNotNewUser = await _dbContext.TenantVerifications
                 .Where(v => v.AssignedToId.Equals(userId))
-                .Where(v => !v.VerifiedOn.HasValue)
+                .Where(v => v.VerifiedOn.HasValue)
                 .AnyAsync();
 
             var maxOutstandingVerifications = isNotNewUser 

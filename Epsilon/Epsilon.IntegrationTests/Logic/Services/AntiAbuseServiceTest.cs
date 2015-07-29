@@ -1011,6 +1011,138 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.IsFalse(secondResponse.IsRejected, "The request should not be rejected the second time.");
         }
 
+        [Test]
+        public async Task CanPickOutgoingVerification_CheckMaxOutstandingForUser_ForNewUser()
+        {
+            var disableGlobalFrequencyCheck = true;
+            var globalMaxFrequency = "2/D";
+            var disableMaxOutstandingPerUserCheck = false;
+            var maxOutstandingPerUserForNewUser = 2;
+            var maxOutstandingPerUser = 0;
+            var disableIpAddressFrequencyCheck = true;
+            var maxFrequencyPerIpAddress = "2/D";
+
+            var ipAddress = "1.2.3.4";
+
+            var containerUnderTest = CreateContainer();
+            SetupContainerForCanPickOutgoingVerification(containerUnderTest,
+                disableGlobalFrequencyCheck, globalMaxFrequency,
+                disableMaxOutstandingPerUserCheck, maxOutstandingPerUserForNewUser, maxOutstandingPerUser,
+                disableIpAddressFrequencyCheck, maxFrequencyPerIpAddress);
+            var serviceUnderTest = containerUnderTest.Get<IAntiAbuseService>();
+
+            var helperContainer = CreateContainer();
+
+            var user = await CreateUser(helperContainer, "test@test.com", ipAddress);
+
+            var random = new RandomWrapper(2015);
+
+            // I add the first verification.
+            var verification1 = await CreateTenantVerification(random, helperContainer, user.Id, ipAddress, false);
+
+            var firstResponse = await serviceUnderTest.CanPickOutgoingVerification(user.Id, ipAddress);
+            Assert.IsFalse(firstResponse.IsRejected, "The first check should pass.");
+
+            // I add the second verification.
+            var verification2 = await CreateTenantVerification(random, helperContainer, user.Id, ipAddress, false);
+
+            var secondResponse = await serviceUnderTest.CanPickOutgoingVerification(user.Id, ipAddress);
+            Assert.IsTrue(secondResponse.IsRejected, "The second check should fail.");
+            Assert.AreEqual(AntiAbuseResources.PickOutgoingVerification_MaxOutstandingPerUserCheck_RejectionMessage,
+                secondResponse.RejectionReason, "The rejection reason is not the expected.");
+        }
+
+        [Test]
+        public async Task CanPickOutgoingVerification_CheckMaxOutstandingForUser_ForUserWithOneCompleteVerification()
+        {
+            var disableGlobalFrequencyCheck = true;
+            var globalMaxFrequency = "2/D";
+            var disableMaxOutstandingPerUserCheck = false;
+            var maxOutstandingPerUserForNewUser = 0;
+            var maxOutstandingPerUser = 2;
+            var disableIpAddressFrequencyCheck = true;
+            var maxFrequencyPerIpAddress = "2/D";
+
+            var ipAddress = "1.2.3.4";
+
+            var containerUnderTest = CreateContainer();
+            SetupContainerForCanPickOutgoingVerification(containerUnderTest,
+                disableGlobalFrequencyCheck, globalMaxFrequency,
+                disableMaxOutstandingPerUserCheck, maxOutstandingPerUserForNewUser, maxOutstandingPerUser,
+                disableIpAddressFrequencyCheck, maxFrequencyPerIpAddress);
+            var serviceUnderTest = containerUnderTest.Get<IAntiAbuseService>();
+
+            var helperContainer = CreateContainer();
+
+            var user = await CreateUser(helperContainer, "test@test.com", ipAddress);
+
+            var random = new RandomWrapper(2015);
+
+            var completeVerification = await CreateTenantVerification(random, helperContainer, user.Id, ipAddress, true);
+
+            // I add the first verification.
+            var verification1 = await CreateTenantVerification(random, helperContainer, user.Id, ipAddress, false);
+
+            var firstResponse = await serviceUnderTest.CanPickOutgoingVerification(user.Id, ipAddress);
+            Assert.IsFalse(firstResponse.IsRejected, "The first check should pass.");
+
+            // I add the second verification.
+            var verification2 = await CreateTenantVerification(random, helperContainer, user.Id, ipAddress, false);
+
+            var secondResponse = await serviceUnderTest.CanPickOutgoingVerification(user.Id, ipAddress);
+            Assert.IsTrue(secondResponse.IsRejected, "The second check should fail.");
+            Assert.AreEqual(AntiAbuseResources.PickOutgoingVerification_MaxOutstandingPerUserCheck_RejectionMessage,
+                secondResponse.RejectionReason, "The rejection reason is not the expected.");
+        }
+
+        [Test]
+        public async Task CanPickOutgoingVerification_CheckMaxOutstandingForUser_ForUserWithManyCompleteVerification()
+        {
+            var numberOfCompleteVerificationsToCreate = 5;
+            var disableGlobalFrequencyCheck = true;
+            var globalMaxFrequency = "2/D";
+            var disableMaxOutstandingPerUserCheck = false;
+            var maxOutstandingPerUserForNewUser = 0;
+            var maxOutstandingPerUser = 2;
+            var disableIpAddressFrequencyCheck = true;
+            var maxFrequencyPerIpAddress = "2/D";
+
+            var ipAddress = "1.2.3.4";
+
+            var containerUnderTest = CreateContainer();
+            SetupContainerForCanPickOutgoingVerification(containerUnderTest,
+                disableGlobalFrequencyCheck, globalMaxFrequency,
+                disableMaxOutstandingPerUserCheck, maxOutstandingPerUserForNewUser, maxOutstandingPerUser,
+                disableIpAddressFrequencyCheck, maxFrequencyPerIpAddress);
+            var serviceUnderTest = containerUnderTest.Get<IAntiAbuseService>();
+
+            var helperContainer = CreateContainer();
+
+            var user = await CreateUser(helperContainer, "test@test.com", ipAddress);
+
+            var random = new RandomWrapper(2015);
+
+            for (int i = 0; i < numberOfCompleteVerificationsToCreate; i++)
+            {
+                var completeVerification = await CreateTenantVerification(random, helperContainer, user.Id, ipAddress, true);
+                Assert.IsNotNull(user, "The complete verification created for i {0} is null.");
+            }
+
+            // I add the first verification.
+            var verification1 = await CreateTenantVerification(random, helperContainer, user.Id, ipAddress, false);
+
+            var firstResponse = await serviceUnderTest.CanPickOutgoingVerification(user.Id, ipAddress);
+            Assert.IsFalse(firstResponse.IsRejected, "The first check should pass.");
+
+            // I add the second verification.
+            var verification2 = await CreateTenantVerification(random, helperContainer, user.Id, ipAddress, false);
+
+            var secondResponse = await serviceUnderTest.CanPickOutgoingVerification(user.Id, ipAddress);
+            Assert.IsTrue(secondResponse.IsRejected, "The second check should fail.");
+            Assert.AreEqual(AntiAbuseResources.PickOutgoingVerification_MaxOutstandingPerUserCheck_RejectionMessage,
+                secondResponse.RejectionReason, "The rejection reason is not the expected.");
+        }
+
         #endregion
 
         #region CanRegister
