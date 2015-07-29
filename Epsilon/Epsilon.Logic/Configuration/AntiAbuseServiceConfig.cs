@@ -197,6 +197,24 @@ namespace Epsilon.Logic.Configuration
             }
         }
 
+        public bool PickOutgoingVerification_DisableIpAddressFrequencyCheck
+        {
+            get
+            {
+                return _dbAppSettingsHelper
+                    .GetBool(EnumsHelper.DbAppSettingKey.ToString(DbAppSettingKey.AntiAbuse_PickOutgoingVerification_DisableIpAddressFrequencyCheck)) == true;
+            }
+        }
+
+        public bool PickOutgoingVerification_DisableMaxOutstandingPerUserCheck
+        {
+            get
+            {
+                return _dbAppSettingsHelper
+                    .GetBool(EnumsHelper.DbAppSettingKey.ToString(DbAppSettingKey.AntiAbuse_PickOutgoingVerification_DisableMaxOutstandingPerUserCheck)) == true;
+            }
+        }
+
         public Frequency PickOutgoingVerification_GlobalMaxFrequency
         {
             get
@@ -206,6 +224,28 @@ namespace Epsilon.Logic.Configuration
                     _dbAppSettingDefaultValue.AntiAbuse_PickOutgoingVerification_GlobalMaxFrequency);
             }
         }
+
+        
+        public int PickOutgoingVerification_MaxOutstandingPerUserConstant
+        {
+            get
+            {
+                return _dbAppSettingsHelper.GetInt(
+                    EnumsHelper.DbAppSettingKey.ToString(DbAppSettingKey.AntiAbuse_PickOutgoingVerification_MaxOutstandingPerUserConstant),
+                    _dbAppSettingDefaultValue.AntiAbuse_PickOutgoingVerification_MaxOutstandingPerUserConstant);
+            }
+        }
+
+        public Frequency PickOutgoingVerification_MaxFrequencyPerIpAddress
+        {
+            get
+            {
+                return _dbAppSettingsHelper.GetFrequency(
+                    EnumsHelper.DbAppSettingKey.ToString(DbAppSettingKey.AntiAbuse_PickOutgoingVerification_MaxFrequencyPerIpAddress),
+                    _dbAppSettingDefaultValue.AntiAbuse_PickOutgoingVerification_MaxFrequencyPerIpAddress);
+            }
+        }
+
 
         #endregion
 

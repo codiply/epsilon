@@ -157,7 +157,7 @@ namespace Epsilon.Web.Controllers
                     }
                 }
 
-                // TODO_PANOS: uncomment to go straight to next step.
+                // TODO_PANOS: uncomment and edit to go straight to next step.
                 //return RedirectToAction("EnterVerificationCode", new { id = form.TenancyDetailsSubmissionUniqueId });
             }
 
