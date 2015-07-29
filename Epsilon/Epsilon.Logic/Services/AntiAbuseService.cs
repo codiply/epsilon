@@ -114,7 +114,7 @@ namespace Epsilon.Logic.Services
                 return checkIpFrequency;
 
             // TODO_PANOS_TEST
-            var checkOutstandingOutgoingVerifications = await CanPickOutgoingVerificationCheckOutstandingForUser(userId);
+            var checkOutstandingOutgoingVerifications = await CanPickOutgoingVerificationCheckMaxOutstandingForUser(userId);
             if (checkOutstandingOutgoingVerifications.IsRejected)
                 return checkOutstandingOutgoingVerifications;
 
@@ -392,16 +392,59 @@ namespace Epsilon.Logic.Services
             return new AntiAbuseServiceResponse { IsRejected = false };
         }
 
-        private async Task<AntiAbuseServiceResponse> CanPickOutgoingVerificationCheckIpFrequency(string userIpAddress)
+        private async Task<AntiAbuseServiceResponse> CanPickOutgoingVerificationCheckIpFrequency(string ipAddress)
         {
-            // TODO_PANOS
-            throw new NotImplementedException();
+            if (_antiAbuseServiceConfig.PickOutgoingVerification_DisableIpAddressFrequencyCheck)
+                return new AntiAbuseServiceResponse { IsRejected = false };
+
+            // TODO_PANOS_TEST
+            var maxFrequency = _antiAbuseServiceConfig.PickOutgoingVerification_MaxFrequencyPerIpAddress;
+
+            var windowStart = _clock.OffsetNow - maxFrequency.Period;
+            var actualTimes = await _dbContext.TenantVerifications
+                .Where(v => v.AssignedByIpAddress.Equals(ipAddress))
+                .Where(v => v.CreatedOn > windowStart)
+                .CountAsync();
+
+            if (actualTimes >= maxFrequency.Times)
+                return new AntiAbuseServiceResponse
+                {
+                    IsRejected = true,
+                    RejectionReason = AntiAbuseResources.PickOutgoingVerification_IpAddressFrequencyCheck_RejectionMessage
+                };
+
+            return new AntiAbuseServiceResponse { IsRejected = false };
         }
 
-        private async Task<AntiAbuseServiceResponse> CanPickOutgoingVerificationCheckOutstandingForUser(string userId)
+        private async Task<AntiAbuseServiceResponse> CanPickOutgoingVerificationCheckMaxOutstandingForUser(string userId)
         {
-            // TODO_PANOS
-            throw new NotImplementedException();
+            if (_antiAbuseServiceConfig.PickOutgoingVerification_DisableMaxOutstandingPerUserCheck)
+                return new AntiAbuseServiceResponse { IsRejected = false };
+
+            // TODO_PANOS_TEST
+            var numberOfCompleteVerifications = await _dbContext.TenantVerifications
+                .Where(v => v.AssignedToId.Equals(userId))
+                .Where(v => !v.VerifiedOn.HasValue)
+                .LongCountAsync();
+
+            var maxOutstandingVerifications =
+                _antiAbuseServiceConfig.PickOutgoingVerification_MaxOutstandingPerUserConstant + numberOfCompleteVerifications;
+
+            var numberOfOutstandingVerifications = await _dbContext.TenantVerifications
+                .Where(v => v.AssignedToId.Equals(userId))
+                .Where(v => !v.VerifiedOn.HasValue)
+                .CountAsync();
+
+            if (numberOfOutstandingVerifications >= maxOutstandingVerifications)
+            {
+                return new AntiAbuseServiceResponse
+                {
+                    IsRejected = true,
+                    RejectionReason = AntiAbuseResources.PickOutgoingVerification_MaxOutstandingPerUserCheck_RejectionMessage
+                };
+            }
+
+            return new AntiAbuseServiceResponse { IsRejected = false };
         }
     }
 }

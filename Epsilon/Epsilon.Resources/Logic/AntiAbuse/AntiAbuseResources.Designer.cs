@@ -88,7 +88,7 @@ namespace Epsilon.Resources.Logic.AntiAbuse {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to There have been too many addresses added by your IP address..
+        ///   Looks up a localized string similar to There have been too many addresses added by your IP address. Try again at a later time..
         /// </summary>
         public static string AddAddress_IpAddressFrequencyCheck_RejectionMessage {
             get {
@@ -115,7 +115,7 @@ namespace Epsilon.Resources.Logic.AntiAbuse {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to There have been too many submissions made by your IP address..
+        ///   Looks up a localized string similar to There have been too many submissions made by your IP address. Try again at a later time..
         /// </summary>
         public static string CreateTenancyDetailsSubmission_IpAddressFrequencyCheck_RejectionMessage {
             get {
@@ -147,6 +147,24 @@ namespace Epsilon.Resources.Logic.AntiAbuse {
         public static string PickOutgoingVerification_GlobalFrequencyCheck_RejectionMessage {
             get {
                 return ResourceManager.GetString("PickOutgoingVerification_GlobalFrequencyCheck_RejectionMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There have been too many outgoing verifications from your IP address. Try again at a later time..
+        /// </summary>
+        public static string PickOutgoingVerification_IpAddressFrequencyCheck_RejectionMessage {
+            get {
+                return ResourceManager.GetString("PickOutgoingVerification_IpAddressFrequencyCheck_RejectionMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You have too many outstanding verifications. Once some of them have been completed you will be able to create more..
+        /// </summary>
+        public static string PickOutgoingVerification_MaxOutstandingPerUserCheck_RejectionMessage {
+            get {
+                return ResourceManager.GetString("PickOutgoingVerification_MaxOutstandingPerUserCheck_RejectionMessage", resourceCulture);
             }
         }
         

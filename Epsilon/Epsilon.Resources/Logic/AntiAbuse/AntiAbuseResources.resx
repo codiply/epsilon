@@ -127,7 +127,7 @@
     <value>Due to big number of address added today, this function has been disabled. Please try again tomorrow.</value>
   </data>
   <data name="AddAddress_IpAddressFrequencyCheck_RejectionMessage" xml:space="preserve">
-    <value>There have been too many addresses added by your IP address.</value>
+    <value>There have been too many addresses added by your IP address. Try again at a later time.</value>
   </data>
   <data name="AddAddress_UserFrequencyCheck_RejectionMessage" xml:space="preserve">
     <value>You can only add a certain number of addresses in a certain period.</value>
@@ -136,7 +136,7 @@
     <value>Due to big number of submissions created today, this function has been disabled. Please try again tomorrow.</value>
   </data>
   <data name="CreateTenancyDetailsSubmission_IpAddressFrequencyCheck_RejectionMessage" xml:space="preserve">
-    <value>There have been too many submissions made by your IP address.</value>
+    <value>There have been too many submissions made by your IP address. Try again at a later time.</value>
   </data>
   <data name="CreateTenancyDetailsSubmission_UserFrequencyCheck_RejectionMessage" xml:space="preserve">
     <value>You can only make a certain number of submissions in a certain period of time.</value>
@@ -146,6 +146,12 @@
   </data>
   <data name="PickOutgoingVerification_GlobalFrequencyCheck_RejectionMessage" xml:space="preserve">
     <value>Due to big number of outgoing verifications today, this function has been disabled. Please try again tomorrow.</value>
+  </data>
+  <data name="PickOutgoingVerification_IpAddressFrequencyCheck_RejectionMessage" xml:space="preserve">
+    <value>There have been too many outgoing verifications from your IP address. Try again at a later time.</value>
+  </data>
+  <data name="PickOutgoingVerification_MaxOutstandingPerUserCheck_RejectionMessage" xml:space="preserve">
+    <value>You have too many outstanding verifications. Once some of them have been completed you will be able to create more.</value>
   </data>
   <data name="Register_GlobalFrequencyCheck_RejectionMessage" xml:space="preserve">
     <value>Due to big number of registrations today, registration has been disabled. Please try again tomorrow.</value>
