@@ -138,4 +138,7 @@
   <data name="Address_Region" xml:space="preserve">
     <value>County</value>
   </data>
+  <data name="SearchAddress_PostcodePlaceholder" xml:space="preserve">
+    <value>exact postcode</value>
+  </data>
 </root>
