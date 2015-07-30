@@ -227,7 +227,6 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var containerUnderTest = CreateContainer();
             var serviceUnderTest = containerUnderTest.Get<ITenancyDetailsSubmissionService>();
 
-
             // Full summary
             var request1 = new MySubmissionsSummaryRequest { limitItemsReturned = false };
             var response1 = await serviceUnderTest.GetUserSubmissionsSummary(user.Id, request1);
@@ -246,10 +245,10 @@ namespace Epsilon.IntegrationTests.Logic.Services
         }
 
         [Test]
-        public async Task GetUserSubmissionSummary_WithMoreSubmissionsThanLimit_ItemsLimitIsRespected()
+        public async Task GetUserSubmissionSummary_WithSubmissionsEqualToTheLimit_ItemsLimitIsNotRelevant()
         {
-            var itemsLimit = 2;
-            var submissionsToCreate = 3;
+            var itemsLimit = 3;
+            var submissionsToCreate = itemsLimit;
 
             var helperContainer = CreateContainer();
             var userIpAddress = "1.2.3.4";
@@ -257,15 +256,16 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var otherUserIpAddress = "11.12.13.14";
             var otherUser = await CreateUser(helperContainer, "other-user@test.com", "11.12.13.14");
 
-
             var random = new RandomWrapper(2015);
+            var submissions = new List<TenancyDetailsSubmission>();
 
             for (var i = 0; i < submissionsToCreate; i++)
             {
                 var submission = await CreateTenancyDetailsSubmissionAndSave(
                     random, helperContainer, user.Id, userIpAddress, otherUser.Id, otherUserIpAddress);
-                Assert.IsNotNull(submission, string.Format("Submission created for i {0} is null.", i));
+                submissions.Add(submission);
             }
+            var submissionByCreationDescending = submissions.OrderByDescending(x => x.CreatedOn).ToList();
 
             var containerUnderTest = CreateContainer();
             SetupConfigForGetUserSubmissionSummary(containerUnderTest, itemsLimit);
@@ -279,6 +279,67 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.IsFalse(response1.moreItemsExist, "Field moreItemsExist on response1 is not the expected.");
             Assert.AreEqual(submissionsToCreate, response1.tenancyDetailsSubmissions.Count,
                 "Response1 should contain all submissions.");
+            for (var i = 0; i < submissionsToCreate; i++)
+            {
+                Assert.AreEqual(response1.tenancyDetailsSubmissions[i].uniqueId, submissionByCreationDescending[i].UniqueId,
+                    string.Format("Response1: submission at position {0} does not have the expected uniqueId.", i));
+            }
+
+            // Summary with limit
+            var request2 = new MySubmissionsSummaryRequest { limitItemsReturned = true };
+            var response2 = await serviceUnderTest.GetUserSubmissionsSummary(user.Id, request2);
+
+            Assert.IsNotNull(response2, "Response2 is null.");
+            Assert.IsFalse(response2.moreItemsExist, "Field moreItemsExist on response2 is not the expected.");
+            Assert.AreEqual(itemsLimit, response2.tenancyDetailsSubmissions.Count,
+                "Response1 should contains a number of submissions equal to the limit.");
+            for (var i = 0; i < itemsLimit; i++)
+            {
+                Assert.AreEqual(response2.tenancyDetailsSubmissions[i].uniqueId, submissionByCreationDescending[i].UniqueId,
+                    string.Format("Response2: ubmission at position {0} does not have the expected uniqueId.", i));
+            }
+        }
+
+        [Test]
+        public async Task GetUserSubmissionSummary_WithMoreSubmissionsThanTheLimit_ItemsLimitIsRespected()
+        {
+            var itemsLimit = 2;
+            var submissionsToCreate = 3;
+
+            var helperContainer = CreateContainer();
+            var userIpAddress = "1.2.3.4";
+            var user = await CreateUser(helperContainer, "test@test.com", userIpAddress);
+            var otherUserIpAddress = "11.12.13.14";
+            var otherUser = await CreateUser(helperContainer, "other-user@test.com", "11.12.13.14");
+
+            var random = new RandomWrapper(2015);
+            var submissions = new List<TenancyDetailsSubmission>();
+
+            for (var i = 0; i < submissionsToCreate; i++)
+            {
+                var submission = await CreateTenancyDetailsSubmissionAndSave(
+                    random, helperContainer, user.Id, userIpAddress, otherUser.Id, otherUserIpAddress);
+                submissions.Add(submission);
+            }
+            var submissionByCreationDescending = submissions.OrderByDescending(x => x.CreatedOn).ToList();
+
+            var containerUnderTest = CreateContainer();
+            SetupConfigForGetUserSubmissionSummary(containerUnderTest, itemsLimit);
+            var serviceUnderTest = containerUnderTest.Get<ITenancyDetailsSubmissionService>();
+
+            // Full summary
+            var request1 = new MySubmissionsSummaryRequest { limitItemsReturned = false };
+            var response1 = await serviceUnderTest.GetUserSubmissionsSummary(user.Id, request1);
+
+            Assert.IsNotNull(response1, "Response1 is null.");
+            Assert.IsFalse(response1.moreItemsExist, "Field moreItemsExist on response1 is not the expected.");
+            Assert.AreEqual(submissionsToCreate, response1.tenancyDetailsSubmissions.Count,
+                "Response1 should contain all submissions.");
+            for (var i = 0; i < submissionsToCreate; i++)
+            {
+                Assert.AreEqual(response1.tenancyDetailsSubmissions[i].uniqueId, submissionByCreationDescending[i].UniqueId,
+                    string.Format("Response1: submission at position {0} does not have the expected uniqueId.", i));
+            }
 
             // Summary with limit
             var request2 = new MySubmissionsSummaryRequest { limitItemsReturned = true };
@@ -288,6 +349,461 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.IsTrue(response2.moreItemsExist, "Field moreItemsExist on response2 is not the expected.");
             Assert.AreEqual(itemsLimit, response2.tenancyDetailsSubmissions.Count,
                 "Response1 should contains a number of submissions equal to the limit.");
+            for (var i = 0; i < itemsLimit; i++)
+            {
+                Assert.AreEqual(response2.tenancyDetailsSubmissions[i].uniqueId, submissionByCreationDescending[i].UniqueId,
+                    string.Format("Response1: submission at position {0} does not have the expected uniqueId.", i));
+            }
+        }
+
+        [Test]
+        public async Task GetUserSubmissionSummary_SingleNewSubmissionTest()
+        {
+            var itemsLimit = 10;
+            var justCreatedVerifications = 0;
+            var sentVerifications = 0;
+            var completeVerifications = 0;
+            var areDetailsSubmitted = false;
+            var hasMovedOut = false;
+
+            var helperContainer = CreateContainer();
+            var userIpAddress = "1.2.3.4";
+            var user = await CreateUser(helperContainer, "test@test.com", userIpAddress);
+            var otherUserIpAddress = "11.12.13.14";
+            var otherUser = await CreateUser(helperContainer, "other-user@test.com", "11.12.13.14");
+
+            var random = new RandomWrapper(2015);
+            var submission = await CreateTenancyDetailsSubmissionAndSave(
+                    random, helperContainer, user.Id, userIpAddress, otherUser.Id, otherUserIpAddress,
+                    justCreatedVerifications, sentVerifications, completeVerifications, areDetailsSubmitted, hasMovedOut);
+
+            var containerUnderTest = CreateContainer();
+            SetupConfigForGetUserSubmissionSummary(containerUnderTest, itemsLimit);
+            var serviceUnderTest = containerUnderTest.Get<ITenancyDetailsSubmissionService>();
+
+            var request = new MySubmissionsSummaryRequest { limitItemsReturned = false };
+            var response  = await serviceUnderTest.GetUserSubmissionsSummary(user.Id, request);
+
+            Assert.AreEqual(1, response.tenancyDetailsSubmissions.Count,
+                "The response should contain a single submission.");
+
+            var submissionInfo = response.tenancyDetailsSubmissions.Single();
+
+            Assert.AreEqual(submission.UniqueId, submissionInfo.uniqueId,
+                "Field uniqueId is not the expected.");
+            Assert.IsFalse(submissionInfo.canEnterVerificationCode, "Field canEnterVerificationCode doesn't have the expected value.");
+            Assert.IsFalse(submissionInfo.canSubmitTenancyDetails, "Field canSubmitTenancyDetails doesn't have the expected value.");
+            Assert.IsFalse(submissionInfo.canSubmitMoveOutDetails, "Field canSubmitMoveOutDetails doesn't have the expected value.");
+
+            Assert.IsFalse(submissionInfo.stepVerificationCodeSentOutDone, "Field stepVerificationCodeSentOutDone doesn't have the expected value.");
+            Assert.IsFalse(submissionInfo.stepVerificationCodeEnteredDone, "Field stepVerificationCodeEnteredDone doesn't have the expected value.");
+            Assert.IsFalse(submissionInfo.stepTenancyDetailsSubmittedDone, "Field stepTenancyDetailsSubmittedDone doesn't have the expected value.");
+            Assert.IsFalse(submissionInfo.stepMoveOutDetailsSubmittedDone, "Field stepMoveOutDetailsSubmittedDone doesn't have the expected value.");
+        }
+
+        [Test]
+        public async Task GetUserSubmissionSummary_SingleSubmissionWithJustCreatedVerificationsTest()
+        {
+            var itemsLimit = 10;
+            var justCreatedVerifications = 2;
+            var sentVerifications = 0;
+            var completeVerifications = 0;
+            var areDetailsSubmitted = false;
+            var hasMovedOut = false;
+
+            var helperContainer = CreateContainer();
+            var userIpAddress = "1.2.3.4";
+            var user = await CreateUser(helperContainer, "test@test.com", userIpAddress);
+            var otherUserIpAddress = "11.12.13.14";
+            var otherUser = await CreateUser(helperContainer, "other-user@test.com", "11.12.13.14");
+
+            var random = new RandomWrapper(2015);
+            var submission = await CreateTenancyDetailsSubmissionAndSave(
+                    random, helperContainer, user.Id, userIpAddress, otherUser.Id, otherUserIpAddress,
+                    justCreatedVerifications, sentVerifications, completeVerifications, areDetailsSubmitted, hasMovedOut);
+
+            var containerUnderTest = CreateContainer();
+            SetupConfigForGetUserSubmissionSummary(containerUnderTest, itemsLimit);
+            var serviceUnderTest = containerUnderTest.Get<ITenancyDetailsSubmissionService>();
+
+            var request = new MySubmissionsSummaryRequest { limitItemsReturned = false };
+            var response = await serviceUnderTest.GetUserSubmissionsSummary(user.Id, request);
+
+            Assert.AreEqual(1, response.tenancyDetailsSubmissions.Count,
+                "The response should contain a single submission.");
+
+            var submissionInfo = response.tenancyDetailsSubmissions.Single();
+
+            Assert.AreEqual(submission.UniqueId, submissionInfo.uniqueId,
+                "Field uniqueId is not the expected.");
+            Assert.IsTrue(submissionInfo.canEnterVerificationCode, "Field canEnterVerificationCode doesn't have the expected value.");
+            Assert.IsFalse(submissionInfo.canSubmitTenancyDetails, "Field canSubmitTenancyDetails doesn't have the expected value.");
+            Assert.IsFalse(submissionInfo.canSubmitMoveOutDetails, "Field canSubmitMoveOutDetails doesn't have the expected value.");
+
+            Assert.IsFalse(submissionInfo.stepVerificationCodeSentOutDone, "Field stepVerificationCodeSentOutDone doesn't have the expected value.");
+            Assert.IsFalse(submissionInfo.stepVerificationCodeEnteredDone, "Field stepVerificationCodeEnteredDone doesn't have the expected value.");
+            Assert.IsFalse(submissionInfo.stepTenancyDetailsSubmittedDone, "Field stepTenancyDetailsSubmittedDone doesn't have the expected value.");
+            Assert.IsFalse(submissionInfo.stepMoveOutDetailsSubmittedDone, "Field stepMoveOutDetailsSubmittedDone doesn't have the expected value.");
+        }
+
+        [Test]
+        public async Task GetUserSubmissionSummary_SingleSubmissionWithSentVerificationsTest()
+        {
+            var itemsLimit = 10;
+            var justCreatedVerifications = 0;
+            var sentVerifications = 2;
+            var completeVerifications = 0;
+            var areDetailsSubmitted = false;
+            var hasMovedOut = false;
+
+            var helperContainer = CreateContainer();
+            var userIpAddress = "1.2.3.4";
+            var user = await CreateUser(helperContainer, "test@test.com", userIpAddress);
+            var otherUserIpAddress = "11.12.13.14";
+            var otherUser = await CreateUser(helperContainer, "other-user@test.com", "11.12.13.14");
+
+            var random = new RandomWrapper(2015);
+            var submission = await CreateTenancyDetailsSubmissionAndSave(
+                    random, helperContainer, user.Id, userIpAddress, otherUser.Id, otherUserIpAddress,
+                    justCreatedVerifications, sentVerifications, completeVerifications, areDetailsSubmitted, hasMovedOut);
+
+            var containerUnderTest = CreateContainer();
+            SetupConfigForGetUserSubmissionSummary(containerUnderTest, itemsLimit);
+            var serviceUnderTest = containerUnderTest.Get<ITenancyDetailsSubmissionService>();
+
+            var request = new MySubmissionsSummaryRequest { limitItemsReturned = false };
+            var response = await serviceUnderTest.GetUserSubmissionsSummary(user.Id, request);
+
+            Assert.AreEqual(1, response.tenancyDetailsSubmissions.Count,
+                "The response should contain a single submission.");
+
+            var submissionInfo = response.tenancyDetailsSubmissions.Single();
+
+            Assert.AreEqual(submission.UniqueId, submissionInfo.uniqueId,
+                "Field uniqueId is not the expected.");
+            Assert.IsTrue(submissionInfo.canEnterVerificationCode, "Field canEnterVerificationCode doesn't have the expected value.");
+            Assert.IsFalse(submissionInfo.canSubmitTenancyDetails, "Field canSubmitTenancyDetails doesn't have the expected value.");
+            Assert.IsFalse(submissionInfo.canSubmitMoveOutDetails, "Field canSubmitMoveOutDetails doesn't have the expected value.");
+
+            Assert.IsTrue(submissionInfo.stepVerificationCodeSentOutDone, "Field stepVerificationCodeSentOutDone doesn't have the expected value.");
+            Assert.IsFalse(submissionInfo.stepVerificationCodeEnteredDone, "Field stepVerificationCodeEnteredDone doesn't have the expected value.");
+            Assert.IsFalse(submissionInfo.stepTenancyDetailsSubmittedDone, "Field stepTenancyDetailsSubmittedDone doesn't have the expected value.");
+            Assert.IsFalse(submissionInfo.stepMoveOutDetailsSubmittedDone, "Field stepMoveOutDetailsSubmittedDone doesn't have the expected value.");
+        }
+
+        [Test]
+        public async Task GetUserSubmissionSummary_SingleSubmissionWithCompleteVerificationsTest()
+        {
+            var itemsLimit = 10;
+            var justCreatedVerifications = 0;
+            var sentVerifications = 0;
+            var completeVerifications = 2;
+            var areDetailsSubmitted = false;
+            var hasMovedOut = false;
+
+            var helperContainer = CreateContainer();
+            var userIpAddress = "1.2.3.4";
+            var user = await CreateUser(helperContainer, "test@test.com", userIpAddress);
+            var otherUserIpAddress = "11.12.13.14";
+            var otherUser = await CreateUser(helperContainer, "other-user@test.com", "11.12.13.14");
+
+            var random = new RandomWrapper(2015);
+            var submission = await CreateTenancyDetailsSubmissionAndSave(
+                    random, helperContainer, user.Id, userIpAddress, otherUser.Id, otherUserIpAddress,
+                    justCreatedVerifications, sentVerifications, completeVerifications, areDetailsSubmitted, hasMovedOut);
+
+            var containerUnderTest = CreateContainer();
+            SetupConfigForGetUserSubmissionSummary(containerUnderTest, itemsLimit);
+            var serviceUnderTest = containerUnderTest.Get<ITenancyDetailsSubmissionService>();
+
+            var request = new MySubmissionsSummaryRequest { limitItemsReturned = false };
+            var response = await serviceUnderTest.GetUserSubmissionsSummary(user.Id, request);
+
+            Assert.AreEqual(1, response.tenancyDetailsSubmissions.Count,
+                "The response should contain a single submission.");
+
+            var submissionInfo = response.tenancyDetailsSubmissions.Single();
+
+            Assert.AreEqual(submission.UniqueId, submissionInfo.uniqueId,
+                "Field uniqueId is not the expected.");
+            Assert.IsFalse(submissionInfo.canEnterVerificationCode, "Field canEnterVerificationCode doesn't have the expected value.");
+            Assert.IsTrue(submissionInfo.canSubmitTenancyDetails, "Field canSubmitTenancyDetails doesn't have the expected value.");
+            Assert.IsFalse(submissionInfo.canSubmitMoveOutDetails, "Field canSubmitMoveOutDetails doesn't have the expected value.");
+
+            Assert.IsTrue(submissionInfo.stepVerificationCodeSentOutDone, "Field stepVerificationCodeSentOutDone doesn't have the expected value.");
+            Assert.IsTrue(submissionInfo.stepVerificationCodeEnteredDone, "Field stepVerificationCodeEnteredDone doesn't have the expected value.");
+            Assert.IsFalse(submissionInfo.stepTenancyDetailsSubmittedDone, "Field stepTenancyDetailsSubmittedDone doesn't have the expected value.");
+            Assert.IsFalse(submissionInfo.stepMoveOutDetailsSubmittedDone, "Field stepMoveOutDetailsSubmittedDone doesn't have the expected value.");
+        }
+
+        [Test]
+        public async Task GetUserSubmissionSummary_SingleSubmissionWithSentAndCompleteVerificationsTest()
+        {
+            var itemsLimit = 10;
+            var justCreatedVerifications = 0;
+            var sentVerifications = 1;
+            var completeVerifications = 1;
+            var areDetailsSubmitted = false;
+            var hasMovedOut = false;
+
+            var helperContainer = CreateContainer();
+            var userIpAddress = "1.2.3.4";
+            var user = await CreateUser(helperContainer, "test@test.com", userIpAddress);
+            var otherUserIpAddress = "11.12.13.14";
+            var otherUser = await CreateUser(helperContainer, "other-user@test.com", "11.12.13.14");
+
+            var random = new RandomWrapper(2015);
+            var submission = await CreateTenancyDetailsSubmissionAndSave(
+                    random, helperContainer, user.Id, userIpAddress, otherUser.Id, otherUserIpAddress,
+                    justCreatedVerifications, sentVerifications, completeVerifications, areDetailsSubmitted, hasMovedOut);
+
+            var containerUnderTest = CreateContainer();
+            SetupConfigForGetUserSubmissionSummary(containerUnderTest, itemsLimit);
+            var serviceUnderTest = containerUnderTest.Get<ITenancyDetailsSubmissionService>();
+
+            var request = new MySubmissionsSummaryRequest { limitItemsReturned = false };
+            var response = await serviceUnderTest.GetUserSubmissionsSummary(user.Id, request);
+
+            Assert.AreEqual(1, response.tenancyDetailsSubmissions.Count,
+                "The response should contain a single submission.");
+
+            var submissionInfo = response.tenancyDetailsSubmissions.Single();
+
+            Assert.AreEqual(submission.UniqueId, submissionInfo.uniqueId,
+                "Field uniqueId is not the expected.");
+            Assert.IsTrue(submissionInfo.canEnterVerificationCode, "Field canEnterVerificationCode doesn't have the expected value.");
+            Assert.IsTrue(submissionInfo.canSubmitTenancyDetails, "Field canSubmitTenancyDetails doesn't have the expected value.");
+            Assert.IsFalse(submissionInfo.canSubmitMoveOutDetails, "Field canSubmitMoveOutDetails doesn't have the expected value.");
+
+            Assert.IsTrue(submissionInfo.stepVerificationCodeSentOutDone, "Field stepVerificationCodeSentOutDone doesn't have the expected value.");
+            Assert.IsTrue(submissionInfo.stepVerificationCodeEnteredDone, "Field stepVerificationCodeEnteredDone doesn't have the expected value.");
+            Assert.IsFalse(submissionInfo.stepTenancyDetailsSubmittedDone, "Field stepTenancyDetailsSubmittedDone doesn't have the expected value.");
+            Assert.IsFalse(submissionInfo.stepMoveOutDetailsSubmittedDone, "Field stepMoveOutDetailsSubmittedDone doesn't have the expected value.");
+        }
+
+        [Test]
+        public async Task GetUserSubmissionSummary_SingleSubmissionWithSubmittedDetailsTest()
+        {
+            var itemsLimit = 10;
+            var justCreatedVerifications = 0;
+            var sentVerifications = 0;
+            var completeVerifications = 2;
+            var areDetailsSubmitted = true;
+            var hasMovedOut = false;
+
+            var helperContainer = CreateContainer();
+            var userIpAddress = "1.2.3.4";
+            var user = await CreateUser(helperContainer, "test@test.com", userIpAddress);
+            var otherUserIpAddress = "11.12.13.14";
+            var otherUser = await CreateUser(helperContainer, "other-user@test.com", "11.12.13.14");
+
+            var random = new RandomWrapper(2015);
+            var submission = await CreateTenancyDetailsSubmissionAndSave(
+                    random, helperContainer, user.Id, userIpAddress, otherUser.Id, otherUserIpAddress,
+                    justCreatedVerifications, sentVerifications, completeVerifications, areDetailsSubmitted, hasMovedOut);
+
+            var containerUnderTest = CreateContainer();
+            SetupConfigForGetUserSubmissionSummary(containerUnderTest, itemsLimit);
+            var serviceUnderTest = containerUnderTest.Get<ITenancyDetailsSubmissionService>();
+
+            var request = new MySubmissionsSummaryRequest { limitItemsReturned = false };
+            var response = await serviceUnderTest.GetUserSubmissionsSummary(user.Id, request);
+
+            Assert.AreEqual(1, response.tenancyDetailsSubmissions.Count,
+                "The response should contain a single submission.");
+
+            var submissionInfo = response.tenancyDetailsSubmissions.Single();
+
+            Assert.AreEqual(submission.UniqueId, submissionInfo.uniqueId,
+                "Field uniqueId is not the expected.");
+            Assert.IsFalse(submissionInfo.canEnterVerificationCode, "Field canEnterVerificationCode doesn't have the expected value.");
+            Assert.IsFalse(submissionInfo.canSubmitTenancyDetails, "Field canSubmitTenancyDetails doesn't have the expected value.");
+            Assert.IsTrue(submissionInfo.canSubmitMoveOutDetails, "Field canSubmitMoveOutDetails doesn't have the expected value.");
+
+            Assert.IsTrue(submissionInfo.stepVerificationCodeSentOutDone, "Field stepVerificationCodeSentOutDone doesn't have the expected value.");
+            Assert.IsTrue(submissionInfo.stepVerificationCodeEnteredDone, "Field stepVerificationCodeEnteredDone doesn't have the expected value.");
+            Assert.IsTrue(submissionInfo.stepTenancyDetailsSubmittedDone, "Field stepTenancyDetailsSubmittedDone doesn't have the expected value.");
+            Assert.IsFalse(submissionInfo.stepMoveOutDetailsSubmittedDone, "Field stepMoveOutDetailsSubmittedDone doesn't have the expected value.");
+        }
+
+        [Test]
+        public async Task GetUserSubmissionSummary_SingleSubmissionWithSubmittedDetailsAndSentVerificationsTest()
+        {
+            var itemsLimit = 10;
+            var justCreatedVerifications = 0;
+            var sentVerifications = 1;
+            var completeVerifications = 1;
+            var areDetailsSubmitted = true;
+            var hasMovedOut = false;
+
+            var helperContainer = CreateContainer();
+            var userIpAddress = "1.2.3.4";
+            var user = await CreateUser(helperContainer, "test@test.com", userIpAddress);
+            var otherUserIpAddress = "11.12.13.14";
+            var otherUser = await CreateUser(helperContainer, "other-user@test.com", "11.12.13.14");
+
+            var random = new RandomWrapper(2015);
+            var submission = await CreateTenancyDetailsSubmissionAndSave(
+                    random, helperContainer, user.Id, userIpAddress, otherUser.Id, otherUserIpAddress,
+                    justCreatedVerifications, sentVerifications, completeVerifications, areDetailsSubmitted, hasMovedOut);
+
+            var containerUnderTest = CreateContainer();
+            SetupConfigForGetUserSubmissionSummary(containerUnderTest, itemsLimit);
+            var serviceUnderTest = containerUnderTest.Get<ITenancyDetailsSubmissionService>();
+
+            var request = new MySubmissionsSummaryRequest { limitItemsReturned = false };
+            var response = await serviceUnderTest.GetUserSubmissionsSummary(user.Id, request);
+
+            Assert.AreEqual(1, response.tenancyDetailsSubmissions.Count,
+                "The response should contain a single submission.");
+
+            var submissionInfo = response.tenancyDetailsSubmissions.Single();
+
+            Assert.AreEqual(submission.UniqueId, submissionInfo.uniqueId,
+                "Field uniqueId is not the expected.");
+            Assert.IsTrue(submissionInfo.canEnterVerificationCode, "Field canEnterVerificationCode doesn't have the expected value.");
+            Assert.IsFalse(submissionInfo.canSubmitTenancyDetails, "Field canSubmitTenancyDetails doesn't have the expected value.");
+            Assert.IsTrue(submissionInfo.canSubmitMoveOutDetails, "Field canSubmitMoveOutDetails doesn't have the expected value.");
+
+            Assert.IsTrue(submissionInfo.stepVerificationCodeSentOutDone, "Field stepVerificationCodeSentOutDone doesn't have the expected value.");
+            Assert.IsTrue(submissionInfo.stepVerificationCodeEnteredDone, "Field stepVerificationCodeEnteredDone doesn't have the expected value.");
+            Assert.IsTrue(submissionInfo.stepTenancyDetailsSubmittedDone, "Field stepTenancyDetailsSubmittedDone doesn't have the expected value.");
+            Assert.IsFalse(submissionInfo.stepMoveOutDetailsSubmittedDone, "Field stepMoveOutDetailsSubmittedDone doesn't have the expected value.");
+        }
+
+        [Test]
+        public async Task GetUserSubmissionSummary_SingleSubmissionAfterMoveOutTest()
+        {
+            var itemsLimit = 10;
+            var justCreatedVerifications = 0;
+            var sentVerifications = 0;
+            var completeVerifications = 2;
+            var areDetailsSubmitted = true;
+            var hasMovedOut = true;
+
+            var helperContainer = CreateContainer();
+            var userIpAddress = "1.2.3.4";
+            var user = await CreateUser(helperContainer, "test@test.com", userIpAddress);
+            var otherUserIpAddress = "11.12.13.14";
+            var otherUser = await CreateUser(helperContainer, "other-user@test.com", "11.12.13.14");
+
+            var random = new RandomWrapper(2015);
+            var submission = await CreateTenancyDetailsSubmissionAndSave(
+                    random, helperContainer, user.Id, userIpAddress, otherUser.Id, otherUserIpAddress,
+                    justCreatedVerifications, sentVerifications, completeVerifications, areDetailsSubmitted, hasMovedOut);
+
+            var containerUnderTest = CreateContainer();
+            SetupConfigForGetUserSubmissionSummary(containerUnderTest, itemsLimit);
+            var serviceUnderTest = containerUnderTest.Get<ITenancyDetailsSubmissionService>();
+
+            var request = new MySubmissionsSummaryRequest { limitItemsReturned = false };
+            var response = await serviceUnderTest.GetUserSubmissionsSummary(user.Id, request);
+
+            Assert.AreEqual(1, response.tenancyDetailsSubmissions.Count,
+                "The response should contain a single submission.");
+
+            var submissionInfo = response.tenancyDetailsSubmissions.Single();
+
+            Assert.AreEqual(submission.UniqueId, submissionInfo.uniqueId,
+                "Field uniqueId is not the expected.");
+            Assert.IsFalse(submissionInfo.canEnterVerificationCode, "Field canEnterVerificationCode doesn't have the expected value.");
+            Assert.IsFalse(submissionInfo.canSubmitTenancyDetails, "Field canSubmitTenancyDetails doesn't have the expected value.");
+            Assert.IsFalse(submissionInfo.canSubmitMoveOutDetails, "Field canSubmitMoveOutDetails doesn't have the expected value.");
+
+            Assert.IsTrue(submissionInfo.stepVerificationCodeSentOutDone, "Field stepVerificationCodeSentOutDone doesn't have the expected value.");
+            Assert.IsTrue(submissionInfo.stepVerificationCodeEnteredDone, "Field stepVerificationCodeEnteredDone doesn't have the expected value.");
+            Assert.IsTrue(submissionInfo.stepTenancyDetailsSubmittedDone, "Field stepTenancyDetailsSubmittedDone doesn't have the expected value.");
+            Assert.IsTrue(submissionInfo.stepMoveOutDetailsSubmittedDone, "Field stepMoveOutDetailsSubmittedDone doesn't have the expected value.");
+        }
+
+        [Test]
+        public async Task GetUserSubmissionSummary_SingleSubmissionAfterMoveOutWithJustCreatedVerificationTest()
+        {
+            var itemsLimit = 10;
+            var justCreatedVerifications = 0;
+            var sentVerifications = 1;
+            var completeVerifications = 1;
+            var areDetailsSubmitted = true;
+            var hasMovedOut = true;
+
+            var helperContainer = CreateContainer();
+            var userIpAddress = "1.2.3.4";
+            var user = await CreateUser(helperContainer, "test@test.com", userIpAddress);
+            var otherUserIpAddress = "11.12.13.14";
+            var otherUser = await CreateUser(helperContainer, "other-user@test.com", "11.12.13.14");
+
+            var random = new RandomWrapper(2015);
+            var submission = await CreateTenancyDetailsSubmissionAndSave(
+                    random, helperContainer, user.Id, userIpAddress, otherUser.Id, otherUserIpAddress,
+                    justCreatedVerifications, sentVerifications, completeVerifications, areDetailsSubmitted, hasMovedOut);
+
+            var containerUnderTest = CreateContainer();
+            SetupConfigForGetUserSubmissionSummary(containerUnderTest, itemsLimit);
+            var serviceUnderTest = containerUnderTest.Get<ITenancyDetailsSubmissionService>();
+
+            var request = new MySubmissionsSummaryRequest { limitItemsReturned = false };
+            var response = await serviceUnderTest.GetUserSubmissionsSummary(user.Id, request);
+
+            Assert.AreEqual(1, response.tenancyDetailsSubmissions.Count,
+                "The response should contain a single submission.");
+
+            var submissionInfo = response.tenancyDetailsSubmissions.Single();
+
+            Assert.AreEqual(submission.UniqueId, submissionInfo.uniqueId,
+                "Field uniqueId is not the expected.");
+            Assert.IsTrue(submissionInfo.canEnterVerificationCode, "Field canEnterVerificationCode doesn't have the expected value.");
+            Assert.IsFalse(submissionInfo.canSubmitTenancyDetails, "Field canSubmitTenancyDetails doesn't have the expected value.");
+            Assert.IsFalse(submissionInfo.canSubmitMoveOutDetails, "Field canSubmitMoveOutDetails doesn't have the expected value.");
+
+            Assert.IsTrue(submissionInfo.stepVerificationCodeSentOutDone, "Field stepVerificationCodeSentOutDone doesn't have the expected value.");
+            Assert.IsTrue(submissionInfo.stepVerificationCodeEnteredDone, "Field stepVerificationCodeEnteredDone doesn't have the expected value.");
+            Assert.IsTrue(submissionInfo.stepTenancyDetailsSubmittedDone, "Field stepTenancyDetailsSubmittedDone doesn't have the expected value.");
+            Assert.IsTrue(submissionInfo.stepMoveOutDetailsSubmittedDone, "Field stepMoveOutDetailsSubmittedDone doesn't have the expected value.");
+        }
+
+        [Test]
+        public async Task GetUserSubmissionSummary_SingleSubmissionAfterMoveOutWithSentVerificationTest()
+        {
+            var itemsLimit = 10;
+            var justCreatedVerifications = 0;
+            var sentVerifications = 1;
+            var completeVerifications = 1;
+            var areDetailsSubmitted = true;
+            var hasMovedOut = true;
+
+            var helperContainer = CreateContainer();
+            var userIpAddress = "1.2.3.4";
+            var user = await CreateUser(helperContainer, "test@test.com", userIpAddress);
+            var otherUserIpAddress = "11.12.13.14";
+            var otherUser = await CreateUser(helperContainer, "other-user@test.com", "11.12.13.14");
+
+            var random = new RandomWrapper(2015);
+            var submission = await CreateTenancyDetailsSubmissionAndSave(
+                    random, helperContainer, user.Id, userIpAddress, otherUser.Id, otherUserIpAddress,
+                    justCreatedVerifications, sentVerifications, completeVerifications, areDetailsSubmitted, hasMovedOut);
+
+            var containerUnderTest = CreateContainer();
+            SetupConfigForGetUserSubmissionSummary(containerUnderTest, itemsLimit);
+            var serviceUnderTest = containerUnderTest.Get<ITenancyDetailsSubmissionService>();
+
+            var request = new MySubmissionsSummaryRequest { limitItemsReturned = false };
+            var response = await serviceUnderTest.GetUserSubmissionsSummary(user.Id, request);
+
+            Assert.AreEqual(1, response.tenancyDetailsSubmissions.Count,
+                "The response should contain a single submission.");
+
+            var submissionInfo = response.tenancyDetailsSubmissions.Single();
+
+            Assert.AreEqual(submission.UniqueId, submissionInfo.uniqueId,
+                "Field uniqueId is not the expected.");
+            Assert.IsTrue(submissionInfo.canEnterVerificationCode, "Field canEnterVerificationCode doesn't have the expected value.");
+            Assert.IsFalse(submissionInfo.canSubmitTenancyDetails, "Field canSubmitTenancyDetails doesn't have the expected value.");
+            Assert.IsFalse(submissionInfo.canSubmitMoveOutDetails, "Field canSubmitMoveOutDetails doesn't have the expected value.");
+
+            Assert.IsTrue(submissionInfo.stepVerificationCodeSentOutDone, "Field stepVerificationCodeSentOutDone doesn't have the expected value.");
+            Assert.IsTrue(submissionInfo.stepVerificationCodeEnteredDone, "Field stepVerificationCodeEnteredDone doesn't have the expected value.");
+            Assert.IsTrue(submissionInfo.stepTenancyDetailsSubmittedDone, "Field stepTenancyDetailsSubmittedDone doesn't have the expected value.");
+            Assert.IsTrue(submissionInfo.stepMoveOutDetailsSubmittedDone, "Field stepMoveOutDetailsSubmittedDone doesn't have the expected value.");
         }
 
         #endregion
@@ -329,7 +845,8 @@ namespace Epsilon.IntegrationTests.Logic.Services
             IRandomWrapper random, IKernel container, 
             string userId, string userIpAddress,
             string otherUserId, string otherUserIpAddress,
-            int outstandingVerifications = 0, int completeVerification = 0, bool isSubmitted = false, bool hasMovedOut = false)
+            int justCreatedVerifications = 0, int sentVerifications = 0, int completeVerifications = 0, 
+            bool areDetailsSubmitted = false, bool hasMovedOut = false)
         {
             var clock = container.Get<IClock>();
             var dbContext = container.Get<IEpsilonContext>();
@@ -344,9 +861,10 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 CreatedByIpAddress = userIpAddress,
             };
 
-            if (isSubmitted)
+            if (areDetailsSubmitted)
             {
                 tenancyDetailsSubmission.SubmittedOn = clock.OffsetNow;
+                tenancyDetailsSubmission.Rent = random.Next(100, 1000);
             }
 
             if (hasMovedOut)
@@ -356,15 +874,21 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             var verifications = new List<TenantVerification>();
 
-            for (int i = 0; i < outstandingVerifications; i++)
+            for (int i = 0; i < justCreatedVerifications; i++)
             {
-                var verification = CreateTenantVerification(random, container, otherUserId, otherUserIpAddress, isComplete: false);
+                var verification = CreateTenantVerification(random, container, otherUserId, otherUserIpAddress, isSent: false, isComplete: false);
                 verifications.Add(verification);
             }
 
-            for (int i = 0; i < completeVerification; i++)
+            for (int i = 0; i < sentVerifications; i++)
             {
-                var verification = CreateTenantVerification(random, container, otherUserId, otherUserIpAddress, isComplete: true);
+                var verification = CreateTenantVerification(random, container, otherUserId, otherUserIpAddress, isSent: true, isComplete: false);
+                verifications.Add(verification);
+            }
+
+            for (int i = 0; i < completeVerifications; i++)
+            {
+                var verification = CreateTenantVerification(random, container, otherUserId, otherUserIpAddress, isSent: true, isComplete: true);
                 verifications.Add(verification);
             }
 
@@ -376,7 +900,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
         }
 
         private static TenantVerification CreateTenantVerification(
-            IRandomWrapper random, IKernel container, string userId, string userIpAddress, bool isComplete)
+            IRandomWrapper random, IKernel container, string userId, string userIpAddress, bool isSent, bool isComplete)
         {
             var clock = container.Get<IClock>();
             var dbContext = container.Get<IEpsilonContext>();
@@ -388,6 +912,8 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 AssignedByIpAddress = userIpAddress,
                 SecretCode = "secret-code"
             };
+            if (isSent)
+                tenantVerification.SentOn = clock.OffsetNow;
             if (isComplete)
                 tenantVerification.VerifiedOn = clock.OffsetNow;
             return tenantVerification;
