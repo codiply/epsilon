@@ -20,13 +20,15 @@ using Epsilon.Resources.Logic.AntiAbuse;
 using Epsilon.Resources.Logic.TenancyDetailsSubmission;
 using Epsilon.Logic.Constants.Enums;
 using Epsilon.IntegrationTests.TestHelpers;
+using Epsilon.Logic.JsonModels;
+using Epsilon.Logic.Wrappers.Interfaces;
 
 namespace Epsilon.IntegrationTests.Logic.Services
 {
     public class TenancyDetailsSubmissionServiceTest : BaseIntegrationTestWithRollback
     {
         #region Create
-        
+
         [Test]
         public async Task Create_ForNonExistingAddress()
         {
@@ -69,7 +71,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             var random = new RandomWrapper(2015);
 
-            var address = await AddressHelper.CreateRandomAddress(random, helperContainer, user.Id, ipAddress, CountryId.GB);
+            var address = await AddressHelper.CreateRandomAddressAndSave(random, helperContainer, user.Id, ipAddress, CountryId.GB);
 
             var userIdUsedInAntiAbuse = string.Empty;
             var ipAddressUsedInAntiAbuse = string.Empty;
@@ -114,7 +116,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             var random = new RandomWrapper(2015);
 
-            var address = await AddressHelper.CreateRandomAddress(random, helperContainer, user.Id, ipAddress, CountryId.GB);
+            var address = await AddressHelper.CreateRandomAddressAndSave(random, helperContainer, user.Id, ipAddress, CountryId.GB);
 
             var userIdUsedInAntiAbuse = string.Empty;
             var ipAddressUsedInAntiAbuse = string.Empty;
@@ -172,7 +174,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             var random = new RandomWrapper(2015);
 
-            var address = await AddressHelper.CreateRandomAddress(random, helperContainer, user.Id, ipAddress, CountryId.GB);
+            var address = await AddressHelper.CreateRandomAddressAndSave(random, helperContainer, user.Id, ipAddress, CountryId.GB);
 
             var container = CreateContainer();
             var disableFrequencyPerAddressCheck = false;
@@ -200,7 +202,6 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var outcome3 = await service.Create(user.Id, ipAddress, submissionUniqueId3, address.UniqueId);
             Assert.IsFalse(outcome3.IsRejected, "The field IsRejected on outcome3 should be false.");
 
-
             var retrievedTenancyDetailsSubmission1 = await DbProbe.TenancyDetailsSubmissions
                 .SingleOrDefaultAsync(x => x.UniqueId.Equals(submissionUniqueId1));
             var retrievedTenancyDetailsSubmission2 = await DbProbe.TenancyDetailsSubmissions
@@ -215,12 +216,98 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
         #endregion
 
+        #region GetUserSubmissionsSummary
+
+        [Test]
+        public async Task GetUserSubmissionSummary_ForUserWithoutSubmissions()
+        {
+            var helperContainer = CreateContainer();
+            var user = await CreateUser(helperContainer, "test@test.com", "1.2.3.4");
+
+            var containerUnderTest = CreateContainer();
+            var serviceUnderTest = containerUnderTest.Get<ITenancyDetailsSubmissionService>();
+
+
+            // Full summary
+            var request1 = new MySubmissionsSummaryRequest { limitItemsReturned = false };
+            var response1 = await serviceUnderTest.GetUserSubmissionsSummary(user.Id, request1);
+
+            Assert.IsNotNull(response1, "Response1 is null.");
+            Assert.IsFalse(response1.moreItemsExist, "Field moreItemsExist on response1 is not the expected.");
+            Assert.IsFalse(response1.tenancyDetailsSubmissions.Any(), "Field tenancyDetailsSubmissions on response1 should be empty.");
+
+            // Summary with limit
+            var request2 = new MySubmissionsSummaryRequest { limitItemsReturned = true };
+            var response2 = await serviceUnderTest.GetUserSubmissionsSummary(user.Id, request2);
+
+            Assert.IsNotNull(response2, "Response2 is null.");
+            Assert.IsFalse(response2.moreItemsExist, "Field moreItemsExist on response2 is not the expected.");
+            Assert.IsFalse(response2.tenancyDetailsSubmissions.Any(), "Field tenancyDetailsSubmissions on response2 should be empty.");
+        }
+
+        [Test]
+        public async Task GetUserSubmissionSummary_WithMoreSubmissionsThanLimit_ItemsLimitIsRespected()
+        {
+            var itemsLimit = 2;
+            var submissionsToCreate = 3;
+
+            var helperContainer = CreateContainer();
+            var userIpAddress = "1.2.3.4";
+            var user = await CreateUser(helperContainer, "test@test.com", userIpAddress);
+            var otherUserIpAddress = "11.12.13.14";
+            var otherUser = await CreateUser(helperContainer, "other-user@test.com", "11.12.13.14");
+
+
+            var random = new RandomWrapper(2015);
+
+            for (var i = 0; i < submissionsToCreate; i++)
+            {
+                var submission = CreateTenancyDetailsSubmissionAndSave(
+                    random, helperContainer, user.Id, userIpAddress, otherUser.Id, otherUserIpAddress);
+                Assert.IsNotNull(submission, string.Format("Submission created for i {0} is null.", i));
+            }
+
+            var containerUnderTest = CreateContainer();
+            SetupConfigForGetUserSubmissionSummary(containerUnderTest, itemsLimit);
+            var serviceUnderTest = containerUnderTest.Get<ITenancyDetailsSubmissionService>();
+
+            // Full summary
+            var request1 = new MySubmissionsSummaryRequest { limitItemsReturned = false };
+            var response1 = await serviceUnderTest.GetUserSubmissionsSummary(user.Id, request1);
+
+            Assert.IsNotNull(response1, "Response1 is null.");
+            Assert.IsFalse(response1.moreItemsExist, "Field moreItemsExist on response1 is not the expected.");
+            Assert.AreEqual(submissionsToCreate, response1.tenancyDetailsSubmissions.Count,
+                "Response1 should contain all submissions.");
+
+            // Summary with limit
+            var request2 = new MySubmissionsSummaryRequest { limitItemsReturned = true };
+            var response2 = await serviceUnderTest.GetUserSubmissionsSummary(user.Id, request2);
+
+            Assert.IsNotNull(response2, "Response2 is null.");
+            Assert.IsTrue(response2.moreItemsExist, "Field moreItemsExist on response2 is not the expected.");
+            Assert.AreEqual(itemsLimit, response2.tenancyDetailsSubmissions.Count,
+                "Response1 should contains a number of submissions equal to the limit.");
+        }
+
+        #endregion
+
         #region Private helper functions
+
+        private void SetupConfigForGetUserSubmissionSummary(IKernel container, int itemsLimit)
+        {
+            var mockConfig = new Mock<ITenancyDetailsSubmissionServiceConfig>();
+
+            mockConfig.Setup(x => x.MySubmissionsSummary_ItemsLimit).Returns(itemsLimit);
+
+            container.Rebind<ITenancyDetailsSubmissionServiceConfig>().ToConstant(mockConfig.Object);
+        }
 
         private void SetupConfigForCreate(IKernel container,
             bool disableFrequencyPerAddressCheck, Frequency maxFrequencyPerAddress)
         {
             var mockConfig = new Mock<ITenancyDetailsSubmissionServiceConfig>();
+
             mockConfig.Setup(x => x.Create_DisableFrequencyPerAddressCheck).Returns(disableFrequencyPerAddressCheck);
             mockConfig.Setup(x => x.Create_MaxFrequencyPerAddress).Returns(maxFrequencyPerAddress);
 
@@ -236,6 +323,74 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 .Returns(Task.FromResult(response));
 
             container.Rebind<IAntiAbuseService>().ToConstant(mockAntiAbuseService.Object);
+        }
+
+        private static async Task<TenancyDetailsSubmission> CreateTenancyDetailsSubmissionAndSave(
+            IRandomWrapper random, IKernel container, 
+            string userId, string userIpAddress,
+            string otherUserId, string otherUserIpAddress,
+            int outstandingVerifications = 0, int completeVerification = 0, bool isSubmitted = false, bool hasMovedOut = false)
+        {
+            var clock = container.Get<IClock>();
+            var dbContext = container.Get<IEpsilonContext>();
+
+            var address = await AddressHelper.CreateRandomAddressAndSave(random, container, userId, userIpAddress, CountryId.GB);
+            
+            var tenancyDetailsSubmission = new TenancyDetailsSubmission
+            {
+                UniqueId = Guid.NewGuid(),
+                AddressId = address.Id,
+                UserId = userId,
+                CreatedByIpAddress = userIpAddress,
+            };
+
+            if (isSubmitted)
+            {
+                tenancyDetailsSubmission.SubmittedOn = clock.OffsetNow;
+            }
+
+            if (hasMovedOut)
+            {
+                tenancyDetailsSubmission.MoveOutDate = clock.OffsetNow.UtcDateTime;
+            }
+
+            var verifications = new List<TenantVerification>();
+
+            for (int i = 0; i < outstandingVerifications; i++)
+            {
+                var verification = CreateTenantVerification(random, container, otherUserId, otherUserIpAddress, isComplete: false);
+                verifications.Add(verification);
+            }
+
+            for (int i = 0; i < completeVerification; i++)
+            {
+                var verification = CreateTenantVerification(random, container, otherUserId, otherUserIpAddress, isComplete: true);
+                verifications.Add(verification);
+            }
+
+            tenancyDetailsSubmission.TenantVerifications = verifications;
+
+            dbContext.TenancyDetailsSubmissions.Add(tenancyDetailsSubmission);
+            await dbContext.SaveChangesAsync();
+            return tenancyDetailsSubmission;
+        }
+
+        private static TenantVerification CreateTenantVerification(
+            IRandomWrapper random, IKernel container, string userId, string userIpAddress, bool isComplete)
+        {
+            var clock = container.Get<IClock>();
+            var dbContext = container.Get<IEpsilonContext>();
+
+            var tenantVerification = new TenantVerification
+            {
+                UniqueId = Guid.NewGuid(),
+                AssignedToId = userId,
+                AssignedByIpAddress = userIpAddress,
+                SecretCode = "secret-code"
+            };
+            if (isComplete)
+                tenantVerification.VerifiedOn = clock.OffsetNow;
+            return tenantVerification;
         }
 
         #endregion

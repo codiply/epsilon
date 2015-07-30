@@ -54,7 +54,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var random = new RandomWrapper(2015);
             for (int i = 0; i < addressesToCreate; i++)
             {
-                var address = await AddressHelper.CreateRandomAddress(random, container, user.Id, ipAddress, CountryId.GB);
+                var address = await AddressHelper.CreateRandomAddressAndSave(random, container, user.Id, ipAddress, CountryId.GB);
                 Assert.IsNotNull(address, "The address created for i {0} is null.");
             }
 
@@ -96,7 +96,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var random = new RandomWrapper(2015);
 
             // I add the first address.
-            var address1 = await AddressHelper.CreateRandomAddress(random, helperContainer, user.Id, ipAddress, CountryId.GB);
+            var address1 = await AddressHelper.CreateRandomAddressAndSave(random, helperContainer, user.Id, ipAddress, CountryId.GB);
 
             var firstResponse = await serviceUnderTest.CanAddAddress(user.Id, ipAddress);
             Assert.IsFalse(firstResponse.IsRejected, "The first check should pass.");
@@ -104,7 +104,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.IsNull(adminEventLogKey, "Admin event should not be logged the first time.");
 
             // I add the second address.
-            var address2 = await AddressHelper.CreateRandomAddress(random, helperContainer, user.Id, ipAddress, CountryId.GB);
+            var address2 = await AddressHelper.CreateRandomAddressAndSave(random, helperContainer, user.Id, ipAddress, CountryId.GB);
 
             var secondResponse = await serviceUnderTest.CanAddAddress(user.Id, ipAddress);
             Assert.IsTrue(secondResponse.IsRejected, "The second check should fail.");
@@ -152,7 +152,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             var random = new RandomWrapper(2015);
 
-            var address = await AddressHelper.CreateRandomAddress(random, helperContainer, user.Id, ipAddress1, CountryId.GB);
+            var address = await AddressHelper.CreateRandomAddressAndSave(random, helperContainer, user.Id, ipAddress1, CountryId.GB);
             Assert.IsNotNull(address, "Address created is null.");
 
             var firstResponse = await serviceUnderTest.CanAddAddress(user.Id, ipAddress2);
@@ -196,13 +196,13 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var random = new RandomWrapper(2015);
 
             // I add the first address.
-            var address1 = await AddressHelper.CreateRandomAddress(random, helperContainer, user.Id, ipAddress, CountryId.GB);
+            var address1 = await AddressHelper.CreateRandomAddressAndSave(random, helperContainer, user.Id, ipAddress, CountryId.GB);
 
             var firstResponse = await serviceUnderTest.CanAddAddress(user.Id, ipAddress);
             Assert.IsFalse(firstResponse.IsRejected, "The first check should pass.");
 
             // I add the second address.
-            var address2 = await AddressHelper.CreateRandomAddress(random, helperContainer, user.Id, ipAddress, CountryId.GB);
+            var address2 = await AddressHelper.CreateRandomAddressAndSave(random, helperContainer, user.Id, ipAddress, CountryId.GB);
 
             var secondResponse = await serviceUnderTest.CanAddAddress(user.Id, ipAddress);
             Assert.IsTrue(secondResponse.IsRejected, "The second check should fail.");
@@ -234,7 +234,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var random = new RandomWrapper(2015);
 
             var user = await CreateUser(helperContainer, "test@test.com", ipAddress);
-            var address = await AddressHelper.CreateRandomAddress(random, helperContainer, user.Id, ipAddress, CountryId.GB);
+            var address = await AddressHelper.CreateRandomAddressAndSave(random, helperContainer, user.Id, ipAddress, CountryId.GB);
             Assert.IsNotNull(address, "Address created is null.");
 
             var firstResponse = await serviceUnderTest.CanAddAddress(user.Id, ipAddress);
@@ -276,13 +276,13 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var user = await CreateUser(helperContainer, "test@test.com", ipAddress1);
 
             // I add the first address.
-            var address1 = await AddressHelper.CreateRandomAddress(random, helperContainer, user.Id, ipAddress1, CountryId.GB);
+            var address1 = await AddressHelper.CreateRandomAddressAndSave(random, helperContainer, user.Id, ipAddress1, CountryId.GB);
 
             var firstResponse = await serviceUnderTest.CanAddAddress(user.Id, ipAddress2);
             Assert.IsFalse(firstResponse.IsRejected, "The first check should pass.");
 
             // I add the second address
-            var address2 = await AddressHelper.CreateRandomAddress(random, helperContainer, user.Id, ipAddress3, CountryId.GB);
+            var address2 = await AddressHelper.CreateRandomAddressAndSave(random, helperContainer, user.Id, ipAddress3, CountryId.GB);
             
             var secondResponse = await serviceUnderTest.CanAddAddress(user.Id, ipAddress4);
             Assert.IsTrue(secondResponse.IsRejected, "The second check should fail.");
@@ -316,7 +316,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var random = new RandomWrapper(2015);
 
             var user = await CreateUser(helperContainer, "test@test.com", ipAddress1);
-            var address = await AddressHelper.CreateRandomAddress(random, helperContainer, user.Id, ipAddress1, CountryId.GB);
+            var address = await AddressHelper.CreateRandomAddressAndSave(random, helperContainer, user.Id, ipAddress1, CountryId.GB);
             Assert.IsNotNull(address, "Address created is null.");
 
             var firstResponse = await serviceUnderTest.CanAddAddress(user.Id, ipAddress2);
@@ -351,13 +351,13 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var user = await CreateUser(helperContainer, "test@test.com", ipAddress);
             
             // I add the first failure.
-            var geocodeFailure1 = await CreateGeocodeFailure(helperContainer, user.Id, ipAddress);
+            var geocodeFailure1 = await CreateGeocodeFailureAndSave(helperContainer, user.Id, ipAddress);
 
             var firstResponse = await serviceUnderTest.CanAddAddress(user.Id, ipAddress);
             Assert.IsFalse(firstResponse.IsRejected, "The first check should pass.");
 
             // I add the second failure.
-            var geocodeFailure2 = await CreateGeocodeFailure(helperContainer, user.Id, ipAddress);
+            var geocodeFailure2 = await CreateGeocodeFailureAndSave(helperContainer, user.Id, ipAddress);
 
             var secondResponse = await serviceUnderTest.CanAddAddress(user.Id, ipAddress);
             Assert.IsTrue(secondResponse.IsRejected, "The second check should fail.");
@@ -386,7 +386,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var random = new RandomWrapper(2015);
 
             var user = await CreateUser(helperContainer, "test@test.com", ipAddress);
-            var geocodeFailure = await CreateGeocodeFailure(helperContainer, user.Id, ipAddress);
+            var geocodeFailure = await CreateGeocodeFailureAndSave(helperContainer, user.Id, ipAddress);
             Assert.IsNotNull(geocodeFailure, "GeocodeFailure created is null.");
 
             var firstResponse = await serviceUnderTest.CanAddAddress(user.Id, ipAddress);
@@ -424,13 +424,13 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var user = await CreateUser(helperContainer, "test@test.com", ipAddress1);
 
             // I add the first failure.
-            var geocodeFailure1 = await CreateGeocodeFailure(helperContainer, user.Id, ipAddress1);
+            var geocodeFailure1 = await CreateGeocodeFailureAndSave(helperContainer, user.Id, ipAddress1);
 
             var firstResponse = await serviceUnderTest.CanAddAddress(user.Id, ipAddress2);
             Assert.IsFalse(firstResponse.IsRejected, "The first check should pass.");
 
             // I add the second failure
-            var geocodeFailure2 = await CreateGeocodeFailure(helperContainer, user.Id, ipAddress1);
+            var geocodeFailure2 = await CreateGeocodeFailureAndSave(helperContainer, user.Id, ipAddress1);
 
             var secondResponse = await serviceUnderTest.CanAddAddress(user.Id, ipAddress3);
             Assert.IsTrue(secondResponse.IsRejected, "The second check should fail.");
@@ -461,7 +461,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var random = new RandomWrapper(2015);
 
             var user = await CreateUser(helperContainer, "test@test.com", ipAddress1);
-            var geocodeFailure = await CreateGeocodeFailure(helperContainer, user.Id, ipAddress1);
+            var geocodeFailure = await CreateGeocodeFailureAndSave(helperContainer, user.Id, ipAddress1);
             Assert.IsNotNull(geocodeFailure, "GeocodeFailure created is null.");
 
             var firstResponse = await serviceUnderTest.CanAddAddress(user.Id, ipAddress2);
@@ -504,7 +504,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var random = new RandomWrapper(2015);
             for (int i = 0; i < submissionsToCreate; i++)
             {
-                var submission = await CreateTenancyDetailsSubmission(random, container, user.Id, ipAddress);
+                var submission = await CreateTenancyDetailsSubmissionAndSave(random, container, user.Id, ipAddress);
                 Assert.IsNotNull(submission, "The submission created for i {0} is null.");
             }
 
@@ -547,7 +547,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
 
             // I add the first submission.
-            var submission1 = await CreateTenancyDetailsSubmission(random, helperContainer, user.Id, ipAddress);
+            var submission1 = await CreateTenancyDetailsSubmissionAndSave(random, helperContainer, user.Id, ipAddress);
 
             var firstResponse = await serviceUnderTest.CanCreateTenancyDetailsSubmission(user.Id, ipAddress);
             Assert.IsFalse(firstResponse.IsRejected, "The first check should pass.");
@@ -555,7 +555,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.IsNull(adminEventLogKey, "Admin event should not be logged the first time.");
 
             // I add the second submission.
-            var submission2 = await CreateTenancyDetailsSubmission(random, helperContainer, user.Id, ipAddress);
+            var submission2 = await CreateTenancyDetailsSubmissionAndSave(random, helperContainer, user.Id, ipAddress);
 
             var secondResponse = await serviceUnderTest.CanCreateTenancyDetailsSubmission(user.Id, ipAddress);
             Assert.IsTrue(secondResponse.IsRejected, "The second check should fail.");
@@ -602,7 +602,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             var random = new RandomWrapper(2015);
 
-            var submission = await CreateTenancyDetailsSubmission(random, helperContainer, user.Id, ipAddress);
+            var submission = await CreateTenancyDetailsSubmissionAndSave(random, helperContainer, user.Id, ipAddress);
             Assert.IsNotNull(submission, "TenancyDetailsSubmission created is null.");
 
             var firstResponse = await serviceUnderTest.CanCreateTenancyDetailsSubmission(user.Id, ipAddress);
@@ -646,13 +646,13 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var random = new RandomWrapper(2015);
 
             // I add the first submission.
-            var submission1 = await CreateTenancyDetailsSubmission(random, helperContainer, user.Id, ipAddress);
+            var submission1 = await CreateTenancyDetailsSubmissionAndSave(random, helperContainer, user.Id, ipAddress);
 
             var firstResponse = await serviceUnderTest.CanCreateTenancyDetailsSubmission(user.Id, ipAddress);
             Assert.IsFalse(firstResponse.IsRejected, "The first check should pass.");
 
             // I add the second submission.
-            var submission2 = await CreateTenancyDetailsSubmission(random, helperContainer, user.Id, ipAddress);
+            var submission2 = await CreateTenancyDetailsSubmissionAndSave(random, helperContainer, user.Id, ipAddress);
 
             var secondResponse = await serviceUnderTest.CanCreateTenancyDetailsSubmission(user.Id, ipAddress);
             Assert.IsTrue(secondResponse.IsRejected, "The second check should fail.");
@@ -685,7 +685,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var random = new RandomWrapper(2015);
 
             var user = await CreateUser(helperContainer, "test@test.com", ipAddress);
-            var submission = await CreateTenancyDetailsSubmission(random, helperContainer, user.Id, ipAddress);
+            var submission = await CreateTenancyDetailsSubmissionAndSave(random, helperContainer, user.Id, ipAddress);
             Assert.IsNotNull(submission, "TenancyDetailsSubmission created is null.");
 
             var firstResponse = await serviceUnderTest.CanCreateTenancyDetailsSubmission(user.Id, ipAddress);
@@ -727,14 +727,14 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var user = await CreateUser(helperContainer, "test@test.com", ipAddress1);
 
             // I add the first submission.
-            var submission1 = await CreateTenancyDetailsSubmission(random, helperContainer, user.Id, ipAddress1);
+            var submission1 = await CreateTenancyDetailsSubmissionAndSave(random, helperContainer, user.Id, ipAddress1);
             Assert.IsNotNull(submission1, "Submission1 is null.");
 
             var firstResponse = await serviceUnderTest.CanCreateTenancyDetailsSubmission(user.Id, ipAddress2);
             Assert.IsFalse(firstResponse.IsRejected, "The first check should pass.");
 
             // I add the second submission.
-            var submission2 = await CreateTenancyDetailsSubmission(random, helperContainer, user.Id, ipAddress3);
+            var submission2 = await CreateTenancyDetailsSubmissionAndSave(random, helperContainer, user.Id, ipAddress3);
             Assert.IsNotNull(submission1, "Submission2 is null.");
 
             var secondResponse = await serviceUnderTest.CanCreateTenancyDetailsSubmission(user.Id, ipAddress4);
@@ -769,7 +769,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var random = new RandomWrapper(2015);
 
             var user = await CreateUser(helperContainer, "test@test.com", ipAddress1);
-            var submission = await CreateTenancyDetailsSubmission(random, helperContainer, user.Id, ipAddress1);
+            var submission = await CreateTenancyDetailsSubmissionAndSave(random, helperContainer, user.Id, ipAddress1);
             Assert.IsNotNull(submission, "TenancyDetailsSubmission created is null.");
 
             var firstResponse = await serviceUnderTest.CanCreateTenancyDetailsSubmission(user.Id, ipAddress2);
@@ -813,7 +813,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var random = new RandomWrapper(2015);
             for (int i = 0; i < verificationsToCreate; i++)
             {
-                var verification = await CreateTenantVerification(random, container, user.Id, ipAddress, false);
+                var verification = await CreateTenantVerificationAndSave(random, container, user.Id, ipAddress, false);
                 Assert.IsNotNull(verification, "The verification created for i {0} is null.");
             }
 
@@ -856,7 +856,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var random = new RandomWrapper(2015);
 
             // I add the first verification.
-            var verification1 = await CreateTenantVerification(random, helperContainer, user.Id, ipAddress, false);
+            var verification1 = await CreateTenantVerificationAndSave(random, helperContainer, user.Id, ipAddress, false);
 
             var firstResponse = await serviceUnderTest.CanPickOutgoingVerification(user.Id, ipAddress);
             Assert.IsFalse(firstResponse.IsRejected, "The first check should pass.");
@@ -864,7 +864,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.IsNull(adminEventLogKey, "Admin event should not be logged the first time.");
 
             // I add the second verification.
-            var verification2 = await CreateTenantVerification(random, helperContainer, user.Id, ipAddress, false);
+            var verification2 = await CreateTenantVerificationAndSave(random, helperContainer, user.Id, ipAddress, false);
 
             var secondResponse = await serviceUnderTest.CanPickOutgoingVerification(user.Id, ipAddress);
             Assert.IsTrue(secondResponse.IsRejected, "The second check should fail.");
@@ -911,7 +911,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             var random = new RandomWrapper(2015);
 
-            var verification = await CreateTenantVerification(random, helperContainer, user.Id, ipAddress, false);
+            var verification = await CreateTenantVerificationAndSave(random, helperContainer, user.Id, ipAddress, false);
             Assert.IsNotNull(verification, "TenantVerifiation created is null.");
 
             var firstResponse = await serviceUnderTest.CanPickOutgoingVerification(user.Id, ipAddress);
@@ -956,13 +956,13 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var random = new RandomWrapper(2015);
 
             // I add the first verification.
-            var verification1 = await CreateTenantVerification(random, helperContainer, user.Id, ipAddress, false);
+            var verification1 = await CreateTenantVerificationAndSave(random, helperContainer, user.Id, ipAddress, false);
 
             var firstResponse = await serviceUnderTest.CanPickOutgoingVerification(user.Id, ipAddress);
             Assert.IsFalse(firstResponse.IsRejected, "The first check should pass.");
 
             // I add the second verification.
-            var verification2 = await CreateTenantVerification(random, helperContainer, user.Id, ipAddress, false);
+            var verification2 = await CreateTenantVerificationAndSave(random, helperContainer, user.Id, ipAddress, false);
 
             var secondResponse = await serviceUnderTest.CanPickOutgoingVerification(user.Id, ipAddress);
             Assert.IsTrue(secondResponse.IsRejected, "The second check should fail.");
@@ -997,7 +997,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             var random = new RandomWrapper(2015);
 
-            var verification = await CreateTenantVerification(random, helperContainer, user.Id, ipAddress, false);
+            var verification = await CreateTenantVerificationAndSave(random, helperContainer, user.Id, ipAddress, false);
             Assert.IsNotNull(verification, "TenantVerifiation created is null.");
 
             var firstResponse = await serviceUnderTest.CanPickOutgoingVerification(user.Id, ipAddress);
@@ -1038,13 +1038,13 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var random = new RandomWrapper(2015);
 
             // I add the first verification.
-            var verification1 = await CreateTenantVerification(random, helperContainer, user.Id, ipAddress, false);
+            var verification1 = await CreateTenantVerificationAndSave(random, helperContainer, user.Id, ipAddress, false);
 
             var firstResponse = await serviceUnderTest.CanPickOutgoingVerification(user.Id, ipAddress);
             Assert.IsFalse(firstResponse.IsRejected, "The first check should pass.");
 
             // I add the second verification.
-            var verification2 = await CreateTenantVerification(random, helperContainer, user.Id, ipAddress, false);
+            var verification2 = await CreateTenantVerificationAndSave(random, helperContainer, user.Id, ipAddress, false);
 
             var secondResponse = await serviceUnderTest.CanPickOutgoingVerification(user.Id, ipAddress);
             Assert.IsTrue(secondResponse.IsRejected, "The second check should fail.");
@@ -1078,16 +1078,16 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             var random = new RandomWrapper(2015);
 
-            var completeVerification = await CreateTenantVerification(random, helperContainer, user.Id, ipAddress, true);
+            var completeVerification = await CreateTenantVerificationAndSave(random, helperContainer, user.Id, ipAddress, true);
 
             // I add the first verification.
-            var verification1 = await CreateTenantVerification(random, helperContainer, user.Id, ipAddress, false);
+            var verification1 = await CreateTenantVerificationAndSave(random, helperContainer, user.Id, ipAddress, false);
 
             var firstResponse = await serviceUnderTest.CanPickOutgoingVerification(user.Id, ipAddress);
             Assert.IsFalse(firstResponse.IsRejected, "The first check should pass.");
 
             // I add the second verification.
-            var verification2 = await CreateTenantVerification(random, helperContainer, user.Id, ipAddress, false);
+            var verification2 = await CreateTenantVerificationAndSave(random, helperContainer, user.Id, ipAddress, false);
 
             var secondResponse = await serviceUnderTest.CanPickOutgoingVerification(user.Id, ipAddress);
             Assert.IsTrue(secondResponse.IsRejected, "The second check should fail.");
@@ -1124,18 +1124,18 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             for (int i = 0; i < numberOfCompleteVerificationsToCreate; i++)
             {
-                var completeVerification = await CreateTenantVerification(random, helperContainer, user.Id, ipAddress, true);
+                var completeVerification = await CreateTenantVerificationAndSave(random, helperContainer, user.Id, ipAddress, true);
                 Assert.IsNotNull(user, "The complete verification created for i {0} is null.");
             }
 
             // I add the first verification.
-            var verification1 = await CreateTenantVerification(random, helperContainer, user.Id, ipAddress, false);
+            var verification1 = await CreateTenantVerificationAndSave(random, helperContainer, user.Id, ipAddress, false);
 
             var firstResponse = await serviceUnderTest.CanPickOutgoingVerification(user.Id, ipAddress);
             Assert.IsFalse(firstResponse.IsRejected, "The first check should pass.");
 
             // I add the second verification.
-            var verification2 = await CreateTenantVerification(random, helperContainer, user.Id, ipAddress, false);
+            var verification2 = await CreateTenantVerificationAndSave(random, helperContainer, user.Id, ipAddress, false);
 
             var secondResponse = await serviceUnderTest.CanPickOutgoingVerification(user.Id, ipAddress);
             Assert.IsTrue(secondResponse.IsRejected, "The second check should fail.");
@@ -1330,10 +1330,10 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
         #region Private setup methods
 
-        private static async Task<TenancyDetailsSubmission> CreateTenancyDetailsSubmission(
+        private static async Task<TenancyDetailsSubmission> CreateTenancyDetailsSubmissionAndSave(
             IRandomWrapper random, IKernel container, string userId, string userIpAddress)
         {
-            var address = await AddressHelper.CreateRandomAddress(random, container, userId, userIpAddress, CountryId.GB);
+            var address = await AddressHelper.CreateRandomAddressAndSave(random, container, userId, userIpAddress, CountryId.GB);
             var dbContext = container.Get<IEpsilonContext>();
             
             var tenancyDetailsSubmission = new TenancyDetailsSubmission
@@ -1348,13 +1348,13 @@ namespace Epsilon.IntegrationTests.Logic.Services
             return tenancyDetailsSubmission;
         }
 
-        private static async Task<TenantVerification> CreateTenantVerification(
+        private static async Task<TenantVerification> CreateTenantVerificationAndSave(
             IRandomWrapper random, IKernel container, string userId, string userIpAddress, bool isComplete)
         {
             var clock = container.Get<IClock>();
             var dbContext = container.Get<IEpsilonContext>();
 
-            var tenancyDetailsSubmission = await CreateTenancyDetailsSubmission(random, container, userId, userIpAddress);
+            var tenancyDetailsSubmission = await CreateTenancyDetailsSubmissionAndSave(random, container, userId, userIpAddress);
 
             var tenantVerification = new TenantVerification
             {
@@ -1371,7 +1371,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             return tenantVerification;
         }
 
-        private static async Task<GeocodeFailure> CreateGeocodeFailure(
+        private static async Task<GeocodeFailure> CreateGeocodeFailureAndSave(
             IKernel container, string userId, string userIpAddress)
         {
             var dbContext = container.Get<IEpsilonContext>();

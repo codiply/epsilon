@@ -15,7 +15,7 @@ namespace Epsilon.IntegrationTests.TestHelpers
 {
     public static class AddressHelper
     {
-        public static async Task<Address> CreateRandomAddress(
+        public static async Task<Address> CreateRandomAddressAndSave(
             IRandomWrapper random, IKernel container, string userId, string userIpAddress, CountryId countryId)
         {
             var randomFieldLength = 10;

@@ -47,7 +47,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var random = new RandomWrapper(2015);
 
             var countryId = CountryId.GB;
-            var address = await AddressHelper.CreateRandomAddress(random, helperContainer, user.Id, ipAddress, countryId);
+            var address = await AddressHelper.CreateRandomAddressAndSave(random, helperContainer, user.Id, ipAddress, countryId);
             var numberOfIncompleteVerifications = 0;
             var submission = await CreateUnverifiedTenancyDetailsSubmission(
                 helperContainer, user.Id, ipAddress, address.Id, numberOfIncompleteVerifications);
@@ -80,14 +80,14 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var random = new RandomWrapper(2015);
 
             var countryId1 = CountryId.GB;
-            var address1 = await AddressHelper.CreateRandomAddress(random, helperContainer, user.Id, ipAddress, countryId1);
+            var address1 = await AddressHelper.CreateRandomAddressAndSave(random, helperContainer, user.Id, ipAddress, countryId1);
             var numberOfIncompleteVerifications1 = 1;
             var submission1 = await CreateUnverifiedTenancyDetailsSubmission(
                 helperContainer, user.Id, ipAddress, address1.Id, numberOfIncompleteVerifications1);
 
             var countryId2 = CountryId.GR;
             var numberOfIncompleteVerifications2 = 2;
-            var address2 = await AddressHelper.CreateRandomAddress(random, helperContainer, user.Id, ipAddress, countryId2);
+            var address2 = await AddressHelper.CreateRandomAddressAndSave(random, helperContainer, user.Id, ipAddress, countryId2);
             var submission2 = await CreateUnverifiedTenancyDetailsSubmission(
                 helperContainer, user.Id, ipAddress, address2.Id, numberOfIncompleteVerifications2);
 
@@ -119,7 +119,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var random = new RandomWrapper(2015);
 
             var countryId = CountryId.GB;
-            var address = await AddressHelper.CreateRandomAddress(random, helperContainer, user.Id, ipAddress, countryId);
+            var address = await AddressHelper.CreateRandomAddressAndSave(random, helperContainer, user.Id, ipAddress, countryId);
             var numberOfIncompleteVerifications = 0;
             var numberOfCompleteVerifications = 1;
             var submission = await CreateVerifiedTenancyDetailsSubmission(
@@ -153,7 +153,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var random = new RandomWrapper(2015);
 
             var countryId1 = CountryId.GB;
-            var address1 = await AddressHelper.CreateRandomAddress(random, helperContainer, user.Id, ipAddress, countryId1);
+            var address1 = await AddressHelper.CreateRandomAddressAndSave(random, helperContainer, user.Id, ipAddress, countryId1);
             var numberOfCompleteVerifications1 = 1;
             var numberOfIncompleteVerifications1 = 0;
             var submission1 = await CreateVerifiedTenancyDetailsSubmission(
@@ -162,7 +162,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var countryId2 = CountryId.GR;
             var numberOfCompleteVerifications2 = 1;
             var numberOfIncompleteVerifications2 = 1;
-            var address2 = await AddressHelper.CreateRandomAddress(random, helperContainer, user.Id, ipAddress, countryId2);
+            var address2 = await AddressHelper.CreateRandomAddressAndSave(random, helperContainer, user.Id, ipAddress, countryId2);
             var submission2 = await CreateVerifiedTenancyDetailsSubmission(
                 helperContainer, user.Id, ipAddress, address2.Id, numberOfCompleteVerifications2, numberOfIncompleteVerifications2);
 
@@ -195,7 +195,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             // Submission 1 verified
             var countryId1 = CountryId.GB;
-            var verifiedAddress1 = await AddressHelper.CreateRandomAddress(random, helperContainer, user.Id, ipAddress, countryId1);
+            var verifiedAddress1 = await AddressHelper.CreateRandomAddressAndSave(random, helperContainer, user.Id, ipAddress, countryId1);
             var numberOfIncompleteVerifications1 = 0;
             var numberOfCompleteVerifications1 = 1;
             var verifiedSubmission1 = await CreateVerifiedTenancyDetailsSubmission(
@@ -204,13 +204,13 @@ namespace Epsilon.IntegrationTests.Logic.Services
             // Submission 2 unverified
             var countryId2 = CountryId.GR;
             var numberOfIncompleteVerifications2 = 1;
-            var unverifiedAddress2 = await AddressHelper.CreateRandomAddress(random, helperContainer, user.Id, ipAddress, countryId2);
+            var unverifiedAddress2 = await AddressHelper.CreateRandomAddressAndSave(random, helperContainer, user.Id, ipAddress, countryId2);
             var submission2 = await CreateUnverifiedTenancyDetailsSubmission(
                 helperContainer, user.Id, ipAddress, unverifiedAddress2.Id, numberOfIncompleteVerifications2);
 
             // Submission 3 verified
             var countryId3 = CountryId.GB;
-            var verifiedAddress3 = await AddressHelper.CreateRandomAddress(random, helperContainer, user.Id, ipAddress, countryId3);
+            var verifiedAddress3 = await AddressHelper.CreateRandomAddressAndSave(random, helperContainer, user.Id, ipAddress, countryId3);
             var numberOfIncompleteVerifications3 = 0;
             var numberOfCompleteVerifications3 = 1;
             var verifiedSubmission3 = await CreateVerifiedTenancyDetailsSubmission(
@@ -219,7 +219,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             // Submission 4 unverified
             var countryId4 = CountryId.GR;
             var numberOfIncompleteVerifications4 = 1;
-            var unverifiedAddress4 = await AddressHelper.CreateRandomAddress(random, helperContainer, user.Id, ipAddress, countryId4);
+            var unverifiedAddress4 = await AddressHelper.CreateRandomAddressAndSave(random, helperContainer, user.Id, ipAddress, countryId4);
             var submission4 = await CreateUnverifiedTenancyDetailsSubmission(
                 helperContainer, user.Id, ipAddress, unverifiedAddress4.Id, numberOfIncompleteVerifications4);
 
