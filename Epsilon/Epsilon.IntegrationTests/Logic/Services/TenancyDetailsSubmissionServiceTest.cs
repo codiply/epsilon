@@ -262,7 +262,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             for (var i = 0; i < submissionsToCreate; i++)
             {
-                var submission = CreateTenancyDetailsSubmissionAndSave(
+                var submission = await CreateTenancyDetailsSubmissionAndSave(
                     random, helperContainer, user.Id, userIpAddress, otherUser.Id, otherUserIpAddress);
                 Assert.IsNotNull(submission, string.Format("Submission created for i {0} is null.", i));
             }
