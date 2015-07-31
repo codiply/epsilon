@@ -66,6 +66,8 @@ namespace Epsilon.Logic.Entities
         /// <returns></returns>
         public bool CanEnterVerificationCode()
         {
+            // I do not mind if the verifications have value for SentOn. 
+            // It is possible that the assigned user forgot to mark them as sent.
             return TenantVerifications.Any(v => !v.VerifiedOn.HasValue);
         }
 

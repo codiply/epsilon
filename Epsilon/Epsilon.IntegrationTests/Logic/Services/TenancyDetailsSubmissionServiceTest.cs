@@ -22,6 +22,7 @@ using Epsilon.Logic.Constants.Enums;
 using Epsilon.IntegrationTests.TestHelpers;
 using Epsilon.Logic.JsonModels;
 using Epsilon.Logic.Wrappers.Interfaces;
+using Epsilon.Logic.Entities.Interfaces;
 
 namespace Epsilon.IntegrationTests.Logic.Services
 {
@@ -222,7 +223,19 @@ namespace Epsilon.IntegrationTests.Logic.Services
         public async Task GetUserSubmissionSummary_ForUserWithoutSubmissions()
         {
             var helperContainer = CreateContainer();
-            var user = await CreateUser(helperContainer, "test@test.com", "1.2.3.4");
+
+            var userIpAddress = "1.2.3.4";
+            var user = await CreateUser(helperContainer, "test@test.com", userIpAddress);
+
+            var random = new RandomWrapper(2015);
+
+            // I create a submission for the other user and assign the verifications to the user under test.
+            // This is to test that the summary contains only submissions from the specific user.
+            var otherUserIpAddress = "1.2.3.5";
+            var otherUser = await CreateUser(helperContainer, "test2@test.com", otherUserIpAddress);
+            var otherUserSubmission = await CreateTenancyDetailsSubmissionAndSave(
+                    random, helperContainer, otherUser.Id, otherUserIpAddress, user.Id, userIpAddress);
+            Assert.IsNotNull(otherUserSubmission, "The submission created for the other user is null.");
 
             var containerUnderTest = CreateContainer();
             var serviceUnderTest = containerUnderTest.Get<ITenancyDetailsSubmissionService>();
@@ -267,6 +280,12 @@ namespace Epsilon.IntegrationTests.Logic.Services
             }
             var submissionByCreationDescending = submissions.OrderByDescending(x => x.CreatedOn).ToList();
 
+            // I create a submission for the other user and assign the verifications to the user under test.
+            // This is to test that the summary contains only submissions from the specific user.
+            var otherUserSubmission = await CreateTenancyDetailsSubmissionAndSave(
+                    random, helperContainer, otherUser.Id, otherUserIpAddress, user.Id, userIpAddress);
+            Assert.IsNotNull(otherUserSubmission, "The submission created for the other user is null.");
+
             var containerUnderTest = CreateContainer();
             SetupConfigForGetUserSubmissionSummary(containerUnderTest, itemsLimit);
             var serviceUnderTest = containerUnderTest.Get<ITenancyDetailsSubmissionService>();
@@ -285,6 +304,9 @@ namespace Epsilon.IntegrationTests.Logic.Services
                     string.Format("Response1: submission at position {0} does not have the expected uniqueId.", i));
             }
 
+            Assert.IsFalse(response1.tenancyDetailsSubmissions.Any(x => x.uniqueId.Equals(otherUserSubmission.UniqueId)),
+                "Response1 should not contain the submission of the other user.");
+
             // Summary with limit
             var request2 = new MySubmissionsSummaryRequest { limitItemsReturned = true };
             var response2 = await serviceUnderTest.GetUserSubmissionsSummary(user.Id, request2);
@@ -298,6 +320,9 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 Assert.AreEqual(response2.tenancyDetailsSubmissions[i].uniqueId, submissionByCreationDescending[i].UniqueId,
                     string.Format("Response2: ubmission at position {0} does not have the expected uniqueId.", i));
             }
+
+            Assert.IsFalse(response2.tenancyDetailsSubmissions.Any(x => x.uniqueId.Equals(otherUserSubmission.UniqueId)),
+                "Response2 should not contain the submission of the other user.");
         }
 
         [Test]
@@ -323,6 +348,12 @@ namespace Epsilon.IntegrationTests.Logic.Services
             }
             var submissionByCreationDescending = submissions.OrderByDescending(x => x.CreatedOn).ToList();
 
+            // I create a submission for the other user and assign the verifications to the user under test.
+            // This is to test that the summary contains only submissions from the specific user.
+            var otherUserSubmission = await CreateTenancyDetailsSubmissionAndSave(
+                    random, helperContainer, otherUser.Id, otherUserIpAddress, user.Id, userIpAddress);
+            Assert.IsNotNull(otherUserSubmission, "The submission created for the other user is null.");
+
             var containerUnderTest = CreateContainer();
             SetupConfigForGetUserSubmissionSummary(containerUnderTest, itemsLimit);
             var serviceUnderTest = containerUnderTest.Get<ITenancyDetailsSubmissionService>();
@@ -341,6 +372,9 @@ namespace Epsilon.IntegrationTests.Logic.Services
                     string.Format("Response1: submission at position {0} does not have the expected uniqueId.", i));
             }
 
+            Assert.IsFalse(response1.tenancyDetailsSubmissions.Any(x => x.uniqueId.Equals(otherUserSubmission.UniqueId)),
+                "Response1 should not contain the submission of the other user.");
+
             // Summary with limit
             var request2 = new MySubmissionsSummaryRequest { limitItemsReturned = true };
             var response2 = await serviceUnderTest.GetUserSubmissionsSummary(user.Id, request2);
@@ -354,6 +388,9 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 Assert.AreEqual(response2.tenancyDetailsSubmissions[i].uniqueId, submissionByCreationDescending[i].UniqueId,
                     string.Format("Response1: submission at position {0} does not have the expected uniqueId.", i));
             }
+
+            Assert.IsFalse(response2.tenancyDetailsSubmissions.Any(x => x.uniqueId.Equals(otherUserSubmission.UniqueId)),
+                "Response2 should not contain the submission of the other user.");
         }
 
         [Test]
@@ -399,6 +436,10 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.IsFalse(submissionInfo.stepVerificationCodeEnteredDone, "Field stepVerificationCodeEnteredDone doesn't have the expected value.");
             Assert.IsFalse(submissionInfo.stepTenancyDetailsSubmittedDone, "Field stepTenancyDetailsSubmittedDone doesn't have the expected value.");
             Assert.IsFalse(submissionInfo.stepMoveOutDetailsSubmittedDone, "Field stepMoveOutDetailsSubmittedDone doesn't have the expected value.");
+
+            var retrievedSubmission = await DbProbe.TenancyDetailsSubmissions
+                .Include(x => x.Address).Include(x => x.Address.Country).SingleOrDefaultAsync(x => x.UniqueId.Equals(submissionInfo.uniqueId));
+            Assert.AreEqual(retrievedSubmission.Address.FullAddress(), submissionInfo.displayAddress, "Field displayAddress is not the expected.");
         }
 
         [Test]
@@ -444,6 +485,10 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.IsFalse(submissionInfo.stepVerificationCodeEnteredDone, "Field stepVerificationCodeEnteredDone doesn't have the expected value.");
             Assert.IsFalse(submissionInfo.stepTenancyDetailsSubmittedDone, "Field stepTenancyDetailsSubmittedDone doesn't have the expected value.");
             Assert.IsFalse(submissionInfo.stepMoveOutDetailsSubmittedDone, "Field stepMoveOutDetailsSubmittedDone doesn't have the expected value.");
+
+            var retrievedSubmission = await DbProbe.TenancyDetailsSubmissions
+                .Include(x => x.Address).Include(x => x.Address.Country).SingleOrDefaultAsync(x => x.UniqueId.Equals(submissionInfo.uniqueId));
+            Assert.AreEqual(retrievedSubmission.Address.FullAddress(), submissionInfo.displayAddress, "Field displayAddress is not the expected.");
         }
 
         [Test]
@@ -489,6 +534,10 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.IsFalse(submissionInfo.stepVerificationCodeEnteredDone, "Field stepVerificationCodeEnteredDone doesn't have the expected value.");
             Assert.IsFalse(submissionInfo.stepTenancyDetailsSubmittedDone, "Field stepTenancyDetailsSubmittedDone doesn't have the expected value.");
             Assert.IsFalse(submissionInfo.stepMoveOutDetailsSubmittedDone, "Field stepMoveOutDetailsSubmittedDone doesn't have the expected value.");
+
+            var retrievedSubmission = await DbProbe.TenancyDetailsSubmissions
+                .Include(x => x.Address).Include(x => x.Address.Country).SingleOrDefaultAsync(x => x.UniqueId.Equals(submissionInfo.uniqueId));
+            Assert.AreEqual(retrievedSubmission.Address.FullAddress(), submissionInfo.displayAddress, "Field displayAddress is not the expected.");
         }
 
         [Test]
@@ -534,6 +583,10 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.IsTrue(submissionInfo.stepVerificationCodeEnteredDone, "Field stepVerificationCodeEnteredDone doesn't have the expected value.");
             Assert.IsFalse(submissionInfo.stepTenancyDetailsSubmittedDone, "Field stepTenancyDetailsSubmittedDone doesn't have the expected value.");
             Assert.IsFalse(submissionInfo.stepMoveOutDetailsSubmittedDone, "Field stepMoveOutDetailsSubmittedDone doesn't have the expected value.");
+
+            var retrievedSubmission = await DbProbe.TenancyDetailsSubmissions
+                .Include(x => x.Address).Include(x => x.Address.Country).SingleOrDefaultAsync(x => x.UniqueId.Equals(submissionInfo.uniqueId));
+            Assert.AreEqual(retrievedSubmission.Address.FullAddress(), submissionInfo.displayAddress, "Field displayAddress is not the expected.");
         }
 
         [Test]
@@ -579,6 +632,10 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.IsTrue(submissionInfo.stepVerificationCodeEnteredDone, "Field stepVerificationCodeEnteredDone doesn't have the expected value.");
             Assert.IsFalse(submissionInfo.stepTenancyDetailsSubmittedDone, "Field stepTenancyDetailsSubmittedDone doesn't have the expected value.");
             Assert.IsFalse(submissionInfo.stepMoveOutDetailsSubmittedDone, "Field stepMoveOutDetailsSubmittedDone doesn't have the expected value.");
+
+            var retrievedSubmission = await DbProbe.TenancyDetailsSubmissions
+                .Include(x => x.Address).Include(x => x.Address.Country).SingleOrDefaultAsync(x => x.UniqueId.Equals(submissionInfo.uniqueId));
+            Assert.AreEqual(retrievedSubmission.Address.FullAddress(), submissionInfo.displayAddress, "Field displayAddress is not the expected.");
         }
 
         [Test]
@@ -624,6 +681,10 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.IsTrue(submissionInfo.stepVerificationCodeEnteredDone, "Field stepVerificationCodeEnteredDone doesn't have the expected value.");
             Assert.IsTrue(submissionInfo.stepTenancyDetailsSubmittedDone, "Field stepTenancyDetailsSubmittedDone doesn't have the expected value.");
             Assert.IsFalse(submissionInfo.stepMoveOutDetailsSubmittedDone, "Field stepMoveOutDetailsSubmittedDone doesn't have the expected value.");
+
+            var retrievedSubmission = await DbProbe.TenancyDetailsSubmissions
+                .Include(x => x.Address).Include(x => x.Address.Country).SingleOrDefaultAsync(x => x.UniqueId.Equals(submissionInfo.uniqueId));
+            Assert.AreEqual(retrievedSubmission.Address.FullAddress(), submissionInfo.displayAddress, "Field displayAddress is not the expected.");
         }
 
         [Test]
@@ -669,6 +730,10 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.IsTrue(submissionInfo.stepVerificationCodeEnteredDone, "Field stepVerificationCodeEnteredDone doesn't have the expected value.");
             Assert.IsTrue(submissionInfo.stepTenancyDetailsSubmittedDone, "Field stepTenancyDetailsSubmittedDone doesn't have the expected value.");
             Assert.IsFalse(submissionInfo.stepMoveOutDetailsSubmittedDone, "Field stepMoveOutDetailsSubmittedDone doesn't have the expected value.");
+
+            var retrievedSubmission = await DbProbe.TenancyDetailsSubmissions
+                .Include(x => x.Address).Include(x => x.Address.Country).SingleOrDefaultAsync(x => x.UniqueId.Equals(submissionInfo.uniqueId));
+            Assert.AreEqual(retrievedSubmission.Address.FullAddress(), submissionInfo.displayAddress, "Field displayAddress is not the expected.");
         }
 
         [Test]
@@ -714,6 +779,10 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.IsTrue(submissionInfo.stepVerificationCodeEnteredDone, "Field stepVerificationCodeEnteredDone doesn't have the expected value.");
             Assert.IsTrue(submissionInfo.stepTenancyDetailsSubmittedDone, "Field stepTenancyDetailsSubmittedDone doesn't have the expected value.");
             Assert.IsTrue(submissionInfo.stepMoveOutDetailsSubmittedDone, "Field stepMoveOutDetailsSubmittedDone doesn't have the expected value.");
+
+            var retrievedSubmission = await DbProbe.TenancyDetailsSubmissions
+                .Include(x => x.Address).Include(x => x.Address.Country).SingleOrDefaultAsync(x => x.UniqueId.Equals(submissionInfo.uniqueId));
+            Assert.AreEqual(retrievedSubmission.Address.FullAddress(), submissionInfo.displayAddress, "Field displayAddress is not the expected.");
         }
 
         [Test]
@@ -759,6 +828,10 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.IsTrue(submissionInfo.stepVerificationCodeEnteredDone, "Field stepVerificationCodeEnteredDone doesn't have the expected value.");
             Assert.IsTrue(submissionInfo.stepTenancyDetailsSubmittedDone, "Field stepTenancyDetailsSubmittedDone doesn't have the expected value.");
             Assert.IsTrue(submissionInfo.stepMoveOutDetailsSubmittedDone, "Field stepMoveOutDetailsSubmittedDone doesn't have the expected value.");
+
+            var retrievedSubmission = await DbProbe.TenancyDetailsSubmissions
+                .Include(x => x.Address).Include(x => x.Address.Country).SingleOrDefaultAsync(x => x.UniqueId.Equals(submissionInfo.uniqueId));
+            Assert.AreEqual(retrievedSubmission.Address.FullAddress(), submissionInfo.displayAddress, "Field displayAddress is not the expected.");
         }
 
         [Test]
@@ -804,6 +877,10 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.IsTrue(submissionInfo.stepVerificationCodeEnteredDone, "Field stepVerificationCodeEnteredDone doesn't have the expected value.");
             Assert.IsTrue(submissionInfo.stepTenancyDetailsSubmittedDone, "Field stepTenancyDetailsSubmittedDone doesn't have the expected value.");
             Assert.IsTrue(submissionInfo.stepMoveOutDetailsSubmittedDone, "Field stepMoveOutDetailsSubmittedDone doesn't have the expected value.");
+
+            var retrievedSubmission = await DbProbe.TenancyDetailsSubmissions
+                .Include(x => x.Address).Include(x => x.Address.Country).SingleOrDefaultAsync(x => x.UniqueId.Equals(submissionInfo.uniqueId));
+            Assert.AreEqual(retrievedSubmission.Address.FullAddress(), submissionInfo.displayAddress, "Field displayAddress is not the expected.");
         }
 
         #endregion
