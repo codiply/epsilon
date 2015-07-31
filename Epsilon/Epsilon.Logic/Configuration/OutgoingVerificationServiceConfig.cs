@@ -21,6 +21,7 @@ namespace Epsilon.Logic.Configuration
             IDbAppSettingDefaultValue dbAppSettingDefaultValue)
         {
             _dbAppSettingsHelper = dbAppSettingsHelper;
+            _dbAppSettingDefaultValue = dbAppSettingDefaultValue;
         }
 
         public bool GlobalSwitch_DisablePickOutgoingVerification

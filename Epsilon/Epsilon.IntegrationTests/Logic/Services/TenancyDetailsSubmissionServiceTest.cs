@@ -23,6 +23,7 @@ using Epsilon.IntegrationTests.TestHelpers;
 using Epsilon.Logic.JsonModels;
 using Epsilon.Logic.Wrappers.Interfaces;
 using Epsilon.Logic.Entities.Interfaces;
+using static Epsilon.Logic.Helpers.RandomStringHelper;
 
 namespace Epsilon.IntegrationTests.Logic.Services
 {
@@ -318,7 +319,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             for (var i = 0; i < itemsLimit; i++)
             {
                 Assert.AreEqual(response2.tenancyDetailsSubmissions[i].uniqueId, submissionByCreationDescending[i].UniqueId,
-                    string.Format("Response2: ubmission at position {0} does not have the expected uniqueId.", i));
+                    string.Format("Response2: submission at position {0} does not have the expected uniqueId.", i));
             }
 
             Assert.IsFalse(response2.tenancyDetailsSubmissions.Any(x => x.uniqueId.Equals(otherUserSubmission.UniqueId)),
@@ -382,7 +383,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.IsNotNull(response2, "Response2 is null.");
             Assert.IsTrue(response2.moreItemsExist, "Field moreItemsExist on response2 is not the expected.");
             Assert.AreEqual(itemsLimit, response2.tenancyDetailsSubmissions.Count,
-                "Response1 should contains a number of submissions equal to the limit.");
+                "Response2 should contains a number of submissions equal to the limit.");
             for (var i = 0; i < itemsLimit; i++)
             {
                 Assert.AreEqual(response2.tenancyDetailsSubmissions[i].uniqueId, submissionByCreationDescending[i].UniqueId,
@@ -921,7 +922,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
         private static async Task<TenancyDetailsSubmission> CreateTenancyDetailsSubmissionAndSave(
             IRandomWrapper random, IKernel container, 
             string userId, string userIpAddress,
-            string otherUserId, string otherUserIpAddress,
+            string userIdForVerfications, string userForVerificationsIpAddress,
             int justCreatedVerifications = 0, int sentVerifications = 0, int completeVerifications = 0, 
             bool areDetailsSubmitted = false, bool hasMovedOut = false)
         {
@@ -953,19 +954,19 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             for (int i = 0; i < justCreatedVerifications; i++)
             {
-                var verification = CreateTenantVerification(random, container, otherUserId, otherUserIpAddress, isSent: false, isComplete: false);
+                var verification = CreateTenantVerification(random, container, userIdForVerfications, userForVerificationsIpAddress, isSent: false, isComplete: false);
                 verifications.Add(verification);
             }
 
             for (int i = 0; i < sentVerifications; i++)
             {
-                var verification = CreateTenantVerification(random, container, otherUserId, otherUserIpAddress, isSent: true, isComplete: false);
+                var verification = CreateTenantVerification(random, container, userIdForVerfications, userForVerificationsIpAddress, isSent: true, isComplete: false);
                 verifications.Add(verification);
             }
 
             for (int i = 0; i < completeVerifications; i++)
             {
-                var verification = CreateTenantVerification(random, container, otherUserId, otherUserIpAddress, isSent: true, isComplete: true);
+                var verification = CreateTenantVerification(random, container, userIdForVerfications, userForVerificationsIpAddress, isSent: true, isComplete: true);
                 verifications.Add(verification);
             }
 
@@ -987,7 +988,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 UniqueId = Guid.NewGuid(),
                 AssignedToId = userId,
                 AssignedByIpAddress = userIpAddress,
-                SecretCode = "secret-code"
+                SecretCode = RandomStringHelper.GetString(random, 10, CharacterCase.Mixed)
             };
             if (isSent)
                 tenantVerification.SentOn = clock.OffsetNow;
