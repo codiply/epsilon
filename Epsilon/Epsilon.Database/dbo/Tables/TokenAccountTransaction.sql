@@ -1,5 +1,6 @@
-CREATE TABLE [dbo].[TokenAccountTransaction] (
+﻿CREATE TABLE [dbo].[TokenAccountTransaction] (
     [Id]        BIGINT             IDENTITY (1, 1) NOT NULL,
+    [UniqueId]  UNIQUEIDENTIFIER   NOT NULL,
     [AccountId] NVARCHAR (128)     NOT NULL,
     [TypeId]    NVARCHAR (128)     NOT NULL,
     [Amount]    DECIMAL (16, 4)    NOT NULL,
@@ -23,6 +24,8 @@ CREATE TABLE [dbo].[TokenAccountTransaction] (
 
 
 
+
+
 GO
 CREATE NONCLUSTERED INDEX [IX_TypeId]
     ON [dbo].[TokenAccountTransaction]([TypeId] ASC);
@@ -31,4 +34,9 @@ CREATE NONCLUSTERED INDEX [IX_TypeId]
 GO
 CREATE NONCLUSTERED INDEX [IX_TokenAccountTransaction_MadeOn_AccountId]
     ON [dbo].[TokenAccountTransaction]([MadeOn] ASC, [AccountId] ASC);
+
+
+GO
+CREATE UNIQUE NONCLUSTERED INDEX [IX_TokenAccountTransaction_UniqueId]
+    ON [dbo].[TokenAccountTransaction]([UniqueId] ASC);
 

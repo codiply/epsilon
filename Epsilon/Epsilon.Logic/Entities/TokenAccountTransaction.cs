@@ -9,6 +9,7 @@ namespace Epsilon.Logic.Entities
     public class TokenAccountTransaction
     {
         public virtual long Id { get; set; }
+        public virtual Guid UniqueId { get; set; }
         public virtual string AccountId { get; set; }
         public virtual string TypeId { get; set; }
         public virtual Decimal Amount { get; set; }

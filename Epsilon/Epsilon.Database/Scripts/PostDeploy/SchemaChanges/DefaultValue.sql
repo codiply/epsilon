@@ -12,6 +12,7 @@ ALTER TABLE [dbo].[TenancyDetailsSubmission] ADD DEFAULT (sysdatetimeoffset()) F
 ALTER TABLE [dbo].[TenantVerification] ADD DEFAULT (sysdatetimeoffset()) FOR [CreatedOn]; 
 ALTER TABLE [dbo].[TokenAccount] ADD DEFAULT (sysdatetimeoffset()) FOR [CreatedOn]; 
 ALTER TABLE [dbo].[TokenAccountSnapshot] ADD DEFAULT (sysdatetimeoffset()) FOR [MadeOn];
+ALTER TABLE [dbo].[TokenAccountTransaction] ADD DEFAULT (newid()) FOR [UniqueId]; 
 ALTER TABLE [dbo].[TokenAccountTransaction] ADD DEFAULT (sysdatetimeoffset()) FOR [MadeOn]; 
 ALTER TABLE [dbo].[User] ADD DEFAULT (sysdatetimeoffset()) FOR [CreatedOn]; 
 

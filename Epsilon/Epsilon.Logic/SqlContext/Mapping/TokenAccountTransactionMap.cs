@@ -23,9 +23,12 @@ namespace Epsilon.Logic.SqlContext.Mapping
             // Properties
             this.Property(x => x.Id)
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            this.Property(x => x.UniqueId)
+                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Computed);
             this.Property(x => x.Reference)
                 .HasMaxLength(REFERENCE_MAX_LENGTH);
             this.Property(x => x.MadeOn)
+                .IsRequired()
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Computed);
             this.Property(x => x.Amount)
                 .HasPrecision(AppConstant.TOKEN_AMOUNT_PRECISION, AppConstant.TOKEN_AMOUNT_SCALE);
@@ -41,6 +44,10 @@ namespace Epsilon.Logic.SqlContext.Mapping
                 .WillCascadeOnDelete(false);
 
             // Indexes
+            this.Property(x => x.UniqueId)
+                .HasColumnAnnotation(IndexAnnotation.AnnotationName, new IndexAnnotation(new[] {
+                    new IndexAttribute("IX_TokenAccountTransaction_UniqueId") { IsUnique = true }
+                }));
             this.Property(x => x.MadeOn)
                 .HasColumnAnnotation(IndexAnnotation.AnnotationName, 
                     new IndexAnnotation(new IndexAttribute("IX_TokenAccountTransaction_MadeOn_AccountId", 1)));

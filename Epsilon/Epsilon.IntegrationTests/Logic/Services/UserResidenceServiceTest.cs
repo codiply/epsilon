@@ -14,6 +14,7 @@ using Epsilon.Logic.Wrappers;
 using Epsilon.Logic.Constants.Enums;
 using Epsilon.IntegrationTests.TestHelpers;
 using Epsilon.Logic.Wrappers.Interfaces;
+using static Epsilon.Logic.Helpers.RandomStringHelper;
 
 namespace Epsilon.IntegrationTests.Logic.Services
 {
@@ -50,7 +51,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var address = await AddressHelper.CreateRandomAddressAndSave(random, helperContainer, user.Id, ipAddress, countryId);
             var numberOfIncompleteVerifications = 0;
             var submission = await CreateUnverifiedTenancyDetailsSubmission(
-                helperContainer, user.Id, ipAddress, address.Id, numberOfIncompleteVerifications);
+                random, helperContainer, user.Id, ipAddress, address.Id, numberOfIncompleteVerifications);
 
             var response = await service.GetResidence(user.Id);
 
@@ -83,13 +84,13 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var address1 = await AddressHelper.CreateRandomAddressAndSave(random, helperContainer, user.Id, ipAddress, countryId1);
             var numberOfIncompleteVerifications1 = 1;
             var submission1 = await CreateUnverifiedTenancyDetailsSubmission(
-                helperContainer, user.Id, ipAddress, address1.Id, numberOfIncompleteVerifications1);
+                random, helperContainer, user.Id, ipAddress, address1.Id, numberOfIncompleteVerifications1);
 
             var countryId2 = CountryId.GR;
             var numberOfIncompleteVerifications2 = 2;
             var address2 = await AddressHelper.CreateRandomAddressAndSave(random, helperContainer, user.Id, ipAddress, countryId2);
             var submission2 = await CreateUnverifiedTenancyDetailsSubmission(
-                helperContainer, user.Id, ipAddress, address2.Id, numberOfIncompleteVerifications2);
+                random, helperContainer, user.Id, ipAddress, address2.Id, numberOfIncompleteVerifications2);
 
             var response = await service.GetResidence(user.Id);
 
@@ -123,7 +124,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var numberOfIncompleteVerifications = 0;
             var numberOfCompleteVerifications = 1;
             var submission = await CreateVerifiedTenancyDetailsSubmission(
-                helperContainer, user.Id, ipAddress, address.Id, numberOfCompleteVerifications, numberOfIncompleteVerifications);
+                random, helperContainer, user.Id, ipAddress, address.Id, numberOfCompleteVerifications, numberOfIncompleteVerifications);
 
             var response = await service.GetResidence(user.Id);
 
@@ -157,14 +158,14 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var numberOfCompleteVerifications1 = 1;
             var numberOfIncompleteVerifications1 = 0;
             var submission1 = await CreateVerifiedTenancyDetailsSubmission(
-                helperContainer, user.Id, ipAddress, address1.Id, numberOfCompleteVerifications1, numberOfIncompleteVerifications1);
+                random, helperContainer, user.Id, ipAddress, address1.Id, numberOfCompleteVerifications1, numberOfIncompleteVerifications1);
 
             var countryId2 = CountryId.GR;
             var numberOfCompleteVerifications2 = 1;
             var numberOfIncompleteVerifications2 = 1;
             var address2 = await AddressHelper.CreateRandomAddressAndSave(random, helperContainer, user.Id, ipAddress, countryId2);
             var submission2 = await CreateVerifiedTenancyDetailsSubmission(
-                helperContainer, user.Id, ipAddress, address2.Id, numberOfCompleteVerifications2, numberOfIncompleteVerifications2);
+                random, helperContainer, user.Id, ipAddress, address2.Id, numberOfCompleteVerifications2, numberOfIncompleteVerifications2);
 
             var response = await service.GetResidence(user.Id);
 
@@ -199,14 +200,14 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var numberOfIncompleteVerifications1 = 0;
             var numberOfCompleteVerifications1 = 1;
             var verifiedSubmission1 = await CreateVerifiedTenancyDetailsSubmission(
-                helperContainer, user.Id, ipAddress, verifiedAddress1.Id, numberOfCompleteVerifications1, numberOfIncompleteVerifications1);
+                random, helperContainer, user.Id, ipAddress, verifiedAddress1.Id, numberOfCompleteVerifications1, numberOfIncompleteVerifications1);
             
             // Submission 2 unverified
             var countryId2 = CountryId.GR;
             var numberOfIncompleteVerifications2 = 1;
             var unverifiedAddress2 = await AddressHelper.CreateRandomAddressAndSave(random, helperContainer, user.Id, ipAddress, countryId2);
             var submission2 = await CreateUnverifiedTenancyDetailsSubmission(
-                helperContainer, user.Id, ipAddress, unverifiedAddress2.Id, numberOfIncompleteVerifications2);
+                random, helperContainer, user.Id, ipAddress, unverifiedAddress2.Id, numberOfIncompleteVerifications2);
 
             // Submission 3 verified
             var countryId3 = CountryId.GB;
@@ -214,14 +215,14 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var numberOfIncompleteVerifications3 = 0;
             var numberOfCompleteVerifications3 = 1;
             var verifiedSubmission3 = await CreateVerifiedTenancyDetailsSubmission(
-                helperContainer, user.Id, ipAddress, verifiedAddress3.Id, numberOfCompleteVerifications3, numberOfIncompleteVerifications3);
+                random, helperContainer, user.Id, ipAddress, verifiedAddress3.Id, numberOfCompleteVerifications3, numberOfIncompleteVerifications3);
 
             // Submission 4 unverified
             var countryId4 = CountryId.GR;
             var numberOfIncompleteVerifications4 = 1;
             var unverifiedAddress4 = await AddressHelper.CreateRandomAddressAndSave(random, helperContainer, user.Id, ipAddress, countryId4);
             var submission4 = await CreateUnverifiedTenancyDetailsSubmission(
-                helperContainer, user.Id, ipAddress, unverifiedAddress4.Id, numberOfIncompleteVerifications4);
+                random, helperContainer, user.Id, ipAddress, unverifiedAddress4.Id, numberOfIncompleteVerifications4);
 
             var response = await service.GetResidence(user.Id);
 
@@ -239,7 +240,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
         }
 
         private async static Task<TenancyDetailsSubmission> CreateUnverifiedTenancyDetailsSubmission(
-            IKernel container, string userId, string userIpAddress, long addressId, int numberOfIncompleteVerifications)
+            IRandomWrapper random, IKernel container, string userId, string userIpAddress, long addressId, int numberOfIncompleteVerifications)
         {
             var verifications = new List<TenantVerification>();
             for (var i = 0; i < numberOfIncompleteVerifications; i++)
@@ -249,7 +250,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
                     UniqueId = Guid.NewGuid(),
                     AssignedToId = userId,
                     AssignedByIpAddress = userIpAddress,
-                    SecretCode = "secret-code",
+                    SecretCode = RandomStringHelper.GetString(random, 10, CharacterCase.Mixed),
                     VerifiedOn = null
                 };
                 verifications.Add(verification);
@@ -267,15 +268,12 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var dbContext = container.Get<IEpsilonContext>();
             dbContext.TenancyDetailsSubmissions.Add(submission);
             await dbContext.SaveChangesAsync();
-
-
-            await dbContext.SaveChangesAsync();
             
             return submission;
         }
 
         private async static Task<TenancyDetailsSubmission> CreateVerifiedTenancyDetailsSubmission(
-            IKernel container, string userId, string userIpAddress, long addressId, 
+            IRandomWrapper random, IKernel container, string userId, string userIpAddress, long addressId, 
             int numberOfCompleteVerifications, int numberOfIncompleteVerifications)
         {
             var clock = container.Get<IClock>();
@@ -288,7 +286,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
                     UniqueId = Guid.NewGuid(),
                     AssignedToId = userId,
                     AssignedByIpAddress = userIpAddress,
-                    SecretCode = "secret-code",
+                    SecretCode = RandomStringHelper.GetString(random, 10, CharacterCase.Mixed),
                     VerifiedOn = null
                 };
                 verifications.Add(verification);
@@ -301,7 +299,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
                     UniqueId = Guid.NewGuid(),
                     AssignedToId = userId,
                     AssignedByIpAddress = userIpAddress,
-                    SecretCode = "secret-code",
+                    SecretCode = RandomStringHelper.GetString(random, 10, CharacterCase.Mixed),
                     VerifiedOn = clock.OffsetNow
                 };
                 verifications.Add(verification);
