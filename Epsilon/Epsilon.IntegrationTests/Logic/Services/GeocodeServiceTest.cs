@@ -18,6 +18,8 @@ namespace Epsilon.IntegrationTests.Logic.Services
 {
     public class GeocodeServiceTest : BaseIntegrationTestWithRollback
     {
+
+        private readonly double LatitudeLongitudePrecision = 0.00001;
         private readonly TimeSpan DelayBetweenCallsToTheAPI = TimeSpan.FromSeconds(0.2);
 
         #region GeocodeAddress
@@ -48,21 +50,21 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.IsNotNull(geocodeClientResponseResult.Geometry, "The Geometry on the geocode client response result is null.");
             Assert.IsNotNull(geocodeClientResponseResult.Geometry.Location, "The Geometry.Location on the geocode client response result is null.");
             Assert.IsNotNull(geocodeClientResponseResult.Geometry.Viewport, "The Geometry.Viewport on the geocode client response result is null.");
-            Assert.AreEqual(response.Geometry.Latitude, geocodeClientResponseResult.Geometry.Location.Latitude,
+            Assert.That(response.Geometry.Latitude, Is.EqualTo(geocodeClientResponseResult.Geometry.Location.Latitude).Within(LatitudeLongitudePrecision),
                 "Found discrepancy in Latitude.");
-            Assert.AreEqual(response.Geometry.Longitude, geocodeClientResponseResult.Geometry.Location.Longitude,
+            Assert.That(response.Geometry.Longitude, Is.EqualTo(geocodeClientResponseResult.Geometry.Location.Longitude).Within(LatitudeLongitudePrecision),
                 "Found discrepancy in Longitude.");
             Assert.IsNotNull(geocodeClientResponseResult.Geometry.Viewport.Northeast,
                 "The Geometry.Viewport.Northeast on the geocode client response result is null.");
-            Assert.AreEqual(response.Geometry.ViewportNortheastLatitude, geocodeClientResponseResult.Geometry.Viewport.Northeast.Latitude,
+            Assert.That(response.Geometry.ViewportNortheastLatitude, Is.EqualTo(geocodeClientResponseResult.Geometry.Viewport.Northeast.Latitude).Within(LatitudeLongitudePrecision),
                 "Found discrepancy in ViewportNortheastLatitude.");
-            Assert.AreEqual(response.Geometry.ViewportNortheastLongitude, geocodeClientResponseResult.Geometry.Viewport.Northeast.Longitude,
+            Assert.That(response.Geometry.ViewportNortheastLongitude, Is.EqualTo(geocodeClientResponseResult.Geometry.Viewport.Northeast.Longitude).Within(LatitudeLongitudePrecision),
                 "Found discrepancy in ViewportNortheastLongitude.");
             Assert.IsNotNull(geocodeClientResponseResult.Geometry.Viewport.Southwest,
                 "The Geometry.Viewport.Southwest on the geocode client response result is null.");
-            Assert.AreEqual(response.Geometry.ViewportSouthwestLatitude, geocodeClientResponseResult.Geometry.Viewport.Southwest.Latitude,
+            Assert.That(response.Geometry.ViewportSouthwestLatitude, Is.EqualTo(geocodeClientResponseResult.Geometry.Viewport.Southwest.Latitude).Within(LatitudeLongitudePrecision),
                 "Found discrepancy in ViewportSouthwestLatitude.");
-            Assert.AreEqual(response.Geometry.ViewportSouthwestLongitude, geocodeClientResponseResult.Geometry.Viewport.Southwest.Longitude,
+            Assert.That(response.Geometry.ViewportSouthwestLongitude, Is.EqualTo(geocodeClientResponseResult.Geometry.Viewport.Southwest.Longitude).Within(LatitudeLongitudePrecision),
                 "Found discrepancy in ViewportSouthwestLongitude.");
         }
 
@@ -101,21 +103,21 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.IsNotNull(geocodeClientResponseResult.Geometry, "The Geometry on the geocode client response result is null.");
             Assert.IsNotNull(geocodeClientResponseResult.Geometry.Location, "The Geometry.Location on the geocode client response result is null.");
             Assert.IsNotNull(geocodeClientResponseResult.Geometry.Viewport, "The Geometry.Viewport on the geocode client response result is null.");
-            Assert.AreEqual(retrievedPostcodeGeometry.Latitude, geocodeClientResponseResult.Geometry.Location.Latitude,
+            Assert.That(retrievedPostcodeGeometry.Latitude, Is.EqualTo(geocodeClientResponseResult.Geometry.Location.Latitude).Within(LatitudeLongitudePrecision),
                 "Found discrepancy in Latitude.");
-            Assert.AreEqual(retrievedPostcodeGeometry.Longitude, geocodeClientResponseResult.Geometry.Location.Longitude,
+            Assert.That(retrievedPostcodeGeometry.Longitude, Is.EqualTo(geocodeClientResponseResult.Geometry.Location.Longitude).Within(LatitudeLongitudePrecision),
                 "Found discrepancy in Longitude.");
             Assert.IsNotNull(geocodeClientResponseResult.Geometry.Viewport.Northeast,
                 "The Geometry.Viewport.Northeast on the geocode client response result is null.");
-            Assert.AreEqual(retrievedPostcodeGeometry.ViewportNortheastLatitude, geocodeClientResponseResult.Geometry.Viewport.Northeast.Latitude,
+            Assert.That(retrievedPostcodeGeometry.ViewportNortheastLatitude, Is.EqualTo(geocodeClientResponseResult.Geometry.Viewport.Northeast.Latitude).Within(LatitudeLongitudePrecision),
                 "Found discrepancy in ViewportNortheastLatitude.");
-            Assert.AreEqual(retrievedPostcodeGeometry.ViewportNortheastLongitude, geocodeClientResponseResult.Geometry.Viewport.Northeast.Longitude,
+            Assert.That(retrievedPostcodeGeometry.ViewportNortheastLongitude, Is.EqualTo(geocodeClientResponseResult.Geometry.Viewport.Northeast.Longitude).Within(LatitudeLongitudePrecision),
                 "Found discrepancy in ViewportNortheastLongitude.");
             Assert.IsNotNull(geocodeClientResponseResult.Geometry.Viewport.Southwest,
                 "The Geometry.Viewport.Southwest on the geocode client response result is null.");
-            Assert.AreEqual(retrievedPostcodeGeometry.ViewportSouthwestLatitude, geocodeClientResponseResult.Geometry.Viewport.Southwest.Latitude,
+            Assert.That(retrievedPostcodeGeometry.ViewportSouthwestLatitude, Is.EqualTo(geocodeClientResponseResult.Geometry.Viewport.Southwest.Latitude).Within(LatitudeLongitudePrecision),
                 "Found discrepancy in ViewportSouthwestLatitude.");
-            Assert.AreEqual(retrievedPostcodeGeometry.ViewportSouthwestLongitude, geocodeClientResponseResult.Geometry.Viewport.Southwest.Longitude,
+            Assert.That(retrievedPostcodeGeometry.ViewportSouthwestLongitude, Is.EqualTo(geocodeClientResponseResult.Geometry.Viewport.Southwest.Longitude).Within(LatitudeLongitudePrecision),
                 "Found discrepancy in ViewportSouthwestLongitude.");
 
             Assert.IsTrue(timeBefore <= retrievedPostcodeGeometry.GeocodedOn && retrievedPostcodeGeometry.GeocodedOn <= timeAfter,
