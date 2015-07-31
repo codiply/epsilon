@@ -177,6 +177,11 @@ namespace Epsilon.Logic.Helpers
             return GetString(EnumsHelper.DbAppSettingKey.ToString(key));
         }
 
+        public bool OptionalSettingHasValue(DbAppSettingKey key, string value)
+        {
+            return OptionalSettingHasValue(EnumsHelper.DbAppSettingKey.ToString(key), value);
+        }
+
         private void PopulateCollection()
         {
             Collection = _appCache.Get<NameValueCollection>(AppCacheKey.DB_APP_SETTINGS, () =>

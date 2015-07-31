@@ -41,5 +41,6 @@ namespace Epsilon.Logic.Helpers.Interfaces
         Frequency GetFrequency(DbAppSettingKey key, Frequency defaultValue);
         Guid? GetGuid(DbAppSettingKey key);
         string GetString(DbAppSettingKey key);
+        bool OptionalSettingHasValue(DbAppSettingKey key, string value);
     }
 }
