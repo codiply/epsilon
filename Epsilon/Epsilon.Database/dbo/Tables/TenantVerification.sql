@@ -4,7 +4,7 @@
     [TenancyDetailsSubmissionId] BIGINT             NOT NULL,
     [SecretCode]                 NVARCHAR (16)      NOT NULL,
     [CreatedOn]                  DATETIMEOFFSET (7) NOT NULL,
-    [SentOn]                     DATETIMEOFFSET (7) NULL,
+    [MarkedAsSentOn]                     DATETIMEOFFSET (7) NULL,
     [VerifiedOn]                 DATETIMEOFFSET (7) NULL,
     [AssignedToId]               NVARCHAR (128)     NOT NULL,
     [AssignedByIpAddress]        NVARCHAR (39)      NOT NULL,

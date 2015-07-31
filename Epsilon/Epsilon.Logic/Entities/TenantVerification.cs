@@ -15,7 +15,7 @@ namespace Epsilon.Logic.Entities
         public virtual long TenancyDetailsSubmissionId { get; set; }
         public virtual string SecretCode { get; set; }
         public virtual DateTimeOffset CreatedOn { get; set; }
-        public virtual DateTimeOffset? SentOn { get; set; }
+        public virtual DateTimeOffset? MarkedAsSentOn { get; set; }
         public virtual DateTimeOffset? VerifiedOn { get; set; }
         public virtual string AssignedToId { get; set; }
         public virtual string AssignedByIpAddress { get; set; }
@@ -28,7 +28,7 @@ namespace Epsilon.Logic.Entities
 
         public bool StepVerificationSentOutDone()
         {
-            return SentOn.HasValue;
+            return MarkedAsSentOn.HasValue;
         }
 
         public bool StepVerificationReceivedDone()

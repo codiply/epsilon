@@ -12,20 +12,25 @@ using System.Transactions;
 using Epsilon.Resources.Logic.OutgoingVerification;
 using Epsilon.Logic.JsonModels;
 using Epsilon.Logic.Configuration.Interfaces;
+using Epsilon.Resources.Common;
+using Epsilon.Logic.Wrappers.Interfaces;
 
 namespace Epsilon.Logic.Services
 {
     public class OutgoingVerificationService : IOutgoingVerificationService
     {
+        private readonly IClock _clock;
         private readonly IEpsilonContext _dbContext;
         private readonly IAntiAbuseService _antiAbuseService;
         private readonly IOutgoingVerificationServiceConfig _outgoingVerificationServiceConfig;
 
         public OutgoingVerificationService(
+            IClock clock,
             IEpsilonContext dbContext,
             IAntiAbuseService antiAbuseService,
             IOutgoingVerificationServiceConfig outgoingVerificationServiceConfig)
         {
+            _clock = clock;
             _dbContext = dbContext;
             _antiAbuseService = antiAbuseService;
             _outgoingVerificationServiceConfig = outgoingVerificationServiceConfig;
@@ -150,19 +155,26 @@ namespace Epsilon.Logic.Services
             string userId,
             Guid verificationUniqueId)
         {
+            // TODO_PANOS_TEST
             var verification = await GetVerificationForUser(userId, verificationUniqueId);
             if (verification == null || !verification.CanMarkAsSent())
             {
                 return new MarkVerificationAsSentOutcome
                 {
                     IsRejected = true,
-                    // TODO_PANOS: put in a resource, use the same resource accross all 3 methods
-                    RejectionReason = "Sorry something went wrong."
+                    RejectionReason = CommonResources.GenericInvalidRequestMessage
                 };
             }
 
-            // TODO_PANOS
-            throw new NotImplementedException();
+            verification.MarkedAsSentOn = _clock.OffsetNow;
+            _dbContext.Entry(verification).State = EntityState.Modified;
+            await _dbContext.SaveChangesAsync();
+
+            // TODO_PANOS_TEST
+            return new MarkVerificationAsSentOutcome
+            {
+                IsRejected = false
+            };
         }
     }
 }

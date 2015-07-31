@@ -991,7 +991,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 SecretCode = RandomStringHelper.GetString(random, 10, CharacterCase.Mixed)
             };
             if (isSent)
-                tenantVerification.SentOn = clock.OffsetNow;
+                tenantVerification.MarkedAsSentOn = clock.OffsetNow;
             if (isComplete)
                 tenantVerification.VerifiedOn = clock.OffsetNow;
             return tenantVerification;

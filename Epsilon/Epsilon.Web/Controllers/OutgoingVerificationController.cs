@@ -72,8 +72,14 @@ namespace Epsilon.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> MarkAsSent(Guid verificationUniqueId)
         {
-            // TODO_PANOS
-            throw new NotImplementedException();
+            var outcome = await _outgoingVerificationService.MarkAsSent(GetUserId(), verificationUniqueId);
+            if (outcome.IsRejected)
+            {
+                Danger(outcome.RejectionReason, true);
+            }
+            return RedirectToAction(
+                AppConstant.AUTHENTICATED_USER_HOME_ACTION,
+                AppConstant.AUTHENTICATED_USER_HOME_CONTROLLER);
         }
 
         public ActionResult MyOutgoingVerificationsSummary()

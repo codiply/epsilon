@@ -39,7 +39,7 @@ namespace Epsilon.Logic.Entities
         /// <returns></returns>
         public bool StepVerificationCodeSentOutDone()
         {
-            return TenantVerifications.Any(v => v.SentOn.HasValue);
+            return TenantVerifications.Any(v => v.MarkedAsSentOn.HasValue);
         }
 
         /// <summary>
@@ -67,7 +67,7 @@ namespace Epsilon.Logic.Entities
         /// <returns></returns>
         public bool CanEnterVerificationCode()
         {
-            // I do not mind if the verifications have value for SentOn. 
+            // I do not mind if the verifications have value for MarkedAsSentOn. 
             // It is possible that the assigned user forgot to mark them as sent.
             return TenantVerifications.Any(v => !v.VerifiedOn.HasValue);
         }
