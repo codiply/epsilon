@@ -151,10 +151,12 @@
     <Compile Include="Forms\Submission\TenancyDetailsForm.cs" />
     <Compile Include="Helpers\AddressCleansingHelper.cs" />
     <Compile Include="Helpers\AppSettingsHelper.cs" />
+    <Compile Include="Helpers\BaseAppSettingsHelper.cs" />
     <Compile Include="Helpers\DbAppSettingsHelper.cs" />
     <Compile Include="Helpers\EnumsHelper.cs" />
     <Compile Include="Helpers\Interfaces\IAddressCleansingHelper.cs" />
     <Compile Include="Helpers\Interfaces\IAppSettingsHelper.cs" />
+    <Compile Include="Helpers\Interfaces\IBaseAppSettingsHelper.cs" />
     <Compile Include="Helpers\Interfaces\IDbAppSettingsHelper.cs" />
     <Compile Include="Helpers\Interfaces\IIpAddressHelper.cs" />
     <Compile Include="Helpers\Interfaces\IParseHelper.cs" />

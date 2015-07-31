@@ -11,10 +11,10 @@ using System.Threading.Tasks;
 namespace Epsilon.UnitTests.Logic.Helpers
 {
     [TestFixture]
-    public class AppSettingsHelperTest
+    public class BaseAppSettingsHelperTest
     {
         private NameValueCollection _appSettings = new NameValueCollection();
-        private IAppSettingsHelper _helper;
+        private IBaseAppSettingsHelper _helper;
 
         [TestFixtureSetUp]
         public void FixtureSetup()
@@ -35,7 +35,7 @@ namespace Epsilon.UnitTests.Logic.Helpers
             _appSettings.Add("goodGuid", "728fc126-5cfb-4729-ba07-0078a0fade4f");
             _appSettings.Add("badGuid", "728fc126-5cfb-4729-ba07-0078a0fade4x");
             _appSettings.Add("string", "string");
-            _helper = new AppSettingsHelper(_appSettings, new ParseHelper());
+            _helper = new BaseAppSettingsHelper(_appSettings, new ParseHelper());
         }
 
         [Test]
@@ -648,7 +648,7 @@ namespace Epsilon.UnitTests.Logic.Helpers
             var value1 = "value1";
             var key2 = "key2";
             var value2 = "value2";
-            var appSettingsHelper = new AppSettingsHelper(appSettings, new ParseHelper());
+            var appSettingsHelper = new BaseAppSettingsHelper(appSettings, new ParseHelper());
 
             // Act
             var allSettings = appSettingsHelper.AllSettings();
@@ -661,14 +661,14 @@ namespace Epsilon.UnitTests.Logic.Helpers
             Assert.AreEqual(value2, setting2, "Setting for key1 has wrong value.");
         }
 
-        private IAppSettingsHelper GetAppSettingsHelper(IList<string> values)
+        private IBaseAppSettingsHelper GetAppSettingsHelper(IList<string> values)
         {
             var appSettings = new NameValueCollection();
             foreach (var v in values)
             {
                 appSettings.Add(v, v);
             }
-            return new AppSettingsHelper(appSettings, new ParseHelper());
+            return new BaseAppSettingsHelper(appSettings, new ParseHelper());
         }
     }
 }

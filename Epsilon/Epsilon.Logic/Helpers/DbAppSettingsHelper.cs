@@ -18,7 +18,7 @@ using Epsilon.Logic.Infrastructure.Primitives;
 
 namespace Epsilon.Logic.Helpers
 {
-    public class DbAppSettingsHelper : AppSettingsHelper, IDbAppSettingsHelper
+    public class DbAppSettingsHelper : BaseAppSettingsHelper, IDbAppSettingsHelper
     {
         private readonly IClock _clock;
         private readonly IEpsilonContext _dbContext;

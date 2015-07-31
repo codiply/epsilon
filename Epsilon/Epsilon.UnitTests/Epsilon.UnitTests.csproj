@@ -99,7 +99,7 @@
   <ItemGroup>
     <Compile Include="Logic\Constants\CountryAddressFieldMetadataTest.cs" />
     <Compile Include="Logic\Constants\Enums\TokenRewardKeyTest.cs" />
-    <Compile Include="Logic\Helpers\AppSettingsHelperTest.cs" />
+    <Compile Include="Logic\Helpers\BaseAppSettingsHelperTest.cs" />
     <Compile Include="Logic\Helpers\CountryVariantResourceHelperTest.cs" />
     <Compile Include="Logic\Helpers\IpAddressHelperTest.cs" />
     <Compile Include="Logic\Helpers\RandomStringHelperTest.cs" />
