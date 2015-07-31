@@ -109,7 +109,7 @@
     <Compile Include="Logic\Services\UserPreferenceServiceTest.cs" />
     <Compile Include="Logic\Services\UserResidenceServiceTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ReferenceData\DbAppSetting_AntiAbuseTest.cs" />
+    <Compile Include="ReferenceData\ReferenceDataRules.cs" />
     <Compile Include="TestHelpers\AddressHelper.cs" />
   </ItemGroup>
   <ItemGroup>
