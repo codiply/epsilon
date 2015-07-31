@@ -27,7 +27,7 @@ namespace Epsilon.Logic.Configuration
         {
             get
             {
-                return _dbAppSettingsHelper.GetBool(EnumsHelper.DbAppSettingKey.ToString(DbAppSettingKey.GlobalSwitch_DisablePickOutgoingVerification)) == true;
+                return _dbAppSettingsHelper.GetBool(DbAppSettingKey.GlobalSwitch_DisablePickOutgoingVerification) == true;
             }
         }
 
@@ -36,7 +36,7 @@ namespace Epsilon.Logic.Configuration
             get
             {
                 return _dbAppSettingsHelper.GetInt(
-                    EnumsHelper.DbAppSettingKey.ToString(DbAppSettingKey.OutgoingVerification_MyOutgoingVerificationsSummary_ItemsLimit),
+                    DbAppSettingKey.OutgoingVerification_MyOutgoingVerificationsSummary_ItemsLimit,
                     _dbAppSettingDefaultValue.OutgoingVerification_MyOutgoingVerificationsSummary_ItemsLimit);
             }
         }
@@ -46,7 +46,7 @@ namespace Epsilon.Logic.Configuration
             get
             {
                 return _dbAppSettingsHelper.GetInt(
-                    EnumsHelper.DbAppSettingKey.ToString(DbAppSettingKey.OutgoingVerification_VerificationsPerTenancyDetailsSubmission),
+                    DbAppSettingKey.OutgoingVerification_VerificationsPerTenancyDetailsSubmission,
                     _dbAppSettingDefaultValue.OutgoingVerification_VerificationsPerTenancyDetailsSubmission);
             }
         }

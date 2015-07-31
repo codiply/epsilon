@@ -30,7 +30,7 @@ namespace Epsilon.Logic.Configuration
             get
             {
                 return _dbAppSettingsHelper
-                    .GetBool(EnumsHelper.DbAppSettingKey.ToString(DbAppSettingKey.GlobalSwitch_DisableAddAddress)) == true;
+                    .GetBool(DbAppSettingKey.GlobalSwitch_DisableAddAddress) == true;
             }
         }
 

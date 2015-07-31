@@ -25,32 +25,32 @@ namespace Epsilon.IntegrationTests.ReferenceData
             var helper = container.Get<IDbAppSettingsHelper>();
 
             var maxOutstandingPerUserForNewUser = helper
-                .GetInt(EnumsHelper.DbAppSettingKey.ToString(
-                    DbAppSettingKey.AntiAbuse_PickOutgoingVerification_MaxOutstandingPerUserForNewUser));
+                .GetInt(DbAppSettingKey.AntiAbuse_PickOutgoingVerification_MaxOutstandingPerUserForNewUser);
             Assert.IsTrue(maxOutstandingPerUserForNewUser >= 4,
                 String.Format("The MaxOutstandingPerUserForNewUser ({0}) must be greater or equal to 4 as some of the verifications might fail on the recipient side.",
                 maxOutstandingPerUserForNewUser));
 
             var maxOutstandingPerUser = helper
-                .GetInt(EnumsHelper.DbAppSettingKey.ToString(
-                    DbAppSettingKey.AntiAbuse_PickOutgoingVerification_MaxOutstandingPerUser));
+                .GetInt(DbAppSettingKey.AntiAbuse_PickOutgoingVerification_MaxOutstandingPerUser);
             Assert.IsTrue(maxOutstandingPerUser >= maxOutstandingPerUserForNewUser,
                 String.Format("The MaxOutstandingPerUser ({0}) must be greater or equal to MaxOutstandingPerUserForNewUser ({1}).",
                 maxOutstandingPerUser, maxOutstandingPerUserForNewUser));
 
             var maxFrequencyPerIpAddress = helper
-                .GetFrequency(EnumsHelper.DbAppSettingKey.ToString(
-                    DbAppSettingKey.AntiAbuse_PickOutgoingVerification_MaxFrequencyPerIpAddress));
+                .GetFrequency(DbAppSettingKey.AntiAbuse_PickOutgoingVerification_MaxFrequencyPerIpAddress);
             Assert.IsTrue(maxFrequencyPerIpAddress.Times >= maxOutstandingPerUser,
                 String.Format("The Times field ({0}) on the frequency MaxOutstandingPerUserConstant must be greater or equal to the MaxOutstandingPerUser ({1}).",
                 maxFrequencyPerIpAddress.Times, maxOutstandingPerUser));
 
             var myOutgoingVerificationsSummaryItemsLimit = helper
-                .GetInt(EnumsHelper.DbAppSettingKey.ToString(
-                    DbAppSettingKey.OutgoingVerification_MyOutgoingVerificationsSummary_ItemsLimit));
+                .GetInt(DbAppSettingKey.OutgoingVerification_MyOutgoingVerificationsSummary_ItemsLimit);
             Assert.IsTrue(maxOutstandingPerUser <= myOutgoingVerificationsSummaryItemsLimit,
                 String.Format("The MaxOutstandingPerUserForNewUser ({0}) should be less or equal to MyOutgoingVerificationsSummaryItemsLimit ({1}) so that all outstanding outgoing verifications can appear on the front page.",
                 maxOutstandingPerUserForNewUser, myOutgoingVerificationsSummaryItemsLimit));
+        }
+
+        public void UserMaxFrequencyTimesShouldBeLessOrEqualToCorrespondingIpAddressMaxFrequencyTimes()
+        {
         }
     }
 }

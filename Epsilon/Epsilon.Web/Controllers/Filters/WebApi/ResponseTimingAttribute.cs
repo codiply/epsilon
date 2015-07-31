@@ -38,7 +38,7 @@ namespace Epsilon.Web.Controllers.Filters.WebApi
                 (IDbAppSettingsHelper)GlobalConfiguration.Configuration.DependencyResolver
                     .GetService(typeof(IDbAppSettingsHelper));
 
-            if (dbAppSettingsHelper.GetBool(EnumsHelper.DbAppSettingKey.ToString(DbAppSettingKey.EnableResponseTiming)) == true)
+            if (dbAppSettingsHelper.GetBool(DbAppSettingKey.EnableResponseTiming) == true)
             {
                 var stopwatch = new Stopwatch();
                 actionContext.Request.Properties[PROPERTIES_KEY] = stopwatch;

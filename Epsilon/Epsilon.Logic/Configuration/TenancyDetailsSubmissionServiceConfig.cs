@@ -31,7 +31,7 @@ namespace Epsilon.Logic.Configuration
             get
             {
                 return _dbAppSettingsHelper.GetFrequency(
-                    EnumsHelper.DbAppSettingKey.ToString(DbAppSettingKey.TenancyDetailsSubmission_Create_MaxFrequencyPerAddress),
+                    DbAppSettingKey.TenancyDetailsSubmission_Create_MaxFrequencyPerAddress,
                     _dbAppSettingDefaultValue.TenancyDetailsSubmission_Create_MaxFrequencyPerAddress);
             }
         }
@@ -41,7 +41,7 @@ namespace Epsilon.Logic.Configuration
             get
             {
                 return _dbAppSettingsHelper
-                    .GetBool(EnumsHelper.DbAppSettingKey.ToString(DbAppSettingKey.TenancyDetailsSubmission_Create_DisableFrequencyPerAddressCheck)) == true;
+                    .GetBool(DbAppSettingKey.TenancyDetailsSubmission_Create_DisableFrequencyPerAddressCheck) == true;
             }
         }
 
@@ -50,7 +50,7 @@ namespace Epsilon.Logic.Configuration
             get
             {
                 return _dbAppSettingsHelper
-                    .GetBool(EnumsHelper.DbAppSettingKey.ToString(DbAppSettingKey.GlobalSwitch_DisableCreateTenancyDetailsSubmission)) == true;
+                    .GetBool(DbAppSettingKey.GlobalSwitch_DisableCreateTenancyDetailsSubmission) == true;
             }
         }
 
@@ -59,7 +59,7 @@ namespace Epsilon.Logic.Configuration
             get
             {
                 return _dbAppSettingsHelper.GetInt(
-                    EnumsHelper.DbAppSettingKey.ToString(DbAppSettingKey.TenancyDetailsSubmission_MySubmissionsSummary_ItemsLimit),
+                    DbAppSettingKey.TenancyDetailsSubmission_MySubmissionsSummary_ItemsLimit,
                     _dbAppSettingDefaultValue.TenancyDetailsSubmission_MySubmissionsSummary_ItemsLimit);
             }
         }

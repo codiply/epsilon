@@ -41,7 +41,7 @@ namespace Epsilon.Logic.Configuration
             get
             {
                 return _dbAppSettingsHelper.GetInt(
-                    EnumsHelper.DbAppSettingKey.ToString(DbAppSettingKey.GeocodeService_OverQueryLimitMaxRetries),
+                    DbAppSettingKey.GeocodeService_OverQueryLimitMaxRetries,
                     _dbAppSettingDefaultValue.GeocodeService_OverQueryLimitMaxRetries);
             }
         }
@@ -51,7 +51,7 @@ namespace Epsilon.Logic.Configuration
             get
             {
                 var delayInSeconds = _dbAppSettingsHelper.GetDouble(
-                    EnumsHelper.DbAppSettingKey.ToString(DbAppSettingKey.GeocodeService_OverQueryLimitDelayBetweenRetriesInSeconds),
+                    DbAppSettingKey.GeocodeService_OverQueryLimitDelayBetweenRetriesInSeconds,
                     _dbAppSettingDefaultValue.GeocodeService_OverQueryLimitDelayBetweenRetriesInSeconds);
                 return TimeSpan.FromSeconds(delayInSeconds);
             }

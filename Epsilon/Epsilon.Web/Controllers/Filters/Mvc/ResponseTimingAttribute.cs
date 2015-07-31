@@ -23,7 +23,7 @@ namespace Epsilon.Web.Controllers.Filters.Mvc
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             var dbAppSettingsHelper = DependencyResolver.Current.GetService<IDbAppSettingsHelper>();
-            if (dbAppSettingsHelper.GetBool(EnumsHelper.DbAppSettingKey.ToString(DbAppSettingKey.EnableResponseTiming)) == true)
+            if (dbAppSettingsHelper.GetBool(DbAppSettingKey.EnableResponseTiming) == true)
             {
                 var stopwatch = new Stopwatch();
                 filterContext.HttpContext.Items[ITEMS_KEY] = stopwatch;

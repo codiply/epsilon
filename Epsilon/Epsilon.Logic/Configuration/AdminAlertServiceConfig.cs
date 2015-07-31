@@ -49,7 +49,7 @@ namespace Epsilon.Logic.Configuration
             get
             {
                 var value = _dbAppSettingsHelper.GetDouble(
-                    EnumsHelper.DbAppSettingKey.ToString(DbAppSettingKey.AdminAlertSnoozePeriodInHours),
+                    DbAppSettingKey.AdminAlertSnoozePeriodInHours,
                     _dbAppSettingDefaultValue.AdminAlertSnoozePeriodInHours);
                 return TimeSpan.FromHours(value);
             }
