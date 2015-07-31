@@ -140,9 +140,12 @@ namespace Epsilon.Logic.Services
                 };
             }
 
+            // TODO_PANOS_TEST
+            var trimmedVerificationCode = form.VerificationCode;
+
             // TODO_PANOS_TEST: test that lowercase/uppercase doesn't make a difference.
             var verification = 
-                submission.TenantVerifications.SingleOrDefault(v => v.SecretCode.Equals(form.VerificationCode));
+                submission.TenantVerifications.SingleOrDefault(v => v.SecretCode.Equals(trimmedVerificationCode));
 
             if (verification == null)
             {
