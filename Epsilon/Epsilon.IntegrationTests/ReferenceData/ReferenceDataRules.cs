@@ -69,6 +69,17 @@ namespace Epsilon.IntegrationTests.ReferenceData
                DbAppSettingKey.AntiAbuse_Register_MaxFrequencyPerIpAddress, DbAppSettingKey.AntiAbuse_Register_MaxFrequencyPerIpAddress);
         }
 
+        [Test]
+        public void MaxRetriesRules()
+        {
+            var container = CreateContainer();
+            var helper = container.Get<IDbAppSettingsHelper>();
+
+            var geocodeServiceOverQueryLimitMaxRetries = helper.GetInt(DbAppSettingKey.GeocodeService_OverQueryLimitMaxRetries);
+            Assert.IsTrue(geocodeServiceOverQueryLimitMaxRetries.Value >= 0,
+                string.Format("{0} should have non-negative value.", EnumsHelper.DbAppSettingKey.ToString(DbAppSettingKey.GeocodeService_OverQueryLimitMaxRetries)));
+        }
+
         private void Check_UserMaxFrequency_vs_IpAddressMaxFrequency_Rule(
             IDbAppSettingsHelper helper, DbAppSettingKey userMaxFrequencyKey, DbAppSettingKey ipAddressMaxFrequencyKey)
         {
