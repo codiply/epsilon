@@ -132,6 +132,7 @@ namespace Epsilon.Logic.Services
             var submission = await GetSubmissionForUser(userId, form.TenancyDetailsSubmissionUniqueId);
             if (submission == null || !submission.CanEnterVerificationCode())
             {
+                // TODO_PANOS_TEST
                 return new EnterVerificationCodeOutcome
                 {
                     IsRejected = true,
@@ -139,8 +140,42 @@ namespace Epsilon.Logic.Services
                 };
             }
 
-            // TODO_PANOS
-            throw new NotImplementedException();
+            // TODO_PANOS_TEST: test that lowercase/uppercase doesn't make a difference.
+            var verification = 
+                submission.TenantVerifications.SingleOrDefault(v => v.SecretCode.Equals(form.VerificationCode));
+
+            if (verification == null)
+            {
+                // TODO_PANOS_TEST
+                return new EnterVerificationCodeOutcome
+                {
+                    IsRejected = true,
+                    ReturnToForm = true,
+                    RejectionReason = "Incorrect verification code." // TODO_PANOS
+                };
+            }
+
+            if (verification.StepVerificationReceivedDone())
+            {
+                // TODO_PANOS_TEST
+                return new EnterVerificationCodeOutcome
+                {
+                    IsRejected = true,
+                    ReturnToForm = false,
+                    RejectionReason = "Verification code already used." // TODO_PANOS
+                };
+            }
+
+            verification.VerifiedOn = _clock.OffsetNow;
+            _dbContext.Entry(verification).State = EntityState.Modified;
+            await _dbContext.SaveChangesAsync();
+
+            // TODO_PANOS_TEST
+            return new EnterVerificationCodeOutcome
+            {
+                IsRejected = false,
+                ReturnToForm = false
+            };
         }
 
         public async Task<SubmitTenancyDetailsOutcome> SubmitTenancyDetails(string userId, TenancyDetailsForm form)
@@ -148,6 +183,7 @@ namespace Epsilon.Logic.Services
             var submission = await GetSubmissionForUser(userId, form.TenancyDetailsSubmissionUniqueId);
             if (submission == null || !submission.CanSubmitTenancyDetails())
             {
+                // TODO_PANOS_TEST
                 return new SubmitTenancyDetailsOutcome
                 {
                     IsRejected = true,
@@ -155,8 +191,20 @@ namespace Epsilon.Logic.Services
                 };
             }
 
-            // TODO_PANOS
-            throw new NotImplementedException();
+            // TODO_PANOS_TEST
+            submission.Rent = form.Rent;
+            submission.NumberOfBedrooms = form.NumberOfBedrooms;
+            submission.IsPartOfProperty = form.IsPartOfProperty;
+            submission.MoveInDate = form.MoveInDate;
+            submission.SubmittedOn = _clock.OffsetNow;
+
+            _dbContext.Entry(submission).State = EntityState.Modified;
+            await _dbContext.SaveChangesAsync();
+
+            return new SubmitTenancyDetailsOutcome
+            {
+                IsRejected = false
+            };
         }
 
         public async Task<SubmitMoveOutDetailsOutcome> SubmitMoveOutDetails(string userId, MoveOutDetailsForm form)
@@ -164,6 +212,7 @@ namespace Epsilon.Logic.Services
             var submission = await GetSubmissionForUser(userId, form.TenancyDetailsSubmissionUniqueId);
             if (submission == null || submission.CanSubmitMoveOutDetails())
             {
+                // TODO_PANOS_TEST
                 return new SubmitMoveOutDetailsOutcome
                 {
                     IsRejected = true,
@@ -171,8 +220,17 @@ namespace Epsilon.Logic.Services
                 };
             }
 
-            // TODO_PANOS
-            throw new NotImplementedException();
+            // TODO_PANOS_TEST
+            submission.MoveOutDate = form.MoveOutDate;
+            submission.MoveOutDateSubmittedOn = _clock.OffsetNow;
+
+            _dbContext.Entry(submission).State = EntityState.Modified;
+            await _dbContext.SaveChangesAsync();
+
+            return new SubmitMoveOutDetailsOutcome
+            {
+                IsRejected = false
+            };
         }
 
         private async Task<TenancyDetailsSubmission> GetSubmissionForUser(string userId, Guid uniqueId)

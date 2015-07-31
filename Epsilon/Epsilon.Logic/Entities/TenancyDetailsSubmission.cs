@@ -22,6 +22,7 @@ namespace Epsilon.Logic.Entities
         public virtual DateTime? MoveOutDate { get; set; }
         public virtual DateTimeOffset CreatedOn { get; set; }
         public virtual DateTimeOffset? SubmittedOn { get; set; }
+        public virtual DateTimeOffset? MoveOutDateSubmittedOn { get; set; }
         public virtual string CreatedByIpAddress { get; set; }
 
         [Timestamp]

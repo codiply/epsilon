@@ -9,5 +9,7 @@ namespace Epsilon.Logic.Forms.Submission
     public class MoveOutDetailsForm
     {
         public Guid TenancyDetailsSubmissionUniqueId { get; set; }
+
+        public virtual DateTime? MoveOutDate { get; set; }
     }
 }
