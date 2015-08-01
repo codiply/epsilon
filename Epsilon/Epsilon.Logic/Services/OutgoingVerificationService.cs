@@ -158,12 +158,21 @@ namespace Epsilon.Logic.Services
             var verification = await GetVerificationForUser(userId, verificationUniqueId);
             if (verification == null || !verification.CanMarkAsSent())
             {
-                // TODO_PANOS_TEST: different user
-                // TODO_PANOS_TEST: cannot perform action
+                // TODO_PANOS_TEST
                 return new MarkVerificationAsSentOutcome
                 {
                     IsRejected = true,
                     RejectionReason = CommonResources.GenericInvalidRequestMessage
+                };
+            }
+
+            if (!verification.CanMarkAsSent())
+            {
+                // TODO_PANOS_TEST
+                return new MarkVerificationAsSentOutcome
+                {
+                    IsRejected = true,
+                    RejectionReason = CommonResources.GenericInvalidActionMessage
                 };
             }
 

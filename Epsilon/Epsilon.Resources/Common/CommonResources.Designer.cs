@@ -88,6 +88,15 @@ namespace Epsilon.Resources.Common {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sorry, this action is not valid..
+        /// </summary>
+        public static string GenericInvalidActionMessage {
+            get {
+                return ResourceManager.GetString("GenericInvalidActionMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Sorry, there was something wrong with your request..
         /// </summary>
         public static string GenericInvalidRequestMessage {

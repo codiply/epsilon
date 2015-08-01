@@ -130,14 +130,23 @@ namespace Epsilon.Logic.Services
         public async Task<EnterVerificationCodeOutcome> EnterVerificationCode(string userId, VerificationCodeForm form)
         {
             var submission = await GetSubmissionForUser(userId, form.TenancyDetailsSubmissionUniqueId);
-            if (submission == null || !submission.CanEnterVerificationCode())
+            if (submission == null)
             {
-                // TODO_PANOS_TEST: different user
-                // TODO_PANOS_TEST: cannot perform action
+                // TODO_PANOS_TEST
                 return new EnterVerificationCodeOutcome
                 {
                     IsRejected = true,
                     RejectionReason = CommonResources.GenericInvalidRequestMessage
+                };
+            }
+
+            if(!submission.CanEnterVerificationCode())
+            {
+                // TODO_PANOS_TEST
+                return new EnterVerificationCodeOutcome
+                {
+                    IsRejected = true,
+                    RejectionReason = CommonResources.GenericInvalidActionMessage
                 };
             }
 
@@ -185,14 +194,23 @@ namespace Epsilon.Logic.Services
         public async Task<SubmitTenancyDetailsOutcome> SubmitTenancyDetails(string userId, TenancyDetailsForm form)
         {
             var submission = await GetSubmissionForUser(userId, form.TenancyDetailsSubmissionUniqueId);
-            if (submission == null || !submission.CanSubmitTenancyDetails())
+            if (submission == null)
             {
-                // TODO_PANOS_TEST: different user
-                // TODO_PANOS_TEST: cannot perform action
+                // TODO_PANOS_TEST
                 return new SubmitTenancyDetailsOutcome
                 {
                     IsRejected = true,
                     RejectionReason = CommonResources.GenericInvalidRequestMessage
+                };
+            }
+
+            if(!submission.CanSubmitTenancyDetails())
+            {
+                // TODO_PANOS_TEST
+                return new SubmitTenancyDetailsOutcome
+                {
+                    IsRejected = true,
+                    RejectionReason = CommonResources.GenericInvalidActionMessage
                 };
             }
 
@@ -215,14 +233,23 @@ namespace Epsilon.Logic.Services
         public async Task<SubmitMoveOutDetailsOutcome> SubmitMoveOutDetails(string userId, MoveOutDetailsForm form)
         {
             var submission = await GetSubmissionForUser(userId, form.TenancyDetailsSubmissionUniqueId);
-            if (submission == null || submission.CanSubmitMoveOutDetails())
+            if (submission == null)
             {
-                // TODO_PANOS_TEST: different user
-                // TODO_PANOS_TEST: cannot perform action
+                // TODO_PANOS_TEST
                 return new SubmitMoveOutDetailsOutcome
                 {
                     IsRejected = true,
                     RejectionReason = CommonResources.GenericInvalidRequestMessage
+                };
+            }
+
+            if (!submission.CanSubmitMoveOutDetails())
+            {
+                // TODO_PANOS_TEST
+                return new SubmitMoveOutDetailsOutcome
+                {
+                    IsRejected = true,
+                    RejectionReason = CommonResources.GenericInvalidActionMessage
                 };
             }
 

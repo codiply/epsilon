@@ -147,4 +147,7 @@
   <data name="GenericInvalidRequestMessage" xml:space="preserve">
     <value>Sorry, there was something wrong with your request.</value>
   </data>
+  <data name="GenericInvalidActionMessage" xml:space="preserve">
+    <value>Sorry, this action is not valid.</value>
+  </data>
 </root>
