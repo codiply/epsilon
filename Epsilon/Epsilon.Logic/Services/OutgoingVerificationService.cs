@@ -101,14 +101,17 @@ namespace Epsilon.Logic.Services
                     VerificationUniqueId = null
                 };
 
+            // TODO_PANOS_TEST
             var verificationsPerTenancyDetailsSubmission = _outgoingVerificationServiceConfig.VerificationsPerTenancyDetailsSubmission;
 
+            // TODO_PANOS_TEST
             var submissionIdsToAvoid = await _dbContext.TenantVerifications
                 .Where(v => v.AssignedToId.Equals(userId) || v.AssignedByIpAddress.Equals(userId))
                 .Select(v => v.TenancyDetailsSubmissionId)
                 .Distinct()
                 .ToListAsync();
 
+            // TODO_PANOS_TEST
             // TODO_PANOS: pick a submission from the same country.
             var pickedSubmission = await _dbContext.TenancyDetailsSubmissions
                 .Include(s => s.Address)
@@ -124,6 +127,7 @@ namespace Epsilon.Logic.Services
 
             if (pickedSubmission == null)
             {
+                // TODO_PANOS_TEST
                 return new PickVerificationOutcome
                 {
                     IsRejected = true,
@@ -144,6 +148,7 @@ namespace Epsilon.Logic.Services
             _dbContext.TenantVerifications.Add(tenantVerification);
             await _dbContext.SaveChangesAsync();
 
+            // TODO_PANOS_TEST
             return new PickVerificationOutcome
             {
                 IsRejected = false,
@@ -156,7 +161,7 @@ namespace Epsilon.Logic.Services
             Guid verificationUniqueId)
         {
             var verification = await GetVerificationForUser(userId, verificationUniqueId);
-            if (verification == null || !verification.CanMarkAsSent())
+            if (verification == null)
             {
                 // TODO_PANOS_TEST
                 return new MarkVerificationAsSentOutcome
