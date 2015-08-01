@@ -26,6 +26,8 @@ using Epsilon.Logic.Entities.Interfaces;
 using static Epsilon.Logic.Helpers.RandomStringHelper;
 using Epsilon.Logic.Forms.Submission;
 using Epsilon.Resources.Common;
+using System.Data.Entity.Infrastructure;
+
 namespace Epsilon.IntegrationTests.Logic.Services
 {
     public class TenancyDetailsSubmissionServiceTest : BaseIntegrationTestWithRollback
@@ -164,6 +166,10 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.IsTrue(timeBefore <= retrievedTenancyDetailsSubmission.CreatedOn &&
                 retrievedTenancyDetailsSubmission.CreatedOn <= timeAfter,
                 "The CreatedOn field on the retrieved TenancyDetailsSubmission is not within the expected range.");
+
+            // I try to use the same UniqueId again.
+            Assert.Throws<DbUpdateException>(async () => await service.Create(user.Id, ipAddress, submissionUniqueId, address.UniqueId),
+                "Using the same UniqueId twice should throw an exception because of the unique constraint on UniqueId.");
         }
 
         [Test]

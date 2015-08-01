@@ -471,7 +471,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             };
             dbContext.TenantVerifications.Add(tenantVerification2);
 
-            Assert.Throws(typeof(DbUpdateException), () => dbContext.SaveChanges(), 
+            Assert.Throws<DbUpdateException>(async () => await dbContext.SaveChangesAsync(), 
                 "Saving a second verification with the same secret code and for the same tenancy details submission should throw.");
         }
 

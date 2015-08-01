@@ -18,6 +18,8 @@ using Epsilon.Logic.Wrappers;
 using Epsilon.Logic.SqlContext.Interfaces;
 using Epsilon.Logic.Helpers.Interfaces;
 using Epsilon.Logic.Forms.Submission;
+using System.Data.SqlClient;
+using System.Data.Entity.Infrastructure;
 
 namespace Epsilon.IntegrationTests.Logic.Services
 {
@@ -217,7 +219,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 });
             var serviceForAdd = containerForAdd.Get<IAddressService>();
 
-            var addressForm = CreateRandomAddresForm(countryId);
+            var addressForm = CreateRandomAddresForm(countryId, Guid.NewGuid());
             var postcodeGeometry = await CreatePostcodeGeometry(helperContainer, addressForm.CountryId, addressForm.Postcode);
 
             var timeBefore = DateTimeOffset.Now;
@@ -292,6 +294,35 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 "Field viewportSouthwestLatitude on retrieved AddressGeometry is not the expected.");
             Assert.AreEqual(addressGeometry.ViewportSouthwestLongitude, retrievedAddressGeometry.viewportSouthwestLongitude,
                 "Field viewportSouthwestLatitude on retrieved AddressGeometry is not the expected.");
+
+            // I try to add a second address using the same UniqueId
+            var addressGeometry2 = new AddressGeometry
+            {
+                Latitude = 11.0,
+                Longitude = 12.0,
+                ViewportNortheastLatitude = 13.0,
+                ViewportNortheastLongitude = 14.0,
+                ViewportSouthwestLatitude = 15.0,
+                ViewportSouthwestLongitude = 16.0
+            };
+            var containerForSecondAdd = CreateContainer();
+            SetupAntiAbuseServiceResponse(containerForSecondAdd, (userId, ipAddr) => { }, new AntiAbuseServiceResponse
+            {
+                IsRejected = false
+            });
+            SetupAddressVerficationServiceResponse(containerForSecondAdd, (userId, userIpAddress, form) => { },
+                new AddressVerificationResponse
+                {
+                    IsRejected = false,
+                    AddressGeometry = addressGeometry2
+                });
+            var serviceForSecondAdd = containerForSecondAdd.Get<IAddressService>();
+
+            var addressForm2 = CreateRandomAddresForm(countryId, addressForm.UniqueId);
+            var postcodeGeometry2 = await CreatePostcodeGeometry(helperContainer, addressForm2.CountryId, addressForm2.Postcode);
+
+            Assert.Throws<DbUpdateException>(async () => await serviceForSecondAdd.AddAddress(user.Id, ipAddress, addressForm),
+                "Adding a second address using the same UniqueId should throw as there should be a unique constraint on UniqueId.");
         }
 
         [Test]
@@ -331,7 +362,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 });
             var service = containerForAdd.Get<IAddressService>();
 
-            var addressForm = CreateRandomAddresForm(countryId);
+            var addressForm = CreateRandomAddresForm(countryId, Guid.NewGuid());
             var outcome = await service.AddAddress(user.Id, ipAddress, addressForm);
 
             Assert.IsTrue(outcome.IsRejected, "IsRejected on the outcome should be true.");
@@ -390,7 +421,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 });
             var service = containerForAdd.Get<IAddressService>();
 
-            var addressForm = CreateRandomAddresForm(countryId);
+            var addressForm = CreateRandomAddresForm(countryId, Guid.NewGuid());
             var outcome = await service.AddAddress(user.Id, ipAddress, addressForm);
 
             Assert.IsTrue(outcome.IsRejected, "IsRejected on the outcome should be true.");
@@ -437,14 +468,14 @@ namespace Epsilon.IntegrationTests.Logic.Services
             return postcodeGeometry;
         }
 
-        private AddressForm CreateRandomAddresForm(string countryId)
+        private AddressForm CreateRandomAddresForm(string countryId, Guid uniqueId)
         {
             var random = new RandomWrapper();
             var randomFieldLength = 10;
 
             var form = new AddressForm
             {
-                UniqueId = Guid.NewGuid(),
+                UniqueId = uniqueId,
                 Line1 = RandomStringHelper.GetAlphaNumericString(random, randomFieldLength, RandomStringHelper.CharacterCase.Mixed),
                 Line2 = RandomStringHelper.GetAlphaNumericString(random, randomFieldLength, RandomStringHelper.CharacterCase.Mixed),
                 Line3 = RandomStringHelper.GetAlphaNumericString(random, randomFieldLength, RandomStringHelper.CharacterCase.Mixed),
