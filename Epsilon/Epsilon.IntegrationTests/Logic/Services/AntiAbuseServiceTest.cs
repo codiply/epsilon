@@ -794,8 +794,8 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var disableGlobalFrequencyCheck = true;
             var globalMaxFrequency = "2/D";
             var disableMaxOutstandingPerUserCheck = true;
-            var maxOutstandingPerUserForNewUser = 2;
-            var maxOutstandingPerUser = 4;
+            var maxOutstandingFrequencyPerUserForNewUser = "2/D";
+            var maxOutstandingFrequencyPerUser = "4/D";
             var disableIpAddressFrequencyCheck = true;
             var maxFrequencyPerIpAddress = "1/D";
 
@@ -804,7 +804,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var container = CreateContainer();
             SetupContainerForCanPickOutgoingVerification(container,
                 disableGlobalFrequencyCheck, globalMaxFrequency,
-                disableMaxOutstandingPerUserCheck, maxOutstandingPerUserForNewUser, maxOutstandingPerUser,
+                disableMaxOutstandingPerUserCheck, maxOutstandingFrequencyPerUserForNewUser, maxOutstandingFrequencyPerUser,
                 disableIpAddressFrequencyCheck, maxFrequencyPerIpAddress);
             var service = container.Get<IAntiAbuseService>();
 
@@ -829,8 +829,8 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var disableGlobalFrequencyCheck = false;
             var globalMaxFrequency = "2/D";
             var disableMaxOutstandingPerUserCheck = true;
-            var maxOutstandingPerUserForNewUser = 2;
-            var maxOutstandingPerUser = 4;
+            var maxOutstandingFrequencyPerUserForNewUser = "2/D";
+            var maxOutstandingFrequencyPerUser = "4/D";
             var disableIpAddressFrequencyCheck = true;
             var maxFrequencyPerIpAddress = "1/D";
 
@@ -845,7 +845,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             SetupContainerForCanPickOutgoingVerification(containerUnderTest,
                 disableGlobalFrequencyCheck, globalMaxFrequency,
-                disableMaxOutstandingPerUserCheck, maxOutstandingPerUserForNewUser, maxOutstandingPerUser,
+                disableMaxOutstandingPerUserCheck, maxOutstandingFrequencyPerUserForNewUser, maxOutstandingFrequencyPerUser,
                 disableIpAddressFrequencyCheck, maxFrequencyPerIpAddress);
             var serviceUnderTest = containerUnderTest.Get<IAntiAbuseService>();
 
@@ -885,8 +885,8 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var disableGlobalFrequencyCheck = false;
             var globalMaxFrequency = string.Format("1/{0}S", periodInSeconds);
             var disableMaxOutstandingPerUserCheck = true;
-            var maxOutstandingPerUserForNewUser = 2;
-            var maxOutstandingPerUser = 4;
+            var maxOutstandingFrequencyPerUserForNewUser = "2/D";
+            var maxOutstandingFrequencyPerUser = "4/D";
             var disableIpAddressFrequencyCheck = true;
             var maxFrequencyPerIpAddress = "1/D";
 
@@ -901,7 +901,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             SetupContainerForCanPickOutgoingVerification(containerUnderTest,
                 disableGlobalFrequencyCheck, globalMaxFrequency,
-                disableMaxOutstandingPerUserCheck, maxOutstandingPerUserForNewUser, maxOutstandingPerUser,
+                disableMaxOutstandingPerUserCheck, maxOutstandingFrequencyPerUserForNewUser, maxOutstandingFrequencyPerUser,
                 disableIpAddressFrequencyCheck, maxFrequencyPerIpAddress);
             var serviceUnderTest = containerUnderTest.Get<IAntiAbuseService>();
 
@@ -935,8 +935,8 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var disableGlobalFrequencyCheck = true;
             var globalMaxFrequency = "2/D";
             var disableMaxOutstandingPerUserCheck = true;
-            var maxOutstandingPerUserForNewUser = 2;
-            var maxOutstandingPerUser = 4;
+            var maxOutstandingFrequencyPerUserForNewUser = "2/D";
+            var maxOutstandingFrequencyPerUser = "4/D";
             var disableIpAddressFrequencyCheck = false;
             var maxFrequencyPerIpAddress = "2/D";
 
@@ -945,7 +945,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var containerUnderTest = CreateContainer();
             SetupContainerForCanPickOutgoingVerification(containerUnderTest,
                 disableGlobalFrequencyCheck, globalMaxFrequency,
-                disableMaxOutstandingPerUserCheck, maxOutstandingPerUserForNewUser, maxOutstandingPerUser,
+                disableMaxOutstandingPerUserCheck, maxOutstandingFrequencyPerUserForNewUser, maxOutstandingFrequencyPerUser,
                 disableIpAddressFrequencyCheck, maxFrequencyPerIpAddress);
             var serviceUnderTest = containerUnderTest.Get<IAntiAbuseService>();
 
@@ -977,8 +977,8 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var disableGlobalFrequencyCheck = true;
             var globalMaxFrequency = "10/D";
             var disableMaxOutstandingPerUserCheck = true;
-            var maxOutstandingPerUserForNewUser = 2;
-            var maxOutstandingPerUser = 4;
+            var maxOutstandingFrequencyPerUserForNewUser = "2/D";
+            var maxOutstandingFrequencyPerUser = "4/D";
             var disableIpAddressFrequencyCheck = false;
             var maxFrequencyPerIpAddress = string.Format("1/{0}S", periodInSeconds);
 
@@ -987,7 +987,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var containerUnderTest = CreateContainer();
             SetupContainerForCanPickOutgoingVerification(containerUnderTest,
                 disableGlobalFrequencyCheck, globalMaxFrequency,
-                disableMaxOutstandingPerUserCheck, maxOutstandingPerUserForNewUser, maxOutstandingPerUser,
+                disableMaxOutstandingPerUserCheck, maxOutstandingFrequencyPerUserForNewUser, maxOutstandingFrequencyPerUser,
                 disableIpAddressFrequencyCheck, maxFrequencyPerIpAddress);
             var serviceUnderTest = containerUnderTest.Get<IAntiAbuseService>();
 
@@ -1017,8 +1017,8 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var disableGlobalFrequencyCheck = true;
             var globalMaxFrequency = "2/D";
             var disableMaxOutstandingPerUserCheck = false;
-            var maxOutstandingPerUserForNewUser = 2;
-            var maxOutstandingPerUser = 0;
+            var maxOutstandingFrequencyPerUserForNewUser = "2/D";
+            var maxOutstandingFrequencyPerUser = "0/D";
             var disableIpAddressFrequencyCheck = true;
             var maxFrequencyPerIpAddress = "2/D";
 
@@ -1027,7 +1027,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var containerUnderTest = CreateContainer();
             SetupContainerForCanPickOutgoingVerification(containerUnderTest,
                 disableGlobalFrequencyCheck, globalMaxFrequency,
-                disableMaxOutstandingPerUserCheck, maxOutstandingPerUserForNewUser, maxOutstandingPerUser,
+                disableMaxOutstandingPerUserCheck, maxOutstandingFrequencyPerUserForNewUser, maxOutstandingFrequencyPerUser,
                 disableIpAddressFrequencyCheck, maxFrequencyPerIpAddress);
             var serviceUnderTest = containerUnderTest.Get<IAntiAbuseService>();
 
@@ -1048,7 +1048,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             var secondResponse = await serviceUnderTest.CanPickOutgoingVerification(user.Id, ipAddress);
             Assert.IsTrue(secondResponse.IsRejected, "The second check should fail.");
-            Assert.AreEqual(AntiAbuseResources.PickOutgoingVerification_MaxOutstandingPerUserCheck_RejectionMessage,
+            Assert.AreEqual(AntiAbuseResources.PickOutgoingVerification_MaxOutstandingFrequencyPerUserCheck_RejectionMessage,
                 secondResponse.RejectionReason, "The rejection reason is not the expected.");
         }
 
@@ -1058,8 +1058,8 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var disableGlobalFrequencyCheck = true;
             var globalMaxFrequency = "2/D";
             var disableMaxOutstandingPerUserCheck = false;
-            var maxOutstandingPerUserForNewUser = 0;
-            var maxOutstandingPerUser = 2;
+            var maxOutstandingFrequencyPerUserForNewUser = "0/D";
+            var maxOutstandingFrequencyPerUser = "2/D";
             var disableIpAddressFrequencyCheck = true;
             var maxFrequencyPerIpAddress = "2/D";
 
@@ -1068,7 +1068,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var containerUnderTest = CreateContainer();
             SetupContainerForCanPickOutgoingVerification(containerUnderTest,
                 disableGlobalFrequencyCheck, globalMaxFrequency,
-                disableMaxOutstandingPerUserCheck, maxOutstandingPerUserForNewUser, maxOutstandingPerUser,
+                disableMaxOutstandingPerUserCheck, maxOutstandingFrequencyPerUserForNewUser, maxOutstandingFrequencyPerUser,
                 disableIpAddressFrequencyCheck, maxFrequencyPerIpAddress);
             var serviceUnderTest = containerUnderTest.Get<IAntiAbuseService>();
 
@@ -1091,7 +1091,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             var secondResponse = await serviceUnderTest.CanPickOutgoingVerification(user.Id, ipAddress);
             Assert.IsTrue(secondResponse.IsRejected, "The second check should fail.");
-            Assert.AreEqual(AntiAbuseResources.PickOutgoingVerification_MaxOutstandingPerUserCheck_RejectionMessage,
+            Assert.AreEqual(AntiAbuseResources.PickOutgoingVerification_MaxOutstandingFrequencyPerUserCheck_RejectionMessage,
                 secondResponse.RejectionReason, "The rejection reason is not the expected.");
         }
 
@@ -1102,8 +1102,8 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var disableGlobalFrequencyCheck = true;
             var globalMaxFrequency = "2/D";
             var disableMaxOutstandingPerUserCheck = false;
-            var maxOutstandingPerUserForNewUser = 0;
-            var maxOutstandingPerUser = 2;
+            var maxOutstandingFrequencyPerUserForNewUser = "0/D";
+            var maxOutstandingFrequencyPerUser = "2/D";
             var disableIpAddressFrequencyCheck = true;
             var maxFrequencyPerIpAddress = "2/D";
 
@@ -1112,7 +1112,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var containerUnderTest = CreateContainer();
             SetupContainerForCanPickOutgoingVerification(containerUnderTest,
                 disableGlobalFrequencyCheck, globalMaxFrequency,
-                disableMaxOutstandingPerUserCheck, maxOutstandingPerUserForNewUser, maxOutstandingPerUser,
+                disableMaxOutstandingPerUserCheck, maxOutstandingFrequencyPerUserForNewUser, maxOutstandingFrequencyPerUser,
                 disableIpAddressFrequencyCheck, maxFrequencyPerIpAddress);
             var serviceUnderTest = containerUnderTest.Get<IAntiAbuseService>();
 
@@ -1139,7 +1139,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             var secondResponse = await serviceUnderTest.CanPickOutgoingVerification(user.Id, ipAddress);
             Assert.IsTrue(secondResponse.IsRejected, "The second check should fail.");
-            Assert.AreEqual(AntiAbuseResources.PickOutgoingVerification_MaxOutstandingPerUserCheck_RejectionMessage,
+            Assert.AreEqual(AntiAbuseResources.PickOutgoingVerification_MaxOutstandingFrequencyPerUserCheck_RejectionMessage,
                 secondResponse.RejectionReason, "The rejection reason is not the expected.");
         }
 
@@ -1461,7 +1461,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
         private static void SetupContainerForCanPickOutgoingVerification(IKernel container,
             bool disableGlobalFrequencyCheck, string globalMaxFrequency,
-            bool disableMaxOutstandingPerUserCheck, int maxOutstandingPerUserForNewUser, int maxOutstandingPerUser,
+            bool disableMaxOutstandingPerUserCheck, string maxOutstandingFrequencyPerUserForNewUser, string maxOutstandingFrequencyPerUser,
             bool disableIpAddressFrequencyCheck, string maxFrequencyPerIpAddress)
         {
             var parseHelper = new ParseHelper();
@@ -1472,12 +1472,12 @@ namespace Epsilon.IntegrationTests.Logic.Services
             mockAntiAbuseServiceConfig.Setup(x => x.PickOutgoingVerification_GlobalMaxFrequency)
                 .Returns(parseHelper.ParseFrequency(globalMaxFrequency));
 
-            mockAntiAbuseServiceConfig.Setup(x => x.PickOutgoingVerification_DisableMaxOutstandingPerUserCheck)
+            mockAntiAbuseServiceConfig.Setup(x => x.PickOutgoingVerification_DisableMaxOutstandingFrequencyPerUserCheck)
                 .Returns(disableMaxOutstandingPerUserCheck);
-            mockAntiAbuseServiceConfig.Setup(x => x.PickOutgoingVerification_MaxOutstandingPerUserForNewUser)
-                .Returns(maxOutstandingPerUserForNewUser);
-            mockAntiAbuseServiceConfig.Setup(x => x.PickOutgoingVerification_MaxOutstandingPerUser)
-                .Returns(maxOutstandingPerUser);
+            mockAntiAbuseServiceConfig.Setup(x => x.PickOutgoingVerification_MaxOutstandingFrequencyPerUserForNewUser)
+                .Returns(parseHelper.ParseFrequency(maxOutstandingFrequencyPerUserForNewUser));
+            mockAntiAbuseServiceConfig.Setup(x => x.PickOutgoingVerification_MaxOutstandingFrequencyPerUser)
+                .Returns(parseHelper.ParseFrequency(maxOutstandingFrequencyPerUser));
 
             mockAntiAbuseServiceConfig.Setup(x => x.PickOutgoingVerification_DisableIpAddressFrequencyCheck)
                 .Returns(disableIpAddressFrequencyCheck);

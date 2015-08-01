@@ -111,7 +111,7 @@ namespace Epsilon.Logic.Services
             if (checkIpFrequency.IsRejected)
                 return checkIpFrequency;
 
-            var checkOutstandingOutgoingVerifications = await CanPickOutgoingVerificationCheckMaxOutstandingForUser(userId);
+            var checkOutstandingOutgoingVerifications = await CanPickOutgoingVerificationCheckMaxOutstandingFrequencyForUser(userId);
             if (checkOutstandingOutgoingVerifications.IsRejected)
                 return checkOutstandingOutgoingVerifications;
 
@@ -410,9 +410,9 @@ namespace Epsilon.Logic.Services
             return new AntiAbuseServiceResponse { IsRejected = false };
         }
 
-        private async Task<AntiAbuseServiceResponse> CanPickOutgoingVerificationCheckMaxOutstandingForUser(string userId)
+        private async Task<AntiAbuseServiceResponse> CanPickOutgoingVerificationCheckMaxOutstandingFrequencyForUser(string userId)
         {
-            if (_antiAbuseServiceConfig.PickOutgoingVerification_DisableMaxOutstandingPerUserCheck)
+            if (_antiAbuseServiceConfig.PickOutgoingVerification_DisableMaxOutstandingFrequencyPerUserCheck)
                 return new AntiAbuseServiceResponse { IsRejected = false };
 
             var isNotNewUser = await _dbContext.TenantVerifications
@@ -420,21 +420,24 @@ namespace Epsilon.Logic.Services
                 .Where(v => v.VerifiedOn.HasValue)
                 .AnyAsync();
 
-            var maxOutstandingVerifications = isNotNewUser 
-                ? _antiAbuseServiceConfig.PickOutgoingVerification_MaxOutstandingPerUser
-                : _antiAbuseServiceConfig.PickOutgoingVerification_MaxOutstandingPerUserForNewUser;
+            var maxFrequency = isNotNewUser 
+                ? _antiAbuseServiceConfig.PickOutgoingVerification_MaxOutstandingFrequencyPerUser
+                : _antiAbuseServiceConfig.PickOutgoingVerification_MaxOutstandingFrequencyPerUserForNewUser;
 
-            var numberOfOutstandingVerifications = await _dbContext.TenantVerifications
+            var windowStart = _clock.OffsetNow - maxFrequency.Period;
+
+            var actualNumberOfOutstandingVerifications = await _dbContext.TenantVerifications
                 .Where(v => v.AssignedToId.Equals(userId))
+                .Where(v => v.CreatedOn > windowStart)
                 .Where(v => !v.VerifiedOn.HasValue)
                 .CountAsync();
 
-            if (numberOfOutstandingVerifications >= maxOutstandingVerifications)
+            if (actualNumberOfOutstandingVerifications >= maxFrequency.Times)
             {
                 return new AntiAbuseServiceResponse
                 {
                     IsRejected = true,
-                    RejectionReason = AntiAbuseResources.PickOutgoingVerification_MaxOutstandingPerUserCheck_RejectionMessage
+                    RejectionReason = AntiAbuseResources.PickOutgoingVerification_MaxOutstandingFrequencyPerUserCheck_RejectionMessage
                 };
             }
 

@@ -150,7 +150,7 @@
   <data name="PickOutgoingVerification_IpAddressFrequencyCheck_RejectionMessage" xml:space="preserve">
     <value>There have been too many outgoing verifications from your IP address. Try again at a later time.</value>
   </data>
-  <data name="PickOutgoingVerification_MaxOutstandingPerUserCheck_RejectionMessage" xml:space="preserve">
+  <data name="PickOutgoingVerification_MaxOutstandingFrequencyPerUserCheck_RejectionMessage" xml:space="preserve">
     <value>You have too many outstanding verifications. Once some of them have been completed you will be able to create more.</value>
   </data>
   <data name="Register_GlobalFrequencyCheck_RejectionMessage" xml:space="preserve">

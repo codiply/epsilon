@@ -206,12 +206,12 @@ namespace Epsilon.Logic.Configuration
             }
         }
 
-        public bool PickOutgoingVerification_DisableMaxOutstandingPerUserCheck
+        public bool PickOutgoingVerification_DisableMaxOutstandingFrequencyPerUserCheck
         {
             get
             {
                 return _dbAppSettingsHelper
-                    .GetBool(DbAppSettingKey.AntiAbuse_PickOutgoingVerification_DisableMaxOutstandingPerUserCheck) == true;
+                    .GetBool(DbAppSettingKey.AntiAbuse_PickOutgoingVerification_DisableMaxOutstandingFrequencyPerUserCheck) == true;
             }
         }
 
@@ -226,23 +226,23 @@ namespace Epsilon.Logic.Configuration
         }
 
         
-        public int PickOutgoingVerification_MaxOutstandingPerUser
+        public Frequency PickOutgoingVerification_MaxOutstandingFrequencyPerUser
         {
             get
             {
-                return _dbAppSettingsHelper.GetInt(
-                    DbAppSettingKey.AntiAbuse_PickOutgoingVerification_MaxOutstandingPerUser,
-                    _dbAppSettingDefaultValue.AntiAbuse_PickOutgoingVerification_MaxOutstandingPerUser);
+                return _dbAppSettingsHelper.GetFrequency(
+                    DbAppSettingKey.AntiAbuse_PickOutgoingVerification_MaxOutstandingFrequencyPerUser,
+                    _dbAppSettingDefaultValue.AntiAbuse_PickOutgoingVerification_MaxOutstandingFrequencyPerUser);
             }
         }
 
-        public int PickOutgoingVerification_MaxOutstandingPerUserForNewUser
+        public Frequency PickOutgoingVerification_MaxOutstandingFrequencyPerUserForNewUser
         {
             get
             {
-                return _dbAppSettingsHelper.GetInt(
-                    DbAppSettingKey.AntiAbuse_PickOutgoingVerification_MaxOutstandingPerUserForNewUser,
-                    _dbAppSettingDefaultValue.AntiAbuse_PickOutgoingVerification_MaxOutstandingPerUserForNewUser);
+                return _dbAppSettingsHelper.GetFrequency(
+                    DbAppSettingKey.AntiAbuse_PickOutgoingVerification_MaxOutstandingFrequencyPerUserForNewUser,
+                    _dbAppSettingDefaultValue.AntiAbuse_PickOutgoingVerification_MaxOutstandingFrequencyPerUserForNewUser);
             }
         }
 

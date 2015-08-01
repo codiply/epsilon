@@ -31,10 +31,10 @@ namespace Epsilon.Logic.Configuration.Interfaces
 
         bool PickOutgoingVerification_DisableGlobalFrequencyCheck { get; }
         bool PickOutgoingVerification_DisableIpAddressFrequencyCheck { get; }
-        bool PickOutgoingVerification_DisableMaxOutstandingPerUserCheck { get; }
+        bool PickOutgoingVerification_DisableMaxOutstandingFrequencyPerUserCheck { get; }
         Frequency PickOutgoingVerification_GlobalMaxFrequency { get; }
-        int PickOutgoingVerification_MaxOutstandingPerUser { get; }
-        int PickOutgoingVerification_MaxOutstandingPerUserForNewUser { get; }
+        Frequency PickOutgoingVerification_MaxOutstandingFrequencyPerUser { get; }
+        Frequency PickOutgoingVerification_MaxOutstandingFrequencyPerUserForNewUser { get; }
         Frequency PickOutgoingVerification_MaxFrequencyPerIpAddress { get; }
 
         bool Register_DisableGlobalFrequencyCheck { get; }

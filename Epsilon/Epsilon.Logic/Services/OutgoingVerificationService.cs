@@ -36,6 +36,18 @@ namespace Epsilon.Logic.Services
             _outgoingVerificationServiceConfig = outgoingVerificationServiceConfig;
         }
 
+        public async Task<TenantVerification> GetVerificationForUser(string assignedUserId, Guid uniqueId)
+        {
+            var submission = await _dbContext.TenantVerifications
+                .Include(x => x.TenancyDetailsSubmission)
+                .Include(s => s.TenancyDetailsSubmission.Address)
+                .Where(s => s.UniqueId.Equals(uniqueId))
+                .Where(s => s.AssignedToId.Equals(assignedUserId))
+                .SingleOrDefaultAsync();
+
+            return submission;
+        }
+
         public async Task<MyOutgoingVerificationsSummaryResponse> GetUserOutgoingVerificationsSummary(
             string userId, MyOutgoingVerificationsSummaryRequest request)
         {
@@ -139,26 +151,15 @@ namespace Epsilon.Logic.Services
             };
         }
 
-        public async Task<TenantVerification> GetVerificationForUser(string assignedUserId, Guid uniqueId)
-        {
-            var submission = await _dbContext.TenantVerifications
-                .Include(x => x.TenancyDetailsSubmission)
-                .Include(s => s.TenancyDetailsSubmission.Address)
-                .Where(s => s.UniqueId.Equals(uniqueId))
-                .Where(s => s.AssignedToId.Equals(assignedUserId))
-                .SingleOrDefaultAsync();
-
-            return submission;
-        }
-
         public async Task<MarkVerificationAsSentOutcome> MarkAsSent(
             string userId,
             Guid verificationUniqueId)
         {
-            // TODO_PANOS_TEST
             var verification = await GetVerificationForUser(userId, verificationUniqueId);
             if (verification == null || !verification.CanMarkAsSent())
             {
+                // TODO_PANOS_TEST: different user
+                // TODO_PANOS_TEST: cannot perform action
                 return new MarkVerificationAsSentOutcome
                 {
                     IsRejected = true,

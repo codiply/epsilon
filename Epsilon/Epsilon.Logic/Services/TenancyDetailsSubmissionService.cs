@@ -132,7 +132,8 @@ namespace Epsilon.Logic.Services
             var submission = await GetSubmissionForUser(userId, form.TenancyDetailsSubmissionUniqueId);
             if (submission == null || !submission.CanEnterVerificationCode())
             {
-                // TODO_PANOS_TEST
+                // TODO_PANOS_TEST: different user
+                // TODO_PANOS_TEST: cannot perform action
                 return new EnterVerificationCodeOutcome
                 {
                     IsRejected = true,
@@ -186,7 +187,8 @@ namespace Epsilon.Logic.Services
             var submission = await GetSubmissionForUser(userId, form.TenancyDetailsSubmissionUniqueId);
             if (submission == null || !submission.CanSubmitTenancyDetails())
             {
-                // TODO_PANOS_TEST
+                // TODO_PANOS_TEST: different user
+                // TODO_PANOS_TEST: cannot perform action
                 return new SubmitTenancyDetailsOutcome
                 {
                     IsRejected = true,
@@ -215,7 +217,8 @@ namespace Epsilon.Logic.Services
             var submission = await GetSubmissionForUser(userId, form.TenancyDetailsSubmissionUniqueId);
             if (submission == null || submission.CanSubmitMoveOutDetails())
             {
-                // TODO_PANOS_TEST
+                // TODO_PANOS_TEST: different user
+                // TODO_PANOS_TEST: cannot perform action
                 return new SubmitMoveOutDetailsOutcome
                 {
                     IsRejected = true,

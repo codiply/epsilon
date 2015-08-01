@@ -4,7 +4,7 @@
     [TenancyDetailsSubmissionId] BIGINT             NOT NULL,
     [SecretCode]                 NVARCHAR (16)      NOT NULL,
     [CreatedOn]                  DATETIMEOFFSET (7) NOT NULL,
-    [MarkedAsSentOn]                     DATETIMEOFFSET (7) NULL,
+    [MarkedAsSentOn]             DATETIMEOFFSET (7) NULL,
     [VerifiedOn]                 DATETIMEOFFSET (7) NULL,
     [AssignedToId]               NVARCHAR (128)     NOT NULL,
     [AssignedByIpAddress]        NVARCHAR (39)      NOT NULL,
@@ -13,6 +13,8 @@
     CONSTRAINT [FK_dbo.TenantVerification_dbo.TenancyDetailsSubmission_TenancyDetailsSubmissionId] FOREIGN KEY ([TenancyDetailsSubmissionId]) REFERENCES [dbo].[TenancyDetailsSubmission] ([Id]) ON DELETE CASCADE,
     CONSTRAINT [FK_dbo.TenantVerification_dbo.User_AssignedToId] FOREIGN KEY ([AssignedToId]) REFERENCES [dbo].[User] ([Id])
 );
+
+
 
 
 
@@ -80,4 +82,9 @@ CREATE UNIQUE NONCLUSTERED INDEX [IX_TenantVerification_TenancyDetailsSubmission
 GO
 CREATE NONCLUSTERED INDEX [IX_TenantVerification_TenancyDetailsSubmissionId]
     ON [dbo].[TenantVerification]([TenancyDetailsSubmissionId] ASC);
+
+
+GO
+CREATE NONCLUSTERED INDEX [IX_TenantVerification_CreatedOn_AssignedToId_VerifiedOn]
+    ON [dbo].[TenantVerification]([CreatedOn] ASC, [AssignedToId] ASC, [VerifiedOn] ASC);
 

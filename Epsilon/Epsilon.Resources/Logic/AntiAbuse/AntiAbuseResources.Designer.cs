@@ -162,9 +162,9 @@ namespace Epsilon.Resources.Logic.AntiAbuse {
         /// <summary>
         ///   Looks up a localized string similar to You have too many outstanding verifications. Once some of them have been completed you will be able to create more..
         /// </summary>
-        public static string PickOutgoingVerification_MaxOutstandingPerUserCheck_RejectionMessage {
+        public static string PickOutgoingVerification_MaxOutstandingFrequencyPerUserCheck_RejectionMessage {
             get {
-                return ResourceManager.GetString("PickOutgoingVerification_MaxOutstandingPerUserCheck_RejectionMessage", resourceCulture);
+                return ResourceManager.GetString("PickOutgoingVerification_MaxOutstandingFrequencyPerUserCheck_RejectionMessage", resourceCulture);
             }
         }
         
