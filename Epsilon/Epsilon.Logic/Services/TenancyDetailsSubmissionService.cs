@@ -177,7 +177,6 @@ namespace Epsilon.Logic.Services
             _dbContext.Entry(verification).State = EntityState.Modified;
             await _dbContext.SaveChangesAsync();
 
-            // TODO_PANOS_TEST
             return new EnterVerificationCodeOutcome
             {
                 IsRejected = false,
@@ -206,7 +205,6 @@ namespace Epsilon.Logic.Services
                 };
             }
 
-            // TODO_PANOS_TEST
             submission.Rent = form.Rent;
             submission.NumberOfBedrooms = form.NumberOfBedrooms;
             submission.IsPartOfProperty = form.IsPartOfProperty;
@@ -243,7 +241,6 @@ namespace Epsilon.Logic.Services
                 };
             }
 
-            // TODO_PANOS_TEST
             submission.MoveOutDate = form.MoveOutDate;
             submission.MoveOutDateSubmittedOn = _clock.OffsetNow;
 
