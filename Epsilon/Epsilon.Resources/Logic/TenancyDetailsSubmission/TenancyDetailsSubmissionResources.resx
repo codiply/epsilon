@@ -120,6 +120,12 @@
   <data name="Create_MaxFrequencyPerAddressCheck_RejectionMessage" xml:space="preserve">
     <value>There has been a recent submission for this address. Please try again in a few weeks.</value>
   </data>
+  <data name="EnterVerification_InvalidVerificationCode_RejectionMessage" xml:space="preserve">
+    <value>The verification code is not valid.</value>
+  </data>
+  <data name="EnterVerification_VerificationAlreadyUsed_RejectionMessage" xml:space="preserve">
+    <value>The verification code has already been used.</value>
+  </data>
   <data name="GlobalSwitch_CreateTenancyDetailsSubmissionDisabled_Message" xml:space="preserve">
     <value>Creating a new submission is temporarily disabled. Please try again later.</value>
   </data>

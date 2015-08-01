@@ -155,23 +155,21 @@ namespace Epsilon.Logic.Services
 
             if (verification == null)
             {
-                // TODO_PANOS_TEST
                 return new EnterVerificationCodeOutcome
                 {
                     IsRejected = true,
                     ReturnToForm = true,
-                    RejectionReason = "Incorrect verification code." // TODO_PANOS
+                    RejectionReason = TenancyDetailsSubmissionResources.EnterVerification_InvalidVerificationCode_RejectionMessage
                 };
             }
 
             if (verification.StepVerificationReceivedDone())
             {
-                // TODO_PANOS_TEST
                 return new EnterVerificationCodeOutcome
                 {
                     IsRejected = true,
                     ReturnToForm = false,
-                    RejectionReason = "Verification code already used." // TODO_PANOS
+                    RejectionReason = TenancyDetailsSubmissionResources.EnterVerification_VerificationAlreadyUsed_RejectionMessage
                 };
             }
 

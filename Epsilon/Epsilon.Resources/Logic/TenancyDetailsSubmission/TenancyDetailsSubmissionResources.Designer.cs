@@ -71,6 +71,24 @@ namespace Epsilon.Resources.Logic.TenancyDetailsSubmission {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The verification code is not valid..
+        /// </summary>
+        public static string EnterVerification_InvalidVerificationCode_RejectionMessage {
+            get {
+                return ResourceManager.GetString("EnterVerification_InvalidVerificationCode_RejectionMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The verification code has already been used..
+        /// </summary>
+        public static string EnterVerification_VerificationAlreadyUsed_RejectionMessage {
+            get {
+                return ResourceManager.GetString("EnterVerification_VerificationAlreadyUsed_RejectionMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Creating a new submission is temporarily disabled. Please try again later..
         /// </summary>
         public static string GlobalSwitch_CreateTenancyDetailsSubmissionDisabled_Message {

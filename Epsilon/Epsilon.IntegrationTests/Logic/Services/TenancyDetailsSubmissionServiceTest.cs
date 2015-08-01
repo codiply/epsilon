@@ -1119,7 +1119,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 "EnterVerificationCode outcome field ReturnToForm is not the expected when wrong user is used.");
 
             var retrievedSubmissionAtPoint6 = await RetrieveSubmission(submission.UniqueId);
-            Assert.IsNotNull(retrievedSubmissionAtPoint5, "Retrieved submission at point 6 is null.");
+            Assert.IsNotNull(retrievedSubmissionAtPoint6, "Retrieved submission at point 6 is null.");
             var retrievedUsedVerificationAtPoint6 = 
                 retrievedSubmissionAtPoint6.TenantVerifications.Single(x => x.UniqueId == verificationToUse.UniqueId);
             Assert.IsNull(retrievedUsedVerificationAtPoint6.VerifiedOn,
@@ -1133,13 +1133,224 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var timeAfter = clock.OffsetNow;
 
             var retrievedSubmissionAtPoint7 = await RetrieveSubmission(submission.UniqueId);
-            Assert.IsNotNull(retrievedSubmissionAtPoint5, "Retrieved submission at point 7 is null.");
+            Assert.IsNotNull(retrievedSubmissionAtPoint7, "Retrieved submission at point 7 is null.");
             var retrievedUsedVerificationAtPoint7 =
                 retrievedSubmissionAtPoint7.TenantVerifications.Single(x => x.UniqueId == verificationToUse.UniqueId);
             Assert.IsTrue(retrievedUsedVerificationAtPoint7.VerifiedOn.HasValue,
                 "Field VerifiedOn on used verification retrieved at point 7 does not have a value.");
             Assert.IsTrue(timeBefore <= retrievedUsedVerificationAtPoint7.VerifiedOn.Value && retrievedUsedVerificationAtPoint7.VerifiedOn.Value <= timeAfter,
                 "Field VerifiedOn on used verification retrieved at point 7 is not in the expected range.");
+        }
+
+        [Test]
+        public async Task ActionsTest_SubmissionWithSentAndCompleteVerifications()
+        {
+            var justCreatedVerifications = 0;
+            var sentVerifications = 1;
+            var completeVerifications = 1;
+            var areDetailsSubmitted = false;
+            var hasMovedOut = false;
+
+            var helperContainer = CreateContainer();
+
+            var userIpAddress = "1.2.3.4";
+            var user = await CreateUser(helperContainer, "test@test.com", userIpAddress);
+            var otherUserIpAddress = "1.2.3.5";
+            var otherUser = await CreateUser(helperContainer, "test2@test.com", otherUserIpAddress);
+
+            var random = new RandomWrapper(2015);
+            var clock = helperContainer.Get<IClock>();
+
+            var submission = await CreateTenancyDetailsSubmissionAndSave(
+                    random, helperContainer, user.Id, userIpAddress, otherUser.Id, otherUserIpAddress,
+                    justCreatedVerifications, sentVerifications, completeVerifications, areDetailsSubmitted, hasMovedOut);
+
+            var containerUnderTest = CreateContainer();
+            var serviceUnderTest = containerUnderTest.Get<ITenancyDetailsSubmissionService>();
+
+            var retrievedSubmissionAtPoint1 = await RetrieveSubmission(submission.UniqueId);
+            Assert.IsNotNull(retrievedSubmissionAtPoint1, "Retrieved submission at point 1 is null.");
+            Assert.IsNull(retrievedSubmissionAtPoint1.Rent, "Field Rent on retrieved submission at point 1 is not the expected.");
+            Assert.IsNull(retrievedSubmissionAtPoint1.MoveOutDate, "Field MoveOutDate on retrived submission at point 1 is not the epxted.");
+            Assert.IsTrue(retrievedSubmissionAtPoint1.TenantVerifications.Any(x => !x.VerifiedOn.HasValue),
+                "At point 1 some verifications should have null VerifiedOn field.");
+            Assert.IsTrue(retrievedSubmissionAtPoint1.TenantVerifications.Any(x => x.VerifiedOn.HasValue),
+                "At point 1 some verifications should not have null VerifiedOn field.");
+            Assert.IsTrue(retrievedSubmissionAtPoint1.TenantVerifications.All(x => x.MarkedAsSentOn.HasValue),
+                "At point 1 all verifications should have a value in MarkedAsSentOn field.");
+
+            // I try all invalid actions first
+            // SubmitMoveOutDetails
+            var moveOutDetailsForm = new MoveOutDetailsForm
+            {
+                TenancyDetailsSubmissionUniqueId = submission.UniqueId,
+                MoveOutDate = clock.OffsetNow.UtcDateTime.AddDays(1.0)
+
+            };
+            var submitMoveOutDetailsOutcome = await serviceUnderTest.SubmitMoveOutDetails(user.Id, moveOutDetailsForm);
+            Assert.IsTrue(submitMoveOutDetailsOutcome.IsRejected, "SubmitMoveOutDetails outcome field IsRejected is not the expected.");
+            Assert.AreEqual(CommonResources.GenericInvalidActionMessage, submitMoveOutDetailsOutcome.RejectionReason,
+                "SubmitMoveOutDetails outcome field RejectionReason is not the expected.");
+            Assert.IsFalse(submitMoveOutDetailsOutcome.ReturnToForm, "SubmitMoveOutDetails outcome field ReturnToForm is not the expected.");
+
+            var retrievedSubmissionAtPoint2 = await RetrieveSubmission(submission.UniqueId);
+            Assert.IsNotNull(retrievedSubmissionAtPoint2, "Retrieved submission at point 2 is null.");
+            Assert.IsNull(retrievedSubmissionAtPoint2.MoveOutDate, "Field MoveOutDate on retrieved submission at point 2 is not the expected.");
+
+            var submitMoveOutDetailsOutcomeForOtherUser = await serviceUnderTest.SubmitMoveOutDetails(otherUser.Id, moveOutDetailsForm);
+            Assert.IsTrue(submitMoveOutDetailsOutcomeForOtherUser.IsRejected,
+                "SubmitMoveOutDetails outcome field IsRejected is not the expected when wrong user is used.");
+            Assert.AreEqual(CommonResources.GenericInvalidRequestMessage, submitMoveOutDetailsOutcomeForOtherUser.RejectionReason,
+                "SubmitMoveOutDetails outcome field RejectionReason is not the expected when wrong user is used.");
+            Assert.IsFalse(submitMoveOutDetailsOutcomeForOtherUser.ReturnToForm,
+                "SubmitMoveOutDetails outcome field ReturnToForm is not the expected when wrong user is used.");
+
+            var retrievedSubmissionAtPoint3 = await RetrieveSubmission(submission.UniqueId);
+            Assert.IsNotNull(retrievedSubmissionAtPoint3, "Retrieved submission at point 3 is null.");
+            Assert.IsNull(retrievedSubmissionAtPoint3.MoveOutDate, "Field MoveOutDate on retrieved submission at point 3 is not the expected.");
+
+            // I now try the valid action
+            // EnterVerificationCode
+            var verificationToUse = submission.TenantVerifications.Single(x => !x.VerifiedOn.HasValue);
+            var completeVerification = submission.TenantVerifications.Single(x => x.VerifiedOn.HasValue);
+
+            // I try an invalid code
+            var verificationCodeFormInvalidCode = new VerificationCodeForm
+            {
+                TenancyDetailsSubmissionUniqueId = submission.UniqueId,
+                VerificationCode = "invalid-code"
+            };
+
+            var enterVerificationCodeOutcomeInvalidCode = await serviceUnderTest.EnterVerificationCode(user.Id, verificationCodeFormInvalidCode);
+            Assert.IsTrue(enterVerificationCodeOutcomeInvalidCode.IsRejected,
+                "EnterVerificationCode outcome field IsRejected is not the expected when invalid code is used.");
+            Assert.AreEqual(TenancyDetailsSubmissionResources.EnterVerification_InvalidVerificationCode_RejectionMessage, enterVerificationCodeOutcomeInvalidCode.RejectionReason,
+                "EnterVerificationCode outcome field RejectionReason is not the expected when invalid code is used.");
+            Assert.IsTrue(enterVerificationCodeOutcomeInvalidCode.ReturnToForm,
+                "EnterVerificationCode outcome field ReturnToForm is not the expected when invalid code is used.");
+
+            var retrievedSubmissionAtPoint4 = await RetrieveSubmission(submission.UniqueId);
+            var retrievedVerificationToUseAtPoint4 =
+                retrievedSubmissionAtPoint4.TenantVerifications.Single(x => x.UniqueId.Equals(verificationToUse.UniqueId));
+            Assert.IsNull(retrievedVerificationToUseAtPoint4.VerifiedOn,
+                "Field VerifiedOn on retrieved used verification at point 4 is not the expected.");
+
+            // I try the secret code of the complete verification
+
+            var verificationCodeFormPreviouslyEnteredCode = new VerificationCodeForm
+            {
+                TenancyDetailsSubmissionUniqueId = submission.UniqueId,
+                VerificationCode = completeVerification.SecretCode
+            };
+
+            var enterVerificationCodeOutcomePreviouslyEnteredCode = 
+                await serviceUnderTest.EnterVerificationCode(user.Id, verificationCodeFormPreviouslyEnteredCode);
+            Assert.IsTrue(enterVerificationCodeOutcomePreviouslyEnteredCode.IsRejected,
+                "EnterVerificationCode outcome field IsRejected is not the expected when previously entered code is used.");
+            Assert.AreEqual(TenancyDetailsSubmissionResources.EnterVerification_VerificationAlreadyUsed_RejectionMessage, enterVerificationCodeOutcomePreviouslyEnteredCode.RejectionReason,
+                "EnterVerificationCode outcome field RejectionReason is not the expected when previously entered code is used.");
+            Assert.IsFalse(enterVerificationCodeOutcomePreviouslyEnteredCode.ReturnToForm,
+                "EnterVerificationCode outcome field ReturnToForm is not the expected when previously code is used.");
+
+            var retrievedSubmissionAtPoint5 = await RetrieveSubmission(submission.UniqueId);
+            var retrievedVerificationToUseAtPoint5 =
+                retrievedSubmissionAtPoint5.TenantVerifications.Single(x => x.UniqueId.Equals(verificationToUse.UniqueId));
+            Assert.IsNull(retrievedVerificationToUseAtPoint5.VerifiedOn,
+                "Field VerifiedOn on retrieved verification to use at point 5 is not the expected.");
+            var retrievedCompleteVerificationAtPoint5 =
+                retrievedSubmissionAtPoint5.TenantVerifications.Single(x => x.UniqueId.Equals(completeVerification.UniqueId));
+            Assert.AreEqual(completeVerification.VerifiedOn.Value, retrievedCompleteVerificationAtPoint5.VerifiedOn.Value,
+                "The VerifiedOn field should not be updated when a previously entered code is used.");
+
+            // This is the right form.
+            var verificationCodeForm = new VerificationCodeForm
+            {
+                TenancyDetailsSubmissionUniqueId = submission.UniqueId,
+                VerificationCode = verificationToUse.SecretCode
+            };
+
+            // I try the right code but with the other user
+            var enterVerificationCodeOutcomeForOtherUser = await serviceUnderTest.EnterVerificationCode(otherUser.Id, verificationCodeForm);
+            Assert.IsTrue(enterVerificationCodeOutcomeForOtherUser.IsRejected,
+                "EnterVerificationCode outcome field IsRejected is not the expected when wrong user is used.");
+            Assert.AreEqual(CommonResources.GenericInvalidRequestMessage, enterVerificationCodeOutcomeForOtherUser.RejectionReason,
+                "EnterVerificationCode outcome field RejectionReason is not the expected when wrong user is used.");
+            Assert.IsFalse(enterVerificationCodeOutcomeForOtherUser.ReturnToForm,
+                "EnterVerificationCode outcome field ReturnToForm is not the expected when wrong user is used.");
+
+            var retrievedSubmissionAtPoint6 = await RetrieveSubmission(submission.UniqueId);
+            Assert.IsNotNull(retrievedSubmissionAtPoint6, "Retrieved submission at point 6 is null.");
+            var retrievedUsedVerificationAtPoint6 =
+                retrievedSubmissionAtPoint6.TenantVerifications.Single(x => x.UniqueId == verificationToUse.UniqueId);
+            Assert.IsNull(retrievedUsedVerificationAtPoint6.VerifiedOn,
+                "Field VerifiedOn on retrieved used verification at point 6 is not the expected.");
+
+            var timeBeforeEnterVerificationCode = clock.OffsetNow;
+            var enterVerificationCodeOutcome = await serviceUnderTest.EnterVerificationCode(user.Id, verificationCodeForm);
+            Assert.IsFalse(enterVerificationCodeOutcome.IsRejected, "EnterVerificationCode outcome field IsRejected is not the expected.");
+            Assert.IsNullOrEmpty(enterVerificationCodeOutcome.RejectionReason);
+            Assert.IsFalse(enterVerificationCodeOutcome.ReturnToForm, "EnterVerificationCode outcome field ReturnToForm is not the expected.");
+            var timeAfterEnterVerificationCode = clock.OffsetNow;
+
+            var retrievedSubmissionAtPoint7 = await RetrieveSubmission(submission.UniqueId);
+            Assert.IsNotNull(retrievedSubmissionAtPoint7, "Retrieved submission at point 9 is null.");
+            var retrievedUsedVerificationAtPoint7 =
+                retrievedSubmissionAtPoint7.TenantVerifications.Single(x => x.UniqueId == verificationToUse.UniqueId);
+            Assert.IsTrue(retrievedUsedVerificationAtPoint7.VerifiedOn.HasValue,
+                "Field VerifiedOn on used verification retrieved at point 9 does not have a value.");
+            Assert.IsTrue(timeBeforeEnterVerificationCode <= retrievedUsedVerificationAtPoint7.VerifiedOn.Value 
+                && retrievedUsedVerificationAtPoint7.VerifiedOn.Value <= timeAfterEnterVerificationCode,
+                "Field VerifiedOn on used verification retrieved at point 9 is not in the expected range.");
+
+            // SubmitTenancyDetails
+            var tenancyDetailsForm = new TenancyDetailsForm
+            {
+                TenancyDetailsSubmissionUniqueId = submission.UniqueId,
+                IsPartOfProperty = true,
+                Rent = 100,
+                MoveInDate = clock.OffsetNow.UtcDateTime.AddDays(-10.0).Date,
+                NumberOfBedrooms = 3
+
+            };
+
+            // I try the wrong user.
+            var submitTenancyDetailsOutcomeForOtherUser = await serviceUnderTest.SubmitTenancyDetails(otherUser.Id, tenancyDetailsForm);
+            Assert.IsTrue(submitTenancyDetailsOutcomeForOtherUser.IsRejected,
+                "SubmitTenancyDetails outcome field IsRejected is not the expected when wrong user is used.");
+            Assert.AreEqual(CommonResources.GenericInvalidRequestMessage, submitTenancyDetailsOutcomeForOtherUser.RejectionReason,
+                "SubmitTenancyDetails outcome field RejectionReason is not the expected when wrong user is used.");
+            Assert.IsFalse(submitTenancyDetailsOutcomeForOtherUser.ReturnToForm,
+                "SubmitTenancyDetails outcome field ReturnToForm is not the expected when wrong user is used.");
+
+            var retrievedSubmissionAtPoint8 = await RetrieveSubmission(submission.UniqueId);
+            Assert.IsNotNull(retrievedSubmissionAtPoint8, "Retrieved submission at point 8 is null.");
+            Assert.IsNull(retrievedSubmissionAtPoint8.Rent, "Field Rent on retrieved submission at point 8 is not the expected.");
+            Assert.IsNull(retrievedSubmissionAtPoint8.SubmittedOn, "Field SubmittedOn on retrieved submission at point 8 is not the expected.");
+
+            // I try the right user.
+            var timeBeforeSubmitTenancyDetails = clock.OffsetNow;
+            var submitTenancyDetailsOutcome = await serviceUnderTest.SubmitTenancyDetails(user.Id, tenancyDetailsForm);
+            Assert.IsFalse(submitTenancyDetailsOutcome.IsRejected, "SubmitTenancyDetails outcome field IsRejected is not the expected.");
+            Assert.IsNullOrEmpty(submitTenancyDetailsOutcome.RejectionReason,
+                "SubmitTenancyDetails outcome field RejectionReason is not the expected.");
+            Assert.IsFalse(submitTenancyDetailsOutcome.ReturnToForm, "SubmitTenancyDetails outcome field ReturnToForm is not the expected.");
+            var timeAfterSubmitTenancyDetails = clock.OffsetNow;
+
+            var retrievedSubmissionAtPoint9 = await RetrieveSubmission(submission.UniqueId);
+            Assert.IsNotNull(retrievedSubmissionAtPoint3, "Retrieved submission at point 9 is null.");
+            Assert.AreEqual(tenancyDetailsForm.IsPartOfProperty, retrievedSubmissionAtPoint9.IsPartOfProperty, 
+                "Field IsPartOfProperty on retrieved submission at point 9 is not the expected.");
+            Assert.AreEqual(tenancyDetailsForm.Rent, retrievedSubmissionAtPoint9.Rent,
+                "Field Rent on retrieved submission at point 9 is not the expected.");
+            Assert.AreEqual(tenancyDetailsForm.MoveInDate, retrievedSubmissionAtPoint9.MoveInDate,
+                "Field MoveInDate on retrieved submission at point 9 is not the expected.");
+            Assert.AreEqual(tenancyDetailsForm.NumberOfBedrooms, retrievedSubmissionAtPoint9.NumberOfBedrooms,
+                "Field NumberOfBedrooms on retrieved submission at point 9 is not the expected.");
+            Assert.IsTrue(retrievedSubmissionAtPoint9.SubmittedOn.HasValue,
+                "Field SubmittedOn on retrieved submission at point 9 should have a value.");
+            Assert.IsTrue(timeBeforeSubmitTenancyDetails <= retrievedSubmissionAtPoint9.SubmittedOn.Value
+                && retrievedSubmissionAtPoint9.SubmittedOn.Value <= timeAfterSubmitTenancyDetails,
+                "Field SubmittedOn on retrieved submission at point 9 is not within the expected range.");
         }
 
         #endregion
@@ -1211,6 +1422,9 @@ namespace Epsilon.IntegrationTests.Logic.Services
             {
                 tenancyDetailsSubmission.SubmittedOn = clock.OffsetNow;
                 tenancyDetailsSubmission.Rent = random.Next(100, 1000);
+                tenancyDetailsSubmission.IsPartOfProperty = random.NextDouble() >= 0.5;
+                tenancyDetailsSubmission.MoveInDate = clock.OffsetNow.AddDays(-100.0 * random.NextDouble()).Date;
+                tenancyDetailsSubmission.NumberOfBedrooms = random.Next(0, 5);
             }
 
             if (hasMovedOut)
