@@ -887,7 +887,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
         #endregion
 
-        #region
+        #region EnterVerificationCode
 
         [Test]
         public async Task EnterVerificationCode_ForSameSecretCodeAccrossDifferentSubmissions()

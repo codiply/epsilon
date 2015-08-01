@@ -19,6 +19,7 @@ using Epsilon.IntegrationTests.TestHelpers;
 using Epsilon.Logic.Constants.Enums;
 using Epsilon.Logic.Wrappers;
 using Epsilon.Logic.JsonModels;
+using System.Data.Entity.Infrastructure;
 
 namespace Epsilon.IntegrationTests.Logic.Services
 {
@@ -416,6 +417,62 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var retrievedTenantVerification = await DbProbe.TenantVerifications
                 .SingleOrDefaultAsync(x => x.UniqueId.Equals(verificationUniqueId));
             Assert.IsNull(retrievedTenantVerification, "A TenantVerification should not be created.");
+        }
+
+        #endregion
+
+        #region Constraints
+
+        [Test]
+        public async Task TenantVerification_SecretCodeIsUniqueWithinEachSubmission()
+        {
+            var secretCode = "secret-code";
+
+            var container = CreateContainer();
+            var dbContext = container.Get<IEpsilonContext>();
+
+            var userIpAddress = "1.2.3.4";
+            var user = await CreateUser(container, "test@test.com", userIpAddress);
+            var otherUserIpAddress = "1.2.3.5";
+            var otherUser = await CreateUser(container, "test1@test.com", otherUserIpAddress);
+
+            var random = new RandomWrapper(2015);
+
+            var address = await AddressHelper.CreateRandomAddressAndSave(random, container, user.Id, userIpAddress, CountryId.GB);
+
+            var tenancyDetailsSubmission = new TenancyDetailsSubmission
+            {
+                UniqueId = Guid.NewGuid(),
+                AddressId = address.Id,
+                UserId = user.Id,
+                CreatedByIpAddress = userIpAddress
+            };
+            dbContext.TenancyDetailsSubmissions.Add(tenancyDetailsSubmission);
+            await dbContext.SaveChangesAsync();
+
+            var tenantVerification1 = new TenantVerification
+            {
+                UniqueId = Guid.NewGuid(),
+                TenancyDetailsSubmissionId = tenancyDetailsSubmission.Id,
+                AssignedToId = otherUser.Id,
+                AssignedByIpAddress = otherUserIpAddress,
+                SecretCode = secretCode
+            };
+            dbContext.TenantVerifications.Add(tenantVerification1);
+            await dbContext.SaveChangesAsync();
+
+            var tenantVerification2 = new TenantVerification
+            {
+                UniqueId = Guid.NewGuid(),
+                TenancyDetailsSubmissionId = tenancyDetailsSubmission.Id,
+                AssignedToId = otherUser.Id,
+                AssignedByIpAddress = otherUserIpAddress,
+                SecretCode = secretCode
+            };
+            dbContext.TenantVerifications.Add(tenantVerification2);
+
+            Assert.Throws(typeof(DbUpdateException), () => dbContext.SaveChanges(), 
+                "Saving a second verification with the same secret code and for the same tenancy details submission should throw.");
         }
 
         #endregion
