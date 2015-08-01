@@ -2,7 +2,7 @@
     [Id]                         BIGINT             IDENTITY (1, 1) NOT NULL,
     [UniqueId]                   UNIQUEIDENTIFIER   NOT NULL,
     [TenancyDetailsSubmissionId] BIGINT             NOT NULL,
-    [SecretCode]                 NVARCHAR (16)      NOT NULL,
+    [SecretCode]                 NVARCHAR (8)       NOT NULL,
     [CreatedOn]                  DATETIMEOFFSET (7) NOT NULL,
     [MarkedAsSentOn]             DATETIMEOFFSET (7) NULL,
     [VerifiedOn]                 DATETIMEOFFSET (7) NULL,
@@ -13,6 +13,8 @@
     CONSTRAINT [FK_dbo.TenantVerification_dbo.TenancyDetailsSubmission_TenancyDetailsSubmissionId] FOREIGN KEY ([TenancyDetailsSubmissionId]) REFERENCES [dbo].[TenancyDetailsSubmission] ([Id]) ON DELETE CASCADE,
     CONSTRAINT [FK_dbo.TenantVerification_dbo.User_AssignedToId] FOREIGN KEY ([AssignedToId]) REFERENCES [dbo].[User] ([Id])
 );
+
+
 
 
 

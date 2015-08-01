@@ -20,6 +20,7 @@ using Epsilon.Logic.Constants.Enums;
 using Epsilon.Logic.Wrappers;
 using Epsilon.Logic.JsonModels;
 using System.Data.Entity.Infrastructure;
+using Epsilon.Logic.Constants;
 
 namespace Epsilon.IntegrationTests.Logic.Services
 {
@@ -426,7 +427,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
         [Test]
         public async Task TenantVerification_SecretCodeIsUniqueWithinEachSubmission()
         {
-            var secretCode = "secret-code";
+            var secretCode = "secret";
 
             var container = CreateContainer();
             var dbContext = container.Get<IEpsilonContext>();
@@ -524,7 +525,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 UniqueId = Guid.NewGuid(),
                 AssignedToId = userId,
                 AssignedByIpAddress = userIpAddress,
-                SecretCode = RandomStringHelper.GetString(random, 10, CharacterCase.Mixed)
+                SecretCode = RandomStringHelper.GetString(random, AppConstant.SECRET_CODE_MAX_LENGTH, CharacterCase.Mixed)
             };
             if (isSent)
                 tenantVerification.MarkedAsSentOn = clock.OffsetNow;

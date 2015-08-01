@@ -17,17 +17,16 @@
         <tbody>
             <tr data-ng-repeat="subm in response.tenancyDetailsSubmissions">
                 <td>
-                    <!-- TODO_PANOS: fix the ng-if's, the logic is currently inverted. -->
-                    <span data-ng-if="!subm.stepVerificationCodeSentOutDone" 
+                    <span data-ng-if="subm.stepVerificationCodeSentOutDone" 
                           title="@SubmissionResources.MySubmissionsSummary_StepVerificationCodeSentOutDone_IconHoverText"
                           class="glyphicon glyphicon-envelope" aria-hidden="true" />
-                    <span data-ng-if="!subm.stepVerificationCodeEnteredDone" 
+                    <span data-ng-if="subm.stepVerificationCodeEnteredDone" 
                           title="@SubmissionResources.MySubmissionsSummary_StepVerificationCodeEnteredDone_IconHoverText"
                           class="glyphicon glyphicon-check" aria-hidden="true" />
-                    <span data-ng-if="!subm.stepTenancyDetailsSubmittedDone" 
+                    <span data-ng-if="subm.stepTenancyDetailsSubmittedDone" 
                           title="@SubmissionResources.MySubmissionsSummary_StepTenancyDetailsSubmittedDone_IconHoverText"
                           class="glyphicon glyphicon-info-sign" aria-hidden="true" />
-                    <span data-ng-if="!subm.stepMoveOutDetailsSubmittedDone" 
+                    <span data-ng-if="subm.stepMoveOutDetailsSubmittedDone" 
                           title="@SubmissionResources.MySubmissionsSummary_StepMoveOutDetailsSubmittedDone_IconHoverText"
                           class="glyphicon glyphicon-log-out" aria-hidden="true" />
                 </td>

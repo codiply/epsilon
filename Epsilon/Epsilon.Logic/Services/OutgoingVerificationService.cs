@@ -14,6 +14,9 @@ using Epsilon.Logic.JsonModels;
 using Epsilon.Logic.Configuration.Interfaces;
 using Epsilon.Resources.Common;
 using Epsilon.Logic.Wrappers.Interfaces;
+using Epsilon.Logic.Helpers;
+using static Epsilon.Logic.Helpers.RandomStringHelper;
+using Epsilon.Logic.Constants;
 
 namespace Epsilon.Logic.Services
 {
@@ -23,17 +26,20 @@ namespace Epsilon.Logic.Services
         private readonly IEpsilonContext _dbContext;
         private readonly IAntiAbuseService _antiAbuseService;
         private readonly IOutgoingVerificationServiceConfig _outgoingVerificationServiceConfig;
+        private readonly IRandomFactory _randomFactory;
 
         public OutgoingVerificationService(
             IClock clock,
             IEpsilonContext dbContext,
             IAntiAbuseService antiAbuseService,
-            IOutgoingVerificationServiceConfig outgoingVerificationServiceConfig)
+            IOutgoingVerificationServiceConfig outgoingVerificationServiceConfig,
+            IRandomFactory randomFactory)
         {
             _clock = clock;
             _dbContext = dbContext;
             _antiAbuseService = antiAbuseService;
             _outgoingVerificationServiceConfig = outgoingVerificationServiceConfig;
+            _randomFactory = randomFactory;
         }
 
         public async Task<TenantVerification> GetVerificationForUser(string assignedUserId, Guid uniqueId)
@@ -136,13 +142,15 @@ namespace Epsilon.Logic.Services
                 };
             }
 
+            var random = _randomFactory.Create(_clock.OffsetNow.Millisecond);
+
             var tenantVerification = new TenantVerification()
             {
                 UniqueId = verificationUniqueId,
                 TenancyDetailsSubmissionId = pickedSubmission.Id,
                 AssignedToId = userId,
                 AssignedByIpAddress = userIpAddress,
-                SecretCode = "secret-code" // TODO_PANOS
+                SecretCode = RandomStringHelper.GetString(random, AppConstant.SECRET_CODE_MAX_LENGTH, CharacterCase.Upper)
             };
 
             _dbContext.TenantVerifications.Add(tenantVerification);

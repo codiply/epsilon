@@ -15,6 +15,7 @@ using Epsilon.Logic.Constants.Enums;
 using Epsilon.IntegrationTests.TestHelpers;
 using Epsilon.Logic.Wrappers.Interfaces;
 using static Epsilon.Logic.Helpers.RandomStringHelper;
+using Epsilon.Logic.Constants;
 
 namespace Epsilon.IntegrationTests.Logic.Services
 {
@@ -250,7 +251,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
                     UniqueId = Guid.NewGuid(),
                     AssignedToId = userId,
                     AssignedByIpAddress = userIpAddress,
-                    SecretCode = RandomStringHelper.GetString(random, 10, CharacterCase.Mixed),
+                    SecretCode = RandomStringHelper.GetString(random, AppConstant.SECRET_CODE_MAX_LENGTH, CharacterCase.Mixed),
                     VerifiedOn = null
                 };
                 verifications.Add(verification);
@@ -286,7 +287,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
                     UniqueId = Guid.NewGuid(),
                     AssignedToId = userId,
                     AssignedByIpAddress = userIpAddress,
-                    SecretCode = RandomStringHelper.GetString(random, 10, CharacterCase.Mixed),
+                    SecretCode = RandomStringHelper.GetString(random, AppConstant.SECRET_CODE_MAX_LENGTH, CharacterCase.Mixed),
                     VerifiedOn = null
                 };
                 verifications.Add(verification);
@@ -299,7 +300,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
                     UniqueId = Guid.NewGuid(),
                     AssignedToId = userId,
                     AssignedByIpAddress = userIpAddress,
-                    SecretCode = RandomStringHelper.GetString(random, 10, CharacterCase.Mixed),
+                    SecretCode = RandomStringHelper.GetString(random, AppConstant.SECRET_CODE_MAX_LENGTH, CharacterCase.Mixed),
                     VerifiedOn = clock.OffsetNow
                 };
                 verifications.Add(verification);

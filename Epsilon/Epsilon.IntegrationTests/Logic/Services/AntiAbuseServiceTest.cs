@@ -1398,7 +1398,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 UniqueId = Guid.NewGuid(),
                 AssignedToId = userId,
                 AssignedByIpAddress = userIpAddress,
-                SecretCode = "secret-code",
+                SecretCode = "secret",
                 TenancyDetailsSubmissionId = tenancyDetailsSubmission.Id
             };
             if (isComplete)

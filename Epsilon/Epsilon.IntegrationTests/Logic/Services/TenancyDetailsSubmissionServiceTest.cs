@@ -27,6 +27,7 @@ using static Epsilon.Logic.Helpers.RandomStringHelper;
 using Epsilon.Logic.Forms.Submission;
 using Epsilon.Resources.Common;
 using System.Data.Entity.Infrastructure;
+using Epsilon.Logic.Constants;
 
 namespace Epsilon.IntegrationTests.Logic.Services
 {
@@ -905,7 +906,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var otherUserIpAddress = "1.2.3.5";
             var otherUser = await CreateUser(helperContainer, "test2@test.com", otherUserIpAddress);
 
-            var secretCode = "secret-code";
+            var secretCode = "secret";
             var clock = helperContainer.Get<IClock>();
             var random = new RandomWrapper(2015);
 
@@ -1957,7 +1958,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 UniqueId = Guid.NewGuid(),
                 AssignedToId = userId,
                 AssignedByIpAddress = userIpAddress,
-                SecretCode = secretCode ?? RandomStringHelper.GetString(random, 10, CharacterCase.Mixed)
+                SecretCode = secretCode ?? RandomStringHelper.GetString(random, AppConstant.SECRET_CODE_MAX_LENGTH, CharacterCase.Mixed)
             };
             if (isSent)
                 tenantVerification.MarkedAsSentOn = clock.OffsetNow;
