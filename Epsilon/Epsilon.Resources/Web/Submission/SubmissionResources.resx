@@ -213,4 +213,7 @@
   <data name="MySubmissionsSummary_WithLimit_Header" xml:space="preserve">
     <value>My Latest Submissions</value>
   </data>
+  <data name="EnterVerificationCode_SuccessMessage" xml:space="preserve">
+    <value>The code has been accepted.</value>
+  </data>
 </root>

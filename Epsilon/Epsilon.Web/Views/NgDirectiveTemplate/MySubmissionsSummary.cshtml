@@ -31,7 +31,17 @@
                           class="glyphicon glyphicon-log-out" aria-hidden="true" />
                 </td>
                 <td>{{subm.displayAddress}}</td>
-                <td></td>
+                <td>
+                    <a class="btn btn-default" 
+                       data-ng-if="subm.canEnterVerificationCode"
+                       ng-href="@Url.Action("EnterVerificationCode","Submission")/{{subm.uniqueId}}">Enter Code</a>
+                    <a class="btn btn-default"
+                       data-ng-if="subm.canSubmitTenancyDetails"
+                       ng-href="@Url.Action("SubmitTenancyDetails","Submission")/{{subm.uniqueId}}">Submit Details</a>
+                    <a class="btn btn-default"
+                       data-ng-if="subm.canSubmitMoveOutDetails"
+                       ng-href="@Url.Action("SubmitMoveOutDetails","Submission")/{{subm.uniqueId}}">Moved Out Date</a>
+                </td>
             </tr>
         </tbody>
     </table>
@@ -39,12 +49,6 @@
         @Html.ActionLink(SubmissionResources.MySubmissionSummary_ViewAllLinkText, "MySubmissionsSummary", "Submission")
     </p>
 </div>
-
-<!--
-        canEnterVerificationCode;
-        canSubmitTenancyDetails;
-        canSubmitMoveOutDetails;
--->
 
 
 

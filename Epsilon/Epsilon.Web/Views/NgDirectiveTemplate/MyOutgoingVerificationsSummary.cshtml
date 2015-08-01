@@ -26,7 +26,17 @@
                           class="glyphicon glyphicon-check" aria-hidden="true" />
                 </td>
                 <td>{{ver.displayId}}</td>
-                <td></td>
+                <td>
+                    <span data-ng-if="ver.canMarkAsSent">
+                    @using (Html.BeginForm("MarkAsSent", "OutgoingVerification"))
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <input type="hidden" name="verificationUniqueId" value="{{ver.uniqueId}}"/>
+                        <button class="btn btn-default" type="submit">Mark as sent</button>
+                    }
+                    </span>
+                </td>
             </tr>
         </tbody>
     </table>

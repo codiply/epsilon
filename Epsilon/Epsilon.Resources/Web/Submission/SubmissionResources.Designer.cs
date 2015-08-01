@@ -106,6 +106,15 @@ namespace Epsilon.Resources.Web.Submission {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The code has been accepted..
+        /// </summary>
+        public static string EnterVerificationCode_SuccessMessage {
+            get {
+                return ResourceManager.GetString("EnterVerificationCode_SuccessMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Actions.
         /// </summary>
         public static string MySubmissionsSummary_ActionsColumnHeader {

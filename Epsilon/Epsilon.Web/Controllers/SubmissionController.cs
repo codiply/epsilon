@@ -157,8 +157,10 @@ namespace Epsilon.Web.Controllers
                     }
                 }
 
-                // TODO_PANOS: uncomment and edit to go straight to next step.
-                //return RedirectToAction("EnterVerificationCode", new { id = form.TenancyDetailsSubmissionUniqueId });
+                Success(SubmissionResources.EnterVerificationCode_SuccessMessage, true);
+                return RedirectToAction(
+                            AppConstant.AUTHENTICATED_USER_HOME_ACTION,
+                            AppConstant.AUTHENTICATED_USER_HOME_CONTROLLER);
             }
 
             return View("EnterVerificationCode", form);
