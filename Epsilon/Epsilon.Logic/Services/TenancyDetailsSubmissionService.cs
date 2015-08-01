@@ -132,7 +132,6 @@ namespace Epsilon.Logic.Services
             var submission = await GetSubmissionForUser(userId, form.TenancyDetailsSubmissionUniqueId);
             if (submission == null)
             {
-                // TODO_PANOS_TEST
                 return new EnterVerificationCodeOutcome
                 {
                     IsRejected = true,
@@ -142,7 +141,6 @@ namespace Epsilon.Logic.Services
 
             if(!submission.CanEnterVerificationCode())
             {
-                // TODO_PANOS_TEST
                 return new EnterVerificationCodeOutcome
                 {
                     IsRejected = true,
@@ -150,12 +148,10 @@ namespace Epsilon.Logic.Services
                 };
             }
 
-            // TODO_PANOS_TEST
-            var trimmedVerificationCode = form.VerificationCode;
+            var trimmedVerificationCodeToLower = form.VerificationCode.Trim().ToLowerInvariant();
 
-            // TODO_PANOS_TEST: test that lowercase/uppercase doesn't make a difference.
             var verification = 
-                submission.TenantVerifications.SingleOrDefault(v => v.SecretCode.Equals(trimmedVerificationCode));
+                submission.TenantVerifications.SingleOrDefault(v => v.SecretCode.ToLowerInvariant().Equals(trimmedVerificationCodeToLower));
 
             if (verification == null)
             {
@@ -196,7 +192,6 @@ namespace Epsilon.Logic.Services
             var submission = await GetSubmissionForUser(userId, form.TenancyDetailsSubmissionUniqueId);
             if (submission == null)
             {
-                // TODO_PANOS_TEST
                 return new SubmitTenancyDetailsOutcome
                 {
                     IsRejected = true,
@@ -206,7 +201,6 @@ namespace Epsilon.Logic.Services
 
             if(!submission.CanSubmitTenancyDetails())
             {
-                // TODO_PANOS_TEST
                 return new SubmitTenancyDetailsOutcome
                 {
                     IsRejected = true,
@@ -235,7 +229,6 @@ namespace Epsilon.Logic.Services
             var submission = await GetSubmissionForUser(userId, form.TenancyDetailsSubmissionUniqueId);
             if (submission == null)
             {
-                // TODO_PANOS_TEST
                 return new SubmitMoveOutDetailsOutcome
                 {
                     IsRejected = true,
@@ -245,7 +238,6 @@ namespace Epsilon.Logic.Services
 
             if (!submission.CanSubmitMoveOutDetails())
             {
-                // TODO_PANOS_TEST
                 return new SubmitMoveOutDetailsOutcome
                 {
                     IsRejected = true,
