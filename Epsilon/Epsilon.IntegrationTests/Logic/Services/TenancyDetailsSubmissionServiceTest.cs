@@ -887,6 +887,81 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
         #endregion
 
+        #region
+
+        [Test]
+        public async Task EnterVerificationCode_ForSameSecretCodeAccrossDifferentSubmissions()
+        {
+            var helperContainer = CreateContainer();
+
+            var userIpAddress = "1.2.3.4";
+            var user = await CreateUser(helperContainer, "test@test.com", userIpAddress);
+            var otherUserIpAddress = "1.2.3.5";
+            var otherUser = await CreateUser(helperContainer, "test2@test.com", otherUserIpAddress);
+
+            var secretCode = "secret-code";
+            var clock = helperContainer.Get<IClock>();
+            var random = new RandomWrapper(2015);
+
+            var otherUserSubmission1 = await CreateTenancyDetailsSubmissionAndSave(
+                    random, helperContainer, otherUser.Id, otherUserIpAddress, user.Id, userIpAddress,
+                    justCreatedVerifications: 0, sentVerifications: 1, completeVerifications: 0, 
+                    areDetailsSubmitted: false, hasMovedOut: false, secretCode: secretCode);
+            var otherUserSubmission1verification = otherUserSubmission1.TenantVerifications.Single();
+
+            var thisUserSubmission = await CreateTenancyDetailsSubmissionAndSave(
+                    random, helperContainer, user.Id, userIpAddress, otherUser.Id, otherUserIpAddress,
+                    justCreatedVerifications: 0, sentVerifications: 1, completeVerifications: 0,
+                    areDetailsSubmitted: false, hasMovedOut: false, secretCode: secretCode);
+            var thisUserSubmissionVerification = thisUserSubmission.TenantVerifications.Single();
+
+            var otherUserSubmission2 = await CreateTenancyDetailsSubmissionAndSave(
+                random, helperContainer, otherUser.Id, otherUserIpAddress, user.Id, userIpAddress,
+                justCreatedVerifications: 0, sentVerifications: 1, completeVerifications: 0,
+                areDetailsSubmitted: false, hasMovedOut: false, secretCode: secretCode);
+            var otherUserSubmission2verification = otherUserSubmission2.TenantVerifications.Single();
+
+            Assert.IsNull(otherUserSubmission1verification.VerifiedOn,
+                "otherUserSubmission1verification.VerifiedOn should be null before entering the code.");
+            Assert.IsNull(otherUserSubmission2verification.VerifiedOn,
+                "otherUserSubmission2verification.VerifiedOn should be null before entering the code.");
+            Assert.IsNull(thisUserSubmissionVerification.VerifiedOn,
+                "thisUserSubmissionVerification.VerifiedOn should be null before entering the code.");
+
+            var containerUderTest = CreateContainer();
+            var serviceUnderTest = containerUderTest.Get<ITenancyDetailsSubmissionService>();
+
+            var form = new VerificationCodeForm
+            {
+                TenancyDetailsSubmissionUniqueId = thisUserSubmission.UniqueId,
+                VerificationCode = secretCode
+            };
+            var timeBefore = clock.OffsetNow;
+            var outcome = await serviceUnderTest.EnterVerificationCode(user.Id, form);
+
+            Assert.IsFalse(outcome.IsRejected, "IsRejected field on the outcome should be false.");
+            var timeAfter = clock.OffsetNow;
+
+            var retrievedOtherUserSubmission1verification = await DbProbe.TenantVerifications
+                .SingleAsync(x => x.UniqueId.Equals(otherUserSubmission1verification.UniqueId));
+            var retrievedOtherUserSubmission2verification = await DbProbe.TenantVerifications
+                .SingleAsync(x => x.UniqueId.Equals(otherUserSubmission2verification.UniqueId));
+            var retrievedThisUserSubmissionVerification = await DbProbe.TenantVerifications
+                .SingleAsync(x => x.UniqueId.Equals(thisUserSubmissionVerification.UniqueId));
+
+            Assert.IsNull(retrievedOtherUserSubmission1verification.VerifiedOn,
+                "retrievedOtherUserSubmission1verification.VerifiedOn should be null after entering the code.");
+            Assert.IsNull(retrievedOtherUserSubmission2verification.VerifiedOn,
+                "retrievedOtherUserSubmission2verification.VerifiedOn should be null after entering the code.");
+            Assert.IsNotNull(retrievedThisUserSubmissionVerification.VerifiedOn,
+                "retrievedThisUserSubmissionVerification.VerifiedOn should not be null after entering the code.");
+            Assert.IsTrue(timeBefore <= retrievedThisUserSubmissionVerification.VerifiedOn.Value 
+                && retrievedThisUserSubmissionVerification.VerifiedOn.Value <= timeAfter,
+                "retrievedThisUserSubmissionVerification.VerifiedOn is not in the expected range after entering the code.");
+        }
+
+        #endregion
+
         #region Actions tests in different scenarios
 
         [Test]
@@ -1806,8 +1881,11 @@ namespace Epsilon.IntegrationTests.Logic.Services
             string userId, string userIpAddress,
             string userIdForVerfications, string userForVerificationsIpAddress,
             int justCreatedVerifications = 0, int sentVerifications = 0, int completeVerifications = 0, 
-            bool areDetailsSubmitted = false, bool hasMovedOut = false)
+            bool areDetailsSubmitted = false, bool hasMovedOut = false, string secretCode = null)
         {
+            if (secretCode != null && justCreatedVerifications + sentVerifications + completeVerifications != 1)
+                throw new ArgumentException("If you choose your own secret secretCode then there should be only a single verification of any kind created.");
+
             var clock = container.Get<IClock>();
             var dbContext = container.Get<IEpsilonContext>();
 
@@ -1839,19 +1917,19 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             for (int i = 0; i < justCreatedVerifications; i++)
             {
-                var verification = CreateTenantVerification(random, container, userIdForVerfications, userForVerificationsIpAddress, isSent: false, isComplete: false);
+                var verification = CreateTenantVerification(random, container, userIdForVerfications, userForVerificationsIpAddress, secretCode, isSent: false, isComplete: false);
                 verifications.Add(verification);
             }
 
             for (int i = 0; i < sentVerifications; i++)
             {
-                var verification = CreateTenantVerification(random, container, userIdForVerfications, userForVerificationsIpAddress, isSent: true, isComplete: false);
+                var verification = CreateTenantVerification(random, container, userIdForVerfications, userForVerificationsIpAddress, secretCode, isSent: true, isComplete: false);
                 verifications.Add(verification);
             }
 
             for (int i = 0; i < completeVerifications; i++)
             {
-                var verification = CreateTenantVerification(random, container, userIdForVerfications, userForVerificationsIpAddress, isSent: true, isComplete: true);
+                var verification = CreateTenantVerification(random, container, userIdForVerfications, userForVerificationsIpAddress, secretCode, isSent: true, isComplete: true);
                 verifications.Add(verification);
             }
 
@@ -1863,7 +1941,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
         }
 
         private static TenantVerification CreateTenantVerification(
-            IRandomWrapper random, IKernel container, string userId, string userIpAddress, bool isSent, bool isComplete)
+            IRandomWrapper random, IKernel container, string userId, string userIpAddress, string secretCode, bool isSent, bool isComplete)
         {
             var clock = container.Get<IClock>();
             var dbContext = container.Get<IEpsilonContext>();
@@ -1873,7 +1951,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 UniqueId = Guid.NewGuid(),
                 AssignedToId = userId,
                 AssignedByIpAddress = userIpAddress,
-                SecretCode = RandomStringHelper.GetString(random, 10, CharacterCase.Mixed)
+                SecretCode = secretCode ?? RandomStringHelper.GetString(random, 10, CharacterCase.Mixed)
             };
             if (isSent)
                 tenantVerification.MarkedAsSentOn = clock.OffsetNow;
