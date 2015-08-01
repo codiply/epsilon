@@ -1012,7 +1012,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
         }
 
         [Test]
-        public async Task CanPickOutgoingVerification_CheckMaxOutstandingForUser_ForNewUser()
+        public async Task CanPickOutgoingVerification_CheckMaxOutstandingFrequencyForUser_ForNewUser_TheFrequencyTimesIsUsedCorrectly()
         {
             var disableGlobalFrequencyCheck = true;
             var globalMaxFrequency = "2/D";
@@ -1053,7 +1053,48 @@ namespace Epsilon.IntegrationTests.Logic.Services
         }
 
         [Test]
-        public async Task CanPickOutgoingVerification_CheckMaxOutstandingForUser_ForUserWithOneCompleteVerification()
+        public async Task CanPickOutgoingVerification_CheckMaxOutstandingFrequencyForUser_ForNewUser_TheFrequencyPeriodIsUsedCorrectly()
+        {
+            var periodInSeconds = 0.2;
+            var disableGlobalFrequencyCheck = true;
+            var globalMaxFrequency = "2/D";
+            var disableMaxOutstandingPerUserCheck = false;
+            var maxOutstandingFrequencyPerUserForNewUser = string.Format("1/{0}S", periodInSeconds);
+            var maxOutstandingFrequencyPerUser = "0/D";
+            var disableIpAddressFrequencyCheck = true;
+            var maxFrequencyPerIpAddress = "2/D";
+
+            var ipAddress = "1.2.3.4";
+
+            var containerUnderTest = CreateContainer();
+            SetupContainerForCanPickOutgoingVerification(containerUnderTest,
+                disableGlobalFrequencyCheck, globalMaxFrequency,
+                disableMaxOutstandingPerUserCheck, maxOutstandingFrequencyPerUserForNewUser, maxOutstandingFrequencyPerUser,
+                disableIpAddressFrequencyCheck, maxFrequencyPerIpAddress);
+            var serviceUnderTest = containerUnderTest.Get<IAntiAbuseService>();
+
+            var helperContainer = CreateContainer();
+
+            var user = await CreateUser(helperContainer, "test@test.com", ipAddress);
+
+            var random = new RandomWrapper(2015);
+
+            var verification = await CreateTenantVerificationAndSave(random, helperContainer, user.Id, ipAddress, false);
+            Assert.IsNotNull(verification, "TenantVerifiation created is null.");
+
+            var firstResponse = await serviceUnderTest.CanPickOutgoingVerification(user.Id, ipAddress);
+            Assert.IsTrue(firstResponse.IsRejected, "The first check should fail.");
+            Assert.AreEqual(AntiAbuseResources.PickOutgoingVerification_MaxOutstandingFrequencyPerUserCheck_RejectionMessage,
+                firstResponse.RejectionReason, "The rejection reason is not the expected.");
+
+            await Task.Delay(TimeSpan.FromSeconds(periodInSeconds));
+
+            var secondResponse = await serviceUnderTest.CanPickOutgoingVerification(user.Id, ipAddress);
+            Assert.IsFalse(secondResponse.IsRejected, "The request should not be rejected the second time.");
+        }
+
+        [Test]
+        public async Task CanPickOutgoingVerification_CheckMaxOutstandingFruquencyForUser_ForUserWithCompleteVerifications_TheFrequencyTimesIsUsedCorrectly()
         {
             var disableGlobalFrequencyCheck = true;
             var globalMaxFrequency = "2/D";
@@ -1095,15 +1136,16 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 secondResponse.RejectionReason, "The rejection reason is not the expected.");
         }
 
+
         [Test]
-        public async Task CanPickOutgoingVerification_CheckMaxOutstandingForUser_ForUserWithManyCompleteVerification()
+        public async Task CanPickOutgoingVerification_CheckMaxOutstandingFrequencyForUser_ForUserWithCompleteVerifications_TheFrequencyPeriodIsUsedCorrectly()
         {
-            var numberOfCompleteVerificationsToCreate = 5;
+            var periodInSeconds = 0.2;
             var disableGlobalFrequencyCheck = true;
             var globalMaxFrequency = "2/D";
             var disableMaxOutstandingPerUserCheck = false;
             var maxOutstandingFrequencyPerUserForNewUser = "0/D";
-            var maxOutstandingFrequencyPerUser = "2/D";
+            var maxOutstandingFrequencyPerUser = string.Format("1/{0}S", periodInSeconds);
             var disableIpAddressFrequencyCheck = true;
             var maxFrequencyPerIpAddress = "2/D";
 
@@ -1122,25 +1164,20 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             var random = new RandomWrapper(2015);
 
-            for (int i = 0; i < numberOfCompleteVerificationsToCreate; i++)
-            {
-                var completeVerification = await CreateTenantVerificationAndSave(random, helperContainer, user.Id, ipAddress, true);
-                Assert.IsNotNull(user, "The complete verification created for i {0} is null.");
-            }
-
-            // I add the first verification.
-            var verification1 = await CreateTenantVerificationAndSave(random, helperContainer, user.Id, ipAddress, false);
+            var completeVerification = await CreateTenantVerificationAndSave(random, helperContainer, user.Id, ipAddress, true);
+            Assert.IsNotNull(completeVerification, "Complete TenantVerifiation created is null.");
+            var incompleteVerification = await CreateTenantVerificationAndSave(random, helperContainer, user.Id, ipAddress, false);
+            Assert.IsNotNull(completeVerification, "Incomplete TenantVerifiation created is null.");
 
             var firstResponse = await serviceUnderTest.CanPickOutgoingVerification(user.Id, ipAddress);
-            Assert.IsFalse(firstResponse.IsRejected, "The first check should pass.");
+            Assert.IsTrue(firstResponse.IsRejected, "The first check should fail.");
+            Assert.AreEqual(AntiAbuseResources.PickOutgoingVerification_MaxOutstandingFrequencyPerUserCheck_RejectionMessage,
+                firstResponse.RejectionReason, "The rejection reason is not the expected.");
 
-            // I add the second verification.
-            var verification2 = await CreateTenantVerificationAndSave(random, helperContainer, user.Id, ipAddress, false);
+            await Task.Delay(TimeSpan.FromSeconds(periodInSeconds));
 
             var secondResponse = await serviceUnderTest.CanPickOutgoingVerification(user.Id, ipAddress);
-            Assert.IsTrue(secondResponse.IsRejected, "The second check should fail.");
-            Assert.AreEqual(AntiAbuseResources.PickOutgoingVerification_MaxOutstandingFrequencyPerUserCheck_RejectionMessage,
-                secondResponse.RejectionReason, "The rejection reason is not the expected.");
+            Assert.IsFalse(secondResponse.IsRejected, "The request should not be rejected the second time.");
         }
 
         #endregion

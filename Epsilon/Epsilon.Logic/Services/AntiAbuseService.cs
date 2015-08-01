@@ -427,8 +427,8 @@ namespace Epsilon.Logic.Services
             var windowStart = _clock.OffsetNow - maxFrequency.Period;
 
             var actualNumberOfOutstandingVerifications = await _dbContext.TenantVerifications
-                .Where(v => v.AssignedToId.Equals(userId))
                 .Where(v => v.CreatedOn > windowStart)
+                .Where(v => v.AssignedToId.Equals(userId))
                 .Where(v => !v.VerifiedOn.HasValue)
                 .CountAsync();
 
