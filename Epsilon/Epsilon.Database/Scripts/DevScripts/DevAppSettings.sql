@@ -54,7 +54,7 @@ VALUES
 (N'GlobalSwitch_DisableCreateTenancyDetailsSubmission', N'False'),
 (N'GlobalSwitch_DisablePickOutgoingVerification', N'False'),
 (N'GlobalSwitch_DisableRegister', N'False'),
-(N'OutgoingVerification_MyOutgoingVerificationsSummary_ItemsLimit', N'10'),
+(N'OutgoingVerification_MyOutgoingVerificationsSummary_ItemsLimit', N'2'),
 (N'OutgoingVerification_VerificationsPerTenancyDetailsSubmission', N'2'),
 (N'SearchAddressResultsLimit', N'30'),
 (N'TenancyDetailsSubmission_Create_MaxFrequencyPerAddress', '10/30D'),

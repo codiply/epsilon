@@ -106,6 +106,33 @@ namespace Epsilon.Resources.Web.Submission {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Enter Verification Code.
+        /// </summary>
+        public static string EnterVerificationCode_PageHeader {
+            get {
+                return ResourceManager.GetString("EnterVerificationCode_PageHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter Verification Code.
+        /// </summary>
+        public static string EnterVerificationCode_PageTitle {
+            get {
+                return ResourceManager.GetString("EnterVerificationCode_PageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Submit.
+        /// </summary>
+        public static string EnterVerificationCode_SubmitButtonText {
+            get {
+                return ResourceManager.GetString("EnterVerificationCode_SubmitButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The code has been accepted..
         /// </summary>
         public static string EnterVerificationCode_SuccessMessage {
@@ -358,6 +385,78 @@ namespace Epsilon.Resources.Web.Submission {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The information above is correct..
+        /// </summary>
+        public static string SubmitMoveOutDetails_ConfirmationText {
+            get {
+                return ResourceManager.GetString("SubmitMoveOutDetails_ConfirmationText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Submit Move Out Details.
+        /// </summary>
+        public static string SubmitMoveOutDetails_PageHeader {
+            get {
+                return ResourceManager.GetString("SubmitMoveOutDetails_PageHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Submit Move Out Details.
+        /// </summary>
+        public static string SubmitMoveOutDetails_PageTitle {
+            get {
+                return ResourceManager.GetString("SubmitMoveOutDetails_PageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Submit.
+        /// </summary>
+        public static string SubmitMoveOutDetails_SubmitButtonText {
+            get {
+                return ResourceManager.GetString("SubmitMoveOutDetails_SubmitButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The information above is correct..
+        /// </summary>
+        public static string SubmitTenancyDetails_ConfirmationText {
+            get {
+                return ResourceManager.GetString("SubmitTenancyDetails_ConfirmationText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Submit Details.
+        /// </summary>
+        public static string SubmitTenancyDetails_PageHeader {
+            get {
+                return ResourceManager.GetString("SubmitTenancyDetails_PageHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Submit Details.
+        /// </summary>
+        public static string SubmitTenancyDetails_PageTitle {
+            get {
+                return ResourceManager.GetString("SubmitTenancyDetails_PageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Submit.
+        /// </summary>
+        public static string SubmitTenancyDetails_SubmitButtonText {
+            get {
+                return ResourceManager.GetString("SubmitTenancyDetails_SubmitButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to I confirm this is my address..
         /// </summary>
         public static string UseAddress_ConfirmationText {
@@ -387,9 +486,9 @@ namespace Epsilon.Resources.Web.Submission {
         /// <summary>
         ///   Looks up a localized string similar to Confirm.
         /// </summary>
-        public static string UseAddress_SubmitButton {
+        public static string UseAddress_SubmitButtonText {
             get {
-                return ResourceManager.GetString("UseAddress_SubmitButton", resourceCulture);
+                return ResourceManager.GetString("UseAddress_SubmitButtonText", resourceCulture);
             }
         }
         

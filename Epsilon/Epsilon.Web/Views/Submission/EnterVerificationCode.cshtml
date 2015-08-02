@@ -1,5 +1,9 @@
 ﻿@model Epsilon.Logic.Forms.Submission.VerificationCodeForm
 
+@using Epsilon.Resources.Web.Submission
+@{
+    ViewBag.Title = SubmissionResources.EnterVerificationCode_PageTitle;
+}
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
@@ -10,7 +14,7 @@
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h4>Enter Verification Code</h4>
+        <h4>@SubmissionResources.EnterVerificationCode_PageHeader</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
@@ -26,7 +30,8 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Submit" class="btn btn-default" />
+                <input type="submit" class="btn btn-default" data-click-once
+                       value="@SubmissionResources.EnterVerificationCode_SubmitButtonText" />
             </div>
         </div>
     </div>

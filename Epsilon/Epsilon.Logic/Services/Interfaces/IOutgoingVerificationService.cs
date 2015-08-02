@@ -42,5 +42,7 @@ namespace Epsilon.Logic.Services.Interfaces
         Task<MarkVerificationAsSentOutcome> MarkAsSent(
             string userId,
             Guid verificationUniqueId);
+
+        Task<bool> VerificationIsAssignedToUser(string userId, Guid verificationUniqueId);
     }
 }

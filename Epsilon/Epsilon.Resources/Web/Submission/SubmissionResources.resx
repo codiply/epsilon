@@ -207,7 +207,7 @@
   <data name="UseAddress_PageTitle" xml:space="preserve">
     <value>Confirm your address</value>
   </data>
-  <data name="UseAddress_SubmitButton" xml:space="preserve">
+  <data name="UseAddress_SubmitButtonText" xml:space="preserve">
     <value>Confirm</value>
   </data>
   <data name="MySubmissionsSummary_WithLimit_Header" xml:space="preserve">
@@ -233,5 +233,38 @@
   </data>
   <data name="MySubmissionsSummary_ActionSubmitTenancyDetails_ButtonText" xml:space="preserve">
     <value>Submit Details</value>
+  </data>
+  <data name="EnterVerificationCode_PageHeader" xml:space="preserve">
+    <value>Enter Verification Code</value>
+  </data>
+  <data name="EnterVerificationCode_PageTitle" xml:space="preserve">
+    <value>Enter Verification Code</value>
+  </data>
+  <data name="EnterVerificationCode_SubmitButtonText" xml:space="preserve">
+    <value>Submit</value>
+  </data>
+  <data name="SubmitMoveOutDetails_ConfirmationText" xml:space="preserve">
+    <value>The information above is correct.</value>
+  </data>
+  <data name="SubmitMoveOutDetails_PageHeader" xml:space="preserve">
+    <value>Submit Move Out Details</value>
+  </data>
+  <data name="SubmitMoveOutDetails_PageTitle" xml:space="preserve">
+    <value>Submit Move Out Details</value>
+  </data>
+  <data name="SubmitMoveOutDetails_SubmitButtonText" xml:space="preserve">
+    <value>Submit</value>
+  </data>
+  <data name="SubmitTenancyDetails_ConfirmationText" xml:space="preserve">
+    <value>The information above is correct.</value>
+  </data>
+  <data name="SubmitTenancyDetails_PageHeader" xml:space="preserve">
+    <value>Submit Details</value>
+  </data>
+  <data name="SubmitTenancyDetails_PageTitle" xml:space="preserve">
+    <value>Submit Details</value>
+  </data>
+  <data name="SubmitTenancyDetails_SubmitButtonText" xml:space="preserve">
+    <value>Submit</value>
   </data>
 </root>

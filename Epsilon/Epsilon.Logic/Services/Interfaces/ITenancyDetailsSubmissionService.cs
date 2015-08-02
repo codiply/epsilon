@@ -51,5 +51,7 @@ namespace Epsilon.Logic.Services.Interfaces
         Task<SubmitTenancyDetailsOutcome> SubmitTenancyDetails(string userId, TenancyDetailsForm form);
 
         Task<SubmitMoveOutDetailsOutcome> SubmitMoveOutDetails(string userId, MoveOutDetailsForm form);
+
+        Task<bool> SubmissionBelongsToUser(string userId, Guid submissionUniqueId);
     }
 }

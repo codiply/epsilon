@@ -16,6 +16,7 @@ using Microsoft.AspNet.Identity;
 using Epsilon.Web.Models.ViewModels.Shared;
 using Epsilon.Resources.Web.Submission;
 using Epsilon.Logic.Forms.Submission;
+using Epsilon.Resources.Common;
 
 namespace Epsilon.Web.Controllers
 { 
@@ -129,8 +130,16 @@ namespace Epsilon.Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult EnterVerificationCode(Guid id)
+        public async Task<ActionResult> EnterVerificationCode(Guid id)
         {
+            var submissionBelongsToUser = await _tenancyDetailsSubmissionService.SubmissionBelongsToUser(GetUserId(), id);
+            if (!submissionBelongsToUser)
+            {
+                Danger(CommonResources.GenericInvalidRequestMessage, true);
+                return RedirectToAction(
+                            AppConstant.AUTHENTICATED_USER_HOME_ACTION,
+                            AppConstant.AUTHENTICATED_USER_HOME_CONTROLLER);
+            }
             var model = new VerificationCodeForm { TenancyDetailsSubmissionUniqueId = id };
             return View(model);
         }
@@ -167,8 +176,16 @@ namespace Epsilon.Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult SubmitTenancyDetails(Guid id)
+        public async Task<ActionResult> SubmitTenancyDetails(Guid id)
         {
+            var submissionBelongsToUser = await _tenancyDetailsSubmissionService.SubmissionBelongsToUser(GetUserId(), id);
+            if (!submissionBelongsToUser)
+            {
+                Danger(CommonResources.GenericInvalidRequestMessage, true);
+                return RedirectToAction(
+                            AppConstant.AUTHENTICATED_USER_HOME_ACTION,
+                            AppConstant.AUTHENTICATED_USER_HOME_CONTROLLER);
+            }
             var model = new TenancyDetailsForm { TenancyDetailsSubmissionUniqueId = id };
             return View(model);
         }
@@ -205,8 +222,16 @@ namespace Epsilon.Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult SubmitMoveOutDetails(Guid id)
+        public async Task<ActionResult> SubmitMoveOutDetails(Guid id)
         {
+            var submissionBelongsToUser = await _tenancyDetailsSubmissionService.SubmissionBelongsToUser(GetUserId(), id);
+            if (!submissionBelongsToUser)
+            {
+                Danger(CommonResources.GenericInvalidRequestMessage, true);
+                return RedirectToAction(
+                            AppConstant.AUTHENTICATED_USER_HOME_ACTION,
+                            AppConstant.AUTHENTICATED_USER_HOME_CONTROLLER);
+            }
             var model = new MoveOutDetailsForm { TenancyDetailsSubmissionUniqueId = id };
             return View(model);
         }

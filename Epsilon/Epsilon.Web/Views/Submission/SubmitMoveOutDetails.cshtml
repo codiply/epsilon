@@ -1,5 +1,9 @@
 ﻿@model Epsilon.Logic.Forms.Submission.MoveOutDetailsForm
 
+@using Epsilon.Resources.Web.Submission
+@{
+    ViewBag.Title = SubmissionResources.SubmitMoveOutDetails_PageTitle;
+}
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
@@ -10,7 +14,7 @@
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h4>Move Out Details</h4>
+        <h4>@SubmissionResources.SubmitMoveOutDetails_PageHeader</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
@@ -25,8 +29,19 @@
         </div>
 
         <div class="form-group">
+            <div class="alert alert-info">
+                <p>
+                    <input type="checkbox" name="confirmedText" data-ng-model="confirmedText">
+                    @SubmissionResources.SubmitMoveOutDetails_ConfirmationText
+                </p>
+            </div>
+        </div>
+
+        <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Submit" class="btn btn-default" />
+                <input type="submit" class="btn btn-default" data-click-once
+                       disabled data-ng-disabled="!confirmedText"
+                       value="@SubmissionResources.SubmitMoveOutDetails_SubmitButtonText" />
             </div>
         </div>
     </div>

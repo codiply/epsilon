@@ -42,6 +42,14 @@ namespace Epsilon.Logic.Services
             _randomFactory = randomFactory;
         }
 
+        public async Task<bool> VerificationIsAssignedToUser(string userId, Guid verificationUniqueId)
+        {
+            // TODO_PANOS_TEST
+            var verification = await _dbContext.TenantVerifications
+                .SingleOrDefaultAsync(v => v.AssignedToId.Equals(userId) && v.UniqueId.Equals(verificationUniqueId));
+            return verification != null;
+        }
+
         public async Task<TenantVerification> GetVerificationForUser(string assignedUserId, Guid uniqueId)
         {
             var submission = await _dbContext.TenantVerifications

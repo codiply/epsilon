@@ -40,6 +40,13 @@ namespace Epsilon.Logic.Services
             _antiAbuseService = antiAbuseService;
         }
 
+        public async Task<bool> SubmissionBelongsToUser(string userId, Guid submissionUniqueId)
+        {
+            var result = await _dbContext.TenancyDetailsSubmissions
+                .SingleOrDefaultAsync(s => s.UserId.Equals(userId) && s.UniqueId.Equals(submissionUniqueId));
+            return result != null;
+        }
+
         public async Task<MySubmissionsSummaryResponse> GetUserSubmissionsSummary(string userId, MySubmissionsSummaryRequest request)
         {
             var query = _dbContext.TenancyDetailsSubmissions

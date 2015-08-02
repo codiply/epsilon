@@ -226,6 +226,45 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
         #endregion
 
+        #region SubmissionBelongsToUser
+
+        [Test]
+        public async Task SubmissionBelongsToUserTest()
+        {
+            var helperContainer = CreateContainer();
+            var user1IpAddress = "1.2.3.4";
+            var user1 = await CreateUser(helperContainer, "test1@test.com", user1IpAddress);
+            var user2IpAddress = "1.2.3.5";
+            var user2 = await CreateUser(helperContainer, "test2@test.com", user2IpAddress);
+
+            var random = new RandomWrapper(2015);
+
+            var user1submission = await CreateTenancyDetailsSubmissionAndSave(
+                    random, helperContainer, user1.Id, user1IpAddress, user2.Id, user2IpAddress);
+            Assert.IsNotNull(user1submission, "The submission created for user1 is null.");
+
+            var user2submission = await CreateTenancyDetailsSubmissionAndSave(
+                    random, helperContainer, user2.Id, user2IpAddress, user1.Id, user1IpAddress);
+            Assert.IsNotNull(user2submission, "The submission created for user2 is null.");
+
+            var containerUnderTest = CreateContainer();
+            var serviceUnderTest = containerUnderTest.Get<ITenancyDetailsSubmissionService>();
+
+            var user1submissionBelongsToUser1 = await serviceUnderTest.SubmissionBelongsToUser(user1.Id, user1submission.UniqueId);
+            Assert.IsTrue(user1submissionBelongsToUser1, "user1submission belongs to user1.");
+
+            var user1submissionBelongsToUser2 = await serviceUnderTest.SubmissionBelongsToUser(user2.Id, user1submission.UniqueId);
+            Assert.IsFalse(user1submissionBelongsToUser2, "user1submission does not belong to user2.");
+
+            var user2submissionBelongsToUser1 = await serviceUnderTest.SubmissionBelongsToUser(user1.Id, user2submission.UniqueId);
+            Assert.IsFalse(user2submissionBelongsToUser1, "user2submission does not belong to user1.");
+
+            var user2submissionBelongsToUser2 = await serviceUnderTest.SubmissionBelongsToUser(user2.Id, user2submission.UniqueId);
+            Assert.IsTrue(user2submissionBelongsToUser2, "user2submission belongs to user2.");
+        }
+
+        #endregion
+
         #region GetUserSubmissionsSummary
 
         [Test]
