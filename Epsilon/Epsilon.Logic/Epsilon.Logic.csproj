@@ -114,11 +114,13 @@
     <Compile Include="Constants\Enums\GeocodeFailureType.cs" />
     <Compile Include="Constants\Enums\GeocodeQueryType.cs" />
     <Compile Include="Constants\Enums\TokenRewardKey.cs" />
+    <Compile Include="Constants\Enums\UiAlertType.cs" />
     <Compile Include="Constants\HttpContextItemsKey.cs" />
     <Compile Include="Constants\Interfaces\IAppSettingsDefaultValue.cs" />
     <Compile Include="Constants\Interfaces\ICountryAddressFieldMetadata.cs" />
     <Compile Include="Constants\Interfaces\IDbAppSettingDefaultValue.cs" />
     <Compile Include="Constants\Enums\IpAddressActivityType.cs" />
+    <Compile Include="Dtos\UiAlert.cs" />
     <Compile Include="Entities\AddressGeometry.cs" />
     <Compile Include="Entities\AdminAlert.cs" />
     <Compile Include="Entities\AdminEventLog.cs" />

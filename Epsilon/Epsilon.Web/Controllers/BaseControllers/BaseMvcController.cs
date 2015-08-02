@@ -7,6 +7,8 @@ using System.Web;
 using System.Web.Mvc;
 using Epsilon.Logic.Infrastructure.Extensions;
 using Microsoft.AspNet.Identity;
+using Epsilon.Logic.Constants.Enums;
+using Epsilon.Logic.Dtos;
 
 namespace Epsilon.Web.Controllers.BaseControllers
 {
@@ -31,6 +33,35 @@ namespace Epsilon.Web.Controllers.BaseControllers
         internal string GetLanguageId()
         {
             return (string)RouteData.Values["languageId"];
+        }
+
+        internal void AddUiAlert(UiAlert alert, bool dismissable = false)
+        {
+            switch (alert.Type)
+            {
+                case UiAlertType.Danger:
+                    Danger(alert.Message, dismissable);
+                    break;
+                case UiAlertType.Information:
+                    Information(alert.Message, dismissable);
+                    break;
+                case UiAlertType.Success:
+                    Success(alert.Message, dismissable);
+                    break;
+                case UiAlertType.Warning:
+                    Warning(alert.Message, dismissable);
+                    break;
+            }
+        }
+
+        internal void AddUiAlerts(IEnumerable<UiAlert> alerts, bool dismissible = false)
+        {
+            if (alerts == null)
+                return;
+            foreach (var alert in alerts)
+            {
+                AddUiAlert(alert, dismissible);
+            }
         }
 
         internal void Success(string message, bool dismissable = false)

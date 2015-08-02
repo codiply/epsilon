@@ -43,8 +43,7 @@ namespace Epsilon.Web.Controllers
             }
             else
             {
-                // TODO_PANOS: put in a resource.
-                Success("A new outgoing verification has been assigned to you.", true);
+                AddUiAlerts(outcome.UiAlerts, true);
                 // TODO_PANOS: redirect to instructions instead
                 return RedirectHome(returnToSummary);
             }
@@ -75,6 +74,10 @@ namespace Epsilon.Web.Controllers
             if (outcome.IsRejected)
             {
                 Danger(outcome.RejectionReason, true);
+            }
+            else
+            {
+                AddUiAlerts(outcome.UiAlerts, true);
             }
             return RedirectHome(returnToSummary);
         }

@@ -120,7 +120,13 @@
   <data name="GlobalSwitch_PickOutgoingVerificationDisabled_Message" xml:space="preserve">
     <value>Creating a new outgoing verification is temporarily disabled. Please try again later.</value>
   </data>
+  <data name="MarkAsSent_SuccessMessage" xml:space="preserve">
+    <value>Outgoing verification was marked as sent.</value>
+  </data>
   <data name="Pick_NoVerificationAssignableToUser_RejectionMessage" xml:space="preserve">
     <value>There are no verifications that can be assinged to you at the moment, please try again later.</value>
+  </data>
+  <data name="Pick_SuccessMessage" xml:space="preserve">
+    <value>A new outgoing verification has been assigned to you.</value>
   </data>
 </root>

@@ -70,11 +70,29 @@ namespace Epsilon.Resources.Logic.OutgoingVerification {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Outgoing verification was marked as sent..
+        /// </summary>
+        public static string MarkAsSent_SuccessMessage {
+            get {
+                return ResourceManager.GetString("MarkAsSent_SuccessMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to There are no verifications that can be assinged to you at the moment, please try again later..
         /// </summary>
         public static string Pick_NoVerificationAssignableToUser_RejectionMessage {
             get {
                 return ResourceManager.GetString("Pick_NoVerificationAssignableToUser_RejectionMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A new outgoing verification has been assigned to you..
+        /// </summary>
+        public static string Pick_SuccessMessage {
+            get {
+                return ResourceManager.GetString("Pick_SuccessMessage", resourceCulture);
             }
         }
     }

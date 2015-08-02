@@ -1,4 +1,5 @@
-﻿using Epsilon.Logic.Entities;
+﻿using Epsilon.Logic.Dtos;
+using Epsilon.Logic.Entities;
 using Epsilon.Logic.JsonModels;
 using Epsilon.Logic.Services.Interfaces.OutgoingVerification;
 using System;
@@ -15,6 +16,7 @@ namespace Epsilon.Logic.Services.Interfaces
         {
             public bool IsRejected { get; set; }
             public string RejectionReason { get; set; }
+            public IList<UiAlert> UiAlerts { get; set; }
         }
 
         public class PickVerificationOutcome : BaseOutcome

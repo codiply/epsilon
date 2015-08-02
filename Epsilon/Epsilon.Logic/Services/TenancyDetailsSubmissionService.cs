@@ -15,6 +15,8 @@ using Epsilon.Logic.JsonModels;
 using Epsilon.Logic.Services.Interfaces.TenancyDetailsSubmission;
 using Epsilon.Logic.Forms.Submission;
 using Epsilon.Resources.Common;
+using Epsilon.Logic.Dtos;
+using Epsilon.Logic.Constants.Enums;
 
 namespace Epsilon.Logic.Services
 {
@@ -86,6 +88,8 @@ namespace Epsilon.Logic.Services
             Guid submissionUniqueId,
             Guid addressUniqueId)
         {
+            var uiAlerts = new List<UiAlert>();
+
             if (_tenancyDetailsSubmissionServiceConfig.GlobalSwitch_DisableCreateTenancyDetailsSubmission)
                 return new CreateTenancyDetailsSubmissionOutcome
                 {
@@ -127,15 +131,26 @@ namespace Epsilon.Logic.Services
             }
 
             var tenancyDetailsSubmission = await DoCreate(userId, userIpAddress, submissionUniqueId, address.Id);
+
+            uiAlerts.Add(new UiAlert
+            {
+                Type = UiAlertType.Success,
+                Message = TenancyDetailsSubmissionResources.UseAddress_SuccessMessage
+            });
+
             return new CreateTenancyDetailsSubmissionOutcome
             {
                 IsRejected = false,
-                TenancyDetailsSubmissionUniqueId = tenancyDetailsSubmission.UniqueId
+                TenancyDetailsSubmissionUniqueId = tenancyDetailsSubmission.UniqueId,
+                // TODO_PANOS_TEST
+                UiAlerts = uiAlerts
             };
         }
 
         public async Task<EnterVerificationCodeOutcome> EnterVerificationCode(string userId, VerificationCodeForm form)
         {
+            var uiAlerts = new List<UiAlert>();
+
             var submission = await GetSubmissionForUser(userId, form.TenancyDetailsSubmissionUniqueId);
             if (submission == null)
             {
@@ -184,15 +199,25 @@ namespace Epsilon.Logic.Services
             _dbContext.Entry(verification).State = EntityState.Modified;
             await _dbContext.SaveChangesAsync();
 
+            uiAlerts.Add(new UiAlert
+            {
+                Type = UiAlertType.Success,
+                Message = TenancyDetailsSubmissionResources.EnterVerificationCode_SuccessMessage
+            });
+
             return new EnterVerificationCodeOutcome
             {
                 IsRejected = false,
-                ReturnToForm = false
+                ReturnToForm = false,
+                // TODO_PANOS_TEST
+                UiAlerts = uiAlerts
             };
         }
 
         public async Task<SubmitTenancyDetailsOutcome> SubmitTenancyDetails(string userId, TenancyDetailsForm form)
         {
+            var uiAlerts = new List<UiAlert>();
+
             var submission = await GetSubmissionForUser(userId, form.TenancyDetailsSubmissionUniqueId);
             if (submission == null)
             {
@@ -221,14 +246,24 @@ namespace Epsilon.Logic.Services
             _dbContext.Entry(submission).State = EntityState.Modified;
             await _dbContext.SaveChangesAsync();
 
+            uiAlerts.Add(new UiAlert
+            {
+                Type = UiAlertType.Success,
+                // TODO_PANOS_TEST
+                Message = TenancyDetailsSubmissionResources.SubmitTenancyDetails_SuccessMessage
+            });
+
             return new SubmitTenancyDetailsOutcome
             {
-                IsRejected = false
+                IsRejected = false,
+                UiAlerts = uiAlerts
             };
         }
 
         public async Task<SubmitMoveOutDetailsOutcome> SubmitMoveOutDetails(string userId, MoveOutDetailsForm form)
         {
+            var uiAlerts = new List<UiAlert>();
+
             var submission = await GetSubmissionForUser(userId, form.TenancyDetailsSubmissionUniqueId);
             if (submission == null)
             {
@@ -254,9 +289,17 @@ namespace Epsilon.Logic.Services
             _dbContext.Entry(submission).State = EntityState.Modified;
             await _dbContext.SaveChangesAsync();
 
+            uiAlerts.Add(new UiAlert
+            {
+                Type = UiAlertType.Success,
+                Message = TenancyDetailsSubmissionResources.SubmitMoveOutDetails_SuccessMessage
+            });
+
             return new SubmitMoveOutDetailsOutcome
             {
-                IsRejected = false
+                IsRejected = false,
+                // TODO_PANOS_TEST
+                UiAlerts = uiAlerts
             };
         }
 

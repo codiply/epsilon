@@ -123,7 +123,7 @@ namespace Epsilon.Web.Controllers
             }
             else
             {
-                Success(SubmissionResources.UseAddressConfirmed_SuccessMessage, true);
+                AddUiAlerts(outcome.UiAlerts, true);
             }
 
             return RedirectToAction(
@@ -169,7 +169,8 @@ namespace Epsilon.Web.Controllers
                     }
                 }
 
-                Success(SubmissionResources.EnterVerificationCode_SuccessMessage, true);
+                AddUiAlerts(outcome.UiAlerts, true);
+
                 return RedirectHome(form.ReturnToSummary);
             }
 
@@ -214,7 +215,8 @@ namespace Epsilon.Web.Controllers
                     }
                 }
 
-                // TODO_PANOS: add a Success message here.
+                AddUiAlerts(outcome.UiAlerts, true);
+
                 return RedirectHome(form.ReturnToSummary);
             }
 
@@ -259,7 +261,8 @@ namespace Epsilon.Web.Controllers
                     }
                 }
 
-                // TODO_PANOS: add a Success message here.
+                AddUiAlerts(outcome.UiAlerts, true);
+
                 return RedirectHome(form.ReturnToSummary);
             }
 

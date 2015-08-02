@@ -89,11 +89,47 @@ namespace Epsilon.Resources.Logic.TenancyDetailsSubmission {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The code has been accepted..
+        /// </summary>
+        public static string EnterVerificationCode_SuccessMessage {
+            get {
+                return ResourceManager.GetString("EnterVerificationCode_SuccessMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Creating a new submission is temporarily disabled. Please try again later..
         /// </summary>
         public static string GlobalSwitch_CreateTenancyDetailsSubmissionDisabled_Message {
             get {
                 return ResourceManager.GetString("GlobalSwitch_CreateTenancyDetailsSubmissionDisabled_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Move out details have been submitted succesfully..
+        /// </summary>
+        public static string SubmitMoveOutDetails_SuccessMessage {
+            get {
+                return ResourceManager.GetString("SubmitMoveOutDetails_SuccessMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Thanks you! The details have been submitted successfully..
+        /// </summary>
+        public static string SubmitTenancyDetails_SuccessMessage {
+            get {
+                return ResourceManager.GetString("SubmitTenancyDetails_SuccessMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your submission has been initiated. You will receive a verification code by post soon..
+        /// </summary>
+        public static string UseAddress_SuccessMessage {
+            get {
+                return ResourceManager.GetString("UseAddress_SuccessMessage", resourceCulture);
             }
         }
     }

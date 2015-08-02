@@ -17,6 +17,7 @@ using Epsilon.Logic.Wrappers.Interfaces;
 using Epsilon.Logic.Helpers;
 using static Epsilon.Logic.Helpers.RandomStringHelper;
 using Epsilon.Logic.Constants;
+using Epsilon.Logic.Dtos;
 
 namespace Epsilon.Logic.Services
 {
@@ -98,6 +99,8 @@ namespace Epsilon.Logic.Services
             string userIpAddress,
             Guid verificationUniqueId)
         {
+            var uiAlerts = new List<UiAlert>();
+
             if (_outgoingVerificationServiceConfig.GlobalSwitch_DisablePickOutgoingVerification)
                 return new PickVerificationOutcome
                 {
@@ -164,11 +167,19 @@ namespace Epsilon.Logic.Services
             _dbContext.TenantVerifications.Add(tenantVerification);
             await _dbContext.SaveChangesAsync();
 
+            uiAlerts.Add(new UiAlert
+            {
+                Type = Constants.Enums.UiAlertType.Success,
+                // TODO_PANOS_TEST
+                Message = OutgoingVerificationResources.Pick_SuccessMessage
+            });
+
             // TODO_PANOS_TEST
             return new PickVerificationOutcome
             {
                 IsRejected = false,
-                VerificationUniqueId = tenantVerification.UniqueId
+                VerificationUniqueId = tenantVerification.UniqueId,
+                UiAlerts = uiAlerts
             };
         }
 
@@ -176,6 +187,8 @@ namespace Epsilon.Logic.Services
             string userId,
             Guid verificationUniqueId)
         {
+            var uiAlerts = new List<UiAlert>();
+
             var verification = await GetVerificationForUser(userId, verificationUniqueId);
             if (verification == null)
             {
@@ -201,10 +214,18 @@ namespace Epsilon.Logic.Services
             _dbContext.Entry(verification).State = EntityState.Modified;
             await _dbContext.SaveChangesAsync();
 
+            uiAlerts.Add(new UiAlert
+            {
+                Type = Constants.Enums.UiAlertType.Success,
+                // TODO_PANOS_TEST
+                Message = OutgoingVerificationResources.MarkAsSent_SuccessMessage
+            });
+
             // TODO_PANOS_TEST
             return new MarkVerificationAsSentOutcome
             {
-                IsRejected = false
+                IsRejected = false,
+                UiAlerts = uiAlerts
             };
         }
     }

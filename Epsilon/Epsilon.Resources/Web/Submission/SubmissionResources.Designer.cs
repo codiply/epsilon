@@ -133,15 +133,6 @@ namespace Epsilon.Resources.Web.Submission {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The code has been accepted..
-        /// </summary>
-        public static string EnterVerificationCode_SuccessMessage {
-            get {
-                return ResourceManager.GetString("EnterVerificationCode_SuccessMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Enter verification code received by post..
         /// </summary>
         public static string MySubmissionsSummary_ActionEnterVerificationCode_ButtonHoverText {
@@ -498,15 +489,6 @@ namespace Epsilon.Resources.Web.Submission {
         public static string UseAddressConfirmed_AddressNotFoundMessage {
             get {
                 return ResourceManager.GetString("UseAddressConfirmed_AddressNotFoundMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Your submission has been initiated. You will receive a verification code by post soon..
-        /// </summary>
-        public static string UseAddressConfirmed_SuccessMessage {
-            get {
-                return ResourceManager.GetString("UseAddressConfirmed_SuccessMessage", resourceCulture);
             }
         }
     }

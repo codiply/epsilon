@@ -120,6 +120,9 @@
   <data name="Create_MaxFrequencyPerAddressCheck_RejectionMessage" xml:space="preserve">
     <value>There has been a recent submission for this address. Please try again in a few weeks.</value>
   </data>
+  <data name="EnterVerificationCode_SuccessMessage" xml:space="preserve">
+    <value>The code has been accepted.</value>
+  </data>
   <data name="EnterVerification_InvalidVerificationCode_RejectionMessage" xml:space="preserve">
     <value>The verification code is not valid.</value>
   </data>
@@ -128,5 +131,14 @@
   </data>
   <data name="GlobalSwitch_CreateTenancyDetailsSubmissionDisabled_Message" xml:space="preserve">
     <value>Creating a new submission is temporarily disabled. Please try again later.</value>
+  </data>
+  <data name="SubmitMoveOutDetails_SuccessMessage" xml:space="preserve">
+    <value>Move out details have been submitted succesfully.</value>
+  </data>
+  <data name="SubmitTenancyDetails_SuccessMessage" xml:space="preserve">
+    <value>Thanks you! The details have been submitted successfully.</value>
+  </data>
+  <data name="UseAddress_SuccessMessage" xml:space="preserve">
+    <value>Your submission has been initiated. You will receive a verification code by post soon.</value>
   </data>
 </root>
