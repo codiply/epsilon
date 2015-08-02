@@ -11,5 +11,6 @@ namespace Epsilon.Logic.JsonModels
     public class MyOutgoingVerificationsSummaryRequest
     {
         public bool limitItemsReturned { get; set; }
+        public bool allowCaching { get; set; }
     }
 }

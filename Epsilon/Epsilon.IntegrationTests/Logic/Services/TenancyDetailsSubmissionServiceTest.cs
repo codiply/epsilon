@@ -289,16 +289,14 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var serviceUnderTest = containerUnderTest.Get<ITenancyDetailsSubmissionService>();
 
             // Full summary
-            var request1 = new MySubmissionsSummaryRequest { limitItemsReturned = false };
-            var response1 = await serviceUnderTest.GetUserSubmissionsSummary(user.Id, request1);
+            var response1 = await serviceUnderTest.GetUserSubmissionsSummary(user.Id, false);
 
             Assert.IsNotNull(response1, "Response1 is null.");
             Assert.IsFalse(response1.moreItemsExist, "Field moreItemsExist on response1 is not the expected.");
             Assert.IsFalse(response1.tenancyDetailsSubmissions.Any(), "Field tenancyDetailsSubmissions on response1 should be empty.");
 
             // Summary with limit
-            var request2 = new MySubmissionsSummaryRequest { limitItemsReturned = true };
-            var response2 = await serviceUnderTest.GetUserSubmissionsSummary(user.Id, request2);
+            var response2 = await serviceUnderTest.GetUserSubmissionsSummary(user.Id, true);
 
             Assert.IsNotNull(response2, "Response2 is null.");
             Assert.IsFalse(response2.moreItemsExist, "Field moreItemsExist on response2 is not the expected.");
@@ -339,8 +337,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var serviceUnderTest = containerUnderTest.Get<ITenancyDetailsSubmissionService>();
 
             // Full summary
-            var request1 = new MySubmissionsSummaryRequest { limitItemsReturned = false };
-            var response1 = await serviceUnderTest.GetUserSubmissionsSummary(user.Id, request1);
+            var response1 = await serviceUnderTest.GetUserSubmissionsSummary(user.Id, false);
 
             Assert.IsNotNull(response1, "Response1 is null.");
             Assert.IsFalse(response1.moreItemsExist, "Field moreItemsExist on response1 is not the expected.");
@@ -356,8 +353,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 "Response1 should not contain the submission of the other user.");
 
             // Summary with limit
-            var request2 = new MySubmissionsSummaryRequest { limitItemsReturned = true };
-            var response2 = await serviceUnderTest.GetUserSubmissionsSummary(user.Id, request2);
+            var response2 = await serviceUnderTest.GetUserSubmissionsSummary(user.Id, true);
 
             Assert.IsNotNull(response2, "Response2 is null.");
             Assert.IsFalse(response2.moreItemsExist, "Field moreItemsExist on response2 is not the expected.");
@@ -407,8 +403,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var serviceUnderTest = containerUnderTest.Get<ITenancyDetailsSubmissionService>();
 
             // Full summary
-            var request1 = new MySubmissionsSummaryRequest { limitItemsReturned = false };
-            var response1 = await serviceUnderTest.GetUserSubmissionsSummary(user.Id, request1);
+            var response1 = await serviceUnderTest.GetUserSubmissionsSummary(user.Id, false);
 
             Assert.IsNotNull(response1, "Response1 is null.");
             Assert.IsFalse(response1.moreItemsExist, "Field moreItemsExist on response1 is not the expected.");
@@ -424,8 +419,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 "Response1 should not contain the submission of the other user.");
 
             // Summary with limit
-            var request2 = new MySubmissionsSummaryRequest { limitItemsReturned = true };
-            var response2 = await serviceUnderTest.GetUserSubmissionsSummary(user.Id, request2);
+            var response2 = await serviceUnderTest.GetUserSubmissionsSummary(user.Id, true);
 
             Assert.IsNotNull(response2, "Response2 is null.");
             Assert.IsTrue(response2.moreItemsExist, "Field moreItemsExist on response2 is not the expected.");
@@ -466,8 +460,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             SetupConfigForGetUserSubmissionSummary(containerUnderTest, itemsLimit);
             var serviceUnderTest = containerUnderTest.Get<ITenancyDetailsSubmissionService>();
 
-            var request = new MySubmissionsSummaryRequest { limitItemsReturned = false };
-            var response  = await serviceUnderTest.GetUserSubmissionsSummary(user.Id, request);
+            var response  = await serviceUnderTest.GetUserSubmissionsSummary(user.Id, false);
 
             Assert.AreEqual(1, response.tenancyDetailsSubmissions.Count,
                 "The response should contain a single submission.");
@@ -515,8 +508,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             SetupConfigForGetUserSubmissionSummary(containerUnderTest, itemsLimit);
             var serviceUnderTest = containerUnderTest.Get<ITenancyDetailsSubmissionService>();
 
-            var request = new MySubmissionsSummaryRequest { limitItemsReturned = false };
-            var response = await serviceUnderTest.GetUserSubmissionsSummary(user.Id, request);
+            var response = await serviceUnderTest.GetUserSubmissionsSummary(user.Id, false);
 
             Assert.AreEqual(1, response.tenancyDetailsSubmissions.Count,
                 "The response should contain a single submission.");
@@ -564,8 +556,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             SetupConfigForGetUserSubmissionSummary(containerUnderTest, itemsLimit);
             var serviceUnderTest = containerUnderTest.Get<ITenancyDetailsSubmissionService>();
 
-            var request = new MySubmissionsSummaryRequest { limitItemsReturned = false };
-            var response = await serviceUnderTest.GetUserSubmissionsSummary(user.Id, request);
+            var response = await serviceUnderTest.GetUserSubmissionsSummary(user.Id, false);
 
             Assert.AreEqual(1, response.tenancyDetailsSubmissions.Count,
                 "The response should contain a single submission.");
@@ -613,8 +604,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             SetupConfigForGetUserSubmissionSummary(containerUnderTest, itemsLimit);
             var serviceUnderTest = containerUnderTest.Get<ITenancyDetailsSubmissionService>();
 
-            var request = new MySubmissionsSummaryRequest { limitItemsReturned = false };
-            var response = await serviceUnderTest.GetUserSubmissionsSummary(user.Id, request);
+            var response = await serviceUnderTest.GetUserSubmissionsSummary(user.Id, false);
 
             Assert.AreEqual(1, response.tenancyDetailsSubmissions.Count,
                 "The response should contain a single submission.");
@@ -662,8 +652,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             SetupConfigForGetUserSubmissionSummary(containerUnderTest, itemsLimit);
             var serviceUnderTest = containerUnderTest.Get<ITenancyDetailsSubmissionService>();
 
-            var request = new MySubmissionsSummaryRequest { limitItemsReturned = false };
-            var response = await serviceUnderTest.GetUserSubmissionsSummary(user.Id, request);
+            var response = await serviceUnderTest.GetUserSubmissionsSummary(user.Id, false);
 
             Assert.AreEqual(1, response.tenancyDetailsSubmissions.Count,
                 "The response should contain a single submission.");
@@ -711,8 +700,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             SetupConfigForGetUserSubmissionSummary(containerUnderTest, itemsLimit);
             var serviceUnderTest = containerUnderTest.Get<ITenancyDetailsSubmissionService>();
 
-            var request = new MySubmissionsSummaryRequest { limitItemsReturned = false };
-            var response = await serviceUnderTest.GetUserSubmissionsSummary(user.Id, request);
+            var response = await serviceUnderTest.GetUserSubmissionsSummary(user.Id, false);
 
             Assert.AreEqual(1, response.tenancyDetailsSubmissions.Count,
                 "The response should contain a single submission.");
@@ -760,8 +748,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             SetupConfigForGetUserSubmissionSummary(containerUnderTest, itemsLimit);
             var serviceUnderTest = containerUnderTest.Get<ITenancyDetailsSubmissionService>();
 
-            var request = new MySubmissionsSummaryRequest { limitItemsReturned = false };
-            var response = await serviceUnderTest.GetUserSubmissionsSummary(user.Id, request);
+            var response = await serviceUnderTest.GetUserSubmissionsSummary(user.Id, false);
 
             Assert.AreEqual(1, response.tenancyDetailsSubmissions.Count,
                 "The response should contain a single submission.");
@@ -809,8 +796,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             SetupConfigForGetUserSubmissionSummary(containerUnderTest, itemsLimit);
             var serviceUnderTest = containerUnderTest.Get<ITenancyDetailsSubmissionService>();
 
-            var request = new MySubmissionsSummaryRequest { limitItemsReturned = false };
-            var response = await serviceUnderTest.GetUserSubmissionsSummary(user.Id, request);
+            var response = await serviceUnderTest.GetUserSubmissionsSummary(user.Id, false);
 
             Assert.AreEqual(1, response.tenancyDetailsSubmissions.Count,
                 "The response should contain a single submission.");
@@ -858,8 +844,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             SetupConfigForGetUserSubmissionSummary(containerUnderTest, itemsLimit);
             var serviceUnderTest = containerUnderTest.Get<ITenancyDetailsSubmissionService>();
 
-            var request = new MySubmissionsSummaryRequest { limitItemsReturned = false };
-            var response = await serviceUnderTest.GetUserSubmissionsSummary(user.Id, request);
+            var response = await serviceUnderTest.GetUserSubmissionsSummary(user.Id, false);
 
             Assert.AreEqual(1, response.tenancyDetailsSubmissions.Count,
                 "The response should contain a single submission.");
@@ -908,7 +893,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var serviceUnderTest = containerUnderTest.Get<ITenancyDetailsSubmissionService>();
 
             var request = new MySubmissionsSummaryRequest { limitItemsReturned = false };
-            var response = await serviceUnderTest.GetUserSubmissionsSummary(user.Id, request);
+            var response = await serviceUnderTest.GetUserSubmissionsSummary(user.Id, false);
 
             Assert.AreEqual(1, response.tenancyDetailsSubmissions.Count,
                 "The response should contain a single submission.");

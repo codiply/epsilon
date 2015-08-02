@@ -51,16 +51,14 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var serviceUnderTest = containerUnderTest.Get<IOutgoingVerificationService>();
 
             // Full summary
-            var request1 = new MyOutgoingVerificationsSummaryRequest { limitItemsReturned = false };
-            var response1 = await serviceUnderTest.GetUserOutgoingVerificationsSummary(user.Id, request1);
+            var response1 = await serviceUnderTest.GetUserOutgoingVerificationsSummary(user.Id, false);
 
             Assert.IsNotNull(response1, "Response1 is null.");
             Assert.IsFalse(response1.moreItemsExist, "Field moreItemsExist on response1 is not the expected.");
             Assert.IsFalse(response1.tenantVerifications.Any(), "Field tenantVerifications on response1 should be empty.");
 
             // Summary with limit
-            var request2 = new MyOutgoingVerificationsSummaryRequest { limitItemsReturned = true };
-            var response2 = await serviceUnderTest.GetUserOutgoingVerificationsSummary(user.Id, request2);
+            var response2 = await serviceUnderTest.GetUserOutgoingVerificationsSummary(user.Id, true);
 
             Assert.IsNotNull(response2, "Response2 is null.");
             Assert.IsFalse(response2.moreItemsExist, "Field moreItemsExist on response2 is not the expected.");
@@ -102,8 +100,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var serviceUnderTest = containerUnderTest.Get<IOutgoingVerificationService>();
 
             // Full summary
-            var request1 = new MyOutgoingVerificationsSummaryRequest { limitItemsReturned = false };
-            var response1 = await serviceUnderTest.GetUserOutgoingVerificationsSummary(user.Id, request1);
+            var response1 = await serviceUnderTest.GetUserOutgoingVerificationsSummary(user.Id, false);
 
             Assert.IsNotNull(response1, "Response1 is null.");
             Assert.IsFalse(response1.moreItemsExist, "Field moreItemsExist on response1 is not the expected.");
@@ -119,8 +116,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 "Response1 should not contain the outgoing verification of the other user.");
 
             // Summary with limit
-            var request2 = new MyOutgoingVerificationsSummaryRequest { limitItemsReturned = true };
-            var response2 = await serviceUnderTest.GetUserOutgoingVerificationsSummary(user.Id, request2);
+            var response2 = await serviceUnderTest.GetUserOutgoingVerificationsSummary(user.Id, true);
 
             Assert.IsNotNull(response2, "Response2 is null.");
             Assert.IsFalse(response2.moreItemsExist, "Field moreItemsExist on response2 is not the expected.");
@@ -173,8 +169,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var serviceUnderTest = containerUnderTest.Get<IOutgoingVerificationService>();
 
             // Full summary
-            var request1 = new MyOutgoingVerificationsSummaryRequest { limitItemsReturned = false };
-            var response1 = await serviceUnderTest.GetUserOutgoingVerificationsSummary(user.Id, request1);
+            var response1 = await serviceUnderTest.GetUserOutgoingVerificationsSummary(user.Id, false);
 
             Assert.IsNotNull(response1, "Response1 is null.");
             Assert.IsFalse(response1.moreItemsExist, "Field moreItemsExist on response1 is not the expected.");
@@ -190,8 +185,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 "Response1 should not contain the outgoing verification of the other user.");
 
             // Summary with limit
-            var request2 = new MyOutgoingVerificationsSummaryRequest { limitItemsReturned = true };
-            var response2 = await serviceUnderTest.GetUserOutgoingVerificationsSummary(user.Id, request2);
+            var response2 = await serviceUnderTest.GetUserOutgoingVerificationsSummary(user.Id, true);
 
             Assert.IsNotNull(response2, "Response2 is null.");
             Assert.IsTrue(response2.moreItemsExist, "Field moreItemsExist on response2 is not the expected.");
@@ -230,8 +224,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             SetupConfigForGetUserOutgoingVerificationsSummary(containerUnderTest, itemsLimit);
             var serviceUnderTest = containerUnderTest.Get<IOutgoingVerificationService>();
 
-            var request = new MyOutgoingVerificationsSummaryRequest { limitItemsReturned = false };
-            var response = await serviceUnderTest.GetUserOutgoingVerificationsSummary(user.Id, request);
+            var response = await serviceUnderTest.GetUserOutgoingVerificationsSummary(user.Id, false);
 
             Assert.AreEqual(1, response.tenantVerifications.Count,
                 "The response should contain a single tenant verification.");
@@ -272,8 +265,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             SetupConfigForGetUserOutgoingVerificationsSummary(containerUnderTest, itemsLimit);
             var serviceUnderTest = containerUnderTest.Get<IOutgoingVerificationService>();
 
-            var request = new MyOutgoingVerificationsSummaryRequest { limitItemsReturned = false };
-            var response = await serviceUnderTest.GetUserOutgoingVerificationsSummary(user.Id, request);
+            var response = await serviceUnderTest.GetUserOutgoingVerificationsSummary(user.Id, false);
 
             Assert.AreEqual(1, response.tenantVerifications.Count,
                 "The response should contain a single tenant verification.");
@@ -314,8 +306,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             SetupConfigForGetUserOutgoingVerificationsSummary(containerUnderTest, itemsLimit);
             var serviceUnderTest = containerUnderTest.Get<IOutgoingVerificationService>();
 
-            var request = new MyOutgoingVerificationsSummaryRequest { limitItemsReturned = false };
-            var response = await serviceUnderTest.GetUserOutgoingVerificationsSummary(user.Id, request);
+            var response = await serviceUnderTest.GetUserOutgoingVerificationsSummary(user.Id, false);
 
             Assert.AreEqual(1, response.tenantVerifications.Count,
                 "The response should contain a single tenant verification.");
@@ -356,8 +347,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             SetupConfigForGetUserOutgoingVerificationsSummary(containerUnderTest, itemsLimit);
             var serviceUnderTest = containerUnderTest.Get<IOutgoingVerificationService>();
 
-            var request = new MyOutgoingVerificationsSummaryRequest { limitItemsReturned = false };
-            var response = await serviceUnderTest.GetUserOutgoingVerificationsSummary(user.Id, request);
+            var response = await serviceUnderTest.GetUserOutgoingVerificationsSummary(user.Id, false);
 
             Assert.AreEqual(1, response.tenantVerifications.Count,
                 "The response should contain a single tenant verification.");

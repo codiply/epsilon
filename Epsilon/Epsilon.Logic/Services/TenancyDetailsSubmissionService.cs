@@ -17,12 +17,15 @@ using Epsilon.Logic.Forms.Submission;
 using Epsilon.Resources.Common;
 using Epsilon.Logic.Dtos;
 using Epsilon.Logic.Constants.Enums;
+using Epsilon.Logic.Infrastructure.Interfaces;
+using Epsilon.Logic.Constants;
 
 namespace Epsilon.Logic.Services
 {
     public class TenancyDetailsSubmissionService : ITenancyDetailsSubmissionService
     {
         private readonly IClock _clock;
+        private readonly IAppCache _appCache;
         private readonly ITenancyDetailsSubmissionServiceConfig _tenancyDetailsSubmissionServiceConfig;
         private readonly IEpsilonContext _dbContext;
         private readonly IAddressService _addressService;
@@ -30,12 +33,14 @@ namespace Epsilon.Logic.Services
 
         public TenancyDetailsSubmissionService(
             IClock clock,
+            IAppCache appCache,
             ITenancyDetailsSubmissionServiceConfig tenancyDetailsSubmissionServiceConfig,
             IEpsilonContext dbContext,
             IAddressService addressService,
             IAntiAbuseService antiAbuseService)
         {
             _clock = clock;
+            _appCache = appCache;
             _tenancyDetailsSubmissionServiceConfig = tenancyDetailsSubmissionServiceConfig;
             _dbContext = dbContext;
             _addressService = addressService;
@@ -49,7 +54,15 @@ namespace Epsilon.Logic.Services
             return result != null;
         }
 
-        public async Task<MySubmissionsSummaryResponse> GetUserSubmissionsSummary(string userId, MySubmissionsSummaryRequest request)
+        public async Task<MySubmissionsSummaryResponse> GetUserSubmissionsSummaryWithCaching(
+            string userId, bool limitItemsReturned)
+        {
+            return await _appCache.GetAsync(
+                AppCacheKey.GetUserSubmissionsSummary(userId, limitItemsReturned),
+                () => GetUserSubmissionsSummary(userId, limitItemsReturned), WithLock.No);
+        }
+
+        public async Task<MySubmissionsSummaryResponse> GetUserSubmissionsSummary(string userId, bool limitItemsReturned)
         {
             var query = _dbContext.TenancyDetailsSubmissions
                 .Include(x => x.TenantVerifications)
@@ -60,7 +73,7 @@ namespace Epsilon.Logic.Services
 
             List<TenancyDetailsSubmission> submissions;
             var moreItemsExist = false;
-            if (request.limitItemsReturned)
+            if (limitItemsReturned)
             {
                 var limit = _tenancyDetailsSubmissionServiceConfig.MySubmissionsSummary_ItemsLimit;
                 submissions = await query.Take(limit + 1).ToListAsync();
@@ -138,6 +151,8 @@ namespace Epsilon.Logic.Services
                 Message = TenancyDetailsSubmissionResources.UseAddress_SuccessMessage
             });
 
+            RemoveCachedUserSubmissionsSummary(userId);
+
             return new CreateTenancyDetailsSubmissionOutcome
             {
                 IsRejected = false,
@@ -205,6 +220,8 @@ namespace Epsilon.Logic.Services
                 Message = TenancyDetailsSubmissionResources.EnterVerificationCode_SuccessMessage
             });
 
+            RemoveCachedUserSubmissionsSummary(userId);
+
             return new EnterVerificationCodeOutcome
             {
                 IsRejected = false,
@@ -253,6 +270,8 @@ namespace Epsilon.Logic.Services
                 Message = TenancyDetailsSubmissionResources.SubmitTenancyDetails_SuccessMessage
             });
 
+            RemoveCachedUserSubmissionsSummary(userId);
+
             return new SubmitTenancyDetailsOutcome
             {
                 IsRejected = false,
@@ -294,6 +313,8 @@ namespace Epsilon.Logic.Services
                 Type = UiAlertType.Success,
                 Message = TenancyDetailsSubmissionResources.SubmitMoveOutDetails_SuccessMessage
             });
+
+            RemoveCachedUserSubmissionsSummary(userId);
 
             return new SubmitMoveOutDetailsOutcome
             {
@@ -344,6 +365,12 @@ namespace Epsilon.Logic.Services
             _dbContext.TenancyDetailsSubmissions.Add(entity);
             await _dbContext.SaveChangesAsync();
             return entity;
+        }
+
+        private void RemoveCachedUserSubmissionsSummary(string userId)
+        {
+            _appCache.Remove(AppCacheKey.GetUserSubmissionsSummary(userId, true));
+            _appCache.Remove(AppCacheKey.GetUserSubmissionsSummary(userId, false));
         }
     }
 }

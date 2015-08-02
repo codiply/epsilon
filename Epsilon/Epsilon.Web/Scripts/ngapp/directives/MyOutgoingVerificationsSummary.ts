@@ -2,6 +2,7 @@
     export interface MyOutgoingVerificationsSummaryScope extends ng.IScope {
         limitItemsReturned: string;
         isSummaryPage: string;
+        allowCaching: string;
         response: T4TS.MyOutgoingVerificationsSummaryResponse;
     }
 
@@ -14,7 +15,8 @@
                 restrict: 'E',
                 scope: {
                     limitItemsReturned: "@",
-                    isSummaryPage: "@"
+                    isSummaryPage: "@",
+                    allowCaching: "@"
                 },
                 templateUrl: DIRECTIVE_TEMPLATE_FOLDER_URL + 'MyOutgoingVerificationsSummary',
                 link: (scope: MyOutgoingVerificationsSummaryScope, element: ng.IAugmentedJQuery, attributes: ng.IAttributes) => {
@@ -34,7 +36,8 @@
             var url = this.BASE_URL_WITH_LANGUAGE + '/api/outgoingverification/myoutgoingverificationssummary/';
             var scope = this.scope;
             var request: T4TS.MyOutgoingVerificationsSummaryRequest = {
-                limitItemsReturned: scope.limitItemsReturned && scope.limitItemsReturned.toLowerCase() === "true"
+                limitItemsReturned: scope.limitItemsReturned && scope.limitItemsReturned.toLowerCase() === "true",
+                allowCaching: scope.allowCaching && scope.allowCaching.toLowerCase() === "true"
             };
             this.$http.post<T4TS.MyOutgoingVerificationsSummaryResponse>(url, request).success(function (data, status, headers, config) {
                 scope.response = data;

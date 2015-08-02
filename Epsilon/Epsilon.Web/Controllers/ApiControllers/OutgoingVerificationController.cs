@@ -22,9 +22,13 @@ namespace Epsilon.Web.Controllers.ApiControllers
         }
 
         [HttpPost]
-        public async Task<MyOutgoingVerificationsSummaryResponse> MyOutgoingVerificationsSummary(MyOutgoingVerificationsSummaryRequest request)
+        public async Task<MyOutgoingVerificationsSummaryResponse> MyOutgoingVerificationsSummary(
+            MyOutgoingVerificationsSummaryRequest request)
         {
-            return await _outgoingVerificationService.GetUserOutgoingVerificationsSummary(GetUserId(), request);
+            if (request.allowCaching)
+                return await _outgoingVerificationService.GetUserOutgoingVerificationsSummaryWithCaching(GetUserId(), request.limitItemsReturned);
+
+            return await _outgoingVerificationService.GetUserOutgoingVerificationsSummary(GetUserId(), request.limitItemsReturned);
         }
     }
 }

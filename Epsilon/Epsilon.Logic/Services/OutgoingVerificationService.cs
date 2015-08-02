@@ -18,12 +18,14 @@ using Epsilon.Logic.Helpers;
 using static Epsilon.Logic.Helpers.RandomStringHelper;
 using Epsilon.Logic.Constants;
 using Epsilon.Logic.Dtos;
+using Epsilon.Logic.Infrastructure.Interfaces;
 
 namespace Epsilon.Logic.Services
 {
     public class OutgoingVerificationService : IOutgoingVerificationService
     {
         private readonly IClock _clock;
+        private readonly IAppCache _appCache;
         private readonly IEpsilonContext _dbContext;
         private readonly IAntiAbuseService _antiAbuseService;
         private readonly IOutgoingVerificationServiceConfig _outgoingVerificationServiceConfig;
@@ -31,12 +33,14 @@ namespace Epsilon.Logic.Services
 
         public OutgoingVerificationService(
             IClock clock,
+            IAppCache appCache,
             IEpsilonContext dbContext,
             IAntiAbuseService antiAbuseService,
             IOutgoingVerificationServiceConfig outgoingVerificationServiceConfig,
             IRandomFactory randomFactory)
         {
             _clock = clock;
+            _appCache = appCache;
             _dbContext = dbContext;
             _antiAbuseService = antiAbuseService;
             _outgoingVerificationServiceConfig = outgoingVerificationServiceConfig;
@@ -63,8 +67,16 @@ namespace Epsilon.Logic.Services
             return submission;
         }
 
+        public async Task<MyOutgoingVerificationsSummaryResponse> GetUserOutgoingVerificationsSummaryWithCaching(
+            string userId, bool limitItemsReturned)
+        {
+            return await _appCache.GetAsync(
+                AppCacheKey.GetUserOutgoingVerificationsSummary(userId, limitItemsReturned), 
+                () => GetUserOutgoingVerificationsSummary(userId, limitItemsReturned), WithLock.No);
+        }
+
         public async Task<MyOutgoingVerificationsSummaryResponse> GetUserOutgoingVerificationsSummary(
-            string userId, MyOutgoingVerificationsSummaryRequest request)
+            string userId, bool limitItemsReturned)
         {
             var query = _dbContext.TenantVerifications
                 .Where(x => x.AssignedToId.Equals(userId))
@@ -72,7 +84,7 @@ namespace Epsilon.Logic.Services
 
             List<TenantVerification> verifications;
             var moreItemsExist = false;
-            if (request.limitItemsReturned)
+            if (limitItemsReturned)
             {
                 var limit = _outgoingVerificationServiceConfig.MyOutgoingVerificationsSummary_ItemsLimit;
                 verifications = await query.Take(limit + 1).ToListAsync();
@@ -174,6 +186,8 @@ namespace Epsilon.Logic.Services
                 Message = OutgoingVerificationResources.Pick_SuccessMessage
             });
 
+            RemoveCachedUserOutoingVerificationsSummary(userId);
+
             // TODO_PANOS_TEST
             return new PickVerificationOutcome
             {
@@ -221,12 +235,20 @@ namespace Epsilon.Logic.Services
                 Message = OutgoingVerificationResources.MarkAsSent_SuccessMessage
             });
 
+            RemoveCachedUserOutoingVerificationsSummary(userId);
+
             // TODO_PANOS_TEST
             return new MarkVerificationAsSentOutcome
             {
                 IsRejected = false,
                 UiAlerts = uiAlerts
             };
+        }
+
+        private void RemoveCachedUserOutoingVerificationsSummary(string userId)
+        {
+            _appCache.Remove(AppCacheKey.GetUserOutgoingVerificationsSummary(userId, true));
+            _appCache.Remove(AppCacheKey.GetUserOutgoingVerificationsSummary(userId, false));
         }
     }
 }

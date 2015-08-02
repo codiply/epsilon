@@ -31,10 +31,13 @@ namespace Epsilon.Logic.Services.Interfaces
 
     public interface IOutgoingVerificationService
     {
+        Task<MyOutgoingVerificationsSummaryResponse> GetUserOutgoingVerificationsSummaryWithCaching(
+            string userId, bool limitItemsReturned);
+
         Task<TenantVerification> GetVerificationForUser(string assingedUserId, Guid uniqueId);
 
         Task<MyOutgoingVerificationsSummaryResponse> GetUserOutgoingVerificationsSummary(
-            string userId, MyOutgoingVerificationsSummaryRequest request);
+            string userId, bool limitItemsReturned);
 
         Task<PickVerificationOutcome> Pick(
             string userId,

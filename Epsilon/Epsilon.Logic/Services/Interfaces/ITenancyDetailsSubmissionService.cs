@@ -40,7 +40,9 @@ namespace Epsilon.Logic.Services.Interfaces
     
     public interface ITenancyDetailsSubmissionService
     {
-        Task<MySubmissionsSummaryResponse> GetUserSubmissionsSummary(string userId, MySubmissionsSummaryRequest request);
+        Task<MySubmissionsSummaryResponse> GetUserSubmissionsSummaryWithCaching(string userId, bool limitItemsReturned);
+
+        Task<MySubmissionsSummaryResponse> GetUserSubmissionsSummary(string userId, bool limitItemsReturned);
 
         Task<CreateTenancyDetailsSubmissionOutcome> Create(
             string userId,

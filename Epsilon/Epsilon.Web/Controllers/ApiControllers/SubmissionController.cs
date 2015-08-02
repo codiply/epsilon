@@ -24,7 +24,10 @@ namespace Epsilon.Web.Controllers.ApiControllers
         [HttpPost]
         public async Task<MySubmissionsSummaryResponse> MySubmissionsSummary(MySubmissionsSummaryRequest request)
         {
-            return await _tenancyDetailsSubmissionService.GetUserSubmissionsSummary(GetUserId(), request);
+            if (request.allowCaching)
+                return await _tenancyDetailsSubmissionService.GetUserSubmissionsSummaryWithCaching(GetUserId(), request.limitItemsReturned);
+
+            return await _tenancyDetailsSubmissionService.GetUserSubmissionsSummary(GetUserId(), request.limitItemsReturned);
         }
     }
 }

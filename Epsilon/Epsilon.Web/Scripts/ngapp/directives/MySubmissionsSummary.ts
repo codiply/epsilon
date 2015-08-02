@@ -2,6 +2,7 @@
     export interface MySubmissionsSummaryScope extends ng.IScope {
         limitItemsReturned: string;
         isSummaryPage: string;
+        allowCaching: string;
         response: T4TS.MySubmissionsSummaryResponse;
     }
 
@@ -14,7 +15,8 @@
                 restrict: 'E',
                 scope: {
                     limitItemsReturned: "@",
-                    isSummaryPage: "@"
+                    isSummaryPage: "@",
+                    allowCaching: "@"
                 },
                 templateUrl: DIRECTIVE_TEMPLATE_FOLDER_URL + 'MySubmissionsSummary',
                 link: (scope: MySubmissionsSummaryScope, element: ng.IAugmentedJQuery, attributes: ng.IAttributes) => {
@@ -34,7 +36,8 @@
             var url = this.BASE_URL_WITH_LANGUAGE + '/api/submission/mysubmissionssummary/';
             var scope = this.scope;
             var request: T4TS.MySubmissionsSummaryRequest = {
-                limitItemsReturned: scope.limitItemsReturned && scope.limitItemsReturned.toLowerCase() === "true"
+                limitItemsReturned: scope.limitItemsReturned && scope.limitItemsReturned.toLowerCase() === "true",
+                allowCaching: scope.allowCaching && scope.allowCaching.toLowerCase() === "true"
             };
             this.$http.post<T4TS.MySubmissionsSummaryResponse>(url, request).success(function (data, status, headers, config) {
                 scope.response = data;

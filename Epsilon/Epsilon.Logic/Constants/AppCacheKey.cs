@@ -16,6 +16,18 @@ namespace Epsilon.Logic.Constants
         public const string CURRENT_TOKEN_REWARD_SCHEME = "APPCACHE:CURRENT_TOKEN_REWARD_SCHEME";
 
 
+        public static string GetUserOutgoingVerificationsSummary(string userId, bool limitItemsReturned)
+        {
+            return string.Format("APPCACHE:GET_USER_OUTGOING_VERIFICATIONS_SUMMARY:{0}:LIMIT_ITEMS_RETURNED:{1}",
+                userId, limitItemsReturned ? "TRUE" : "FALSE");
+        }
+
+        public static string GetUserSubmissionsSummary(string userId, bool limitItemsReturned)
+        {
+            return string.Format("APPCACHE:GET_USER_SUBMISSIONS_SUMMARY:{0}:LIMIT_ITEMS_RETURNED:{1}",
+                userId, limitItemsReturned ? "TRUE" : "FALSE");
+        }
+
         public static string Language(string languageId)
         {
             return "APPCACHE:LANGUAGE:" + languageId.ToLowerInvariant();

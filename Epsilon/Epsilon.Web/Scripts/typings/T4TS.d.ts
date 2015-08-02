@@ -36,6 +36,7 @@ declare module T4TS {
     /** Generated from Epsilon.Logic.JsonModels.MyOutgoingVerificationsSummaryRequest **/
     export interface MyOutgoingVerificationsSummaryRequest {
         limitItemsReturned: boolean;
+        allowCaching: boolean;
     }
     /** Generated from Epsilon.Logic.JsonModels.MyOutgoingVerificationsSummaryResponse **/
     export interface MyOutgoingVerificationsSummaryResponse {
@@ -45,6 +46,7 @@ declare module T4TS {
     /** Generated from Epsilon.Logic.JsonModels.MySubmissionsSummaryRequest **/
     export interface MySubmissionsSummaryRequest {
         limitItemsReturned: boolean;
+        allowCaching: boolean;
     }
     /** Generated from Epsilon.Logic.JsonModels.MySubmissionsSummaryResponse **/
     export interface MySubmissionsSummaryResponse {
