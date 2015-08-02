@@ -1,6 +1,7 @@
 ﻿using Epsilon.Logic.Constants;
 using Epsilon.Logic.Helpers.Interfaces;
 using Epsilon.Logic.Infrastructure.Interfaces;
+using Epsilon.Logic.Infrastructure.Primitives;
 using Epsilon.Logic.Wrappers.Interfaces;
 using System;
 using System.Collections.Concurrent;
@@ -15,6 +16,8 @@ namespace Epsilon.Logic.Infrastructure
     {
         private static ConcurrentDictionary<string, object> _locks = 
             new ConcurrentDictionary<string, object>();
+        private static ConcurrentDictionary<string, AsyncLock> _asyncLocks =
+            new ConcurrentDictionary<string, AsyncLock>();
         private ICacheWrapper _cache;
         private IAppSettingsHelper _appSettingsHelper;
 
@@ -46,7 +49,23 @@ namespace Epsilon.Logic.Infrastructure
         {
             return GenericGet(key, getItemCallback, slidingExpirationFunc, defaultSlidingExpiration, lockOption);
         }
-        
+
+        public async Task<T> GetAsync<T>(
+            string key, Func<Task<T>> getItemCallback, WithLock lockOption) where T : class
+        {
+            return await GenericGetAsync(key, getItemCallback, null, null, lockOption);
+        }
+
+        public async Task<T> GetAsync<T>(
+            string key,
+            Func<Task<T>> getItemCallback,
+            Func<T, TimeSpan> slidingExpirationFunc,
+            TimeSpan defaultSlidingExpiration,
+            WithLock lockOption) where T : class
+        {
+            return await GenericGetAsync(key, getItemCallback, slidingExpirationFunc, defaultSlidingExpiration, lockOption);
+        }
+
         public void Remove(string key)
         {
             _cache.Remove(key);
@@ -70,7 +89,12 @@ namespace Epsilon.Logic.Infrastructure
         {
             return _locks.GetOrAdd(key, x => new Object());
         }
-        
+
+        private static AsyncLock GetAsyncLock(string key)
+        {
+            return _asyncLocks.GetOrAdd(key, x => new AsyncLock());
+        }
+
         private T GenericGet<T>(
             string key, 
             Func<T> getItemCallback, 
@@ -82,7 +106,7 @@ namespace Epsilon.Logic.Infrastructure
             if (disableCache)
                 return getItemCallback();
 
-            var disableLocking = _appSettingsHelper.GetBool(AppSettingsKey.DisableLockingInAppCache) == true;
+            var disableLocking = _appSettingsHelper.GetBool(AppSettingsKey.DisableSynchronousLockingInAppCache) == true;
             if (disableLocking)
                 lockOption = WithLock.No;
 
@@ -150,6 +174,88 @@ namespace Epsilon.Logic.Infrastructure
 
             Insert(key, item, slidingExpirationFunc, defaultSlidingExpiration);
 
+            return item;
+        }
+
+        private async Task<T> GenericGetAsync<T>(
+            string key,
+            Func<Task<T>> getItemCallback,
+            Func<T, TimeSpan> slidingExpirationFunc,
+            TimeSpan? defaultSlidingExpiration,
+            WithLock lockOption) where T : class
+        {
+            var disableCache = _appSettingsHelper.GetBool(AppSettingsKey.DisableAppCache) == true;
+            if (disableCache)
+                return await getItemCallback();
+
+            var disableLocking = _appSettingsHelper.GetBool(AppSettingsKey.DisableAsynchronousLockingInAppCache) == true;
+            if (disableLocking)
+                lockOption = WithLock.No;
+
+            switch (lockOption)
+            {
+                case WithLock.Yes:
+                    return await GenericGetWithLockAsync<T>(key, getItemCallback, slidingExpirationFunc, defaultSlidingExpiration);
+                case WithLock.No:
+                    return await GenericGetWithoutLockAsync<T>(key, getItemCallback, slidingExpirationFunc, defaultSlidingExpiration);
+                default:
+                    throw new NotImplementedException();
+            }
+        }
+
+        private async Task<T> GenericGetWithLockAsync<T>(
+            string key, 
+            Func<Task<T>> getItemCallback,
+            Func<T, TimeSpan> slidingExpirationFunc,
+            TimeSpan? defaultSlidingExpiration) where T : class
+        {
+            bool shouldReturnNull;
+            T item = GetFromCache<T>(key, out shouldReturnNull);
+            if (shouldReturnNull)
+                return null;
+
+            if (item != null)
+                return item;
+
+            using (var releaser = await GetAsyncLock(key).LockAsync())
+            {
+                // Check now that you aquired the lock that the item is still absent.
+                item = GetFromCache<T>(key, out shouldReturnNull);
+                if (shouldReturnNull)
+                    return null;
+
+                if (item != null)
+                    return item;
+
+                // If the item was not found in the cache,
+                // get it using the callback function. 
+                item = await getItemCallback();
+
+                Insert(key, item, slidingExpirationFunc, defaultSlidingExpiration);
+            }
+
+            return item;
+        }
+
+        private async Task<T> GenericGetWithoutLockAsync<T>(
+            string key, Func<Task<T>> getItemCallback,
+            Func<T, TimeSpan> slidingExpirationFunc,
+            TimeSpan? defaultSlidingExpiration) where T : class
+        {
+            bool shouldReturnNull;
+            T item = GetFromCache<T>(key, out shouldReturnNull);
+            if (shouldReturnNull)
+                return null;
+
+            if (item != null)
+                return item;
+
+            // If the item was not found in the cache,
+            // get it using the callback function. 
+            item = await getItemCallback();
+
+            Insert(key, item, slidingExpirationFunc, defaultSlidingExpiration);
+            
             return item;
         }
 

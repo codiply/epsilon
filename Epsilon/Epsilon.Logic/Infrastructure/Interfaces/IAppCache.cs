@@ -23,7 +23,16 @@ namespace Epsilon.Logic.Infrastructure.Interfaces
             Func<T, TimeSpan> slidingExpirationFunc, 
             TimeSpan defaultSlidingExpiration,
             WithLock lockOption) where T : class;
-        
+
+        Task<T> GetAsync<T>(string key, Func<Task<T>> getItemCallback, WithLock lockOption) where T : class;
+
+        Task<T> GetAsync<T>(
+            string key,
+            Func<Task<T>> getItemCallback,
+            Func<T, TimeSpan> slidingExpirationFunc,
+            TimeSpan defaultSlidingExpiration,
+            WithLock lockOption) where T : class;
+
         void Remove(string key);
 
         IEnumerable<string> AllKeys();

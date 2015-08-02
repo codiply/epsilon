@@ -22,9 +22,9 @@ namespace Epsilon.Web.Controllers.ApiControllers
         }
 
         [HttpGet]
-        public TokenBalanceResponse Balance()
+        public async Task<TokenBalanceResponse> Balance()
         {
-            return _userTokenService.GetBalance(GetUserId());
+            return await _userTokenService.GetBalance(GetUserId());
         }
     }
 }

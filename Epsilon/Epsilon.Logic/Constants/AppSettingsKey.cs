@@ -14,7 +14,8 @@ namespace Epsilon.Logic.Constants
         public const string DefaultAppCacheSlidingExpiration = "Epsilon.DefaultAppCacheSlidingExpiration";
         public const string DefaultLanguageId = "Epsilon.DefaultLanguageId";
         public const string DisableAppCache = "Epsilon.DisableAppCache";
-        public const string DisableLockingInAppCache = "Epsilon.DisableLockingInAppCache";
+        public const string DisableAsynchronousLockingInAppCache = "Epsilon.DisableAsynchronousLockingInAppCache";
+        public const string DisableSynchronousLockingInAppCache = "Epsilon.DisableSynchronousLockingInAppCache";
         public const string DisableHttps = "Epsilon.DisableHttps";
         public const string DisableRegistrationEmailConfirmation = "Epsilon.DisableRegistrationEmailConfirmation";
         public const string EnableDevHelperController = "Epsilon.EnableDevHelperController";

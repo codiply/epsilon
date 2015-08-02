@@ -13,7 +13,7 @@ namespace Epsilon.Logic.Services.Interfaces
     {
         Task CreateAccount(string userId);
 
-        TokenBalanceResponse GetBalance(string userId);
+        Task<TokenBalanceResponse> GetBalance(string userId);
 
         Task<TokenAccountTransactionStatus> Credit(string userId, Decimal amount);
 

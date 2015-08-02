@@ -34,13 +34,13 @@ namespace Epsilon.Logic.Services
             await _tokenAccountService.CreateAccount(userId);
         }
 
-        public TokenBalanceResponse GetBalance(string userId)
+        public async Task<TokenBalanceResponse> GetBalance(string userId)
         {
-            var balance = (decimal)_appCache.Get(AppCacheKey.UserTokenBalance(userId), () =>
+            var balance = await _appCache.GetAsync(AppCacheKey.UserTokenBalance(userId), async () =>
              {
-                 return (object)Task.Run(() => _tokenAccountService.GetBalance(userId)).Result;
+                 return (object) await _tokenAccountService.GetBalance(userId);
              }, WithLock.No);
-            return new TokenBalanceResponse { balance = balance };
+            return new TokenBalanceResponse { balance = (decimal)balance };
         }
 
         public async Task<TokenAccountTransactionStatus> Credit(string userId, Decimal amount)

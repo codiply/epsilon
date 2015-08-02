@@ -107,9 +107,9 @@ namespace Epsilon.Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult Tokens()
+        public async Task<ActionResult> Tokens()
         {
-            var balance = _userTokenService.GetBalance(GetUserId());
+            var balance = await _userTokenService.GetBalance(GetUserId());
 
             return View(balance);
         }

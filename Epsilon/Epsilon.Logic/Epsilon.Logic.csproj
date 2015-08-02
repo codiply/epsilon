@@ -170,6 +170,8 @@
     <Compile Include="Infrastructure\EnumMemoizer.cs" />
     <Compile Include="Infrastructure\Extensions\HttpContextBaseExtensions.cs" />
     <Compile Include="Infrastructure\Interfaces\IAppCache.cs" />
+    <Compile Include="Infrastructure\Primitives\AsyncLock.cs" />
+    <Compile Include="Infrastructure\Primitives\AsyncSemaphore.cs" />
     <Compile Include="Infrastructure\Primitives\Frequency.cs" />
     <Compile Include="JsonModels\AddressGeometryRequest.cs" />
     <Compile Include="JsonModels\AddressGeometryResponse.cs" />
