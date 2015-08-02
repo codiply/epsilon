@@ -22,6 +22,8 @@ namespace Epsilon.Web.Controllers
 { 
     public class SubmissionController : BaseMvcController
     {
+        public const string MY_SUBMISSIONS_SUMMARY_ACTION = "MySubmissionSSummary";
+
         private readonly ICountryService _countryService;
         private readonly IAddressService _addressService;
         private readonly ITenancyDetailsSubmissionService _tenancyDetailsSubmissionService;
@@ -129,24 +131,27 @@ namespace Epsilon.Web.Controllers
                 AppConstant.AUTHENTICATED_USER_HOME_CONTROLLER);
         }
 
-        [HttpGet]
-        public async Task<ActionResult> EnterVerificationCode(Guid id)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> EnterVerificationCode(Guid submissionUniqueId, bool returnToSummary)
         {
-            var submissionBelongsToUser = await _tenancyDetailsSubmissionService.SubmissionBelongsToUser(GetUserId(), id);
+            var submissionBelongsToUser = await _tenancyDetailsSubmissionService.SubmissionBelongsToUser(GetUserId(), submissionUniqueId);
             if (!submissionBelongsToUser)
             {
                 Danger(CommonResources.GenericInvalidRequestMessage, true);
-                return RedirectToAction(
-                            AppConstant.AUTHENTICATED_USER_HOME_ACTION,
-                            AppConstant.AUTHENTICATED_USER_HOME_CONTROLLER);
+                return RedirectHome(returnToSummary);
             }
-            var model = new VerificationCodeForm { TenancyDetailsSubmissionUniqueId = id };
+            var model = new VerificationCodeForm
+            {
+                TenancyDetailsSubmissionUniqueId = submissionUniqueId,
+                ReturnToSummary = returnToSummary
+            };
             return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> EnterVerificationCode(VerificationCodeForm form)
+        public async Task<ActionResult> EnterVerificationCodeSubmit(VerificationCodeForm form)
         {
             if (ModelState.IsValid)
             {
@@ -160,39 +165,38 @@ namespace Epsilon.Web.Controllers
                     }
                     else
                     {
-                        return RedirectToAction(
-                            AppConstant.AUTHENTICATED_USER_HOME_ACTION,
-                            AppConstant.AUTHENTICATED_USER_HOME_CONTROLLER);
+                        return RedirectHome(form.ReturnToSummary);
                     }
                 }
 
                 Success(SubmissionResources.EnterVerificationCode_SuccessMessage, true);
-                return RedirectToAction(
-                            AppConstant.AUTHENTICATED_USER_HOME_ACTION,
-                            AppConstant.AUTHENTICATED_USER_HOME_CONTROLLER);
+                return RedirectHome(form.ReturnToSummary);
             }
 
             return View("EnterVerificationCode", form);
         }
 
-        [HttpGet]
-        public async Task<ActionResult> SubmitTenancyDetails(Guid id)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> SubmitTenancyDetails(Guid submissionUniqueId, bool returnToSummary)
         {
-            var submissionBelongsToUser = await _tenancyDetailsSubmissionService.SubmissionBelongsToUser(GetUserId(), id);
+            var submissionBelongsToUser = await _tenancyDetailsSubmissionService.SubmissionBelongsToUser(GetUserId(), submissionUniqueId);
             if (!submissionBelongsToUser)
             {
                 Danger(CommonResources.GenericInvalidRequestMessage, true);
-                return RedirectToAction(
-                            AppConstant.AUTHENTICATED_USER_HOME_ACTION,
-                            AppConstant.AUTHENTICATED_USER_HOME_CONTROLLER);
+                return RedirectHome(returnToSummary);
             }
-            var model = new TenancyDetailsForm { TenancyDetailsSubmissionUniqueId = id };
+            var model = new TenancyDetailsForm
+            {
+                TenancyDetailsSubmissionUniqueId = submissionUniqueId,
+                ReturnToSummary = returnToSummary
+            };
             return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> SubmitTenancyDetails(TenancyDetailsForm form)
+        public async Task<ActionResult> SubmitTenancyDetailsSave(TenancyDetailsForm form)
         {
             if (ModelState.IsValid)
             {
@@ -206,39 +210,38 @@ namespace Epsilon.Web.Controllers
                     }
                     else
                     {
-                        return RedirectToAction(
-                            AppConstant.AUTHENTICATED_USER_HOME_ACTION,
-                            AppConstant.AUTHENTICATED_USER_HOME_CONTROLLER);
+                        return RedirectHome(form.ReturnToSummary);
                     }
                 }
 
                 // TODO_PANOS: add a Success message here.
-                return RedirectToAction(
-                    AppConstant.AUTHENTICATED_USER_HOME_ACTION,
-                    AppConstant.AUTHENTICATED_USER_HOME_CONTROLLER);
+                return RedirectHome(form.ReturnToSummary);
             }
 
             return View("SubmitTenancyDetails", form);
         }
 
-        [HttpGet]
-        public async Task<ActionResult> SubmitMoveOutDetails(Guid id)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> SubmitMoveOutDetails(Guid submissionUniqueId, bool returnToSummary)
         {
-            var submissionBelongsToUser = await _tenancyDetailsSubmissionService.SubmissionBelongsToUser(GetUserId(), id);
+            var submissionBelongsToUser = await _tenancyDetailsSubmissionService.SubmissionBelongsToUser(GetUserId(), submissionUniqueId);
             if (!submissionBelongsToUser)
             {
                 Danger(CommonResources.GenericInvalidRequestMessage, true);
-                return RedirectToAction(
-                            AppConstant.AUTHENTICATED_USER_HOME_ACTION,
-                            AppConstant.AUTHENTICATED_USER_HOME_CONTROLLER);
+                return RedirectHome(returnToSummary);
             }
-            var model = new MoveOutDetailsForm { TenancyDetailsSubmissionUniqueId = id };
+            var model = new MoveOutDetailsForm
+            {
+                TenancyDetailsSubmissionUniqueId = submissionUniqueId,
+                ReturnToSummary = returnToSummary
+            };
             return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> SubmitMoveOutDetails(MoveOutDetailsForm form)
+        public async Task<ActionResult> SubmitMoveOutDetailsSave(MoveOutDetailsForm form)
         {
             if (ModelState.IsValid)
             {
@@ -252,16 +255,12 @@ namespace Epsilon.Web.Controllers
                     }
                     else
                     {
-                        return RedirectToAction(
-                            AppConstant.AUTHENTICATED_USER_HOME_ACTION,
-                            AppConstant.AUTHENTICATED_USER_HOME_CONTROLLER);
+                        return RedirectHome(form.ReturnToSummary);
                     }
                 }
 
                 // TODO_PANOS: add a Success message here.
-                return RedirectToAction(
-                    AppConstant.AUTHENTICATED_USER_HOME_ACTION,
-                    AppConstant.AUTHENTICATED_USER_HOME_CONTROLLER);
+                return RedirectHome(form.ReturnToSummary);
             }
 
             return View("SubmitMoveOutDetails", form);
@@ -271,6 +270,18 @@ namespace Epsilon.Web.Controllers
         public ActionResult MySubmissionsSummary()
         {
             return View();
+        }
+
+        private ActionResult RedirectHome(bool returnToSummary)
+        {
+            if (returnToSummary)
+            {
+                return RedirectToAction(MY_SUBMISSIONS_SUMMARY_ACTION);
+            }
+
+            return RedirectToAction(
+                AppConstant.AUTHENTICATED_USER_HOME_ACTION,
+                AppConstant.AUTHENTICATED_USER_HOME_CONTROLLER);
         }
     }
 }

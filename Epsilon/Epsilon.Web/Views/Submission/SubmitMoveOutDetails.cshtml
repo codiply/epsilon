@@ -9,7 +9,7 @@
     @Scripts.Render("~/bundles/jqueryval")
 }
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("SubmitMoveOutDetailsSave", "Submission"))
 {
     @Html.AntiForgeryToken()
 
@@ -19,6 +19,7 @@
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
         @Html.HiddenFor(model => model.TenancyDetailsSubmissionUniqueId)
+        @Html.HiddenFor(model => model.ReturnToSummary)
 
         <div class="form-group">
             @Html.LabelFor(model => model.MoveOutDate, htmlAttributes: new { @class = "control-label col-md-2" })

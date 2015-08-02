@@ -10,5 +10,6 @@ namespace Epsilon.Logic.Forms.Submission
     {
         public Guid TenancyDetailsSubmissionUniqueId { get; set; }
         public string VerificationCode { get; set; }
+        public bool ReturnToSummary { get; set; }
     }
 }

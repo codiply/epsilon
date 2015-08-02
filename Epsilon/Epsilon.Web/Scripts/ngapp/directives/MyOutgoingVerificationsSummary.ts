@@ -1,6 +1,7 @@
 ﻿module Epsilon.NgApp.Directives {
     export interface MyOutgoingVerificationsSummaryScope extends ng.IScope {
         limitItemsReturned: string;
+        isSummaryPage: string;
         response: T4TS.MyOutgoingVerificationsSummaryResponse;
     }
 
@@ -12,7 +13,8 @@
             return {
                 restrict: 'E',
                 scope: {
-                    limitItemsReturned: "@"
+                    limitItemsReturned: "@",
+                    isSummaryPage: "@"
                 },
                 templateUrl: DIRECTIVE_TEMPLATE_FOLDER_URL + 'MyOutgoingVerificationsSummary',
                 link: (scope: MyOutgoingVerificationsSummaryScope, element: ng.IAugmentedJQuery, attributes: ng.IAttributes) => {

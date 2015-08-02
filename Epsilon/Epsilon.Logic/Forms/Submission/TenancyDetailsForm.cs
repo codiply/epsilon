@@ -10,9 +10,11 @@ namespace Epsilon.Logic.Forms.Submission
     {
         public Guid TenancyDetailsSubmissionUniqueId { get; set; }
 
-        public virtual Decimal Rent { get; set; }
-        public virtual int? NumberOfBedrooms { get; set; }
-        public virtual bool? IsPartOfProperty { get; set; }
-        public virtual DateTime? MoveInDate { get; set; }
+        public Decimal Rent { get; set; }
+        public int? NumberOfBedrooms { get; set; }
+        public bool? IsPartOfProperty { get; set; }
+        public DateTime? MoveInDate { get; set; }
+
+        public bool ReturnToSummary { get; set; }
     }
 }

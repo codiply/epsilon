@@ -14,7 +14,7 @@ namespace Epsilon.Web.Controllers
 {
     public class OutgoingVerificationController : BaseMvcController
     {
-        public const string MY_OUTGOING_VERIFICATION_SUMMARY = "MyOutgoingVerificationsSummary";
+        public const string MY_OUTGOING_VERIFICATIONS_SUMMARY = "MyOutgoingVerificationsSummary";
 
         private readonly IOutgoingVerificationService _outgoingVerificationService;
 
@@ -50,18 +50,17 @@ namespace Epsilon.Web.Controllers
             }
         }
 
-        public async Task<ActionResult> Instructions(Guid id)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Instructions(Guid verificationUniqueId, bool returnToSummary)
         {
-            var verificationUniqueId = id;
-            var tenantVerifications = 
+            var tenantVerifications =
                 await _outgoingVerificationService.GetVerificationForUser(GetUserId(), verificationUniqueId);
 
             if (tenantVerifications == null)
             {
                 Danger(CommonResources.GenericInvalidRequestMessage, true);
-                return RedirectToAction(
-                    AppConstant.AUTHENTICATED_USER_HOME_ACTION,
-                    AppConstant.AUTHENTICATED_USER_HOME_CONTROLLER);
+                return RedirectHome(returnToSummary);
             }
 
             var model = OutgoingVerificationInstructionsViewModel.FromEntity(tenantVerifications);
@@ -70,16 +69,14 @@ namespace Epsilon.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> MarkAsSent(Guid verificationUniqueId)
+        public async Task<ActionResult> MarkAsSent(Guid verificationUniqueId, bool returnToSummary)
         {
             var outcome = await _outgoingVerificationService.MarkAsSent(GetUserId(), verificationUniqueId);
             if (outcome.IsRejected)
             {
                 Danger(outcome.RejectionReason, true);
             }
-            return RedirectToAction(
-                AppConstant.AUTHENTICATED_USER_HOME_ACTION,
-                AppConstant.AUTHENTICATED_USER_HOME_CONTROLLER);
+            return RedirectHome(returnToSummary);
         }
 
         public ActionResult MyOutgoingVerificationsSummary()
@@ -91,14 +88,12 @@ namespace Epsilon.Web.Controllers
         {
             if (returnToSummary)
             {
-                return RedirectToAction(MY_OUTGOING_VERIFICATION_SUMMARY);
+                return RedirectToAction(MY_OUTGOING_VERIFICATIONS_SUMMARY);
             }
-            else
-            {
-                return RedirectToAction(
-                    AppConstant.AUTHENTICATED_USER_HOME_ACTION,
-                    AppConstant.AUTHENTICATED_USER_HOME_CONTROLLER);
-            }
+
+            return RedirectToAction(
+                AppConstant.AUTHENTICATED_USER_HOME_ACTION,
+                AppConstant.AUTHENTICATED_USER_HOME_CONTROLLER);
         }
     }
 }

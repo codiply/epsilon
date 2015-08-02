@@ -33,6 +33,7 @@
                         @Html.AntiForgeryToken()
 
                         <input type="hidden" name="verificationUniqueId" value="{{ver.uniqueId}}"/>
+                        <input type="hidden" name="returnToSummary" value="{{isSummaryPage}}" />
                         <button class="btn btn-default" type="submit"
                                 title="@OutgoingVerificationResources.MyOutgoingVerificationsSummary_ActionMarkAsSent_ButtonHoverText"
                                 onclick="return confirm('@OutgoingVerificationResources.MyOutgoingVerificationsSummary_ActionMarkAsSent_ButtonConfirmationText')">

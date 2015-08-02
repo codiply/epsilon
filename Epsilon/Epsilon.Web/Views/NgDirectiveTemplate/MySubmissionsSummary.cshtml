@@ -32,24 +32,45 @@
                 </td>
                 <td>{{subm.displayAddress}}</td>
                 <td>
-                    <a class="btn btn-default" data-click-once
-                       data-ng-if="subm.canEnterVerificationCode"
-                       title="@SubmissionResources.MySubmissionsSummary_ActionEnterVerificationCode_ButtonHoverText"
-                       ng-href="@Url.Action("EnterVerificationCode","Submission")/{{subm.uniqueId}}">
-                        @SubmissionResources.MySubmissionsSummary_ActionEnterVerificationCode_ButtonText
-                    </a>
-                    <a class="btn btn-default" data-click-once
-                       data-ng-if="subm.canSubmitTenancyDetails"
-                       title="@SubmissionResources.MySubmissionsSummary_ActionSubmitTenancyDetails_ButtonHoverText"
-                       ng-href="@Url.Action("SubmitTenancyDetails","Submission")/{{subm.uniqueId}}">
-                        @SubmissionResources.MySubmissionsSummary_ActionSubmitTenancyDetails_ButtonText
-                    </a>
-                    <a class="btn btn-default" data-click-once
-                       data-ng-if="subm.canSubmitMoveOutDetails"
-                       title="@SubmissionResources.MySubmissionsSummary_ActionSubmitMoveOutDetails_ButtonHoverText"
-                       ng-href="@Url.Action("SubmitMoveOutDetails","Submission")/{{subm.uniqueId}}">
-                        @SubmissionResources.MySubmissionsSummary_ActionSubmitMoveOutDetails_ButtonText
-                    </a>
+                    <span data-ng-if="subm.canEnterVerificationCode">
+                        @using (Html.BeginForm("EnterVerificationCode", "Submission"))
+                        {
+                            @Html.AntiForgeryToken()
+
+                            <input type="hidden" name="submissionUniqueId" value="{{subm.uniqueId}}" />
+                            <input type="hidden" name="returnToSummary" value="{{isSummaryPage}}" />
+                            <button class="btn btn-default" type="submit" data-click-once
+                                    title="@SubmissionResources.MySubmissionsSummary_ActionEnterVerificationCode_ButtonHoverText">
+                                @SubmissionResources.MySubmissionsSummary_ActionEnterVerificationCode_ButtonText
+                            </button>
+                        }
+                    </span>
+                    <span data-ng-if="subm.canSubmitTenancyDetails">
+                        @using (Html.BeginForm("SubmitTenancyDetails", "Submission"))
+                        {
+                            @Html.AntiForgeryToken()
+
+                            <input type="hidden" name="submissionUniqueId" value="{{subm.uniqueId}}" />
+                            <input type="hidden" name="returnToSummary" value="{{isSummaryPage}}" />
+                            <button class="btn btn-default" type="submit" data-click-once
+                                    title="@SubmissionResources.MySubmissionsSummary_ActionSubmitTenancyDetails_ButtonHoverText">
+                                @SubmissionResources.MySubmissionsSummary_ActionSubmitTenancyDetails_ButtonText
+                            </button>
+                        }
+                    </span>
+                    <span data-ng-if="subm.canSubmitMoveOutDetails">
+                        @using (Html.BeginForm("SubmitMoveOutDetails", "Submission"))
+                        {
+                            @Html.AntiForgeryToken()
+
+                            <input type="hidden" name="submissionUniqueId" value="{{subm.uniqueId}}" />
+                            <input type="hidden" name="returnToSummary" value="{{isSummaryPage}}" />
+                            <button class="btn btn-default" type="submit" data-click-once
+                                    title="@SubmissionResources.MySubmissionsSummary_ActionSubmitMoveOutDetails_ButtonHoverText">
+                                @SubmissionResources.MySubmissionsSummary_ActionSubmitMoveOutDetails_ButtonText
+                            </button>
+                        }
+                    </span>
                 </td>
             </tr>
         </tbody>
