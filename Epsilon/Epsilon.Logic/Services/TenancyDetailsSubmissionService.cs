@@ -57,9 +57,12 @@ namespace Epsilon.Logic.Services
         public async Task<MySubmissionsSummaryResponse> GetUserSubmissionsSummaryWithCaching(
             string userId, bool limitItemsReturned)
         {
+            // TODO_PANOS_TEST: unit test
             return await _appCache.GetAsync(
                 AppCacheKey.GetUserSubmissionsSummary(userId, limitItemsReturned),
-                () => GetUserSubmissionsSummary(userId, limitItemsReturned), WithLock.No);
+                () => GetUserSubmissionsSummary(userId, limitItemsReturned), 
+                _tenancyDetailsSubmissionServiceConfig.TenancyDetailsSubmission_MySubmissionsSummary_CachingPeriod,
+                WithLock.No);
         }
 
         public async Task<MySubmissionsSummaryResponse> GetUserSubmissionsSummary(string userId, bool limitItemsReturned)

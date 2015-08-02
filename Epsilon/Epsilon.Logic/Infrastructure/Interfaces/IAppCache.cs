@@ -18,6 +18,12 @@ namespace Epsilon.Logic.Infrastructure.Interfaces
         T Get<T>(string key, Func<T> getItemCallback, WithLock lockOption) where T : class;
 
         T Get<T>(
+            string key,
+            Func<T> getItemCallback,
+            TimeSpan slidingExpiration,
+            WithLock lockOption) where T : class;
+
+        T Get<T>(
             string key, 
             Func<T> getItemCallback, 
             Func<T, TimeSpan> slidingExpirationFunc, 
@@ -25,6 +31,12 @@ namespace Epsilon.Logic.Infrastructure.Interfaces
             WithLock lockOption) where T : class;
 
         Task<T> GetAsync<T>(string key, Func<Task<T>> getItemCallback, WithLock lockOption) where T : class;
+
+        Task<T> GetAsync<T>(
+            string key,
+            Func<Task<T>> getItemCallback,
+            TimeSpan slidingExpiration,
+            WithLock lockOption) where T : class;
 
         Task<T> GetAsync<T>(
             string key,

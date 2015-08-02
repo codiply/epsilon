@@ -32,6 +32,17 @@ namespace Epsilon.Logic.Configuration
             }
         }
 
+        public TimeSpan OutgoingVerification_MyOutgoingVerificationsSummary_CachingPeriod
+        {
+            get
+            {
+                var periodInMinutes = _dbAppSettingsHelper.GetDouble(
+                    DbAppSettingKey.OutgoingVerification_MyOutgoingVerificationsSummary_CachingPeriodInMinutes,
+                    _dbAppSettingDefaultValue.OutgoingVerification_MyOutgoingVerificationsSummary_CachingPeriodInMinutes);
+                return TimeSpan.FromMinutes(periodInMinutes);
+            }
+        }
+
         public int MyOutgoingVerificationsSummary_ItemsLimit
         {
             get

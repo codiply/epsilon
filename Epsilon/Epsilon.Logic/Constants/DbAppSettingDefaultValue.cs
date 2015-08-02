@@ -33,12 +33,14 @@ namespace Epsilon.Logic.Constants
         public double GeocodeService_OverQueryLimitDelayBetweenRetriesInSeconds { get { return 1.0; } }
         public int GeocodeService_OverQueryLimitMaxRetries { get { return 3; } }
 
+        public double OutgoingVerification_MyOutgoingVerificationsSummary_CachingPeriodInMinutes { get { return 15.0; } }
         public int OutgoingVerification_MyOutgoingVerificationsSummary_ItemsLimit { get { return 10; } }
         public int OutgoingVerification_VerificationsPerTenancyDetailsSubmission { get { return 2; } }
 
         public int SearchAddressResultsLimit { get { return 30; } }
 
         public Frequency TenancyDetailsSubmission_Create_MaxFrequencyPerAddress { get { return new Frequency(1, TimeSpan.FromDays(30)); } }
+        public double TenancyDetailsSubmission_MySubmissionsSummary_CachingPeriodInMinutes { get { return 15.0; } }
         public int TenancyDetailsSubmission_MySubmissionsSummary_ItemsLimit { get { return 10; } }
     }
 }

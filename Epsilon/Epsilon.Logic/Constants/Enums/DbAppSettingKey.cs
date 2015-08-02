@@ -43,11 +43,13 @@ namespace Epsilon.Logic.Constants.Enums
         GlobalSwitch_DisableCreateTenancyDetailsSubmission,
         GlobalSwitch_DisablePickOutgoingVerification,
         GlobalSwitch_DisableRegister,
+        OutgoingVerification_MyOutgoingVerificationsSummary_CachingPeriodInMinutes,
         OutgoingVerification_MyOutgoingVerificationsSummary_ItemsLimit,
         OutgoingVerification_VerificationsPerTenancyDetailsSubmission,
         SearchAddressResultsLimit,
         TenancyDetailsSubmission_Create_DisableFrequencyPerAddressCheck,
         TenancyDetailsSubmission_Create_MaxFrequencyPerAddress,
-        TenancyDetailsSubmission_MySubmissionsSummary_ItemsLimit,
+        TenancyDetailsSubmission_MySubmissionsSummary_CachingPeriodInMinutes,
+        TenancyDetailsSubmission_MySubmissionsSummary_ItemsLimit
     }
 }

@@ -119,6 +119,9 @@ VALUES
 (N'anti-abuse-user', N'AntiAbuse_AddAddress_MaxGeocodeFailureFrequencyPerUser'),
 (N'anti-abuse-user', N'AntiAbuse_CreateTenancyDetailsSubmission_DisableUserFrequencyCheck'),
 (N'anti-abuse-user', N'AntiAbuse_CreateTenancyDetailsSubmission_MaxFrequencyPerUser'),
+-- caching-period
+(N'caching-period', N'OutgoingVerification_MyOutgoingVerificationsSummary_CachingPeriodInMinutes'),
+(N'caching-period', N'TenancyDetailsSubmission_MySubmissionsSummary_CachingPeriodInMinutes'),
 -- debug
 (N'debug', N'EnableResponseTiming'),
 -- delay-between-retries
@@ -164,6 +167,7 @@ VALUES
 (N'max-frequency', N'AntiAbuse_Register_MaxFrequencyPerIpAddress'),
 (N'max-frequency', N'TenancyDetailsSubmission_Create_MaxFrequencyPerAddress'),
 -- outgoing-verification
+(N'outgoing-verification', N'OutgoingVerification_MyOutgoingVerificationsSummary_CachingPeriodInMinutes'),
 (N'outgoing-verification', N'OutgoingVerification_MyOutgoingVerificationsSummary_ItemsLimit'),
 (N'outgoing-verification', N'OutgoingVerification_VerificationsPerTenancyDetailsSubmission'),
 -- results-limit
@@ -192,6 +196,7 @@ VALUES
 -- tenancy-details-submission
 (N'tenancy-details-submission', N'TenancyDetailsSubmission_Create_DisableFrequencyPerAddressCheck'),
 (N'tenancy-details-submission', N'TenancyDetailsSubmission_Create_MaxFrequencyPerAddress'),
+(N'tenancy-details-submission', N'TenancyDetailsSubmission_MySubmissionsSummary_CachingPeriodInMinutes'),
 (N'tenancy-details-submission', N'TenancyDetailsSubmission_MySubmissionsSummary_ItemsLimit');
 GO
 

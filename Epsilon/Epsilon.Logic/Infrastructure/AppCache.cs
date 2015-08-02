@@ -41,6 +41,15 @@ namespace Epsilon.Logic.Infrastructure
         }
 
         public T Get<T>(
+            string key,
+            Func<T> getItemCallback,
+            TimeSpan slidingExpiration,
+            WithLock lockOption) where T : class
+        {
+            return GenericGet(key, getItemCallback, ignored => slidingExpiration, slidingExpiration, lockOption);
+        }
+
+        public T Get<T>(
             string key, 
             Func<T> getItemCallback, 
             Func<T, TimeSpan> slidingExpirationFunc,
@@ -54,6 +63,15 @@ namespace Epsilon.Logic.Infrastructure
             string key, Func<Task<T>> getItemCallback, WithLock lockOption) where T : class
         {
             return await GenericGetAsync(key, getItemCallback, null, null, lockOption);
+        }
+
+        public async Task<T> GetAsync<T>(
+            string key,
+            Func<Task<T>> getItemCallback,
+            TimeSpan slidingExpiration,
+            WithLock lockOption) where T : class
+        {
+            return await GenericGetAsync(key, getItemCallback, ignored => slidingExpiration, slidingExpiration, lockOption);
         }
 
         public async Task<T> GetAsync<T>(

@@ -54,6 +54,17 @@ namespace Epsilon.Logic.Configuration
             }
         }
 
+        public TimeSpan TenancyDetailsSubmission_MySubmissionsSummary_CachingPeriod 
+        { 
+            get
+            {
+                var periodInMinutes = _dbAppSettingsHelper.GetDouble(
+                    DbAppSettingKey.TenancyDetailsSubmission_MySubmissionsSummary_CachingPeriodInMinutes,
+                    _dbAppSettingDefaultValue.TenancyDetailsSubmission_MySubmissionsSummary_CachingPeriodInMinutes);
+                return TimeSpan.FromMinutes(periodInMinutes);
+            } 
+        }
+
         public int MySubmissionsSummary_ItemsLimit
         {
             get

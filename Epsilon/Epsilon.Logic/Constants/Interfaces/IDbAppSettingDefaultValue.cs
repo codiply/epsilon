@@ -32,12 +32,14 @@ namespace Epsilon.Logic.Constants.Interfaces
         double GeocodeService_OverQueryLimitDelayBetweenRetriesInSeconds { get; }
         int GeocodeService_OverQueryLimitMaxRetries { get; }
 
+        double OutgoingVerification_MyOutgoingVerificationsSummary_CachingPeriodInMinutes { get; }
         int OutgoingVerification_MyOutgoingVerificationsSummary_ItemsLimit { get; }
         int OutgoingVerification_VerificationsPerTenancyDetailsSubmission { get; }
 
         int SearchAddressResultsLimit { get; }
 
         Frequency TenancyDetailsSubmission_Create_MaxFrequencyPerAddress { get; }
+        double TenancyDetailsSubmission_MySubmissionsSummary_CachingPeriodInMinutes { get; }
         int TenancyDetailsSubmission_MySubmissionsSummary_ItemsLimit { get; }
     }
 }

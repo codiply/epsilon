@@ -70,9 +70,12 @@ namespace Epsilon.Logic.Services
         public async Task<MyOutgoingVerificationsSummaryResponse> GetUserOutgoingVerificationsSummaryWithCaching(
             string userId, bool limitItemsReturned)
         {
+            // TODO_PANOS_TEST: unit test
             return await _appCache.GetAsync(
                 AppCacheKey.GetUserOutgoingVerificationsSummary(userId, limitItemsReturned), 
-                () => GetUserOutgoingVerificationsSummary(userId, limitItemsReturned), WithLock.No);
+                () => GetUserOutgoingVerificationsSummary(userId, limitItemsReturned), 
+                _outgoingVerificationServiceConfig.OutgoingVerification_MyOutgoingVerificationsSummary_CachingPeriod,
+                WithLock.No);
         }
 
         public async Task<MyOutgoingVerificationsSummaryResponse> GetUserOutgoingVerificationsSummary(
