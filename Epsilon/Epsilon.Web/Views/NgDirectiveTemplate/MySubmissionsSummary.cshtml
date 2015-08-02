@@ -32,15 +32,24 @@
                 </td>
                 <td>{{subm.displayAddress}}</td>
                 <td>
-                    <a class="btn btn-default" 
+                    <a class="btn btn-default" data-click-once
                        data-ng-if="subm.canEnterVerificationCode"
-                       ng-href="@Url.Action("EnterVerificationCode","Submission")/{{subm.uniqueId}}">Enter Code</a>
-                    <a class="btn btn-default"
+                       title="@SubmissionResources.MySubmissionsSummary_ActionEnterVerificationCode_ButtonHoverText"
+                       ng-href="@Url.Action("EnterVerificationCode","Submission")/{{subm.uniqueId}}">
+                        @SubmissionResources.MySubmissionsSummary_ActionEnterVerificationCode_ButtonText
+                    </a>
+                    <a class="btn btn-default" data-click-once
                        data-ng-if="subm.canSubmitTenancyDetails"
-                       ng-href="@Url.Action("SubmitTenancyDetails","Submission")/{{subm.uniqueId}}">Submit Details</a>
-                    <a class="btn btn-default"
+                       title="@SubmissionResources.MySubmissionsSummary_ActionSubmitTenancyDetails_ButtonHoverText"
+                       ng-href="@Url.Action("SubmitTenancyDetails","Submission")/{{subm.uniqueId}}">
+                        @SubmissionResources.MySubmissionsSummary_ActionSubmitTenancyDetails_ButtonText
+                    </a>
+                    <a class="btn btn-default" data-click-once
                        data-ng-if="subm.canSubmitMoveOutDetails"
-                       ng-href="@Url.Action("SubmitMoveOutDetails","Submission")/{{subm.uniqueId}}">Moved Out Date</a>
+                       title="@SubmissionResources.MySubmissionsSummary_ActionSubmitMoveOutDetails_ButtonHoverText"
+                       ng-href="@Url.Action("SubmitMoveOutDetails","Submission")/{{subm.uniqueId}}">
+                        @SubmissionResources.MySubmissionsSummary_ActionSubmitMoveOutDetails_ButtonText
+                    </a>
                 </td>
             </tr>
         </tbody>

@@ -20,7 +20,7 @@
             <p>
                 @UserHomeResources.SectionCreateSubmission_Text
             </p>
-            <p><a class="btn btn-default" href="@Url.Action("SearchAddress", "Submission")">@UserHomeResources.SectionCreateSubmission_Button &raquo;</a></p>
+            <p><a class="btn btn-default" href="@Url.Action("SearchAddress", "Submission")">@UserHomeResources.SectionCreateSubmission_ButtonText &raquo;</a></p>
         </div>
         <div>
             <h3>@UserHomeResources.SectionPickOutgoingVerification_Header</h3>
@@ -31,7 +31,7 @@
                     @Html.AntiForgeryToken()
                     <input type="hidden" name="verificationUniqueId" value="@Guid.NewGuid()" />
                     <input type="hidden" name="returnToSummary" value="false" />
-                    <input type="submit" value="@UserHomeResources.SectionPickOutgoingVerification_Button &raquo"
+                    <input type="submit" value="@UserHomeResources.SectionPickOutgoingVerification_ButtonText &raquo"
                            data-click-once
                            class="btn btn-default" />
                 }
@@ -40,7 +40,7 @@
         <div>
             <h3>@UserHomeResources.SectionExploreProperties_Header</h3>
             <p>@UserHomeResources.SectionExploreProperties_Text</p>
-            <p><a class="btn btn-default" href="#">@UserHomeResources.SectionExploreProperties_Button &raquo;</a></p>
+            <p><a class="btn btn-default" href="#">@UserHomeResources.SectionExploreProperties_ButtonText &raquo;</a></p>
         </div>
     </div>
 </div>

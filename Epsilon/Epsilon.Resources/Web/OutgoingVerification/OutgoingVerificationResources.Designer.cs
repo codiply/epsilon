@@ -61,6 +61,33 @@ namespace Epsilon.Resources.Web.OutgoingVerification {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Mark outgoing verification as sent?.
+        /// </summary>
+        public static string MyOutgoingVerificationsSummary_ActionMarkAsSent_ButtonConfirmationText {
+            get {
+                return ResourceManager.GetString("MyOutgoingVerificationsSummary_ActionMarkAsSent_ButtonConfirmationText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Marks the outgoing verification as sent..
+        /// </summary>
+        public static string MyOutgoingVerificationsSummary_ActionMarkAsSent_ButtonHoverText {
+            get {
+                return ResourceManager.GetString("MyOutgoingVerificationsSummary_ActionMarkAsSent_ButtonHoverText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mark Sent.
+        /// </summary>
+        public static string MyOutgoingVerificationsSummary_ActionMarkAsSent_ButtonText {
+            get {
+                return ResourceManager.GetString("MyOutgoingVerificationsSummary_ActionMarkAsSent_ButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Actions.
         /// </summary>
         public static string MyOutgoingVerificationsSummary_ActionsColumnHeader {

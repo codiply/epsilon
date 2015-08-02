@@ -120,7 +120,7 @@
   <data name="Index_PageTitle" xml:space="preserve">
     <value>User Home Page</value>
   </data>
-  <data name="SectionCreateSubmission_Button" xml:space="preserve">
+  <data name="SectionCreateSubmission_ButtonText" xml:space="preserve">
     <value>Start</value>
   </data>
   <data name="SectionCreateSubmission_Header" xml:space="preserve">
@@ -129,7 +129,7 @@
   <data name="SectionCreateSubmission_Text" xml:space="preserve">
     <value>Start by providing your address details.</value>
   </data>
-  <data name="SectionExploreProperties_Button" xml:space="preserve">
+  <data name="SectionExploreProperties_ButtonText" xml:space="preserve">
     <value>Explore</value>
   </data>
   <data name="SectionExploreProperties_Header" xml:space="preserve">
@@ -138,7 +138,7 @@
   <data name="SectionExploreProperties_Text" xml:space="preserve">
     <value>Explore properties.</value>
   </data>
-  <data name="SectionPickOutgoingVerification_Button" xml:space="preserve">
+  <data name="SectionPickOutgoingVerification_ButtonText" xml:space="preserve">
     <value>Help</value>
   </data>
   <data name="SectionPickOutgoingVerification_Header" xml:space="preserve">

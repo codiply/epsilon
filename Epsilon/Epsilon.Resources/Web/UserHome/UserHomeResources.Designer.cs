@@ -72,9 +72,9 @@ namespace Epsilon.Resources.Web.UserHome {
         /// <summary>
         ///   Looks up a localized string similar to Start.
         /// </summary>
-        public static string SectionCreateSubmission_Button {
+        public static string SectionCreateSubmission_ButtonText {
             get {
-                return ResourceManager.GetString("SectionCreateSubmission_Button", resourceCulture);
+                return ResourceManager.GetString("SectionCreateSubmission_ButtonText", resourceCulture);
             }
         }
         
@@ -99,9 +99,9 @@ namespace Epsilon.Resources.Web.UserHome {
         /// <summary>
         ///   Looks up a localized string similar to Explore.
         /// </summary>
-        public static string SectionExploreProperties_Button {
+        public static string SectionExploreProperties_ButtonText {
             get {
-                return ResourceManager.GetString("SectionExploreProperties_Button", resourceCulture);
+                return ResourceManager.GetString("SectionExploreProperties_ButtonText", resourceCulture);
             }
         }
         
@@ -126,9 +126,9 @@ namespace Epsilon.Resources.Web.UserHome {
         /// <summary>
         ///   Looks up a localized string similar to Help.
         /// </summary>
-        public static string SectionPickOutgoingVerification_Button {
+        public static string SectionPickOutgoingVerification_ButtonText {
             get {
-                return ResourceManager.GetString("SectionPickOutgoingVerification_Button", resourceCulture);
+                return ResourceManager.GetString("SectionPickOutgoingVerification_ButtonText", resourceCulture);
             }
         }
         

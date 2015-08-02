@@ -115,11 +115,65 @@ namespace Epsilon.Resources.Web.Submission {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Enter verification code received by post..
+        /// </summary>
+        public static string MySubmissionsSummary_ActionEnterVerificationCode_ButtonHoverText {
+            get {
+                return ResourceManager.GetString("MySubmissionsSummary_ActionEnterVerificationCode_ButtonHoverText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter Code.
+        /// </summary>
+        public static string MySubmissionsSummary_ActionEnterVerificationCode_ButtonText {
+            get {
+                return ResourceManager.GetString("MySubmissionsSummary_ActionEnterVerificationCode_ButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Actions.
         /// </summary>
         public static string MySubmissionsSummary_ActionsColumnHeader {
             get {
                 return ResourceManager.GetString("MySubmissionsSummary_ActionsColumnHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Submit the move out date for this tenancy..
+        /// </summary>
+        public static string MySubmissionsSummary_ActionSubmitMoveOutDetails_ButtonHoverText {
+            get {
+                return ResourceManager.GetString("MySubmissionsSummary_ActionSubmitMoveOutDetails_ButtonHoverText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Moved Out.
+        /// </summary>
+        public static string MySubmissionsSummary_ActionSubmitMoveOutDetails_ButtonText {
+            get {
+                return ResourceManager.GetString("MySubmissionsSummary_ActionSubmitMoveOutDetails_ButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Submit rent and other details for this tenancy..
+        /// </summary>
+        public static string MySubmissionsSummary_ActionSubmitTenancyDetails_ButtonHoverText {
+            get {
+                return ResourceManager.GetString("MySubmissionsSummary_ActionSubmitTenancyDetails_ButtonHoverText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Submit Details.
+        /// </summary>
+        public static string MySubmissionsSummary_ActionSubmitTenancyDetails_ButtonText {
+            get {
+                return ResourceManager.GetString("MySubmissionsSummary_ActionSubmitTenancyDetails_ButtonText", resourceCulture);
             }
         }
         

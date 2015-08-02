@@ -216,4 +216,22 @@
   <data name="EnterVerificationCode_SuccessMessage" xml:space="preserve">
     <value>The code has been accepted.</value>
   </data>
+  <data name="MySubmissionsSummary_ActionEnterVerificationCode_ButtonHoverText" xml:space="preserve">
+    <value>Enter verification code received by post.</value>
+  </data>
+  <data name="MySubmissionsSummary_ActionEnterVerificationCode_ButtonText" xml:space="preserve">
+    <value>Enter Code</value>
+  </data>
+  <data name="MySubmissionsSummary_ActionSubmitMoveOutDetails_ButtonHoverText" xml:space="preserve">
+    <value>Submit the move out date for this tenancy.</value>
+  </data>
+  <data name="MySubmissionsSummary_ActionSubmitMoveOutDetails_ButtonText" xml:space="preserve">
+    <value>Moved Out</value>
+  </data>
+  <data name="MySubmissionsSummary_ActionSubmitTenancyDetails_ButtonHoverText" xml:space="preserve">
+    <value>Submit rent and other details for this tenancy.</value>
+  </data>
+  <data name="MySubmissionsSummary_ActionSubmitTenancyDetails_ButtonText" xml:space="preserve">
+    <value>Submit Details</value>
+  </data>
 </root>

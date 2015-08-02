@@ -33,7 +33,11 @@
                         @Html.AntiForgeryToken()
 
                         <input type="hidden" name="verificationUniqueId" value="{{ver.uniqueId}}"/>
-                        <button class="btn btn-default" type="submit">Mark as sent</button>
+                        <button class="btn btn-default" type="submit"
+                                title="@OutgoingVerificationResources.MyOutgoingVerificationsSummary_ActionMarkAsSent_ButtonHoverText"
+                                onclick="return confirm('@OutgoingVerificationResources.MyOutgoingVerificationsSummary_ActionMarkAsSent_ButtonConfirmationText')">
+                            @OutgoingVerificationResources.MyOutgoingVerificationsSummary_ActionMarkAsSent_ButtonText
+                        </button>
                     }
                     </span>
                 </td>
@@ -44,7 +48,3 @@
         @Html.ActionLink(OutgoingVerificationResources.MyOutgoingVerificationsSummary_ViewAllLinkText, "MyOutgoingVerificationsSummary", "OutgoingVerification")
     </p>
 </div>
-
-<!--
-        canMarkAsSent
--->
