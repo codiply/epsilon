@@ -17,13 +17,6 @@
             @Html.AntiForgeryToken()
 
             <div class="form-group">
-                <label class="control-label col-md-3" for="amount">Amount</label>
-                <div class="col-md-9">
-                    <input type="text" class="form-control" name="amount" />
-                </div>
-            </div>
-
-            <div class="form-group">
                 <label class="control-label col-md-3" for="TokenRewardType">Token Reward Type</label>
                 <div class="col-md-9">
                     @Html.DropDownList("TokenRewardKey", ViewBag.TokenRewardKey as IEnumerable<SelectListItem>, new { @class = "form-control"})

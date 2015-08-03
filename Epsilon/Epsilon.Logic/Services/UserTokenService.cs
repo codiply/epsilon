@@ -18,15 +18,18 @@ namespace Epsilon.Logic.Services
         private readonly IAppCache _appCache;
         private readonly IEpsilonContext _dbContext;
         private readonly ITokenAccountService _tokenAccountService;
+        private readonly ITokenRewardService _tokenRewardService;
 
         public UserTokenService(
             IAppCache appCache,
             IEpsilonContext dbContext,
-            ITokenAccountService tokenAccountService)
+            ITokenAccountService tokenAccountService,
+            ITokenRewardService tokenRewardService)
         {
             _appCache = appCache;
             _dbContext = dbContext;
             _tokenAccountService = tokenAccountService;
+            _tokenRewardService = tokenRewardService;
         }
 
         public async Task CreateAccount(string userId)
@@ -44,25 +47,38 @@ namespace Epsilon.Logic.Services
         }
 
         public async Task<TokenAccountTransactionStatus> MakeTransaction(
-            string userId, decimal amount, TokenRewardKey tokenRewardKey, Guid? internalReference, 
+            string userId, TokenRewardKey tokenRewardKey, Guid? internalReference,
             string externalReference = null, int quantity = 1)
         {
+            // TODO_PANOS_TEST
+            if (quantity < 1)
+                return TokenAccountTransactionStatus.WrongQuantity;
+
+            var reward = _tokenRewardService.GetCurrentReward(tokenRewardKey);
+            var totalAmount = quantity * reward.Value;
+
+            return await MakeTransaction(userId, totalAmount, tokenRewardKey, internalReference, externalReference, quantity);
+        }
+
+        private async Task<TokenAccountTransactionStatus> MakeTransaction(
+            string userId, decimal totalAmount, TokenRewardKey tokenRewardKey, Guid? internalReference, 
+            string externalReference = null, int quantity = 1)
+        {
+            // TODO_PANOS_TEST
             switch (tokenRewardKey.AmountSign())
             {
-                // TODO_PANOS_TEST
                 case TokenRewardKeyAmountSign.Positive:
-                    if (amount < 0.0M)
+                    if (totalAmount < 0.0M)
                         return TokenAccountTransactionStatus.WrongAmount;
                     break;
-                // TODO_PANOS_TEST
                 case TokenRewardKeyAmountSign.Negative:
-                    if (amount > 0.0M)
+                    if (totalAmount > 0.0M)
                         return TokenAccountTransactionStatus.WrongAmount;
                     break;
             }
 
             var transactionStatus = await _tokenAccountService
-                .MakeTransaction(userId, amount, tokenRewardKey, internalReference, externalReference, quantity);
+                .MakeTransaction(userId, totalAmount, tokenRewardKey, internalReference, externalReference, quantity);
             if (transactionStatus == TokenAccountTransactionStatus.Success)
                 _appCache.Remove(AppCacheKey.UserTokenBalance(userId));
             return transactionStatus;

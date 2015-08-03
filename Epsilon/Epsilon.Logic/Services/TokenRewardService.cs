@@ -41,6 +41,7 @@ namespace Epsilon.Logic.Services
             return _appCache.Get(AppCacheKey.CURRENT_TOKEN_REWARD_SCHEME, 
                 () => {
                     var currentScheme = _dbContext.TokenRewardSchemes
+                        .Include(x => x.Rewards)
                         .OrderByDescending(x => x.EffectiveFrom)
                         .First(x => x.EffectiveFrom < now);
                     return currentScheme;

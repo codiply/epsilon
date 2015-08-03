@@ -121,14 +121,13 @@ namespace Epsilon.Web.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> TokensTransaction(
-            Decimal amount,
             string tokenRewardKey,
             int quantity)
         {
             var tokenRewardKeyEnum = EnumsHelper.TokenRewardKey.Parse(tokenRewardKey);
             if (tokenRewardKeyEnum.HasValue)
             {
-                var status = await _userTokenService.MakeTransaction(GetUserId(), amount, tokenRewardKeyEnum.Value, quantity: quantity);
+                var status = await _userTokenService.MakeTransaction(GetUserId(), tokenRewardKeyEnum.Value, quantity: quantity);
             }
 
             return RedirectToAction("Tokens");
