@@ -26,7 +26,7 @@
             <h3>@UserHomeResources.SectionPickOutgoingVerification_Header</h3>
             <p>@UserHomeResources.SectionPickOutgoingVerification_Text</p>
             <p>
-                @using (Html.BeginForm("Pick","OutgoingVerification"))
+                @using (Html.BeginForm("Pick", "OutgoingVerification"))
                 {
                     @Html.AntiForgeryToken()
                     <input type="hidden" name="verificationUniqueId" value="@Guid.NewGuid()" />

@@ -150,4 +150,7 @@
   <data name="GenericInvalidActionMessage" xml:space="preserve">
     <value>Sorry, this action is not valid.</value>
   </data>
+  <data name="BackLinkText" xml:space="preserve">
+    <value>Back</value>
+  </data>
 </root>

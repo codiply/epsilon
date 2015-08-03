@@ -117,4 +117,19 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="SubmitTenancyDetailsForm_FieldRent_DisplayName" xml:space="preserve">
+    <value>Ενοίκιο</value>
+  </data>
+  <data name="SubmitTenancyDetailsForm_FieldRent_RangeErrorMessage" xml:space="preserve">
+    <value>Το πεδίο Ενοίκιο πρέπει να έχει θετική τιμή.</value>
+  </data>
+  <data name="SubmitTenancyDetailsForm_FieldRent_RequiredErrorMessage" xml:space="preserve">
+    <value>Το πεδίο Ενοίκιο είναι υποχρεωτικό.</value>
+  </data>
+  <data name="VerificationCodeForm_FieldVerificationCode_DisplayName" xml:space="preserve">
+    <value>Μυστικός Κωδικός</value>
+  </data>
+  <data name="VerificationCodeForm_FieldVerificationCode_RequiredErrorMessage" xml:space="preserve">
+    <value>Το πεδίο Μυστικός Κωδικός είναι υποχρεωτικό.</value>
+  </data>
 </root>

@@ -61,6 +61,15 @@ namespace Epsilon.Resources.Common {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Back.
+        /// </summary>
+        public static string BackLinkText {
+            get {
+                return ResourceManager.GetString("BackLinkText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Access to the requested content has been disallowed..
         /// </summary>
         public static string ContentAccessDisallowedMessage {

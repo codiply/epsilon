@@ -133,6 +133,24 @@ namespace Epsilon.Resources.Web.Submission {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Move-Out Date.
+        /// </summary>
+        public static string MoveOutDetailsForm_FieldMoveOutDate_DisplayName {
+            get {
+                return ResourceManager.GetString("MoveOutDetailsForm_FieldMoveOutDate_DisplayName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Move-Out Date field is required..
+        /// </summary>
+        public static string MoveOutDetailsForm_FieldMoveOutDate_RequiredErrorMessage {
+            get {
+                return ResourceManager.GetString("MoveOutDetailsForm_FieldMoveOutDate_RequiredErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Enter verification code received by post..
         /// </summary>
         public static string MySubmissionsSummary_ActionEnterVerificationCode_ButtonHoverText {
@@ -160,7 +178,7 @@ namespace Epsilon.Resources.Web.Submission {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Submit the move out date for this tenancy..
+        ///   Looks up a localized string similar to Submit the move-out date for this tenancy..
         /// </summary>
         public static string MySubmissionsSummary_ActionSubmitMoveOutDetails_ButtonHoverText {
             get {
@@ -385,7 +403,7 @@ namespace Epsilon.Resources.Web.Submission {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Submit Move Out Details.
+        ///   Looks up a localized string similar to Submit Move-Out Details.
         /// </summary>
         public static string SubmitMoveOutDetails_PageHeader {
             get {
@@ -394,7 +412,7 @@ namespace Epsilon.Resources.Web.Submission {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Submit Move Out Details.
+        ///   Looks up a localized string similar to Submit Move-Out Details.
         /// </summary>
         public static string SubmitMoveOutDetails_PageTitle {
             get {
@@ -448,6 +466,96 @@ namespace Epsilon.Resources.Web.Submission {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Renting Part of the Property?.
+        /// </summary>
+        public static string SubmitTenancyDetailsForm_FieldIsPartOfProperty_DisplayName {
+            get {
+                return ResourceManager.GetString("SubmitTenancyDetailsForm_FieldIsPartOfProperty_DisplayName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Renting Part of the Property field is Required..
+        /// </summary>
+        public static string SubmitTenancyDetailsForm_FieldIsPartOfProperty_RequiredErrorMessage {
+            get {
+                return ResourceManager.GetString("SubmitTenancyDetailsForm_FieldIsPartOfProperty_RequiredErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Move-In Date.
+        /// </summary>
+        public static string SubmitTenancyDetailsForm_FieldMoveInDate_DisplayName {
+            get {
+                return ResourceManager.GetString("SubmitTenancyDetailsForm_FieldMoveInDate_DisplayName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Move-In Date field is required..
+        /// </summary>
+        public static string SubmitTenancyDetailsForm_FieldMoveInDate_RequiredErrorMessage {
+            get {
+                return ResourceManager.GetString("SubmitTenancyDetailsForm_FieldMoveInDate_RequiredErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Total Number of Bedrooms.
+        /// </summary>
+        public static string SubmitTenancyDetailsForm_FieldNumberOfBedrooms_DisplayName {
+            get {
+                return ResourceManager.GetString("SubmitTenancyDetailsForm_FieldNumberOfBedrooms_DisplayName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Total Number of Bedrooms fields must be between 0 and 20..
+        /// </summary>
+        public static string SubmitTenancyDetailsForm_FieldNumberOfBedrooms_RangeErrorMessage {
+            get {
+                return ResourceManager.GetString("SubmitTenancyDetailsForm_FieldNumberOfBedrooms_RangeErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Total Number of Bedrooms field is required..
+        /// </summary>
+        public static string SubmitTenancyDetailsForm_FieldNumberOfBedrooms_RequiredErrorMessage {
+            get {
+                return ResourceManager.GetString("SubmitTenancyDetailsForm_FieldNumberOfBedrooms_RequiredErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rent.
+        /// </summary>
+        public static string SubmitTenancyDetailsForm_FieldRent_DisplayName {
+            get {
+                return ResourceManager.GetString("SubmitTenancyDetailsForm_FieldRent_DisplayName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Rent field must be positive..
+        /// </summary>
+        public static string SubmitTenancyDetailsForm_FieldRent_RangeErrorMessage {
+            get {
+                return ResourceManager.GetString("SubmitTenancyDetailsForm_FieldRent_RangeErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Rent field is required..
+        /// </summary>
+        public static string SubmitTenancyDetailsForm_FieldRent_RequiredErrorMessage {
+            get {
+                return ResourceManager.GetString("SubmitTenancyDetailsForm_FieldRent_RequiredErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to I confirm this is my address..
         /// </summary>
         public static string UseAddress_ConfirmationText {
@@ -489,6 +597,24 @@ namespace Epsilon.Resources.Web.Submission {
         public static string UseAddressConfirmed_AddressNotFoundMessage {
             get {
                 return ResourceManager.GetString("UseAddressConfirmed_AddressNotFoundMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Verification Code.
+        /// </summary>
+        public static string VerificationCodeForm_FieldVerificationCode_DisplayName {
+            get {
+                return ResourceManager.GetString("VerificationCodeForm_FieldVerificationCode_DisplayName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Verification Code field is required..
+        /// </summary>
+        public static string VerificationCodeForm_FieldVerificationCode_RequiredErrorMessage {
+            get {
+                return ResourceManager.GetString("VerificationCodeForm_FieldVerificationCode_RequiredErrorMessage", resourceCulture);
             }
         }
     }
