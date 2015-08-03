@@ -7,6 +7,13 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+
+    @Scripts.Render("~/bundles/bootstrap-datepicker")
+    <script type="text/javascript">
+        $(function () {
+            $('.datepicker').datepicker();
+        });
+    </script>
 }
 
 @using (Html.BeginForm("SubmitMoveOutDetailsSave", "Submission"))
@@ -24,7 +31,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.MoveOutDate, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.MoveOutDate, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.MoveOutDate, new { htmlAttributes = new { @class = "form-control datepicker" } })
                 @Html.ValidationMessageFor(model => model.MoveOutDate, "", new { @class = "text-danger" })
             </div>
         </div>

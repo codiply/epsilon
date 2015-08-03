@@ -10,6 +10,7 @@ namespace Epsilon.Web
         {
             bundles.Add(new StyleBundle("~/Content/css").Include(
                         "~/Content/bootstrap.css",
+                        "~/Content/bootstrap-datepicker/bootstrap-datepicker.css",
                         "~/Content/site.css"));
 
             bundles.Add(new StyleBundle("~/Content/prettify").Include(
@@ -29,6 +30,9 @@ namespace Epsilon.Web
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/lib/bootstrap/bootstrap.js",
                       "~/Scripts/lib/respond/respond.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/bootstrap-datepicker").Include(
+                        "~/Scripts/lib/bootstrap-datepicker/bootstrap-datepicker.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/angularjs").Include(
                         "~/Scripts/lib/angularjs/angular.js"));
