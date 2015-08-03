@@ -70,11 +70,29 @@ namespace Epsilon.Resources.CountryVariants {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The Street and Number field must be a string with a maximum length of {0}..
+        /// </summary>
+        public static string Address_Line1_MaxLengthValidationMessage {
+            get {
+                return ResourceManager.GetString("Address_Line1_MaxLengthValidationMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
         public static string Address_Line2 {
             get {
                 return ResourceManager.GetString("Address_Line2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string Address_Line2_MaxLengthValidationMessage {
+            get {
+                return ResourceManager.GetString("Address_Line2_MaxLengthValidationMessage", resourceCulture);
             }
         }
         
@@ -90,9 +108,27 @@ namespace Epsilon.Resources.CountryVariants {
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
+        public static string Address_Line3_MaxLengthValidationMessage {
+            get {
+                return ResourceManager.GetString("Address_Line3_MaxLengthValidationMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
         public static string Address_Line4 {
             get {
                 return ResourceManager.GetString("Address_Line4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string Address_Line4_MaxLengthValidationMessage {
+            get {
+                return ResourceManager.GetString("Address_Line4_MaxLengthValidationMessage", resourceCulture);
             }
         }
         
@@ -106,6 +142,15 @@ namespace Epsilon.Resources.CountryVariants {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The Town/City field must be a string with a maximum length of {0}..
+        /// </summary>
+        public static string Address_Locality_MaxLengthValidationMessage {
+            get {
+                return ResourceManager.GetString("Address_Locality_MaxLengthValidationMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Postal Code.
         /// </summary>
         public static string Address_Postcode {
@@ -115,11 +160,29 @@ namespace Epsilon.Resources.CountryVariants {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The Postal Code field must be a string with a maximum length of {0}..
+        /// </summary>
+        public static string Address_Postcode_MaxLengthValidationMessage {
+            get {
+                return ResourceManager.GetString("Address_Postcode_MaxLengthValidationMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Prefecture.
         /// </summary>
         public static string Address_Region {
             get {
                 return ResourceManager.GetString("Address_Region", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Prefecture field must be a string with a maximum length of {0}..
+        /// </summary>
+        public static string Address_Region_MaxLengthValidationMessage {
+            get {
+                return ResourceManager.GetString("Address_Region_MaxLengthValidationMessage", resourceCulture);
             }
         }
         

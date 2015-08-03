@@ -6,6 +6,7 @@
 @using Epsilon.Logic.Helpers.Interfaces
 @using Epsilon.Logic.Constants.Interfaces
 @using Epsilon.Logic.Helpers
+@using Epsilon.Logic.SqlContext.Mapping
 
 @{
     ViewBag.Title = SubmissionResources.AddAddress_PageTitle;
@@ -30,7 +31,14 @@
                     CountryVariantResourceName.Address_Line4,
                     CountryVariantResourceName.Address_Locality,
                     CountryVariantResourceName.Address_Region,
-                    CountryVariantResourceName.Address_Postcode
+                    CountryVariantResourceName.Address_Postcode,
+                    CountryVariantResourceName.Address_Line1_MaxLengthValidationMessage,
+                    CountryVariantResourceName.Address_Line2_MaxLengthValidationMessage,
+                    CountryVariantResourceName.Address_Line3_MaxLengthValidationMessage,
+                    CountryVariantResourceName.Address_Line4_MaxLengthValidationMessage,
+                    CountryVariantResourceName.Address_Locality_MaxLengthValidationMessage,
+                    CountryVariantResourceName.Address_Region_MaxLengthValidationMessage,
+                    CountryVariantResourceName.Address_Postcode_MaxLengthValidationMessage
         });
 }
 
@@ -47,10 +55,18 @@
         @if (fieldMetadata.Line1.IsUsed)
         {
             var label = @countryVariantResources[EnumsHelper.CountryVariantResourceName.ToString(CountryVariantResourceName.Address_Line1)];
+            var nameAndId = "Line1";
+            var maxLength = AddressMap.LINE_MAX_LENGTH;
+            var maxLengthValidationMessage = @countryVariantResources[EnumsHelper
+                .CountryVariantResourceName.ToString(CountryVariantResourceName.Address_Line1_MaxLengthValidationMessage)];
         <div class="form-group">
-            <label class="control-label col-md-3" for="Line1">@label</label>
+            <label class="control-label col-md-3" for="@nameAndId">@label</label>
             <div class="col-md-9">
-                @Html.EditorFor(model => model.Line1, new { htmlAttributes = new { @class = "form-control" } })
+                <input class="form-control text-box single-line"
+                       id="@nameAndId" name="@nameAndId" type="text" value=""
+                       data-val="true"
+                       data-val-maxlength="@string.Format(maxLengthValidationMessage, maxLength)"
+                       data-val-maxlength-max="@maxLength" />
                 @Html.ValidationMessageFor(model => model.Line1, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -59,10 +75,18 @@
         @if (fieldMetadata.Line2.IsUsed)
         {
             var label = @countryVariantResources[EnumsHelper.CountryVariantResourceName.ToString(CountryVariantResourceName.Address_Line2)];
+            var nameAndId = "Line2";
+            var maxLength = AddressMap.LINE_MAX_LENGTH;
+            var maxLengthValidationMessage = @countryVariantResources[EnumsHelper
+                .CountryVariantResourceName.ToString(CountryVariantResourceName.Address_Line2_MaxLengthValidationMessage)];
         <div class="form-group">
-            <label class="control-label col-md-3" for="Line2">@label</label>
+            <label class="control-label col-md-3" for="@nameAndId">@label</label>
             <div class="col-md-9">
-                @Html.EditorFor(model => model.Line2, new { htmlAttributes = new { @class = "form-control" } })
+                <input class="form-control text-box single-line"
+                       id="@nameAndId" name="@nameAndId" type="text" value=""
+                       data-val="true"
+                       data-val-maxlength="@string.Format(maxLengthValidationMessage, maxLength)"
+                       data-val-maxlength-max="@maxLength" />
                 @Html.ValidationMessageFor(model => model.Line2, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -71,10 +95,18 @@
         @if (fieldMetadata.Line3.IsUsed)
         {
             var label = @countryVariantResources[EnumsHelper.CountryVariantResourceName.ToString(CountryVariantResourceName.Address_Line3)];
+            var nameAndId = "Line3";
+            var maxLength = AddressMap.LINE_MAX_LENGTH;
+            var maxLengthValidationMessage = @countryVariantResources[EnumsHelper
+                .CountryVariantResourceName.ToString(CountryVariantResourceName.Address_Line3_MaxLengthValidationMessage)];
         <div class="form-group">
-            <label class="control-label col-md-3" for="Line3">@label</label>
+            <label class="control-label col-md-3" for="@nameAndId">@label</label>
             <div class="col-md-9">
-                @Html.EditorFor(model => model.Line3, new { htmlAttributes = new { @class = "form-control" } })
+                <input class="form-control text-box single-line"
+                       id="@nameAndId" name="@nameAndId" type="text" value=""
+                       data-val="true"
+                       data-val-maxlength="@string.Format(maxLengthValidationMessage, maxLength)"
+                       data-val-maxlength-max="@maxLength" />
                 @Html.ValidationMessageFor(model => model.Line3, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -84,10 +116,18 @@
         @if (fieldMetadata.Line4.IsUsed)
         {
             var label = @countryVariantResources[EnumsHelper.CountryVariantResourceName.ToString(CountryVariantResourceName.Address_Line4)];
+            var nameAndId = "Line4";
+            var maxLength = AddressMap.LINE_MAX_LENGTH;
+            var maxLengthValidationMessage = @countryVariantResources[EnumsHelper
+                .CountryVariantResourceName.ToString(CountryVariantResourceName.Address_Line4_MaxLengthValidationMessage)];
         <div class="form-group">
-            <label class="control-label col-md-3" for="Line4">@label</label>
+            <label class="control-label col-md-3" for="@nameAndId">@label</label>
             <div class="col-md-9">
-                @Html.EditorFor(model => model.Line4, new { htmlAttributes = new { @class = "form-control" } })
+                <input class="form-control text-box single-line"
+                       id="@nameAndId" name="@nameAndId" type="text" value=""
+                       data-val="true"
+                       data-val-maxlength="@string.Format(maxLengthValidationMessage, maxLength)"
+                       data-val-maxlength-max="@maxLength" />
                 @Html.ValidationMessageFor(model => model.Line4, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -96,10 +136,18 @@
         @if (fieldMetadata.Locality.IsUsed)
         {
             var label = @countryVariantResources[EnumsHelper.CountryVariantResourceName.ToString(CountryVariantResourceName.Address_Locality)];
+            var nameAndId = "Locality";
+            var maxLength = AddressMap.LOCALITY_MAX_LENGTH;
+            var maxLengthValidationMessage = @countryVariantResources[EnumsHelper
+                .CountryVariantResourceName.ToString(CountryVariantResourceName.Address_Locality_MaxLengthValidationMessage)];
         <div class="form-group">
-            <label class="control-label col-md-3" for="Locality">@label</label>
+            <label class="control-label col-md-3" for="@nameAndId">@label</label>
             <div class="col-md-9">
-                @Html.EditorFor(model => model.Locality, new { htmlAttributes = new { @class = "form-control" } })
+                <input class="form-control text-box single-line"
+                       id="@nameAndId" name="@nameAndId" type="text" value=""
+                       data-val="true"
+                       data-val-maxlength="@string.Format(maxLengthValidationMessage, maxLength)"
+                       data-val-maxlength-max="@maxLength" />
                 @Html.ValidationMessageFor(model => model.Locality, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -108,10 +156,18 @@
         @if (fieldMetadata.Region.IsUsed)
         {
             var label = @countryVariantResources[EnumsHelper.CountryVariantResourceName.ToString(CountryVariantResourceName.Address_Region)];
+            var nameAndId = "Region";
+            var maxLength = AddressMap.REGION_MAX_LENGTH;
+            var maxLengthValidationMessage = @countryVariantResources[EnumsHelper
+                .CountryVariantResourceName.ToString(CountryVariantResourceName.Address_Region_MaxLengthValidationMessage)];
         <div class="form-group">
-            <label class="control-label col-md-3" for="Region">@label</label>
+            <label class="control-label col-md-3" for="@nameAndId">@label</label>
             <div class="col-md-9">
-                @Html.EditorFor(model => model.Region, new { htmlAttributes = new { @class = "form-control" } })
+                <input class="form-control text-box single-line"
+                       id="@nameAndId" name="@nameAndId" type="text" value=""
+                       data-val="true"
+                       data-val-maxlength="@string.Format(maxLengthValidationMessage, maxLength)"
+                       data-val-maxlength-max="@maxLength" />
                 @Html.ValidationMessageFor(model => model.Region, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -120,10 +176,18 @@
         @if (fieldMetadata.Postcode.IsUsed)
         {
             var label = @countryVariantResources[EnumsHelper.CountryVariantResourceName.ToString(CountryVariantResourceName.Address_Postcode)];
+            var nameAndId = "Postcode";
+            var maxLength = AddressMap.POSTCODE_MAX_LENGTH;
+            var maxLengthValidationMessage = @countryVariantResources[EnumsHelper
+                .CountryVariantResourceName.ToString(CountryVariantResourceName.Address_Postcode_MaxLengthValidationMessage)];
         <div class="form-group">
-            <label class="control-label col-md-3" for="Postcode">@label</label>
+            <label class="control-label col-md-3" for="@nameAndId">@label</label>
             <div class="col-md-9">
-                @Html.EditorFor(model => model.Postcode, new { htmlAttributes = new { @class = "form-control" } })
+                <input class="form-control text-box single-line"
+                       id="@nameAndId" name="@nameAndId" type="text" value=""
+                       data-val="true"
+                       data-val-maxlength="@string.Format(maxLengthValidationMessage, maxLength)"
+                       data-val-maxlength-max="@maxLength" />
                 @Html.ValidationMessageFor(model => model.Postcode, "", new { @class = "text-danger" })
             </div>
         </div>
