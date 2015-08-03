@@ -17,6 +17,7 @@ namespace Epsilon.Logic.Entities
         public virtual DateTimeOffset CreatedOn { get; set; }
         public virtual DateTimeOffset? MarkedAsSentOn { get; set; }
         public virtual DateTimeOffset? VerifiedOn { get; set; }
+        public virtual DateTimeOffset? SenderRewardedOn { get; set; }
         public virtual string AssignedToId { get; set; }
         public virtual string AssignedByIpAddress { get; set; }
 

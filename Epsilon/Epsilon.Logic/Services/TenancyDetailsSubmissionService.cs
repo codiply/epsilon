@@ -216,6 +216,10 @@ namespace Epsilon.Logic.Services
                 };
             }
 
+            bool senderRewardedAlready = verification.SenderRewardedOn == null;
+            if (senderRewardedAlready)
+                verification.SenderRewardedOn = _clock.OffsetNow; // TODO_PANOS_TEST
+
             verification.VerifiedOn = _clock.OffsetNow;
             _dbContext.Entry(verification).State = EntityState.Modified;
             await _dbContext.SaveChangesAsync();
@@ -227,8 +231,8 @@ namespace Epsilon.Logic.Services
             });
 
             // TODO_PANOS_TEST: also test the correct internal reference is used.
-            var rewardStatus1 = await _userTokenService.MakeTransaction(userId, TokenRewardKey.EarnPerVerificationCodeEntered, submission.UniqueId);
-            if (rewardStatus1 == TokenAccountTransactionStatus.Success)
+            var recipientRewardStatus = await _userTokenService.MakeTransaction(userId, TokenRewardKey.EarnPerVerificationCodeEntered, submission.UniqueId);
+            if (recipientRewardStatus == TokenAccountTransactionStatus.Success)
             {
                 uiAlerts.Add(new UiAlert
                 {
@@ -241,12 +245,15 @@ namespace Epsilon.Logic.Services
                 // TODO_PANOS: return failure before committing the transaction later on.
             }
 
-            // TODO_PANOS_TEST: also test the correct internal reference is used.
-            var rewardStatus2 = await _userTokenService
-                .MakeTransaction(verification.AssignedToId, TokenRewardKey.EarnPerVerificationMailSent, verification.UniqueId);
-            if (rewardStatus2 != TokenAccountTransactionStatus.Success)
+            if (!senderRewardedAlready)
             {
-                // TODO_PANOS: return failure before committing the transaction later on.
+                // TODO_PANOS_TEST: also test the correct internal reference is used.
+                var senderRewardStatus = await _userTokenService
+                    .MakeTransaction(verification.AssignedToId, TokenRewardKey.EarnPerVerificationMailSent, verification.UniqueId);
+                if (senderRewardStatus != TokenAccountTransactionStatus.Success)
+                {
+                    // TODO_PANOS: return failure before committing the transaction later on.
+                }
             }
 
             // TODO_PANOS: commit the transaction down here

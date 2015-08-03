@@ -22,14 +22,14 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 if (reward.TypeKey.StartsWith(AppConstant.TOKEN_REWARD_KEY_EARN))
                 {
                     Assert.IsTrue(reward.Value >= 0M,
-                        String.Format("TokenReward with SchemeId '{0}' and TypeKey '{1}' should have non-negative value because it starts with 'Earn'.",
-                            reward.SchemeId, reward.TypeKey));
+                        String.Format("TokenReward with SchemeId '{0}' and TypeKey '{1}' should have non-negative value because it starts with '{1}'.",
+                            reward.SchemeId, reward.TypeKey, AppConstant.TOKEN_REWARD_KEY_EARN));
                 }
-                else if (reward.TypeKey.StartsWith(AppConstant.TOKEN_REWARD_KEY_EARN))
+                else if (reward.TypeKey.StartsWith(AppConstant.TOKEN_REWARD_KEY_SPEND))
                 {
                     Assert.IsTrue(reward.Value <= 0M,
-                        String.Format("TokenReward with SchemeId '{0}' and TypeKey '{1}' should have non-positive value because it starts with 'Spend'.",
-                            reward.SchemeId, reward.TypeKey));
+                        String.Format("TokenReward with SchemeId '{0}' and TypeKey '{1}' should have non-positive value because it starts with '{2}'.",
+                            reward.SchemeId, reward.TypeKey, AppConstant.TOKEN_REWARD_KEY_SPEND));
                 } else
                 {
                     Assert.IsTrue(false,

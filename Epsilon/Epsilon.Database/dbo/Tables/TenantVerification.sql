@@ -6,6 +6,7 @@
     [CreatedOn]                  DATETIMEOFFSET (7) NOT NULL,
     [MarkedAsSentOn]             DATETIMEOFFSET (7) NULL,
     [VerifiedOn]                 DATETIMEOFFSET (7) NULL,
+	[SenderRewardedOn]                 DATETIMEOFFSET (7) NULL,
     [AssignedToId]               NVARCHAR (128)     NOT NULL,
     [AssignedByIpAddress]        NVARCHAR (39)      NOT NULL,
     [Timestamp]                  ROWVERSION         NOT NULL,
