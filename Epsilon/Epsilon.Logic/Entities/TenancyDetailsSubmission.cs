@@ -14,7 +14,7 @@ namespace Epsilon.Logic.Entities
         public virtual Guid UniqueId { get; set; }
         public virtual string UserId { get; set; }
         public virtual long AddressId { get; set; }
-        public virtual Decimal? Rent { get; set; }
+        public virtual Decimal? RentPerMonth { get; set; }
         public virtual string CurrencyId { get; set; }
         public virtual int? NumberOfBedrooms { get; set; }
         public virtual bool? IsPartOfProperty { get; set; }
@@ -53,7 +53,7 @@ namespace Epsilon.Logic.Entities
 
         public bool StepTenancyDetailsSubmittedDone()
         {
-            return SubmittedOn.HasValue && Rent.HasValue;
+            return SubmittedOn.HasValue && RentPerMonth.HasValue;
         }
 
         public bool StepMoveOutDetailsSubmittedDone()

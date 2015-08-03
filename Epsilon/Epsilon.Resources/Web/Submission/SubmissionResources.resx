@@ -283,14 +283,14 @@
   <data name="SubmitTenancyDetailsForm_FieldNumberOfBedrooms_RequiredErrorMessage" xml:space="preserve">
     <value>The Total Number of Bedrooms field is required.</value>
   </data>
-  <data name="SubmitTenancyDetailsForm_FieldRent_DisplayName" xml:space="preserve">
-    <value>Rent</value>
+  <data name="SubmitTenancyDetailsForm_FieldRentPerMonth_DisplayName" xml:space="preserve">
+    <value>Monthly Rent</value>
   </data>
-  <data name="SubmitTenancyDetailsForm_FieldRent_RangeErrorMessage" xml:space="preserve">
-    <value>The Rent field must be positive.</value>
+  <data name="SubmitTenancyDetailsForm_FieldRentPerMonth_RangeErrorMessage" xml:space="preserve">
+    <value>The Monthly Rent field must be positive.</value>
   </data>
-  <data name="SubmitTenancyDetailsForm_FieldRent_RequiredErrorMessage" xml:space="preserve">
-    <value>The Rent field is required.</value>
+  <data name="SubmitTenancyDetailsForm_FieldRentPerMonth_RequiredErrorMessage" xml:space="preserve">
+    <value>The Monthly Rent field is required.</value>
   </data>
   <data name="VerificationCodeForm_FieldVerificationCode_DisplayName" xml:space="preserve">
     <value>Verification Code</value>

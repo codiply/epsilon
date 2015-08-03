@@ -23,9 +23,9 @@ namespace Epsilon.Logic.Constants.ResourceNames.Web
         public const string SubmitTenancyDetailsForm_FieldMoveInDate_DisplayName = "SubmitTenancyDetailsForm_FieldMoveInDate_DisplayName";
         public const string SubmitTenancyDetailsForm_FieldMoveInDate_RequiredErrorMessage = "SubmitTenancyDetailsForm_FieldMoveInDate_RequiredErrorMessage";
 
-        public const string SubmitTenancyDetailsForm_FieldRent_DisplayName = "SubmitTenancyDetailsForm_FieldRent_DisplayName";
-        public const string SubmitTenancyDetailsForm_FieldRent_RangeErrorMessage = "SubmitTenancyDetailsForm_FieldRent_RangeErrorMessage";
-        public const string SubmitTenancyDetailsForm_FieldRent_RequiredErrorMessage = "SubmitTenancyDetailsForm_FieldRent_RequiredErrorMessage";
+        public const string SubmitTenancyDetailsForm_FieldRentPerMonth_DisplayName = "SubmitTenancyDetailsForm_FieldRentPerMonth_DisplayName";
+        public const string SubmitTenancyDetailsForm_FieldRentPerMonth_RangeErrorMessage = "SubmitTenancyDetailsForm_FieldRentPerMonth_RangeErrorMessage";
+        public const string SubmitTenancyDetailsForm_FieldRentPerMonth_RequiredErrorMessage = "SubmitTenancyDetailsForm_FieldRentPerMonth_RequiredErrorMessage";
 
         public const string VerificationCodeForm_FieldVerificationCode_DisplayName = "VerificationCodeForm_FieldVerificationCode_DisplayName";
         public const string VerificationCodeForm_FieldVerificationCode_RequiredErrorMessage = "VerificationCodeForm_FieldVerificationCode_RequiredErrorMessage";

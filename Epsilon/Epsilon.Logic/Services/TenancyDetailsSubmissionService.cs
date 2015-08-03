@@ -257,7 +257,7 @@ namespace Epsilon.Logic.Services
                 };
             }
 
-            submission.Rent = form.Rent;
+            submission.RentPerMonth = form.RentPerMonth;
             submission.NumberOfBedrooms = form.NumberOfBedrooms;
             submission.IsPartOfProperty = form.IsPartOfProperty;
             submission.MoveInDate = form.MoveInDate;

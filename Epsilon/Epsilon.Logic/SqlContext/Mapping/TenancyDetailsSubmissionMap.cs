@@ -23,7 +23,7 @@ namespace Epsilon.Logic.SqlContext.Mapping
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             this.Property(x => x.UniqueId)
                 .IsRequired();
-            this.Property(x => x.Rent)
+            this.Property(x => x.RentPerMonth)
                 .IsOptional();
             this.Property(x => x.CreatedOn)
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Computed);

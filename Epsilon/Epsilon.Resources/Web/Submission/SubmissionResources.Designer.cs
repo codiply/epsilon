@@ -529,29 +529,29 @@ namespace Epsilon.Resources.Web.Submission {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Rent.
+        ///   Looks up a localized string similar to Monthly Rent.
         /// </summary>
-        public static string SubmitTenancyDetailsForm_FieldRent_DisplayName {
+        public static string SubmitTenancyDetailsForm_FieldRentPerMonth_DisplayName {
             get {
-                return ResourceManager.GetString("SubmitTenancyDetailsForm_FieldRent_DisplayName", resourceCulture);
+                return ResourceManager.GetString("SubmitTenancyDetailsForm_FieldRentPerMonth_DisplayName", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The Rent field must be positive..
+        ///   Looks up a localized string similar to The Monthly Rent field must be positive..
         /// </summary>
-        public static string SubmitTenancyDetailsForm_FieldRent_RangeErrorMessage {
+        public static string SubmitTenancyDetailsForm_FieldRentPerMonth_RangeErrorMessage {
             get {
-                return ResourceManager.GetString("SubmitTenancyDetailsForm_FieldRent_RangeErrorMessage", resourceCulture);
+                return ResourceManager.GetString("SubmitTenancyDetailsForm_FieldRentPerMonth_RangeErrorMessage", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The Rent field is required..
+        ///   Looks up a localized string similar to The Monthly Rent field is required..
         /// </summary>
-        public static string SubmitTenancyDetailsForm_FieldRent_RequiredErrorMessage {
+        public static string SubmitTenancyDetailsForm_FieldRentPerMonth_RequiredErrorMessage {
             get {
-                return ResourceManager.GetString("SubmitTenancyDetailsForm_FieldRent_RequiredErrorMessage", resourceCulture);
+                return ResourceManager.GetString("SubmitTenancyDetailsForm_FieldRentPerMonth_RequiredErrorMessage", resourceCulture);
             }
         }
         

@@ -1023,7 +1023,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             var retrievedSubmissionAtPoint1 = await RetrieveSubmission(submission.UniqueId);
             Assert.IsNotNull(retrievedSubmissionAtPoint1, "Retrieved submission at point 1 is null.");
-            Assert.IsNull(retrievedSubmissionAtPoint1.Rent, "Field Rent on retrieved submission at point 1 is not the expected.");
+            Assert.IsNull(retrievedSubmissionAtPoint1.RentPerMonth, "Field RentPerMonth on retrieved submission at point 1 is not the expected.");
             Assert.IsNull(retrievedSubmissionAtPoint1.MoveOutDate, "Field MoveOutDate on retrieved submission at point 1 is not the expected.");
 
             // I try all invalid actions
@@ -1052,7 +1052,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             {
                 TenancyDetailsSubmissionUniqueId = submission.UniqueId,
                 IsPartOfProperty = true,
-                Rent = 100,
+                RentPerMonth = 100,
                 MoveInDate =  clock.OffsetNow.UtcDateTime.AddDays(-10.0),
                 NumberOfBedrooms = 3
 
@@ -1065,7 +1065,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             var retrievedSubmissionAtPoint2 = await RetrieveSubmission(submission.UniqueId);
             Assert.IsNotNull(retrievedSubmissionAtPoint2, "Retrieved submission at point 2 is null.");
-            Assert.IsNull(retrievedSubmissionAtPoint2.Rent, "Field Rent on retrieved submission at point 2 is not the expected.");
+            Assert.IsNull(retrievedSubmissionAtPoint2.RentPerMonth, "Field RentPerMonth on retrieved submission at point 2 is not the expected.");
 
             var submitTenancyDetailsOutcomeForOtherUser = await serviceUnderTest.SubmitTenancyDetails(otherUser.Id, tenancyDetailsForm);
             Assert.IsTrue(submitTenancyDetailsOutcomeForOtherUser.IsRejected,
@@ -1077,7 +1077,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             var retrievedSubmissionAtPoint3 = await RetrieveSubmission(submission.UniqueId);
             Assert.IsNotNull(retrievedSubmissionAtPoint3, "Retrieved submission at point 3 is null.");
-            Assert.IsNull(retrievedSubmissionAtPoint3.Rent, "Field Rent on retrieved submission at point 3 is not the expected.");
+            Assert.IsNull(retrievedSubmissionAtPoint3.RentPerMonth, "Field RentPerMonth on retrieved submission at point 3 is not the expected.");
 
             // SubmitMoveOutDetails
             var moveOutDetailsForm = new MoveOutDetailsForm
@@ -1137,7 +1137,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             var retrievedSubmissionAtPoint1 = await RetrieveSubmission(submission.UniqueId);
             Assert.IsNotNull(retrievedSubmissionAtPoint1, "Retrieved submission at point 1 is null.");
-            Assert.IsNull(retrievedSubmissionAtPoint1.Rent, "Field Rent on retrieved submission at point 1 is not the expected.");
+            Assert.IsNull(retrievedSubmissionAtPoint1.RentPerMonth, "Field RentPerMonth on retrieved submission at point 1 is not the expected.");
             Assert.IsNull(retrievedSubmissionAtPoint1.MoveOutDate, "Field MoveOutDate on retrieved submission at point 1 is not the expected.");
             Assert.IsTrue(retrievedSubmissionAtPoint1.TenantVerifications.All(x => !x.VerifiedOn.HasValue),
                 "At point 1 all verifications should have null VerifiedOn field.");
@@ -1150,7 +1150,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             {
                 TenancyDetailsSubmissionUniqueId = submission.UniqueId,
                 IsPartOfProperty = true,
-                Rent = 100,
+                RentPerMonth = 100,
                 MoveInDate = clock.OffsetNow.UtcDateTime.AddDays(-10.0),
                 NumberOfBedrooms = 3
 
@@ -1163,7 +1163,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             var retrievedSubmissionAtPoint2 = await RetrieveSubmission(submission.UniqueId);
             Assert.IsNotNull(retrievedSubmissionAtPoint2, "Retrieved submission at point 2 is null.");
-            Assert.IsNull(retrievedSubmissionAtPoint2.Rent, "Field Rent on retrieved submission at point 2 is not the expected.");
+            Assert.IsNull(retrievedSubmissionAtPoint2.RentPerMonth, "Field RentPerMonth on retrieved submission at point 2 is not the expected.");
 
             var submitTenancyDetailsOutcomeForOtherUser = await serviceUnderTest.SubmitTenancyDetails(otherUser.Id, tenancyDetailsForm);
             Assert.IsTrue(submitTenancyDetailsOutcomeForOtherUser.IsRejected,
@@ -1175,7 +1175,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             var retrievedSubmissionAtPoint3 = await RetrieveSubmission(submission.UniqueId);
             Assert.IsNotNull(retrievedSubmissionAtPoint3, "Retrieved submission at point 3 is null.");
-            Assert.IsNull(retrievedSubmissionAtPoint3.Rent, "Field Rent on retrieved submission at point 3 is not the expected.");
+            Assert.IsNull(retrievedSubmissionAtPoint3.RentPerMonth, "Field RentPerMonth on retrieved submission at point 3 is not the expected.");
 
             // SubmitMoveOutDetails
             var moveOutDetailsForm = new MoveOutDetailsForm
@@ -1276,7 +1276,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             var retrievedSubmissionAtPoint1 = await RetrieveSubmission(submission.UniqueId);
             Assert.IsNotNull(retrievedSubmissionAtPoint1, "Retrieved submission at point 1 is null.");
-            Assert.IsNull(retrievedSubmissionAtPoint1.Rent, "Field Rent on retrieved submission at point 1 is not the expected.");
+            Assert.IsNull(retrievedSubmissionAtPoint1.RentPerMonth, "Field RentPerMonth on retrieved submission at point 1 is not the expected.");
             Assert.IsNull(retrievedSubmissionAtPoint1.MoveOutDate, "Field MoveOutDate on retrieved submission at point 1 is not the expected.");
             Assert.IsTrue(retrievedSubmissionAtPoint1.TenantVerifications.Any(x => !x.VerifiedOn.HasValue),
                 "At point 1 some verifications should have null VerifiedOn field.");
@@ -1413,7 +1413,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             {
                 TenancyDetailsSubmissionUniqueId = submission.UniqueId,
                 IsPartOfProperty = true,
-                Rent = 100,
+                RentPerMonth = 100,
                 MoveInDate = clock.OffsetNow.UtcDateTime.AddDays(-10.0).Date,
                 NumberOfBedrooms = 3
 
@@ -1430,7 +1430,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             var retrievedSubmissionAtPoint8 = await RetrieveSubmission(submission.UniqueId);
             Assert.IsNotNull(retrievedSubmissionAtPoint8, "Retrieved submission at point 8 is null.");
-            Assert.IsNull(retrievedSubmissionAtPoint8.Rent, "Field Rent on retrieved submission at point 8 is not the expected.");
+            Assert.IsNull(retrievedSubmissionAtPoint8.RentPerMonth, "Field RentPerMonth on retrieved submission at point 8 is not the expected.");
             Assert.IsNull(retrievedSubmissionAtPoint8.SubmittedOn, "Field SubmittedOn on retrieved submission at point 8 is not the expected.");
 
             // I try the right user.
@@ -1446,7 +1446,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.IsNotNull(retrievedSubmissionAtPoint3, "Retrieved submission at point 9 is null.");
             Assert.AreEqual(tenancyDetailsForm.IsPartOfProperty, retrievedSubmissionAtPoint9.IsPartOfProperty, 
                 "Field IsPartOfProperty on retrieved submission at point 9 is not the expected.");
-            Assert.AreEqual(tenancyDetailsForm.Rent, retrievedSubmissionAtPoint9.Rent,
+            Assert.AreEqual(tenancyDetailsForm.RentPerMonth, retrievedSubmissionAtPoint9.RentPerMonth,
                 "Field Rent on retrieved submission at point 9 is not the expected.");
             Assert.AreEqual(tenancyDetailsForm.MoveInDate, retrievedSubmissionAtPoint9.MoveInDate,
                 "Field MoveInDate on retrieved submission at point 9 is not the expected.");
@@ -1488,7 +1488,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var retrievedSubmissionAtPoint1 = await RetrieveSubmission(submission.UniqueId);
             Assert.IsNotNull(retrievedSubmissionAtPoint1, "Retrieved submission at point 1 is null.");
             Assert.IsNotNull(retrievedSubmissionAtPoint1.SubmittedOn, "Field SubmittedOn on retrieved submission at point 1 is not the expected.");
-            Assert.IsNotNull(retrievedSubmissionAtPoint1.Rent, "Field Rent on retrieved submission at point 1 is not the expected.");
+            Assert.IsNotNull(retrievedSubmissionAtPoint1.RentPerMonth, "Field RentPerMonth on retrieved submission at point 1 is not the expected.");
             Assert.IsNull(retrievedSubmissionAtPoint1.MoveOutDate, "Field MoveOutDate on retrieved submission at point 1 is not the expected.");
             Assert.IsTrue(retrievedSubmissionAtPoint1.TenantVerifications.Any(x => !x.VerifiedOn.HasValue),
                 "At point 1 some verifications should have null VerifiedOn field.");
@@ -1502,7 +1502,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             {
                 TenancyDetailsSubmissionUniqueId = submission.UniqueId,
                 IsPartOfProperty = !submission.IsPartOfProperty.Value,
-                Rent = submission.Rent.Value + 1,
+                RentPerMonth = submission.RentPerMonth.Value + 1,
                 MoveInDate = submission.MoveInDate.Value.AddDays(3.0),
                 NumberOfBedrooms = submission.NumberOfBedrooms.Value + 1
 
@@ -1518,7 +1518,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.IsNotNull(retrievedSubmissionAtPoint2, "Retrieved submission at point 2 is null.");
             Assert.AreEqual(submission.IsPartOfProperty, retrievedSubmissionAtPoint2.IsPartOfProperty, 
                 "Field IsPartOfProperty on retrieved submission at point 2 is not the expected.");
-            Assert.AreEqual(submission.Rent, retrievedSubmissionAtPoint2.Rent, 
+            Assert.AreEqual(submission.RentPerMonth, retrievedSubmissionAtPoint2.RentPerMonth, 
                 "Field Rent on retrieved submission at point 2 is not the expected.");
             Assert.AreEqual(submission.MoveInDate, retrievedSubmissionAtPoint2.MoveInDate, 
                 "Field MoveInDate on retrieved submission at point 2 is not the expected.");
@@ -1690,7 +1690,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var retrievedSubmissionAtPoint1 = await RetrieveSubmission(submission.UniqueId);
             Assert.IsNotNull(retrievedSubmissionAtPoint1, "Retrieved submission at point 1 is null.");
             Assert.IsNotNull(retrievedSubmissionAtPoint1.SubmittedOn, "Field SubmittedOn on retrieved submission at point 1 is not the expected.");
-            Assert.IsNotNull(retrievedSubmissionAtPoint1.Rent, "Field Rent on retrieved submission at point 1 is not the expected.");
+            Assert.IsNotNull(retrievedSubmissionAtPoint1.RentPerMonth, "Field RentPerMonth on retrieved submission at point 1 is not the expected.");
             Assert.IsNotNull(retrievedSubmissionAtPoint1.MoveOutDate, "Field MoveOutDate on retrieved submission at point 1 is not the expected.");
             Assert.IsTrue(retrievedSubmissionAtPoint1.TenantVerifications.Any(x => !x.VerifiedOn.HasValue),
                 "At point 1 some verifications should have null VerifiedOn field.");
@@ -1704,7 +1704,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             {
                 TenancyDetailsSubmissionUniqueId = submission.UniqueId,
                 IsPartOfProperty = !submission.IsPartOfProperty.Value,
-                Rent = submission.Rent.Value + 1,
+                RentPerMonth = submission.RentPerMonth.Value + 1,
                 MoveInDate = submission.MoveInDate.Value.AddDays(3.0),
                 NumberOfBedrooms = submission.NumberOfBedrooms.Value + 1
 
@@ -1720,8 +1720,8 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.IsNotNull(retrievedSubmissionAtPoint2, "Retrieved submission at point 2 is null.");
             Assert.AreEqual(submission.IsPartOfProperty, retrievedSubmissionAtPoint2.IsPartOfProperty,
                 "Field IsPartOfProperty on retrieved submission at point 2 is not the expected.");
-            Assert.AreEqual(submission.Rent, retrievedSubmissionAtPoint2.Rent,
-                "Field Rent on retrieved submission at point 2 is not the expected.");
+            Assert.AreEqual(submission.RentPerMonth, retrievedSubmissionAtPoint2.RentPerMonth,
+                "Field RentPerMonth on retrieved submission at point 2 is not the expected.");
             Assert.AreEqual(submission.MoveInDate, retrievedSubmissionAtPoint2.MoveInDate,
                 "Field MoveInDate on retrieved submission at point 2 is not the expected.");
             Assert.AreEqual(submission.NumberOfBedrooms, retrievedSubmissionAtPoint2.NumberOfBedrooms,
@@ -1933,7 +1933,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             if (areDetailsSubmitted)
             {
                 tenancyDetailsSubmission.SubmittedOn = clock.OffsetNow;
-                tenancyDetailsSubmission.Rent = random.Next(100, 1000);
+                tenancyDetailsSubmission.RentPerMonth = random.Next(100, 1000);
                 tenancyDetailsSubmission.IsPartOfProperty = random.NextDouble() >= 0.5;
                 tenancyDetailsSubmission.MoveInDate = clock.OffsetNow.AddDays(-100.0 * random.NextDouble()).Date;
                 tenancyDetailsSubmission.NumberOfBedrooms = random.Next(0, 5);

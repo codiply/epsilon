@@ -3,7 +3,7 @@
     [UniqueId]               UNIQUEIDENTIFIER   NOT NULL,
     [UserId]                 NVARCHAR (128)     NOT NULL,
     [AddressId]              BIGINT             NOT NULL,
-    [Rent]                   DECIMAL (18, 2)    NULL,
+    [RentPerMonth]           DECIMAL (18, 2)    NULL,
     [CurrencyId]             NCHAR (3)          NULL,
     [NumberOfBedrooms]       INT                NULL,
     [IsPartOfProperty]       BIT                NULL,
@@ -19,6 +19,8 @@
     CONSTRAINT [FK_dbo.TenancyDetailsSubmission_dbo.Currency_CurrencyId] FOREIGN KEY ([CurrencyId]) REFERENCES [dbo].[Currency] ([Id]),
     CONSTRAINT [FK_dbo.TenancyDetailsSubmission_dbo.User_UserId] FOREIGN KEY ([UserId]) REFERENCES [dbo].[User] ([Id])
 );
+
+
 
 
 
