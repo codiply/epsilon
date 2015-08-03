@@ -1,4 +1,5 @@
 ﻿using Epsilon.Logic.Dtos;
+using Epsilon.Logic.Entities;
 using Epsilon.Logic.Forms.Submission;
 using Epsilon.Logic.JsonModels;
 using Epsilon.Logic.Services.Interfaces.TenancyDetailsSubmission;
@@ -36,6 +37,12 @@ namespace Epsilon.Logic.Services.Interfaces
         public class SubmitMoveOutDetailsOutcome : BaseOutcome
         {
         }
+
+        public class GetSubmissionCountryOutcome
+        {
+            public bool SubmissionNotFound { get; set; }
+            public Country Country { get; set; }
+        }
     }
     
     public interface ITenancyDetailsSubmissionService
@@ -57,5 +64,7 @@ namespace Epsilon.Logic.Services.Interfaces
         Task<SubmitMoveOutDetailsOutcome> SubmitMoveOutDetails(string userId, MoveOutDetailsForm form);
 
         Task<bool> SubmissionBelongsToUser(string userId, Guid submissionUniqueId);
+
+        Task<GetSubmissionCountryOutcome> GetSubmissionCountry(string userId, Guid submissionUniqueId);
     }
 }

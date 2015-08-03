@@ -26,7 +26,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 DbProbe.Currencies.ToDictionaryAsync(x => x.Id);
 
             Assert.AreEqual(expectedCurrencies.Count, allCurrencies.Count,
-                "The number of available countries was not the expected");
+                "The number of available countries was not the expected.");
             foreach (var currency in allCurrencies)
             {
                 var expectedCurrency = expectedCurrencies[currency.Id];
@@ -54,12 +54,12 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 var expectedDisplayName = AppConstant.CURRENCY_DISPLAY_FIELD_SELECTOR(currency);
                 var actualDisplayName = service.GetDisplayName(currency.Id);
                 Assert.AreEqual(expectedDisplayName, actualDisplayName,
-                    string.Format("The DisplayName was not the expected for currency with Id '{0}'", currency.Id));
+                    string.Format("The DisplayName was not the expected for currency with Id '{0}'.", currency.Id));
             }
         }
 
         [Test]
-        public async Task GetSymbolTest()
+        public async Task GetTest()
         {
             var container = CreateContainer();
             var service = container.Get<ICurrencyService>();
@@ -68,10 +68,13 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             foreach (var currency in allCurrencies)
             {
-                var expectedSymbol = currency.Symbol;
-                var actualSymbol = service.GetSymbol(currency.Id);
-                Assert.AreEqual(expectedSymbol, actualSymbol,
-                    string.Format("The Symbol was not the expected for currency with Id '{0}'", currency.Id));
+                var actualCurrency = service.Get(currency.Id);
+                Assert.AreEqual(currency.EnglishName, actualCurrency.EnglishName,
+                    string.Format("The EnglishName was not the expected for currency with Id '{0}'.", currency.Id));
+                Assert.AreEqual(currency.LocalName, actualCurrency.LocalName,
+                    string.Format("The LocalName was not the expected for currency with Id '{0}'.", currency.Id));
+                Assert.AreEqual(currency.Symbol, actualCurrency.Symbol,
+                    string.Format("The Symbol was not the expected for currency with Id '{0}'.", currency.Id));
             }
         }
     }

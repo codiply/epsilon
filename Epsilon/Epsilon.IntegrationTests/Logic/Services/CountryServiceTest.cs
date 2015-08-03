@@ -26,7 +26,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 DbProbe.Countries.Where(x => x.IsAvailable).ToDictionaryAsync(x => x.Id);
 
             Assert.AreEqual(expectedAvailableCountries.Count, availableCountries.Count,
-                "The number of available countries was not the expected");
+                "The number of available countries was not the expected.");
             foreach (var country in availableCountries)
             {
                 var expectedCountry = expectedAvailableCountries[country.Id];
@@ -54,7 +54,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 var expectedDisplayName = AppConstant.COUNTRY_DISPLAY_FIELD_SELECTOR(country);
                 var actualDisplayName = service.GetDisplayName(country.Id);
                 Assert.AreEqual(expectedDisplayName, actualDisplayName,
-                    string.Format("The DisplayName was not the expected for country with Id '{0}'", country.Id));
+                    string.Format("The DisplayName was not the expected for country with Id '{0}'.", country.Id));
             }
         }
     }

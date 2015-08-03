@@ -262,6 +262,8 @@ namespace Epsilon.Logic.Services
             submission.IsPartOfProperty = form.IsPartOfProperty;
             submission.MoveInDate = form.MoveInDate;
             submission.SubmittedOn = _clock.OffsetNow;
+            // TODO_PANOS_TEST
+            submission.CurrencyId = submission.Address.Country.CurrencyId;
 
             _dbContext.Entry(submission).State = EntityState.Modified;
             await _dbContext.SaveChangesAsync();
@@ -327,10 +329,32 @@ namespace Epsilon.Logic.Services
             };
         }
 
+        public async Task<GetSubmissionCountryOutcome> GetSubmissionCountry(string userId, Guid submissionUniqueId)
+        {
+            // TODO_PANOS_TEST
+            var submission = await _dbContext.TenancyDetailsSubmissions
+                .Where(s => s.UniqueId.Equals(submissionUniqueId))
+                .Where(s => s.UserId.Equals(userId))
+                .Include(s => s.Address.Country)
+                .SingleOrDefaultAsync();
+
+            if (submission == null)
+            {
+                return new GetSubmissionCountryOutcome { SubmissionNotFound = true };
+            }
+
+            return new GetSubmissionCountryOutcome
+            {
+                SubmissionNotFound = false,
+                Country = submission.Address.Country
+            };
+        }
+
         private async Task<TenancyDetailsSubmission> GetSubmissionForUser(string userId, Guid uniqueId)
         {
             var submission = await  _dbContext.TenancyDetailsSubmissions
                 .Include(s => s.Address)
+                .Include(s => s.Address.Country)
                 .Include(s => s.TenantVerifications)
                 .Where(s => s.UniqueId.Equals(uniqueId))
                 .Where(s => s.UserId.Equals(userId))

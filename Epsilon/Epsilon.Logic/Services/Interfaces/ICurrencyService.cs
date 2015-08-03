@@ -12,7 +12,7 @@ namespace Epsilon.Logic.Services.Interfaces
     {
         IList<Currency> GetAll();
 
-        string GetSymbol(string currencyId);
+        Currency Get(string currencyId);
 
         string GetDisplayName(string currencyId);
     }

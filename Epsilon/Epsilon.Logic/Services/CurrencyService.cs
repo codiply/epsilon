@@ -32,11 +32,11 @@ namespace Epsilon.Logic.Services
             return dictionary.Select(x => x.Value).ToList();
         }
 
-        public string GetSymbol(string currencyId)
+        public Currency Get(string currencyId)
         {
             var dictionary = GetCurrencyDictionary();
             var currency = dictionary[currencyId.ToUpper()];
-            return currency.Symbol;
+            return currency;
         }
 
         public string GetDisplayName(string currencyId)

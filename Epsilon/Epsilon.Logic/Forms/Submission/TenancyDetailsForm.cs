@@ -15,6 +15,8 @@ namespace Epsilon.Logic.Forms.Submission
     {
         public Guid TenancyDetailsSubmissionUniqueId { get; set; }
 
+        public string CurrencySybmol { get; set; }
+
         [Required(ErrorMessageResourceType = typeof(SubmissionResources),
             ErrorMessageResourceName = SubmissionResourceName.SubmitTenancyDetailsForm_FieldRent_RequiredErrorMessage)]
         [Range(0.0, double.MaxValue,

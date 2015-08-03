@@ -25,15 +25,18 @@ namespace Epsilon.Web.Controllers
         public const string MY_SUBMISSIONS_SUMMARY_ACTION = "MySubmissionSSummary";
 
         private readonly ICountryService _countryService;
+        private readonly ICurrencyService _currencyService;
         private readonly IAddressService _addressService;
         private readonly ITenancyDetailsSubmissionService _tenancyDetailsSubmissionService;
 
         public SubmissionController(
             ICountryService countryService,
+            ICurrencyService currencyService,
             IAddressService addressService,
             ITenancyDetailsSubmissionService tenancyDetailsSubmissionService)
         {
             _countryService = countryService;
+            _currencyService = currencyService;
             _addressService = addressService;
             _tenancyDetailsSubmissionService = tenancyDetailsSubmissionService;
         }
@@ -181,16 +184,18 @@ namespace Epsilon.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> SubmitTenancyDetails(Guid submissionUniqueId, bool returnToSummary)
         {
-            var submissionBelongsToUser = await _tenancyDetailsSubmissionService.SubmissionBelongsToUser(GetUserId(), submissionUniqueId);
-            if (!submissionBelongsToUser)
+            var getSubmissionCountryOutcome = await _tenancyDetailsSubmissionService.GetSubmissionCountry(GetUserId(), submissionUniqueId);
+            if (getSubmissionCountryOutcome.SubmissionNotFound)
             {
                 Danger(CommonResources.GenericInvalidRequestMessage, true);
                 return RedirectHome(returnToSummary);
             }
+            var currency = _currencyService.Get(getSubmissionCountryOutcome.Country.CurrencyId);
             var model = new TenancyDetailsForm
             {
                 TenancyDetailsSubmissionUniqueId = submissionUniqueId,
-                ReturnToSummary = returnToSummary
+                ReturnToSummary = returnToSummary,
+                CurrencySybmol = currency.Symbol
             };
             return View(model);
         }
@@ -229,6 +234,7 @@ namespace Epsilon.Web.Controllers
         {
             var submissionBelongsToUser = await _tenancyDetailsSubmissionService.SubmissionBelongsToUser(GetUserId(), submissionUniqueId);
             if (!submissionBelongsToUser)
+
             {
                 Danger(CommonResources.GenericInvalidRequestMessage, true);
                 return RedirectHome(returnToSummary);
