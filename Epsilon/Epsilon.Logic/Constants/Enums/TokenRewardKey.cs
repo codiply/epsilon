@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Epsilon.Logic.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,5 +21,27 @@ namespace Epsilon.Logic.Constants.Enums
         
         // Spend
         SpendPerPropertyDetailsAccess
+    }
+
+    public enum TokenRewardKeyAmountSign
+    {
+        Positive,
+        Negative
+    }
+
+    public static class TokenRewardKeyExtensions
+    {
+        public static TokenRewardKeyAmountSign AmountSign(this TokenRewardKey key)
+        {
+            var name = EnumsHelper.TokenRewardKey.ToString(key);
+
+            if (name.StartsWith(AppConstant.TOKEN_REWARD_KEY_EARN))
+                return TokenRewardKeyAmountSign.Positive;
+            if (name.StartsWith(AppConstant.TOKEN_REWARD_KEY_SPEND))
+                return TokenRewardKeyAmountSign.Negative;
+
+            throw new Exception(string.Format("Unexpected TokenRewardKey '{0} that doesn't start with either '{1}' or '{2}'.",
+                name, AppConstant.TOKEN_REWARD_KEY_EARN, AppConstant.TOKEN_REWARD_KEY_SPEND));
+        }
     }
 }

@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
+using Epsilon.Logic.Helpers;
 
 namespace Epsilon.Web.Controllers
 {
@@ -111,25 +112,24 @@ namespace Epsilon.Web.Controllers
         {
             var balance = await _userTokenService.GetBalance(GetUserId());
 
+            ViewBag.TokenRewardKey = 
+                EnumsHelper.TokenRewardKey.GetNames().Select(x => new SelectListItem() { Text = x, Value = x }).ToList();
+
             return View(balance);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> TokensCredit(Decimal amount)
+        public async Task<ActionResult> TokensTransaction(
+            Decimal amount,
+            string tokenRewardKey,
+            int quantity)
         {
-            // TODO_PANOS: FIX
-            //var status = await _userTokenService.Credit(GetUserId(), amount);
-
-            return RedirectToAction("Tokens");
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> TokensDebit(Decimal amount)
-        {
-            // TODO_PANOS: FIX
-            //var status = await _userTokenService.Debit(GetUserId(), amount);
+            var tokenRewardKeyEnum = EnumsHelper.TokenRewardKey.Parse(tokenRewardKey);
+            if (tokenRewardKeyEnum.HasValue)
+            {
+                var status = await _userTokenService.MakeTransaction(GetUserId(), amount, tokenRewardKeyEnum.Value, quantity: quantity);
+            }
 
             return RedirectToAction("Tokens");
         }

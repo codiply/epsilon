@@ -11,6 +11,7 @@ namespace Epsilon.Logic.Constants.Enums
         AccountNotFound,
         InsufficientFunds,
         Success,
-        WrongAmount
+        WrongAmount,
+        WrongQuantity
     }
 }

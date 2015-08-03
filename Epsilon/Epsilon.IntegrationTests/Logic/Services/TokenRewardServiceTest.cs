@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.Entity;
 using NUnit.Framework;
+using Epsilon.Logic.Constants;
 
 namespace Epsilon.IntegrationTests.Logic.Services
 {
@@ -18,13 +19,13 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             foreach (var reward in allRewards)
             {
-                if (reward.TypeKey.StartsWith("Earn"))
+                if (reward.TypeKey.StartsWith(AppConstant.TOKEN_REWARD_KEY_EARN))
                 {
                     Assert.IsTrue(reward.Value >= 0M,
                         String.Format("TokenReward with SchemeId '{0}' and TypeKey '{1}' should have non-negative value because it starts with 'Earn'.",
                             reward.SchemeId, reward.TypeKey));
                 }
-                else if (reward.TypeKey.StartsWith("Spend"))
+                else if (reward.TypeKey.StartsWith(AppConstant.TOKEN_REWARD_KEY_EARN))
                 {
                     Assert.IsTrue(reward.Value <= 0M,
                         String.Format("TokenReward with SchemeId '{0}' and TypeKey '{1}' should have non-positive value because it starts with 'Spend'.",

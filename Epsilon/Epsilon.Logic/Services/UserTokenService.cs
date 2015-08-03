@@ -47,6 +47,20 @@ namespace Epsilon.Logic.Services
             string userId, decimal amount, TokenRewardKey tokenRewardKey, Guid? internalReference, 
             string externalReference = null, int quantity = 1)
         {
+            switch (tokenRewardKey.AmountSign())
+            {
+                // TODO_PANOS_TEST
+                case TokenRewardKeyAmountSign.Positive:
+                    if (amount < 0.0M)
+                        return TokenAccountTransactionStatus.WrongAmount;
+                    break;
+                // TODO_PANOS_TEST
+                case TokenRewardKeyAmountSign.Negative:
+                    if (amount > 0.0M)
+                        return TokenAccountTransactionStatus.WrongAmount;
+                    break;
+            }
+
             var transactionStatus = await _tokenAccountService
                 .MakeTransaction(userId, amount, tokenRewardKey, internalReference, externalReference, quantity);
             if (transactionStatus == TokenAccountTransactionStatus.Success)

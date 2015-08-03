@@ -53,6 +53,10 @@ namespace Epsilon.Logic.Services
             string externalReference = null,
             int quantity = 1)
         {
+            // TODO_PANOS_TEST
+            if (quantity < 1)
+                return TokenAccountTransactionStatus.WrongQuantity;
+
             var account = await _dbContext.TokenAccounts.FindAsync(accountId);
 
             if (account == null)

@@ -1,4 +1,5 @@
-﻿using Epsilon.Logic.Helpers;
+﻿using Epsilon.Logic.Constants;
+using Epsilon.Logic.Helpers;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -18,8 +19,10 @@ namespace Epsilon.UnitTests.Logic.Constants.Enums
 
             foreach (var key in allKeys)
             {
-                var passesTest = key.StartsWith("Earn") || key.StartsWith("Spend");
-                Assert.IsTrue(passesTest, string.Format("Key '{0}' doesn't start with either 'Earn' or 'Spend'.", key));
+                var passesTest = key.StartsWith(AppConstant.TOKEN_REWARD_KEY_EARN) || key.StartsWith(AppConstant.TOKEN_REWARD_KEY_SPEND);
+                Assert.IsTrue(passesTest, 
+                    string.Format("Key '{0}' doesn't start with either '{1}' or '{2}'.", 
+                    key, AppConstant.TOKEN_REWARD_KEY_EARN, AppConstant.TOKEN_REWARD_KEY_SPEND));
             }
         }
     }
