@@ -276,6 +276,7 @@
     <Compile Include="Controllers\NgDirectiveTemplateController.cs" />
     <Compile Include="Controllers\OutgoingVerificationController.cs" />
     <Compile Include="Controllers\SubmissionController.cs" />
+    <Compile Include="Controllers\TokenController.cs" />
     <Compile Include="Controllers\UserHomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -1274,6 +1275,7 @@
     <Content Include="Views\OutgoingVerification\MyOutgoingVerificationsSummary.cshtml" />
     <Content Include="Views\OutgoingVerification\Pick.cshtml" />
     <Content Include="Views\Admin\_DbAppSettingLabelCloud.cshtml" />
+    <Content Include="Views\Token\Transactions.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

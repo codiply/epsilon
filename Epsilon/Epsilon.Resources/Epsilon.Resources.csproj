@@ -149,6 +149,16 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>SubmissionResources.el.resx</DependentUpon>
     </Compile>
+    <Compile Include="Web\Token\TokenResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TokenResources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Web\Token\TokenResources.el.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TokenResources.el.resx</DependentUpon>
+    </Compile>
     <Compile Include="Web\UserHome\UserHomeResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -243,6 +253,14 @@
       <LastGenOutput>SubmissionResources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Web\Token\TokenResources.el.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>TokenResources.el.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Web\Token\TokenResources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>TokenResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Web\UserHome\UserHomeResources.el.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>UserHomeResources.el.Designer.cs</LastGenOutput>
@@ -255,6 +273,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
