@@ -10,7 +10,7 @@ using Epsilon.Logic.Constants.Enums;
 using Epsilon.Logic.Helpers;
 using Epsilon.Logic.Entities;
 
-namespace Epsilon.IntegrationTests.Logic.Constants
+namespace Epsilon.IntegrationTests.Logic.Constants.Enums
 {
     public class DbAppSettingValueTypeTest : BaseIntegrationTestWithRollback
     {

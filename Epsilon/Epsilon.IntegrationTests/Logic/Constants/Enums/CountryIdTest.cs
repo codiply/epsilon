@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using System.Data.Entity;
 using Epsilon.Logic.Helpers;
 
-namespace Epsilon.IntegrationTests.Logic.Constants
+namespace Epsilon.IntegrationTests.Logic.Constants.Enums
 {
     public class CountryIdTest : BaseIntegrationTestWithRollback
     {
@@ -33,7 +33,7 @@ namespace Epsilon.IntegrationTests.Logic.Constants
                     .Append(failingCountries.Count() == 1 ? " is " : " are ")
                     .Append(failingCountries.Count())
                     .Append(failingCountries.Count() == 1 ? " Country" : " Countries")
-                    .Append(" with missing Id in Constants.CountryId enumeration.");
+                    .Append(" with missing Id in Constants.Enums.CountryId enumeration.");
                 foreach (var c in failingCountries)
                 {
                     sb.Append("\n").Append(c.Id).Append(" - ").Append(c.EnglishName);
@@ -66,7 +66,7 @@ namespace Epsilon.IntegrationTests.Logic.Constants
                     .Append(failingCountryIds.Count())
                     .Append(" CountryId")
                     .Append(failingCountryIds.Count() == 1 ? "" : "'s")
-                    .Append(" in Constants.CountryId enumeration with missing Country in the database: ")
+                    .Append(" in Constants.Enums.CountryId enumeration with missing Country in the database: ")
                     .Append(String.Join(", ", failingCountryIds))
                     .Append(".");
                 message = sb.ToString();

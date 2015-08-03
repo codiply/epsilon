@@ -11,17 +11,12 @@ namespace Epsilon.Logic.SqlContext.Mapping
 {
     public class TokenRewardMap : EntityTypeConfiguration<TokenReward>
     {
-        public const int KEY_MAX_LENGTH = 128;
-
         public TokenRewardMap()
         {
             // Primary Key
-            this.HasKey(x => new { x.SchemeId, x.Key });
+            this.HasKey(x => new { x.SchemeId, x.TypeKey });
 
             // Properties
-            this.Property(x => x.Key)
-                .HasMaxLength(KEY_MAX_LENGTH)
-                .IsRequired();
             this.Property(x => x.Value)
                 .HasPrecision(AppConstant.TOKEN_AMOUNT_PRECISION, AppConstant.TOKEN_AMOUNT_SCALE);
 
@@ -29,6 +24,9 @@ namespace Epsilon.Logic.SqlContext.Mapping
             this.HasRequired(x => x.Scheme)
                 .WithMany(y => y.Rewards)
                 .HasForeignKey(x => x.SchemeId);
+            this.HasRequired(x => x.Type)
+                .WithMany()
+                .HasForeignKey(x => x.TypeKey);
         }
     }
 }

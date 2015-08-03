@@ -18,7 +18,7 @@ Post-Deployment Script Template
 :r .\ReferenceData\Currency.sql
 :r .\ReferenceData\Country.sql
 :r .\ReferenceData\Language.sql
-:r .\ReferenceData\TokenAccountTransactionType.sql
 :r .\ReferenceData\TokenRewardScheme.sql
-:r .\ReferenceData\TokenReward.sql -- Needs to be after TokenRewardScheme
+:r .\ReferenceData\TokenRewardType.sql
+:r .\ReferenceData\TokenReward.sql -- Needs to be after TokenRewardScheme and TokenRewardType
 GO

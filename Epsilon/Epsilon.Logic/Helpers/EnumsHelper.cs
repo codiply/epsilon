@@ -41,9 +41,6 @@ namespace Epsilon.Logic.Helpers
         public static EnumMemoizer<IpAddressActivityType> IpAddressActivityType =
             new EnumMemoizer<IpAddressActivityType>();
 
-        public static EnumMemoizer<TokenAccountTransactionTypeId> TokenAccountTransactionTypeId =
-            new EnumMemoizer<TokenAccountTransactionTypeId>();
-
         public static EnumMemoizer<TokenRewardKey> TokenRewardKey =
             new EnumMemoizer<TokenRewardKey>();
     }

@@ -9,17 +9,17 @@ using System.Threading.Tasks;
 
 namespace Epsilon.Logic.Entities
 {
-    public class TokenAccountTransactionType
+    public class TokenRewardType
     {
-        public virtual string Id { get; set; }
+        public virtual string Key { get; set; }
         public virtual string Description { get; set; }
 
         [NotMapped]
-        public virtual TokenAccountTransactionTypeId? IdAsEnum
+        public virtual TokenRewardKey? KeyAsEnum
         {
             get
             {
-                return EnumsHelper.TokenAccountTransactionTypeId.Parse(Id);
+                return EnumsHelper.TokenRewardKey.Parse(Key);
             }
         }
     }

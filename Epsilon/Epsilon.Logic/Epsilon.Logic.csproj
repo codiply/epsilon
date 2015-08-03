@@ -107,7 +107,6 @@
     <Compile Include="Constants\Enums\GeocodeAddressStatus.cs" />
     <Compile Include="Constants\Enums\GeocodePostcodeStatus.cs" />
     <Compile Include="Constants\Enums\TokenAccountTransactionStatus.cs" />
-    <Compile Include="Constants\Enums\TokenAccountTransactionTypeId.cs" />
     <Compile Include="Constants\Enums\CountryId.cs" />
     <Compile Include="Constants\DbAppSettingDefaultValue.cs" />
     <Compile Include="Constants\AppSettingsDefaultValue.cs" />
@@ -131,7 +130,7 @@
     <Compile Include="Entities\TokenAccount.cs" />
     <Compile Include="Entities\TokenAccountSnapshot.cs" />
     <Compile Include="Entities\TokenAccountTransaction.cs" />
-    <Compile Include="Entities\TokenAccountTransactionType.cs" />
+    <Compile Include="Entities\TokenRewardType.cs" />
     <Compile Include="Entities\Currency.cs" />
     <Compile Include="Entities\GeocodeFailure.cs" />
     <Compile Include="Entities\Interfaces\IAddress.cs" />
@@ -245,7 +244,7 @@
     <Compile Include="SqlContext\Mapping\TokenAccountMap.cs" />
     <Compile Include="SqlContext\Mapping\TokenAccountSnapshotMap.cs" />
     <Compile Include="SqlContext\Mapping\TokenAccountTransactionMap.cs" />
-    <Compile Include="SqlContext\Mapping\TokenAccountTransactionTypeMap.cs" />
+    <Compile Include="SqlContext\Mapping\TokenRewardTypeMap.cs" />
     <Compile Include="SqlContext\Mapping\GeocodeFailureMap.cs" />
     <Compile Include="SqlContext\Mapping\IpAddressActivityMap.cs" />
     <Compile Include="SqlContext\Mapping\LanguageMap.cs" />

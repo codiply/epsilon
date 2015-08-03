@@ -18,22 +18,22 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             foreach (var reward in allRewards)
             {
-                if (reward.Key.StartsWith("Earn"))
+                if (reward.TypeKey.StartsWith("Earn"))
                 {
                     Assert.IsTrue(reward.Value >= 0M,
-                        String.Format("TokenReward with SchemeId '{0}' and Key '{1}' should have non-negative value because it starts with 'Earn'.",
-                            reward.SchemeId, reward.Key));
+                        String.Format("TokenReward with SchemeId '{0}' and TypeKey '{1}' should have non-negative value because it starts with 'Earn'.",
+                            reward.SchemeId, reward.TypeKey));
                 }
-                else if (reward.Key.StartsWith("Spend"))
+                else if (reward.TypeKey.StartsWith("Spend"))
                 {
                     Assert.IsTrue(reward.Value <= 0M,
-                        String.Format("TokenReward with SchemeId '{0}' and Key '{1}' should have non-positive value because it starts with 'Spend'.",
-                            reward.SchemeId, reward.Key));
+                        String.Format("TokenReward with SchemeId '{0}' and TypeKey '{1}' should have non-positive value because it starts with 'Spend'.",
+                            reward.SchemeId, reward.TypeKey));
                 } else
                 {
                     Assert.IsTrue(false,
-                        String.Format("TokenReward with SchemeId '{0}' and Key '{1}' does not start with 'Earn' or 'Spend'.",
-                            reward.SchemeId, reward.Key));
+                        String.Format("TokenReward with SchemeId '{0}' and TypeKey '{1}' does not start with 'Earn' or 'Spend'.",
+                            reward.SchemeId, reward.TypeKey));
                 }
             }
         }

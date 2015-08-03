@@ -48,8 +48,10 @@ namespace Epsilon.Logic.Services
         public async Task<TokenAccountTransactionStatus> MakeTransaction(
             string accountId, 
             Decimal amount,
-            TokenAccountTransactionTypeId transactionTypeId, 
-            string reference)
+            TokenRewardKey tokenRewardKey,
+            Guid? internalReference = null,
+            string externalReference = null,
+            int quantity = 1)
         {
             var account = await _dbContext.TokenAccounts.FindAsync(accountId);
 
@@ -75,8 +77,10 @@ namespace Epsilon.Logic.Services
             {
                 AccountId = accountId,
                 Amount = amount,
-                TypeId = EnumsHelper.TokenAccountTransactionTypeId.ToString(transactionTypeId),
-                Reference = reference
+                Quantity = quantity,
+                RewardTypeKey = EnumsHelper.TokenRewardKey.ToString(tokenRewardKey),
+                ExternalReference = externalReference,
+                InternalReference = internalReference
             };
 
             _dbContext.TokenAccountTransactions.Add(transaction);

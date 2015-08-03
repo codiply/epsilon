@@ -11,7 +11,7 @@ FROM [dbo].[TokenReward]
 WHERE 1 = 0
 
 INSERT INTO #TMP
-([SchemeId], [Key], [Value])
+([SchemeId], [TypeKey], [Value])
 VALUES
 -- !!! IMPORTANT !!! 
 -- 1. Do not edit the values for the current or past schemes. Only insert new value.
@@ -21,19 +21,21 @@ VALUES
 -- Scheme 1
 (N'1', N'EarnPerTenancyDetailsSubmission', 2.0),
 (N'1', N'EarnPerVerificationCodeEntered', 1.0),
-(N'1', N'EarnPerVerificationMailSent', 2.0);
+(N'1', N'EarnPerVerificationMailSent', 2.0),
+-- Spend 1
+(N'1', N'SpendPerPropertyDetailsAccess', -1.0);
 GO
 
 MERGE [dbo].[TokenReward] AS T -- Target
 USING #TMP AS S -- Source
     ON T.SchemeId = S.SchemeId 
-	AND T.[Key] = S.[Key]
+	AND T.[TypeKey] = S.[TypeKey]
 WHEN MATCHED
     THEN UPDATE SET
 	    T.[Value] = S.[Value]
 WHEN NOT MATCHED
-    THEN INSERT ([SchemeId], [Key], [Value])
-	VALUES (S.[SchemeId], S.[Key], S.[Value])
+    THEN INSERT ([SchemeId], [TypeKey], [Value])
+	VALUES (S.[SchemeId], S.[TypeKey], S.[Value])
 WHEN NOT MATCHED BY SOURCE 
     THEN DELETE;
 GO

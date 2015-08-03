@@ -15,8 +15,8 @@ namespace Epsilon.Logic.Services.Interfaces
 
         Task<TokenBalanceResponse> GetBalance(string userId);
 
-        Task<TokenAccountTransactionStatus> Credit(string userId, Decimal amount);
-
-        Task<TokenAccountTransactionStatus> Debit(string userId, Decimal amount);
+        Task<TokenAccountTransactionStatus> MakeTransaction(
+            string userId, decimal amount, TokenRewardKey tokenRewardKey, Guid? internalReference,
+            string externalReference = null, int quantity = 1);
     }
 }

@@ -43,24 +43,12 @@ namespace Epsilon.Logic.Services
             return new TokenBalanceResponse { balance = (decimal)balance };
         }
 
-        public async Task<TokenAccountTransactionStatus> Credit(string userId, Decimal amount)
+        public async Task<TokenAccountTransactionStatus> MakeTransaction(
+            string userId, decimal amount, TokenRewardKey tokenRewardKey, Guid? internalReference, 
+            string externalReference = null, int quantity = 1)
         {
-            if (amount < 0)
-                return TokenAccountTransactionStatus.WrongAmount;
-            return await MakeTransaction(userId, amount, TokenAccountTransactionTypeId.CREDIT, "");
-        }
-
-        public async Task<TokenAccountTransactionStatus> Debit(string userId, Decimal amount)
-        {
-            if (amount < 0)
-                return TokenAccountTransactionStatus.WrongAmount;
-            return await MakeTransaction(userId, -amount, TokenAccountTransactionTypeId.DEBIT, "");
-        }
-
-        private async Task<TokenAccountTransactionStatus> MakeTransaction(
-            string userId, decimal amount, TokenAccountTransactionTypeId transactionTypeId, string reference)
-        {
-            var transactionStatus = await _tokenAccountService.MakeTransaction(userId, amount, transactionTypeId, reference);
+            var transactionStatus = await _tokenAccountService
+                .MakeTransaction(userId, amount, tokenRewardKey, internalReference, externalReference, quantity);
             if (transactionStatus == TokenAccountTransactionStatus.Success)
                 _appCache.Remove(AppCacheKey.UserTokenBalance(userId));
             return transactionStatus;

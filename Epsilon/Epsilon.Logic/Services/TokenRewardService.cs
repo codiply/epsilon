@@ -64,12 +64,12 @@ namespace Epsilon.Logic.Services
                 WithLock.No);
         }
 
-        public TokenReward GetCurrentReward(TokenRewardKey key)
+        public TokenReward GetCurrentReward(TokenRewardKey rewardKey)
         {
             var currentScheme = GetCurrentScheme();
-            var keyToString = EnumsHelper.TokenRewardKey.ToString(key);
+            var keyToString = EnumsHelper.TokenRewardKey.ToString(rewardKey);
             var currentReward = currentScheme.Rewards
-                .SingleOrDefault(x => x.Key.Equals(keyToString));
+                .SingleOrDefault(x => x.TypeKey.Equals(keyToString));
             return currentReward;
         }
     }

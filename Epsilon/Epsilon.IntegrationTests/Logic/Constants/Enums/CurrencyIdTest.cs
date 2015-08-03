@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using System.Data.Entity;
 using Epsilon.Logic.Helpers;
 
-namespace Epsilon.IntegrationTests.Logic.Constants
+namespace Epsilon.IntegrationTests.Logic.Constants.Enums
 {
     public class CurrencyIdTest : BaseIntegrationTestWithRollback
     {
@@ -33,7 +33,7 @@ namespace Epsilon.IntegrationTests.Logic.Constants
                     .Append(failingCurrencies.Count() == 1 ? " is " : " are ")
                     .Append(failingCurrencies.Count())
                     .Append(failingCurrencies.Count() == 1 ? " Currency" : " Currencies")
-                    .Append(" with missing Id in Constants.CurrencyId enumeration.");
+                    .Append(" with missing Id in Constants.Enums.CurrencyId enumeration.");
                 foreach (var c in failingCurrencies)
                 {
                     sb.Append("\n").Append(c.Id).Append(" - ").Append(c.EnglishName);
@@ -66,7 +66,7 @@ namespace Epsilon.IntegrationTests.Logic.Constants
                     .Append(failingCurrencyIds.Count())
                     .Append(" CurrencyId")
                     .Append(failingCurrencyIds.Count() == 1 ? "" : "'s")
-                    .Append(" in Constants.CurrencyId enumeration with missing Currency in the database: ")
+                    .Append(" in Constants.Enums.CurrencyId enumeration with missing Currency in the database: ")
                     .Append(String.Join(", ", failingCurrencyIds))
                     .Append(".");
                 message = sb.ToString();

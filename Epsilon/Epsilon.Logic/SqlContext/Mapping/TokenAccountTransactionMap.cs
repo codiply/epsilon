@@ -25,8 +25,13 @@ namespace Epsilon.Logic.SqlContext.Mapping
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             this.Property(x => x.UniqueId)
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Computed);
-            this.Property(x => x.Reference)
+
+            this.Property(x => x.ExternalReference)
+                .IsOptional()
                 .HasMaxLength(REFERENCE_MAX_LENGTH);
+            this.Property(x => x.InternalReference)
+                .IsOptional();
+
             this.Property(x => x.MadeOn)
                 .IsRequired()
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Computed);
@@ -38,9 +43,9 @@ namespace Epsilon.Logic.SqlContext.Mapping
                 .WithMany(y => y.Transactions)
                 .HasForeignKey(x => x.AccountId)
                 .WillCascadeOnDelete(true);
-            this.HasRequired(x => x.Type)
+            this.HasRequired(x => x.RewardType)
                 .WithMany()
-                .HasForeignKey(x => x.TypeId)
+                .HasForeignKey(x => x.RewardTypeKey)
                 .WillCascadeOnDelete(false);
 
             // Indexes
