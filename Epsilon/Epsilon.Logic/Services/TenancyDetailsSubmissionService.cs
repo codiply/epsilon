@@ -30,6 +30,7 @@ namespace Epsilon.Logic.Services
         private readonly IEpsilonContext _dbContext;
         private readonly IAddressService _addressService;
         private readonly IAntiAbuseService _antiAbuseService;
+        private readonly IUserTokenService _userTokenService;
 
         public TenancyDetailsSubmissionService(
             IClock clock,
@@ -37,7 +38,8 @@ namespace Epsilon.Logic.Services
             ITenancyDetailsSubmissionServiceConfig tenancyDetailsSubmissionServiceConfig,
             IEpsilonContext dbContext,
             IAddressService addressService,
-            IAntiAbuseService antiAbuseService)
+            IAntiAbuseService antiAbuseService,
+            IUserTokenService userTokenService)
         {
             _clock = clock;
             _appCache = appCache;
@@ -45,6 +47,7 @@ namespace Epsilon.Logic.Services
             _dbContext = dbContext;
             _addressService = addressService;
             _antiAbuseService = antiAbuseService;
+            _userTokenService = userTokenService;
         }
 
         public async Task<bool> SubmissionBelongsToUser(string userId, Guid submissionUniqueId)
@@ -223,6 +226,31 @@ namespace Epsilon.Logic.Services
                 Message = TenancyDetailsSubmissionResources.EnterVerificationCode_SuccessMessage
             });
 
+            // TODO_PANOS_TEST: also test the correct internal reference is used.
+            var rewardStatus1 = await _userTokenService.MakeTransaction(userId, TokenRewardKey.EarnPerVerificationCodeEntered, submission.UniqueId);
+            if (rewardStatus1 == TokenAccountTransactionStatus.Success)
+            {
+                uiAlerts.Add(new UiAlert
+                {
+                    Message = "Your account has been credited with tokens for this action.", // TODO_PANOS: put in resource
+                    Type = UiAlertType.Success
+                });
+            }
+            else
+            {
+                // TODO_PANOS: return failure before committing the transaction later on.
+            }
+
+            // TODO_PANOS_TEST: also test the correct internal reference is used.
+            var rewardStatus2 = await _userTokenService
+                .MakeTransaction(verification.AssignedToId, TokenRewardKey.EarnPerVerificationMailSent, verification.UniqueId);
+            if (rewardStatus2 != TokenAccountTransactionStatus.Success)
+            {
+                // TODO_PANOS: return failure before committing the transaction later on.
+            }
+
+            // TODO_PANOS: commit the transaction down here
+
             RemoveCachedUserSubmissionsSummary(userId);
 
             return new EnterVerificationCodeOutcome
@@ -274,6 +302,23 @@ namespace Epsilon.Logic.Services
                 // TODO_PANOS_TEST
                 Message = TenancyDetailsSubmissionResources.SubmitTenancyDetails_SuccessMessage
             });
+
+            // TODO_PANOS_TEST: also test the correct internal reference is used.
+            var rewardStatus = await _userTokenService.MakeTransaction(userId, TokenRewardKey.EarnPerTenancyDetailsSubmission, submission.UniqueId);
+            if (rewardStatus == TokenAccountTransactionStatus.Success)
+            {
+                uiAlerts.Add(new UiAlert
+                {
+                    Message = "Your account has been credited with tokens for this action.", // TODO_PANOS: put in resource
+                    Type = UiAlertType.Success
+                });
+            }
+            else
+            {
+                // TODO_PANOS: return failure before committing the transaction later on.
+            }
+
+            // TODO_PANOS: commit the transaction down here
 
             RemoveCachedUserSubmissionsSummary(userId);
 

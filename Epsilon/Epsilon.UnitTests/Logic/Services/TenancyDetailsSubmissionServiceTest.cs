@@ -19,7 +19,7 @@ namespace Epsilon.UnitTests.Logic.Services
         {
             var mockTenancyDetailsSubmissionServiceConfig = new Mock<ITenancyDetailsSubmissionServiceConfig>();
             mockTenancyDetailsSubmissionServiceConfig.Setup(x => x.GlobalSwitch_DisableCreateTenancyDetailsSubmission).Returns(true);
-            var service = new TenancyDetailsSubmissionService(null, null, mockTenancyDetailsSubmissionServiceConfig.Object, null, null, null);
+            var service = new TenancyDetailsSubmissionService(null, null, mockTenancyDetailsSubmissionServiceConfig.Object, null, null, null, null);
 
             var outcome = await service.Create("some-user", "some-ip-address", Guid.NewGuid(), Guid.NewGuid());
 
