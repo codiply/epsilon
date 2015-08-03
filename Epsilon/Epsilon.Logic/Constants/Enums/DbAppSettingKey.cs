@@ -50,6 +50,7 @@ namespace Epsilon.Logic.Constants.Enums
         TenancyDetailsSubmission_Create_DisableFrequencyPerAddressCheck,
         TenancyDetailsSubmission_Create_MaxFrequencyPerAddress,
         TenancyDetailsSubmission_MySubmissionsSummary_CachingPeriodInMinutes,
-        TenancyDetailsSubmission_MySubmissionsSummary_ItemsLimit
+        TenancyDetailsSubmission_MySubmissionsSummary_ItemsLimit,
+        Token_MyTokenTransactions_PageSize
     }
 }

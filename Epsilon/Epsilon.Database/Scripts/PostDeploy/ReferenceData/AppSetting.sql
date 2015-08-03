@@ -102,7 +102,9 @@ VALUES
 (N'TenancyDetailsSubmission_MySubmissionsSummary_CachingPeriodInMinutes', N'15.0', N'Double',
      N'Caching period in minutes for MySubmissionSummary data.'),
 (N'TenancyDetailsSubmission_MySubmissionsSummary_ItemsLimit', N'10', N'Integer',
-     N'The maximum number of submissions that will apear in the summary on the front page.'); 
+     N'The maximum number of submissions that will apear in the summary on the front page.'),
+(N'Token_MyTokenTransactions_PageSize', N'10', N'Integer',
+     N'The number of items fetched as a page from the server for MyTokenTrasactions screen.');
 GO
 
 MERGE [dbo].[AppSetting] AS T -- Target

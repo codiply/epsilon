@@ -170,10 +170,13 @@ VALUES
 (N'outgoing-verification', N'OutgoingVerification_MyOutgoingVerificationsSummary_CachingPeriodInMinutes'),
 (N'outgoing-verification', N'OutgoingVerification_MyOutgoingVerificationsSummary_ItemsLimit'),
 (N'outgoing-verification', N'OutgoingVerification_VerificationsPerTenancyDetailsSubmission'),
+-- page-size
+(N'page-size', N'Token_MyTokenTransactions_PageSize'),
 -- results-limit
 (N'results-limit', N'OutgoingVerification_MyOutgoingVerificationsSummary_ItemsLimit'),
 (N'results-limit', N'SearchAddressResultsLimit'),
 (N'results-limit', N'TenancyDetailsSubmission_MySubmissionsSummary_ItemsLimit'),
+(N'results-limit', N'Token_MyTokenTransactions_PageSize'),
 -- switch
 (N'switch', N'AntiAbuse_AddAddress_DisableGeocodeFailureIpAddressFrequencyCheck'),
 (N'switch', N'AntiAbuse_AddAddress_DisableGeocodeFailureUserFrequencyCheck'),
@@ -197,7 +200,9 @@ VALUES
 (N'tenancy-details-submission', N'TenancyDetailsSubmission_Create_DisableFrequencyPerAddressCheck'),
 (N'tenancy-details-submission', N'TenancyDetailsSubmission_Create_MaxFrequencyPerAddress'),
 (N'tenancy-details-submission', N'TenancyDetailsSubmission_MySubmissionsSummary_CachingPeriodInMinutes'),
-(N'tenancy-details-submission', N'TenancyDetailsSubmission_MySubmissionsSummary_ItemsLimit');
+(N'tenancy-details-submission', N'TenancyDetailsSubmission_MySubmissionsSummary_ItemsLimit'),
+-- tokens
+(N'tokens', N'Token_MyTokenTransactions_PageSize');
 GO
 
 MERGE [dbo].[AppSettingLabel] AS T -- Target

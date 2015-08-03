@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Epsilon.Logic.JsonModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,5 +22,17 @@ namespace Epsilon.Logic.Entities
 
         public virtual TokenAccount Account { get; set; }
         public virtual TokenRewardType RewardType { get; set; }
+
+        public MyTokenTransactionsItem ToItem()
+        {
+            return new MyTokenTransactionsItem
+            {
+                uniqueId = UniqueId,
+                rewardTypeKey = RewardTypeKey,
+                amount = Amount,
+                quantity = Quantity,
+                madeOn = MadeOn
+            };
+        }
     }
 }

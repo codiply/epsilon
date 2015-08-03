@@ -54,11 +54,17 @@ namespace Epsilon.Logic.SqlContext.Mapping
                     new IndexAttribute("IX_TokenAccountTransaction_UniqueId") { IsUnique = true }
                 }));
             this.Property(x => x.MadeOn)
-                .HasColumnAnnotation(IndexAnnotation.AnnotationName, 
-                    new IndexAnnotation(new IndexAttribute("IX_TokenAccountTransaction_MadeOn_AccountId", 1)));
+                .HasColumnAnnotation(IndexAnnotation.AnnotationName, new IndexAnnotation(new[]
+                {
+                    new IndexAttribute("IX_TokenAccountTransaction_MadeOn_AccountId", 1),
+                    new IndexAttribute("IX_TokenAccountTransaction_AccountId_MadeOn", 2)
+                }));
             this.Property(x => x.AccountId)
-                .HasColumnAnnotation(IndexAnnotation.AnnotationName, 
-                    new IndexAnnotation(new IndexAttribute("IX_TokenAccountTransaction_MadeOn_AccountId", 2)));
+                .HasColumnAnnotation(IndexAnnotation.AnnotationName, new IndexAnnotation(new[]
+                {
+                    new IndexAttribute("IX_TokenAccountTransaction_MadeOn_AccountId", 2),
+                    new IndexAttribute("IX_TokenAccountTransaction_AccountId_MadeOn", 1)
+                }));
         }
     }
 }

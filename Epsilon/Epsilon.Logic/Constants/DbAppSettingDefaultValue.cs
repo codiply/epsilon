@@ -42,5 +42,7 @@ namespace Epsilon.Logic.Constants
         public Frequency TenancyDetailsSubmission_Create_MaxFrequencyPerAddress { get { return new Frequency(1, TimeSpan.FromDays(30)); } }
         public double TenancyDetailsSubmission_MySubmissionsSummary_CachingPeriodInMinutes { get { return 15.0; } }
         public int TenancyDetailsSubmission_MySubmissionsSummary_ItemsLimit { get { return 10; } }
+
+        public int Token_MyTokenTransactions_PageSize { get { return 10; } }
     }
 }

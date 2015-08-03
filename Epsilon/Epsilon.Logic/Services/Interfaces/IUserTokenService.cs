@@ -18,5 +18,7 @@ namespace Epsilon.Logic.Services.Interfaces
         Task<TokenAccountTransactionStatus> MakeTransaction(
             string userId, TokenRewardKey tokenRewardKey, Guid? internalReference = null,
             string externalReference = null, int quantity = 1);
+
+        Task<MyTokenTransactionsPageResponse> GetMyTokenTransactionsNextPage(string userId, MyTokenTransactionsPageRequest request);
     }
 }

@@ -41,5 +41,7 @@ namespace Epsilon.Logic.Constants.Interfaces
         Frequency TenancyDetailsSubmission_Create_MaxFrequencyPerAddress { get; }
         double TenancyDetailsSubmission_MySubmissionsSummary_CachingPeriodInMinutes { get; }
         int TenancyDetailsSubmission_MySubmissionsSummary_ItemsLimit { get; }
+
+        int Token_MyTokenTransactions_PageSize { get; }
     }
 }

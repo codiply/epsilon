@@ -18,5 +18,10 @@ namespace Epsilon.Web.Controllers
         {
             return View();
         }
+
+        public ActionResult MyTokenTransactions()
+        {
+            return View();
+        }
     }
 }

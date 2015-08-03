@@ -26,5 +26,10 @@ namespace Epsilon.Web.Controllers.ApiControllers
         {
             return await _userTokenService.GetBalance(GetUserId());
         }
+
+        public async Task<MyTokenTransactionsPageResponse> MyTokenTransactionsNextPage(MyTokenTransactionsPageRequest request)
+        {
+            return await _userTokenService.GetMyTokenTransactionsNextPage(GetUserId(), request);
+        }
     }
 }

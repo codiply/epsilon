@@ -30,6 +30,8 @@
 
 
 
+
+
 GO
 
 
@@ -47,4 +49,9 @@ CREATE UNIQUE NONCLUSTERED INDEX [IX_TokenAccountTransaction_UniqueId]
 GO
 CREATE NONCLUSTERED INDEX [IX_RewardTypeKey]
     ON [dbo].[TokenAccountTransaction]([RewardTypeKey] ASC);
+
+
+GO
+CREATE NONCLUSTERED INDEX [IX_TokenAccountTransaction_AccountId_MadeOn]
+    ON [dbo].[TokenAccountTransaction]([AccountId] ASC, [MadeOn] ASC);
 

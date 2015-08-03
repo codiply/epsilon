@@ -14,6 +14,8 @@ angular.module('ngEpsilon', ['ngEpsilon.config'])
         Directives.MyOutgoingVerificationsSummary])
     .directive("mySubmissionsSummary", ['$http', 'BASE_URL_WITH_LANGUAGE', 'DIRECTIVE_TEMPLATE_FOLDER_URL',
         Directives.MySubmissionsSummary])
+    .directive("myTokenTransactions", ['$http', 'BASE_URL_WITH_LANGUAGE', 'DIRECTIVE_TEMPLATE_FOLDER_URL',
+        Directives.MyTokenTransactions])
     .directive("tokenBalanceBadge", ['$http', 'BASE_URL_WITH_LANGUAGE', Directives.TokenBalanceBadge])
 // Filters
     .filter("stringFormat", Filters.stringFormat);

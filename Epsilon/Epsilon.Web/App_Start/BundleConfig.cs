@@ -35,7 +35,8 @@ namespace Epsilon.Web
                         "~/Scripts/lib/bootstrap-datepicker/bootstrap-datepicker.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/angularjs").Include(
-                        "~/Scripts/lib/angularjs/angular.js"));
+                        "~/Scripts/lib/angularjs/angular.js",
+                        "~/Scripts/lib/ng-infinite-scroll/ng-infinite-scroll.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/ngapp").Include(
                         // Controllers
@@ -47,6 +48,7 @@ namespace Epsilon.Web
                         "~/Scripts/ngapp/directives/ClickOnce.js",
                         "~/Scripts/ngapp/directives/MyOutgoingVerificationsSummary.js",
                         "~/Scripts/ngapp/directives/MySubmissionsSummary.js",
+                        "~/Scripts/ngapp/directives/MyTokenTransactions.js",
                         "~/Scripts/ngapp/directives/TokenBalanceBadge.js",
                         "~/Scripts/ngapp/app.js"));
 

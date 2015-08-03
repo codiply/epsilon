@@ -1,4 +1,5 @@
-﻿using Epsilon.Logic.Constants;
+﻿using Epsilon.Logic.Configuration.Interfaces;
+using Epsilon.Logic.Constants;
 using Epsilon.Logic.Constants.Enums;
 using Epsilon.Logic.Entities;
 using Epsilon.Logic.Infrastructure.Interfaces;
@@ -17,17 +18,20 @@ namespace Epsilon.Logic.Services
     {
         private readonly IAppCache _appCache;
         private readonly IEpsilonContext _dbContext;
+        private readonly IUserTokenServiceConfig _userTokenServiceConfig;
         private readonly ITokenAccountService _tokenAccountService;
         private readonly ITokenRewardService _tokenRewardService;
 
         public UserTokenService(
             IAppCache appCache,
             IEpsilonContext dbContext,
+            IUserTokenServiceConfig userTokenServiceConfig,
             ITokenAccountService tokenAccountService,
             ITokenRewardService tokenRewardService)
         {
             _appCache = appCache;
             _dbContext = dbContext;
+            _userTokenServiceConfig = userTokenServiceConfig;
             _tokenAccountService = tokenAccountService;
             _tokenRewardService = tokenRewardService;
         }
@@ -58,6 +62,12 @@ namespace Epsilon.Logic.Services
             var totalAmount = quantity * reward.Value;
 
             return await MakeTransaction(userId, totalAmount, tokenRewardKey, internalReference, externalReference, quantity);
+        }
+
+        public async Task<MyTokenTransactionsPageResponse> GetMyTokenTransactionsNextPage(string userId, MyTokenTransactionsPageRequest request)
+        {
+            var accountId = userId;
+            return await _tokenAccountService.GetMyTokenTransactionsNextPage(accountId, request, _userTokenServiceConfig.MyTokenTransactions_PageSize);
         }
 
         private async Task<TokenAccountTransactionStatus> MakeTransaction(

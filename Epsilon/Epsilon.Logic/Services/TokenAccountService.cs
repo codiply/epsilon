@@ -15,6 +15,7 @@ using Epsilon.Logic.Constants.Interfaces;
 using Epsilon.Logic.Constants.Enums;
 using Epsilon.Logic.Helpers;
 using Epsilon.Logic.Configuration.Interfaces;
+using Epsilon.Logic.JsonModels;
 
 namespace Epsilon.Logic.Services
 {
@@ -171,6 +172,34 @@ namespace Epsilon.Logic.Services
             _dbContext.Entry(account).State = EntityState.Modified;
 
             await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task<MyTokenTransactionsPageResponse> GetMyTokenTransactionsNextPage(
+            string accountId, MyTokenTransactionsPageRequest request, int pageSize)
+        {
+            // TODO_PANOS_TEST: the whole thing
+            var query = _dbContext.TokenAccountTransactions
+                .OrderByDescending(x => x.MadeOn)
+                .Where(x => x.AccountId.Equals(accountId));
+                
+            if (request.madeBefore.HasValue)
+                query = query.Where(x => x.MadeOn < request.madeBefore.Value);
+
+            var transactions = await query.Take(pageSize + 1).ToListAsync();
+
+            bool moreItemsExist = false;
+            if (transactions.Count > pageSize)
+            {
+                moreItemsExist = true;
+                transactions = transactions.Take(pageSize).ToList();
+            }
+
+            return new MyTokenTransactionsPageResponse
+            {
+                items = transactions.Select(x => x.ToItem()).ToList(),
+                moreItemsExist = moreItemsExist,
+                earliestItem = transactions.Any() ? transactions.Last().MadeOn : request.madeBefore
+            };
         }
 
         private async Task<TokenAccountSnapshot> GetLastSnapshot(string accountId)

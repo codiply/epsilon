@@ -101,6 +101,7 @@ namespace Epsilon.Web.App_Start
             kernel.Bind<IOutgoingVerificationServiceConfig>().To<OutgoingVerificationServiceConfig>().InRequestScope();
             kernel.Bind<ITenancyDetailsSubmissionServiceConfig>().To<TenancyDetailsSubmissionServiceConfig>().InRequestScope();
             kernel.Bind<ITokenAccountServiceConfig>().To<TokenAccountServiceConfig>().InRequestScope();
+            kernel.Bind<IUserTokenServiceConfig>().To<UserTokenServiceConfig>().InRequestScope();
 
             // Constants
             kernel.Bind<IDbAppSettingDefaultValue>().To<DbAppSettingDefaultValue>().InSingletonScope();

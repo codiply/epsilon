@@ -450,6 +450,8 @@
     <Content Include="Scripts\lib\bootstrap-datepicker\locales\bootstrap-datepicker.uk.min.js" />
     <Content Include="Scripts\lib\bootstrap-datepicker\locales\bootstrap-datepicker.vi.min.js" />
     <Content Include="Scripts\lib\bootstrap-datepicker\locales\bootstrap-datepicker.zh-TW.min.js" />
+    <Content Include="Scripts\lib\ng-infinite-scroll\ng-infinite-scroll.js" />
+    <Content Include="Scripts\lib\ng-infinite-scroll\ng-infinite-scroll.min.js" />
     <Content Include="Unversioned.template.config" />
     <None Include="Properties\PublishProfiles\Local.pubxml" />
     <None Include="Scripts\lib\jquery\jquery-1.10.2.intellisense.js" />
@@ -1276,6 +1278,7 @@
     <Content Include="Views\OutgoingVerification\Pick.cshtml" />
     <Content Include="Views\Admin\_DbAppSettingLabelCloud.cshtml" />
     <Content Include="Views\Token\Transactions.cshtml" />
+    <Content Include="Views\NgDirectiveTemplate\MyTokenTransactions.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1305,6 +1308,7 @@
     <TypeScriptCompile Include="Scripts\ngapp\app.ts" />
     <TypeScriptCompile Include="Scripts\ngapp\controllers\SubmissionAddressSearchController.ts" />
     <TypeScriptCompile Include="Scripts\ngapp\directives\MyOutgoingVerificationsSummary.ts" />
+    <TypeScriptCompile Include="Scripts\ngapp\directives\MyTokenTransactions.ts" />
     <TypeScriptCompile Include="Scripts\ngapp\directives\MySubmissionsSummary.ts" />
     <TypeScriptCompile Include="Scripts\ngapp\directives\TokenBalanceBadge.ts" />
     <TypeScriptCompile Include="Scripts\ngapp\directives\AddressMap.ts">
