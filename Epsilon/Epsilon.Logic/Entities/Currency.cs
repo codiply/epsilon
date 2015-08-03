@@ -9,9 +9,10 @@ namespace Epsilon.Logic.Entities
 {
     public class Currency
     {
-        public string Id { get; set; }
-        public string EnglishName { get; set; }
-        public string Symbol { get; set; }
+        public virtual string Id { get; set; }
+        public virtual string EnglishName { get; set; }
+        public virtual string LocalName { get; set; }
+        public virtual string Symbol { get; set; }
 
         [Timestamp]
         public virtual Byte[] Timestamp { get; set; }

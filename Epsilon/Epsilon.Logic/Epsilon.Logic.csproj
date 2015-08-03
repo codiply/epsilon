@@ -101,6 +101,7 @@
     <Compile Include="Constants\AspNetRole.cs" />
     <Compile Include="Constants\CountryAddressFieldMetadata.cs" />
     <Compile Include="Constants\Enums\AdminEventLogKey.cs" />
+    <Compile Include="Constants\Enums\CurrencyId.cs" />
     <Compile Include="Constants\Enums\CountryVariantResourceName.cs" />
     <Compile Include="Constants\Enums\DbAppSettingKey.cs" />
     <Compile Include="Constants\Enums\GeocodeAddressStatus.cs" />
@@ -192,13 +193,15 @@
     <Compile Include="Services\AdminAlertService.cs" />
     <Compile Include="Services\AdminEventLogService.cs" />
     <Compile Include="Services\AntiAbuseService.cs" />
+    <Compile Include="Services\CountryService.cs" />
     <Compile Include="Services\Interfaces\IAdminEventLogService.cs" />
+    <Compile Include="Services\Interfaces\ICurrencyService.cs" />
     <Compile Include="Services\Interfaces\IOutgoingVerificationService.cs" />
     <Compile Include="Services\Interfaces\ITokenRewardService.cs" />
     <Compile Include="Services\Interfaces\IUserResidenceService.cs" />
     <Compile Include="Services\OutgoingVerificationService.cs" />
     <Compile Include="Services\TokenAccountService.cs" />
-    <Compile Include="Services\CountryService.cs" />
+    <Compile Include="Services\CurrencyService.cs" />
     <Compile Include="Helpers\CountryVariantResourceHelper.cs" />
     <Compile Include="Services\GeocodeService.cs" />
     <Compile Include="Services\Interfaces\IAddressService.cs" />

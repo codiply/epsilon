@@ -12,6 +12,7 @@ namespace Epsilon.Logic.SqlContext.Mapping
     {
         public const int ID_MAX_LENGTH = 3;
         public const int ENGLISH_NAME_MAX_LENGTH = 64;
+        public const int LOCAL_NAME_MAX_LENGTH = 64;
         public const int SYMBOL_MAX_LENGTH = 4;
 
         public CurrencyMap()
@@ -25,6 +26,8 @@ namespace Epsilon.Logic.SqlContext.Mapping
                 .HasMaxLength(ID_MAX_LENGTH);
             this.Property(x => x.EnglishName)
                 .HasMaxLength(ENGLISH_NAME_MAX_LENGTH);
+            this.Property(x => x.LocalName)
+                .HasMaxLength(LOCAL_NAME_MAX_LENGTH);
             this.Property(x => x.Symbol)
                 .HasMaxLength(SYMBOL_MAX_LENGTH);
         }

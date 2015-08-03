@@ -15,6 +15,8 @@ namespace Epsilon.Logic.Helpers
 
         public static EnumMemoizer<CountryId> CountryId = new EnumMemoizer<CountryId>();
 
+        public static EnumMemoizer<CurrencyId> CurrencyId = new EnumMemoizer<CurrencyId>();
+
         public static EnumMemoizer<CountryVariantResourceName> CountryVariantResourceName =
             new EnumMemoizer<CountryVariantResourceName>();
 

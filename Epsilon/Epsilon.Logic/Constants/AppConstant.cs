@@ -20,6 +20,8 @@ namespace Epsilon.Logic.Constants
         public const string COUNTRY_DISPLAY_FIELD = "EnglishName";
         public static Func<Country, string> COUNTRY_DISPLAY_FIELD_SELECTOR = (x => x.EnglishName);
 
+        public static Func<Currency, string> CURRENCY_DISPLAY_FIELD_SELECTOR = (x => x.EnglishName);
+
         public const byte IP_ADDRESS_MAX_LENGTH = 39;
 
         public const int MAX_NUMBERS_OF_BEDROOMS = 20;

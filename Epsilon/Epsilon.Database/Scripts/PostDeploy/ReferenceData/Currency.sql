@@ -14,12 +14,12 @@ FROM [dbo].[Currency]
 WHERE 1 = 0
 
 INSERT INTO #TMP
-([Id], [EnglishName], [Symbol])
+([Id], [EnglishName], [LocalName], [Symbol])
 VALUES
 -- Edit the values below to update the target table.
-(N'EUR', N'Euro', N'€'),
-(N'GBP', N'United Kingdom Pound', N'£'),
-(N'USD', N'United States Dollar', N'$');
+(N'EUR', N'Euro', N'Euro', N'€'),
+(N'GBP', N'United Kingdom Pound', N'United Kingdom Pound', N'£'),
+(N'USD', N'United States Dollar', N'United States Dollar', N'$');
 GO
 
 MERGE [dbo].[Currency] AS T -- Target
@@ -28,10 +28,11 @@ USING #TMP AS S -- Source
 WHEN MATCHED
     THEN UPDATE SET
 	    T.[EnglishName] = S.[EnglishName],
+		T.[LocalName] = S.[LocalName],
 		T.[Symbol] = S.[Symbol]
 WHEN NOT MATCHED
-    THEN INSERT ([Id], [EnglishName], [Symbol])
-	VALUES (S.[Id], S.[EnglishName], S.[Symbol])
+    THEN INSERT ([Id], [EnglishName], [LocalName], [Symbol])
+	VALUES (S.[Id], S.[EnglishName], S.[LocalName], S.[Symbol])
 WHEN NOT MATCHED BY SOURCE 
     THEN DELETE;
 GO

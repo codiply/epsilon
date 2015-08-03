@@ -88,6 +88,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseFixtures\BaseIntegrationTestWithRollback.cs" />
+    <Compile Include="Logic\Constants\CurrencyIdTest.cs" />
     <Compile Include="Logic\Constants\TokenAccountTransactionTypeIdTest.cs" />
     <Compile Include="Logic\Constants\CountryIdTest.cs" />
     <Compile Include="Logic\Constants\DbAppSettingValueTypeTest.cs" />
@@ -96,6 +97,7 @@
     <Compile Include="Logic\Services\AdminAlertServiceTest.cs" />
     <Compile Include="Logic\Services\AdminEventLogServiceTest.cs" />
     <Compile Include="Logic\Services\AntiAbuseServiceTest.cs" />
+    <Compile Include="Logic\Services\CurrencyServiceTest.cs" />
     <Compile Include="Logic\Services\GeocodeServiceTest.cs" />
     <Compile Include="Logic\Services\OutgoingVerificationServiceTest.cs" />
     <Compile Include="Logic\Services\TokenAccountServiceTest.cs" />
