@@ -4,6 +4,7 @@
         busy: boolean,
         earliestMadeOn: string,
         moreItemsExist: boolean,
+        tokenRewardMetadata: linq.Dictionary<T4TS.TokenRewardKeyMetadata>,
         fetchNextPage: () => void
     }
 
@@ -33,12 +34,18 @@
             scope.earliestMadeOn = null;
             scope.items = new Array<T4TS.MyTokenTransactionsItem>();
 
-            var url = this.BASE_URL_WITH_LANGUAGE + '/api/token/mytokentransactionsnextpage/';
+            var metadataUrl = this.BASE_URL_WITH_LANGUAGE + '/api/token/getalltokenrewardmetadata/'
+            $http.get<T4TS.TokenRewardMetadata>(metadataUrl).success(function (data, status, headers, config) {
+                scope.tokenRewardMetadata = Enumerable.From(data.keyMetadata).ToDictionary(x => x.key, x => x);
+            });
+            
             var scope = this.scope;
             var http = this.$http;
+            var baseUrlWithLanguage = this.BASE_URL_WITH_LANGUAGE
 
             scope.fetchNextPage = function () {
                 if (scope.moreItemsExist) {
+                    var url = baseUrlWithLanguage + '/api/token/mytokentransactionsnextpage/';
                     scope.busy = true;
                     var request: T4TS.MyTokenTransactionsPageRequest = {
                         madeBefore: scope.earliestMadeOn

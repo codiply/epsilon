@@ -123,6 +123,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>TokenRewardKeyResources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Logic\TokenRewardKey\TokenRewardKeyResources.el.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TokenRewardKeyResources.el.resx</DependentUpon>
+    </Compile>
     <Compile Include="Web\Home\HomeResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -232,6 +237,10 @@
     <EmbeddedResource Include="Logic\TenancyDetailsSubmission\TenancyDetailsSubmissionResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>TenancyDetailsSubmissionResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Logic\TokenRewardKey\TokenRewardKeyResources.el.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>TokenRewardKeyResources.el.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Logic\TokenRewardKey\TokenRewardKeyResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

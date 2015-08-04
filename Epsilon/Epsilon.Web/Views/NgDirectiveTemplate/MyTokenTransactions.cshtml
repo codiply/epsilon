@@ -15,7 +15,11 @@
                infinite-scroll-disabled='busy'
                infinite-scroll-distance='1'>
             <tr ng-repeat='transaction in items'>
-                <td>{{transaction.rewardTypeKey}}</td>
+                <td>
+                    <span title="{{tokenRewardMetadata.Get(transaction.rewardTypeKey).description}}">
+                        {{tokenRewardMetadata.Get(transaction.rewardTypeKey).displayName}}
+                    </span>
+                </td>
                 <td>{{transaction.quantity}}</td>
                 <td>{{transaction.amount}}</td>
             </tr>

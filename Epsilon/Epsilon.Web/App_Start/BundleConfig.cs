@@ -34,6 +34,9 @@ namespace Epsilon.Web
             bundles.Add(new ScriptBundle("~/bundles/bootstrap-datepicker").Include(
                         "~/Scripts/lib/bootstrap-datepicker/bootstrap-datepicker.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/linq").Include(
+                        "~/Scripts/lib/linq/linq.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/angularjs").Include(
                         "~/Scripts/lib/angularjs/angular.js",
                         "~/Scripts/lib/ng-infinite-scroll/ng-infinite-scroll.js"));
