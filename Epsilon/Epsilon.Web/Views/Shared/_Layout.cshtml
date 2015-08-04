@@ -49,11 +49,13 @@
     <div class="container body-content">
         @Html.Partial("_Alerts")
         @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - @companyName</p>
-        </footer>
     </div>
+    <footer>
+        <hr />
+        <div class="container">
+            <p>&copy; @DateTime.Now.Year - @companyName</p>
+        </div>
+    </footer>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")

@@ -103,7 +103,8 @@ VALUES
      N'Caching period in minutes for MySubmissionSummary data.'),
 (N'TenancyDetailsSubmission_MySubmissionsSummary_ItemsLimit', N'10', N'Integer',
      N'The maximum number of submissions that will apear in the summary on the front page.'),
-(N'Token_MyTokenTransactions_PageSize', N'10', N'Integer',
+-- This needs to be big enough to fill initially the screen.
+(N'Token_MyTokenTransactions_PageSize', N'30', N'Integer',
      N'The number of items fetched as a page from the server for MyTokenTrasactions screen.');
 GO
 

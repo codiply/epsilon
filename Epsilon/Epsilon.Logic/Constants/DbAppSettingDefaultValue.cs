@@ -43,6 +43,6 @@ namespace Epsilon.Logic.Constants
         public double TenancyDetailsSubmission_MySubmissionsSummary_CachingPeriodInMinutes { get { return 15.0; } }
         public int TenancyDetailsSubmission_MySubmissionsSummary_ItemsLimit { get { return 10; } }
 
-        public int Token_MyTokenTransactions_PageSize { get { return 10; } }
+        public int Token_MyTokenTransactions_PageSize { get { return 30; } }
     }
 }

@@ -39,26 +39,18 @@
 
             scope.fetchNextPage = function () {
                 if (scope.moreItemsExist) {
-                    scope.$apply(function () {
-                        scope.busy = true;
-                    });
+                    scope.busy = true;
                     var request: T4TS.MyTokenTransactionsPageRequest = {
                         madeBefore: scope.earliestMadeOn
                     };
                     $http.post<T4TS.MyTokenTransactionsPageResponse>(url, request).success(function (data, status, headers, config) {
                         for (var i = 0; i < data.items.length; i++) {
-                            scope.$apply(function () {
-                                scope.items.push(data.items[i]);
-                            });
+                            scope.items.push(data.items[i]); 
                         }
-                        scope.$apply(function () {
-                            scope.earliestMadeOn = data.earliestMadeOn;
-                            scope.moreItemsExist = data.moreItemsExist;
-                        });
+                        scope.earliestMadeOn = data.earliestMadeOn;
+                        scope.moreItemsExist = data.moreItemsExist;
                     }).finally(function () {
-                        scope.$apply(function () {
-                            scope.busy = false;
-                        });
+                        scope.busy = false;
                     });
                 }
             }

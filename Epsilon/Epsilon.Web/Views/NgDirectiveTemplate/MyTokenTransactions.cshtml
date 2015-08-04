@@ -3,10 +3,24 @@
 }
 
 <div>
-    <div infinite-scroll="fetchNextPage();" infinite-scroll-disabled='busy' infinite-scroll-distance='3'>
-        <div ng-repeat='tr in items'>
-            <span>{{tr.madeOn}} - {{tr.uniqueId}}</span>
-        </div>
-        <div ng-cloack ng-show='busy'>Loading data...</div>
-    </div>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Type</th>
+                <th>Quantity</th>
+                <th>Amount</th>
+            </tr>
+        </thead>
+        <tbody infinite-scroll="fetchNextPage();"
+               infinite-scroll-disabled='busy'
+               infinite-scroll-distance='1'>
+            <tr ng-repeat='transaction in items'>
+                <td>{{transaction.rewardTypeKey}}</td>
+                <td>{{transaction.quantity}}</td>
+                <td>{{transaction.amount}}</td>
+            </tr>
+            <tr style="clear:both;"></tr>
+        </tbody>
+    </table>
+    <div ng-cloack ng-show='busy'>Loading data...</div>
 </div>
