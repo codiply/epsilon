@@ -1318,6 +1318,7 @@
       <SubType>Code</SubType>
     </TypeScriptCompile>
     <TypeScriptCompile Include="Scripts\ngapp\directives\ClickOnce.ts" />
+    <TypeScriptCompile Include="Scripts\ngapp\filters\LocalDateTime.ts" />
     <TypeScriptCompile Include="Scripts\ngapp\filters\StringFormat.ts" />
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular-animate.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular-cookies.d.ts" />

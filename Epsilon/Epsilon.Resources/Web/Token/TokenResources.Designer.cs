@@ -61,7 +61,61 @@ namespace Epsilon.Resources.Web.Token {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to My Transactions.
+        ///   Looks up a localized string similar to Amount.
+        /// </summary>
+        public static string MyTokenTransactions_ColumnAmount_Header {
+            get {
+                return ResourceManager.GetString("MyTokenTransactions_ColumnAmount_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Made On.
+        /// </summary>
+        public static string MyTokenTransactions_ColumnMadeOn_Header {
+            get {
+                return ResourceManager.GetString("MyTokenTransactions_ColumnMadeOn_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Quantity.
+        /// </summary>
+        public static string MyTokenTransactions_ColumnQuantity_Header {
+            get {
+                return ResourceManager.GetString("MyTokenTransactions_ColumnQuantity_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type.
+        /// </summary>
+        public static string MyTokenTransactions_ColumnRewardType_Header {
+            get {
+                return ResourceManager.GetString("MyTokenTransactions_ColumnRewardType_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to My Token Transactions.
+        /// </summary>
+        public static string MyTokenTransactions_Header {
+            get {
+                return ResourceManager.GetString("MyTokenTransactions_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Loading....
+        /// </summary>
+        public static string MyTokenTransactions_LoadingMessage {
+            get {
+                return ResourceManager.GetString("MyTokenTransactions_LoadingMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to My Token Transactions.
         /// </summary>
         public static string Transactions_PageTitle {
             get {

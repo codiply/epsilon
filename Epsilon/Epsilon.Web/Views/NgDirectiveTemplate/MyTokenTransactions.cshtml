@@ -2,29 +2,34 @@
     Layout = null;
 }
 
+@using Epsilon.Resources.Web.Token
+
 <div>
+    <h3>@TokenResources.MyTokenTransactions_Header</h3>
     <table class="table table-striped">
         <thead>
             <tr>
-                <th>Type</th>
-                <th>Quantity</th>
-                <th>Amount</th>
+                <th>@TokenResources.MyTokenTransactions_ColumnMadeOn_Header</th>
+                <th>@TokenResources.MyTokenTransactions_ColumnAmount_Header</th>
+                <th>@TokenResources.MyTokenTransactions_ColumnRewardType_Header</th>
+                <th>@TokenResources.MyTokenTransactions_ColumnQuantity_Header</th>
             </tr>
         </thead>
         <tbody infinite-scroll="fetchNextPage();"
                infinite-scroll-disabled='busy'
                infinite-scroll-distance='1'>
             <tr ng-repeat='transaction in items'>
+                <td>{{transaction.madeOn | localDateTime }}</td>
+                <td>{{transaction.amount}}</td>
                 <td>
                     <span title="{{tokenRewardMetadata.Get(transaction.rewardTypeKey).description}}">
                         {{tokenRewardMetadata.Get(transaction.rewardTypeKey).displayName}}
                     </span>
                 </td>
                 <td>{{transaction.quantity}}</td>
-                <td>{{transaction.amount}}</td>
             </tr>
             <tr style="clear:both;"></tr>
         </tbody>
     </table>
-    <div ng-cloack ng-show='busy'>Loading data...</div>
+    <div ng-cloack ng-show='busy'>@TokenResources.MyTokenTransactions_LoadingMessage</div>
 </div>

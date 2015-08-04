@@ -18,4 +18,5 @@ angular.module('ngEpsilon', ['ngEpsilon.config'])
         Directives.MyTokenTransactions])
     .directive("tokenBalanceBadge", ['$http', 'BASE_URL_WITH_LANGUAGE', Directives.TokenBalanceBadge])
 // Filters
+    .filter("localDateTime", Filters.localDateTime)
     .filter("stringFormat", Filters.stringFormat);

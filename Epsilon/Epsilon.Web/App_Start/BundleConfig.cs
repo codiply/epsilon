@@ -45,6 +45,7 @@ namespace Epsilon.Web
                         // Controllers
                         "~/Scripts/ngapp/controllers/SubmissionAddressSearchController.js",
                         // Filters
+                        "~/Scripts/ngapp/filters/LocalDateTime.js",
                         "~/Scripts/ngapp/filters/StringFormat.js",
                         // Directives
                         "~/Scripts/ngapp/directives/AddressMap.js",
