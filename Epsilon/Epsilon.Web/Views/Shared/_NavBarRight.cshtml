@@ -64,7 +64,7 @@
             <span class="glyphicon glyphicon-info-sign glyphicon-lg" aria-hidden="true"></span>
         </a>
         <ul class="dropdown-menu">
-            <li><a href="@Url.Action("Faq", "Home")">@LayoutResources.NavBar_Faq_LinkText</a></li>
+            <li><a href="@Url.Action("Faq", "Home")">@CommonResources.Faq_InFull</a></li>
             @if (Request.IsAuthenticated)
             {
             <li><a href="@Url.Action("Rewards", "Token")">@LayoutResources.NavBar_TokenRewards_LinkText</a></li>

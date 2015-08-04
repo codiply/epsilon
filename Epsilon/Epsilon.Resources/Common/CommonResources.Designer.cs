@@ -88,6 +88,24 @@ namespace Epsilon.Resources.Common {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to FAQ.
+        /// </summary>
+        public static string Faq_Acronym {
+            get {
+                return ResourceManager.GetString("Faq_Acronym", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Frequently Asked Questions.
+        /// </summary>
+        public static string Faq_InFull {
+            get {
+                return ResourceManager.GetString("Faq_InFull", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to An error occurred while processing your request..
         /// </summary>
         public static string GenericErrorMessage {

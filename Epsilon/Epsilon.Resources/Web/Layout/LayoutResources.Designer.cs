@@ -61,15 +61,6 @@ namespace Epsilon.Resources.Web.Layout {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Frequently Asked Questions.
-        /// </summary>
-        public static string NavBar_Faq_LinkText {
-            get {
-                return ResourceManager.GetString("NavBar_Faq_LinkText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Info.
         /// </summary>
         public static string NavBar_InfoGroup_HoverText {

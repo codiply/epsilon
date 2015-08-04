@@ -1,10 +1,70 @@
-﻿@using Epsilon.Resources.Web.Home
+﻿@using Epsilon.Resources.Common
+@using Epsilon.Resources.Web.Home
 @{
     ViewBag.Title = HomeResources.Index_PageTitle;
 }
 
 <div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="http://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+    <h1>@HomeResources.Index_Header</h1>
+    <p class="lead"><b>@HomeResources.Index_MissionStatement_OpeningLine</b></p>
+    <p class="lead">@HomeResources.Index_MissionStatement_Rest</p>
+    <p>
+        <a href="@Url.Action("Register", "Account")" class="btn btn-primary btn-lg">@CommonResources.Register &raquo;</a>
+        <a href="@Url.Action("Login", "Account")" class="btn btn-primary btn-lg">@CommonResources.Login &raquo;</a>
+    </p>
+</div>
+
+<div>
+    <h3>@HomeResources.Index_HowItWorks_Header</h3>
+    <ul class="list-group">
+        <li class="list-group-item row">
+            <div>
+                <div class="col-md-1">
+                    <span class="glyphicon glyphicon-home glyphicon-lg" aria-hidden="true"></span>
+                </div>
+                <span class="col-md-11">You pick or add your address. We don't store your name, just your address.</span>
+            </div>
+        </li>
+        <li class="list-group-item row">
+            <div>
+                <div class="col-md-1">
+                    <span class="glyphicon glyphicon-inbox glyphicon-lg" aria-hidden="true"></span>
+                </div>
+                <span class="col-md-11">You receive two verification codes by post.</span>
+            </div>
+        </li>
+        <li class="list-group-item row">
+            <div>
+                <div class="col-md-1">
+                    <span class="glyphicon glyphicon-check glyphicon-lg" aria-hidden="true"></span>
+                </div> 
+                <span class="col-md-11">You enter the verification codes and verify your address. You earn tokens.</span>
+            </div>
+        </li>
+        <li class="list-group-item row">
+            <div>
+                <div class="col-md-1">
+                    <span class="glyphicon glyphicon-info-sign glyphicon-lg" aria-hidden="true"></span>
+                </div>
+                <span class="col-md-11">Once verified, you can submit the details for your tenancy. You earn more tokens.</span>
+            </div>
+        </li>
+        <li class="list-group-item row">
+            <div>
+                <div class="col-md-1">
+                    <span class="glyphicon glyphicon-home glyphicon-lg" aria-hidden="true"></span>
+                </div>
+                <span class="col-md-11">You can use your tokens to access the information for other properties.</span>
+            </div>            
+        </li>
+        <li class="list-group-item row">
+            <div>
+                <div class="col-md-1">
+                    <span class="glyphicon glyphicon-envelope glyphicon-lg" aria-hidden="true"></span>
+                </div>
+                <span class="col-md-11">To earn more tokens you can help by sending verification post to other users.</span>
+            </div>
+        </li>
+    </ul>
+    <p><a href="@Url.Action("Faq", "Home")" class="btn btn-primary">@CommonResources.Faq_InFull &raquo;</a></p>
 </div>

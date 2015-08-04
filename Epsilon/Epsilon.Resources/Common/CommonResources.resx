@@ -153,4 +153,10 @@
   <data name="BackLinkText" xml:space="preserve">
     <value>Back</value>
   </data>
+  <data name="Faq_Acronym" xml:space="preserve">
+    <value>FAQ</value>
+  </data>
+  <data name="Faq_InFull" xml:space="preserve">
+    <value>Frequently Asked Questions</value>
+  </data>
 </root>
