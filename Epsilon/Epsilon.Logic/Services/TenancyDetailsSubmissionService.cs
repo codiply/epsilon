@@ -216,8 +216,8 @@ namespace Epsilon.Logic.Services
                 };
             }
 
-            bool senderRewardedAlready = verification.SenderRewardedOn == null;
-            if (senderRewardedAlready)
+            var hasSenderBeenRewarded = verification.IsSenderRewarded();
+            if (!hasSenderBeenRewarded)
                 verification.SenderRewardedOn = _clock.OffsetNow; // TODO_PANOS_TEST
 
             verification.VerifiedOn = _clock.OffsetNow;
@@ -245,7 +245,7 @@ namespace Epsilon.Logic.Services
                 // TODO_PANOS: return failure before committing the transaction later on.
             }
 
-            if (!senderRewardedAlready)
+            if (!hasSenderBeenRewarded)
             {
                 // TODO_PANOS_TEST: also test the correct internal reference is used.
                 var senderRewardStatus = await _userTokenService

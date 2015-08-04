@@ -47,6 +47,11 @@ namespace Epsilon.Logic.Entities
             return UniqueId.ToString().ToUpperInvariant();
         }
 
+        public bool IsSenderRewarded()
+        {
+            return SenderRewardedOn.HasValue;
+        }
+
         public TenantVerificationInfo ToInfo()
         {
             return new TenantVerificationInfo
