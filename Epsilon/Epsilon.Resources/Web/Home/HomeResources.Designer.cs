@@ -79,6 +79,60 @@ namespace Epsilon.Resources.Web.Home {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You use the codes to verify your address. You earn tokens..
+        /// </summary>
+        public static string Index_HowItWorks_StepEnterVerificationCode_Text {
+            get {
+                return ResourceManager.GetString("Index_HowItWorks_StepEnterVerificationCode_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to To earn more tokens, you can help by sending verification codes by post to other users..
+        /// </summary>
+        public static string Index_HowItWorks_StepHelpSendVerifications_Text {
+            get {
+                return ResourceManager.GetString("Index_HowItWorks_StepHelpSendVerifications_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You pick or add your address. We don&apos;t store your name, just your address..
+        /// </summary>
+        public static string Index_HowItWorks_StepPickAddAddress_Text {
+            get {
+                return ResourceManager.GetString("Index_HowItWorks_StepPickAddAddress_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You receive two verification codes by post..
+        /// </summary>
+        public static string Index_HowItWorks_StepReceiveVerification_Text {
+            get {
+                return ResourceManager.GetString("Index_HowItWorks_StepReceiveVerification_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You can use your tokens to access information for other properties..
+        /// </summary>
+        public static string Index_HowItWorks_StepSpendTokens_Text {
+            get {
+                return ResourceManager.GetString("Index_HowItWorks_StepSpendTokens_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Once verified, you can submit the details for your tenancy. You earn more tokens..
+        /// </summary>
+        public static string Index_HowItWorks_StepSubmitTenancyDetails_Text {
+            get {
+                return ResourceManager.GetString("Index_HowItWorks_StepSubmitTenancyDetails_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Our mission is to bring transparency to historic house rental prices..
         /// </summary>
         public static string Index_MissionStatement_OpeningLine {

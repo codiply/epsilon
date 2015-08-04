@@ -452,6 +452,7 @@
     <Content Include="Scripts\lib\bootstrap-datepicker\locales\bootstrap-datepicker.zh-TW.min.js" />
     <Content Include="Scripts\lib\ng-infinite-scroll\ng-infinite-scroll.js" />
     <Content Include="Scripts\lib\ng-infinite-scroll\ng-infinite-scroll.min.js" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.woff2" />
     <None Include="Scripts\lib\linq\linq-vsdoc.js" />
     <Content Include="Scripts\lib\linq\linq.js" />
     <Content Include="Scripts\lib\linq\linq.min.js" />
