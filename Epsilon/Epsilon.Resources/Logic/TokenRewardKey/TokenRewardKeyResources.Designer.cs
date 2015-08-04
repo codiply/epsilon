@@ -115,7 +115,7 @@ namespace Epsilon.Resources.Logic.TokenRewardKey {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Tokens spend for accessing the information for a property.
+        ///   Looks up a localized string similar to Tokens spend for accessing the information for a property..
         /// </summary>
         public static string SpendPerPropertyDetailsAccess_Description {
             get {
