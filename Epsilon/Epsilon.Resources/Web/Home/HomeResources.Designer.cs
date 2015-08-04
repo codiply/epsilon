@@ -88,7 +88,7 @@ namespace Epsilon.Resources.Web.Home {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to To earn more tokens, you can help by sending verification codes by post to other users..
+        ///   Looks up a localized string similar to To earn more tokens, you can help verify other users by sending them a verification code by post..
         /// </summary>
         public static string Index_HowItWorks_StepHelpSendVerifications_Text {
             get {
@@ -106,7 +106,7 @@ namespace Epsilon.Resources.Web.Home {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You receive two verification codes by post..
+        ///   Looks up a localized string similar to You receive two verification codes by post, sent by other users..
         /// </summary>
         public static string Index_HowItWorks_StepReceiveVerification_Text {
             get {
@@ -124,7 +124,7 @@ namespace Epsilon.Resources.Web.Home {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Once verified, you can submit the details for your tenancy. You earn more tokens..
+        ///   Looks up a localized string similar to Once verified, you can submit the information for your tenancy. You earn more tokens..
         /// </summary>
         public static string Index_HowItWorks_StepSubmitTenancyDetails_Text {
             get {
@@ -133,7 +133,7 @@ namespace Epsilon.Resources.Web.Home {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Our mission is to bring transparency to historic house rental prices..
+        ///   Looks up a localized string similar to Our mission is to bring transparency to house rental prices..
         /// </summary>
         public static string Index_MissionStatement_OpeningLine {
             get {
@@ -142,7 +142,7 @@ namespace Epsilon.Resources.Web.Home {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to We have created a platform that enables tenants to voluntarily share information. Tenants are verified by post in a peer-to-peer fashion by other users..
+        ///   Looks up a localized string similar to We have created a platform that enables tenants to voluntarily share information. Tenants are verified by post in a peer-to-peer fashion..
         /// </summary>
         public static string Index_MissionStatement_Rest {
             get {

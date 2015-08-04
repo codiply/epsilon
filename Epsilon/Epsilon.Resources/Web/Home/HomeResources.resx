@@ -127,25 +127,25 @@
     <value>You use the codes to verify your address. You earn tokens.</value>
   </data>
   <data name="Index_HowItWorks_StepHelpSendVerifications_Text" xml:space="preserve">
-    <value>To earn more tokens, you can help by sending verification codes by post to other users.</value>
+    <value>To earn more tokens, you can help verify other users by sending them a verification code by post.</value>
   </data>
   <data name="Index_HowItWorks_StepPickAddAddress_Text" xml:space="preserve">
     <value>You pick or add your address. We don't store your name, just your address.</value>
   </data>
   <data name="Index_HowItWorks_StepReceiveVerification_Text" xml:space="preserve">
-    <value>You receive two verification codes by post.</value>
+    <value>You receive two verification codes by post, sent by other users.</value>
   </data>
   <data name="Index_HowItWorks_StepSpendTokens_Text" xml:space="preserve">
     <value>You can use your tokens to access information for other properties.</value>
   </data>
   <data name="Index_HowItWorks_StepSubmitTenancyDetails_Text" xml:space="preserve">
-    <value>Once verified, you can submit the details for your tenancy. You earn more tokens.</value>
+    <value>Once verified, you can submit the information for your tenancy. You earn more tokens.</value>
   </data>
   <data name="Index_MissionStatement_OpeningLine" xml:space="preserve">
-    <value>Our mission is to bring transparency to historic house rental prices.</value>
+    <value>Our mission is to bring transparency to house rental prices.</value>
   </data>
   <data name="Index_MissionStatement_Rest" xml:space="preserve">
-    <value>We have created a platform that enables tenants to voluntarily share information. Tenants are verified by post in a peer-to-peer fashion by other users.</value>
+    <value>We have created a platform that enables tenants to voluntarily share information. Tenants are verified by post in a peer-to-peer fashion.</value>
   </data>
   <data name="Index_PageTitle" xml:space="preserve">
     <value>Welcome</value>
