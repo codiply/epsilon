@@ -198,7 +198,7 @@ namespace Epsilon.Logic.Services
             {
                 items = transactions.Select(x => x.ToItem()).ToList(),
                 moreItemsExist = moreItemsExist,
-                earliestItem = transactions.Any() ? transactions.Last().MadeOn : request.madeBefore
+                earliestMadeOn = transactions.Any() ? transactions.Last().MadeOn : request.madeBefore
             };
         }
 

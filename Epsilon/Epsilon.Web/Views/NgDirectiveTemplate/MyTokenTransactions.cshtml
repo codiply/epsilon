@@ -1,3 +1,12 @@
 ﻿@{
     Layout = null;
 }
+
+<div>
+    <div infinite-scroll="fetchNextPage();" infinite-scroll-disabled='busy' infinite-scroll-distance='3'>
+        <div ng-repeat='tr in items'>
+            <span>{{tr.madeOn}} - {{tr.uniqueId}}</span>
+        </div>
+        <div ng-cloack ng-show='busy'>Loading data...</div>
+    </div>
+</div>

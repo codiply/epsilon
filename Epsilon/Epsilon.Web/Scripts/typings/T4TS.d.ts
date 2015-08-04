@@ -53,6 +53,24 @@ declare module T4TS {
         tenancyDetailsSubmissions: T4TS.TenancyDetailsSubmissionInfo[];
         moreItemsExist: boolean;
     }
+    /** Generated from Epsilon.Logic.JsonModels.MyTokenTransactionsItem **/
+    export interface MyTokenTransactionsItem {
+        uniqueId: string;
+        rewardTypeKey: string;
+        amount: number;
+        quantity: number;
+        madeOn: string;
+    }
+    /** Generated from Epsilon.Logic.JsonModels.MyTokenTransactionsPageRequest **/
+    export interface MyTokenTransactionsPageRequest {
+        madeBefore: string;
+    }
+    /** Generated from Epsilon.Logic.JsonModels.MyTokenTransactionsPageResponse **/
+    export interface MyTokenTransactionsPageResponse {
+        items: T4TS.MyTokenTransactionsItem[];
+        moreItemsExist: boolean;
+        earliestMadeOn: string;
+    }
     /** Generated from Epsilon.Logic.JsonModels.TenancyDetailsSubmissionInfo **/
     export interface TenancyDetailsSubmissionInfo {
         uniqueId: string;

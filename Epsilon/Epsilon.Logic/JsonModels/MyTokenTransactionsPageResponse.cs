@@ -12,6 +12,6 @@ namespace Epsilon.Logic.JsonModels
     {
         public IList<MyTokenTransactionsItem> items { get; set; }
         public bool moreItemsExist { get; set; }
-        public DateTimeOffset? earliestItem { get; set; }
+        public DateTimeOffset? earliestMadeOn { get; set; }
     }
 }

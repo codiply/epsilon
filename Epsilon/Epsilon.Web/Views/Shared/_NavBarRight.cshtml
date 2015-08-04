@@ -13,7 +13,7 @@
     @if (User.Identity.IsAuthenticated)
     {
         <li>
-            <a href="#" title="@CommonResources.TokenBalanceBadgeHoverText"><token-balance-badge /></a>
+            <a href="@Url.Action("Transactions","Token")" title="@CommonResources.TokenBalanceBadgeHoverText"><token-balance-badge /></a>
         </li>
     }
     @if (User.IsInRole(AspNetRole.Admin))
