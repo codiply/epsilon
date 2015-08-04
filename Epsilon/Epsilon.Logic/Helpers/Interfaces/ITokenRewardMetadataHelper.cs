@@ -9,6 +9,6 @@ namespace Epsilon.Logic.Helpers.Interfaces
 {
     public interface ITokenRewardMetadataHelper
     {
-        TokenRewardMetadata GetAll();
+        IList<TokenRewardTypeMetadata> GetAll();
     }
 }

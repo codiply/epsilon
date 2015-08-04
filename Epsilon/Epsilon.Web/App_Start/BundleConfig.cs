@@ -54,6 +54,7 @@ namespace Epsilon.Web
                         "~/Scripts/ngapp/directives/MySubmissionsSummary.js",
                         "~/Scripts/ngapp/directives/MyTokenTransactions.js",
                         "~/Scripts/ngapp/directives/TokenBalanceBadge.js",
+                        "~/Scripts/ngapp/directives/TokenRewardsSummary.js",
                         "~/Scripts/ngapp/app.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/run_prettify").Include(

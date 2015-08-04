@@ -13,6 +13,8 @@ using System.Threading.Tasks;
 using System.Data.Entity;
 using Epsilon.Logic.Constants.Enums;
 using Epsilon.Logic.Helpers;
+using Epsilon.Logic.Helpers.Interfaces;
+using Epsilon.Logic.JsonModels;
 
 namespace Epsilon.Logic.Services
 {
@@ -22,17 +24,49 @@ namespace Epsilon.Logic.Services
         private readonly ICommonConfig _commonConfig;
         private readonly IAppCache _appCache;
         private readonly IEpsilonContext _dbContext;
+        private readonly ITokenRewardMetadataHelper _tokenRewardMetadataHelper;
 
         public TokenRewardService(
             IClock clock,
             ICommonConfig commonConfig,
             IAppCache appCache,
-            IEpsilonContext dbContext)
+            IEpsilonContext dbContext,
+            ITokenRewardMetadataHelper tokenRewardMetadataHelper)
         {
             _clock = clock;
             _commonConfig = commonConfig;
             _appCache = appCache;
             _dbContext = dbContext;
+            _tokenRewardMetadataHelper = tokenRewardMetadataHelper;
+        }
+
+        public async Task<TokenRewardsSummaryResponse> GetTokenRewardsSummary()
+        {
+            // TODO_PANOS_TEST: all
+            var currentScheme = GetCurrentScheme();
+            var rewards = currentScheme.Rewards
+                .Select(r => new { TypeKey = r.TypeKeyAsEnum, Reward = r })
+                .Where(x => x.TypeKey.HasValue)
+                .Select(x => new { EarnOrSpend = x.TypeKey.Value.EarnOrSpend(), Reward = x.Reward });
+
+            var earnRewards = rewards.Where(x => x.EarnOrSpend == TokenRewardKeyType.Earn).Select(x => x.Reward);
+            var spendRewards = rewards.Where(x => x.EarnOrSpend == TokenRewardKeyType.Spend).Select(x => x.Reward);
+
+            return new TokenRewardsSummaryResponse
+            {
+                typeMetadata = _tokenRewardMetadataHelper.GetAll(),
+                earnTypeValues = earnRewards.Select(x => x.ToTokeRewardTypeValue()).ToList(),
+                spendTypeValues = spendRewards.Select(x => x.ToTokeRewardTypeValue()).ToList()
+            };
+        }
+
+        public TokenRewardMetadata GetAllTokenRewardMetadata()
+        {
+            // TODO_PANOS_TEST:
+            return new TokenRewardMetadata
+            {
+                typeMetadata = _tokenRewardMetadataHelper.GetAll()
+            };
         }
 
         public TokenRewardScheme GetCurrentScheme()

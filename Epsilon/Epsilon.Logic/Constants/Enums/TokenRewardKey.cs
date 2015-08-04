@@ -26,6 +26,12 @@ namespace Epsilon.Logic.Constants.Enums
         SpendPerPropertyDetailsAccess
     }
 
+    public enum TokenRewardKeyType
+    {
+        Earn,
+        Spend
+    }
+
     public enum TokenRewardKeyAmountSign
     {
         Positive,
@@ -36,12 +42,26 @@ namespace Epsilon.Logic.Constants.Enums
     {
         public static TokenRewardKeyAmountSign AmountSign(this TokenRewardKey key)
         {
+            switch (key.EarnOrSpend())
+            {
+                case TokenRewardKeyType.Earn:
+                    return TokenRewardKeyAmountSign.Positive;
+                case TokenRewardKeyType.Spend:
+                    return TokenRewardKeyAmountSign.Negative;
+                default:
+                    throw new Exception(string.Format("Unexpected TokenRewardKey '{0} that doesn't start with either '{1}' or '{2}'.",
+                    key, AppConstant.TOKEN_REWARD_KEY_EARN, AppConstant.TOKEN_REWARD_KEY_SPEND));
+            }
+        }
+
+        public static TokenRewardKeyType EarnOrSpend(this TokenRewardKey key)
+        {
             var name = EnumsHelper.TokenRewardKey.ToString(key);
 
             if (name.StartsWith(AppConstant.TOKEN_REWARD_KEY_EARN))
-                return TokenRewardKeyAmountSign.Positive;
+                return TokenRewardKeyType.Earn;
             if (name.StartsWith(AppConstant.TOKEN_REWARD_KEY_SPEND))
-                return TokenRewardKeyAmountSign.Negative;
+                return TokenRewardKeyType.Spend;
 
             throw new Exception(string.Format("Unexpected TokenRewardKey '{0} that doesn't start with either '{1}' or '{2}'.",
                 name, AppConstant.TOKEN_REWARD_KEY_EARN, AppConstant.TOKEN_REWARD_KEY_SPEND));

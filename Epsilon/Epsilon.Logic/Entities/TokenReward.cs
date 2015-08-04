@@ -1,5 +1,9 @@
-﻿using System;
+﻿using Epsilon.Logic.Constants.Enums;
+using Epsilon.Logic.Helpers;
+using Epsilon.Logic.JsonModels;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,5 +18,23 @@ namespace Epsilon.Logic.Entities
 
         public virtual TokenRewardScheme Scheme { get; set; }
         public virtual TokenRewardType Type { get; set; }
+
+        [NotMapped]
+        public virtual TokenRewardKey? TypeKeyAsEnum
+        {
+            get
+            {
+                return EnumsHelper.TokenRewardKey.Parse(TypeKey);
+            }
+        }
+
+        public TokenRewardTypeValue ToTokeRewardTypeValue()
+        {
+            return new TokenRewardTypeValue
+            {
+                key = TypeKey,
+                value = Value
+            };
+        }
     }
 }

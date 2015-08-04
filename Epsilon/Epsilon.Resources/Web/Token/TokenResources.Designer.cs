@@ -115,6 +115,87 @@ namespace Epsilon.Resources.Web.Token {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Token Rewards.
+        /// </summary>
+        public static string Rewards_PageTitle {
+            get {
+                return ResourceManager.GetString("Rewards_PageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Description.
+        /// </summary>
+        public static string TokenRewardsSummary_ColumnDescription_Header {
+            get {
+                return ResourceManager.GetString("TokenRewardsSummary_ColumnDescription_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type.
+        /// </summary>
+        public static string TokenRewardsSummary_ColumnRewardType_Header {
+            get {
+                return ResourceManager.GetString("TokenRewardsSummary_ColumnRewardType_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Amount.
+        /// </summary>
+        public static string TokenRewardsSummary_ColumnValue_Header {
+            get {
+                return ResourceManager.GetString("TokenRewardsSummary_ColumnValue_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to In all the cases in the table below your account will be credited with tokens..
+        /// </summary>
+        public static string TokenRewardsSummary_EarnGroup_Description {
+            get {
+                return ResourceManager.GetString("TokenRewardsSummary_EarnGroup_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Earn Tokens.
+        /// </summary>
+        public static string TokenRewardsSummary_EarnGroup_Header {
+            get {
+                return ResourceManager.GetString("TokenRewardsSummary_EarnGroup_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Token Rewards.
+        /// </summary>
+        public static string TokenRewardsSummary_Header {
+            get {
+                return ResourceManager.GetString("TokenRewardsSummary_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to In all the cases in the table below you account will be debited with tokens..
+        /// </summary>
+        public static string TokenRewardsSummary_SpendGroup_Description {
+            get {
+                return ResourceManager.GetString("TokenRewardsSummary_SpendGroup_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Spend Tokens.
+        /// </summary>
+        public static string TokenRewardsSummary_SpendGroup_Header {
+            get {
+                return ResourceManager.GetString("TokenRewardsSummary_SpendGroup_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to My Token Transactions.
         /// </summary>
         public static string Transactions_PageTitle {

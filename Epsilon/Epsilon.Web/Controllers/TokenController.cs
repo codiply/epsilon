@@ -13,5 +13,10 @@ namespace Epsilon.Web.Controllers
         {
             return View();
         }
+
+        public ActionResult Rewards()
+        {
+            return View();
+        }
     }
 }

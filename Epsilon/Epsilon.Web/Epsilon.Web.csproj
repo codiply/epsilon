@@ -1282,6 +1282,8 @@
     <Content Include="Views\Admin\_DbAppSettingLabelCloud.cshtml" />
     <Content Include="Views\Token\Transactions.cshtml" />
     <Content Include="Views\NgDirectiveTemplate\MyTokenTransactions.cshtml" />
+    <Content Include="Views\Token\Rewards.cshtml" />
+    <Content Include="Views\NgDirectiveTemplate\TokenRewardsSummary.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1311,6 +1313,7 @@
     <TypeScriptCompile Include="Scripts\ngapp\app.ts" />
     <TypeScriptCompile Include="Scripts\ngapp\controllers\SubmissionAddressSearchController.ts" />
     <TypeScriptCompile Include="Scripts\ngapp\directives\MyOutgoingVerificationsSummary.ts" />
+    <TypeScriptCompile Include="Scripts\ngapp\directives\TokenRewardsSummary.ts" />
     <TypeScriptCompile Include="Scripts\ngapp\directives\MyTokenTransactions.ts" />
     <TypeScriptCompile Include="Scripts\ngapp\directives\MySubmissionsSummary.ts" />
     <TypeScriptCompile Include="Scripts\ngapp\directives\TokenBalanceBadge.ts" />

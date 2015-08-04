@@ -4,7 +4,7 @@
         busy: boolean,
         earliestMadeOn: string,
         moreItemsExist: boolean,
-        tokenRewardMetadata: linq.Dictionary<T4TS.TokenRewardKeyMetadata>,
+        tokenRewardTypeMetadata: linq.Dictionary<T4TS.TokenRewardTypeMetadata>,
         fetchNextPage: () => void
     }
 
@@ -29,17 +29,18 @@
     export class MyTokenTransactionsLink {
         constructor(private scope: MyTokenTransactionsScope, element: ng.IAugmentedJQuery, attributes: ng.IAttributes,
             private $http: ng.IHttpService, private BASE_URL_WITH_LANGUAGE: string) {
+            var scope = this.scope;
+
             scope.moreItemsExist = true;
             scope.busy = false;
             scope.earliestMadeOn = null;
             scope.items = new Array<T4TS.MyTokenTransactionsItem>();
 
-            var metadataUrl = this.BASE_URL_WITH_LANGUAGE + '/api/token/getalltokenrewardmetadata/'
+            var metadataUrl = this.BASE_URL_WITH_LANGUAGE + '/api/token/tokenrewardmetadata/'
             $http.get<T4TS.TokenRewardMetadata>(metadataUrl).success(function (data, status, headers, config) {
-                scope.tokenRewardMetadata = Enumerable.From(data.keyMetadata).ToDictionary(x => x.key, x => x);
+                scope.tokenRewardTypeMetadata = Enumerable.From(data.typeMetadata).ToDictionary(x => x.key, x => x);
             });
-            
-            var scope = this.scope;
+
             var http = this.$http;
             var baseUrlWithLanguage = this.BASE_URL_WITH_LANGUAGE
 
@@ -50,7 +51,7 @@
                     var request: T4TS.MyTokenTransactionsPageRequest = {
                         madeBefore: scope.earliestMadeOn
                     };
-                    $http.post<T4TS.MyTokenTransactionsPageResponse>(url, request).success(function (data, status, headers, config) {
+                    http.post<T4TS.MyTokenTransactionsPageResponse>(url, request).success(function (data, status, headers, config) {
                         for (var i = 0; i < data.items.length; i++) {
                             scope.items.push(data.items[i]); 
                         }
@@ -61,10 +62,6 @@
                     });
                 }
             }
-        }
-
-        public fetchNextPage() {
-            
         }
     }
 }

@@ -135,6 +135,33 @@
   <data name="MyTokenTransactions_LoadingMessage" xml:space="preserve">
     <value>Loading...</value>
   </data>
+  <data name="Rewards_PageTitle" xml:space="preserve">
+    <value>Token Rewards</value>
+  </data>
+  <data name="TokenRewardsSummary_ColumnDescription_Header" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="TokenRewardsSummary_ColumnRewardType_Header" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="TokenRewardsSummary_ColumnValue_Header" xml:space="preserve">
+    <value>Amount</value>
+  </data>
+  <data name="TokenRewardsSummary_EarnGroup_Description" xml:space="preserve">
+    <value>In all the cases in the table below your account will be credited with tokens.</value>
+  </data>
+  <data name="TokenRewardsSummary_EarnGroup_Header" xml:space="preserve">
+    <value>Earn Tokens</value>
+  </data>
+  <data name="TokenRewardsSummary_Header" xml:space="preserve">
+    <value>Token Rewards</value>
+  </data>
+  <data name="TokenRewardsSummary_SpendGroup_Description" xml:space="preserve">
+    <value>In all the cases in the table below you account will be debited with tokens.</value>
+  </data>
+  <data name="TokenRewardsSummary_SpendGroup_Header" xml:space="preserve">
+    <value>Spend Tokens</value>
+  </data>
   <data name="Transactions_PageTitle" xml:space="preserve">
     <value>My Token Transactions</value>
   </data>

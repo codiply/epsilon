@@ -15,14 +15,15 @@ namespace Epsilon.Web.Controllers.ApiControllers
     public class TokenController : BaseApiController
     {
         private readonly IUserTokenService _userTokenService;
-        private readonly ITokenRewardMetadataHelper _tokenRewardMetadataHelper;
+        private readonly ITokenRewardService _tokenRewardService;
 
         public TokenController(
             IUserTokenService userTokenService,
-            ITokenRewardMetadataHelper tokenRewardMetadataHelper)
+            ITokenRewardMetadataHelper tokenRewardMetadataHelper,
+            ITokenRewardService tokenRewardService)
         {
             _userTokenService = userTokenService;
-            _tokenRewardMetadataHelper = tokenRewardMetadataHelper;
+            _tokenRewardService = tokenRewardService;
         }
 
         [HttpGet]
@@ -37,9 +38,16 @@ namespace Epsilon.Web.Controllers.ApiControllers
             return await _userTokenService.GetMyTokenTransactionsNextPage(GetUserId(), request);
         }
 
-        public TokenRewardMetadata GetAllTokenRewardMetadata()
+        [HttpGet]
+        public TokenRewardMetadata TokenRewardMetadata()
         {
-            return _tokenRewardMetadataHelper.GetAll();
+            return _tokenRewardService.GetAllTokenRewardMetadata();
+        }
+
+        [HttpGet]
+        public async Task<TokenRewardsSummaryResponse> TokenRewardsSummary()
+        {
+            return await _tokenRewardService.GetTokenRewardsSummary();
         }
     }
 }

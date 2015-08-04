@@ -23,5 +23,10 @@ namespace Epsilon.Web.Controllers
         {
             return View();
         }
+
+        public ActionResult TokenRewardsSummary()
+        {
+            return View();
+        }
     }
 }

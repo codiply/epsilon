@@ -22,8 +22,8 @@
                 <td>{{transaction.madeOn | localDateTime }}</td>
                 <td>{{transaction.amount}}</td>
                 <td>
-                    <span title="{{tokenRewardMetadata.Get(transaction.rewardTypeKey).description}}">
-                        {{tokenRewardMetadata.Get(transaction.rewardTypeKey).displayName}}
+                    <span title="{{tokenRewardTypeMetadata.Get(transaction.rewardTypeKey).description}}">
+                        {{tokenRewardTypeMetadata.Get(transaction.rewardTypeKey).displayName}}
                     </span>
                 </td>
                 <td>{{transaction.quantity}}</td>

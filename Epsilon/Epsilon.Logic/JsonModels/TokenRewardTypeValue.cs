@@ -8,8 +8,9 @@ using T4TS;
 namespace Epsilon.Logic.JsonModels
 {
     [TypeScriptInterface]
-    public class TokenRewardMetadata
+    public class TokenRewardTypeValue
     {
-        public IList<TokenRewardTypeMetadata> typeMetadata { get; set; }
+        public string key { get; set; }
+        public decimal value { get; set; }
     }
 }

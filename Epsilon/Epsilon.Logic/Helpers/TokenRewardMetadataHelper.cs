@@ -14,28 +14,15 @@ namespace Epsilon.Logic.Helpers
     {
         // TODO_PANOS_TEST: everything here
 
-        public static string ResourceNameForDisplayName(TokenRewardKey key)
-        {
-            return string.Format("{0}_DisplayName", EnumsHelper.TokenRewardKey.ToString(key));
-        }
-
-        public static string ResourceNameForDescription(TokenRewardKey key)
-        {
-            return string.Format("{0}_Description", EnumsHelper.TokenRewardKey.ToString(key));
-        }
-
-        public TokenRewardMetadata GetAll()
+        public IList<TokenRewardTypeMetadata> GetAll()
         {
             var resourceManager = TokenRewardKeyResources.ResourceManager;
 
-            var answer = new TokenRewardMetadata
-            {
-                keyMetadata = new List<TokenRewardKeyMetadata>()
-            };
+            var typeMetadata = new List<TokenRewardTypeMetadata>();
 
             foreach (var key in EnumsHelper.TokenRewardKey.GetValues())
             {
-                answer.keyMetadata.Add(new TokenRewardKeyMetadata
+                typeMetadata.Add(new TokenRewardTypeMetadata
                 {
                     key = EnumsHelper.TokenRewardKey.ToString(key),
                     displayName = resourceManager.GetString(ResourceNameForDisplayName(key)),
@@ -43,7 +30,17 @@ namespace Epsilon.Logic.Helpers
                 });
             }
 
-            return answer;
+            return typeMetadata;
+        }
+
+        private static string ResourceNameForDisplayName(TokenRewardKey key)
+        {
+            return string.Format("{0}_DisplayName", EnumsHelper.TokenRewardKey.ToString(key));
+        }
+
+        private static string ResourceNameForDescription(TokenRewardKey key)
+        {
+            return string.Format("{0}_Description", EnumsHelper.TokenRewardKey.ToString(key));
         }
     }
 }
