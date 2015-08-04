@@ -120,6 +120,7 @@ namespace Epsilon.Web.App_Start
             kernel.Bind<IDbAppSettingsHelper>().To<DbAppSettingsHelper>().InRequestScope();
             kernel.Bind<IIpAddressHelper>().To<IpAddressHelper>().InSingletonScope();
             kernel.Bind<IParseHelper>().To<ParseHelper>().InSingletonScope();
+            kernel.Bind<ITokenRewardMetadataHelper>().To<TokenRewardMetadataHelper>().InSingletonScope();
 
             // Infrastructure
             kernel.Bind<IAppCache>().To<AppCache>().InSingletonScope();

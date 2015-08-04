@@ -95,4 +95,14 @@ declare module T4TS {
     export interface TokenBalanceResponse {
         balance: number;
     }
+    /** Generated from Epsilon.Logic.JsonModels.TokenRewardKeyMetadata **/
+    export interface TokenRewardKeyMetadata {
+        key: string;
+        displayName: string;
+        description: string;
+    }
+    /** Generated from Epsilon.Logic.JsonModels.TokenRewardMetadata **/
+    export interface TokenRewardMetadata {
+        keyMetadata: T4TS.TokenRewardKeyMetadata[];
+    }
 }

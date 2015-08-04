@@ -118,6 +118,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>TenancyDetailsSubmissionResources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Logic\TokenRewardKey\TokenRewardKeyResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TokenRewardKeyResources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Web\Home\HomeResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -228,6 +233,10 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>TenancyDetailsSubmissionResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Logic\TokenRewardKey\TokenRewardKeyResources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>TokenRewardKeyResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Web\Home\HomeResources.el.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>HomeResources.el.Designer.cs</LastGenOutput>
@@ -273,9 +282,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Logic\TokenRewardKey\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

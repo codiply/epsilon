@@ -37,6 +37,7 @@ namespace Epsilon.Logic.Services
 
         public TokenRewardScheme GetCurrentScheme()
         {
+            // TODO_PANOS_TEST
             var now = _clock.OffsetNow;
             return _appCache.Get(AppCacheKey.CURRENT_TOKEN_REWARD_SCHEME, 
                 () => {
@@ -67,6 +68,7 @@ namespace Epsilon.Logic.Services
 
         public TokenReward GetCurrentReward(TokenRewardKey rewardKey)
         {
+            // TODO_PANOS_TEST
             var currentScheme = GetCurrentScheme();
             var keyToString = EnumsHelper.TokenRewardKey.ToString(rewardKey);
             var currentReward = currentScheme.Rewards

@@ -165,9 +165,11 @@
     <Compile Include="Helpers\Interfaces\IDbAppSettingsHelper.cs" />
     <Compile Include="Helpers\Interfaces\IIpAddressHelper.cs" />
     <Compile Include="Helpers\Interfaces\IParseHelper.cs" />
+    <Compile Include="Helpers\Interfaces\ITokenRewardMetadataHelper.cs" />
     <Compile Include="Helpers\IpAddressHelper.cs" />
     <Compile Include="Helpers\ParseHelper.cs" />
     <Compile Include="Helpers\RandomStringHelper.cs" />
+    <Compile Include="Helpers\TokenRewardMetadataHelper.cs" />
     <Compile Include="Infrastructure\AppCache.cs" />
     <Compile Include="Constants\AppCacheKey.cs" />
     <Compile Include="Infrastructure\EnumMemoizer.cs" />
@@ -191,6 +193,8 @@
     <Compile Include="JsonModels\TenantVerificationInfo.cs" />
     <Compile Include="JsonModels\TenancyDetailsSubmissionInfo.cs" />
     <Compile Include="JsonModels\TokenBalanceResponse.cs" />
+    <Compile Include="JsonModels\TokenRewardKeyMetadata.cs" />
+    <Compile Include="JsonModels\TokenRewardMetadata.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\AddressService.cs" />
     <Compile Include="Services\AddressVerificationService.cs" />
