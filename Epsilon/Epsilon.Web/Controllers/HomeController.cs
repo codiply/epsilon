@@ -23,5 +23,11 @@ namespace Epsilon.Web.Controllers
 
             return View();
         }
+
+        [AllowAnonymous]
+        public ActionResult Faq()
+        {
+            return View();
+        }
     }
 }

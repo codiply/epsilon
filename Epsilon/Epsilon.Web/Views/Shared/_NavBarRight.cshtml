@@ -2,6 +2,7 @@
 @using Epsilon.Logic.Helpers.Interfaces;
 @using Epsilon.Logic.Services.Interfaces;
 @using Epsilon.Resources.Common;
+@using Epsilon.Resources.Web.Layout;
 @using Microsoft.AspNet.Identity;
 
 @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
@@ -13,15 +14,22 @@
     @if (User.Identity.IsAuthenticated)
     {
         <li>
-            <a href="@Url.Action("Transactions","Token")" title="@CommonResources.TokenBalanceBadgeHoverText"><token-balance-badge /></a>
+            <a href="@Url.Action("Transactions","Token")" title="@CommonResources.TokenBalanceBadgeHoverText">
+                <token-balance-badge />
+            </a>
         </li>
     }
     @if (User.IsInRole(AspNetRole.Admin))
     {
         <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin<span class="caret"></span></a>
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"
+               title="Admin">
+                <span class="glyphicon glyphicon-font glyphicon-lg" aria-hidden="true"></span>
+            </a>
             <ul class="dropdown-menu">
-                <li><a href="@Url.Action("Index", "Admin")">Admin</a></li>
+                <li>
+                    <a href="@Url.Action("Index", "Admin")" title="Admin" >Admin</a>
+                </li>
                 @{ 
                     var appSettingsHelper = DependencyResolver.Current.GetService<IAppSettingsHelper>();
                 }
@@ -34,7 +42,10 @@
     }
 
     <li class="dropdown">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">@CommonResources.Language <span class="caret"></span></a>
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"
+           title="@CommonResources.Language">
+            <span class="glyphicon glyphicon-flag glyphicon-lg" aria-hidden="true"></span>
+        </a>
         <ul class="dropdown-menu">
             @{
                  var languageService = DependencyResolver.Current.GetService<ILanguageService>();
@@ -47,17 +58,50 @@
         </ul>
     </li>
 
+    <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"
+           title="@LayoutResources.NavBar_InfoGroup_HoverText">
+            <span class="glyphicon glyphicon-info-sign glyphicon-lg" aria-hidden="true"></span>
+        </a>
+        <ul class="dropdown-menu">
+            <li><a href="@Url.Action("Faq", "Home")">@LayoutResources.NavBar_Faq_LinkText</a></li>
+            @if (Request.IsAuthenticated)
+            {
+            <li><a href="@Url.Action("Rewards", "Token")">@LayoutResources.NavBar_TokenRewards_LinkText</a></li>
+            }
+        </ul>
+    </li>
+
+
     @if (Request.IsAuthenticated)
     {
         <li>
-            @Html.ActionLink(User.Identity.GetUserName(), "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+            <a href="@Url.Action("Index", "Manage")" title="@User.Identity.GetUserName()">
+                <span class="glyphicon glyphicon-user glyphicon-lg" aria-hidden="true"></span>
+            </a>
         </li>
-        <li><a href="javascript:document.getElementById('logoutForm').submit()">@CommonResources.LogOff</a></li>
+        <li>
+            <a href="javascript:document.getElementById('logoutForm').submit()" title="@CommonResources.LogOff">
+                <span class="glyphicon glyphicon-log-out glyphicon-lg" aria-hidden="true"></span>
+            </a>
+        </li>
     }
     else
     {
-        <li>@Html.ActionLink(CommonResources.Register, "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
-        <li>@Html.ActionLink(CommonResources.Login, "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+        <li>
+            <a id="registerLink"
+               href="@Url.Action("Register", "Account")"
+               title="@CommonResources.Register">
+                <span class="glyphicon glyphicon-edit glyphicon-lg" aria-hidden="true"></span>
+            </a>
+        </li>
+        <li>
+            <a id="loginLink"
+               href="@Url.Action("Login", "Account")" 
+               title="@CommonResources.Login">
+                <span class="glyphicon glyphicon-log-in glyphicon-lg" aria-hidden="true"></span>
+            </a>
+        </li>
     }
         
 </ul>

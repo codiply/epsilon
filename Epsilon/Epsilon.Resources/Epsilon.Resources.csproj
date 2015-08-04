@@ -139,6 +139,11 @@
       <DependentUpon>HomeResources.el.resx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Web\Layout\LayoutResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LayoutResources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Web\OutgoingVerification\OutgoingVerificationResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -253,6 +258,10 @@
     <EmbeddedResource Include="Web\Home\HomeResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>HomeResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Web\Layout\LayoutResources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>LayoutResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Web\OutgoingVerification\OutgoingVerificationResources.el.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

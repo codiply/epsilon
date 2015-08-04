@@ -1284,6 +1284,7 @@
     <Content Include="Views\NgDirectiveTemplate\MyTokenTransactions.cshtml" />
     <Content Include="Views\Token\Rewards.cshtml" />
     <Content Include="Views\NgDirectiveTemplate\TokenRewardsSummary.cshtml" />
+    <Content Include="Views\Home\Faq.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
