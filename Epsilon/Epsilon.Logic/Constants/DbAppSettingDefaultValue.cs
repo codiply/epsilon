@@ -40,7 +40,8 @@ namespace Epsilon.Logic.Constants
         public double PropertInfoAccess_MyExploredPropertiesSummary_CachingPeriodInMinutes { get { return 15.0; } }
         public int PropertInfoAccess_MyExploredPropertiesSummary_ItemsLimit { get { return 10; } }
 
-        public int SearchAddressResultsLimit { get { return 30; } }
+        public int Address_SearchAddressResultsLimit { get { return 50; } }
+        public int Address_SearchPropertyResultsLimit { get { return 50; } }
 
         public Frequency TenancyDetailsSubmission_Create_MaxFrequencyPerAddress { get { return new Frequency(1, TimeSpan.FromDays(30)); } }
         public double TenancyDetailsSubmission_MySubmissionsSummary_CachingPeriodInMinutes { get { return 15.0; } }

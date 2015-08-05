@@ -183,6 +183,9 @@
     <Compile Include="Infrastructure\Primitives\Frequency.cs" />
     <Compile Include="JsonModels\AddressGeometryRequest.cs" />
     <Compile Include="JsonModels\AddressGeometryResponse.cs" />
+    <Compile Include="JsonModels\PropertySearchResult.cs" />
+    <Compile Include="JsonModels\PropertySearchResponse.cs" />
+    <Compile Include="JsonModels\PropertySearchRequest.cs" />
     <Compile Include="JsonModels\AddressSearchRequest.cs" />
     <Compile Include="JsonModels\AddressSearchResponse.cs" />
     <Compile Include="JsonModels\AddressSearchResult.cs" />

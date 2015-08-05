@@ -39,7 +39,8 @@ namespace Epsilon.Logic.Constants.Interfaces
         double PropertInfoAccess_MyExploredPropertiesSummary_CachingPeriodInMinutes { get; }
         int PropertInfoAccess_MyExploredPropertiesSummary_ItemsLimit { get; }
  
-        int SearchAddressResultsLimit { get; }
+        int Address_SearchAddressResultsLimit { get; }
+        int Address_SearchPropertyResultsLimit { get; }
 
         Frequency TenancyDetailsSubmission_Create_MaxFrequencyPerAddress { get; }
         double TenancyDetailsSubmission_MySubmissionsSummary_CachingPeriodInMinutes { get; }

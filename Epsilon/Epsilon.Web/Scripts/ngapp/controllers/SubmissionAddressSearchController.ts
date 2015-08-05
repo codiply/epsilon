@@ -29,7 +29,7 @@
             var scope = this.$scope;
             scope.hasHitSearch = true;
             scope.searchInProgress = true;
-            var url = this.BASE_URL_WITH_LANGUAGE + '/api/address/search/';
+            var url = this.BASE_URL_WITH_LANGUAGE + '/api/address/searchaddress/';
             var request: T4TS.AddressSearchRequest = {
                 countryId: scope.countryId,
                 postcode: scope.postcode,

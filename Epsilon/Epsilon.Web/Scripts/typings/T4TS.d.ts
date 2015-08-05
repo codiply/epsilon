@@ -33,6 +33,11 @@ declare module T4TS {
         addressUniqueId: string;
         fullAddress: string;
     }
+    /** Generated from Epsilon.Logic.JsonModels.MyExploredPropertiesSummaryRequest **/
+    export interface MyExploredPropertiesSummaryRequest {
+        limitItemsReturned: boolean;
+        allowCaching: boolean;
+    }
     /** Generated from Epsilon.Logic.JsonModels.MyOutgoingVerificationsSummaryRequest **/
     export interface MyOutgoingVerificationsSummaryRequest {
         limitItemsReturned: boolean;
@@ -70,6 +75,24 @@ declare module T4TS {
         items: T4TS.MyTokenTransactionsItem[];
         moreItemsExist: boolean;
         earliestMadeOn: string;
+    }
+    /** Generated from Epsilon.Logic.JsonModels.PropertySearchRequest **/
+    export interface PropertySearchRequest {
+        countryId: string;
+        postcode: string;
+        terms: string;
+    }
+    /** Generated from Epsilon.Logic.JsonModels.PropertySearchResponse **/
+    export interface PropertySearchResponse {
+        results: T4TS.PropertySearchResult[];
+        resultsLimit: number;
+        isResultsLimitExceeded: boolean;
+    }
+    /** Generated from Epsilon.Logic.JsonModels.PropertySearchResult **/
+    export interface PropertySearchResult {
+        addressUniqueId: string;
+        fullAddress: string;
+        numberOfCompletedSubmissions: number;
     }
     /** Generated from Epsilon.Logic.JsonModels.TenancyDetailsSubmissionInfo **/
     export interface TenancyDetailsSubmissionInfo {

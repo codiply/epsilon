@@ -14,6 +14,10 @@ INSERT INTO #TMP
 ([Id], [Value], [ValueType], [Description])
 VALUES
 -- Edit the values below to update the target table.
+(N'Address_SearchAddressResultsLimit', N'50', N'Integer',
+     N'The number of results returned when performing and Address Search.'),
+(N'Address_SearchPropertyResultsLimit', N'50', N'Integer',
+     N'The number of results returned when performing and Property Search.'),
 (N'AdminAlertSnoozePeriodInHours', N'12.0', N'Double',
      N'The AdminAlertService will wait this amount of time (in hours) until it sends a second alert for any given AdminAlert key.'),
 (N'AntiAbuse_AddAddress_DisableGeocodeFailureIpAddressFrequencyCheck', 'False', N'Boolean',
@@ -97,8 +101,6 @@ VALUES
      N'Caching period in minutes for MyExploredPropertiesSummary data.'),
 (N'PropertInfoAccess_MyExploredPropertiesSummary_ItemsLimit', N'10', N'Integer',
      N'The maximum number of explored properties that will apear in the summary on the front page.'),
-(N'SearchAddressResultsLimit', N'30', N'Integer',
-     N'The number of results returned when performing and Address Search.'),
 (N'TenancyDetailsSubmission_Create_MaxFrequencyPerAddress', N'1/30D', N'Frequency',
      N'The maximum number of TenancyDetailsSubmission''s that can be created per address in a given period.'),
 (N'TenancyDetailsSubmission_Create_DisableFrequencyPerAddressCheck', N'False', N'Boolean',

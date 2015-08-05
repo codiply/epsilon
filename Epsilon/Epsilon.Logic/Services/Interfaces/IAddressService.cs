@@ -20,7 +20,9 @@ namespace Epsilon.Logic.Services.Interfaces
 
     public interface IAddressService
     {
-        Task<AddressSearchResponse> Search(AddressSearchRequest request);
+        Task<AddressSearchResponse> SearchAddress(AddressSearchRequest request);
+
+        Task<PropertySearchResponse> SearchProperty(PropertySearchRequest request);
 
         Task<Address> GetAddress(Guid addressUniqueId);
 

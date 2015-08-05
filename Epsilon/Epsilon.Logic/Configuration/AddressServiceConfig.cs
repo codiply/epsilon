@@ -39,8 +39,18 @@ namespace Epsilon.Logic.Configuration
             get
             {
                 return _dbAppSettingsHelper.GetInt(
-                    EnumsHelper.DbAppSettingKey.ToString(DbAppSettingKey.SearchAddressResultsLimit),
-                    _dbAppSettingDefaultValue.SearchAddressResultsLimit);
+                    EnumsHelper.DbAppSettingKey.ToString(DbAppSettingKey.Address_SearchAddressResultsLimit),
+                    _dbAppSettingDefaultValue.Address_SearchAddressResultsLimit);
+            }
+        }
+
+        public int SearchPropertyResultsLimit
+        {
+            get
+            {
+                return _dbAppSettingsHelper.GetInt(
+                    EnumsHelper.DbAppSettingKey.ToString(DbAppSettingKey.Address_SearchPropertyResultsLimit),
+                    _dbAppSettingDefaultValue.Address_SearchPropertyResultsLimit);
             }
         }
     }

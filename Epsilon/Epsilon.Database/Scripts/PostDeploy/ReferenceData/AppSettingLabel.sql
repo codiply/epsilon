@@ -14,6 +14,9 @@ INSERT INTO #TMP
 ([Label], [AppSettingId])
 VALUES
 -- Edit the values below to update the target table.
+-- address
+(N'address', N'Address_SearchAddressResultsLimit'),
+(N'address', N'Address_SearchPropertyResultsLimit'),
 -- anti-abuse
 (N'anti-abuse', N'AntiAbuse_AddAddress_DisableGeocodeFailureIpAddressFrequencyCheck'),
 (N'anti-abuse', N'AntiAbuse_AddAddress_DisableGeocodeFailureUserFrequencyCheck'),
@@ -177,9 +180,10 @@ VALUES
 (N'property-info-access', N'PropertInfoAccess_MyExploredPropertiesSummary_CachingPeriodInMinutes'),
 (N'property-info-access', N'PropertInfoAccess_MyExploredPropertiesSummary_ItemsLimit'),
 -- results-limit
+(N'results-limit', N'Address_SearchAddressResultsLimit'),
+(N'results-limit', N'Address_SearchPropertyResultsLimit'),
 (N'results-limit', N'OutgoingVerification_MyOutgoingVerificationsSummary_ItemsLimit'),
 (N'results-limit', N'PropertInfoAccess_MyExploredPropertiesSummary_ItemsLimit'),
-(N'results-limit', N'SearchAddressResultsLimit'),
 (N'results-limit', N'TenancyDetailsSubmission_MySubmissionsSummary_ItemsLimit'),
 (N'results-limit', N'Token_MyTokenTransactions_PageSize'),
 -- switch

@@ -25,10 +25,10 @@ namespace Epsilon.IntegrationTests.Logic.Services
 {
     public class AddressServiceTest : BaseIntegrationTestWithRollback
     {
-        #region Search
+        #region SearchAddress
 
         [Test]
-        public async Task Search_ExactPostcode_AndResultsCountEqualToLimit()
+        public async Task SearchAddress_ExactPostcode_AndResultsCountEqualToLimit()
         {
             int searchAddressResultsLimit = 10;
             int numberOfAddressesToCreate = searchAddressResultsLimit;
@@ -45,13 +45,13 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var serviceUnderTest = containerUnderTest.Get<IAddressService>();
 
             var request1 = new AddressSearchRequest { countryId = countryId, postcode = postcode.ToLower(), terms = "" };
-            var response1 = await serviceUnderTest.Search(request1);
+            var response1 = await serviceUnderTest.SearchAddress(request1);
 
             Assert.AreEqual(addresses.Count, response1.results.Count,
                 "A request with exact postcode (case-insensitive) should match all the addresses.");
 
             var request2 = new AddressSearchRequest { countryId = countryId, postcode = "POSTCO", terms = "" };
-            var response2 = await serviceUnderTest.Search(request2);
+            var response2 = await serviceUnderTest.SearchAddress(request2);
 
             Assert.IsEmpty(response2.results, "A request with part of the postcode should return no results.");
             Assert.IsFalse(response2.isResultsLimitExceeded, 
@@ -61,7 +61,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
         }
 
         [Test]
-        public async Task Search_SearchesTermsInAllFields()
+        public async Task SearchAddress_SearchesTermsInAllFields()
         {
             int searchAddressResultsLimit = 3;
             int numberOfAddressesToCreate = searchAddressResultsLimit;
@@ -78,7 +78,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var serviceUnderTest = containerUnderTest.Get<IAddressService>();
 
             var request1 = new AddressSearchRequest { countryId = countryId, postcode = postcode.ToLower(), terms = "" };
-            var response1 = await serviceUnderTest.Search(request1);
+            var response1 = await serviceUnderTest.SearchAddress(request1);
 
             var addressToSearch = addresses.First();
 
@@ -88,7 +88,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 addressToSearch.Locality, addressToSearch.Region);
 
             var request = new AddressSearchRequest { countryId = countryId, postcode = postcode, terms = searchTermsField };
-            var response = await serviceUnderTest.Search(request);
+            var response = await serviceUnderTest.SearchAddress(request);
 
             Assert.AreEqual(1, response.results.Count, "The response should contain a single result.");
             Assert.IsFalse(response.isResultsLimitExceeded, "The results limit should not be flagged as exceeded.");
@@ -108,7 +108,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
         }
 
         [Test]
-        public async Task Search_DoesNotUseSearchTermsToSearchCountryIdOrPostcode()
+        public async Task SearchAddress_DoesNotUseSearchTermsToSearchCountryIdOrPostcode()
         {
             int searchAddressResultsLimit = 3;
             int numberOfAddressesToCreate = searchAddressResultsLimit;
@@ -125,14 +125,14 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var serviceUnderTest = containerUnderTest.Get<IAddressService>();
 
             var request1 = new AddressSearchRequest { countryId = countryId, postcode = postcode.ToLower(), terms = "" };
-            var response1 = await serviceUnderTest.Search(request1);
+            var response1 = await serviceUnderTest.SearchAddress(request1);
 
             var addressToSearch = addresses.First();
 
             var searchTermsField = string.Format("{0} {1}", postcode, countryId);
 
             var request = new AddressSearchRequest { countryId = countryId, postcode = postcode, terms = searchTermsField };
-            var response = await serviceUnderTest.Search(request);
+            var response = await serviceUnderTest.SearchAddress(request);
 
             Assert.IsEmpty(response.results, "The response should contain no results.");
             Assert.IsFalse(response.isResultsLimitExceeded, "The results limit should not be flagged as exceeded.");
@@ -141,7 +141,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
         }
 
         [Test]
-        public async Task Search_ReturnsNoMoreAddressesThanTheLimit()
+        public async Task SearchAddress_ReturnsNoMoreAddressesThanTheLimit()
         {
             int searchAddressResultsLimit = 3;
             int numberOfAddressesToCreate = searchAddressResultsLimit + 1;
@@ -158,7 +158,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var serviceUnderTest = containerUnderTest.Get<IAddressService>();
 
             var request = new AddressSearchRequest { countryId = countryId, postcode = postcode.ToLower(), terms = "" };
-            var response = await serviceUnderTest.Search(request);
+            var response = await serviceUnderTest.SearchAddress(request);
 
             Assert.AreEqual(searchAddressResultsLimit, response.results.Count,
                 "The number of addresses returned should equal the results limit.");

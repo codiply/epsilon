@@ -22,9 +22,15 @@ namespace Epsilon.Web.Controllers.ApiControllers
         }
 
         [HttpPost]
-        public async Task<AddressSearchResponse> Search(AddressSearchRequest request)
+        public async Task<AddressSearchResponse> SearchAddress(AddressSearchRequest request)
         {
-            return await _addressService.Search(request);
+            return await _addressService.SearchAddress(request);
+        }
+
+        [HttpPost]
+        public async Task<PropertySearchResponse> SearchProperty(PropertySearchRequest request)
+        {
+            return await _addressService.SearchProperty(request);
         }
 
         [HttpPost]

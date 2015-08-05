@@ -19,6 +19,8 @@ INSERT INTO #TMP
 ([Id], [Value])
 VALUES
 -- Edit the values below to update the target table.
+(N'Address_SearchAddressResultsLimit', N'50'),
+(N'Address_SearchPropertyResultsLimit', N'50'),
 (N'AdminAlertSnoozePeriodInHours', N'12.0'),
 (N'AntiAbuse_AddAddress_DisableGeocodeFailureIpAddressFrequencyCheck', 'False'),
 (N'AntiAbuse_AddAddress_DisableGeocodeFailureUserFrequencyCheck', 'False'),
@@ -59,7 +61,6 @@ VALUES
 (N'OutgoingVerification_VerificationsPerTenancyDetailsSubmission', N'2'),
 (N'PropertInfoAccess_MyExploredPropertiesSummary_CachingPeriodInMinutes', N'15.0'),
 (N'PropertInfoAccess_MyExploredPropertiesSummary_ItemsLimit', N'2'),
-(N'SearchAddressResultsLimit', N'30'),
 (N'TenancyDetailsSubmission_Create_MaxFrequencyPerAddress', '10/30D'),
 (N'TenancyDetailsSubmission_Create_DisableFrequencyPerAddressCheck', N'False'),
 (N'TenancyDetailsSubmission_MySubmissionsSummary_CachingPeriodInMinutes', N'15.0'),

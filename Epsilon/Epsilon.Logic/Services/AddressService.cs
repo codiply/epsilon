@@ -49,7 +49,7 @@ namespace Epsilon.Logic.Services
             _antiAbuseService = antiAbuseService;
         }
 
-        public async Task<AddressSearchResponse> Search(AddressSearchRequest request)
+        public async Task<AddressSearchResponse> SearchAddress(AddressSearchRequest request)
         {
             var resultsLimit = _addressServiceConfig.SearchAddressResultsLimit;
 
@@ -115,6 +115,77 @@ namespace Epsilon.Logic.Services
             };
 
             return response; 
+        }
+
+        public async Task<PropertySearchResponse> SearchProperty(PropertySearchRequest request)
+        {
+            // TODO_PANOS_TEST
+            var resultsLimit = _addressServiceConfig.SearchPropertyResultsLimit;
+
+            var countryIdOption = EnumsHelper.CountryId.Parse(request.countryId);
+            if (string.IsNullOrEmpty(request.countryId)
+                || string.IsNullOrEmpty(request.postcode)
+                || !countryIdOption.HasValue)
+            {
+                return new PropertySearchResponse { resultsLimit = resultsLimit, isResultsLimitExceeded = false };
+            }
+            var countryId = countryIdOption.Value;
+
+            var cleanPostcode = _addressCleansingHelper.CleansePostcode(countryId, request.postcode);
+
+            var query = _dbContext.Addresses
+                .Include(x => x.Country)
+                .Include(x => x.TenancyDetailsSubmissions)
+                .Where(x => x.CountryId.Equals(request.countryId)
+                            && (x.Postcode.Equals(cleanPostcode)));
+
+            if (!string.IsNullOrWhiteSpace(request.terms))
+            {
+                var terms = request.terms.Split(' ', ',').Where(t => !String.IsNullOrWhiteSpace(t)).Select(t => t.Trim());
+
+                foreach (var term in terms)
+                {
+                    query = query.Where(a =>
+                        a.Line1.Contains(term) ||
+                        a.Line2.Contains(term) ||
+                        a.Line3.Contains(term) ||
+                        a.Line4.Contains(term) ||
+                        a.Locality.Contains(term) ||
+                        a.Region.Contains(term));
+                }
+            }
+
+            query = query.OrderBy(x => x.Line1)
+                .ThenBy(x => x.Line2)
+                .ThenBy(x => x.Line3)
+                .ThenBy(x => x.Line4)
+                .ThenBy(x => x.Locality)
+                .ThenBy(x => x.Region);
+
+            var addresses = await query.Take(resultsLimit + 1).ToListAsync();
+
+            var exceededLimit = addresses.Count > resultsLimit;
+
+            var results = addresses.Select(a => new PropertySearchResult
+            {
+                addressUniqueId = a.UniqueId,
+                fullAddress = a.FullAddress(),
+                numberOfCompletedSubmissions = a.TenancyDetailsSubmissions.Count(s => s.StepTenancyDetailsSubmittedDone())
+            });
+
+            if (exceededLimit)
+            {
+                results = results.Take(resultsLimit);
+            }
+
+            var response = new PropertySearchResponse
+            {
+                results = results.ToList(),
+                resultsLimit = resultsLimit,
+                isResultsLimitExceeded = exceededLimit
+            };
+
+            return response;
         }
 
         public async Task<Address> GetAddress(Guid addressUniqueId)

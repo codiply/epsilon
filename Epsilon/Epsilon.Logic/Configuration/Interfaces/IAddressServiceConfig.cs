@@ -10,5 +10,6 @@ namespace Epsilon.Logic.Configuration.Interfaces
     {
         bool GlobalSwitch_DisableAddAddress { get; }
         int SearchAddressResultsLimit { get; }
+        int SearchPropertyResultsLimit { get; }
     }
 }
