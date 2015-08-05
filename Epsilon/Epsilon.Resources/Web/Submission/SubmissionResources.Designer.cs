@@ -106,6 +106,15 @@ namespace Epsilon.Resources.Web.Submission {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Address.
+        /// </summary>
+        public static string Common_DisplayAddressLabel {
+            get {
+                return ResourceManager.GetString("Common_DisplayAddressLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Enter Verification Code.
         /// </summary>
         public static string EnterVerificationCode_PageHeader {

@@ -301,4 +301,7 @@
   <data name="MoveOutDetailsForm_FieldMoveOutDate_RequiredErrorMessage" xml:space="preserve">
     <value>The Move-Out Date field is required.</value>
   </data>
+  <data name="Common_DisplayAddressLabel" xml:space="preserve">
+    <value>Address</value>
+  </data>
 </root>

@@ -138,14 +138,16 @@ namespace Epsilon.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> EnterVerificationCode(Guid submissionUniqueId, bool returnToSummary)
         {
-            var submissionBelongsToUser = await _tenancyDetailsSubmissionService.SubmissionBelongsToUser(GetUserId(), submissionUniqueId);
-            if (!submissionBelongsToUser)
+            var getSubmissionAddressOutcome = await _tenancyDetailsSubmissionService.GetSubmissionAddress(GetUserId(), submissionUniqueId);
+            if (getSubmissionAddressOutcome.SubmissionNotFound)
             {
                 Danger(CommonResources.GenericInvalidRequestMessage, true);
                 return RedirectHome(returnToSummary);
             }
+
             var model = new VerificationCodeForm
             {
+                DisplayAddress = getSubmissionAddressOutcome.Address.FullAddress(),
                 TenancyDetailsSubmissionUniqueId = submissionUniqueId,
                 ReturnToSummary = returnToSummary
             };
@@ -184,15 +186,16 @@ namespace Epsilon.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> SubmitTenancyDetails(Guid submissionUniqueId, bool returnToSummary)
         {
-            var getSubmissionCountryOutcome = await _tenancyDetailsSubmissionService.GetSubmissionCountry(GetUserId(), submissionUniqueId);
-            if (getSubmissionCountryOutcome.SubmissionNotFound)
+            var getSubmissionAddressOutcome = await _tenancyDetailsSubmissionService.GetSubmissionAddress(GetUserId(), submissionUniqueId);
+            if (getSubmissionAddressOutcome.SubmissionNotFound)
             {
                 Danger(CommonResources.GenericInvalidRequestMessage, true);
                 return RedirectHome(returnToSummary);
             }
-            var currency = _currencyService.Get(getSubmissionCountryOutcome.Country.CurrencyId);
+            var currency = _currencyService.Get(getSubmissionAddressOutcome.Address.Country.CurrencyId);
             var model = new TenancyDetailsForm
             {
+                DisplayAddress = getSubmissionAddressOutcome.Address.FullAddress(),
                 TenancyDetailsSubmissionUniqueId = submissionUniqueId,
                 ReturnToSummary = returnToSummary,
                 CurrencySybmol = currency.Symbol
@@ -232,8 +235,8 @@ namespace Epsilon.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> SubmitMoveOutDetails(Guid submissionUniqueId, bool returnToSummary)
         {
-            var submissionBelongsToUser = await _tenancyDetailsSubmissionService.SubmissionBelongsToUser(GetUserId(), submissionUniqueId);
-            if (!submissionBelongsToUser)
+            var getSubmissionAddressOutcome = await _tenancyDetailsSubmissionService.GetSubmissionAddress(GetUserId(), submissionUniqueId);
+            if (getSubmissionAddressOutcome.SubmissionNotFound)
 
             {
                 Danger(CommonResources.GenericInvalidRequestMessage, true);
@@ -241,6 +244,7 @@ namespace Epsilon.Web.Controllers
             }
             var model = new MoveOutDetailsForm
             {
+                DisplayAddress = getSubmissionAddressOutcome.Address.FullAddress(),
                 TenancyDetailsSubmissionUniqueId = submissionUniqueId,
                 ReturnToSummary = returnToSummary
             };

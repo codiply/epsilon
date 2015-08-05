@@ -38,10 +38,10 @@ namespace Epsilon.Logic.Services.Interfaces
         {
         }
 
-        public class GetSubmissionCountryOutcome
+        public class GetSubmissionAddressOutcome
         {
             public bool SubmissionNotFound { get; set; }
-            public Country Country { get; set; }
+            public Address Address { get; set; }
         }
     }
     
@@ -65,6 +65,6 @@ namespace Epsilon.Logic.Services.Interfaces
 
         Task<bool> SubmissionBelongsToUser(string userId, Guid submissionUniqueId);
 
-        Task<GetSubmissionCountryOutcome> GetSubmissionCountry(string userId, Guid submissionUniqueId);
+        Task<GetSubmissionAddressOutcome> GetSubmissionAddress(string userId, Guid submissionUniqueId);
     }
 }
