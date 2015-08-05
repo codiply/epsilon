@@ -22,14 +22,14 @@ namespace Epsilon.Resources.Web.PropertyInfo {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class PropertyInfoAccessResources {
+    public class PropertyInfoResources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal PropertyInfoAccessResources() {
+        internal PropertyInfoResources() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace Epsilon.Resources.Web.PropertyInfo {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Epsilon.Resources.Web.PropertyInfo.PropertyInfoResources", typeof(PropertyInfoAccessResources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Epsilon.Resources.Web.PropertyInfo.PropertyInfoResources", typeof(PropertyInfoResources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -57,6 +57,132 @@ namespace Epsilon.Resources.Web.PropertyInfo {
             }
             set {
                 resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Accessing the information for this property will will cost you {0} token(s)..
+        /// </summary>
+        public static string GainAccess_ConfirmationText {
+            get {
+                return ResourceManager.GetString("GainAccess_ConfirmationText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Access Property Information.
+        /// </summary>
+        public static string GainAccess_PageHeader {
+            get {
+                return ResourceManager.GetString("GainAccess_PageHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Access Property Information.
+        /// </summary>
+        public static string GainAccess_PageTitle {
+            get {
+                return ResourceManager.GetString("GainAccess_PageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Proceed.
+        /// </summary>
+        public static string GainAccess_SubmitButtonText {
+            get {
+                return ResourceManager.GetString("GainAccess_SubmitButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Access Information.
+        /// </summary>
+        public static string SearchProperties_GainAccessButton {
+            get {
+                return ResourceManager.GetString("SearchProperties_GainAccessButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Address.
+        /// </summary>
+        public static string SearchProperty_FieldFullAddress_ColumnHeader {
+            get {
+                return ResourceManager.GetString("SearchProperty_FieldFullAddress_ColumnHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Last Submission.
+        /// </summary>
+        public static string SearchProperty_FieldLastSubmissionOn_ColumnHeader {
+            get {
+                return ResourceManager.GetString("SearchProperty_FieldLastSubmissionOn_ColumnHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Number of Submissions.
+        /// </summary>
+        public static string SearchProperty_FieldNumberOfCompletedSubmissions_ColumnHeader {
+            get {
+                return ResourceManager.GetString("SearchProperty_FieldNumberOfCompletedSubmissions_ColumnHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your search returned more than {0} results. If you cannot find the property you are looking for, please narrow down your search..
+        /// </summary>
+        public static string SearchProperty_NarrowDownYourSearchMessage {
+            get {
+                return ResourceManager.GetString("SearchProperty_NarrowDownYourSearchMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No properties found..
+        /// </summary>
+        public static string SearchProperty_NoPropertiesFoundMessage {
+            get {
+                return ResourceManager.GetString("SearchProperty_NoPropertiesFoundMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Search Property.
+        /// </summary>
+        public static string SearchProperty_PageHeader {
+            get {
+                return ResourceManager.GetString("SearchProperty_PageHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Search Property.
+        /// </summary>
+        public static string SearchProperty_PageTitle {
+            get {
+                return ResourceManager.GetString("SearchProperty_PageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Search.
+        /// </summary>
+        public static string SearchProperty_SearchButton {
+            get {
+                return ResourceManager.GetString("SearchProperty_SearchButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Search terms.
+        /// </summary>
+        public static string SearchProperty_SearchTermsLabel {
+            get {
+                return ResourceManager.GetString("SearchProperty_SearchTermsLabel", resourceCulture);
             }
         }
     }

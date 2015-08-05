@@ -28,6 +28,15 @@ namespace Epsilon.Logic.Entities
             }
         }
 
+        [NotMapped]
+        public virtual Decimal AbsValue
+        {
+            get
+            {
+                return Math.Abs(Value);
+            }
+        }
+
         public TokenRewardTypeValue ToTokeRewardTypeValue()
         {
             return new TokenRewardTypeValue

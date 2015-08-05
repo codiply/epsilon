@@ -166,11 +166,20 @@ namespace Epsilon.Logic.Services
 
             var exceededLimit = addresses.Count > resultsLimit;
 
-            var results = addresses.Select(a => new PropertySearchResult
-            {
-                addressUniqueId = a.UniqueId,
-                fullAddress = a.FullAddress(),
-                numberOfCompletedSubmissions = a.TenancyDetailsSubmissions.Count(s => s.StepTenancyDetailsSubmittedDone())
+            var results = addresses.Select(a => {
+                var completeSubmissions = a.TenancyDetailsSubmissions
+                    .Where(s => s.SubmittedOn.HasValue);
+                var numberOfCompleteSubmissions = completeSubmissions.Count();
+                DateTimeOffset? lastSubmissionOn = null;
+                if (numberOfCompleteSubmissions > 0)
+                    lastSubmissionOn = completeSubmissions.OrderByDescending(s => s.SubmittedOn).First().SubmittedOn;
+                return new PropertySearchResult
+                {
+                    addressUniqueId = a.UniqueId,
+                    fullAddress = a.FullAddress(),
+                    numberOfCompletedSubmissions = numberOfCompleteSubmissions,
+                    lastSubmissionOn = lastSubmissionOn
+                };
             });
 
             if (exceededLimit)

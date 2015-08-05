@@ -1,4 +1,5 @@
 ﻿using Epsilon.Logic.Constants;
+using Epsilon.Logic.Constants.Enums;
 using Epsilon.Logic.Services.Interfaces;
 using Epsilon.Web.Controllers.BaseControllers;
 using Epsilon.Web.Models.ViewModels.PropertyInfo;
@@ -17,18 +18,21 @@ namespace Epsilon.Web.Controllers
         private readonly ICountryService _countryService;
         private readonly IAddressService _addressService;
         private readonly IPropertyInfoAccessService _propertyInfoAccessService;
+        private readonly ITokenRewardService _tokenRewardService;
 
         public PropertyInfoController(
             ICountryService countryService,
             IAddressService addressService,
-            IPropertyInfoAccessService propertyInfoAccessService)
+            IPropertyInfoAccessService propertyInfoAccessService,
+            ITokenRewardService tokenRewardService)
         {
             _countryService = countryService;
             _addressService = addressService;
             _propertyInfoAccessService = propertyInfoAccessService;
+            _tokenRewardService = tokenRewardService;
         }
 
-        public ActionResult Search()
+        public ActionResult SearchProperty()
         {
             var availableCountries = _countryService.GetAvailableCountries();
             var model = new SearchPropertyViewModel
@@ -45,7 +49,8 @@ namespace Epsilon.Web.Controllers
             var model = new GainAccessViewModel
             {
                 AccessUniqueId = Guid.NewGuid(),
-                AddressDetails = AddressDetailsViewModel.FromEntity(entity)
+                AddressDetails = AddressDetailsViewModel.FromEntity(entity),
+                TokensCost = _tokenRewardService.GetCurrentReward(TokenRewardKey.SpendPerPropertyInfoAccess).AbsValue
             };
 
             return View(model);

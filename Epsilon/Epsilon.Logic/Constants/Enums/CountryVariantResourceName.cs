@@ -23,6 +23,8 @@ namespace Epsilon.Logic.Constants.Enums
         Address_Postcode,
         Address_Postcode_MaxLengthValidationMessage,
         SearchAddress_PostcodePlaceholder,
-        SearchAddress_TermsPlaceholder
+        SearchAddress_TermsPlaceholder,
+        SearchProperty_PostcodePlaceholder,
+        SearchProperty_TermsPlaceholder
     }
 }

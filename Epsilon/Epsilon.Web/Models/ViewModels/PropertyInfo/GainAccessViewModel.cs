@@ -7,9 +7,10 @@ using System.Threading.Tasks;
 
 namespace Epsilon.Web.Models.ViewModels.PropertyInfo
 {
-    class GainAccessViewModel
+    public class GainAccessViewModel
     {
         public Guid AccessUniqueId { get; set; }
         public AddressDetailsViewModel AddressDetails { get; set; }
+        public Decimal TokensCost { get; set; }
     }
 }

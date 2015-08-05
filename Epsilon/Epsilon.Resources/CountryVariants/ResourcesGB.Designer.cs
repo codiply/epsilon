@@ -203,5 +203,23 @@ namespace Epsilon.Resources.CountryVariants {
                 return ResourceManager.GetString("SearchAddress_TermsPlaceholder", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to exact postcode.
+        /// </summary>
+        public static string SearchProperty_PostcodePlaceholder {
+            get {
+                return ResourceManager.GetString("SearchProperty_PostcodePlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to property number or any part of address.
+        /// </summary>
+        public static string SearchProperty_TermsPlaceholder {
+            get {
+                return ResourceManager.GetString("SearchProperty_TermsPlaceholder", resourceCulture);
+            }
+        }
     }
 }

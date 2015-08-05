@@ -1,0 +1,101 @@
+﻿@model Epsilon.Web.Models.ViewModels.PropertyInfo.SearchPropertyViewModel
+@using Epsilon.Resources.Common
+@using Epsilon.Resources.Web.PropertyInfo
+@using Epsilon.Logic.Constants.Enums
+@using Epsilon.Logic.Helpers
+
+@{
+    ViewBag.Title = PropertyInfoResources.SearchProperty_PageTitle;
+}
+
+<h3>@PropertyInfoResources.SearchProperty_PageHeader</h3>
+<hr />
+
+<div class="form-horizontal" data-ng-controller="PropertyInfoPropertySearchController as controller">
+    <div class="form-group row">
+        <label class="control-label col-md-3" for="CountryId">@CommonResources.Country</label>
+        <div class="col-md-9">
+            <input id="countryId" name="countryId" type="hidden" value="" />
+            <select class="form-control" id="countryId" name="countryId" data-ng-model="countryId" data-ng-change="controller.countryIdChanged()">
+                <option value=""></option>
+                @foreach (var country in Model.AvailableCountries)
+                {
+                <option value="@country.Id">@country.EnglishName</option>
+                }
+            </select>
+        </div>
+    </div>
+    <div class="form-group row" data-ng-cloak data-ng-show="countryId">
+        <label class="control-label col-md-3" for="postcode">{{ controller.COUNTRY_VARIANT_RESOURCES[countryId].@(EnumsHelper.CountryVariantResourceName.ToString(CountryVariantResourceName.Address_Postcode)) }}</label>
+        <div class="col-md-9">
+            <input class="form-control text-box single-line" id="postcode" name="postcode" data-ng-model="postcode"
+                   placeholder="{{ controller.COUNTRY_VARIANT_RESOURCES[countryId].@(EnumsHelper.CountryVariantResourceName.ToString(CountryVariantResourceName.SearchProperty_PostcodePlaceholder)) }}"/>
+        </div>
+    </div>
+    <div class="form-group row" data-ng-cloak data-ng-show="countryId">
+        <label class="control-label col-md-3" for="postcode">@PropertyInfoResources.SearchProperty_SearchTermsLabel</label>
+        <div class="col-md-9">
+            <input class="form-control text-box single-line" id="terms" name="terms" data-ng-model="terms" 
+                   placeholder="{{ controller.COUNTRY_VARIANT_RESOURCES[countryId].@(EnumsHelper.CountryVariantResourceName.ToString(CountryVariantResourceName.SearchProperty_TermsPlaceholder)) }}"/>
+        </div>
+    </div>
+    <div class="form-group row" data-ng-cloak data-ng-show="countryId">
+        <div class="col-md-offset-3 col-md-9">
+            <button type="button" class="btn btn-default" aria-label="Left Align" 
+                    data-ng-click="controller.fetchSearchResults()"
+                    data-ng-disabled="!postcode || searchInProgress">
+                <span class="glyphicon glyphicon-search" aria-hidden="true"></span> @PropertyInfoResources.SearchProperty_SearchButton
+            </button>
+        </div>
+    </div>
+    <div class="form-group" data-ng-cloak data-ng-show="propertySearchResponse">
+        <div class="alert alert-warning" data-ng-clock data-ng-if="propertySearchResponse.isResultsLimitExceeded">
+            <p>{{ '@PropertyInfoResources.SearchProperty_NarrowDownYourSearchMessage' | stringFormat : propertySearchResponse.resultsLimit }}</p>
+        </div> 
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>@PropertyInfoResources.SearchProperty_FieldFullAddress_ColumnHeader</th>
+                    <th>@PropertyInfoResources.SearchProperty_FieldNumberOfCompletedSubmissions_ColumnHeader</th>
+                    <th>@PropertyInfoResources.SearchProperty_FieldLastSubmissionOn_ColumnHeader</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr data-ng-repeat="property in propertySearchResponse.results">
+                    <td><input type="radio" name="radioSelectedAddressUniqueId" data-ng-model="$parent.selectedAddressUniqueId" ng-value="property.addressUniqueId"></td>
+                    <td>{{property.fullAddress}}</td>
+                    <td>{{property.numberOfCompletedSubmissions}}</td>
+                    <td>{{property.lastSubmissionOn | localDateTime}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="form-group row" data-ng-cloak data-ng-show="propertySearchResponse.results.length > 0">
+        <div class="col-md-offset-3 col-md-9">
+            <a class="btn btn-default" aria-label="Left Align"
+               data-ng-href="@(Url.Action("GainAccess") + "/{{selectedAddressUniqueId}}")"
+               data-ng-disabled="!selectedAddressUniqueId">
+                <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> @PropertyInfoResources.SearchProperties_GainAccessButton
+            </a>
+        </div>
+    </div>
+    <div class="form-group" data-ng-cloak data-ng-show="propertySearchResponse">
+        <div class="alert alert-info" data-ng-clock data-ng-if="propertySearchResponse.results.length === 0">
+            <p>@PropertyInfoResources.SearchProperty_NoPropertiesFoundMessage</p>
+        </div>
+    </div>
+</div>
+
+@section CountryVariantResources {
+    @using Epsilon.Web.Models.ViewModels.Shared
+    @Html.Partial("_CountryVariantResources", new CountryVariantResourcesViewModel {
+    Constant = "COUNTRY_VARIANT_RESOURCES",
+    ResourceNames = new List<CountryVariantResourceName>
+    {
+        CountryVariantResourceName.Address_Postcode,
+        CountryVariantResourceName.SearchProperty_PostcodePlaceholder,
+        CountryVariantResourceName.SearchProperty_TermsPlaceholder
+    }
+})
+}

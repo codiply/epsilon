@@ -1,16 +1,16 @@
-﻿@model Epsilon.Web.Models.ViewModels.Submission.UseAddressViewModel
-@using Epsilon.Resources.Web.Submission
+﻿@model Epsilon.Web.Models.ViewModels.PropertyInfo.GainAccessViewModel
+@using Epsilon.Resources.Web.PropertyInfo
 
 @{
-    ViewBag.Title = SubmissionResources.UseAddress_PageTitle;
+    ViewBag.Title = PropertyInfoResources.GainAccess_PageTitle;
 }
 
-<h3>@SubmissionResources.UseAddress_PageHeader</h3>
+<h3>@PropertyInfoResources.GainAccess_PageHeader</h3>
 <hr />
 
 @Html.Partial("_AddressDetails", Model.AddressDetails)
 
-@using (Html.BeginForm("UseAddressConfirmed", "Submission"))
+@using (Html.BeginForm("GainAccessConfirmed", "PropertyInfo"))
 {
     <div class="form-horizontal">
         @Html.AntiForgeryToken()
@@ -18,17 +18,17 @@
         <div class="form-group">
             <div class="alert alert-info">
                 <p><input type="checkbox" name="confirmedText" data-ng-model="confirmedText">
-                    @SubmissionResources.UseAddress_ConfirmationText
+                    @string.Format(PropertyInfoResources.GainAccess_ConfirmationText, Model.TokensCost)
                 </p>
             </div>
         </div>
 
         <div class="form-group">
-            <input type="hidden" name="submissionUniqueId" value="@Model.SubmissionUniqueId" />
+            <input type="hidden" name="accessUniqueId" value="@Model.AccessUniqueId" />
             <input type="hidden" name="selectedAddressUniqueId" value="@Model.AddressDetails.UniqueId" />
             <div>
                 <input type="submit" class="btn btn-default"
-                       value="@SubmissionResources.UseAddress_SubmitButtonText"  
+                       value="@PropertyInfoResources.GainAccess_SubmitButtonText"  
                        data-click-once disabled data-ng-disabled="!confirmedText" />
             </div>
         </div>

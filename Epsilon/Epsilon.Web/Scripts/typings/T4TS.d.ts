@@ -93,6 +93,7 @@ declare module T4TS {
         addressUniqueId: string;
         fullAddress: string;
         numberOfCompletedSubmissions: number;
+        lastSubmissionOn: string;
     }
     /** Generated from Epsilon.Logic.JsonModels.TenancyDetailsSubmissionInfo **/
     export interface TenancyDetailsSubmissionInfo {
