@@ -54,7 +54,7 @@ namespace Epsilon.Web.Controllers.BaseControllers
             }
         }
 
-        internal void AddUiAlerts(IEnumerable<UiAlert> alerts, bool dismissible = false)
+        internal void PresentUiAlerts(IEnumerable<UiAlert> alerts, bool dismissible = false)
         {
             if (alerts == null)
                 return;

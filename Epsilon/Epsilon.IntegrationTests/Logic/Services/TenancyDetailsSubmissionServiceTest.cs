@@ -61,7 +61,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var outcome = await service.Create(user.Id, ipAddress, submissionUniqueId, addressUniqueId);
 
             Assert.IsTrue(outcome.IsRejected, "The field IsRejected on the outcome should be true.");
-            Assert.AreEqual(SubmissionResources.UseAddressConfirmed_AddressNotFoundMessage, outcome.RejectionReason,
+            Assert.AreEqual(TenancyDetailsSubmissionResources.Create_AddressNotFoundMessage, outcome.RejectionReason,
                 "The RejectionReason on the outcome is not the expected.");
             Assert.IsNullOrEmpty(userIdUsedInAntiAbuse, "The AntiAbuse service should not be called. (1)");
             Assert.IsNullOrEmpty(ipAddressUsedInAntiAbuse, "The AntiAbuse service should not be called. (2)");

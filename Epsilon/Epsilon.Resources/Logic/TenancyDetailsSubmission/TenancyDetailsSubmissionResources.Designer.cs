@@ -62,11 +62,29 @@ namespace Epsilon.Resources.Logic.TenancyDetailsSubmission {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The address was not found in our system..
+        /// </summary>
+        public static string Create_AddressNotFoundMessage {
+            get {
+                return ResourceManager.GetString("Create_AddressNotFoundMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to There has been a recent submission for this address. Please try again in a few weeks..
         /// </summary>
         public static string Create_MaxFrequencyPerAddressCheck_RejectionMessage {
             get {
                 return ResourceManager.GetString("Create_MaxFrequencyPerAddressCheck_RejectionMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your submission has been initiated. You will receive a verification code by post soon..
+        /// </summary>
+        public static string Create_SuccessMessage {
+            get {
+                return ResourceManager.GetString("Create_SuccessMessage", resourceCulture);
             }
         }
         
@@ -121,15 +139,6 @@ namespace Epsilon.Resources.Logic.TenancyDetailsSubmission {
         public static string SubmitTenancyDetails_SuccessMessage {
             get {
                 return ResourceManager.GetString("SubmitTenancyDetails_SuccessMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Your submission has been initiated. You will receive a verification code by post soon..
-        /// </summary>
-        public static string UseAddress_SuccessMessage {
-            get {
-                return ResourceManager.GetString("UseAddress_SuccessMessage", resourceCulture);
             }
         }
     }

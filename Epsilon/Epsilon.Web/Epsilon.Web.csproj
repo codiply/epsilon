@@ -275,6 +275,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\NgDirectiveTemplateController.cs" />
     <Compile Include="Controllers\OutgoingVerificationController.cs" />
+    <Compile Include="Controllers\PropertyInfoController.cs" />
     <Compile Include="Controllers\SubmissionController.cs" />
     <Compile Include="Controllers\TokenController.cs" />
     <Compile Include="Controllers\UserHomeController.cs" />
@@ -291,6 +292,8 @@
     <Compile Include="Models\ViewModels\Admin\TestEmailViewModel.cs" />
     <Compile Include="Models\ViewModels\OutgoingVerification\OutgoingVerificationInstructionsViewModel.cs" />
     <Compile Include="Models\ViewModels\OutgoingVerification\PickOutgoingVerificationViewModel.cs" />
+    <Compile Include="Models\ViewModels\PropertyInfo\GainAccessViewModel.cs" />
+    <Compile Include="Models\ViewModels\PropertyInfo\SearchPropertyViewModel.cs" />
     <Compile Include="Models\ViewModels\Shared\AddressDetailsViewModel.cs" />
     <Compile Include="Models\ViewModels\Shared\CountryVariantResourcesViewModel.cs" />
     <Compile Include="Models\ViewModels\Submission\SearchAddressViewModel.cs" />
@@ -1289,6 +1292,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\PropertyInfo\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />

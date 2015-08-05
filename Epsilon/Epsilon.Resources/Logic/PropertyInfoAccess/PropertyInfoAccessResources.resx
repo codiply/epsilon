@@ -118,30 +118,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Create_AddressNotFoundMessage" xml:space="preserve">
-    <value>The address was not found in our system.</value>
-  </data>
-  <data name="Create_MaxFrequencyPerAddressCheck_RejectionMessage" xml:space="preserve">
-    <value>There has been a recent submission for this address. Please try again in a few weeks.</value>
+    <value>The address was not found in our system. </value>
   </data>
   <data name="Create_SuccessMessage" xml:space="preserve">
-    <value>Your submission has been initiated. You will receive a verification code by post soon.</value>
-  </data>
-  <data name="EnterVerificationCode_SuccessMessage" xml:space="preserve">
-    <value>The code has been accepted.</value>
-  </data>
-  <data name="EnterVerification_InvalidVerificationCode_RejectionMessage" xml:space="preserve">
-    <value>The verification code is not valid.</value>
-  </data>
-  <data name="EnterVerification_VerificationAlreadyUsed_RejectionMessage" xml:space="preserve">
-    <value>The verification code has already been used.</value>
-  </data>
-  <data name="GlobalSwitch_CreateTenancyDetailsSubmissionDisabled_Message" xml:space="preserve">
-    <value>Creating a new submission is temporarily disabled. Please try again later.</value>
-  </data>
-  <data name="SubmitMoveOutDetails_SuccessMessage" xml:space="preserve">
-    <value>Move out details have been submitted succesfully.</value>
-  </data>
-  <data name="SubmitTenancyDetails_SuccessMessage" xml:space="preserve">
-    <value>Thanks you! The details have been submitted successfully.</value>
+    <value>You now have access to the information for this property for 30 days.</value>
+    <comment>TODO_PANOS: Put name of constant it depends on.</comment>
   </data>
 </root>

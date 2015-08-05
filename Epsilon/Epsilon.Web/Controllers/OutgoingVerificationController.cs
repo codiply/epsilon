@@ -43,7 +43,7 @@ namespace Epsilon.Web.Controllers
             }
             else
             {
-                AddUiAlerts(outcome.UiAlerts, true);
+                PresentUiAlerts(outcome.UiAlerts, true);
                 // TODO_PANOS: redirect to instructions instead
                 return RedirectHome(returnToSummary);
             }
@@ -77,7 +77,7 @@ namespace Epsilon.Web.Controllers
             }
             else
             {
-                AddUiAlerts(outcome.UiAlerts, true);
+                PresentUiAlerts(outcome.UiAlerts, true);
             }
             return RedirectHome(returnToSummary);
         }

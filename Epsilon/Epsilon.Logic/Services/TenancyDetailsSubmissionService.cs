@@ -124,7 +124,7 @@ namespace Epsilon.Logic.Services
                 return new CreateTenancyDetailsSubmissionOutcome
                 {
                     IsRejected = true,
-                    RejectionReason = SubmissionResources.UseAddressConfirmed_AddressNotFoundMessage
+                    RejectionReason = TenancyDetailsSubmissionResources.Create_AddressNotFoundMessage
                 };
             }
 
@@ -154,7 +154,7 @@ namespace Epsilon.Logic.Services
             uiAlerts.Add(new UiAlert
             {
                 Type = UiAlertType.Success,
-                Message = TenancyDetailsSubmissionResources.UseAddress_SuccessMessage
+                Message = TenancyDetailsSubmissionResources.Create_SuccessMessage
             });
 
             RemoveCachedUserSubmissionsSummary(userId);
@@ -242,7 +242,11 @@ namespace Epsilon.Logic.Services
             }
             else
             {
-                // TODO_PANOS: return failure before committing the transaction later on.
+                // TODO_PANOS_TEST
+                // TODO_PANOS: return failure before committing the transaction later on. 
+                // Use generic message as this shouldn't fail.
+                // Log exception
+                // Send AdminAlert
             }
 
             if (!hasSenderBeenRewarded)
@@ -252,7 +256,11 @@ namespace Epsilon.Logic.Services
                     .MakeTransaction(verification.AssignedToId, TokenRewardKey.EarnPerVerificationMailSent, verification.UniqueId);
                 if (senderRewardStatus != TokenAccountTransactionStatus.Success)
                 {
-                    // TODO_PANOS: return failure before committing the transaction later on.
+                    // TODO_PANOS_TEST
+                    // TODO_PANOS: return failure before committing the transaction later on. 
+                    // Use generic message as this shouldn't fail.
+                    // Log exception
+                    // Send AdminAlert
                 }
             }
 
@@ -322,7 +330,11 @@ namespace Epsilon.Logic.Services
             }
             else
             {
-                // TODO_PANOS: return failure before committing the transaction later on.
+                // TODO_PANOS_TEST
+                // TODO_PANOS: return failure before committing the transaction later on. 
+                // Use generic message as this shouldn't fail.
+                // Log exception
+                // Send AdminAlert
             }
 
             // TODO_PANOS: commit the transaction down here

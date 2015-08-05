@@ -592,15 +592,6 @@ namespace Epsilon.Resources.Web.Submission {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The address was not found in our system..
-        /// </summary>
-        public static string UseAddressConfirmed_AddressNotFoundMessage {
-            get {
-                return ResourceManager.GetString("UseAddressConfirmed_AddressNotFoundMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Verification Code.
         /// </summary>
         public static string VerificationCodeForm_FieldVerificationCode_DisplayName {

@@ -126,7 +126,7 @@ namespace Epsilon.Web.Controllers
             }
             else
             {
-                AddUiAlerts(outcome.UiAlerts, true);
+                PresentUiAlerts(outcome.UiAlerts, true);
             }
 
             return RedirectToAction(
@@ -172,7 +172,7 @@ namespace Epsilon.Web.Controllers
                     }
                 }
 
-                AddUiAlerts(outcome.UiAlerts, true);
+                PresentUiAlerts(outcome.UiAlerts, true);
 
                 return RedirectHome(form.ReturnToSummary);
             }
@@ -220,7 +220,7 @@ namespace Epsilon.Web.Controllers
                     }
                 }
 
-                AddUiAlerts(outcome.UiAlerts, true);
+                PresentUiAlerts(outcome.UiAlerts, true);
 
                 return RedirectHome(form.ReturnToSummary);
             }
@@ -267,7 +267,7 @@ namespace Epsilon.Web.Controllers
                     }
                 }
 
-                AddUiAlerts(outcome.UiAlerts, true);
+                PresentUiAlerts(outcome.UiAlerts, true);
 
                 return RedirectHome(form.ReturnToSummary);
             }

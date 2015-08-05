@@ -113,6 +113,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>OutgoingVerificationResources.el.resx</DependentUpon>
     </Compile>
+    <Compile Include="Logic\PropertyInfoAccess\PropertyInfoAccessResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PropertyInfoAccessResources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Logic\TenancyDetailsSubmission\TenancyDetailsSubmissionResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -153,6 +158,11 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>OutgoingVerificationResources.el.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Web\PropertyInfo\PropertyInfoResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PropertyInfoResources.resx</DependentUpon>
     </Compile>
     <Compile Include="Web\Submission\SubmissionResources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -239,6 +249,10 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>OutgoingVerificationResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Logic\PropertyInfoAccess\PropertyInfoAccessResources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>PropertyInfoAccessResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Logic\TenancyDetailsSubmission\TenancyDetailsSubmissionResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>TenancyDetailsSubmissionResources.Designer.cs</LastGenOutput>
@@ -271,6 +285,10 @@
     <EmbeddedResource Include="Web\OutgoingVerification\OutgoingVerificationResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>OutgoingVerificationResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Web\PropertyInfo\PropertyInfoResources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>PropertyInfoResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Web\Submission\SubmissionResources.el.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
