@@ -138,7 +138,7 @@ namespace Epsilon.Logic.Services
 
             // TODO_PANOS_TEST
             var submissionIdsToAvoid = await _dbContext.TenantVerifications
-                .Where(v => v.AssignedToId.Equals(userId) || v.AssignedByIpAddress.Equals(userId))
+                .Where(v => v.AssignedToId.Equals(userId) || v.AssignedByIpAddress.Equals(userIpAddress))
                 .Select(v => v.TenancyDetailsSubmissionId)
                 .Distinct()
                 .ToListAsync();
