@@ -1,3 +1,51 @@
-﻿@{
+﻿@using Epsilon.Resources.Web.Home
+@{
+    ViewBag.Title = HomeResources.Faq_PageTitle;
 }
 
+<h2>@HomeResources.Faq_PageHeader</h2>
+
+<div class="list-group">
+    <div class="list-group-item">
+        <h4 class="list-group-item-heading">
+            <a data-toggle="collapse" data-target="#whyNeedMyMobileNumberAnswer">
+                @HomeResources.Faq_WhyNeedMyMobileNumber_Question
+            </a>
+        </h4>
+        <div class="collapse list-group-item-text" id="whyNeedMyMobileNumberAnswer">
+            <p>@HomeResources.Faq_WhyNeedMyMobileNumber_Answer</p>
+        </div>
+    </div>
+    <div class="list-group-item">
+        <h4 class="list-group-item-heading">
+            <a data-toggle="collapse" data-target="#willYouShareMyDetailsAnswer">
+                @HomeResources.Faq_WillYouShareMyDetails_Question
+            </a>
+        </h4>
+        <div class="collapse list-group-item-text" id="willYouShareMyDetailsAnswer">
+            <p>@HomeResources.Faq_WillYouShareMyDetails_Answer_Paragraph1</p>
+            <p>@HomeResources.Faq_WillYouShareMyDetails_Answer_Paragraph2</p>
+        </div>
+    </div>
+    <div class="list-group-item">
+        <h4 class="list-group-item-heading">
+            <a data-toggle="collapse" data-target="#doINeedAPrinterAnswer">
+                @HomeResources.Faq_DoINeedAPrinter_Question
+            </a>
+        </h4>
+        <div class="collapse list-group-item-text" id="doINeedAPrinterAnswer">
+            <p>@HomeResources.Faq_DoINeedAPrinter_Answer</p>
+        </div>
+    </div>
+    <div class="list-group-item">
+        <h4 class="list-group-item-heading">
+            <a data-toggle="collapse" data-target="#whatHappensIfISendVerificationButNotUsedAnswer">
+                @HomeResources.Faq_WhatHappensIfISendVerificationButNotUsed_Question
+            </a>
+        </h4>
+        <div class="collapse list-group-item-text" id="whatHappensIfISendVerificationButNotUsedAnswer">
+            <p>@HomeResources.Faq_WhatHappensIfISendVerificationButNotUsed_Answer_Paragraph1</p>
+            <p>@HomeResources.Faq_WhatHappensIfISendVerificationButNotUsed_Answer_Paragraph2</p>        
+        </div>
+    </div>
+</div>

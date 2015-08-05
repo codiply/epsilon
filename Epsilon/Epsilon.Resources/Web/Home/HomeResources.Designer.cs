@@ -61,6 +61,114 @@ namespace Epsilon.Resources.Web.Home {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You do not need to a printer in order to send verification post to other users. In the instructions for sending verification mail you will find information on how to send post online..
+        /// </summary>
+        public static string Faq_DoINeedAPrinter_Answer {
+            get {
+                return ResourceManager.GetString("Faq_DoINeedAPrinter_Answer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do I need a printer?.
+        /// </summary>
+        public static string Faq_DoINeedAPrinter_Question {
+            get {
+                return ResourceManager.GetString("Faq_DoINeedAPrinter_Question", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Frequently Asked Questions.
+        /// </summary>
+        public static string Faq_PageHeader {
+            get {
+                return ResourceManager.GetString("Faq_PageHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Frequently Asked Questions.
+        /// </summary>
+        public static string Faq_PageTitle {
+            get {
+                return ResourceManager.GetString("Faq_PageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to One of the first steps before sending a verification mail is to verify the address exists using online tools (more information will be available in the instructions)..
+        /// </summary>
+        public static string Faq_WhatHappensIfISendVerificationButNotUsed_Answer_Paragraph1 {
+            get {
+                return ResourceManager.GetString("Faq_WhatHappensIfISendVerificationButNotUsed_Answer_Paragraph1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Each tenant receives two verification codes by two different users. If neither code is used, then both senders are credited with tokens for sending the verifications..
+        /// </summary>
+        public static string Faq_WhatHappensIfISendVerificationButNotUsed_Answer_Paragraph2 {
+            get {
+                return ResourceManager.GetString("Faq_WhatHappensIfISendVerificationButNotUsed_Answer_Paragraph2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to What happens if I send a verification but it is never used by the recipient?.
+        /// </summary>
+        public static string Faq_WhatHappensIfISendVerificationButNotUsed_Question {
+            get {
+                return ResourceManager.GetString("Faq_WhatHappensIfISendVerificationButNotUsed_Question", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to In order to ensure the quality of our data we ask for your mobile number so that we can confirm that you are a real person. This also help us ensure that users will not create duplicate accounts..
+        /// </summary>
+        public static string Faq_WhyNeedMyMobileNumber_Answer {
+            get {
+                return ResourceManager.GetString("Faq_WhyNeedMyMobileNumber_Answer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Why do you need my mobile number?.
+        /// </summary>
+        public static string Faq_WhyNeedMyMobileNumber_Question {
+            get {
+                return ResourceManager.GetString("Faq_WhyNeedMyMobileNumber_Question", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to We take the privacy of our users very seriously. Your address will be shared with two other users that do not live in the same area with you, so that they can post your verification codes..
+        /// </summary>
+        public static string Faq_WillYouShareMyDetails_Answer_Paragraph1 {
+            get {
+                return ResourceManager.GetString("Faq_WillYouShareMyDetails_Answer_Paragraph1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to We do not ask or store your name so this information is not available and will not be shared..
+        /// </summary>
+        public static string Faq_WillYouShareMyDetails_Answer_Paragraph2 {
+            get {
+                return ResourceManager.GetString("Faq_WillYouShareMyDetails_Answer_Paragraph2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Will you share my address and name with other users?.
+        /// </summary>
+        public static string Faq_WillYouShareMyDetails_Question {
+            get {
+                return ResourceManager.GetString("Faq_WillYouShareMyDetails_Question", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to   .
         /// </summary>
         public static string Index_Header {
