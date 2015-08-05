@@ -84,8 +84,10 @@
     <Compile Include="Configuration\AdminAlertServiceConfig.cs" />
     <Compile Include="Configuration\Interfaces\ICommonConfig.cs" />
     <Compile Include="Configuration\Interfaces\IOutgoingVerificationServiceConfig.cs" />
+    <Compile Include="Configuration\Interfaces\IPropertyInfoAccessServiceConfig.cs" />
     <Compile Include="Configuration\Interfaces\IUserTokenServiceConfig.cs" />
     <Compile Include="Configuration\OutgoingVerificationServiceConfig.cs" />
+    <Compile Include="Configuration\PropertyInfoAccessServiceConfig.cs" />
     <Compile Include="Configuration\TokenAccountServiceConfig.cs" />
     <Compile Include="Configuration\AntiAbuseServiceConfig.cs" />
     <Compile Include="Configuration\Interfaces\IAddressServiceConfig.cs" />
@@ -184,6 +186,8 @@
     <Compile Include="JsonModels\AddressSearchRequest.cs" />
     <Compile Include="JsonModels\AddressSearchResponse.cs" />
     <Compile Include="JsonModels\AddressSearchResult.cs" />
+    <Compile Include="JsonModels\MyExploredPropertiesSummaryRequest.cs" />
+    <Compile Include="JsonModels\MyExploredPropertiesSummaryResponse.cs" />
     <Compile Include="JsonModels\MyOutgoingVerificationsSummaryRequest.cs" />
     <Compile Include="JsonModels\MySubmissionsSummaryRequest.cs" />
     <Compile Include="JsonModels\MyOutgoingVerificationsSummaryResponse.cs" />

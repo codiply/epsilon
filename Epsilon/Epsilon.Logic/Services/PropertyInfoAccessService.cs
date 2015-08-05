@@ -11,25 +11,76 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data.Entity;
+using Epsilon.Logic.JsonModels;
+using Epsilon.Logic.Configuration.Interfaces;
 
 namespace Epsilon.Logic.Services
 {
     public class PropertyInfoAccessService : IPropertyInfoAccessService
     {
+        private readonly IPropertyInfoAccessServiceConfig _propertyInfoAccessServiceConfig;
         private readonly IAppCache _appCache;
         private readonly IEpsilonContext _dbContext;
         private readonly IAddressService _addressService;
         private readonly IUserTokenService _userTokenService;
 
         public PropertyInfoAccessService(
+            IPropertyInfoAccessServiceConfig propertInfoAccessServiceConfig,
             IAppCache appCache,
             IEpsilonContext dbContext,
             IAddressService addressService,
             IUserTokenService userTokenService)
         {
+            _propertyInfoAccessServiceConfig = propertInfoAccessServiceConfig;
+            _appCache = appCache;
             _dbContext = dbContext;
             _addressService = addressService;
             _userTokenService = userTokenService;
+        }
+
+        public async Task<MyExploredPropertiesSummaryResponse> GetUserExploredPropertiesSummaryWithCaching(
+            string userId, bool limitItemsReturned)
+        {
+            // TODO_PANOS_TEST: unit test
+            return await _appCache.GetAsync(
+                AppCacheKey.GetUserExploredPropertiesSummary(userId, limitItemsReturned),
+                () => GetUserExploredPropertiesSummary(userId, limitItemsReturned),
+                _propertyInfoAccessServiceConfig.MyExploredPropertiesSummary_CachingPeriod,
+                WithLock.No);
+        }
+
+        public async Task<MyExploredPropertiesSummaryResponse> GetUserExploredPropertiesSummary(string userId, bool limitItemsReturned)
+        {
+            // TODO_PANOS: test the whole thing
+            var query = _dbContext.PropertyInfoAccesses
+                .Include(x => x.Address)
+                .Include(x => x.Address.Country)
+                .Where(x => x.UserId.Equals(userId))
+                .OrderByDescending(x => x.CreatedOn);
+
+            List<PropertyInfoAccess> accesses;
+            var moreItemsExist = false;
+            if (limitItemsReturned)
+            {
+                var limit = _propertyInfoAccessServiceConfig.MyExploredPropertiesSummary_ItemsLimit;
+                accesses = await query.Take(limit + 1).ToListAsync();
+                if (accesses.Count > limit)
+                {
+                    moreItemsExist = true;
+                    accesses = accesses.Take(limit).ToList();
+                }
+            }
+            else
+            {
+                accesses = await query.ToListAsync();
+            }
+
+            return new MyExploredPropertiesSummaryResponse
+            {
+                moreItemsExist = moreItemsExist
+                //tenancyDetailsSubmissions = submissions.Select(x => x.ToInfo()).ToList()  // TODO_PANOS
+            };
         }
 
         public async Task<CreatePropertyInfoAccessOutcome> Create(
@@ -109,7 +160,18 @@ namespace Epsilon.Logic.Services
             return entity;
         }
 
-        
+        private async Task<PropertyInfoAccess> GetPropertyInfoAccessForUser(string userId, Guid uniqueId)
+        {
+            var propertyInfoAccess = await _dbContext.PropertyInfoAccesses
+                .Include(a => a.Address)
+                .Include(a => a.Address.Country)
+                .Where(s => s.UniqueId.Equals(uniqueId))
+                .Where(s => s.UserId.Equals(userId))
+                .SingleOrDefaultAsync();
+
+            return propertyInfoAccess;
+        }
+
         private void RemoveCachedUserExploredPropertiesSummary(string userId)
         {
             _appCache.Remove(AppCacheKey.GetUserExploredPropertiesSummary(userId, true));

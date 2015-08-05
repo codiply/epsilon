@@ -12,7 +12,7 @@ namespace Epsilon.Logic.Configuration.Interfaces
         bool Create_DisableFrequencyPerAddressCheck { get; }
         Frequency Create_MaxFrequencyPerAddress { get; }
         bool GlobalSwitch_DisableCreateTenancyDetailsSubmission { get; }
-        TimeSpan TenancyDetailsSubmission_MySubmissionsSummary_CachingPeriod { get; }
+        TimeSpan MySubmissionsSummary_CachingPeriod { get; }
         int MySubmissionsSummary_ItemsLimit { get; }
     }
 }

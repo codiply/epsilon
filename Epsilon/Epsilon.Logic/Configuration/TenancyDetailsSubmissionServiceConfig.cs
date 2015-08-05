@@ -54,7 +54,7 @@ namespace Epsilon.Logic.Configuration
             }
         }
 
-        public TimeSpan TenancyDetailsSubmission_MySubmissionsSummary_CachingPeriod 
+        public TimeSpan MySubmissionsSummary_CachingPeriod 
         { 
             get
             {

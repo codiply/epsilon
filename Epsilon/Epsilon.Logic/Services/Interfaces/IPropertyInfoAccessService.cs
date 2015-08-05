@@ -1,4 +1,5 @@
 ﻿using Epsilon.Logic.Dtos;
+using Epsilon.Logic.JsonModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +22,10 @@ namespace Epsilon.Logic.Services.Interfaces
 
     public interface IPropertyInfoAccessService
     {
+        Task<MyExploredPropertiesSummaryResponse> GetUserExploredPropertiesSummaryWithCaching(string userId, bool limitItemsReturned);
+
+        Task<MyExploredPropertiesSummaryResponse> GetUserExploredPropertiesSummary(string userId, bool limitItemsReturned);
+
         Task<CreatePropertyInfoAccessOutcome> Create(
             string userId,
             string userIpAddress,

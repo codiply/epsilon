@@ -36,6 +36,9 @@ namespace Epsilon.Logic.Constants.Interfaces
         int OutgoingVerification_MyOutgoingVerificationsSummary_ItemsLimit { get; }
         int OutgoingVerification_VerificationsPerTenancyDetailsSubmission { get; }
 
+        double PropertInfoAccess_MyExploredPropertiesSummary_CachingPeriodInMinutes { get; }
+        int PropertInfoAccess_MyExploredPropertiesSummary_ItemsLimit { get; }
+ 
         int SearchAddressResultsLimit { get; }
 
         Frequency TenancyDetailsSubmission_Create_MaxFrequencyPerAddress { get; }

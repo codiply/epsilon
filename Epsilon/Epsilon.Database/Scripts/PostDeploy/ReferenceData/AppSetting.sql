@@ -93,6 +93,10 @@ VALUES
      N'The maximum number of outgoing verifications that will apear in the summary on the front page.'),
 (N'OutgoingVerification_VerificationsPerTenancyDetailsSubmission', N'2', N'Integer',
      N'The number of verifications to be assigned per tenancy details submission.'),
+(N'PropertInfoAccess_MyExploredPropertiesSummary_CachingPeriodInMinutes', N'15.0', N'Double',
+     N'Caching period in minutes for MyExploredPropertiesSummary data.'),
+(N'PropertInfoAccess_MyExploredPropertiesSummary_ItemsLimit', N'10', N'Integer',
+     N'The maximum number of explored properties that will apear in the summary on the front page.'),
 (N'SearchAddressResultsLimit', N'30', N'Integer',
      N'The number of results returned when performing and Address Search.'),
 (N'TenancyDetailsSubmission_Create_MaxFrequencyPerAddress', N'1/30D', N'Frequency',
@@ -103,7 +107,7 @@ VALUES
      N'Caching period in minutes for MySubmissionSummary data.'),
 (N'TenancyDetailsSubmission_MySubmissionsSummary_ItemsLimit', N'10', N'Integer',
      N'The maximum number of submissions that will apear in the summary on the front page.'),
--- This needs to be big enough to fill initially the screen.
+-- This needs to be big enough to fill one screen with the first page and a scroll bar appears.
 (N'Token_MyTokenTransactions_PageSize', N'30', N'Integer',
      N'The number of items fetched as a page from the server for MyTokenTrasactions screen.');
 GO

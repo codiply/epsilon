@@ -121,6 +121,7 @@ VALUES
 (N'anti-abuse-user', N'AntiAbuse_CreateTenancyDetailsSubmission_MaxFrequencyPerUser'),
 -- caching-period
 (N'caching-period', N'OutgoingVerification_MyOutgoingVerificationsSummary_CachingPeriodInMinutes'),
+(N'caching-period', N'PropertInfoAccess_MyExploredPropertiesSummary_CachingPeriodInMinutes'),
 (N'caching-period', N'TenancyDetailsSubmission_MySubmissionsSummary_CachingPeriodInMinutes'),
 -- debug
 (N'debug', N'EnableResponseTiming'),
@@ -172,8 +173,12 @@ VALUES
 (N'outgoing-verification', N'OutgoingVerification_VerificationsPerTenancyDetailsSubmission'),
 -- page-size
 (N'page-size', N'Token_MyTokenTransactions_PageSize'),
+-- property-info-access
+(N'property-info-access', N'PropertInfoAccess_MyExploredPropertiesSummary_CachingPeriodInMinutes'),
+(N'property-info-access', N'PropertInfoAccess_MyExploredPropertiesSummary_ItemsLimit'),
 -- results-limit
 (N'results-limit', N'OutgoingVerification_MyOutgoingVerificationsSummary_ItemsLimit'),
+(N'results-limit', N'PropertInfoAccess_MyExploredPropertiesSummary_ItemsLimit'),
 (N'results-limit', N'SearchAddressResultsLimit'),
 (N'results-limit', N'TenancyDetailsSubmission_MySubmissionsSummary_ItemsLimit'),
 (N'results-limit', N'Token_MyTokenTransactions_PageSize'),

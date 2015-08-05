@@ -46,6 +46,8 @@ namespace Epsilon.Logic.Constants.Enums
         OutgoingVerification_MyOutgoingVerificationsSummary_CachingPeriodInMinutes,
         OutgoingVerification_MyOutgoingVerificationsSummary_ItemsLimit,
         OutgoingVerification_VerificationsPerTenancyDetailsSubmission,
+        PropertInfoAccess_MyExploredPropertiesSummary_CachingPeriodInMinutes,
+        PropertInfoAccess_MyExploredPropertiesSummary_ItemsLimit,
         SearchAddressResultsLimit,
         TenancyDetailsSubmission_Create_DisableFrequencyPerAddressCheck,
         TenancyDetailsSubmission_Create_MaxFrequencyPerAddress,

@@ -64,7 +64,7 @@ namespace Epsilon.Logic.Services
             return await _appCache.GetAsync(
                 AppCacheKey.GetUserSubmissionsSummary(userId, limitItemsReturned),
                 () => GetUserSubmissionsSummary(userId, limitItemsReturned), 
-                _tenancyDetailsSubmissionServiceConfig.TenancyDetailsSubmission_MySubmissionsSummary_CachingPeriod,
+                _tenancyDetailsSubmissionServiceConfig.MySubmissionsSummary_CachingPeriod,
                 WithLock.No);
         }
 

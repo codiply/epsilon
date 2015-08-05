@@ -99,6 +99,7 @@ namespace Epsilon.Web.App_Start
             kernel.Bind<ICommonConfig>().To<CommonConfig>().InRequestScope();
             kernel.Bind<IGeocodeServiceConfig>().To<GeocodeServiceConfig>().InRequestScope();
             kernel.Bind<IOutgoingVerificationServiceConfig>().To<OutgoingVerificationServiceConfig>().InRequestScope();
+            kernel.Bind<IPropertyInfoAccessServiceConfig>().To<PropertInfoAccessServiceConfig>().InRequestScope();
             kernel.Bind<ITenancyDetailsSubmissionServiceConfig>().To<TenancyDetailsSubmissionServiceConfig>().InRequestScope();
             kernel.Bind<ITokenAccountServiceConfig>().To<TokenAccountServiceConfig>().InRequestScope();
             kernel.Bind<IUserTokenServiceConfig>().To<UserTokenServiceConfig>().InRequestScope();
