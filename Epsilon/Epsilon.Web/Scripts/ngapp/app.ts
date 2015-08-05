@@ -2,7 +2,7 @@
 import Directives = Epsilon.NgApp.Directives;
 import Filters = Epsilon.NgApp.Filters;
 
-angular.module('ngEpsilon', ['ngEpsilon.config'])
+angular.module('ngEpsilon', ['ngEpsilon.config', 'infinite-scroll', 'angularMoment'])
 // Controllers
     .controller('PropertyInfoPropertySearchController',
         ['$scope', '$http', 'BASE_URL_WITH_LANGUAGE', 'COUNTRY_VARIANT_RESOURCES', Controllers.PropertyInfoPropertySearchController])
@@ -19,3 +19,8 @@ angular.module('ngEpsilon', ['ngEpsilon.config'])
 // Filters
     .filter("localDateTime", Filters.localDateTime)
     .filter("stringFormat", Filters.stringFormat);
+
+angular.module('ngEpsilon')
+    .run(['amMoment', 'LANGUAGE_ID', function (amMoment, languageId) {
+        amMoment.changeLocale(languageId);
+    }]);

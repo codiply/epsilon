@@ -41,6 +41,14 @@ namespace Epsilon.Web
                         "~/Scripts/lib/angularjs/angular.js",
                         "~/Scripts/lib/ng-infinite-scroll/ng-infinite-scroll.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/moment").Include(
+                        "~/Scripts/lib/moment/moment-with-locales.js"
+                ));
+
+            bundles.Add(new ScriptBundle("~/bundles/angular-moment").Include(
+                        "~/Scripts/lib/angular-moment/angular-moment.js"
+            ));
+
             bundles.Add(new ScriptBundle("~/bundles/ngapp").Include(
                         // Controllers
                         "~/Scripts/ngapp/controllers/PropertyInfoPropertySearchController.js",

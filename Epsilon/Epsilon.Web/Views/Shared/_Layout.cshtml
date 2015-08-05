@@ -61,7 +61,8 @@
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/angularjs")
     @Scripts.Render("~/bundles/linq")
-
+    @Scripts.Render("~/bundles/moment")
+    @Scripts.Render("~/bundles/angular-moment")
 
     @{
         var languageId = ViewContext.RouteData.Values["languageId"].ToString().ToLower();
@@ -75,7 +76,7 @@
     }
 
     <script type="text/javascript">
-        angular.module('ngEpsilon.config', ['infinite-scroll'])
+        angular.module('ngEpsilon.config', [])
             .constant('BASE_URL', '@baseUrl')
             .constant('BASE_URL_WITH_LANGUAGE', '@baseUrlWithLanguage')
             .constant('DIRECTIVE_TEMPLATE_FOLDER_URL', '@(baseUrlWithLanguage)NgDirectiveTemplate/')
