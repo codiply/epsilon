@@ -250,6 +250,7 @@
     <EmbeddedResource Include="Logic\TokenRewardKey\TokenRewardKeyResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>TokenRewardKeyResources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Web\Home\HomeResources.el.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

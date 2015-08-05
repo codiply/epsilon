@@ -36,6 +36,7 @@ namespace Epsilon.Logic.Entities
         public virtual AddressGeometry Geometry { get; set; }
         public virtual PostcodeGeometry PostcodeGeometry { get; set; }
         public virtual ICollection<TenancyDetailsSubmission> TenancyDetailsSubmissions { get; set; }
+        public virtual ICollection<PropertyInfoAccess> PropertyInfoAccesses { get; set; }
 
         public string FullAddress()
         {

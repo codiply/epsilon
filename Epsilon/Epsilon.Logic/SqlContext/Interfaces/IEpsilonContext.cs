@@ -27,6 +27,7 @@ namespace Epsilon.Logic.SqlContext.Interfaces
         DbSet<IpAddressActivity> IpAddressActivities { get; set; }
         DbSet<Language> Languages { get; set; }
         DbSet<PostcodeGeometry> PostcodeGeometries { get; set; }
+        DbSet<PropertyInfoAccess> PropertyInfoAccesses { get; set; }
         DbSet<ResponseTiming> ResponseTimings { get; set; }
         DbSet<TenancyDetailsSubmission> TenancyDetailsSubmissions { get; set; }
         DbSet<TenantVerification> TenantVerifications { get; set; }

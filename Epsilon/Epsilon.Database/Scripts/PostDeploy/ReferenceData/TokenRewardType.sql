@@ -22,7 +22,7 @@ VALUES
 (N'EarnPerVerificationCodeEntered', N'Tokens earned when a user enters a verification code received by post.'),
 (N'EarnPerVerificationMailSent', N'Tokens earned when a user sends verification post and the code is entered by the recepient.'),
 -- Spend
-(N'SpendPerPropertyDetailsAccess', N'Tokens spent when user buys access to the details of a property.')
+(N'SpendPerPropertyInfoAccess', N'Tokens spent when user buys access to the information of a property.')
 GO
 
 MERGE [dbo].[TokenRewardType] AS T -- Target

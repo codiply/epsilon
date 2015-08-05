@@ -117,18 +117,18 @@ namespace Epsilon.Resources.Logic.TokenRewardKey {
         /// <summary>
         ///   Looks up a localized string similar to Tokens spend for accessing the information for a property..
         /// </summary>
-        public static string SpendPerPropertyDetailsAccess_Description {
+        public static string SpendPerPropertyInfoAccess_Description {
             get {
-                return ResourceManager.GetString("SpendPerPropertyDetailsAccess_Description", resourceCulture);
+                return ResourceManager.GetString("SpendPerPropertyInfoAccess_Description", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Access Property Information.
         /// </summary>
-        public static string SpendPerPropertyDetailsAccess_DisplayName {
+        public static string SpendPerPropertyInfoAccess_DisplayName {
             get {
-                return ResourceManager.GetString("SpendPerPropertyDetailsAccess_DisplayName", resourceCulture);
+                return ResourceManager.GetString("SpendPerPropertyInfoAccess_DisplayName", resourceCulture);
             }
         }
     }

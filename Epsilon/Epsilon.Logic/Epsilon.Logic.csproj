@@ -129,6 +129,7 @@
     <Compile Include="Entities\AdminEventLog.cs" />
     <Compile Include="Entities\AppSetting.cs" />
     <Compile Include="Entities\AppSettingLabel.cs" />
+    <Compile Include="Entities\PropertyInfoAccess.cs" />
     <Compile Include="Entities\TokenAccount.cs" />
     <Compile Include="Entities\TokenAccountSnapshot.cs" />
     <Compile Include="Entities\TokenAccountTransaction.cs" />
@@ -225,6 +226,7 @@
     <Compile Include="Services\UserResidenceService.cs" />
     <Compile Include="SqlContext\Mapping\AdminEventLogMap.cs" />
     <Compile Include="SqlContext\Mapping\AppSettingLabelMap.cs" />
+    <Compile Include="SqlContext\Mapping\PropertyInfoAccessMap.cs" />
     <Compile Include="SqlContext\Mapping\TokenRewardMap.cs" />
     <Compile Include="SqlContext\Mapping\TokenRewardSchemeMap.cs" />
     <Compile Include="Wrappers\Interfaces\IGeocodeClientFactory.cs" />

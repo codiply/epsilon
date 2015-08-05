@@ -23,7 +23,7 @@ namespace Epsilon.Logic.Constants.Enums
         EarnPerVerificationMailSent,
         
         // Spend
-        SpendPerPropertyDetailsAccess
+        SpendPerPropertyInfoAccess
     }
 
     public enum TokenRewardKeyType

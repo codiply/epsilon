@@ -34,6 +34,7 @@ namespace Epsilon.Logic.SqlContext
         public virtual DbSet<IpAddressActivity> IpAddressActivities { get; set; }
         public virtual DbSet<Language> Languages { get; set; }
         public virtual DbSet<PostcodeGeometry> PostcodeGeometries { get; set; }
+        public virtual DbSet<PropertyInfoAccess> PropertyInfoAccesses { get; set; }
         public virtual DbSet<ResponseTiming> ResponseTimings { get; set; }
         public virtual DbSet<TenancyDetailsSubmission> TenancyDetailsSubmissions { get; set; }
         public virtual DbSet<TenantVerification> TenantVerifications { get; set; }
@@ -64,6 +65,7 @@ namespace Epsilon.Logic.SqlContext
             modelBuilder.Configurations.Add(new IpAddressActivityMap());
             modelBuilder.Configurations.Add(new LanguageMap());
             modelBuilder.Configurations.Add(new PostcodeGeometryMap());
+            modelBuilder.Configurations.Add(new PropertyInfoAccessMap());
             modelBuilder.Configurations.Add(new ResponseTimingMap());
             modelBuilder.Configurations.Add(new TenancyDetailsSubmissionMap());
             modelBuilder.Configurations.Add(new TenantVerificationMap());

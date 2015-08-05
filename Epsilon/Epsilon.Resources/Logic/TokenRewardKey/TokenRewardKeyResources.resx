@@ -135,10 +135,10 @@
   <data name="EarnPerVerificationMailSent_DisplayName" xml:space="preserve">
     <value>Outgoing Verification Sent</value>
   </data>
-  <data name="SpendPerPropertyDetailsAccess_Description" xml:space="preserve">
+  <data name="SpendPerPropertyInfoAccess_Description" xml:space="preserve">
     <value>Tokens spend for accessing the information for a property.</value>
   </data>
-  <data name="SpendPerPropertyDetailsAccess_DisplayName" xml:space="preserve">
+  <data name="SpendPerPropertyInfoAccess_DisplayName" xml:space="preserve">
     <value>Access Property Information</value>
   </data>
 </root>

@@ -23,7 +23,7 @@ VALUES
 (N'1', N'EarnPerVerificationCodeEntered', 1.0),
 (N'1', N'EarnPerVerificationMailSent', 2.0),
 -- Spend 1
-(N'1', N'SpendPerPropertyDetailsAccess', -1.0);
+(N'1', N'SpendPerPropertyInfoAccess', -1.0);
 GO
 
 MERGE [dbo].[TokenReward] AS T -- Target

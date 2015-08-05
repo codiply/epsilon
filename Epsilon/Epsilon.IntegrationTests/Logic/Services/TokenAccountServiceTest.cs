@@ -66,7 +66,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             {
                 foreach (var am in amounts)
                 {
-                    var tokenRewardKey = am < 0 ? TokenRewardKey.SpendPerPropertyDetailsAccess : TokenRewardKey.EarnPerVerificationMailSent;
+                    var tokenRewardKey = am < 0 ? TokenRewardKey.SpendPerPropertyInfoAccess : TokenRewardKey.EarnPerVerificationMailSent;
                     await tokenAccountServiceUnderTest.MakeTransaction(user.Id, am, tokenRewardKey);
                     expectedBalance += am;
                     actualBalance = await tokenAccountServiceForVerification.GetBalance(accountId);
@@ -110,7 +110,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             var creditStatus = await tokenAccountServiceUnderTest.MakeTransaction(accountId, creditAmount, TokenRewardKey.EarnPerVerificationCodeEntered);
             var balanceAfterCredit = await tokenAccountServiceForVerification.GetBalance(accountId);
-            var debitStatus = await tokenAccountServiceUnderTest.MakeTransaction(accountId, debitAmount, TokenRewardKey.SpendPerPropertyDetailsAccess);
+            var debitStatus = await tokenAccountServiceUnderTest.MakeTransaction(accountId, debitAmount, TokenRewardKey.SpendPerPropertyInfoAccess);
             var balanceAfterDebit = await tokenAccountServiceForVerification.GetBalance(accountId);
 
             Assert.AreEqual(TokenAccountTransactionStatus.Success, creditStatus,
@@ -132,7 +132,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var accountId = user.Id;
 
             var amount = 100M;
-            var tokenRewardKey = TokenRewardKey.SpendPerPropertyDetailsAccess;
+            var tokenRewardKey = TokenRewardKey.SpendPerPropertyInfoAccess;
             var expectedQuantity = 1;
 
             var status = await tokenAccountService.MakeTransaction(accountId, amount, tokenRewardKey);
@@ -166,7 +166,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var accountId = user.Id;
 
             var amount = 100M;
-            var tokenRewardKey = TokenRewardKey.SpendPerPropertyDetailsAccess;
+            var tokenRewardKey = TokenRewardKey.SpendPerPropertyInfoAccess;
             var internalReference = Guid.NewGuid();
             var externalReference = "externa-reference";
             var quantity = 12;
