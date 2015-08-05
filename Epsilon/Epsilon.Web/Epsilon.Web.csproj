@@ -1318,6 +1318,7 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\ngapp\app.ts" />
+    <TypeScriptCompile Include="Scripts\ngapp\controllers\PropertyInfoPropertySearchController.ts" />
     <TypeScriptCompile Include="Scripts\ngapp\controllers\SubmissionAddressSearchController.ts" />
     <TypeScriptCompile Include="Scripts\ngapp\directives\MyOutgoingVerificationsSummary.ts" />
     <TypeScriptCompile Include="Scripts\ngapp\directives\TokenRewardsSummary.ts" />

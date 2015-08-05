@@ -43,6 +43,7 @@ namespace Epsilon.Web
 
             bundles.Add(new ScriptBundle("~/bundles/ngapp").Include(
                         // Controllers
+                        "~/Scripts/ngapp/controllers/PropertyInfoPropertySearchController.js",
                         "~/Scripts/ngapp/controllers/SubmissionAddressSearchController.js",
                         // Filters
                         "~/Scripts/ngapp/filters/LocalDateTime.js",
