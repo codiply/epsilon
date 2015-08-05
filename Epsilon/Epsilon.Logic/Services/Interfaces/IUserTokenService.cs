@@ -15,6 +15,8 @@ namespace Epsilon.Logic.Services.Interfaces
 
         Task<TokenBalanceResponse> GetBalance(string userId);
 
+        Task<bool> SufficientFundsExistForTransaction(string userId, TokenRewardKey tokenRewardKey, int quantity = 1);
+
         Task<TokenAccountTransactionStatus> MakeTransaction(
             string userId, TokenRewardKey tokenRewardKey, Guid? internalReference = null,
             string externalReference = null, int quantity = 1);

@@ -46,6 +46,17 @@ namespace Epsilon.Logic.Services
             await _dbContext.SaveChangesAsync();
         }
 
+        public async Task<bool> SufficientFundsExistForTransaction(string accountId, Decimal amount)
+        {
+            // TODO_PANOS_TEST: whole function
+            if (amount >= 0.0M)
+                return true;
+
+            var balance = await GetBalance(accountId);
+
+            return amount <= balance;
+        }
+
         public async Task<TokenAccountTransactionStatus> MakeTransaction(
             string accountId, 
             Decimal amount,

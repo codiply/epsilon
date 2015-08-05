@@ -103,11 +103,23 @@ namespace Epsilon.Logic.Services
                     RejectionReason =  PropertyInfoAccessResources.Create_AddressNotFoundMessage
                 };
             }
-   
+
+            var tokenRewardKey = TokenRewardKey.SpendPerPropertyInfoAccess;
+            var sufficientFundsExist = await _userTokenService.SufficientFundsExistForTransaction(userId, tokenRewardKey);
+
+            if (!sufficientFundsExist)
+            {
+                return new CreatePropertyInfoAccessOutcome
+                {
+                    IsRejected = true,
+                    RejectionReason = "Insufficient funds." // TODO_PANOS: put in a resource common with the status messages below.
+                };
+            }
+
             var propertyInfoAccess = await DoCreate(userId, userIpAddress, accessUniqueId, address.Id);
 
             var tokenTransactionStatus = await _userTokenService
-                .MakeTransaction(userId, TokenRewardKey.SpendPerPropertyInfoAccess, internalReference: propertyInfoAccess.UniqueId);
+                .MakeTransaction(userId, tokenRewardKey, internalReference: propertyInfoAccess.UniqueId);
 
             if (tokenTransactionStatus == TokenAccountTransactionStatus.Success)
             {

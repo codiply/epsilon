@@ -50,6 +50,19 @@ namespace Epsilon.Logic.Services
             return new TokenBalanceResponse { balance = (decimal)balance };
         }
 
+        public async Task<bool> SufficientFundsExistForTransaction(string userId, TokenRewardKey tokenRewardKey, int quantity = 1)
+        {
+            // TODO_PANOS_TEST
+            if (quantity < 1)
+                throw new ArgumentException(string.Format("Quantity has value '{0}' which is less than 1.", quantity));
+
+            var totalAmount = CalculateTotalAmount(tokenRewardKey, quantity);
+
+            var accountId = userId;
+
+            return await _tokenAccountService.SufficientFundsExistForTransaction(accountId, totalAmount);
+        }
+
         public async Task<TokenAccountTransactionStatus> MakeTransaction(
             string userId, TokenRewardKey tokenRewardKey, Guid? internalReference,
             string externalReference = null, int quantity = 1)
@@ -58,8 +71,7 @@ namespace Epsilon.Logic.Services
             if (quantity < 1)
                 return TokenAccountTransactionStatus.WrongQuantity;
 
-            var reward = _tokenRewardService.GetCurrentReward(tokenRewardKey);
-            var totalAmount = quantity * reward.Value;
+            var totalAmount = CalculateTotalAmount(tokenRewardKey, quantity);
 
             return await MakeTransaction(userId, totalAmount, tokenRewardKey, internalReference, externalReference, quantity);
         }
@@ -68,6 +80,14 @@ namespace Epsilon.Logic.Services
         {
             var accountId = userId;
             return await _tokenAccountService.GetMyTokenTransactionsNextPage(accountId, request, _userTokenServiceConfig.MyTokenTransactions_PageSize);
+        }
+
+        private decimal CalculateTotalAmount(TokenRewardKey tokenRewardKey, int quantity)
+        {
+            var reward = _tokenRewardService.GetCurrentReward(tokenRewardKey);
+            var totalAmount = quantity * reward.Value;
+
+            return totalAmount;
         }
 
         private async Task<TokenAccountTransactionStatus> MakeTransaction(

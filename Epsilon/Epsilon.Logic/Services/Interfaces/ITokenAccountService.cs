@@ -14,13 +14,15 @@ namespace Epsilon.Logic.Services.Interfaces
     {
         Task CreateAccount(string accountId);
 
+        Task<bool> SufficientFundsExistForTransaction(string accountId, Decimal amount);
+
         /// <summary>
         /// It makes a transaction for the specific account.
         /// </summary>
         /// <param name="accountId"></param>
         /// <param name="amount">
         /// Positive (credits the account) or negative (debits the account). 
-        /// This is the total amount for all the quantity of the transaction.
+        /// This is the total amount for the whole quantity of the transaction.
         /// The amount will be simply added to the balance.
         /// Zero is also possible in order to record a transaction that does not change the balance.</param>
         /// <param name="tokenRewardKey">
@@ -35,7 +37,8 @@ namespace Epsilon.Logic.Services.Interfaces
         /// Freetext field for recording external reference information.
         /// </param>
         /// <param name="quantity">
-        /// Positive number with default value 1.</param>
+        /// Positive number with default value 1. This is just for recording it on the transaction. The amount should be the total amount.
+        /// </param>
         /// <returns></returns>
         Task<TokenAccountTransactionStatus> MakeTransaction(
             string accountId, 
