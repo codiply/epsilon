@@ -4,32 +4,34 @@
 
 @using Epsilon.Resources.Web.Token
 
-<div>
-    <h3>@TokenResources.MyTokenTransactions_Header</h3>
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>@TokenResources.MyTokenTransactions_ColumnMadeOn_Header</th>
-                <th>@TokenResources.MyTokenTransactions_ColumnAmount_Header</th>
-                <th>@TokenResources.MyTokenTransactions_ColumnRewardType_Header</th>
-                <th>@TokenResources.MyTokenTransactions_ColumnQuantity_Header</th>
-            </tr>
-        </thead>
-        <tbody infinite-scroll="fetchNextPage();"
-               infinite-scroll-disabled='busy'
-               infinite-scroll-distance='1'>
-            <tr ng-repeat='transaction in items'>
-                <td><span am-time-ago="transaction.madeOn" title="{{transaction.madeOn | localDateTime }}"></span></td>
-                <td>{{transaction.amount}}</td>
-                <td>
-                    <span title="{{tokenRewardTypeMetadata.Get(transaction.rewardTypeKey).description}}">
-                        {{tokenRewardTypeMetadata.Get(transaction.rewardTypeKey).displayName}}
-                    </span>
-                </td>
-                <td>{{transaction.quantity}}</td>
-            </tr>
-            <tr style="clear:both;"></tr>
-        </tbody>
-    </table>
-    <div ng-cloack ng-show='busy'>@TokenResources.MyTokenTransactions_LoadingMessage</div>
+<div class="panel panel-primary">
+    <div class="panel-heading"><h4>@TokenResources.MyTokenTransactions_Header</h4></div>
+    <div class="panel-body">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>@TokenResources.MyTokenTransactions_ColumnMadeOn_Header</th>
+                    <th>@TokenResources.MyTokenTransactions_ColumnAmount_Header</th>
+                    <th>@TokenResources.MyTokenTransactions_ColumnRewardType_Header</th>
+                    <th>@TokenResources.MyTokenTransactions_ColumnQuantity_Header</th>
+                </tr>
+            </thead>
+            <tbody infinite-scroll="fetchNextPage();"
+                   infinite-scroll-disabled='busy'
+                   infinite-scroll-distance='1'>
+                <tr ng-repeat='transaction in items' ng-class="transaction.amount < 0 ? 'danger' : (transaction.amount > 0 ? 'success' : '')">
+                    <td><span am-time-ago="transaction.madeOn" title="{{transaction.madeOn | localDateTime }}"></span></td>
+                    <td>{{transaction.amount}}</td>
+                    <td>
+                        <span title="{{tokenRewardTypeMetadata.Get(transaction.rewardTypeKey).description}}">
+                            {{tokenRewardTypeMetadata.Get(transaction.rewardTypeKey).displayName}}
+                        </span>
+                    </td>
+                    <td>{{transaction.quantity}}</td>
+                </tr>
+                <tr style="clear:both;"></tr>
+            </tbody>
+        </table>
+        <div ng-cloack ng-show='busy'>@TokenResources.MyTokenTransactions_LoadingMessage</div>
+    </div>
 </div>

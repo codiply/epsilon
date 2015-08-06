@@ -5,41 +5,48 @@
 @using Epsilon.Resources.Web.Token
 
 <div>
-    <h3>@TokenResources.TokenRewardsSummary_EarnGroup_Header</h3>
-    <p>@TokenResources.TokenRewardsSummary_EarnGroup_Description</p>
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>@TokenResources.TokenRewardsSummary_ColumnRewardType_Header</th>
-                <th>@TokenResources.TokenRewardsSummary_ColumnValue_Header</th>
-                <th>@TokenResources.TokenRewardsSummary_ColumnDescription_Header</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr ng-repeat='earnReward in earnTypeValues'>
-                <td>{{tokenRewardTypeMetadata.Get(earnReward.key).displayName}}</td>
-                <td>{{earnReward.value}}</td>
-                <td>{{tokenRewardTypeMetadata.Get(earnReward.key).description}}</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <h3>@TokenResources.TokenRewardsSummary_SpendGroup_Header</h3>
-    <p>@TokenResources.TokenRewardsSummary_SpendGroup_Description</p>
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>@TokenResources.TokenRewardsSummary_ColumnRewardType_Header</th>
-                <th>@TokenResources.TokenRewardsSummary_ColumnValue_Header</th>
-                <th>@TokenResources.TokenRewardsSummary_ColumnDescription_Header</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr ng-repeat='spendReward in spendTypeValues'>
-                <td>{{tokenRewardTypeMetadata.Get(spendReward.key).displayName}}</td>
-                <td>{{-spendReward.value}}</td>
-                <td>{{tokenRewardTypeMetadata.Get(spendReward.key).description}}</td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="panel panel-success">
+        <div class="panel-heading"><h4>@TokenResources.TokenRewardsSummary_EarnGroup_Header</h4></div>
+        <div class="panel-body">
+            <p>@TokenResources.TokenRewardsSummary_EarnGroup_Description</p>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>@TokenResources.TokenRewardsSummary_ColumnRewardType_Header</th>
+                        <th>@TokenResources.TokenRewardsSummary_ColumnValue_Header</th>
+                        <th>@TokenResources.TokenRewardsSummary_ColumnDescription_Header</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat='earnReward in earnTypeValues'>
+                        <td>{{tokenRewardTypeMetadata.Get(earnReward.key).displayName}}</td>
+                        <td>{{earnReward.value}}</td>
+                        <td>{{tokenRewardTypeMetadata.Get(earnReward.key).description}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="panel panel-danger">
+        <div class="panel-heading"><h4>@TokenResources.TokenRewardsSummary_SpendGroup_Header</h4></div>
+        <div class="panel-body">
+            <p>@TokenResources.TokenRewardsSummary_SpendGroup_Description</p>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>@TokenResources.TokenRewardsSummary_ColumnRewardType_Header</th>
+                        <th>@TokenResources.TokenRewardsSummary_ColumnValue_Header</th>
+                        <th>@TokenResources.TokenRewardsSummary_ColumnDescription_Header</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat='spendReward in spendTypeValues'>
+                        <td>{{tokenRewardTypeMetadata.Get(spendReward.key).displayName}}</td>
+                        <td>{{-spendReward.value}}</td>
+                        <td>{{tokenRewardTypeMetadata.Get(spendReward.key).description}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>

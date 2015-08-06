@@ -4,6 +4,8 @@
     ViewBag.Title = UserHomeResources.Index_PageTitle;
 }
 
+<hr />
+
 <div class="row">
     <div class="col-md-8">
         <div>
@@ -15,32 +17,42 @@
     </div>
 
     <div class="col-md-4">
-        <div>
-            <h3>@UserHomeResources.SectionCreateSubmission_Header</h3>
-            <p>
-                @UserHomeResources.SectionCreateSubmission_Text
-            </p>
-            <p><a class="btn btn-default" href="@Url.Action("SearchAddress", "Submission")">@UserHomeResources.SectionCreateSubmission_ButtonText &raquo;</a></p>
+        <div class="panel panel-primary">
+            <div class="panel-heading"><h4>@UserHomeResources.SectionCreateSubmission_Header</h4></div>
+            <div class="panel-body">
+                <p>
+                    @UserHomeResources.SectionCreateSubmission_Text
+                </p>
+                <p><a class="btn btn-primary" href="@Url.Action("SearchAddress", "Submission")">@UserHomeResources.SectionCreateSubmission_ButtonText &raquo;</a></p>
+            </div>
         </div>
-        <div>
-            <h3>@UserHomeResources.SectionPickOutgoingVerification_Header</h3>
-            <p>@UserHomeResources.SectionPickOutgoingVerification_Text</p>
-            <p>
-                @using (Html.BeginForm("Pick", "OutgoingVerification"))
-                {
-                    @Html.AntiForgeryToken()
-                    <input type="hidden" name="verificationUniqueId" value="@Guid.NewGuid()" />
-                    <input type="hidden" name="returnToSummary" value="false" />
-                    <input type="submit" value="@UserHomeResources.SectionPickOutgoingVerification_ButtonText &raquo"
-                           data-click-once
-                           class="btn btn-default" />
-                }
-            </p>
+        <div class="panel panel-primary">
+            <div class="panel-heading"><h4>@UserHomeResources.SectionPickOutgoingVerification_Header</h4></div>
+            <div class="panel-body">
+                <p>@UserHomeResources.SectionPickOutgoingVerification_Text</p>
+                <p>
+                    @using (Html.BeginForm("Pick", "OutgoingVerification"))
+                    {
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="verificationUniqueId" value="@Guid.NewGuid()" />
+                        <input type="hidden" name="returnToSummary" value="false" />
+                        <input type="submit" value="@UserHomeResources.SectionPickOutgoingVerification_ButtonText &raquo"
+                               data-click-once
+                               class="btn btn-primary" />
+                    }
+                </p>
+            </div>
         </div>
-        <div>
-            <h3>@UserHomeResources.SectionExploreProperties_Header</h3>
-            <p>@UserHomeResources.SectionExploreProperties_Text</p>
-            <p><a class="btn btn-default" href="@Url.Action("SearchProperty", "PropertyInfo")">@UserHomeResources.SectionExploreProperties_ButtonText &raquo;</a></p>
+        <div class="panel panel-primary">
+            <div class="panel-heading"><h4>@UserHomeResources.SectionExploreProperties_Header</h4></div>
+            <div class="panel-body">
+                <p>@UserHomeResources.SectionExploreProperties_Text</p>
+                <p>
+                    <a class="btn btn-primary" href="@Url.Action("SearchProperty", "PropertyInfo")">
+                        @UserHomeResources.SectionExploreProperties_ButtonText &raquo;
+                    </a>
+                </p>
+            </div>
         </div>
     </div>
 </div>
