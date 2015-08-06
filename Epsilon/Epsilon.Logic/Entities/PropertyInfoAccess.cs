@@ -25,9 +25,10 @@ namespace Epsilon.Logic.Entities
 
         public ExploredPropertyInfo ToExploredPropertyInfo(TimeSpan expiryPeriod)
         {
+            // TODO_PANOS_TEST
             return new ExploredPropertyInfo
             {
-                uniqueId = UniqueId,
+                accessUniqueId = UniqueId,
                 displayAddress = Address.FullAddress(),
                 expiresOn = CreatedOn + expiryPeriod
             };

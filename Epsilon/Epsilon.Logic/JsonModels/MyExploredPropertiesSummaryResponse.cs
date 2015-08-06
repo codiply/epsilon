@@ -10,7 +10,7 @@ namespace Epsilon.Logic.JsonModels
     [TypeScriptInterface]
     public class MyExploredPropertiesSummaryResponse
     {
-        public IList<ExploredPropertyInfo> items { get; set; }
+        public IList<ExploredPropertyInfo> exploredProperties { get; set; }
 
         public bool moreItemsExist { get; set; }
     }

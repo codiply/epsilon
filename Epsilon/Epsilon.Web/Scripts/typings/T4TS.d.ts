@@ -35,7 +35,7 @@ declare module T4TS {
     }
     /** Generated from Epsilon.Logic.JsonModels.ExploredPropertyInfo **/
     export interface ExploredPropertyInfo {
-        uniqueId: string;
+        accessUniqueId: string;
         displayAddress: string;
         expiresOn: string;
     }
@@ -46,7 +46,7 @@ declare module T4TS {
     }
     /** Generated from Epsilon.Logic.JsonModels.MyExploredPropertiesSummaryResponse **/
     export interface MyExploredPropertiesSummaryResponse {
-        items: T4TS.ExploredPropertyInfo[];
+        exploredProperties: T4TS.ExploredPropertyInfo[];
         moreItemsExist: boolean;
     }
     /** Generated from Epsilon.Logic.JsonModels.MyOutgoingVerificationsSummaryRequest **/

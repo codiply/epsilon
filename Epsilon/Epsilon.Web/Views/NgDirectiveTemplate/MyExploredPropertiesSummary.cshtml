@@ -1,3 +1,49 @@
 ﻿@{
     Layout = null;
 }
+
+@using Epsilon.Resources.Web.PropertyInfo
+
+<div class="panel panel-warning"
+     data-ng-cloak data-ng-if="response.exploredProperties.length > 0">
+    <div class="panel-heading">
+        <h4 data-ng-cloak data-ng-show="response.moreItemsExist">@PropertyInfoResources.MyExploredPropertiesSummary_WithLimit_Header</h4>
+        <h4 data-ng-cloak data-ng-show="!response.moreItemsExist">@PropertyInfoResources.MyExploredPropertiesSummary_Header</h4>
+    </div>
+    <div class="panel-body">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>@PropertyInfoResources.MyExploredPropertiesSummary_ExpiresOnColumnHeader</th>
+                    <th>@PropertyInfoResources.MyExploredPropertiesSummary_AddressColumnHeader</th>
+                    <th>@PropertyInfoResources.MyExploredPropertiesSummary_ActionsColumnHeader</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr data-ng-repeat="property in response.exploredProperties">
+                    <td><span am-time-ago="property.expiresOn" title="{{property.expiresOn | localDateTime }}"></span></td>
+                    <td>{{property.displayAddress}}</td>
+                    <td>
+                        <span>
+                            @using (Html.BeginForm("View", "PropertyInfo"))
+                            {
+                                @Html.AntiForgeryToken()
+
+                                <input type="hidden" name="accessUniqueId" value="{{property.accessUniqueId}}" />
+                                <input type="hidden" name="returnToSummary" value="{{isSummaryPage}}" />
+                                <button class="btn btn-default" type="submit">
+                                    @PropertyInfoResources.MyExploredPropertiesSummary_ActionView_ButtonText
+                                </button>
+                            }
+                        </span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="panel-footer">
+        <p class="text-right" data-ng-cloak data-ng-show="response.moreItemsExist">
+            @Html.ActionLink(PropertyInfoResources.MyExploredPropertiesSummary_ViewAllLinkText, "MyExploredPropertiesSummary", "PropertyInfo")
+        </p>
+    </div>
+</div>

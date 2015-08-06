@@ -10,7 +10,7 @@ namespace Epsilon.Logic.JsonModels
     [TypeScriptInterface]
     public class ExploredPropertyInfo
     {
-        public Guid uniqueId { get; set; }
+        public Guid accessUniqueId { get; set; }
         public string displayAddress { get; set; }
         public DateTimeOffset expiresOn { get; set; }
     }

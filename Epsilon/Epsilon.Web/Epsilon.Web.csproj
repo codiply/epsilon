@@ -1300,6 +1300,7 @@
     <Content Include="Views\PropertyInfo\SearchProperty.cshtml" />
     <Content Include="Views\PropertyInfo\GainAccess.cshtml" />
     <Content Include="Views\NgDirectiveTemplate\MyExploredPropertiesSummary.cshtml" />
+    <Content Include="Views\PropertyInfo\MyExploredPropertiesSummary.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

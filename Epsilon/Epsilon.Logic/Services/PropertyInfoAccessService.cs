@@ -88,7 +88,7 @@ namespace Epsilon.Logic.Services
             return new MyExploredPropertiesSummaryResponse
             {
                 moreItemsExist = moreItemsExist,
-                items = accesses.Select(x => x.ToExploredPropertyInfo(expiryPeriod)).ToList()
+                exploredProperties = accesses.Select(x => x.ToExploredPropertyInfo(expiryPeriod)).ToList()
             };
         }
 

@@ -97,6 +97,78 @@ namespace Epsilon.Resources.Web.PropertyInfo {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Actions.
+        /// </summary>
+        public static string MyExploredPropertiesSummary_ActionsColumnHeader {
+            get {
+                return ResourceManager.GetString("MyExploredPropertiesSummary_ActionsColumnHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to View.
+        /// </summary>
+        public static string MyExploredPropertiesSummary_ActionView_ButtonText {
+            get {
+                return ResourceManager.GetString("MyExploredPropertiesSummary_ActionView_ButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Address.
+        /// </summary>
+        public static string MyExploredPropertiesSummary_AddressColumnHeader {
+            get {
+                return ResourceManager.GetString("MyExploredPropertiesSummary_AddressColumnHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Expiration.
+        /// </summary>
+        public static string MyExploredPropertiesSummary_ExpiresOnColumnHeader {
+            get {
+                return ResourceManager.GetString("MyExploredPropertiesSummary_ExpiresOnColumnHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to My Explored Properties.
+        /// </summary>
+        public static string MyExploredPropertiesSummary_Header {
+            get {
+                return ResourceManager.GetString("MyExploredPropertiesSummary_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to My Explored Properties.
+        /// </summary>
+        public static string MyExploredPropertiesSummary_PageTitle {
+            get {
+                return ResourceManager.GetString("MyExploredPropertiesSummary_PageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to View all properties.
+        /// </summary>
+        public static string MyExploredPropertiesSummary_ViewAllLinkText {
+            get {
+                return ResourceManager.GetString("MyExploredPropertiesSummary_ViewAllLinkText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to My Latest Explored Properties.
+        /// </summary>
+        public static string MyExploredPropertiesSummary_WithLimit_Header {
+            get {
+                return ResourceManager.GetString("MyExploredPropertiesSummary_WithLimit_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Access Information.
         /// </summary>
         public static string SearchProperties_GainAccessButton {

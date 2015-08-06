@@ -129,6 +129,30 @@
   <data name="GainAccess_SubmitButtonText" xml:space="preserve">
     <value>Proceed</value>
   </data>
+  <data name="MyExploredPropertiesSummary_ActionsColumnHeader" xml:space="preserve">
+    <value>Actions</value>
+  </data>
+  <data name="MyExploredPropertiesSummary_ActionView_ButtonText" xml:space="preserve">
+    <value>View</value>
+  </data>
+  <data name="MyExploredPropertiesSummary_AddressColumnHeader" xml:space="preserve">
+    <value>Address</value>
+  </data>
+  <data name="MyExploredPropertiesSummary_ExpiresOnColumnHeader" xml:space="preserve">
+    <value>Expiration</value>
+  </data>
+  <data name="MyExploredPropertiesSummary_Header" xml:space="preserve">
+    <value>My Explored Properties</value>
+  </data>
+  <data name="MyExploredPropertiesSummary_PageTitle" xml:space="preserve">
+    <value>My Explored Properties</value>
+  </data>
+  <data name="MyExploredPropertiesSummary_ViewAllLinkText" xml:space="preserve">
+    <value>View all properties</value>
+  </data>
+  <data name="MyExploredPropertiesSummary_WithLimit_Header" xml:space="preserve">
+    <value>My Latest Explored Properties</value>
+  </data>
   <data name="SearchProperties_GainAccessButton" xml:space="preserve">
     <value>Access Information</value>
   </data>

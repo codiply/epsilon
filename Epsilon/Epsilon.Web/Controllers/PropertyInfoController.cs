@@ -83,7 +83,7 @@ namespace Epsilon.Web.Controllers
             throw new NotImplementedException();
         }
 
-        public ActionResult MyExploredProperties()
+        public ActionResult MyExploredPropertiesSummary()
         {
             return View();
         }
