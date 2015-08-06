@@ -59,6 +59,7 @@ namespace Epsilon.Web
                         // Directives
                         "~/Scripts/ngapp/directives/AddressMap.js",
                         "~/Scripts/ngapp/directives/ClickOnce.js",
+                        "~/Scripts/ngapp/directives/MyExploredPropertiesSummary.js",
                         "~/Scripts/ngapp/directives/MyOutgoingVerificationsSummary.js",
                         "~/Scripts/ngapp/directives/MySubmissionsSummary.js",
                         "~/Scripts/ngapp/directives/MyTokenTransactions.js",

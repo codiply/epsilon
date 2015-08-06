@@ -11,6 +11,7 @@ angular.module('ngEpsilon', ['ngEpsilon.config', 'infinite-scroll', 'angularMome
 // Directives
     .directive("addressMap", ['$http', 'BASE_URL_WITH_LANGUAGE', Directives.AddressMap])
     .directive("clickOnce", ['$timeout', Directives.ClickOnce])
+    .directive("myExploredPropertiesSummary", ['$http', 'BASE_URL_WITH_LANGUAGE', 'DIRECTIVE_TEMPLATE_FOLDER_URL', Directives.MyExploredPropertiesSummary])
     .directive("myOutgoingVerificationsSummary", ['$http', 'BASE_URL_WITH_LANGUAGE', 'DIRECTIVE_TEMPLATE_FOLDER_URL', Directives.MyOutgoingVerificationsSummary])
     .directive("mySubmissionsSummary", ['$http', 'BASE_URL_WITH_LANGUAGE', 'DIRECTIVE_TEMPLATE_FOLDER_URL', Directives.MySubmissionsSummary])
     .directive("myTokenTransactions", ['$http', 'BASE_URL_WITH_LANGUAGE', 'DIRECTIVE_TEMPLATE_FOLDER_URL', Directives.MyTokenTransactions])

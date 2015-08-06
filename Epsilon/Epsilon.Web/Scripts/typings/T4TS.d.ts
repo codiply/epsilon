@@ -33,10 +33,21 @@ declare module T4TS {
         addressUniqueId: string;
         fullAddress: string;
     }
+    /** Generated from Epsilon.Logic.JsonModels.ExploredPropertyInfo **/
+    export interface ExploredPropertyInfo {
+        uniqueId: string;
+        displayAddress: string;
+        expiresOn: string;
+    }
     /** Generated from Epsilon.Logic.JsonModels.MyExploredPropertiesSummaryRequest **/
     export interface MyExploredPropertiesSummaryRequest {
         limitItemsReturned: boolean;
         allowCaching: boolean;
+    }
+    /** Generated from Epsilon.Logic.JsonModels.MyExploredPropertiesSummaryResponse **/
+    export interface MyExploredPropertiesSummaryResponse {
+        items: T4TS.ExploredPropertyInfo[];
+        moreItemsExist: boolean;
     }
     /** Generated from Epsilon.Logic.JsonModels.MyOutgoingVerificationsSummaryRequest **/
     export interface MyOutgoingVerificationsSummaryRequest {
