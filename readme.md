@@ -60,6 +60,7 @@ To run the integration tests publish first the Database project into a new local
 ### New Language Checklist
 
 - Add Language in ReferenceData\Language.sql script
+- Check that moment.js localization includes the new language and works (see token transactions page for example).
 
 ### Security Checklist
 
