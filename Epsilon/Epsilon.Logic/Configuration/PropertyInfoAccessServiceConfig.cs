@@ -26,6 +26,16 @@ namespace Epsilon.Logic.Configuration
             _dbAppSettingDefaultValue = dbAppSettingDefaultValue;
         }
 
+        public double ExpiryPeriodInDays
+        {
+            get
+            {
+                return _dbAppSettingsHelper.GetDouble(
+                    DbAppSettingKey.PropertInfoAccess_ExpiryPeriodInDays,
+                    _dbAppSettingDefaultValue.PropertInfoAccess_ExpiryPeriodInDays);
+            }
+        }
+    
         public TimeSpan MyExploredPropertiesSummary_CachingPeriod
         {
             get

@@ -97,6 +97,8 @@ VALUES
      N'The maximum number of outgoing verifications that will apear in the summary on the front page.'),
 (N'OutgoingVerification_VerificationsPerTenancyDetailsSubmission', N'2', N'Integer',
      N'The number of verifications to be assigned per tenancy details submission.'),
+(N'PropertInfoAccess_ExpiryPeriodInDays', N'30.0', N'Double',
+     N'The number of days after the creation of a PropertyInfoAccess when it expires.'),
 (N'PropertInfoAccess_MyExploredPropertiesSummary_CachingPeriodInMinutes', N'15.0', N'Double',
      N'Caching period in minutes for MyExploredPropertiesSummary data.'),
 (N'PropertInfoAccess_MyExploredPropertiesSummary_ItemsLimit', N'10', N'Integer',

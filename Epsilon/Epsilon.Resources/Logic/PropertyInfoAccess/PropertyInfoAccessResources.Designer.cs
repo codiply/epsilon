@@ -70,7 +70,7 @@ namespace Epsilon.Resources.Logic.PropertyInfoAccess {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You now have access to the information for this property for 30 days..
+        ///   Looks up a localized string similar to You now have access to the information for this property for {0} days..
         /// </summary>
         public static string Create_SuccessMessage {
             get {

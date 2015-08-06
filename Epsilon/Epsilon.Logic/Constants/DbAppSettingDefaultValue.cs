@@ -37,6 +37,7 @@ namespace Epsilon.Logic.Constants
         public int OutgoingVerification_MyOutgoingVerificationsSummary_ItemsLimit { get { return 10; } }
         public int OutgoingVerification_VerificationsPerTenancyDetailsSubmission { get { return 2; } }
 
+        public double PropertInfoAccess_ExpiryPeriodInDays { get { return 30; } }
         public double PropertInfoAccess_MyExploredPropertiesSummary_CachingPeriodInMinutes { get { return 15.0; } }
         public int PropertInfoAccess_MyExploredPropertiesSummary_ItemsLimit { get { return 10; } }
 

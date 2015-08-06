@@ -36,6 +36,7 @@ namespace Epsilon.Logic.Constants.Interfaces
         int OutgoingVerification_MyOutgoingVerificationsSummary_ItemsLimit { get; }
         int OutgoingVerification_VerificationsPerTenancyDetailsSubmission { get; }
 
+        double PropertInfoAccess_ExpiryPeriodInDays { get; }
         double PropertInfoAccess_MyExploredPropertiesSummary_CachingPeriodInMinutes { get; }
         int PropertInfoAccess_MyExploredPropertiesSummary_ItemsLimit { get; }
  

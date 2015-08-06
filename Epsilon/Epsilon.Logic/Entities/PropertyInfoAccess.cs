@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Epsilon.Logic.JsonModels;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -21,5 +22,15 @@ namespace Epsilon.Logic.Entities
 
         public virtual User User { get; set; }
         public virtual Address Address { get; set; }
+
+        public ExploredPropertyInfo ToExploredPropertyInfo(TimeSpan expiryPeriod)
+        {
+            return new ExploredPropertyInfo
+            {
+                uniqueId = UniqueId,
+                displayAddress = Address.FullAddress(),
+                expiresOn = CreatedOn + expiryPeriod
+            };
+        }
     }
 }

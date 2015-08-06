@@ -14,12 +14,14 @@ using System.Threading.Tasks;
 using System.Data.Entity;
 using Epsilon.Logic.JsonModels;
 using Epsilon.Logic.Configuration.Interfaces;
+using Epsilon.Logic.Wrappers.Interfaces;
 
 namespace Epsilon.Logic.Services
 {
     public class PropertyInfoAccessService : IPropertyInfoAccessService
     {
         private readonly IPropertyInfoAccessServiceConfig _propertyInfoAccessServiceConfig;
+        private readonly IClock _clock;
         private readonly IAppCache _appCache;
         private readonly IEpsilonContext _dbContext;
         private readonly IAddressService _addressService;
@@ -27,12 +29,14 @@ namespace Epsilon.Logic.Services
 
         public PropertyInfoAccessService(
             IPropertyInfoAccessServiceConfig propertInfoAccessServiceConfig,
+            IClock clock,
             IAppCache appCache,
             IEpsilonContext dbContext,
             IAddressService addressService,
             IUserTokenService userTokenService)
         {
             _propertyInfoAccessServiceConfig = propertInfoAccessServiceConfig;
+            _clock = clock;
             _appCache = appCache;
             _dbContext = dbContext;
             _addressService = addressService;
@@ -52,11 +56,16 @@ namespace Epsilon.Logic.Services
 
         public async Task<MyExploredPropertiesSummaryResponse> GetUserExploredPropertiesSummary(string userId, bool limitItemsReturned)
         {
-            // TODO_PANOS: test the whole thing
+            var expiryPeriod = ExpiryPeriod();
+            // TODO_PANOS_TEST
+            var cutoff = _clock.OffsetNow - expiryPeriod;
+
+            // TODO_PANOS_TEST: test the whole thing
             var query = _dbContext.PropertyInfoAccesses
                 .Include(x => x.Address)
                 .Include(x => x.Address.Country)
                 .Where(x => x.UserId.Equals(userId))
+                .Where(x => x.CreatedOn > cutoff)
                 .OrderByDescending(x => x.CreatedOn);
 
             List<PropertyInfoAccess> accesses;
@@ -78,8 +87,8 @@ namespace Epsilon.Logic.Services
 
             return new MyExploredPropertiesSummaryResponse
             {
-                moreItemsExist = moreItemsExist
-                //tenancyDetailsSubmissions = submissions.Select(x => x.ToInfo()).ToList()  // TODO_PANOS
+                moreItemsExist = moreItemsExist,
+                items = accesses.Select(x => x.ToExploredPropertyInfo(expiryPeriod)).ToList()
             };
         }
 
@@ -141,7 +150,8 @@ namespace Epsilon.Logic.Services
             uiAlerts.Add(new UiAlert
             {
                 Type = UiAlertType.Success,
-                Message = PropertyInfoAccessResources.Create_SuccessMessage
+                Message = string.Format(
+                    PropertyInfoAccessResources.Create_SuccessMessage, _propertyInfoAccessServiceConfig.ExpiryPeriodInDays)
             });
 
             RemoveCachedUserExploredPropertiesSummary(userId);
@@ -190,6 +200,11 @@ namespace Epsilon.Logic.Services
         {
             _appCache.Remove(AppCacheKey.GetUserExploredPropertiesSummary(userId, true));
             _appCache.Remove(AppCacheKey.GetUserExploredPropertiesSummary(userId, false));
+        }
+
+        private TimeSpan ExpiryPeriod()
+        {
+            return TimeSpan.FromDays(_propertyInfoAccessServiceConfig.ExpiryPeriodInDays);
         }
     }
 }

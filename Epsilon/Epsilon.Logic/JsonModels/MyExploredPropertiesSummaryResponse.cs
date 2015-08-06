@@ -8,6 +8,8 @@ namespace Epsilon.Logic.JsonModels
 {
     public class MyExploredPropertiesSummaryResponse
     {
+        public IList<ExploredPropertyInfo> items { get; set; }
+
         public bool moreItemsExist { get; set; }
     }
 }

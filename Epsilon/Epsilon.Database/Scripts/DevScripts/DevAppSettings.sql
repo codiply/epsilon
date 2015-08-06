@@ -59,6 +59,7 @@ VALUES
 (N'OutgoingVerification_MyOutgoingVerificationsSummary_CachingPeriodInMinutes', N'15.0'),
 (N'OutgoingVerification_MyOutgoingVerificationsSummary_ItemsLimit', N'2'),
 (N'OutgoingVerification_VerificationsPerTenancyDetailsSubmission', N'2'),
+(N'PropertInfoAccess_ExpiryPeriodInDays', N'30'),
 (N'PropertInfoAccess_MyExploredPropertiesSummary_CachingPeriodInMinutes', N'15.0'),
 (N'PropertInfoAccess_MyExploredPropertiesSummary_ItemsLimit', N'2'),
 (N'TenancyDetailsSubmission_Create_MaxFrequencyPerAddress', '10/30D'),

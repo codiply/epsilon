@@ -121,7 +121,6 @@
     <value>The address was not found in our system. </value>
   </data>
   <data name="Create_SuccessMessage" xml:space="preserve">
-    <value>You now have access to the information for this property for 30 days.</value>
-    <comment>TODO_PANOS: Put name of constant it depends on.</comment>
+    <value>You now have access to the information for this property for {0} days.</value>
   </data>
 </root>

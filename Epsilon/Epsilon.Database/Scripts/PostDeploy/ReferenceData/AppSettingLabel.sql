@@ -176,7 +176,13 @@ VALUES
 (N'outgoing-verification', N'OutgoingVerification_VerificationsPerTenancyDetailsSubmission'),
 -- page-size
 (N'page-size', N'Token_MyTokenTransactions_PageSize'),
+-- period
+(N'period', N'PropertInfoAccess_ExpiryPeriodInDays'),
+(N'period', N'OutgoingVerification_MyOutgoingVerificationsSummary_CachingPeriodInMinutes'),
+(N'period', N'PropertInfoAccess_MyExploredPropertiesSummary_CachingPeriodInMinutes'),
+(N'period', N'TenancyDetailsSubmission_MySubmissionsSummary_CachingPeriodInMinutes'),
 -- property-info-access
+(N'property-info-access', N'PropertInfoAccess_ExpiryPeriodInDays'),
 (N'property-info-access', N'PropertInfoAccess_MyExploredPropertiesSummary_CachingPeriodInMinutes'),
 (N'property-info-access', N'PropertInfoAccess_MyExploredPropertiesSummary_ItemsLimit'),
 -- results-limit

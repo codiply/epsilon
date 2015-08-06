@@ -8,6 +8,7 @@ namespace Epsilon.Logic.Configuration.Interfaces
 {
     public interface IPropertyInfoAccessServiceConfig
     {
+        double ExpiryPeriodInDays { get; }
         TimeSpan MyExploredPropertiesSummary_CachingPeriod { get; }
         int MyExploredPropertiesSummary_ItemsLimit { get; }
     }
