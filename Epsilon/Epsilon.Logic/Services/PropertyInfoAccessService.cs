@@ -116,6 +116,8 @@ namespace Epsilon.Logic.Services
                 };
             }
 
+            // TODO_PANOS: check if there is already an active property access
+
             var propertyInfoAccess = await DoCreate(userId, userIpAddress, accessUniqueId, address.Id);
 
             var tokenTransactionStatus = await _userTokenService
