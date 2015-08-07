@@ -53,16 +53,16 @@ namespace Epsilon.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Instructions(Guid verificationUniqueId, bool returnToSummary)
         {
-            var tenantVerifications =
-                await _outgoingVerificationService.GetVerificationForUser(GetUserId(), verificationUniqueId);
+            var getInstructionsOutcome =
+                await _outgoingVerificationService.GetInstructions(GetUserId(), verificationUniqueId);
 
-            if (tenantVerifications == null)
+            if (getInstructionsOutcome.IsRejected)
             {
-                Danger(CommonResources.GenericInvalidRequestMessage, true);
+                Danger(getInstructionsOutcome.RejectionReason, true);
                 return RedirectHome(returnToSummary);
             }
 
-            var model = OutgoingVerificationInstructionsViewModel.FromEntity(tenantVerifications);
+            var model = OutgoingVerificationInstructionsViewModel.FromEntity(getInstructionsOutcome.TenantVerification);
             return View(model);
         }
 

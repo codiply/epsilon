@@ -42,6 +42,16 @@ namespace Epsilon.Logic.Entities
             return !StepVerificationSentOutDone();
         }
 
+        public DateTimeOffset ExpiresOn(TimeSpan expiryPeriod)
+        {
+            return CreatedOn + expiryPeriod;
+        }
+
+        public bool CanViewInstructions(DateTimeOffset now, TimeSpan expiryPeriod)
+        {
+            return now < ExpiresOn(expiryPeriod);
+        }
+
         public bool IsSenderRewarded()
         {
             return SenderRewardedOn.HasValue;
@@ -52,13 +62,14 @@ namespace Epsilon.Logic.Entities
         /// Note: You will need to Include TenancyDetailsSubmission.Address for this to work.
         /// </summary>
         /// <returns></returns>
-        public TenantVerificationInfo ToInfo()
+        public TenantVerificationInfo ToInfo(DateTimeOffset now, TimeSpan expiryPeriod)
         {
             return new TenantVerificationInfo
             {
                 uniqueId = UniqueId,
                 addressArea = TenancyDetailsSubmission.Address.LocalityRegionPostcode(),
                 canMarkAsSent = CanMarkAsSent(),
+                canViewInstructions = CanViewInstructions(now, expiryPeriod),
                 stepVerificationSentOutDone = StepVerificationSentOutDone(),
                 stepVerificationReceivedDone = StepVerificationReceivedDone()
             };

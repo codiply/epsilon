@@ -93,6 +93,8 @@ VALUES
      N'Disables completely creating a new outgoing verification.'),
 (N'GlobalSwitch_DisableRegister', N'False', N'Boolean',
      N'Disables completely the registration of new users.'),
+(N'OutgoingVerification_Instructions_ExpiryPeriodInDays', N'7.0', N'Double',
+     N'The number of days a user can access the instructions for an outgoing verification after creation.'),
 (N'OutgoingVerification_MyOutgoingVerificationsSummary_CachingPeriodInMinutes', N'15.0', N'Double',
      N'Caching period in minutes for MyOutgoingVerificationsSummary data.'),
 (N'OutgoingVerification_MyOutgoingVerificationsSummary_ItemsLimit', N'10', N'Integer',

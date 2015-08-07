@@ -33,6 +33,19 @@
                     <th>{{ver.uniqueId  | limitTo : 8 : 0}}</th>
                     <td>{{ver.addressArea}}</td>
                     <td>
+                        <span data-ng-if="ver.canViewInstructions">
+                            @using (Html.BeginForm("Instructions", "OutgoingVerification"))
+                            {
+                                @Html.AntiForgeryToken()
+
+                                <input type="hidden" name="verificationUniqueId" value="{{ver.uniqueId}}" />
+                                <input type="hidden" name="returnToSummary" value="{{isSummaryPage}}" />
+                                <button class="btn btn-default" type="submit"
+                                        title="@OutgoingVerificationResources.MyOutgoingVerificationsSummary_ActionInstructions_ButtonHoverText">
+                                    @OutgoingVerificationResources.MyOutgoingVerificationsSummary_ActionInstructions_ButtonText
+                                </button>
+                            }
+                        </span>
                         <span data-ng-if="ver.canMarkAsSent">
                             @using (Html.BeginForm("MarkAsSent", "OutgoingVerification"))
                             {

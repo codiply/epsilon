@@ -44,6 +44,7 @@ namespace Epsilon.Logic.Constants.Enums
         GlobalSwitch_DisableCreatePropertyInfoAccess,
         GlobalSwitch_DisablePickOutgoingVerification,
         GlobalSwitch_DisableRegister,
+        OutgoingVerification_Instructions_ExpiryPeriodInDays,
         OutgoingVerification_MyOutgoingVerificationsSummary_CachingPeriodInMinutes,
         OutgoingVerification_MyOutgoingVerificationsSummary_ItemsLimit,
         OutgoingVerification_VerificationsPerTenancyDetailsSubmission,

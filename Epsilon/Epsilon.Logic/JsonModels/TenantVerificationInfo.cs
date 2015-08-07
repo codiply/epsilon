@@ -18,5 +18,6 @@ namespace Epsilon.Logic.JsonModels
         public bool stepVerificationReceivedDone { get; set; }
 
         public bool canMarkAsSent { get; set; }
+        public bool canViewInstructions { get; set; }
     }
 }

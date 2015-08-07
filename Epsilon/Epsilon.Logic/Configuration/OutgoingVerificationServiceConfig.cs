@@ -32,7 +32,17 @@ namespace Epsilon.Logic.Configuration
             }
         }
 
-        public TimeSpan OutgoingVerification_MyOutgoingVerificationsSummary_CachingPeriod
+        public double Instructions_ExpiryPeriodInDays
+        {
+            get
+            {
+                return _dbAppSettingsHelper.GetDouble(
+                    DbAppSettingKey.OutgoingVerification_Instructions_ExpiryPeriodInDays,
+                    _dbAppSettingDefaultValue.OutgoingVerification_Instructions_ExpiryPeriodInDays);
+            }
+        }
+
+        public TimeSpan MyOutgoingVerificationsSummary_CachingPeriod
         {
             get
             {

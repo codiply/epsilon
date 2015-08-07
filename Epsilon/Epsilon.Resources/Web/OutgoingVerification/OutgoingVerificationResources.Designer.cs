@@ -61,6 +61,24 @@ namespace Epsilon.Resources.Web.OutgoingVerification {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to View the instructions for sending this verification..
+        /// </summary>
+        public static string MyOutgoingVerificationsSummary_ActionInstructions_ButtonHoverText {
+            get {
+                return ResourceManager.GetString("MyOutgoingVerificationsSummary_ActionInstructions_ButtonHoverText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Instructions.
+        /// </summary>
+        public static string MyOutgoingVerificationsSummary_ActionInstructions_ButtonText {
+            get {
+                return ResourceManager.GetString("MyOutgoingVerificationsSummary_ActionInstructions_ButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Mark outgoing verification as sent?.
         /// </summary>
         public static string MyOutgoingVerificationsSummary_ActionMarkAsSent_ButtonConfirmationText {

@@ -10,6 +10,12 @@ namespace Epsilon.Web.Models.ViewModels.OutgoingVerification
     {
         // TODO_PANOS
 
+
+        /// <summary>
+        /// Note: You will need to Include TenancyDetailsSubmission, TenancyDetailsSubmission.Address,
+        ///       and TenancyDetailsSubmission.Address.Country in your entity for this to work.
+        /// </summary>
+        /// <returns></returns>
         public static OutgoingVerificationInstructionsViewModel FromEntity(TenantVerification entity)
         {
             // TODO_PANOS

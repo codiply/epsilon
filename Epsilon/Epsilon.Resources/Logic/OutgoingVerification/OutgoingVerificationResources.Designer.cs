@@ -88,7 +88,7 @@ namespace Epsilon.Resources.Logic.OutgoingVerification {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to A new outgoing verification has been assigned to you..
+        ///   Looks up a localized string similar to A new outgoing verification has been assigned to you. The instructions will be available for {0} days..
         /// </summary>
         public static string Pick_SuccessMessage {
             get {

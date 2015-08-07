@@ -57,6 +57,7 @@ VALUES
 (N'GlobalSwitch_DisableCreateTenancyDetailsSubmission', N'False'),
 (N'GlobalSwitch_DisablePickOutgoingVerification', N'False'),
 (N'GlobalSwitch_DisableRegister', N'False'),
+(N'OutgoingVerification_Instructions_ExpiryPeriodInDays', N'7.0'),
 (N'OutgoingVerification_MyOutgoingVerificationsSummary_CachingPeriodInMinutes', N'15.0'),
 (N'OutgoingVerification_MyOutgoingVerificationsSummary_ItemsLimit', N'2'),
 (N'OutgoingVerification_VerificationsPerTenancyDetailsSubmission', N'2'),

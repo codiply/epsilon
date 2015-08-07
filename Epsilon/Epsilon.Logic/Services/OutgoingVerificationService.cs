@@ -55,18 +55,6 @@ namespace Epsilon.Logic.Services
             return verification != null;
         }
 
-        public async Task<TenantVerification> GetVerificationForUser(string assignedUserId, Guid uniqueId)
-        {
-            var submission = await _dbContext.TenantVerifications
-                .Include(x => x.TenancyDetailsSubmission)
-                .Include(s => s.TenancyDetailsSubmission.Address)
-                .Where(s => s.UniqueId.Equals(uniqueId))
-                .Where(s => s.AssignedToId.Equals(assignedUserId))
-                .SingleOrDefaultAsync();
-
-            return submission;
-        }
-
         public async Task<MyOutgoingVerificationsSummaryResponse> GetUserOutgoingVerificationsSummaryWithCaching(
             string userId, bool limitItemsReturned)
         {
@@ -74,13 +62,16 @@ namespace Epsilon.Logic.Services
             return await _appCache.GetAsync(
                 AppCacheKey.GetUserOutgoingVerificationsSummary(userId, limitItemsReturned), 
                 () => GetUserOutgoingVerificationsSummary(userId, limitItemsReturned), 
-                _outgoingVerificationServiceConfig.OutgoingVerification_MyOutgoingVerificationsSummary_CachingPeriod,
+                _outgoingVerificationServiceConfig.MyOutgoingVerificationsSummary_CachingPeriod,
                 WithLock.No);
         }
 
         public async Task<MyOutgoingVerificationsSummaryResponse> GetUserOutgoingVerificationsSummary(
             string userId, bool limitItemsReturned)
         {
+            var now = _clock.OffsetNow;
+            var expiryPeriod = TimeSpan.FromDays(_outgoingVerificationServiceConfig.Instructions_ExpiryPeriodInDays);
+
             var query = _dbContext.TenantVerifications
                 .Include(x => x.TenancyDetailsSubmission.Address)
                 .Where(x => x.AssignedToId.Equals(userId))
@@ -106,7 +97,7 @@ namespace Epsilon.Logic.Services
             return new MyOutgoingVerificationsSummaryResponse
             {
                 moreItemsExist = moreItemsExist,
-                tenantVerifications = verifications.Select(x => x.ToInfo()).ToList()
+                tenantVerifications = verifications.Select(x => x.ToInfo(now, expiryPeriod)).ToList()
             };
         }
 
@@ -187,7 +178,9 @@ namespace Epsilon.Logic.Services
             {
                 Type = Constants.Enums.UiAlertType.Success,
                 // TODO_PANOS_TEST
-                Message = OutgoingVerificationResources.Pick_SuccessMessage
+                Message = string.Format(
+                    OutgoingVerificationResources.Pick_SuccessMessage, 
+                    _outgoingVerificationServiceConfig.Instructions_ExpiryPeriodInDays)
             });
 
             RemoveCachedUserOutoingVerificationsSummary(userId);
@@ -198,6 +191,41 @@ namespace Epsilon.Logic.Services
                 IsRejected = false,
                 VerificationUniqueId = tenantVerification.UniqueId,
                 UiAlerts = uiAlerts
+            };
+        }
+
+        public async Task<GetInstructionsOutcome> GetInstructions(string userId, Guid verificationUniqueId)
+        {
+            // TODO_PANOS_TEST
+
+            var verification = await GetVerificationForUser(userId, verificationUniqueId);
+            if (verification == null)
+            {
+                // TODO_PANOS_TEST
+                return new GetInstructionsOutcome
+                {
+                    IsRejected = true,
+                    RejectionReason = CommonResources.GenericInvalidRequestMessage
+                };
+            }
+
+            var now = _clock.OffsetNow;
+            var expiryPeriod = TimeSpan.FromDays(_outgoingVerificationServiceConfig.Instructions_ExpiryPeriodInDays);
+
+            if (!verification.CanViewInstructions(now, expiryPeriod))
+            {
+                // TODO_PANOS_TEST
+                return new GetInstructionsOutcome
+                {
+                    IsRejected = true,
+                    RejectionReason = CommonResources.GenericInvalidActionMessage
+                };
+            }
+
+            return new GetInstructionsOutcome
+            {
+                IsRejected = false,
+                TenantVerification = verification
             };
         }
 
@@ -247,6 +275,19 @@ namespace Epsilon.Logic.Services
                 IsRejected = false,
                 UiAlerts = uiAlerts
             };
+        }
+
+        private async Task<TenantVerification> GetVerificationForUser(string assignedUserId, Guid uniqueId)
+        {
+            var submission = await _dbContext.TenantVerifications
+                .Include(x => x.TenancyDetailsSubmission)
+                .Include(s => s.TenancyDetailsSubmission.Address)
+                .Include(s => s.TenancyDetailsSubmission.Address.Country)
+                .Where(s => s.UniqueId.Equals(uniqueId))
+                .Where(s => s.AssignedToId.Equals(assignedUserId))
+                .SingleOrDefaultAsync();
+
+            return submission;
         }
 
         private void RemoveCachedUserOutoingVerificationsSummary(string userId)

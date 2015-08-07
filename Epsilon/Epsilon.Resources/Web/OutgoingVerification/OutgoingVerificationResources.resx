@@ -117,6 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="MyOutgoingVerificationsSummary_ActionInstructions_ButtonHoverText" xml:space="preserve">
+    <value>View the instructions for sending this verification.</value>
+  </data>
+  <data name="MyOutgoingVerificationsSummary_ActionInstructions_ButtonText" xml:space="preserve">
+    <value>Instructions</value>
+  </data>
   <data name="MyOutgoingVerificationsSummary_ActionMarkAsSent_ButtonConfirmationText" xml:space="preserve">
     <value>Mark outgoing verification as sent?</value>
   </data>

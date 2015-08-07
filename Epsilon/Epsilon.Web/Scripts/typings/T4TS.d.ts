@@ -125,6 +125,7 @@ declare module T4TS {
         stepVerificationSentOutDone: boolean;
         stepVerificationReceivedDone: boolean;
         canMarkAsSent: boolean;
+        canViewInstructions: boolean;
     }
     /** Generated from Epsilon.Logic.JsonModels.TokenBalanceResponse **/
     export interface TokenBalanceResponse {

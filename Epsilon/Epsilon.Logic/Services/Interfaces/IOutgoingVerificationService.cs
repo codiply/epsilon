@@ -16,16 +16,25 @@ namespace Epsilon.Logic.Services.Interfaces
         {
             public bool IsRejected { get; set; }
             public string RejectionReason { get; set; }
+        }
+
+        public class BaseOutcomeWithAlerts : BaseOutcome
+        {
             public IList<UiAlert> UiAlerts { get; set; }
         }
 
-        public class PickVerificationOutcome : BaseOutcome
+        public class PickVerificationOutcome : BaseOutcomeWithAlerts
         {
             public Guid? VerificationUniqueId { get; set; }
         }
 
-        public class MarkVerificationAsSentOutcome : BaseOutcome
+        public class MarkVerificationAsSentOutcome : BaseOutcomeWithAlerts
         {
+        }
+
+        public class GetInstructionsOutcome : BaseOutcome
+        {
+            public TenantVerification TenantVerification { get; set; }
         }
     }
 
@@ -34,8 +43,6 @@ namespace Epsilon.Logic.Services.Interfaces
         Task<MyOutgoingVerificationsSummaryResponse> GetUserOutgoingVerificationsSummaryWithCaching(
             string userId, bool limitItemsReturned);
 
-        Task<TenantVerification> GetVerificationForUser(string assingedUserId, Guid uniqueId);
-
         Task<MyOutgoingVerificationsSummaryResponse> GetUserOutgoingVerificationsSummary(
             string userId, bool limitItemsReturned);
 
@@ -43,6 +50,8 @@ namespace Epsilon.Logic.Services.Interfaces
             string userId,
             string userIpAddress,
             Guid verificationUniqueId);
+
+        Task<GetInstructionsOutcome> GetInstructions(string userId, Guid verificationUniqueId);
 
         Task<MarkVerificationAsSentOutcome> MarkAsSent(
             string userId,
