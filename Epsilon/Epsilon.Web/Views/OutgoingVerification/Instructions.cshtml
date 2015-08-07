@@ -66,3 +66,18 @@
     </div>
     }
 </div>
+
+@using Epsilon.Logic.Constants
+@using Epsilon.Resources.Common
+@using Epsilon.Web.Controllers
+
+<div>
+    @if (Model.ReturnToSummary)
+    {
+        @Html.ActionLink(CommonResources.BackLinkText, OutgoingVerificationController.MY_OUTGOING_VERIFICATIONS_SUMMARY_ACTION)
+    }
+    else
+    {
+        @Html.ActionLink(CommonResources.BackLinkText, AppConstant.AUTHENTICATED_USER_HOME_ACTION, AppConstant.AUTHENTICATED_USER_HOME_CONTROLLER)
+    }
+</div>

@@ -297,6 +297,7 @@
     <Compile Include="Models\ViewModels\OutgoingVerification\PickOutgoingVerificationViewModel.cs" />
     <Compile Include="Models\ViewModels\PropertyInfo\GainAccessViewModel.cs" />
     <Compile Include="Models\ViewModels\PropertyInfo\SearchPropertyViewModel.cs" />
+    <Compile Include="Models\ViewModels\PropertyInfo\ViewPropertyViewModel.cs" />
     <Compile Include="Models\ViewModels\Shared\AddressDetailsViewModel.cs" />
     <Compile Include="Models\ViewModels\Shared\CountryVariantResourcesViewModel.cs" />
     <Compile Include="Models\ViewModels\Submission\SearchAddressViewModel.cs" />

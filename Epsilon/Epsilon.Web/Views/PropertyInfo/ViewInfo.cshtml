@@ -1,4 +1,4 @@
-﻿@model Epsilon.Logic.Models.ViewPropertyInfoModel
+﻿@model Epsilon.Web.Models.ViewModels.PropertyInfo.ViewPropertyViewModel
 @using Epsilon.Resources.Web.PropertyInfo
 
 @{
@@ -7,3 +7,18 @@
 
 <h3>@PropertyInfoResources.ViewInfo_PageHeader</h3>
 <hr />
+
+@using Epsilon.Logic.Constants
+@using Epsilon.Resources.Common
+@using Epsilon.Web.Controllers
+
+<div>
+    @if (Model.ReturnToSummary)
+    {
+        @Html.ActionLink(CommonResources.BackLinkText, PropertyInfoController.MY_EXPLORED_PROPERTIES_SUMMARY_ACTION)
+    }
+    else
+    {
+        @Html.ActionLink(CommonResources.BackLinkText, AppConstant.AUTHENTICATED_USER_HOME_ACTION, AppConstant.AUTHENTICATED_USER_HOME_CONTROLLER)
+    }
+</div>

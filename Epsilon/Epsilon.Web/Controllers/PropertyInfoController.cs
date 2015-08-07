@@ -93,7 +93,11 @@ namespace Epsilon.Web.Controllers
                 return RedirectHome(returnToSummary);
             }
 
-            var model = getInfoOutcome.PropertyInfo;
+            var model = new ViewPropertyViewModel
+            {
+                PropertyInfo = getInfoOutcome.PropertyInfo,
+                ReturnToSummary = returnToSummary
+            };
             return View(model);
         }
 
