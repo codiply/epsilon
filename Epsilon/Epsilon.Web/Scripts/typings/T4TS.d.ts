@@ -123,6 +123,7 @@ declare module T4TS {
     export interface TenantVerificationInfo {
         uniqueId: string;
         addressArea: string;
+        markedAddrressInvalid: boolean;
         stepVerificationSentOutDone: boolean;
         stepVerificationReceivedDone: boolean;
         canMarkAsSent: boolean;

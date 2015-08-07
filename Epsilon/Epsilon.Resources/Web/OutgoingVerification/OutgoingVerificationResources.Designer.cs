@@ -160,6 +160,15 @@ namespace Epsilon.Resources.Web.OutgoingVerification {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You have marked the address of this verification as invalid..
+        /// </summary>
+        public static string MyOutgoingVerificationsSummary_MarkedAddressInvalid_IconHoverText {
+            get {
+                return ResourceManager.GetString("MyOutgoingVerificationsSummary_MarkedAddressInvalid_IconHoverText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to My Outgoing Verifications.
         /// </summary>
         public static string MyOutgoingVerificationsSummary_PageTitle {

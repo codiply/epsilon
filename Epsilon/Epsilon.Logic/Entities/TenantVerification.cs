@@ -17,6 +17,7 @@ namespace Epsilon.Logic.Entities
         public virtual DateTimeOffset CreatedOn { get; set; }
         public virtual DateTimeOffset? MarkedAsSentOn { get; set; }
         public virtual DateTimeOffset? VerifiedOn { get; set; }
+        public virtual DateTimeOffset? MarkedAddressInvalidOn { get; set; }
         public virtual DateTimeOffset? SenderRewardedOn { get; set; }
         public virtual string AssignedToId { get; set; }
         public virtual string AssignedByIpAddress { get; set; }
@@ -26,6 +27,12 @@ namespace Epsilon.Logic.Entities
 
         public virtual User AssignedTo { get; set; }
         public virtual TenancyDetailsSubmission TenancyDetailsSubmission { get; set; }
+
+        public bool MarkedAddressInvalid()
+        {
+            // TODO_PANOS_TEST
+            return MarkedAddressInvalidOn.HasValue;
+        }
 
         public bool StepVerificationSentOutDone()
         {
@@ -39,19 +46,13 @@ namespace Epsilon.Logic.Entities
 
         public bool CanMarkAsSent()
         {
-            return !StepVerificationSentOutDone();
-        }
-
-        public DateTimeOffset ExpiresOn(TimeSpan expiryPeriod)
-        {
-            // TODO_PANOS_TEST
-            return CreatedOn + expiryPeriod;
+            return !StepVerificationSentOutDone() && !MarkedAddressInvalid();
         }
 
         public bool CanViewInstructions(DateTimeOffset now, TimeSpan expiryPeriod)
         {
             // TODO_PANOS_TEST
-            return now < ExpiresOn(expiryPeriod);
+            return !MarkedAddressInvalid() && now < ExpiresOn(expiryPeriod);
         }
 
         public bool IsSenderRewarded()
@@ -59,6 +60,11 @@ namespace Epsilon.Logic.Entities
             return SenderRewardedOn.HasValue;
         }
 
+        public DateTimeOffset ExpiresOn(TimeSpan expiryPeriod)
+        {
+            // TODO_PANOS_TEST
+            return CreatedOn + expiryPeriod;
+        }
 
         /// <summary>
         /// Note: You will need to Include TenancyDetailsSubmission.Address for this to work.
@@ -70,6 +76,7 @@ namespace Epsilon.Logic.Entities
             {
                 uniqueId = UniqueId,
                 addressArea = TenancyDetailsSubmission.Address.LocalityRegionPostcode(),
+                markedAddrressInvalid = MarkedAddressInvalid(),
                 canMarkAsSent = CanMarkAsSent(),
                 canViewInstructions = CanViewInstructions(now, expiryPeriod),
                 stepVerificationSentOutDone = StepVerificationSentOutDone(),

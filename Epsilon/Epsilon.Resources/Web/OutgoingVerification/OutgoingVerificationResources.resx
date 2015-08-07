@@ -150,6 +150,9 @@
   <data name="MyOutgoingVerificationsSummary_IdColumnHeader" xml:space="preserve">
     <value>Verification Id</value>
   </data>
+  <data name="MyOutgoingVerificationsSummary_MarkedAddressInvalid_IconHoverText" xml:space="preserve">
+    <value>You have marked the address of this verification as invalid.</value>
+  </data>
   <data name="MyOutgoingVerificationsSummary_PageTitle" xml:space="preserve">
     <value>My Outgoing Verifications</value>
   </data>

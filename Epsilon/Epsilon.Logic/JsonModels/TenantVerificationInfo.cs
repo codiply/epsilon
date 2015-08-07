@@ -14,6 +14,8 @@ namespace Epsilon.Logic.JsonModels
 
         public string addressArea { get; set; }
 
+        public bool markedAddrressInvalid { get; set; }
+
         public bool stepVerificationSentOutDone { get; set; }
         public bool stepVerificationReceivedDone { get; set; }
 

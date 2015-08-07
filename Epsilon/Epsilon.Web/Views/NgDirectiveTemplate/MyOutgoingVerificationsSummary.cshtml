@@ -23,6 +23,9 @@
             <tbody>
                 <tr data-ng-repeat="ver in response.tenantVerifications">
                     <td>
+                        <span data-ng-if="ver.markedAddrressInvalid"
+                              title="@OutgoingVerificationResources.MyOutgoingVerificationsSummary_MarkedAddressInvalid_IconHoverText"
+                              class="glyphicon glyphicon-remove" aria-hidden="true" />
                         <span data-ng-if="ver.stepVerificationSentOutDone"
                               title="@OutgoingVerificationResources.MyOutgoingVerificationsSummary_StepVerificationSentOutDone_IconHoverText"
                               class="glyphicon glyphicon-envelope" aria-hidden="true" />
