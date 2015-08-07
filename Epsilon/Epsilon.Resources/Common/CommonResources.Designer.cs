@@ -185,5 +185,14 @@ namespace Epsilon.Resources.Common {
                 return ResourceManager.GetString("UnsupportedLanguageMessage", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to We are performing site maintenance work. We will be back shortly..
+        /// </summary>
+        public static string WebsiteDisabledForMaintenanceMessage {
+            get {
+                return ResourceManager.GetString("WebsiteDisabledForMaintenanceMessage", resourceCulture);
+            }
+        }
     }
 }

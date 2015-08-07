@@ -10,6 +10,7 @@ using Microsoft.AspNet.Identity;
 
 namespace Epsilon.Web.Controllers.BaseControllers
 {
+    [DisableWholeWebsiteForMaintenance]
     [RequireSecureConnection]
     [Internationalization]
     [Authorize]

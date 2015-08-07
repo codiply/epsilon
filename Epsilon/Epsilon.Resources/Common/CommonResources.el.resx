@@ -132,4 +132,7 @@
   <data name="Register" xml:space="preserve">
     <value>Εγγραφή</value>
   </data>
+  <data name="WebsiteDisabledForMaintenanceMessage" xml:space="preserve">
+    <value>Αυτή τη στιγμή κάνουμε συντήρηση. Επιστρέψτε σε λίγο.</value>
+  </data>
 </root>

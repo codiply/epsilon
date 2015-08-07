@@ -261,10 +261,12 @@
     <Compile Include="Controllers\ApiControllers\TokenController.cs" />
     <Compile Include="Controllers\BaseControllers\BaseApiController.cs" />
     <Compile Include="Controllers\BaseControllers\BaseMvcController.cs" />
+    <Compile Include="Controllers\Filters\Mvc\DisableWholeWebsiteForMaintenanceAttribute.cs" />
     <Compile Include="Controllers\Filters\Mvc\ResponseTimingAttribute.cs" />
     <Compile Include="Controllers\Filters\Mvc\AllowIfConfigSettingTrueAttribute.cs" />
     <Compile Include="Controllers\Filters\Mvc\RequireSecureConnectionAttribute.cs" />
     <Compile Include="Controllers\Filters\Mvc\SanitizeIpAddressAttribute.cs" />
+    <Compile Include="Controllers\Filters\WebApi\DisableWholeWebsiteForMaintenanceAttribute.cs" />
     <Compile Include="Controllers\Filters\WebApi\AllowIfConfigSettingTrueAttribute.cs" />
     <Compile Include="Controllers\Filters\WebApi\ResponseTimingAttribute.cs" />
     <Compile Include="Controllers\Filters\WebApi\InternationalizationAttribute.cs" />
@@ -1301,6 +1303,7 @@
     <Content Include="Views\PropertyInfo\GainAccess.cshtml" />
     <Content Include="Views\NgDirectiveTemplate\MyExploredPropertiesSummary.cshtml" />
     <Content Include="Views\PropertyInfo\MyExploredPropertiesSummary.cshtml" />
+    <Content Include="Views\Shared\WebsiteDisabledForMaintenance.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

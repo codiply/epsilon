@@ -18,6 +18,7 @@ namespace Epsilon.Logic.Constants
         public const string DisableSynchronousLockingInAppCache = "Epsilon.DisableSynchronousLockingInAppCache";
         public const string DisableHttps = "Epsilon.DisableHttps";
         public const string DisableRegistrationEmailConfirmation = "Epsilon.DisableRegistrationEmailConfirmation";
+        public const string DisableWholeWebsiteForMaintenance = "Epsilon.DisableWholeWebsiteForMaintenance";
         public const string EnableDevHelperController = "Epsilon.EnableDevHelperController";
         public const string GoogleApiServerKey = "Epsilon.GoogleApiServerKey";
         public const string SmtpServiceHost = "Epsilon.SmtpServiceHost";

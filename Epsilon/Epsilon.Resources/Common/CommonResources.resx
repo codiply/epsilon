@@ -159,4 +159,7 @@
   <data name="Faq_InFull" xml:space="preserve">
     <value>Frequently Asked Questions</value>
   </data>
+  <data name="WebsiteDisabledForMaintenanceMessage" xml:space="preserve">
+    <value>We are performing site maintenance work. We will be back shortly.</value>
+  </data>
 </root>
