@@ -35,7 +35,15 @@ namespace Epsilon.Logic.Configuration
                     _dbAppSettingDefaultValue.PropertInfoAccess_ExpiryPeriodInDays);
             }
         }
-    
+
+        public bool GlobalSwitch_DisableCreatePropertyInfoAccess
+        {
+            get
+            {
+                return _dbAppSettingsHelper.GetBool(DbAppSettingKey.GlobalSwitch_DisableCreatePropertyInfoAccess) == true;
+            }
+        }
+
         public TimeSpan MyExploredPropertiesSummary_CachingPeriod
         {
             get

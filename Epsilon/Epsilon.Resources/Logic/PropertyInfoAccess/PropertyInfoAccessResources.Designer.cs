@@ -77,5 +77,14 @@ namespace Epsilon.Resources.Logic.PropertyInfoAccess {
                 return ResourceManager.GetString("Create_SuccessMessage", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This feature is temporarily disabled. Please try again later..
+        /// </summary>
+        public static string GlobalSwitch_CreatePropertyInfoAccessDisabled_Message {
+            get {
+                return ResourceManager.GetString("GlobalSwitch_CreatePropertyInfoAccessDisabled_Message", resourceCulture);
+            }
+        }
     }
 }

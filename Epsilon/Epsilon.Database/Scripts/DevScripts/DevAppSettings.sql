@@ -53,6 +53,7 @@ VALUES
 (N'GeocodeService_OverQueryLimitDelayBetweenRetriesInSeconds', N'1.0'),
 (N'GeocodeService_OverQueryLimitMaxRetries', N'3'),
 (N'GlobalSwitch_DisableAddAddress', N'False'),
+(N'GlobalSwitch_DisableCreatePropertyInfoAccess', N'False'),
 (N'GlobalSwitch_DisableCreateTenancyDetailsSubmission', N'False'),
 (N'GlobalSwitch_DisablePickOutgoingVerification', N'False'),
 (N'GlobalSwitch_DisableRegister', N'False'),

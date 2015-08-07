@@ -130,7 +130,7 @@
     <value>Actions</value>
   </data>
   <data name="MyOutgoingVerificationsSummary_AddressAreaColumnHeader" xml:space="preserve">
-    <value>Address Area</value>
+    <value>Area</value>
   </data>
   <data name="MyOutgoingVerificationsSummary_Header" xml:space="preserve">
     <value>My Outgoing Verifications</value>

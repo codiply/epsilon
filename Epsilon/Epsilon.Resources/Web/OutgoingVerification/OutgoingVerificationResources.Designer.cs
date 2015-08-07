@@ -97,7 +97,7 @@ namespace Epsilon.Resources.Web.OutgoingVerification {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Address Area.
+        ///   Looks up a localized string similar to Area.
         /// </summary>
         public static string MyOutgoingVerificationsSummary_AddressAreaColumnHeader {
             get {

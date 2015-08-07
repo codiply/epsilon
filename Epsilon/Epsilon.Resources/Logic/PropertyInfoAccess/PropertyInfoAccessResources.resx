@@ -123,4 +123,7 @@
   <data name="Create_SuccessMessage" xml:space="preserve">
     <value>You now have access to the information for this property for {0} days.</value>
   </data>
+  <data name="GlobalSwitch_CreatePropertyInfoAccessDisabled_Message" xml:space="preserve">
+    <value>This feature is temporarily disabled. Please try again later.</value>
+  </data>
 </root>

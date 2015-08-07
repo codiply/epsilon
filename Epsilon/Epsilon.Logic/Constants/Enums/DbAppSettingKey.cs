@@ -41,6 +41,7 @@ namespace Epsilon.Logic.Constants.Enums
         GeocodeService_OverQueryLimitMaxRetries,
         GlobalSwitch_DisableAddAddress,
         GlobalSwitch_DisableCreateTenancyDetailsSubmission,
+        GlobalSwitch_DisableCreatePropertyInfoAccess,
         GlobalSwitch_DisablePickOutgoingVerification,
         GlobalSwitch_DisableRegister,
         OutgoingVerification_MyOutgoingVerificationsSummary_CachingPeriodInMinutes,

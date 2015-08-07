@@ -17,6 +17,7 @@ VALUES
 -- address
 (N'address', N'Address_SearchAddressResultsLimit'),
 (N'address', N'Address_SearchPropertyResultsLimit'),
+(N'address', N'GlobalSwitch_DisableAddAddress'),
 -- anti-abuse
 (N'anti-abuse', N'AntiAbuse_AddAddress_DisableGeocodeFailureIpAddressFrequencyCheck'),
 (N'anti-abuse', N'AntiAbuse_AddAddress_DisableGeocodeFailureUserFrequencyCheck'),
@@ -151,6 +152,7 @@ VALUES
 (N'global-switch', N'AntiAbuse_Register_DisableGlobalFrequencyCheck'),
 (N'global-switch', N'AntiAbuse_PickOutgoingVerification_DisableGlobalFrequencyCheck'),
 (N'global-switch', N'GlobalSwitch_DisableAddAddress'),
+(N'global-switch', N'GlobalSwitch_DisableCreatePropertyInfoAccess'),
 (N'global-switch', N'GlobalSwitch_DisableCreateTenancyDetailsSubmission'),
 (N'global-switch', N'GlobalSwitch_DisablePickOutgoingVerification'),
 (N'global-switch', N'GlobalSwitch_DisableRegister'),
@@ -171,6 +173,7 @@ VALUES
 (N'max-frequency', N'AntiAbuse_Register_MaxFrequencyPerIpAddress'),
 (N'max-frequency', N'TenancyDetailsSubmission_Create_MaxFrequencyPerAddress'),
 -- outgoing-verification
+(N'outgoing-verification', N'GlobalSwitch_DisablePickOutgoingVerification'),
 (N'outgoing-verification', N'OutgoingVerification_MyOutgoingVerificationsSummary_CachingPeriodInMinutes'),
 (N'outgoing-verification', N'OutgoingVerification_MyOutgoingVerificationsSummary_ItemsLimit'),
 (N'outgoing-verification', N'OutgoingVerification_VerificationsPerTenancyDetailsSubmission'),
@@ -182,9 +185,16 @@ VALUES
 (N'period', N'PropertInfoAccess_MyExploredPropertiesSummary_CachingPeriodInMinutes'),
 (N'period', N'TenancyDetailsSubmission_MySubmissionsSummary_CachingPeriodInMinutes'),
 -- property-info-access
+(N'property-info-access', N'GlobalSwitch_DisableCreatePropertyInfoAccess'),
 (N'property-info-access', N'PropertInfoAccess_ExpiryPeriodInDays'),
 (N'property-info-access', N'PropertInfoAccess_MyExploredPropertiesSummary_CachingPeriodInMinutes'),
 (N'property-info-access', N'PropertInfoAccess_MyExploredPropertiesSummary_ItemsLimit'),
+-- register
+(N'register', N'AntiAbuse_Register_DisableGlobalFrequencyCheck'),
+(N'register', N'AntiAbuse_Register_DisableIpAddressFrequencyCheck'),
+(N'register', N'AntiAbuse_Register_GlobalMaxFrequency'),
+(N'register', N'AntiAbuse_Register_MaxFrequencyPerIpAddress'),
+(N'register', N'GlobalSwitch_DisableRegister'),
 -- results-limit
 (N'results-limit', N'Address_SearchAddressResultsLimit'),
 (N'results-limit', N'Address_SearchPropertyResultsLimit'),
@@ -207,11 +217,13 @@ VALUES
 (N'switch', N'AntiAbuse_Register_DisableIpAddressFrequencyCheck'),
 (N'switch', N'EnableResponseTiming'),
 (N'switch', N'GlobalSwitch_DisableAddAddress'),
+(N'switch', N'GlobalSwitch_DisableCreatePropertyInfoAccess'),
 (N'switch', N'GlobalSwitch_DisableCreateTenancyDetailsSubmission'),
 (N'switch', N'GlobalSwitch_DisablePickOutgoingVerification'),
 (N'switch', N'GlobalSwitch_DisableRegister'),
 (N'switch', N'TenancyDetailsSubmission_Create_DisableFrequencyPerAddressCheck'),
 -- tenancy-details-submission
+(N'tenancy-details-submission', N'GlobalSwitch_DisableCreateTenancyDetailsSubmission'),
 (N'tenancy-details-submission', N'TenancyDetailsSubmission_Create_DisableFrequencyPerAddressCheck'),
 (N'tenancy-details-submission', N'TenancyDetailsSubmission_Create_MaxFrequencyPerAddress'),
 (N'tenancy-details-submission', N'TenancyDetailsSubmission_MySubmissionsSummary_CachingPeriodInMinutes'),

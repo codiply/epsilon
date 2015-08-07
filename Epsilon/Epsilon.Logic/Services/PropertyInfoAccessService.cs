@@ -98,6 +98,14 @@ namespace Epsilon.Logic.Services
             Guid accessUniqueId,
             Guid addressUniqueId)
         {
+            if (_propertyInfoAccessServiceConfig.GlobalSwitch_DisableCreatePropertyInfoAccess)
+                return new CreatePropertyInfoAccessOutcome
+                {
+                    IsRejected = true,
+                    RejectionReason = PropertyInfoAccessResources.GlobalSwitch_CreatePropertyInfoAccessDisabled_Message,
+                    PropertyInfoAccessUniqueId = null
+                };
+
             // TODO_PANOS_TEST: the whole thing
 
             var uiAlerts = new List<UiAlert>();

@@ -106,6 +106,7 @@
     <Compile Include="Logic\Infrastructure\EnumMemoizerTest.cs" />
     <Compile Include="Logic\Services\AddressServiceTest.cs" />
     <Compile Include="Logic\Services\AntiAbuseServiceTest.cs" />
+    <Compile Include="Logic\Services\PropertyInfoAccessServiceTest.cs" />
     <Compile Include="Logic\Services\OutgoingVerificationServiceTest.cs" />
     <Compile Include="Logic\Services\TenancyDetailsSubmissionServiceTest.cs" />
     <Compile Include="Logic\Wrappers\SystemClockTest.cs" />

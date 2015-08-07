@@ -85,6 +85,8 @@ VALUES
      N'Maximum number of retries when Google Geocode API responds with OverQueryLimit. Set to zero for no retrying.'),
 (N'GlobalSwitch_DisableAddAddress', N'False', N'Boolean',
      N'Disables completely adding a new address.'),
+(N'GlobalSwitch_DisableCreatePropertyInfoAccess', N'False', N'Boolean',
+     N'Disables completely creating an access to property info.'),
 (N'GlobalSwitch_DisableCreateTenancyDetailsSubmission', N'False', N'Boolean',
      N'Disables completely creating a new tenancy details submission.'),
 (N'GlobalSwitch_DisablePickOutgoingVerification', N'False', N'Boolean',
