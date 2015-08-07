@@ -61,11 +61,65 @@ namespace Epsilon.Resources.Web.OutgoingVerification {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Have you verified the address using the link provided and it is invalid?.
+        /// </summary>
+        public static string Instructions_ActionMarkAddressAsInvalid_ButtonConfirmationText {
+            get {
+                return ResourceManager.GetString("Instructions_ActionMarkAddressAsInvalid_ButtonConfirmationText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mark the address of this submission as invalid..
+        /// </summary>
+        public static string Instructions_ActionMarkAddressAsInvalid_ButtonHoverText {
+            get {
+                return ResourceManager.GetString("Instructions_ActionMarkAddressAsInvalid_ButtonHoverText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Address is Invalid.
+        /// </summary>
+        public static string Instructions_ActionMarkAddressAsInvalid_ButtonText {
+            get {
+                return ResourceManager.GetString("Instructions_ActionMarkAddressAsInvalid_ButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Have you sent the verification?.
+        /// </summary>
+        public static string Instructions_ActionMarkAsSent_ButtonConfirmationText {
+            get {
+                return ResourceManager.GetString("Instructions_ActionMarkAsSent_ButtonConfirmationText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Marks the outgoing verification as sent..
+        /// </summary>
+        public static string Instructions_ActionMarkAsSent_ButtonHoverText {
+            get {
+                return ResourceManager.GetString("Instructions_ActionMarkAsSent_ButtonHoverText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mark as Sent.
+        /// </summary>
+        public static string Instructions_ActionMarkAsSent_ButtonText {
+            get {
+                return ResourceManager.GetString("Instructions_ActionMarkAsSent_ButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Another user has marked this address as invalid..
         /// </summary>
-        public static string Instructions_OtherUserHasMarkedAddressInvalid_Message {
+        public static string Instructions_OtherUserHasMarkedAddressAsInvalid_Message {
             get {
-                return ResourceManager.GetString("Instructions_OtherUserHasMarkedAddressInvalid_Message", resourceCulture);
+                return ResourceManager.GetString("Instructions_OtherUserHasMarkedAddressAsInvalid_Message", resourceCulture);
             }
         }
         
@@ -124,7 +178,7 @@ namespace Epsilon.Resources.Web.OutgoingVerification {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Mark outgoing verification as sent?.
+        ///   Looks up a localized string similar to Have you sent the verification?.
         /// </summary>
         public static string MyOutgoingVerificationsSummary_ActionMarkAsSent_ButtonConfirmationText {
             get {
@@ -189,9 +243,9 @@ namespace Epsilon.Resources.Web.OutgoingVerification {
         /// <summary>
         ///   Looks up a localized string similar to You have marked the address of this verification as invalid..
         /// </summary>
-        public static string MyOutgoingVerificationsSummary_MarkedAddressInvalid_IconHoverText {
+        public static string MyOutgoingVerificationsSummary_MarkedAddressAsInvalid_IconHoverText {
             get {
-                return ResourceManager.GetString("MyOutgoingVerificationsSummary_MarkedAddressInvalid_IconHoverText", resourceCulture);
+                return ResourceManager.GetString("MyOutgoingVerificationsSummary_MarkedAddressAsInvalid_IconHoverText", resourceCulture);
             }
         }
         

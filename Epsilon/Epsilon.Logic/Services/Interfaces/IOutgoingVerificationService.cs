@@ -32,6 +32,10 @@ namespace Epsilon.Logic.Services.Interfaces
         {
         }
 
+        public class MarkAddressAsInvalidOutcome : BaseOutcomeWithAlerts
+        {
+        }
+
         public class GetInstructionsOutcome : BaseOutcome
         {
             public OutgoingVerificationInstructionsModel Instructions { get; set; }
@@ -53,9 +57,9 @@ namespace Epsilon.Logic.Services.Interfaces
 
         Task<GetInstructionsOutcome> GetInstructions(string userId, Guid verificationUniqueId);
 
-        Task<MarkVerificationAsSentOutcome> MarkAsSent(
-            string userId,
-            Guid verificationUniqueId);
+        Task<MarkVerificationAsSentOutcome> MarkAsSent(string userId, Guid verificationUniqueId);
+
+        Task<MarkAddressAsInvalidOutcome> MarkAddressAsInvalid(string userId, Guid verificationUniqueId);
 
         Task<bool> VerificationIsAssignedToUser(string userId, Guid verificationUniqueId);
     }

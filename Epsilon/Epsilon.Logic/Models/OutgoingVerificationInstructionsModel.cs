@@ -9,6 +9,14 @@ namespace Epsilon.Logic.Models
 {
     public class OutgoingVerificationInstructionsModel
     {
-        public bool OtherUserHasMarkedAddressInvalid { get; set; }
+        public Guid VerificationUniqueId { get; set; }
+
+        public bool OtherUserHasMarkedAddressAsInvalid { get; set; }
+
+        public bool CanMarkAddressAsInvalid { get; set; }
+
+        public bool CanMarkAsSent { get; set; }
+
+        public bool ReturnToSummary { get; set; }
     }
 }

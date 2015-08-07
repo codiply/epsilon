@@ -117,7 +117,25 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Instructions_OtherUserHasMarkedAddressInvalid_Message" xml:space="preserve">
+  <data name="Instructions_ActionMarkAddressAsInvalid_ButtonConfirmationText" xml:space="preserve">
+    <value>Have you verified the address using the link provided and it is invalid?</value>
+  </data>
+  <data name="Instructions_ActionMarkAddressAsInvalid_ButtonHoverText" xml:space="preserve">
+    <value>Mark the address of this submission as invalid.</value>
+  </data>
+  <data name="Instructions_ActionMarkAddressAsInvalid_ButtonText" xml:space="preserve">
+    <value>Address is Invalid</value>
+  </data>
+  <data name="Instructions_ActionMarkAsSent_ButtonConfirmationText" xml:space="preserve">
+    <value>Have you sent the verification?</value>
+  </data>
+  <data name="Instructions_ActionMarkAsSent_ButtonHoverText" xml:space="preserve">
+    <value>Marks the outgoing verification as sent.</value>
+  </data>
+  <data name="Instructions_ActionMarkAsSent_ButtonText" xml:space="preserve">
+    <value>Mark as Sent</value>
+  </data>
+  <data name="Instructions_OtherUserHasMarkedAddressAsInvalid_Message" xml:space="preserve">
     <value>Another user has marked this address as invalid.</value>
   </data>
   <data name="Instructions_PageHeader" xml:space="preserve">
@@ -139,7 +157,7 @@
     <value>Instructions</value>
   </data>
   <data name="MyOutgoingVerificationsSummary_ActionMarkAsSent_ButtonConfirmationText" xml:space="preserve">
-    <value>Mark outgoing verification as sent?</value>
+    <value>Have you sent the verification?</value>
   </data>
   <data name="MyOutgoingVerificationsSummary_ActionMarkAsSent_ButtonHoverText" xml:space="preserve">
     <value>Marks the outgoing verification as sent.</value>
@@ -159,7 +177,7 @@
   <data name="MyOutgoingVerificationsSummary_IdColumnHeader" xml:space="preserve">
     <value>Verification Id</value>
   </data>
-  <data name="MyOutgoingVerificationsSummary_MarkedAddressInvalid_IconHoverText" xml:space="preserve">
+  <data name="MyOutgoingVerificationsSummary_MarkedAddressAsInvalid_IconHoverText" xml:space="preserve">
     <value>You have marked the address of this verification as invalid.</value>
   </data>
   <data name="MyOutgoingVerificationsSummary_PageTitle" xml:space="preserve">

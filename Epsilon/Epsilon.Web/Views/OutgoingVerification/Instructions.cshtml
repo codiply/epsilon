@@ -1,4 +1,4 @@
-﻿@model Epsilon.Logic.Models.OutgoingVerificationInstructionsModel
+﻿@model Epsilon.Web.Models.ViewModels.OutgoingVerification.InstructionsViewModel
 @using Epsilon.Resources.Web.OutgoingVerification
 @using Epsilon.Resources.Common
 @using Epsilon.Resources.Web.OutgoingVerification
@@ -15,18 +15,54 @@
         <h3>@(CommonResources.Step1):@(OutgoingVerificationResources.Instructions_StepVerifyValidAddress_Header)</h3>
     </div>
 
-    @if (Model.OtherUserHasMarkedAddressInvalid)
+    @if (Model.Instructions.OtherUserHasMarkedAddressAsInvalid)
     {
     <div class="form-group">
         <div class="alert alert-danger">
             <p>
-                @OutgoingVerificationResources.Instructions_OtherUserHasMarkedAddressInvalid_Message
+                @OutgoingVerificationResources.Instructions_OtherUserHasMarkedAddressAsInvalid_Message
             </p>
         </div>
+    </div>
+    }
+
+    @if (Model.Instructions.CanMarkAddressAsInvalid)
+    {
+    <div>
+        @using (Html.BeginForm("MarkAddressAsInvalid", "OutgoingVerification"))
+        {
+            @Html.AntiForgeryToken()
+
+            <input type="hidden" name="verificationUniqueId" value="@Model.Instructions.VerificationUniqueId" />
+            <input type="hidden" name="returnToSummary" value="@Model.ReturnToSummary.ToString()" />
+            <button class="btn btn-default" type="submit"
+                    title="@OutgoingVerificationResources.Instructions_ActionMarkAddressAsInvalid_ButtonHoverText"
+                    onclick="return confirm('@OutgoingVerificationResources.Instructions_ActionMarkAddressAsInvalid_ButtonConfirmationText')">
+                @OutgoingVerificationResources.Instructions_ActionMarkAddressAsInvalid_ButtonText
+            </button>
+        }
     </div>
     }
 
     <div>
         <h3>@(CommonResources.Step1):@(OutgoingVerificationResources.Instructions_StepVerifyValidAddress_Header)</h3>
     </div>
+
+    @if (Model.Instructions.CanMarkAsSent)
+    {
+    <div>
+        @using (Html.BeginForm("MarkAsSent", "OutgoingVerification"))
+        {
+            @Html.AntiForgeryToken()
+
+            <input type="hidden" name="verificationUniqueId" value="@Model.Instructions.VerificationUniqueId" />
+            <input type="hidden" name="returnToSummary" value="@Model.ReturnToSummary.ToString()" />
+            <button class="btn btn-default" type="submit"
+                    title="@OutgoingVerificationResources.Instructions_ActionMarkAsSent_ButtonHoverText"
+                    onclick="return confirm('@OutgoingVerificationResources.Instructions_ActionMarkAsSent_ButtonConfirmationText')">
+                @OutgoingVerificationResources.Instructions_ActionMarkAsSent_ButtonText
+            </button>
+        }
+    </div>
+    }
 </div>

@@ -285,6 +285,7 @@
     <EmbeddedResource Include="Web\OutgoingVerification\OutgoingVerificationResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>OutgoingVerificationResources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Web\PropertyInfo\PropertyInfoResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

@@ -17,7 +17,7 @@ namespace Epsilon.Logic.Entities
         public virtual DateTimeOffset CreatedOn { get; set; }
         public virtual DateTimeOffset? MarkedAsSentOn { get; set; }
         public virtual DateTimeOffset? VerifiedOn { get; set; }
-        public virtual DateTimeOffset? MarkedAddressInvalidOn { get; set; }
+        public virtual DateTimeOffset? MarkedAddressAsInvalidOn { get; set; }
         public virtual DateTimeOffset? SenderRewardedOn { get; set; }
         public virtual string AssignedToId { get; set; }
         public virtual string AssignedByIpAddress { get; set; }
@@ -28,10 +28,10 @@ namespace Epsilon.Logic.Entities
         public virtual User AssignedTo { get; set; }
         public virtual TenancyDetailsSubmission TenancyDetailsSubmission { get; set; }
 
-        public bool MarkedAddressInvalid()
+        public bool MarkedAddressAsInvalid()
         {
             // TODO_PANOS_TEST
-            return MarkedAddressInvalidOn.HasValue;
+            return MarkedAddressAsInvalidOn.HasValue;
         }
 
         public bool StepVerificationSentOutDone()
@@ -46,13 +46,18 @@ namespace Epsilon.Logic.Entities
 
         public bool CanMarkAsSent()
         {
-            return !StepVerificationSentOutDone() && !MarkedAddressInvalid();
+            return !StepVerificationSentOutDone() && !MarkedAddressAsInvalid();
+        }
+
+        public bool CanMarkAddressAsInvalid()
+        {
+            return !MarkedAddressAsInvalid() && !StepVerificationSentOutDone();
         }
 
         public bool CanViewInstructions(DateTimeOffset now, TimeSpan expiryPeriod)
         {
             // TODO_PANOS_TEST
-            return !MarkedAddressInvalid() && now < ExpiresOn(expiryPeriod);
+            return !MarkedAddressAsInvalid() && now < ExpiresOn(expiryPeriod);
         }
 
         public bool IsSenderRewarded()
@@ -76,7 +81,7 @@ namespace Epsilon.Logic.Entities
             {
                 uniqueId = UniqueId,
                 addressArea = TenancyDetailsSubmission.Address.LocalityRegionPostcode(),
-                markedAddrressInvalid = MarkedAddressInvalid(),
+                markedAddrressInvalid = MarkedAddressAsInvalid(),
                 canMarkAsSent = CanMarkAsSent(),
                 canViewInstructions = CanViewInstructions(now, expiryPeriod),
                 stepVerificationSentOutDone = StepVerificationSentOutDone(),

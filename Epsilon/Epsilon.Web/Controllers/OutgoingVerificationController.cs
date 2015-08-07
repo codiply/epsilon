@@ -62,7 +62,11 @@ namespace Epsilon.Web.Controllers
                 return RedirectHome(returnToSummary);
             }
 
-            var model = getInstructionsOutcome.Instructions;
+            var model = new InstructionsViewModel
+            {
+                Instructions = getInstructionsOutcome.Instructions,
+                ReturnToSummary = returnToSummary
+            };
             return View(model);
         }
 
@@ -71,6 +75,22 @@ namespace Epsilon.Web.Controllers
         public async Task<ActionResult> MarkAsSent(Guid verificationUniqueId, bool returnToSummary)
         {
             var outcome = await _outgoingVerificationService.MarkAsSent(GetUserId(), verificationUniqueId);
+            if (outcome.IsRejected)
+            {
+                Danger(outcome.RejectionReason, true);
+            }
+            else
+            {
+                PresentUiAlerts(outcome.UiAlerts, true);
+            }
+            return RedirectHome(returnToSummary);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> MarkAddressAsInvalid(Guid verificationUniqueId, bool returnToSummary)
+        {
+            var outcome = await _outgoingVerificationService.MarkAddressAsInvalid(GetUserId(), verificationUniqueId);
             if (outcome.IsRejected)
             {
                 Danger(outcome.RejectionReason, true);

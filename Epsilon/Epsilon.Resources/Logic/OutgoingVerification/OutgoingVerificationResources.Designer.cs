@@ -70,6 +70,15 @@ namespace Epsilon.Resources.Logic.OutgoingVerification {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Address for outgoing verification was marked as invalid. Thank you!.
+        /// </summary>
+        public static string MarkAddressAsInvalid_SuccessMessage {
+            get {
+                return ResourceManager.GetString("MarkAddressAsInvalid_SuccessMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Outgoing verification was marked as sent..
         /// </summary>
         public static string MarkAsSent_SuccessMessage {

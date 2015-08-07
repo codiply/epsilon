@@ -120,6 +120,9 @@
   <data name="GlobalSwitch_PickOutgoingVerificationDisabled_Message" xml:space="preserve">
     <value>Creating a new outgoing verification is temporarily disabled. Please try again later.</value>
   </data>
+  <data name="MarkAddressAsInvalid_SuccessMessage" xml:space="preserve">
+    <value>Address for outgoing verification was marked as invalid. Thank you!</value>
+  </data>
   <data name="MarkAsSent_SuccessMessage" xml:space="preserve">
     <value>Outgoing verification was marked as sent.</value>
   </data>

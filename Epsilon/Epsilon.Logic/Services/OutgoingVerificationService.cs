@@ -19,6 +19,7 @@ using static Epsilon.Logic.Helpers.RandomStringHelper;
 using Epsilon.Logic.Constants;
 using Epsilon.Logic.Models;
 using Epsilon.Logic.Infrastructure.Interfaces;
+using Epsilon.Logic.Constants.Enums;
 
 namespace Epsilon.Logic.Services
 {
@@ -223,13 +224,16 @@ namespace Epsilon.Logic.Services
                 };
             }
 
-            var otherUserHasMarkedAddressInvalid = verification.TenancyDetailsSubmission
-                .TenantVerifications.Any(v => !v.AssignedToId.Equals(userId) && v.MarkedAddressInvalidOn.HasValue);
+            var otherUserHasMarkedAddressAsInvalid = verification.TenancyDetailsSubmission
+                .TenantVerifications.Any(v => !v.AssignedToId.Equals(userId) && v.MarkedAddressAsInvalidOn.HasValue);
 
             // TODO_PANOS
             var instructions = new OutgoingVerificationInstructionsModel
             {
-                OtherUserHasMarkedAddressInvalid = otherUserHasMarkedAddressInvalid
+                VerificationUniqueId = verificationUniqueId,
+                OtherUserHasMarkedAddressAsInvalid = otherUserHasMarkedAddressAsInvalid,
+                CanMarkAddressAsInvalid = verification.CanMarkAddressAsInvalid(),
+                CanMarkAsSent = verification.CanMarkAsSent()
             };
 
             return new GetInstructionsOutcome
@@ -239,9 +243,7 @@ namespace Epsilon.Logic.Services
             };
         }
 
-        public async Task<MarkVerificationAsSentOutcome> MarkAsSent(
-            string userId,
-            Guid verificationUniqueId)
+        public async Task<MarkVerificationAsSentOutcome> MarkAsSent(string userId, Guid verificationUniqueId)
         {
             var uiAlerts = new List<UiAlert>();
 
@@ -268,13 +270,14 @@ namespace Epsilon.Logic.Services
                 };
             }
 
+            // TODO_PANOS_TEST
             verification.MarkedAsSentOn = _clock.OffsetNow;
             _dbContext.Entry(verification).State = EntityState.Modified;
             await _dbContext.SaveChangesAsync();
 
             uiAlerts.Add(new UiAlert
             {
-                Type = Constants.Enums.UiAlertType.Success,
+                Type = UiAlertType.Success,
                 // TODO_PANOS_TEST
                 Message = OutgoingVerificationResources.MarkAsSent_SuccessMessage
             });
@@ -283,6 +286,55 @@ namespace Epsilon.Logic.Services
 
             // TODO_PANOS_TEST
             return new MarkVerificationAsSentOutcome
+            {
+                IsRejected = false,
+                UiAlerts = uiAlerts
+            };
+        }
+
+        public async Task<MarkAddressAsInvalidOutcome> MarkAddressAsInvalid(string userId, Guid verificationUniqueId)
+        {
+            var uiAlerts = new List<UiAlert>();
+
+            var verification = await GetVerificationForUser(
+                userId, verificationUniqueId,
+                includeTenancyDetailsSubmission: false, includeAddress: false, includeOtherVerifications: false);
+            if (verification == null)
+            {
+                // TODO_PANOS_TEST
+                return new MarkAddressAsInvalidOutcome
+                {
+                    IsRejected = true,
+                    RejectionReason = CommonResources.GenericInvalidRequestMessage
+                };
+            }
+
+            if (!verification.CanMarkAddressAsInvalid())
+            {
+                // TODO_PANOS_TEST
+                return new MarkAddressAsInvalidOutcome
+                {
+                    IsRejected = true,
+                    RejectionReason = CommonResources.GenericInvalidActionMessage
+                };
+            }
+
+            // TODO_PANOS_TEST
+            verification.MarkedAddressAsInvalidOn = _clock.OffsetNow;
+            _dbContext.Entry(verification).State = EntityState.Modified;
+            await _dbContext.SaveChangesAsync();
+
+            uiAlerts.Add(new UiAlert
+            {
+                Type = UiAlertType.Success,
+                // TODO_PANOS_TEST
+                Message = OutgoingVerificationResources.MarkAddressAsInvalid_SuccessMessage
+            });
+
+            RemoveCachedUserOutoingVerificationsSummary(userId);
+
+            // TODO_PANOS_TEST
+            return new MarkAddressAsInvalidOutcome
             {
                 IsRejected = false,
                 UiAlerts = uiAlerts
