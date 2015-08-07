@@ -15,7 +15,8 @@
             <thead>
                 <tr>
                     <th>@OutgoingVerificationResources.MyOutgoingVerificationsSummary_ProgressColumnHeader</th>
-                    <th>@OutgoingVerificationResources.MyOutgoingVerificationsSummary_AddressColumnHeader</th>
+                    <th>@OutgoingVerificationResources.MyOutgoingVerificationsSummary_IdColumnHeader</th>
+                    <th>@OutgoingVerificationResources.MyOutgoingVerificationsSummary_AddressAreaColumnHeader</th>
                     <th>@OutgoingVerificationResources.MyOutgoingVerificationsSummary_ActionsColumnHeader</th>
                 </tr>
             </thead>
@@ -29,7 +30,8 @@
                               title="@OutgoingVerificationResources.MyOutgoingVerificationsSummary_StepVerificationReceivedDone_IconHoverText"
                               class="glyphicon glyphicon-check" aria-hidden="true" />
                     </td>
-                    <td>{{ver.displayId}}</td>
+                    <th>{{ver.uniqueId  | limitTo : 8 : 0}}</th>
+                    <td>{{ver.addressArea}}</td>
                     <td>
                         <span data-ng-if="ver.canMarkAsSent">
                             @using (Html.BeginForm("MarkAsSent", "OutgoingVerification"))

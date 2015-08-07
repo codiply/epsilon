@@ -129,11 +129,14 @@
   <data name="MyOutgoingVerificationsSummary_ActionsColumnHeader" xml:space="preserve">
     <value>Actions</value>
   </data>
-  <data name="MyOutgoingVerificationsSummary_AddressColumnHeader" xml:space="preserve">
-    <value>Verification</value>
+  <data name="MyOutgoingVerificationsSummary_AddressAreaColumnHeader" xml:space="preserve">
+    <value>Address Area</value>
   </data>
   <data name="MyOutgoingVerificationsSummary_Header" xml:space="preserve">
     <value>My Outgoing Verifications</value>
+  </data>
+  <data name="MyOutgoingVerificationsSummary_IdColumnHeader" xml:space="preserve">
+    <value>Verification Id</value>
   </data>
   <data name="MyOutgoingVerificationsSummary_PageTitle" xml:space="preserve">
     <value>My Outgoing Verifications</value>
@@ -164,5 +167,8 @@
   </data>
   <data name="Pick_SubmitButton" xml:space="preserve">
     <value>Proceed</value>
+  </data>
+  <data name="String1" xml:space="preserve">
+    <value />
   </data>
 </root>

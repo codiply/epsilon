@@ -48,5 +48,13 @@ namespace Epsilon.Logic.Entities
             }
             return sb.ToString();
         }
+
+        // TODO_PANOS_TEST
+        public string LocalityRegionPostcode()
+        {
+            var pieces = new List<string> { Locality, Region, Postcode };
+
+            return string.Join(", ", pieces.Where(x => !string.IsNullOrWhiteSpace(x)));
+        }
     }
 }

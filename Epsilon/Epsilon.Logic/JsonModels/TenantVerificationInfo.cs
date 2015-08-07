@@ -12,7 +12,7 @@ namespace Epsilon.Logic.JsonModels
     {
         public Guid uniqueId { get; set; }
 
-        public string displayId { get; set; }
+        public string addressArea { get; set; }
 
         public bool stepVerificationSentOutDone { get; set; }
         public bool stepVerificationReceivedDone { get; set; }

@@ -82,6 +82,7 @@ namespace Epsilon.Logic.Services
             string userId, bool limitItemsReturned)
         {
             var query = _dbContext.TenantVerifications
+                .Include(x => x.TenancyDetailsSubmission.Address)
                 .Where(x => x.AssignedToId.Equals(userId))
                 .OrderByDescending(x => x.CreatedOn);
 

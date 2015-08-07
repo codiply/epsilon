@@ -239,9 +239,10 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.IsFalse(tenantVerificationInfo.stepVerificationReceivedDone, "Field stepVerificationReceivedDone doesn't have the expected value.");
 
             var retrievedTenantVerification = await DbProbe.TenantVerifications
+                .Include(x => x.TenancyDetailsSubmission.Address)
                 .SingleOrDefaultAsync(x => x.UniqueId.Equals(tenantVerificationInfo.uniqueId));
-            Assert.AreEqual(retrievedTenantVerification.DisplayId(), tenantVerificationInfo.displayId, 
-                "Field displayId is not the expected.");
+            Assert.AreEqual(retrievedTenantVerification.TenancyDetailsSubmission.Address.LocalityRegionPostcode(), tenantVerificationInfo.addressArea, 
+                "Field addressArea is not the expected.");
         }
 
         [Test]
@@ -280,9 +281,10 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.IsFalse(tenantVerificationInfo.stepVerificationReceivedDone, "Field stepVerificationReceivedDone doesn't have the expected value.");
 
             var retrievedTenantVerification = await DbProbe.TenantVerifications
+                .Include(x => x.TenancyDetailsSubmission.Address)
                 .SingleOrDefaultAsync(x => x.UniqueId.Equals(tenantVerificationInfo.uniqueId));
-            Assert.AreEqual(retrievedTenantVerification.DisplayId(), tenantVerificationInfo.displayId,
-                "Field displayId is not the expected.");
+            Assert.AreEqual(retrievedTenantVerification.TenancyDetailsSubmission.Address.LocalityRegionPostcode(), tenantVerificationInfo.addressArea,
+                "Field addressArea is not the expected.");
         }
 
         [Test]
@@ -321,9 +323,10 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.IsTrue(tenantVerificationInfo.stepVerificationReceivedDone, "Field stepVerificationReceivedDone doesn't have the expected value.");
 
             var retrievedTenantVerification = await DbProbe.TenantVerifications
+                .Include(x => x.TenancyDetailsSubmission.Address)
                 .SingleOrDefaultAsync(x => x.UniqueId.Equals(tenantVerificationInfo.uniqueId));
-            Assert.AreEqual(retrievedTenantVerification.DisplayId(), tenantVerificationInfo.displayId,
-                "Field displayId is not the expected.");
+            Assert.AreEqual(retrievedTenantVerification.TenancyDetailsSubmission.Address.LocalityRegionPostcode(), tenantVerificationInfo.addressArea,
+                "Field addressArea is not the expected.");
         }
 
         [Test]
@@ -362,9 +365,10 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.IsTrue(tenantVerificationInfo.stepVerificationReceivedDone, "Field stepVerificationReceivedDone doesn't have the expected value.");
 
             var retrievedTenantVerification = await DbProbe.TenantVerifications
+                .Include(x => x.TenancyDetailsSubmission.Address)
                 .SingleOrDefaultAsync(x => x.UniqueId.Equals(tenantVerificationInfo.uniqueId));
-            Assert.AreEqual(retrievedTenantVerification.DisplayId(), tenantVerificationInfo.displayId,
-                "Field displayId is not the expected.");
+            Assert.AreEqual(retrievedTenantVerification.TenancyDetailsSubmission.Address.LocalityRegionPostcode(), tenantVerificationInfo.addressArea,
+                "Field addressArea is not the expected.");
         }
 
         #endregion

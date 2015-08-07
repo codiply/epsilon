@@ -97,11 +97,11 @@ namespace Epsilon.Resources.Web.OutgoingVerification {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Verification.
+        ///   Looks up a localized string similar to Address Area.
         /// </summary>
-        public static string MyOutgoingVerificationsSummary_AddressColumnHeader {
+        public static string MyOutgoingVerificationsSummary_AddressAreaColumnHeader {
             get {
-                return ResourceManager.GetString("MyOutgoingVerificationsSummary_AddressColumnHeader", resourceCulture);
+                return ResourceManager.GetString("MyOutgoingVerificationsSummary_AddressAreaColumnHeader", resourceCulture);
             }
         }
         
@@ -111,6 +111,15 @@ namespace Epsilon.Resources.Web.OutgoingVerification {
         public static string MyOutgoingVerificationsSummary_Header {
             get {
                 return ResourceManager.GetString("MyOutgoingVerificationsSummary_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Verification Id.
+        /// </summary>
+        public static string MyOutgoingVerificationsSummary_IdColumnHeader {
+            get {
+                return ResourceManager.GetString("MyOutgoingVerificationsSummary_IdColumnHeader", resourceCulture);
             }
         }
         
@@ -201,6 +210,15 @@ namespace Epsilon.Resources.Web.OutgoingVerification {
         public static string Pick_SubmitButton {
             get {
                 return ResourceManager.GetString("Pick_SubmitButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string String1 {
+            get {
+                return ResourceManager.GetString("String1", resourceCulture);
             }
         }
     }

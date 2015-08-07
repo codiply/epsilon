@@ -121,7 +121,7 @@ declare module T4TS {
     /** Generated from Epsilon.Logic.JsonModels.TenantVerificationInfo **/
     export interface TenantVerificationInfo {
         uniqueId: string;
-        displayId: string;
+        addressArea: string;
         stepVerificationSentOutDone: boolean;
         stepVerificationReceivedDone: boolean;
         canMarkAsSent: boolean;

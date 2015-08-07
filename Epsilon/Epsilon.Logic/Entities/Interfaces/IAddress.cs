@@ -20,9 +20,9 @@ namespace Epsilon.Logic.Entities.Interfaces
 
     public static class IAddressExtensions
     {
+        // TDODO_PANOS_TEST
         public static string FullAddressWithoutCountry(this IAddress address)
         {
-            var sb = new StringBuilder();
             var pieces = new List<string> {
                 address.Line1, address.Line2, address.Line3, address.Line4,
                 address.Locality, address.Region, address.Postcode };

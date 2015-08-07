@@ -42,22 +42,22 @@ namespace Epsilon.Logic.Entities
             return !StepVerificationSentOutDone();
         }
 
-        public string DisplayId()
-        {
-            return UniqueId.ToString().ToUpperInvariant();
-        }
-
         public bool IsSenderRewarded()
         {
             return SenderRewardedOn.HasValue;
         }
 
+
+        /// <summary>
+        /// Note: You will need to Include TenancyDetailsSubmission.Address for this to work.
+        /// </summary>
+        /// <returns></returns>
         public TenantVerificationInfo ToInfo()
         {
             return new TenantVerificationInfo
             {
                 uniqueId = UniqueId,
-                displayId = DisplayId(),
+                addressArea = TenancyDetailsSubmission.Address.LocalityRegionPostcode(),
                 canMarkAsSent = CanMarkAsSent(),
                 stepVerificationSentOutDone = StepVerificationSentOutDone(),
                 stepVerificationReceivedDone = StepVerificationReceivedDone()
