@@ -10,27 +10,56 @@
 
 @Html.Partial("_AddressDetails", Model.AddressDetails)
 
-@using (Html.BeginForm("GainAccessConfirmed", "PropertyInfo"))
+@if (Model.ExistingUnexpiredAccessUniqueId.HasValue)
 {
-    <div class="form-horizontal">
-        @Html.AntiForgeryToken()
+    using (Html.BeginForm("ViewInfo", "PropertyInfo"))
+    {
+       <div class="form-horizontal">
+            @Html.AntiForgeryToken()
 
-        <div class="form-group">
-            <div class="alert alert-info">
-                <p><input type="checkbox" name="confirmedText" data-ng-model="confirmedText">
-                    @string.Format(PropertyInfoResources.GainAccess_ConfirmationText, Model.TokensCost)
-                </p>
+            <div class="form-group">
+                <div class="alert alert-info">
+                    <p>
+                        @PropertyInfoResources.GainAccess_ExistingPropertyInfoAccess_Message
+                    </p>
+                </div>
+            </div>
+           <div class="form-group">
+               <input type="hidden" name="accessUniqueId" value="@Model.ExistingUnexpiredAccessUniqueId.Value" />
+               <input type="hidden" name="returnToSummary" value="false" />
+               <div>
+                   <input type="submit" class="btn btn-default"
+                          value="@PropertyInfoResources.GainAccess_ExistingPropertyInfoAccess_ViewInfo_ButtonText" />
+               </div>
+           </div>
+        </div>
+    }
+}
+else
+{
+    using (Html.BeginForm("GainAccessConfirmed", "PropertyInfo"))
+    {
+        <div class="form-horizontal">
+            @Html.AntiForgeryToken()
+
+            <div class="form-group">
+                <div class="alert alert-info">
+                    <p>
+                        <input type="checkbox" name="confirmedText" data-ng-model="confirmedText">
+                        @string.Format(PropertyInfoResources.GainAccess_ConfirmationText, Model.TokensCost)
+                    </p>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <input type="hidden" name="accessUniqueId" value="@Model.AccessUniqueId" />
+                <input type="hidden" name="selectedAddressUniqueId" value="@Model.AddressDetails.UniqueId" />
+                <div>
+                    <input type="submit" class="btn btn-default"
+                           value="@PropertyInfoResources.GainAccess_SubmitButtonText"
+                           data-click-once disabled data-ng-disabled="!confirmedText" />
+                </div>
             </div>
         </div>
-
-        <div class="form-group">
-            <input type="hidden" name="accessUniqueId" value="@Model.AccessUniqueId" />
-            <input type="hidden" name="selectedAddressUniqueId" value="@Model.AddressDetails.UniqueId" />
-            <div>
-                <input type="submit" class="btn btn-default"
-                       value="@PropertyInfoResources.GainAccess_SubmitButtonText"  
-                       data-click-once disabled data-ng-disabled="!confirmedText" />
-            </div>
-        </div>
-    </div>
+    }
 }

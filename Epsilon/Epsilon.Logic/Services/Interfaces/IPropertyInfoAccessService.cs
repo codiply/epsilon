@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Epsilon.Logic.Entities;
 
 namespace Epsilon.Logic.Services.Interfaces
 {
@@ -36,6 +37,8 @@ namespace Epsilon.Logic.Services.Interfaces
         Task<MyExploredPropertiesSummaryResponse> GetUserExploredPropertiesSummary(string userId, bool limitItemsReturned);
 
         Task<GetInfoOutcome> GetInfo(string userId, Guid accessUniqueId);
+
+        Task<Guid?> GetExistingUnexpiredAccessUniqueId(string userId, Guid addressUniqueId);
 
         Task<CreatePropertyInfoAccessOutcome> Create(
             string userId,

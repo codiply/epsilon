@@ -48,11 +48,13 @@ namespace Epsilon.Web.Controllers
         {
             var addressUniqueId = id;
             var entity = await _addressService.GetAddress(addressUniqueId);
+            var existingAccessUniqueId = await _propertyInfoAccessService.GetExistingUnexpiredAccessUniqueId(GetUserId(), addressUniqueId);
             var model = new GainAccessViewModel
             {
                 AccessUniqueId = Guid.NewGuid(),
                 AddressDetails = AddressDetailsViewModel.FromEntity(entity),
-                TokensCost = _tokenRewardService.GetCurrentReward(TokenRewardKey.SpendPerPropertyInfoAccess).AbsValue
+                TokensCost = _tokenRewardService.GetCurrentReward(TokenRewardKey.SpendPerPropertyInfoAccess).AbsValue,
+                ExistingUnexpiredAccessUniqueId = existingAccessUniqueId
             };
 
             return View(model);

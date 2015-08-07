@@ -123,6 +123,17 @@ namespace Epsilon.Logic.Services
                 };
             }
 
+            var existingPropertyInfoAccess = await GetExistingUnexpiredAccess(userId, addressUniqueId);
+            if (existingPropertyInfoAccess != null)
+            {
+                // TODO_PANOS_TEST
+                return new CreatePropertyInfoAccessOutcome
+                {
+                    IsRejected = true,
+                    RejectionReason = CommonResources.GenericInvalidActionMessage
+                };
+            }
+
             var tokenRewardKey = TokenRewardKey.SpendPerPropertyInfoAccess;
             var sufficientFundsExist = await _userTokenService.SufficientFundsExistForTransaction(userId, tokenRewardKey);
 
@@ -215,6 +226,15 @@ namespace Epsilon.Logic.Services
             };
         }
 
+        public async Task<Guid?> GetExistingUnexpiredAccessUniqueId(string userId, Guid addressUniqueId)
+        {
+            // TODO_PANOS_TEST
+            var existingUnexpiredAccess = await GetExistingUnexpiredAccess(userId, addressUniqueId);
+            if (existingUnexpiredAccess == null)
+                return null;
+            return existingUnexpiredAccess.UniqueId;
+        }
+
         private async Task<PropertyInfoAccess> DoCreate(
             string userId,
             string userIpAddress,
@@ -238,9 +258,25 @@ namespace Epsilon.Logic.Services
             var propertyInfoAccess = await _dbContext.PropertyInfoAccesses
                 .Include(a => a.Address)
                 .Include(a => a.Address.Country)
-                .Where(s => s.UniqueId.Equals(uniqueId))
-                .Where(s => s.UserId.Equals(userId))
+                .Where(a => a.UniqueId.Equals(uniqueId))
+                .Where(a => a.UserId.Equals(userId))
                 .SingleOrDefaultAsync();
+
+            return propertyInfoAccess;
+        }
+
+        private async Task<PropertyInfoAccess> GetExistingUnexpiredAccess(string userId, Guid addressUniqueId)
+        {
+            // TODO_PANOS_TEST
+            var cutoff = _clock.OffsetNow - ExpiryPeriod();
+
+            var propertyInfoAccess = await _dbContext.PropertyInfoAccesses
+                .Include(a => a.Address)
+                .Where(a => a.Address.UniqueId.Equals(addressUniqueId))
+                .Where(a => a.UserId.Equals(userId))
+                .Where(a => a.CreatedOn > cutoff)
+                .OrderByDescending(a => a.CreatedOn)
+                .FirstOrDefaultAsync();
 
             return propertyInfoAccess;
         }

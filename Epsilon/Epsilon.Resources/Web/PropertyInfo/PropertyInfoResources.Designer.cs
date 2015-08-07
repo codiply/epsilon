@@ -70,6 +70,24 @@ namespace Epsilon.Resources.Web.PropertyInfo {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You already have access to the information for this property. Click the button below to view it..
+        /// </summary>
+        public static string GainAccess_ExistingPropertyInfoAccess_Message {
+            get {
+                return ResourceManager.GetString("GainAccess_ExistingPropertyInfoAccess_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to View property information.
+        /// </summary>
+        public static string GainAccess_ExistingPropertyInfoAccess_ViewInfo_ButtonText {
+            get {
+                return ResourceManager.GetString("GainAccess_ExistingPropertyInfoAccess_ViewInfo_ButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Access Property Information.
         /// </summary>
         public static string GainAccess_PageHeader {

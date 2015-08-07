@@ -12,5 +12,6 @@ namespace Epsilon.Web.Models.ViewModels.PropertyInfo
         public Guid AccessUniqueId { get; set; }
         public AddressDetailsViewModel AddressDetails { get; set; }
         public Decimal TokensCost { get; set; }
+        public Guid? ExistingUnexpiredAccessUniqueId { get; set; }
     }
 }

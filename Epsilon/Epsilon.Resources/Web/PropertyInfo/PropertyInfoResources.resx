@@ -192,4 +192,10 @@
   <data name="MyExploredPropertiesSummary_ActionView_ButtonHoverText" xml:space="preserve">
     <value>View the information for this property.</value>
   </data>
+  <data name="GainAccess_ExistingPropertyInfoAccess_Message" xml:space="preserve">
+    <value>You already have access to the information for this property. Click the button below to view it.</value>
+  </data>
+  <data name="GainAccess_ExistingPropertyInfoAccess_ViewInfo_ButtonText" xml:space="preserve">
+    <value>View property information</value>
+  </data>
 </root>
