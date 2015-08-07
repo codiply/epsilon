@@ -198,7 +198,8 @@ namespace Epsilon.Logic.Services
         {
             // TODO_PANOS_TEST
 
-            var verification = await GetVerificationForUser(userId, verificationUniqueId);
+            var verification = await GetVerificationForUser(userId, verificationUniqueId,
+                includeTenancyDetailsSubmission: true, includeAddress: true, includeOtherVerifications: true);
             if (verification == null)
             {
                 // TODO_PANOS_TEST
@@ -222,16 +223,19 @@ namespace Epsilon.Logic.Services
                 };
             }
 
+            var otherUserHasMarkedAddressInvalid = verification.TenancyDetailsSubmission
+                .TenantVerifications.Any(v => !v.AssignedToId.Equals(userId) && v.MarkedAddressInvalidOn.HasValue);
+
             // TODO_PANOS
             var instructions = new OutgoingVerificationInstructionsModel
             {
-
+                OtherUserHasMarkedAddressInvalid = otherUserHasMarkedAddressInvalid
             };
 
             return new GetInstructionsOutcome
             {
                 IsRejected = false,
-                Instructions = instructions
+                Instructions = instructions,
             };
         }
 
@@ -241,7 +245,9 @@ namespace Epsilon.Logic.Services
         {
             var uiAlerts = new List<UiAlert>();
 
-            var verification = await GetVerificationForUser(userId, verificationUniqueId);
+            var verification = await GetVerificationForUser(
+                userId, verificationUniqueId,
+                includeTenancyDetailsSubmission: false, includeAddress: false, includeOtherVerifications: false);
             if (verification == null)
             {
                 // TODO_PANOS_TEST
@@ -283,12 +289,27 @@ namespace Epsilon.Logic.Services
             };
         }
 
-        private async Task<TenantVerification> GetVerificationForUser(string assignedUserId, Guid uniqueId)
+        private async Task<TenantVerification> GetVerificationForUser(
+            string assignedUserId, Guid uniqueId, 
+            bool includeTenancyDetailsSubmission, bool includeAddress, bool includeOtherVerifications)
         {
-            var submission = await _dbContext.TenantVerifications
-                .Include(x => x.TenancyDetailsSubmission)
-                .Include(s => s.TenancyDetailsSubmission.Address)
-                .Include(s => s.TenancyDetailsSubmission.Address.Country)
+            var query = _dbContext.TenantVerifications
+                .Include(x => x.TenancyDetailsSubmission);
+
+            if (includeAddress)
+            {
+                query = query
+                    .Include(s => s.TenancyDetailsSubmission.Address)
+                    .Include(s => s.TenancyDetailsSubmission.Address.Country);
+            }
+
+            if (includeOtherVerifications)
+            {
+                query = query
+                    .Include(s => s.TenancyDetailsSubmission.TenantVerifications);
+            }
+
+            var submission = await query
                 .Where(s => s.UniqueId.Equals(uniqueId))
                 .Where(s => s.AssignedToId.Equals(assignedUserId))
                 .SingleOrDefaultAsync();

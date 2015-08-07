@@ -9,5 +9,6 @@ namespace Epsilon.Logic.Models
 {
     public class OutgoingVerificationInstructionsModel
     {
+        public bool OtherUserHasMarkedAddressInvalid { get; set; }
     }
 }

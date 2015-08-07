@@ -61,6 +61,15 @@ namespace Epsilon.Resources.Web.OutgoingVerification {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Another user has marked this address as invalid..
+        /// </summary>
+        public static string Instructions_OtherUserHasMarkedAddressInvalid_Message {
+            get {
+                return ResourceManager.GetString("Instructions_OtherUserHasMarkedAddressInvalid_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Outgoing Verification Instructions.
         /// </summary>
         public static string Instructions_PageHeader {
@@ -75,6 +84,24 @@ namespace Epsilon.Resources.Web.OutgoingVerification {
         public static string Instructions_PageTitle {
             get {
                 return ResourceManager.GetString("Instructions_PageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Send the Verification.
+        /// </summary>
+        public static string Instructions_StepSendVerification_Header {
+            get {
+                return ResourceManager.GetString("Instructions_StepSendVerification_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Verify The Address is Valid.
+        /// </summary>
+        public static string Instructions_StepVerifyValidAddress_Header {
+            get {
+                return ResourceManager.GetString("Instructions_StepVerifyValidAddress_Header", resourceCulture);
             }
         }
         

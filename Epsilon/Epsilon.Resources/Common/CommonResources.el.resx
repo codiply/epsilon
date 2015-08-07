@@ -135,4 +135,10 @@
   <data name="WebsiteDisabledForMaintenanceMessage" xml:space="preserve">
     <value>Αυτή τη στιγμή κάνουμε συντήρηση. Επιστρέψτε σε λίγο.</value>
   </data>
+  <data name="Step1" xml:space="preserve">
+    <value>Βήμα 1ο</value>
+  </data>
+  <data name="Step2" xml:space="preserve">
+    <value>Βήμα 2ο</value>
+  </data>
 </root>

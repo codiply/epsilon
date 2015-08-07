@@ -1,5 +1,7 @@
 ﻿@model Epsilon.Logic.Models.OutgoingVerificationInstructionsModel
 @using Epsilon.Resources.Web.OutgoingVerification
+@using Epsilon.Resources.Common
+@using Epsilon.Resources.Web.OutgoingVerification
 
 @{
     ViewBag.Title = OutgoingVerificationResources.Instructions_PageTitle;
@@ -7,3 +9,24 @@
 
 <h3>@OutgoingVerificationResources.Instructions_PageHeader</h3>
 <hr />
+
+<div class="form-horizontal">
+    <div>
+        <h3>@(CommonResources.Step1):@(OutgoingVerificationResources.Instructions_StepVerifyValidAddress_Header)</h3>
+    </div>
+
+    @if (Model.OtherUserHasMarkedAddressInvalid)
+    {
+    <div class="form-group">
+        <div class="alert alert-danger">
+            <p>
+                @OutgoingVerificationResources.Instructions_OtherUserHasMarkedAddressInvalid_Message
+            </p>
+        </div>
+    </div>
+    }
+
+    <div>
+        <h3>@(CommonResources.Step1):@(OutgoingVerificationResources.Instructions_StepVerifyValidAddress_Header)</h3>
+    </div>
+</div>

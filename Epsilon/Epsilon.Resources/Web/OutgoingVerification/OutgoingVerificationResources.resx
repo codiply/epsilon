@@ -117,11 +117,20 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Instructions_OtherUserHasMarkedAddressInvalid_Message" xml:space="preserve">
+    <value>Another user has marked this address as invalid.</value>
+  </data>
   <data name="Instructions_PageHeader" xml:space="preserve">
     <value>Outgoing Verification Instructions</value>
   </data>
   <data name="Instructions_PageTitle" xml:space="preserve">
     <value>Outgoing Verification Instructions</value>
+  </data>
+  <data name="Instructions_StepSendVerification_Header" xml:space="preserve">
+    <value>Send the Verification</value>
+  </data>
+  <data name="Instructions_StepVerifyValidAddress_Header" xml:space="preserve">
+    <value>Verify The Address is Valid</value>
   </data>
   <data name="MyOutgoingVerificationsSummary_ActionInstructions_ButtonHoverText" xml:space="preserve">
     <value>View the instructions for sending this verification.</value>

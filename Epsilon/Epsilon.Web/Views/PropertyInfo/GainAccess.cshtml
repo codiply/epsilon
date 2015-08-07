@@ -15,15 +15,15 @@
     using (Html.BeginForm("ViewInfo", "PropertyInfo"))
     {
        <div class="form-horizontal">
-            @Html.AntiForgeryToken()
+           @Html.AntiForgeryToken()
 
-            <div class="form-group">
-                <div class="alert alert-info">
-                    <p>
-                        @PropertyInfoResources.GainAccess_ExistingPropertyInfoAccess_Message
-                    </p>
-                </div>
-            </div>
+           <div class="form-group">
+               <div class="alert alert-info">
+                   <p>
+                       @PropertyInfoResources.GainAccess_ExistingPropertyInfoAccess_Message
+                   </p>
+               </div>
+           </div>
            <div class="form-group">
                <input type="hidden" name="accessUniqueId" value="@Model.ExistingUnexpiredAccessUniqueId.Value" />
                <input type="hidden" name="returnToSummary" value="false" />

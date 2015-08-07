@@ -162,4 +162,10 @@
   <data name="WebsiteDisabledForMaintenanceMessage" xml:space="preserve">
     <value>We are performing site maintenance work. We will be back shortly.</value>
   </data>
+  <data name="Step1" xml:space="preserve">
+    <value>Step 1</value>
+  </data>
+  <data name="Step2" xml:space="preserve">
+    <value>Step 2</value>
+  </data>
 </root>
