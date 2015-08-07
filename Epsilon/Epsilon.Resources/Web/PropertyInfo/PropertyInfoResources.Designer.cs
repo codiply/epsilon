@@ -106,6 +106,15 @@ namespace Epsilon.Resources.Web.PropertyInfo {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to View the information for this property..
+        /// </summary>
+        public static string MyExploredPropertiesSummary_ActionView_ButtonHoverText {
+            get {
+                return ResourceManager.GetString("MyExploredPropertiesSummary_ActionView_ButtonHoverText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to View.
         /// </summary>
         public static string MyExploredPropertiesSummary_ActionView_ButtonText {
@@ -255,6 +264,24 @@ namespace Epsilon.Resources.Web.PropertyInfo {
         public static string SearchProperty_SearchTermsLabel {
             get {
                 return ResourceManager.GetString("SearchProperty_SearchTermsLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Property Information.
+        /// </summary>
+        public static string ViewInfo_PageHeader {
+            get {
+                return ResourceManager.GetString("ViewInfo_PageHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Property Information.
+        /// </summary>
+        public static string ViewInfo_PageTitle {
+            get {
+                return ResourceManager.GetString("ViewInfo_PageTitle", resourceCulture);
             }
         }
     }

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Epsilon.Logic.Dtos
+namespace Epsilon.Logic.Models
 {
     public class UiAlert
     {

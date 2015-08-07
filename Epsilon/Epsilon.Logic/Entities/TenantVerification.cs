@@ -44,11 +44,13 @@ namespace Epsilon.Logic.Entities
 
         public DateTimeOffset ExpiresOn(TimeSpan expiryPeriod)
         {
+            // TODO_PANOS_TEST
             return CreatedOn + expiryPeriod;
         }
 
         public bool CanViewInstructions(DateTimeOffset now, TimeSpan expiryPeriod)
         {
+            // TODO_PANOS_TEST
             return now < ExpiresOn(expiryPeriod);
         }
 

@@ -22,7 +22,7 @@ namespace Epsilon.Web.Controllers
 { 
     public class SubmissionController : BaseMvcController
     {
-        public const string MY_SUBMISSIONS_SUMMARY_ACTION = "MySubmissionSSummary";
+        public const string MY_SUBMISSIONS_SUMMARY_ACTION = "MySubmissionsSummary";
 
         private readonly ICountryService _countryService;
         private readonly ICurrencyService _currencyService;

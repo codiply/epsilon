@@ -15,7 +15,7 @@ using Epsilon.Logic.JsonModels;
 using Epsilon.Logic.Services.Interfaces.TenancyDetailsSubmission;
 using Epsilon.Logic.Forms.Submission;
 using Epsilon.Resources.Common;
-using Epsilon.Logic.Dtos;
+using Epsilon.Logic.Models;
 using Epsilon.Logic.Constants.Enums;
 using Epsilon.Logic.Infrastructure.Interfaces;
 using Epsilon.Logic.Constants;

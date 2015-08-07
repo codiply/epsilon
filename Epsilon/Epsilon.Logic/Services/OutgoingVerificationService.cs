@@ -17,7 +17,7 @@ using Epsilon.Logic.Wrappers.Interfaces;
 using Epsilon.Logic.Helpers;
 using static Epsilon.Logic.Helpers.RandomStringHelper;
 using Epsilon.Logic.Constants;
-using Epsilon.Logic.Dtos;
+using Epsilon.Logic.Models;
 using Epsilon.Logic.Infrastructure.Interfaces;
 
 namespace Epsilon.Logic.Services
@@ -222,10 +222,16 @@ namespace Epsilon.Logic.Services
                 };
             }
 
+            // TODO_PANOS
+            var instructions = new OutgoingVerificationInstructionsModel
+            {
+
+            };
+
             return new GetInstructionsOutcome
             {
                 IsRejected = false,
-                TenantVerification = verification
+                Instructions = instructions
             };
         }
 

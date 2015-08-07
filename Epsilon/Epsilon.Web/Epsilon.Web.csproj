@@ -293,7 +293,6 @@
     <Compile Include="Models\ViewModels\Admin\DbAppSettingListViewModel.cs" />
     <Compile Include="Models\ViewModels\Admin\TestGoogleGeocodeApiViewModel.cs" />
     <Compile Include="Models\ViewModels\Admin\TestEmailViewModel.cs" />
-    <Compile Include="Models\ViewModels\OutgoingVerification\OutgoingVerificationInstructionsViewModel.cs" />
     <Compile Include="Models\ViewModels\OutgoingVerification\PickOutgoingVerificationViewModel.cs" />
     <Compile Include="Models\ViewModels\PropertyInfo\GainAccessViewModel.cs" />
     <Compile Include="Models\ViewModels\PropertyInfo\SearchPropertyViewModel.cs" />
@@ -1304,6 +1303,8 @@
     <Content Include="Views\NgDirectiveTemplate\MyExploredPropertiesSummary.cshtml" />
     <Content Include="Views\PropertyInfo\MyExploredPropertiesSummary.cshtml" />
     <Content Include="Views\Shared\WebsiteDisabledForMaintenance.cshtml" />
+    <Content Include="Views\OutgoingVerification\Instructions.cshtml" />
+    <Content Include="Views\PropertyInfo\ViewInfo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

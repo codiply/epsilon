@@ -13,5 +13,7 @@ namespace Epsilon.Logic.JsonModels
         public Guid accessUniqueId { get; set; }
         public string displayAddress { get; set; }
         public DateTimeOffset expiresOn { get; set; }
+
+        public bool canViewInfo { get; set; }
     }
 }

@@ -15,6 +15,8 @@ namespace Epsilon.Web.Controllers
 {
     public class PropertyInfoController : BaseMvcController
     {
+        public const string MY_EXPLORED_PROPERTIES_SUMMARY_ACTION = "MyExploredPropertiesSummary";
+
         private readonly ICountryService _countryService;
         private readonly IAddressService _addressService;
         private readonly IPropertyInfoAccessService _propertyInfoAccessService;
@@ -78,14 +80,36 @@ namespace Epsilon.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult View(Guid accessUniqueId, bool returnToSummary)
+        public async Task<ActionResult> ViewInfo(Guid accessUniqueId, bool returnToSummary)
         {
-            throw new NotImplementedException();
+            var getInfoOutcome =
+                await _propertyInfoAccessService.GetInfo(GetUserId(), accessUniqueId);
+
+            if (getInfoOutcome.IsRejected)
+            {
+                Danger(getInfoOutcome.RejectionReason, true);
+                return RedirectHome(returnToSummary);
+            }
+
+            var model = getInfoOutcome.PropertyInfo;
+            return View(model);
         }
 
         public ActionResult MyExploredPropertiesSummary()
         {
             return View();
+        }
+
+        private ActionResult RedirectHome(bool returnToSummary)
+        {
+            if (returnToSummary)
+            {
+                return RedirectToAction(MY_EXPLORED_PROPERTIES_SUMMARY_ACTION);
+            }
+
+            return RedirectToAction(
+                AppConstant.AUTHENTICATED_USER_HOME_ACTION,
+                AppConstant.AUTHENTICATED_USER_HOME_CONTROLLER);
         }
     }
 }

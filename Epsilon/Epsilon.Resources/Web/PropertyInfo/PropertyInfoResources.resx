@@ -183,4 +183,13 @@
   <data name="SearchProperty_SearchTermsLabel" xml:space="preserve">
     <value>Search terms</value>
   </data>
+  <data name="ViewInfo_PageHeader" xml:space="preserve">
+    <value>Property Information</value>
+  </data>
+  <data name="ViewInfo_PageTitle" xml:space="preserve">
+    <value>Property Information</value>
+  </data>
+  <data name="MyExploredPropertiesSummary_ActionView_ButtonHoverText" xml:space="preserve">
+    <value>View the information for this property.</value>
+  </data>
 </root>

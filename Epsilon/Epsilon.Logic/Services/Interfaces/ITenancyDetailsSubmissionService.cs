@@ -1,4 +1,4 @@
-﻿using Epsilon.Logic.Dtos;
+﻿using Epsilon.Logic.Models;
 using Epsilon.Logic.Entities;
 using Epsilon.Logic.Forms.Submission;
 using Epsilon.Logic.JsonModels;

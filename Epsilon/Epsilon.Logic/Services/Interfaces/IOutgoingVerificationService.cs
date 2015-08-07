@@ -1,4 +1,4 @@
-﻿using Epsilon.Logic.Dtos;
+﻿using Epsilon.Logic.Models;
 using Epsilon.Logic.Entities;
 using Epsilon.Logic.JsonModels;
 using Epsilon.Logic.Services.Interfaces.OutgoingVerification;
@@ -34,7 +34,7 @@ namespace Epsilon.Logic.Services.Interfaces
 
         public class GetInstructionsOutcome : BaseOutcome
         {
-            public TenantVerification TenantVerification { get; set; }
+            public OutgoingVerificationInstructionsModel Instructions { get; set; }
         }
     }
 

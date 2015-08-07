@@ -14,7 +14,7 @@ namespace Epsilon.Web.Controllers
 {
     public class OutgoingVerificationController : BaseMvcController
     {
-        public const string MY_OUTGOING_VERIFICATIONS_SUMMARY = "MyOutgoingVerificationsSummary";
+        public const string MY_OUTGOING_VERIFICATIONS_SUMMARY_ACTION = "MyOutgoingVerificationsSummary";
 
         private readonly IOutgoingVerificationService _outgoingVerificationService;
 
@@ -62,7 +62,7 @@ namespace Epsilon.Web.Controllers
                 return RedirectHome(returnToSummary);
             }
 
-            var model = OutgoingVerificationInstructionsViewModel.FromEntity(getInstructionsOutcome.TenantVerification);
+            var model = getInstructionsOutcome.Instructions;
             return View(model);
         }
 
@@ -91,7 +91,7 @@ namespace Epsilon.Web.Controllers
         {
             if (returnToSummary)
             {
-                return RedirectToAction(MY_OUTGOING_VERIFICATIONS_SUMMARY);
+                return RedirectToAction(MY_OUTGOING_VERIFICATIONS_SUMMARY_ACTION);
             }
 
             return RedirectToAction(

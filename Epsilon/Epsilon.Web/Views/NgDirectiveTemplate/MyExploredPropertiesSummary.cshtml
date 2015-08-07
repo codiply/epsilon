@@ -24,14 +24,15 @@
                     <td><span am-time-ago="property.expiresOn" title="{{property.expiresOn | localDateTime }}"></span></td>
                     <td>{{property.displayAddress}}</td>
                     <td>
-                        <span>
-                            @using (Html.BeginForm("View", "PropertyInfo"))
+                        <span data-ng-if="property.canViewInfo">
+                            @using (Html.BeginForm("ViewInfo", "PropertyInfo"))
                             {
                                 @Html.AntiForgeryToken()
 
                                 <input type="hidden" name="accessUniqueId" value="{{property.accessUniqueId}}" />
                                 <input type="hidden" name="returnToSummary" value="{{isSummaryPage}}" />
-                                <button class="btn btn-default" type="submit">
+                                <button class="btn btn-default" type="submit"
+                                        title="@PropertyInfoResources.MyExploredPropertiesSummary_ActionView_ButtonHoverText">
                                     @PropertyInfoResources.MyExploredPropertiesSummary_ActionView_ButtonText
                                 </button>
                             }

@@ -61,6 +61,24 @@ namespace Epsilon.Resources.Web.OutgoingVerification {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Outgoing Verification Instructions.
+        /// </summary>
+        public static string Instructions_PageHeader {
+            get {
+                return ResourceManager.GetString("Instructions_PageHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Outgoing Verification Instructions.
+        /// </summary>
+        public static string Instructions_PageTitle {
+            get {
+                return ResourceManager.GetString("Instructions_PageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to View the instructions for sending this verification..
         /// </summary>
         public static string MyOutgoingVerificationsSummary_ActionInstructions_ButtonHoverText {
@@ -228,15 +246,6 @@ namespace Epsilon.Resources.Web.OutgoingVerification {
         public static string Pick_SubmitButton {
             get {
                 return ResourceManager.GetString("Pick_SubmitButton", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to .
-        /// </summary>
-        public static string String1 {
-            get {
-                return ResourceManager.GetString("String1", resourceCulture);
             }
         }
     }

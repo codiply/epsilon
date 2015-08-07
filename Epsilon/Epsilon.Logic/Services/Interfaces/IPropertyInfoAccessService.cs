@@ -1,4 +1,4 @@
-﻿using Epsilon.Logic.Dtos;
+﻿using Epsilon.Logic.Models;
 using Epsilon.Logic.JsonModels;
 using System;
 using System.Collections.Generic;
@@ -12,12 +12,21 @@ namespace Epsilon.Logic.Services.Interfaces
     {
         public bool IsRejected { get; set; }
         public string RejectionReason { get; set; }
+    }
+
+    public class BaseOutcomeWithAlerts : BaseOutcome
+    {
         public IList<UiAlert> UiAlerts { get; set; }
     }
 
-    public class CreatePropertyInfoAccessOutcome : BaseOutcome
+    public class CreatePropertyInfoAccessOutcome : BaseOutcomeWithAlerts
     {
         public Guid? PropertyInfoAccessUniqueId { get; set; }
+    }
+
+    public class GetInfoOutcome : BaseOutcome
+    {
+        public ViewPropertyInfoModel PropertyInfo { get; set; }
     }
 
     public interface IPropertyInfoAccessService
@@ -25,6 +34,8 @@ namespace Epsilon.Logic.Services.Interfaces
         Task<MyExploredPropertiesSummaryResponse> GetUserExploredPropertiesSummaryWithCaching(string userId, bool limitItemsReturned);
 
         Task<MyExploredPropertiesSummaryResponse> GetUserExploredPropertiesSummary(string userId, bool limitItemsReturned);
+
+        Task<GetInfoOutcome> GetInfo(string userId, Guid accessUniqueId);
 
         Task<CreatePropertyInfoAccessOutcome> Create(
             string userId,

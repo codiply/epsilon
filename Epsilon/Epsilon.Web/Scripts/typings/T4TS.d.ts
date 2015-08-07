@@ -38,6 +38,7 @@ declare module T4TS {
         accessUniqueId: string;
         displayAddress: string;
         expiresOn: string;
+        canViewInfo: boolean;
     }
     /** Generated from Epsilon.Logic.JsonModels.MyExploredPropertiesSummaryRequest **/
     export interface MyExploredPropertiesSummaryRequest {

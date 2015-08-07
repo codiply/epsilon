@@ -23,14 +23,27 @@ namespace Epsilon.Logic.Entities
         public virtual User User { get; set; }
         public virtual Address Address { get; set; }
 
-        public ExploredPropertyInfo ToExploredPropertyInfo(TimeSpan expiryPeriod)
+        public DateTimeOffset ExpiresOn(TimeSpan expiryPeriod)
+        {
+            // TODO_PANOS_TEST
+            return CreatedOn + expiryPeriod;
+        }
+
+        public bool CanViewInfo(DateTimeOffset now, TimeSpan expiryPeriod)
+        {
+            // TODO_PANOS_TEST
+            return now < ExpiresOn(expiryPeriod);
+        }
+
+        public ExploredPropertyInfo ToExploredPropertyInfo(DateTimeOffset now, TimeSpan expiryPeriod)
         {
             // TODO_PANOS_TEST
             return new ExploredPropertyInfo
             {
                 accessUniqueId = UniqueId,
                 displayAddress = Address.FullAddress(),
-                expiresOn = CreatedOn + expiryPeriod
+                expiresOn = CreatedOn + expiryPeriod,
+                canViewInfo = CanViewInfo(now, expiryPeriod)
             };
         }
     }

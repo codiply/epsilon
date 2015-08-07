@@ -1,6 +1,6 @@
 ﻿using Epsilon.Logic.Constants;
 using Epsilon.Logic.Constants.Enums;
-using Epsilon.Logic.Dtos;
+using Epsilon.Logic.Models;
 using Epsilon.Logic.Entities;
 using Epsilon.Logic.Infrastructure.Interfaces;
 using Epsilon.Logic.Services.Interfaces;
@@ -15,6 +15,7 @@ using System.Data.Entity;
 using Epsilon.Logic.JsonModels;
 using Epsilon.Logic.Configuration.Interfaces;
 using Epsilon.Logic.Wrappers.Interfaces;
+using Epsilon.Resources.Common;
 
 namespace Epsilon.Logic.Services
 {
@@ -57,8 +58,9 @@ namespace Epsilon.Logic.Services
         public async Task<MyExploredPropertiesSummaryResponse> GetUserExploredPropertiesSummary(string userId, bool limitItemsReturned)
         {
             var expiryPeriod = ExpiryPeriod();
+            var now = _clock.OffsetNow;
             // TODO_PANOS_TEST
-            var cutoff = _clock.OffsetNow - expiryPeriod;
+            var cutoff = now - expiryPeriod;
 
             // TODO_PANOS_TEST: test the whole thing
             var query = _dbContext.PropertyInfoAccesses
@@ -88,7 +90,7 @@ namespace Epsilon.Logic.Services
             return new MyExploredPropertiesSummaryResponse
             {
                 moreItemsExist = moreItemsExist,
-                exploredProperties = accesses.Select(x => x.ToExploredPropertyInfo(expiryPeriod)).ToList()
+                exploredProperties = accesses.Select(x => x.ToExploredPropertyInfo(now, expiryPeriod)).ToList()
             };
         }
 
@@ -171,10 +173,49 @@ namespace Epsilon.Logic.Services
                 // TODO_PANOS_TEST
                 UiAlerts = uiAlerts
             };
-
         }
 
-        public async Task<PropertyInfoAccess> DoCreate(
+        public async Task<GetInfoOutcome> GetInfo(string userId, Guid accessUniqueId)
+        {
+            // TODO_PANOS_TEST
+            var access = await GetPropertyInfoAccessForUser(userId, accessUniqueId);
+            if (access == null)
+            {
+                // TODO_PANOS_TEST
+                return new GetInfoOutcome
+                {
+                    IsRejected = true,
+                    RejectionReason = CommonResources.GenericInvalidRequestMessage
+                };
+            }
+
+            var now = _clock.OffsetNow;
+            var expiryPeriod = TimeSpan.FromDays(_propertyInfoAccessServiceConfig.ExpiryPeriodInDays);
+
+            if (!access.CanViewInfo(now, expiryPeriod))
+            {
+                // TODO_PANOS_TEST
+                return new GetInfoOutcome
+                {
+                    IsRejected = true,
+                    RejectionReason = CommonResources.GenericInvalidActionMessage
+                };
+            }
+
+            // TODO_PANOS
+            var propertyInfo = new ViewPropertyInfoModel
+            {
+
+            };
+
+            return new GetInfoOutcome
+            {
+                IsRejected = false,
+                PropertyInfo = propertyInfo
+            };
+        }
+
+        private async Task<PropertyInfoAccess> DoCreate(
             string userId,
             string userIpAddress,
             Guid accessUniqueId,
