@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Epsilon.Logic.Constants.Enums;
+using Epsilon.Logic.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -28,6 +30,11 @@ namespace Epsilon.Logic.Entities.Interfaces
                 address.Locality, address.Region, address.Postcode };
 
             return string.Join(", ", pieces.Where(x => !string.IsNullOrWhiteSpace(x)));
+        }
+
+        public static CountryId CountryIdAsEnum(this IAddress address)
+        {
+            return EnumsHelper.CountryId.Parse(address.CountryId).Value;
         }
     }
 }

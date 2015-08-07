@@ -16,7 +16,6 @@ namespace Epsilon.Logic.Constants
         public const string DB_APP_SETTINGS = "APPCACHE:DB_APP_SETTINGS";
         public const string CURRENT_TOKEN_REWARD_SCHEME = "APPCACHE:CURRENT_TOKEN_REWARD_SCHEME";
 
-
         public static string GetUserExploredPropertiesSummary(string userId, bool limitItemsReturned)
         {
             return string.Format("APPCACHE:GET_USER_EXPLORED_PROPERTIES_SUMMARY:{0}:LIMIT_ITEMS_RETURNED:{1}",

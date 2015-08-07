@@ -1,0 +1,46 @@
+﻿@model Epsilon.Logic.Models.AddressModel
+@using Epsilon.Logic.Entities.Interfaces
+@using Epsilon.Logic.Constants.Enums
+@using Epsilon.Logic.Constants.Interfaces
+@using Epsilon.Logic.Constants.Interfaces.CountryAddressFieldMetadata
+
+@{ 
+    string theTenantLine = string.Empty;
+
+    // EnumSwitch:CountryId 
+    switch (Model.CountryId)
+    {
+        case CountryId.GB:
+            theTenantLine = "The tenant";
+            break;
+        case CountryId.GR:
+            theTenantLine = "Προς τον ένοικο";
+            break;
+        default:
+            throw new NotImplementedException(string.Format("Unexpected CountryId: '{0}'", Model.CountryId));
+    }
+
+    var metadata = DependencyResolver.Current.GetService<ICountryAddressFieldMetadata>().GetForCountry(Model.CountryId);
+
+    var pieces = new List<Tuple<FieldMetadata, string>> {
+        Tuple.Create(metadata.Line1, Model.Line1),
+        Tuple.Create(metadata.Line2, Model.Line2),
+        Tuple.Create(metadata.Line3, Model.Line3),
+        Tuple.Create(metadata.Line4, Model.Line4),
+        Tuple.Create(metadata.Locality, Model.Locality),
+        Tuple.Create(metadata.Region, Model.Region),
+        Tuple.Create(metadata.Postcode, Model.Postcode)
+    };
+}
+
+<p>
+    @theTenantLine <br />
+    @foreach (var p in pieces)
+    {
+        if (p.Item1.IsUsed && (p.Item1.IsRequired || !string.IsNullOrWhiteSpace(p.Item2)))
+        {
+            <text>@p.Item2</text> <br />
+        }
+    }
+    @Model.CountryEnglishName
+</p>

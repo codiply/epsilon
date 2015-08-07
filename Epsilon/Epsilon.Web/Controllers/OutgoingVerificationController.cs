@@ -70,6 +70,22 @@ namespace Epsilon.Web.Controllers
             return View(model);
         }
 
+        public async Task<ActionResult> PrintableVerificationMessage(Guid id)
+        {
+            var verificationUniqueId = id;
+            var getVerificationMessageOutcome =
+                await _outgoingVerificationService.GetVerificationMessage(GetUserId(), verificationUniqueId);
+
+            if (getVerificationMessageOutcome.IsRejected)
+            {
+                Danger(getVerificationMessageOutcome.RejectionReason, true);
+                return RedirectHome(false);
+            }
+
+            var model = getVerificationMessageOutcome.MessageArguments;
+            return View(model);
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> MarkAsSent(Guid verificationUniqueId, bool returnToSummary)

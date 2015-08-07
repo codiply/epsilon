@@ -1307,6 +1307,9 @@
     <Content Include="Views\Shared\WebsiteDisabledForMaintenance.cshtml" />
     <Content Include="Views\OutgoingVerification\Instructions.cshtml" />
     <Content Include="Views\PropertyInfo\ViewInfo.cshtml" />
+    <Content Include="Views\OutgoingVerification\_VerificationRecipient.cshtml" />
+    <Content Include="Views\OutgoingVerification\_VerificationMessage.cshtml" />
+    <Content Include="Views\OutgoingVerification\PrintableVerificationMessage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

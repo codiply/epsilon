@@ -40,6 +40,11 @@ namespace Epsilon.Logic.Services.Interfaces
         {
             public OutgoingVerificationInstructionsModel Instructions { get; set; }
         }
+
+        public class GetVerificationMessageOutcome : BaseOutcome
+        {
+            public VerificationMessageArgumentsModel MessageArguments { get; set; }
+        }
     }
 
     public interface IOutgoingVerificationService
@@ -56,6 +61,8 @@ namespace Epsilon.Logic.Services.Interfaces
             Guid verificationUniqueId);
 
         Task<GetInstructionsOutcome> GetInstructions(string userId, Guid verificationUniqueId);
+
+        Task<GetVerificationMessageOutcome> GetVerificationMessage(string userId, Guid verificationUniqueId);
 
         Task<MarkVerificationAsSentOutcome> MarkAsSent(string userId, Guid verificationUniqueId);
 

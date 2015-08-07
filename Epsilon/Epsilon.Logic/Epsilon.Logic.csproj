@@ -153,6 +153,7 @@
     <Compile Include="Constants\Interfaces\IDbAppSettingDefaultValue.cs" />
     <Compile Include="Constants\Enums\IpAddressActivityType.cs" />
     <Compile Include="Constants\ResourceNames\Web\SubmissionResourceNames.cs" />
+    <Compile Include="Models\AddressModel.cs" />
     <Compile Include="Models\OutgoingVerificationInstructionsModel.cs" />
     <Compile Include="Models\UiAlert.cs" />
     <Compile Include="Entities\AddressGeometry.cs" />
@@ -235,6 +236,7 @@
     <Compile Include="JsonModels\TokenRewardTypeValue.cs" />
     <Compile Include="JsonModels\TokenRewardMetadata.cs" />
     <Compile Include="JsonModels\TokenRewardsSummaryResponse.cs" />
+    <Compile Include="Models\VerificationMessageArgumentsModel.cs" />
     <Compile Include="Models\ViewPropertyInfoModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\AddressService.cs" />

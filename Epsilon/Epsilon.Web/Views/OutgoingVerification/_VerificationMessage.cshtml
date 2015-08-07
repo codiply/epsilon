@@ -1,0 +1,39 @@
+﻿@model Epsilon.Logic.Models.VerificationMessageArgumentsModel
+@using Epsilon.Logic.Constants.Enums
+@using Epsilon.Logic.Constants
+@using Epsilon.Logic.Helpers.Interfaces
+
+@{ 
+    var appSettingsHelper = DependencyResolver.Current.GetService<IAppSettingsHelper>();
+    var applicationName = appSettingsHelper.GetString(AppSettingsKey.ApplicationName);
+    var applicationWebAddress = appSettingsHelper.GetString(AppSettingsKey.ApplicationWebAddress);
+}
+
+@* EnumSwitch:CountryId *@
+@switch (Model.CountryId)
+{
+    case CountryId.GB:
+        @* ----------------------- GB ----------------------- *@
+        <text>
+            This is your verification mail from @(applicationName). <br />
+            Your secret code is @(Model.SecretCode). <br />
+            Go to @(applicationWebAddress),
+            log in with the account you registered your address, and
+            enter this code to verify your address.
+        </text>
+        @* -------------------------------------------------- *@
+    break;
+
+    case CountryId.GR:
+        @* ----------------------- GR ----------------------- *@
+        <text>
+            Αυτό είναι το μήνυμα επιβεβαίωσης από την @(applicationName). <br />
+            Ο κωδικός σου ειναι @(Model.SecretCode) (με λατινικούς χαρακτήρες). <br />
+            Μπές στο @(applicationWebAddress) με τον λογαριασμό σου
+            και επιβεβαίωσε την διεύθηνσή σου εισάγωντας αυτό τον κωδικό.
+        </text>
+        @* -------------------------------------------------- *@
+        break;
+    default:
+        throw new NotImplementedException(string.Format("Unexpected CountryId: '{0}'", Model.CountryId));
+}

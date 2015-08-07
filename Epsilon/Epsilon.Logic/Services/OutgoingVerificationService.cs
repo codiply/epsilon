@@ -20,6 +20,7 @@ using Epsilon.Logic.Constants;
 using Epsilon.Logic.Models;
 using Epsilon.Logic.Infrastructure.Interfaces;
 using Epsilon.Logic.Constants.Enums;
+using Epsilon.Logic.Entities.Interfaces;
 
 namespace Epsilon.Logic.Services
 {
@@ -195,6 +196,50 @@ namespace Epsilon.Logic.Services
             };
         }
 
+        public async Task<GetVerificationMessageOutcome> GetVerificationMessage(string userId, Guid verificationUniqueId)
+        {
+            // TODO_PANOS_TEST
+
+            var verification = await GetVerificationForUser(userId, verificationUniqueId,
+                includeTenancyDetailsSubmission: true, includeAddress: true, includeOtherVerifications: false);
+            if (verification == null)
+            {
+                // TODO_PANOS_TEST
+                return new GetVerificationMessageOutcome
+                {
+                    IsRejected = true,
+                    RejectionReason = CommonResources.GenericInvalidRequestMessage
+                };
+            }
+
+            var now = _clock.OffsetNow;
+            var expiryPeriod = TimeSpan.FromDays(_outgoingVerificationServiceConfig.Instructions_ExpiryPeriodInDays);
+
+            if (!verification.CanViewInstructions(now, expiryPeriod))
+            {
+                // TODO_PANOS_TEST
+                return new GetVerificationMessageOutcome
+                {
+                    IsRejected = true,
+                    RejectionReason = CommonResources.GenericInvalidActionMessage
+                };
+            }
+
+            var reciepientAddress = AddressModel.FromEntity(verification.TenancyDetailsSubmission.Address);
+
+            var messageArguments = new VerificationMessageArgumentsModel
+            {
+                CountryId = reciepientAddress.CountryId,
+                SecretCode = verification.SecretCode
+            };
+
+            return new GetVerificationMessageOutcome
+            {
+                IsRejected = false,
+                MessageArguments = messageArguments
+            };
+        }
+
         public async Task<GetInstructionsOutcome> GetInstructions(string userId, Guid verificationUniqueId)
         {
             // TODO_PANOS_TEST
@@ -227,9 +272,19 @@ namespace Epsilon.Logic.Services
             var otherUserHasMarkedAddressAsInvalid = verification.TenancyDetailsSubmission
                 .TenantVerifications.Any(v => !v.AssignedToId.Equals(userId) && v.MarkedAddressAsInvalidOn.HasValue);
 
+            var reciepientAddress = AddressModel.FromEntity(verification.TenancyDetailsSubmission.Address);
+
+            var messageArguments = new VerificationMessageArgumentsModel
+            {
+                CountryId = reciepientAddress.CountryId,
+                SecretCode = verification.SecretCode
+            };
+
             // TODO_PANOS
             var instructions = new OutgoingVerificationInstructionsModel
             {
+                RecipientAddress = reciepientAddress,
+                MessageArguments = messageArguments,
                 VerificationUniqueId = verificationUniqueId,
                 OtherUserHasMarkedAddressAsInvalid = otherUserHasMarkedAddressAsInvalid,
                 CanMarkAddressAsInvalid = verification.CanMarkAddressAsInvalid(),
@@ -347,6 +402,11 @@ namespace Epsilon.Logic.Services
         {
             var query = _dbContext.TenantVerifications
                 .Include(x => x.TenancyDetailsSubmission);
+
+            if (includeTenancyDetailsSubmission || includeAddress)
+            {
+                query = query.Include(s => s.TenancyDetailsSubmission);
+            }
 
             if (includeAddress)
             {

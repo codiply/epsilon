@@ -11,6 +11,10 @@
 <hr />
 
 <div class="form-horizontal">
+    <div class="form-group">
+        @Html.Partial("_VerificationRecipient", Model.Instructions.RecipientAddress)
+    </div>
+
     <div>
         <h3>@(CommonResources.Step1):@(OutgoingVerificationResources.Instructions_StepVerifyValidAddress_Header)</h3>
     </div>
@@ -45,8 +49,13 @@
     }
 
     <div>
-        <h3>@(CommonResources.Step1):@(OutgoingVerificationResources.Instructions_StepVerifyValidAddress_Header)</h3>
+        <h3>@(CommonResources.Step2):@(OutgoingVerificationResources.Instructions_StepSendVerification_Header)</h3>
     </div>
+
+    <div class="form-group">
+        @Html.Partial("_VerificationMessage", Model.Instructions.MessageArguments)
+    </div>
+    <p>@Html.ActionLink("Printable version", "PrintableVerificationMessage", new { id = Model.Instructions.VerificationUniqueId })</p>
 
     @if (Model.Instructions.CanMarkAsSent)
     {

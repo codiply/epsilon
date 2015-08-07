@@ -56,6 +56,8 @@ To run the integration tests publish first the Database project into a new local
 - Add field metadata in `CountryAddressFieldMetadata` constants class.
 - Add case for new country in AddressCleansingHelper.CleansePostcode method.
 - Add Country-specific integration tests in GeocodeServiceTest
+- Add case for new country in `Views/OutgoingVerification/_VerificationRecipient.cshtml`.
+- Add case for new country in `Views/OutgoingVerification/_VerificationMessage.cshtml`.
 
 ### New Language Checklist
 
