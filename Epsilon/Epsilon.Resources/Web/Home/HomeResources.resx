@@ -138,12 +138,6 @@
   <data name="Faq_WhatHappensIfISendVerificationButNotUsed_Question" xml:space="preserve">
     <value>What happens if I send a verification but it is never used by the recipient?</value>
   </data>
-  <data name="Faq_WhyNeedMyMobileNumber_Answer" xml:space="preserve">
-    <value>In order to ensure the quality of our data we ask for your mobile number so that we can confirm that you are a real person. This also help us ensure that users will not create duplicate accounts.</value>
-  </data>
-  <data name="Faq_WhyNeedMyMobileNumber_Question" xml:space="preserve">
-    <value>Why do you need my mobile number?</value>
-  </data>
   <data name="Faq_WillYouShareMyDetails_Answer_Paragraph1" xml:space="preserve">
     <value>We take the privacy of our users very seriously. Your address will be shared with two other users that do not live in the same area with you, so that they can post your verification codes.</value>
   </data>

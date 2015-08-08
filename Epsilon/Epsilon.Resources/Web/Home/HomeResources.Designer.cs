@@ -124,24 +124,6 @@ namespace Epsilon.Resources.Web.Home {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to In order to ensure the quality of our data we ask for your mobile number so that we can confirm that you are a real person. This also help us ensure that users will not create duplicate accounts..
-        /// </summary>
-        public static string Faq_WhyNeedMyMobileNumber_Answer {
-            get {
-                return ResourceManager.GetString("Faq_WhyNeedMyMobileNumber_Answer", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Why do you need my mobile number?.
-        /// </summary>
-        public static string Faq_WhyNeedMyMobileNumber_Question {
-            get {
-                return ResourceManager.GetString("Faq_WhyNeedMyMobileNumber_Question", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to We take the privacy of our users very seriously. Your address will be shared with two other users that do not live in the same area with you, so that they can post your verification codes..
         /// </summary>
         public static string Faq_WillYouShareMyDetails_Answer_Paragraph1 {
