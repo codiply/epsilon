@@ -11,7 +11,7 @@ namespace Epsilon.Logic.Services.Interfaces
 {
     public interface ITokenRewardService
     {
-        Task<TokenRewardsSummaryResponse> GetTokenRewardsSummary();
+        TokenRewardsSummaryResponse GetTokenRewardsSummary();
 
         TokenRewardMetadata GetAllTokenRewardMetadata();
 

@@ -40,7 +40,7 @@ namespace Epsilon.Logic.Services
             _tokenRewardMetadataHelper = tokenRewardMetadataHelper;
         }
 
-        public async Task<TokenRewardsSummaryResponse> GetTokenRewardsSummary()
+        public TokenRewardsSummaryResponse GetTokenRewardsSummary()
         {
             // TODO_PANOS_TEST: all
             var currentScheme = GetCurrentScheme();

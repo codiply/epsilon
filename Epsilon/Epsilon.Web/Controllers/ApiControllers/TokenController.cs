@@ -45,9 +45,9 @@ namespace Epsilon.Web.Controllers.ApiControllers
         }
 
         [HttpGet]
-        public async Task<TokenRewardsSummaryResponse> TokenRewardsSummary()
+        public TokenRewardsSummaryResponse TokenRewardsSummary()
         {
-            return await _tokenRewardService.GetTokenRewardsSummary();
+            return _tokenRewardService.GetTokenRewardsSummary();
         }
     }
 }
