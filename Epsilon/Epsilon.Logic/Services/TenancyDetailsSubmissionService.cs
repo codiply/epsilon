@@ -300,10 +300,7 @@ namespace Epsilon.Logic.Services
                 };
             }
 
-            submission.RentPerMonth = form.RentPerMonth;
-            submission.NumberOfBedrooms = form.NumberOfBedrooms;
-            submission.IsPartOfProperty = form.IsPartOfProperty;
-            submission.IsFurnished = form.IsFurnished;
+            form.ApplyOnEntity(submission);
             submission.SubmittedOn = _clock.OffsetNow;
             // TODO_PANOS_TEST
             submission.CurrencyId = submission.Address.Country.CurrencyId;

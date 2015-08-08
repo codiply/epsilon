@@ -277,4 +277,25 @@
   <data name="SubmitTenancyDetailsForm_FieldIsFurnished_RequiredErrorMessage" xml:space="preserve">
     <value>The Furnished Property field is required.</value>
   </data>
+  <data name="SubmitTenancyDetailsForm_FieldLandlordRating_DisplayName" xml:space="preserve">
+    <value>Landlord Rating</value>
+  </data>
+  <data name="SubmitTenancyDetailsForm_FieldLandlordRating_RequiredErrorMessage" xml:space="preserve">
+    <value>The Landlord Rating field is required.</value>
+  </data>
+  <data name="SubmitTenancyDetailsForm_FieldNeighboursRating_DisplayName" xml:space="preserve">
+    <value>Neihgbours Rating</value>
+  </data>
+  <data name="SubmitTenancyDetailsForm_FieldNeighboursRating_RequiredErrorMessage" xml:space="preserve">
+    <value>The Neighbours Rating field is required.</value>
+  </data>
+  <data name="SubmitTenancyDetailsForm_FieldPropertyConditionRating_DisplayName" xml:space="preserve">
+    <value>Property Condition Rating</value>
+  </data>
+  <data name="SubmitTenancyDetailsForm_FieldPropertyConditionRating_RequiredErrorMessage" xml:space="preserve">
+    <value>The Property Condition Rating field is required.</value>
+  </data>
+  <data name="SubmitTenancyDetailsForm_RatingField_RangeErrorMessage" xml:space="preserve">
+    <value>The value of a raring field must be between 1 and 5.</value>
+  </data>
 </root>

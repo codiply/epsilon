@@ -978,8 +978,10 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 IsPartOfProperty = true,
                 IsFurnished = true,
                 RentPerMonth = 100,
-                NumberOfBedrooms = 3
-
+                NumberOfBedrooms = 3,
+                PropertyConditionRating = 1,
+                LandlordRating = 2,
+                NeighboursRating = 3
             };
             var submitTenancyDetailsOutcome = await serviceUnderTest.SubmitTenancyDetails(user.Id, tenancyDetailsForm);
             Assert.IsTrue(submitTenancyDetailsOutcome.IsRejected, "SubmitTenancyDetails outcome field IsRejected is not the expected.");
@@ -1045,8 +1047,10 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 IsPartOfProperty = true,
                 IsFurnished = true,
                 RentPerMonth = 100,
-                NumberOfBedrooms = 3
-
+                NumberOfBedrooms = 3,
+                PropertyConditionRating = 1,
+                LandlordRating = 2,
+                NeighboursRating = 3
             };
             var submitTenancyDetailsOutcome = await serviceUnderTest.SubmitTenancyDetails(user.Id, tenancyDetailsForm);
             Assert.IsTrue(submitTenancyDetailsOutcome.IsRejected, "SubmitTenancyDetails outcome field IsRejected is not the expected.");
@@ -1247,8 +1251,10 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 IsPartOfProperty = true,
                 IsFurnished = true,
                 RentPerMonth = 100,
-                NumberOfBedrooms = 3
-
+                NumberOfBedrooms = 3,
+                PropertyConditionRating = 1,
+                LandlordRating = 2,
+                NeighboursRating = 3
             };
 
             // I try the wrong user.
@@ -1284,6 +1290,12 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 "Field IsFurnished on retrieved submission at point 9 is not the expected.");
             Assert.AreEqual(tenancyDetailsForm.NumberOfBedrooms, retrievedSubmissionAtPoint9.NumberOfBedrooms,
                 "Field NumberOfBedrooms on retrieved submission at point 9 is not the expected.");
+            Assert.AreEqual(tenancyDetailsForm.PropertyConditionRating, retrievedSubmissionAtPoint9.PropertyConditionRating,
+                "Field PropertyConditionRating on retrieved submission at point 9 is not the expected.");
+            Assert.AreEqual(tenancyDetailsForm.LandlordRating, retrievedSubmissionAtPoint9.LandlordRating,
+                "Field LandlordRating on retrieved submission at point 9 is not the expected.");
+            Assert.AreEqual(tenancyDetailsForm.NeighboursRating, retrievedSubmissionAtPoint9.NeighboursRating,
+                "Field NeighboursRating on retrieved submission at point 9 is not the expected.");
             Assert.IsTrue(retrievedSubmissionAtPoint9.SubmittedOn.HasValue,
                 "Field SubmittedOn on retrieved submission at point 9 should have a value.");
             Assert.IsTrue(timeBeforeSubmitTenancyDetails <= retrievedSubmissionAtPoint9.SubmittedOn.Value
@@ -1334,8 +1346,10 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 IsPartOfProperty = !submission.IsPartOfProperty.Value,
                 IsFurnished = !submission.IsFurnished.Value,
                 RentPerMonth = submission.RentPerMonth.Value + 1,
-                NumberOfBedrooms = submission.NumberOfBedrooms.Value + 1
-
+                NumberOfBedrooms = (byte)(submission.NumberOfBedrooms.Value + 1),
+                PropertyConditionRating = (byte)(submission.PropertyConditionRating.Value + 1),
+                LandlordRating = (byte)(submission.LandlordRating.Value + 1),
+                NeighboursRating = (byte)(submission.NeighboursRating.Value + 1)
             };
 
             var submitTenancyDetailsOutcome = await serviceUnderTest.SubmitTenancyDetails(user.Id, tenancyDetailsForm);
@@ -1354,6 +1368,12 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 "Field IsFurnished on retrieved submission at point 2 is not the expected.");
             Assert.AreEqual(submission.NumberOfBedrooms, retrievedSubmissionAtPoint2.NumberOfBedrooms, 
                 "Field NumberOfBedrooms on retrieved submission at point 2 is not the expected.");
+            Assert.AreEqual(submission.PropertyConditionRating, retrievedSubmissionAtPoint2.PropertyConditionRating,
+                "Field PropertyConditionRating on retrieved submission at point 2 is not the expected.");
+            Assert.AreEqual(submission.LandlordRating, retrievedSubmissionAtPoint2.LandlordRating,
+                "Field LandlordRating on retrieved submission at point 2 is not the expected.");
+            Assert.AreEqual(submission.NeighboursRating, retrievedSubmissionAtPoint2.NeighboursRating,
+                "Field NeighboursRating on retrieved submission at point 2 is not the expected.");
             Assert.IsTrue(retrievedSubmissionAtPoint2.SubmittedOn.HasValue,
                 "Field SubmittedOn on retrieved submission at point 2 should have a value.");
             Assert.AreEqual(submission.SubmittedOn, retrievedSubmissionAtPoint2.SubmittedOn,
@@ -1526,7 +1546,10 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 tenancyDetailsSubmission.RentPerMonth = random.Next(100, 1000);
                 tenancyDetailsSubmission.IsPartOfProperty = random.NextDouble() >= 0.5;
                 tenancyDetailsSubmission.IsFurnished = random.NextDouble() >= 0.5;
-                tenancyDetailsSubmission.NumberOfBedrooms = random.Next(0, 5);
+                tenancyDetailsSubmission.NumberOfBedrooms = (byte)random.Next(0, 5);
+                tenancyDetailsSubmission.PropertyConditionRating = (byte)random.Next(1, 5);
+                tenancyDetailsSubmission.LandlordRating = (byte)random.Next(1, 5);
+                tenancyDetailsSubmission.NeighboursRating = (byte)random.Next(1, 5);
             }
 
             var verifications = new List<TenantVerification>();

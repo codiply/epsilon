@@ -16,9 +16,12 @@ namespace Epsilon.Logic.Entities
         public virtual long AddressId { get; set; }
         public virtual Decimal? RentPerMonth { get; set; }
         public virtual string CurrencyId { get; set; }
-        public virtual int? NumberOfBedrooms { get; set; }
+        public virtual byte? NumberOfBedrooms { get; set; }
         public virtual bool? IsPartOfProperty { get; set; }
         public virtual bool? IsFurnished { get; set; }
+        public virtual byte? LandlordRating { get; set; }
+        public virtual byte? PropertyConditionRating { get; set; }
+        public virtual byte? NeighboursRating { get; set; }
         public virtual DateTimeOffset CreatedOn { get; set; }
         public virtual DateTimeOffset? SubmittedOn { get; set; }
         public virtual string CreatedByIpAddress { get; set; }
