@@ -43,9 +43,9 @@ namespace Epsilon.Logic.Forms.Submission
         public bool IsPartOfProperty { get; set; }
 
         [Required(ErrorMessageResourceType = typeof(SubmissionResources),
-            ErrorMessageResourceName = SubmissionResourceName.SubmitTenancyDetailsForm_FieldMoveInDate_RequiredErrorMessage)]
-        [Display(ResourceType = typeof(SubmissionResources), Name = SubmissionResourceName.SubmitTenancyDetailsForm_FieldMoveInDate_DisplayName)]
-        public DateTime? MoveInDate { get; set; }
+            ErrorMessageResourceName = SubmissionResourceName.SubmitTenancyDetailsForm_FieldIsFurnished_RequiredErrorMessage)]
+        [Display(ResourceType = typeof(SubmissionResources), Name = SubmissionResourceName.SubmitTenancyDetailsForm_FieldIsFurnished_DisplayName)]
+        public bool IsFurnished { get; set; }
         
         public bool ReturnToSummary { get; set; }
     }

@@ -185,7 +185,6 @@
     <Compile Include="Entities\User.cs" />
     <Compile Include="Forms\Admin\DbAppSettingForm.cs" />
     <Compile Include="Forms\Submission\VerificationCodeForm.cs" />
-    <Compile Include="Forms\Submission\MoveOutDetailsForm.cs" />
     <Compile Include="Forms\Submission\TenancyDetailsForm.cs" />
     <Compile Include="Helpers\AddressCleansingHelper.cs" />
     <Compile Include="Helpers\AppSettingsHelper.cs" />

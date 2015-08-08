@@ -231,54 +231,6 @@ namespace Epsilon.Web.Controllers
             return View("SubmitTenancyDetails", form);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> SubmitMoveOutDetails(Guid submissionUniqueId, bool returnToSummary)
-        {
-            var getSubmissionAddressOutcome = await _tenancyDetailsSubmissionService.GetSubmissionAddress(GetUserId(), submissionUniqueId);
-            if (getSubmissionAddressOutcome.SubmissionNotFound)
-
-            {
-                Danger(CommonResources.GenericInvalidRequestMessage, true);
-                return RedirectHome(returnToSummary);
-            }
-            var model = new MoveOutDetailsForm
-            {
-                DisplayAddress = getSubmissionAddressOutcome.Address.FullAddress(),
-                TenancyDetailsSubmissionUniqueId = submissionUniqueId,
-                ReturnToSummary = returnToSummary
-            };
-            return View(model);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> SubmitMoveOutDetailsSave(MoveOutDetailsForm form)
-        {
-            if (ModelState.IsValid)
-            {
-                var outcome = await _tenancyDetailsSubmissionService.SubmitMoveOutDetails(GetUserId(), form);
-                if (outcome.IsRejected)
-                {
-                    Danger(outcome.RejectionReason, true);
-                    if (outcome.ReturnToForm)
-                    {
-                        return View("SubmitMoveOutDetails", form);
-                    }
-                    else
-                    {
-                        return RedirectHome(form.ReturnToSummary);
-                    }
-                }
-
-                PresentUiAlerts(outcome.UiAlerts, true);
-
-                return RedirectHome(form.ReturnToSummary);
-            }
-
-            return View("SubmitMoveOutDetails", form);
-        }
-
         [HttpGet]
         public ActionResult MySubmissionsSummary()
         {

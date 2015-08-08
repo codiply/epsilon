@@ -303,7 +303,7 @@ namespace Epsilon.Logic.Services
             submission.RentPerMonth = form.RentPerMonth;
             submission.NumberOfBedrooms = form.NumberOfBedrooms;
             submission.IsPartOfProperty = form.IsPartOfProperty;
-            submission.MoveInDate = form.MoveInDate;
+            submission.IsFurnished = form.IsFurnished;
             submission.SubmittedOn = _clock.OffsetNow;
             // TODO_PANOS_TEST
             submission.CurrencyId = submission.Address.Country.CurrencyId;
@@ -344,51 +344,6 @@ namespace Epsilon.Logic.Services
             return new SubmitTenancyDetailsOutcome
             {
                 IsRejected = false,
-                UiAlerts = uiAlerts
-            };
-        }
-
-        public async Task<SubmitMoveOutDetailsOutcome> SubmitMoveOutDetails(string userId, MoveOutDetailsForm form)
-        {
-            var uiAlerts = new List<UiAlert>();
-
-            var submission = await GetSubmissionForUser(userId, form.TenancyDetailsSubmissionUniqueId);
-            if (submission == null)
-            {
-                return new SubmitMoveOutDetailsOutcome
-                {
-                    IsRejected = true,
-                    RejectionReason = CommonResources.GenericInvalidRequestMessage
-                };
-            }
-
-            if (!submission.CanSubmitMoveOutDetails())
-            {
-                return new SubmitMoveOutDetailsOutcome
-                {
-                    IsRejected = true,
-                    RejectionReason = CommonResources.GenericInvalidActionMessage
-                };
-            }
-
-            submission.MoveOutDate = form.MoveOutDate;
-            submission.MoveOutDateSubmittedOn = _clock.OffsetNow;
-
-            _dbContext.Entry(submission).State = EntityState.Modified;
-            await _dbContext.SaveChangesAsync();
-
-            uiAlerts.Add(new UiAlert
-            {
-                Type = UiAlertType.Success,
-                Message = TenancyDetailsSubmissionResources.SubmitMoveOutDetails_SuccessMessage
-            });
-
-            RemoveCachedUserSubmissionsSummary(userId);
-
-            return new SubmitMoveOutDetailsOutcome
-            {
-                IsRejected = false,
-                // TODO_PANOS_TEST
                 UiAlerts = uiAlerts
             };
         }

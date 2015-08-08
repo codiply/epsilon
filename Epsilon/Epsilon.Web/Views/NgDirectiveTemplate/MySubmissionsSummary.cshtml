@@ -30,9 +30,6 @@
                         <span data-ng-if="subm.stepTenancyDetailsSubmittedDone"
                               title="@SubmissionResources.MySubmissionsSummary_StepTenancyDetailsSubmittedDone_IconHoverText"
                               class="glyphicon glyphicon-info-sign" aria-hidden="true" />
-                        <span data-ng-if="subm.stepMoveOutDetailsSubmittedDone"
-                              title="@SubmissionResources.MySubmissionsSummary_StepMoveOutDetailsSubmittedDone_IconHoverText"
-                              class="glyphicon glyphicon-log-out" aria-hidden="true" />
                     </td>
                     <td>{{subm.displayAddress}}</td>
                     <td>
@@ -59,19 +56,6 @@
                                 <button class="btn btn-default" type="submit"
                                         title="@SubmissionResources.MySubmissionsSummary_ActionSubmitTenancyDetails_ButtonHoverText">
                                     @SubmissionResources.MySubmissionsSummary_ActionSubmitTenancyDetails_ButtonText
-                                </button>
-                            }
-                        </span>
-                        <span data-ng-if="subm.canSubmitMoveOutDetails">
-                            @using (Html.BeginForm("SubmitMoveOutDetails", "Submission"))
-                            {
-                                @Html.AntiForgeryToken()
-
-                                <input type="hidden" name="submissionUniqueId" value="{{subm.uniqueId}}" />
-                                <input type="hidden" name="returnToSummary" value="{{isSummaryPage}}" />
-                                <button class="btn btn-default" type="submit"
-                                        title="@SubmissionResources.MySubmissionsSummary_ActionSubmitMoveOutDetails_ButtonHoverText">
-                                    @SubmissionResources.MySubmissionsSummary_ActionSubmitMoveOutDetails_ButtonText
                                 </button>
                             }
                         </span>

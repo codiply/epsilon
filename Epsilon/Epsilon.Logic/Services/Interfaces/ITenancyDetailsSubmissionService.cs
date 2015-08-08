@@ -34,10 +34,6 @@ namespace Epsilon.Logic.Services.Interfaces
         {
         }
 
-        public class SubmitMoveOutDetailsOutcome : BaseOutcome
-        {
-        }
-
         public class GetSubmissionAddressOutcome
         {
             public bool SubmissionNotFound { get; set; }
@@ -60,8 +56,6 @@ namespace Epsilon.Logic.Services.Interfaces
         Task<EnterVerificationCodeOutcome> EnterVerificationCode(string userId, VerificationCodeForm form);
 
         Task<SubmitTenancyDetailsOutcome> SubmitTenancyDetails(string userId, TenancyDetailsForm form);
-
-        Task<SubmitMoveOutDetailsOutcome> SubmitMoveOutDetails(string userId, MoveOutDetailsForm form);
 
         Task<bool> SubmissionBelongsToUser(string userId, Guid submissionUniqueId);
 

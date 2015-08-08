@@ -443,7 +443,6 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var sentVerifications = 0;
             var completeVerifications = 0;
             var areDetailsSubmitted = false;
-            var hasMovedOut = false;
 
             var helperContainer = CreateContainer();
             var userIpAddress = "1.2.3.4";
@@ -454,7 +453,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var random = new RandomWrapper(2015);
             var submission = await CreateTenancyDetailsSubmissionAndSave(
                     random, helperContainer, user.Id, userIpAddress, otherUser.Id, otherUserIpAddress,
-                    justCreatedVerifications, sentVerifications, completeVerifications, areDetailsSubmitted, hasMovedOut);
+                    justCreatedVerifications, sentVerifications, completeVerifications, areDetailsSubmitted);
 
             var containerUnderTest = CreateContainer();
             SetupConfigForGetUserSubmissionSummary(containerUnderTest, itemsLimit);
@@ -471,13 +470,11 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 "Field uniqueId is not the expected.");
             Assert.IsFalse(submissionInfo.canEnterVerificationCode, "Field canEnterVerificationCode doesn't have the expected value.");
             Assert.IsFalse(submissionInfo.canSubmitTenancyDetails, "Field canSubmitTenancyDetails doesn't have the expected value.");
-            Assert.IsFalse(submissionInfo.canSubmitMoveOutDetails, "Field canSubmitMoveOutDetails doesn't have the expected value.");
 
             Assert.IsFalse(submissionInfo.stepVerificationCodeSentOutDone, "Field stepVerificationCodeSentOutDone doesn't have the expected value.");
             Assert.IsFalse(submissionInfo.stepVerificationCodeEnteredDone, "Field stepVerificationCodeEnteredDone doesn't have the expected value.");
             Assert.IsFalse(submissionInfo.stepTenancyDetailsSubmittedDone, "Field stepTenancyDetailsSubmittedDone doesn't have the expected value.");
-            Assert.IsFalse(submissionInfo.stepMoveOutDetailsSubmittedDone, "Field stepMoveOutDetailsSubmittedDone doesn't have the expected value.");
-
+            
             var retrievedSubmission = await DbProbe.TenancyDetailsSubmissions
                 .Include(x => x.Address).Include(x => x.Address.Country).SingleOrDefaultAsync(x => x.UniqueId.Equals(submissionInfo.uniqueId));
             Assert.AreEqual(retrievedSubmission.Address.FullAddress(), submissionInfo.displayAddress, "Field displayAddress is not the expected.");
@@ -491,7 +488,6 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var sentVerifications = 0;
             var completeVerifications = 0;
             var areDetailsSubmitted = false;
-            var hasMovedOut = false;
 
             var helperContainer = CreateContainer();
             var userIpAddress = "1.2.3.4";
@@ -502,7 +498,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var random = new RandomWrapper(2015);
             var submission = await CreateTenancyDetailsSubmissionAndSave(
                     random, helperContainer, user.Id, userIpAddress, otherUser.Id, otherUserIpAddress,
-                    justCreatedVerifications, sentVerifications, completeVerifications, areDetailsSubmitted, hasMovedOut);
+                    justCreatedVerifications, sentVerifications, completeVerifications, areDetailsSubmitted);
 
             var containerUnderTest = CreateContainer();
             SetupConfigForGetUserSubmissionSummary(containerUnderTest, itemsLimit);
@@ -519,13 +515,11 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 "Field uniqueId is not the expected.");
             Assert.IsTrue(submissionInfo.canEnterVerificationCode, "Field canEnterVerificationCode doesn't have the expected value.");
             Assert.IsFalse(submissionInfo.canSubmitTenancyDetails, "Field canSubmitTenancyDetails doesn't have the expected value.");
-            Assert.IsFalse(submissionInfo.canSubmitMoveOutDetails, "Field canSubmitMoveOutDetails doesn't have the expected value.");
-
+            
             Assert.IsFalse(submissionInfo.stepVerificationCodeSentOutDone, "Field stepVerificationCodeSentOutDone doesn't have the expected value.");
             Assert.IsFalse(submissionInfo.stepVerificationCodeEnteredDone, "Field stepVerificationCodeEnteredDone doesn't have the expected value.");
             Assert.IsFalse(submissionInfo.stepTenancyDetailsSubmittedDone, "Field stepTenancyDetailsSubmittedDone doesn't have the expected value.");
-            Assert.IsFalse(submissionInfo.stepMoveOutDetailsSubmittedDone, "Field stepMoveOutDetailsSubmittedDone doesn't have the expected value.");
-
+            
             var retrievedSubmission = await DbProbe.TenancyDetailsSubmissions
                 .Include(x => x.Address).Include(x => x.Address.Country).SingleOrDefaultAsync(x => x.UniqueId.Equals(submissionInfo.uniqueId));
             Assert.AreEqual(retrievedSubmission.Address.FullAddress(), submissionInfo.displayAddress, "Field displayAddress is not the expected.");
@@ -539,7 +533,6 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var sentVerifications = 2;
             var completeVerifications = 0;
             var areDetailsSubmitted = false;
-            var hasMovedOut = false;
 
             var helperContainer = CreateContainer();
             var userIpAddress = "1.2.3.4";
@@ -550,7 +543,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var random = new RandomWrapper(2015);
             var submission = await CreateTenancyDetailsSubmissionAndSave(
                     random, helperContainer, user.Id, userIpAddress, otherUser.Id, otherUserIpAddress,
-                    justCreatedVerifications, sentVerifications, completeVerifications, areDetailsSubmitted, hasMovedOut);
+                    justCreatedVerifications, sentVerifications, completeVerifications, areDetailsSubmitted);
 
             var containerUnderTest = CreateContainer();
             SetupConfigForGetUserSubmissionSummary(containerUnderTest, itemsLimit);
@@ -567,13 +560,11 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 "Field uniqueId is not the expected.");
             Assert.IsTrue(submissionInfo.canEnterVerificationCode, "Field canEnterVerificationCode doesn't have the expected value.");
             Assert.IsFalse(submissionInfo.canSubmitTenancyDetails, "Field canSubmitTenancyDetails doesn't have the expected value.");
-            Assert.IsFalse(submissionInfo.canSubmitMoveOutDetails, "Field canSubmitMoveOutDetails doesn't have the expected value.");
-
+            
             Assert.IsTrue(submissionInfo.stepVerificationCodeSentOutDone, "Field stepVerificationCodeSentOutDone doesn't have the expected value.");
             Assert.IsFalse(submissionInfo.stepVerificationCodeEnteredDone, "Field stepVerificationCodeEnteredDone doesn't have the expected value.");
             Assert.IsFalse(submissionInfo.stepTenancyDetailsSubmittedDone, "Field stepTenancyDetailsSubmittedDone doesn't have the expected value.");
-            Assert.IsFalse(submissionInfo.stepMoveOutDetailsSubmittedDone, "Field stepMoveOutDetailsSubmittedDone doesn't have the expected value.");
-
+            
             var retrievedSubmission = await DbProbe.TenancyDetailsSubmissions
                 .Include(x => x.Address).Include(x => x.Address.Country).SingleOrDefaultAsync(x => x.UniqueId.Equals(submissionInfo.uniqueId));
             Assert.AreEqual(retrievedSubmission.Address.FullAddress(), submissionInfo.displayAddress, "Field displayAddress is not the expected.");
@@ -587,7 +578,6 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var sentVerifications = 0;
             var completeVerifications = 2;
             var areDetailsSubmitted = false;
-            var hasMovedOut = false;
 
             var helperContainer = CreateContainer();
             var userIpAddress = "1.2.3.4";
@@ -598,7 +588,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var random = new RandomWrapper(2015);
             var submission = await CreateTenancyDetailsSubmissionAndSave(
                     random, helperContainer, user.Id, userIpAddress, otherUser.Id, otherUserIpAddress,
-                    justCreatedVerifications, sentVerifications, completeVerifications, areDetailsSubmitted, hasMovedOut);
+                    justCreatedVerifications, sentVerifications, completeVerifications, areDetailsSubmitted);
 
             var containerUnderTest = CreateContainer();
             SetupConfigForGetUserSubmissionSummary(containerUnderTest, itemsLimit);
@@ -615,13 +605,11 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 "Field uniqueId is not the expected.");
             Assert.IsFalse(submissionInfo.canEnterVerificationCode, "Field canEnterVerificationCode doesn't have the expected value.");
             Assert.IsTrue(submissionInfo.canSubmitTenancyDetails, "Field canSubmitTenancyDetails doesn't have the expected value.");
-            Assert.IsFalse(submissionInfo.canSubmitMoveOutDetails, "Field canSubmitMoveOutDetails doesn't have the expected value.");
-
+            
             Assert.IsTrue(submissionInfo.stepVerificationCodeSentOutDone, "Field stepVerificationCodeSentOutDone doesn't have the expected value.");
             Assert.IsTrue(submissionInfo.stepVerificationCodeEnteredDone, "Field stepVerificationCodeEnteredDone doesn't have the expected value.");
             Assert.IsFalse(submissionInfo.stepTenancyDetailsSubmittedDone, "Field stepTenancyDetailsSubmittedDone doesn't have the expected value.");
-            Assert.IsFalse(submissionInfo.stepMoveOutDetailsSubmittedDone, "Field stepMoveOutDetailsSubmittedDone doesn't have the expected value.");
-
+            
             var retrievedSubmission = await DbProbe.TenancyDetailsSubmissions
                 .Include(x => x.Address).Include(x => x.Address.Country).SingleOrDefaultAsync(x => x.UniqueId.Equals(submissionInfo.uniqueId));
             Assert.AreEqual(retrievedSubmission.Address.FullAddress(), submissionInfo.displayAddress, "Field displayAddress is not the expected.");
@@ -635,7 +623,6 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var sentVerifications = 1;
             var completeVerifications = 1;
             var areDetailsSubmitted = false;
-            var hasMovedOut = false;
 
             var helperContainer = CreateContainer();
             var userIpAddress = "1.2.3.4";
@@ -646,7 +633,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var random = new RandomWrapper(2015);
             var submission = await CreateTenancyDetailsSubmissionAndSave(
                     random, helperContainer, user.Id, userIpAddress, otherUser.Id, otherUserIpAddress,
-                    justCreatedVerifications, sentVerifications, completeVerifications, areDetailsSubmitted, hasMovedOut);
+                    justCreatedVerifications, sentVerifications, completeVerifications, areDetailsSubmitted);
 
             var containerUnderTest = CreateContainer();
             SetupConfigForGetUserSubmissionSummary(containerUnderTest, itemsLimit);
@@ -663,13 +650,11 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 "Field uniqueId is not the expected.");
             Assert.IsTrue(submissionInfo.canEnterVerificationCode, "Field canEnterVerificationCode doesn't have the expected value.");
             Assert.IsTrue(submissionInfo.canSubmitTenancyDetails, "Field canSubmitTenancyDetails doesn't have the expected value.");
-            Assert.IsFalse(submissionInfo.canSubmitMoveOutDetails, "Field canSubmitMoveOutDetails doesn't have the expected value.");
-
+            
             Assert.IsTrue(submissionInfo.stepVerificationCodeSentOutDone, "Field stepVerificationCodeSentOutDone doesn't have the expected value.");
             Assert.IsTrue(submissionInfo.stepVerificationCodeEnteredDone, "Field stepVerificationCodeEnteredDone doesn't have the expected value.");
             Assert.IsFalse(submissionInfo.stepTenancyDetailsSubmittedDone, "Field stepTenancyDetailsSubmittedDone doesn't have the expected value.");
-            Assert.IsFalse(submissionInfo.stepMoveOutDetailsSubmittedDone, "Field stepMoveOutDetailsSubmittedDone doesn't have the expected value.");
-
+            
             var retrievedSubmission = await DbProbe.TenancyDetailsSubmissions
                 .Include(x => x.Address).Include(x => x.Address.Country).SingleOrDefaultAsync(x => x.UniqueId.Equals(submissionInfo.uniqueId));
             Assert.AreEqual(retrievedSubmission.Address.FullAddress(), submissionInfo.displayAddress, "Field displayAddress is not the expected.");
@@ -683,7 +668,6 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var sentVerifications = 0;
             var completeVerifications = 2;
             var areDetailsSubmitted = true;
-            var hasMovedOut = false;
 
             var helperContainer = CreateContainer();
             var userIpAddress = "1.2.3.4";
@@ -694,7 +678,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var random = new RandomWrapper(2015);
             var submission = await CreateTenancyDetailsSubmissionAndSave(
                     random, helperContainer, user.Id, userIpAddress, otherUser.Id, otherUserIpAddress,
-                    justCreatedVerifications, sentVerifications, completeVerifications, areDetailsSubmitted, hasMovedOut);
+                    justCreatedVerifications, sentVerifications, completeVerifications, areDetailsSubmitted);
 
             var containerUnderTest = CreateContainer();
             SetupConfigForGetUserSubmissionSummary(containerUnderTest, itemsLimit);
@@ -711,13 +695,11 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 "Field uniqueId is not the expected.");
             Assert.IsFalse(submissionInfo.canEnterVerificationCode, "Field canEnterVerificationCode doesn't have the expected value.");
             Assert.IsFalse(submissionInfo.canSubmitTenancyDetails, "Field canSubmitTenancyDetails doesn't have the expected value.");
-            Assert.IsTrue(submissionInfo.canSubmitMoveOutDetails, "Field canSubmitMoveOutDetails doesn't have the expected value.");
-
+            
             Assert.IsTrue(submissionInfo.stepVerificationCodeSentOutDone, "Field stepVerificationCodeSentOutDone doesn't have the expected value.");
             Assert.IsTrue(submissionInfo.stepVerificationCodeEnteredDone, "Field stepVerificationCodeEnteredDone doesn't have the expected value.");
             Assert.IsTrue(submissionInfo.stepTenancyDetailsSubmittedDone, "Field stepTenancyDetailsSubmittedDone doesn't have the expected value.");
-            Assert.IsFalse(submissionInfo.stepMoveOutDetailsSubmittedDone, "Field stepMoveOutDetailsSubmittedDone doesn't have the expected value.");
-
+           
             var retrievedSubmission = await DbProbe.TenancyDetailsSubmissions
                 .Include(x => x.Address).Include(x => x.Address.Country).SingleOrDefaultAsync(x => x.UniqueId.Equals(submissionInfo.uniqueId));
             Assert.AreEqual(retrievedSubmission.Address.FullAddress(), submissionInfo.displayAddress, "Field displayAddress is not the expected.");
@@ -731,7 +713,6 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var sentVerifications = 1;
             var completeVerifications = 1;
             var areDetailsSubmitted = true;
-            var hasMovedOut = false;
 
             var helperContainer = CreateContainer();
             var userIpAddress = "1.2.3.4";
@@ -742,7 +723,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var random = new RandomWrapper(2015);
             var submission = await CreateTenancyDetailsSubmissionAndSave(
                     random, helperContainer, user.Id, userIpAddress, otherUser.Id, otherUserIpAddress,
-                    justCreatedVerifications, sentVerifications, completeVerifications, areDetailsSubmitted, hasMovedOut);
+                    justCreatedVerifications, sentVerifications, completeVerifications, areDetailsSubmitted);
 
             var containerUnderTest = CreateContainer();
             SetupConfigForGetUserSubmissionSummary(containerUnderTest, itemsLimit);
@@ -759,75 +740,25 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 "Field uniqueId is not the expected.");
             Assert.IsTrue(submissionInfo.canEnterVerificationCode, "Field canEnterVerificationCode doesn't have the expected value.");
             Assert.IsFalse(submissionInfo.canSubmitTenancyDetails, "Field canSubmitTenancyDetails doesn't have the expected value.");
-            Assert.IsTrue(submissionInfo.canSubmitMoveOutDetails, "Field canSubmitMoveOutDetails doesn't have the expected value.");
-
+            
             Assert.IsTrue(submissionInfo.stepVerificationCodeSentOutDone, "Field stepVerificationCodeSentOutDone doesn't have the expected value.");
             Assert.IsTrue(submissionInfo.stepVerificationCodeEnteredDone, "Field stepVerificationCodeEnteredDone doesn't have the expected value.");
             Assert.IsTrue(submissionInfo.stepTenancyDetailsSubmittedDone, "Field stepTenancyDetailsSubmittedDone doesn't have the expected value.");
-            Assert.IsFalse(submissionInfo.stepMoveOutDetailsSubmittedDone, "Field stepMoveOutDetailsSubmittedDone doesn't have the expected value.");
-
+            
             var retrievedSubmission = await DbProbe.TenancyDetailsSubmissions
                 .Include(x => x.Address).Include(x => x.Address.Country).SingleOrDefaultAsync(x => x.UniqueId.Equals(submissionInfo.uniqueId));
             Assert.AreEqual(retrievedSubmission.Address.FullAddress(), submissionInfo.displayAddress, "Field displayAddress is not the expected.");
         }
 
+        
         [Test]
-        public async Task GetUserSubmissionSummary_SingleSubmissionAfterMoveOutTest()
-        {
-            var itemsLimit = 10;
-            var justCreatedVerifications = 0;
-            var sentVerifications = 0;
-            var completeVerifications = 2;
-            var areDetailsSubmitted = true;
-            var hasMovedOut = true;
-
-            var helperContainer = CreateContainer();
-            var userIpAddress = "1.2.3.4";
-            var user = await CreateUser(helperContainer, "test@test.com", userIpAddress);
-            var otherUserIpAddress = "11.12.13.14";
-            var otherUser = await CreateUser(helperContainer, "other-user@test.com", "11.12.13.14");
-
-            var random = new RandomWrapper(2015);
-            var submission = await CreateTenancyDetailsSubmissionAndSave(
-                    random, helperContainer, user.Id, userIpAddress, otherUser.Id, otherUserIpAddress,
-                    justCreatedVerifications, sentVerifications, completeVerifications, areDetailsSubmitted, hasMovedOut);
-
-            var containerUnderTest = CreateContainer();
-            SetupConfigForGetUserSubmissionSummary(containerUnderTest, itemsLimit);
-            var serviceUnderTest = containerUnderTest.Get<ITenancyDetailsSubmissionService>();
-
-            var response = await serviceUnderTest.GetUserSubmissionsSummary(user.Id, false);
-
-            Assert.AreEqual(1, response.tenancyDetailsSubmissions.Count,
-                "The response should contain a single submission.");
-
-            var submissionInfo = response.tenancyDetailsSubmissions.Single();
-
-            Assert.AreEqual(submission.UniqueId, submissionInfo.uniqueId,
-                "Field uniqueId is not the expected.");
-            Assert.IsFalse(submissionInfo.canEnterVerificationCode, "Field canEnterVerificationCode doesn't have the expected value.");
-            Assert.IsFalse(submissionInfo.canSubmitTenancyDetails, "Field canSubmitTenancyDetails doesn't have the expected value.");
-            Assert.IsFalse(submissionInfo.canSubmitMoveOutDetails, "Field canSubmitMoveOutDetails doesn't have the expected value.");
-
-            Assert.IsTrue(submissionInfo.stepVerificationCodeSentOutDone, "Field stepVerificationCodeSentOutDone doesn't have the expected value.");
-            Assert.IsTrue(submissionInfo.stepVerificationCodeEnteredDone, "Field stepVerificationCodeEnteredDone doesn't have the expected value.");
-            Assert.IsTrue(submissionInfo.stepTenancyDetailsSubmittedDone, "Field stepTenancyDetailsSubmittedDone doesn't have the expected value.");
-            Assert.IsTrue(submissionInfo.stepMoveOutDetailsSubmittedDone, "Field stepMoveOutDetailsSubmittedDone doesn't have the expected value.");
-
-            var retrievedSubmission = await DbProbe.TenancyDetailsSubmissions
-                .Include(x => x.Address).Include(x => x.Address.Country).SingleOrDefaultAsync(x => x.UniqueId.Equals(submissionInfo.uniqueId));
-            Assert.AreEqual(retrievedSubmission.Address.FullAddress(), submissionInfo.displayAddress, "Field displayAddress is not the expected.");
-        }
-
-        [Test]
-        public async Task GetUserSubmissionSummary_SingleSubmissionAfterMoveOutWithJustCreatedVerificationTest()
+        public async Task GetUserSubmissionSummary_SingleSubmissionAfterTenancyDetailsSubmittedWithJustCreatedVerificationTest()
         {
             var itemsLimit = 10;
             var justCreatedVerifications = 0;
             var sentVerifications = 1;
             var completeVerifications = 1;
             var areDetailsSubmitted = true;
-            var hasMovedOut = true;
 
             var helperContainer = CreateContainer();
             var userIpAddress = "1.2.3.4";
@@ -838,7 +769,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var random = new RandomWrapper(2015);
             var submission = await CreateTenancyDetailsSubmissionAndSave(
                     random, helperContainer, user.Id, userIpAddress, otherUser.Id, otherUserIpAddress,
-                    justCreatedVerifications, sentVerifications, completeVerifications, areDetailsSubmitted, hasMovedOut);
+                    justCreatedVerifications, sentVerifications, completeVerifications, areDetailsSubmitted);
 
             var containerUnderTest = CreateContainer();
             SetupConfigForGetUserSubmissionSummary(containerUnderTest, itemsLimit);
@@ -855,27 +786,24 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 "Field uniqueId is not the expected.");
             Assert.IsTrue(submissionInfo.canEnterVerificationCode, "Field canEnterVerificationCode doesn't have the expected value.");
             Assert.IsFalse(submissionInfo.canSubmitTenancyDetails, "Field canSubmitTenancyDetails doesn't have the expected value.");
-            Assert.IsFalse(submissionInfo.canSubmitMoveOutDetails, "Field canSubmitMoveOutDetails doesn't have the expected value.");
-
+            
             Assert.IsTrue(submissionInfo.stepVerificationCodeSentOutDone, "Field stepVerificationCodeSentOutDone doesn't have the expected value.");
             Assert.IsTrue(submissionInfo.stepVerificationCodeEnteredDone, "Field stepVerificationCodeEnteredDone doesn't have the expected value.");
             Assert.IsTrue(submissionInfo.stepTenancyDetailsSubmittedDone, "Field stepTenancyDetailsSubmittedDone doesn't have the expected value.");
-            Assert.IsTrue(submissionInfo.stepMoveOutDetailsSubmittedDone, "Field stepMoveOutDetailsSubmittedDone doesn't have the expected value.");
-
+            
             var retrievedSubmission = await DbProbe.TenancyDetailsSubmissions
                 .Include(x => x.Address).Include(x => x.Address.Country).SingleOrDefaultAsync(x => x.UniqueId.Equals(submissionInfo.uniqueId));
             Assert.AreEqual(retrievedSubmission.Address.FullAddress(), submissionInfo.displayAddress, "Field displayAddress is not the expected.");
         }
 
         [Test]
-        public async Task GetUserSubmissionSummary_SingleSubmissionAfterMoveOutWithSentVerificationTest()
+        public async Task GetUserSubmissionSummary_SingleSubmissionWithSubmittedDetailsAndSentVerificationTest()
         {
             var itemsLimit = 10;
             var justCreatedVerifications = 0;
             var sentVerifications = 1;
             var completeVerifications = 1;
             var areDetailsSubmitted = true;
-            var hasMovedOut = true;
 
             var helperContainer = CreateContainer();
             var userIpAddress = "1.2.3.4";
@@ -886,7 +814,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var random = new RandomWrapper(2015);
             var submission = await CreateTenancyDetailsSubmissionAndSave(
                     random, helperContainer, user.Id, userIpAddress, otherUser.Id, otherUserIpAddress,
-                    justCreatedVerifications, sentVerifications, completeVerifications, areDetailsSubmitted, hasMovedOut);
+                    justCreatedVerifications, sentVerifications, completeVerifications, areDetailsSubmitted);
 
             var containerUnderTest = CreateContainer();
             SetupConfigForGetUserSubmissionSummary(containerUnderTest, itemsLimit);
@@ -904,13 +832,11 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 "Field uniqueId is not the expected.");
             Assert.IsTrue(submissionInfo.canEnterVerificationCode, "Field canEnterVerificationCode doesn't have the expected value.");
             Assert.IsFalse(submissionInfo.canSubmitTenancyDetails, "Field canSubmitTenancyDetails doesn't have the expected value.");
-            Assert.IsFalse(submissionInfo.canSubmitMoveOutDetails, "Field canSubmitMoveOutDetails doesn't have the expected value.");
-
+            
             Assert.IsTrue(submissionInfo.stepVerificationCodeSentOutDone, "Field stepVerificationCodeSentOutDone doesn't have the expected value.");
             Assert.IsTrue(submissionInfo.stepVerificationCodeEnteredDone, "Field stepVerificationCodeEnteredDone doesn't have the expected value.");
             Assert.IsTrue(submissionInfo.stepTenancyDetailsSubmittedDone, "Field stepTenancyDetailsSubmittedDone doesn't have the expected value.");
-            Assert.IsTrue(submissionInfo.stepMoveOutDetailsSubmittedDone, "Field stepMoveOutDetailsSubmittedDone doesn't have the expected value.");
-
+            
             var retrievedSubmission = await DbProbe.TenancyDetailsSubmissions
                 .Include(x => x.Address).Include(x => x.Address.Country).SingleOrDefaultAsync(x => x.UniqueId.Equals(submissionInfo.uniqueId));
             Assert.AreEqual(retrievedSubmission.Address.FullAddress(), submissionInfo.displayAddress, "Field displayAddress is not the expected.");
@@ -937,19 +863,19 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var otherUserSubmission1 = await CreateTenancyDetailsSubmissionAndSave(
                     random, helperContainer, otherUser.Id, otherUserIpAddress, user.Id, userIpAddress,
                     justCreatedVerifications: 0, sentVerifications: 1, completeVerifications: 0, 
-                    areDetailsSubmitted: false, hasMovedOut: false, secretCode: secretCode);
+                    areDetailsSubmitted: false, secretCode: secretCode);
             var otherUserSubmission1verification = otherUserSubmission1.TenantVerifications.Single();
 
             var thisUserSubmission = await CreateTenancyDetailsSubmissionAndSave(
                     random, helperContainer, user.Id, userIpAddress, otherUser.Id, otherUserIpAddress,
                     justCreatedVerifications: 0, sentVerifications: 1, completeVerifications: 0,
-                    areDetailsSubmitted: false, hasMovedOut: false, secretCode: secretCode);
+                    areDetailsSubmitted: false, secretCode: secretCode);
             var thisUserSubmissionVerification = thisUserSubmission.TenantVerifications.Single();
 
             var otherUserSubmission2 = await CreateTenancyDetailsSubmissionAndSave(
                 random, helperContainer, otherUser.Id, otherUserIpAddress, user.Id, userIpAddress,
                 justCreatedVerifications: 0, sentVerifications: 1, completeVerifications: 0,
-                areDetailsSubmitted: false, hasMovedOut: false, secretCode: secretCode);
+                areDetailsSubmitted: false, secretCode: secretCode);
             var otherUserSubmission2verification = otherUserSubmission2.TenantVerifications.Single();
 
             Assert.IsNull(otherUserSubmission1verification.VerifiedOn,
@@ -1002,7 +928,6 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var sentVerifications = 0;
             var completeVerifications = 0;
             var areDetailsSubmitted = false;
-            var hasMovedOut = false;
 
             var helperContainer = CreateContainer();
 
@@ -1016,7 +941,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             var submission = await CreateTenancyDetailsSubmissionAndSave(
                     random, helperContainer, user.Id, userIpAddress, otherUser.Id, otherUserIpAddress,
-                    justCreatedVerifications, sentVerifications, completeVerifications, areDetailsSubmitted, hasMovedOut);
+                    justCreatedVerifications, sentVerifications, completeVerifications, areDetailsSubmitted);
 
             var containerUnderTest = CreateContainer();
             var serviceUnderTest = containerUnderTest.Get<ITenancyDetailsSubmissionService>();
@@ -1024,8 +949,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var retrievedSubmissionAtPoint1 = await RetrieveSubmission(submission.UniqueId);
             Assert.IsNotNull(retrievedSubmissionAtPoint1, "Retrieved submission at point 1 is null.");
             Assert.IsNull(retrievedSubmissionAtPoint1.RentPerMonth, "Field RentPerMonth on retrieved submission at point 1 is not the expected.");
-            Assert.IsNull(retrievedSubmissionAtPoint1.MoveOutDate, "Field MoveOutDate on retrieved submission at point 1 is not the expected.");
-
+            
             // I try all invalid actions
             // EnterVerificationCode
             var verificationCodeForm = new VerificationCodeForm
@@ -1052,8 +976,8 @@ namespace Epsilon.IntegrationTests.Logic.Services
             {
                 TenancyDetailsSubmissionUniqueId = submission.UniqueId,
                 IsPartOfProperty = true,
+                IsFurnished = true,
                 RentPerMonth = 100,
-                MoveInDate =  clock.OffsetNow.UtcDateTime.AddDays(-10.0),
                 NumberOfBedrooms = 3
 
             };
@@ -1078,35 +1002,6 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var retrievedSubmissionAtPoint3 = await RetrieveSubmission(submission.UniqueId);
             Assert.IsNotNull(retrievedSubmissionAtPoint3, "Retrieved submission at point 3 is null.");
             Assert.IsNull(retrievedSubmissionAtPoint3.RentPerMonth, "Field RentPerMonth on retrieved submission at point 3 is not the expected.");
-
-            // SubmitMoveOutDetails
-            var moveOutDetailsForm = new MoveOutDetailsForm
-            {
-                TenancyDetailsSubmissionUniqueId = submission.UniqueId,
-                MoveOutDate = clock.OffsetNow.UtcDateTime.AddDays(1.0)
-
-            };
-            var submitMoveOutDetailsOutcome = await serviceUnderTest.SubmitMoveOutDetails(user.Id, moveOutDetailsForm);
-            Assert.IsTrue(submitMoveOutDetailsOutcome.IsRejected, "SubmitMoveOutDetails outcome field IsRejected is not the expected.");
-            Assert.AreEqual(CommonResources.GenericInvalidActionMessage, submitMoveOutDetailsOutcome.RejectionReason, 
-                "SubmitMoveOutDetails outcome field RejectionReason is not the expected.");
-            Assert.IsFalse(submitMoveOutDetailsOutcome.ReturnToForm, "SubmitMoveOutDetails outcome field ReturnToForm is not the expected.");
-
-            var retrievedSubmissionAtPoint4 = await RetrieveSubmission(submission.UniqueId);
-            Assert.IsNotNull(retrievedSubmissionAtPoint4, "Retrieved submission at point 4 is null.");
-            Assert.IsNull(retrievedSubmissionAtPoint4.MoveOutDate, "Field MoveOutDate on retrieved submission at point 4 is not the expected.");
-
-            var submitMoveOutDetailsOutcomeForOtherUser = await serviceUnderTest.SubmitMoveOutDetails(otherUser.Id, moveOutDetailsForm);
-            Assert.IsTrue(submitMoveOutDetailsOutcomeForOtherUser.IsRejected,
-                "SubmitMoveOutDetails outcome field IsRejected is not the expected when wrong user is used.");
-            Assert.AreEqual(CommonResources.GenericInvalidRequestMessage, submitMoveOutDetailsOutcomeForOtherUser.RejectionReason, 
-                "SubmitMoveOutDetails outcome field RejectionReason is not the expected when wrong user is used.");
-            Assert.IsFalse(submitMoveOutDetailsOutcomeForOtherUser.ReturnToForm,
-                "SubmitMoveOutDetails outcome field ReturnToForm is not the expected when wrong user is used.");
-
-            var retrievedSubmissionAtPoint5 = await RetrieveSubmission(submission.UniqueId);
-            Assert.IsNotNull(retrievedSubmissionAtPoint5, "Retrieved submission at point 5 is null.");
-            Assert.IsNull(retrievedSubmissionAtPoint5.MoveOutDate, "Field MoveOutDate on retrieved submission at point 5 is not the expected.");
         }
 
         [Test]
@@ -1116,7 +1011,6 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var sentVerifications = 0;
             var completeVerifications = 0;
             var areDetailsSubmitted = false;
-            var hasMovedOut = false;
 
             var helperContainer = CreateContainer();
 
@@ -1130,7 +1024,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             var submission = await CreateTenancyDetailsSubmissionAndSave(
                     random, helperContainer, user.Id, userIpAddress, otherUser.Id, otherUserIpAddress,
-                    justCreatedVerifications, sentVerifications, completeVerifications, areDetailsSubmitted, hasMovedOut);
+                    justCreatedVerifications, sentVerifications, completeVerifications, areDetailsSubmitted);
 
             var containerUnderTest = CreateContainer();
             var serviceUnderTest = containerUnderTest.Get<ITenancyDetailsSubmissionService>();
@@ -1138,7 +1032,6 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var retrievedSubmissionAtPoint1 = await RetrieveSubmission(submission.UniqueId);
             Assert.IsNotNull(retrievedSubmissionAtPoint1, "Retrieved submission at point 1 is null.");
             Assert.IsNull(retrievedSubmissionAtPoint1.RentPerMonth, "Field RentPerMonth on retrieved submission at point 1 is not the expected.");
-            Assert.IsNull(retrievedSubmissionAtPoint1.MoveOutDate, "Field MoveOutDate on retrieved submission at point 1 is not the expected.");
             Assert.IsTrue(retrievedSubmissionAtPoint1.TenantVerifications.All(x => !x.VerifiedOn.HasValue),
                 "At point 1 all verifications should have null VerifiedOn field.");
             Assert.IsTrue(retrievedSubmissionAtPoint1.TenantVerifications.All(x => !x.MarkedAsSentOn.HasValue),
@@ -1150,8 +1043,8 @@ namespace Epsilon.IntegrationTests.Logic.Services
             {
                 TenancyDetailsSubmissionUniqueId = submission.UniqueId,
                 IsPartOfProperty = true,
+                IsFurnished = true,
                 RentPerMonth = 100,
-                MoveInDate = clock.OffsetNow.UtcDateTime.AddDays(-10.0),
                 NumberOfBedrooms = 3
 
             };
@@ -1176,35 +1069,6 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var retrievedSubmissionAtPoint3 = await RetrieveSubmission(submission.UniqueId);
             Assert.IsNotNull(retrievedSubmissionAtPoint3, "Retrieved submission at point 3 is null.");
             Assert.IsNull(retrievedSubmissionAtPoint3.RentPerMonth, "Field RentPerMonth on retrieved submission at point 3 is not the expected.");
-
-            // SubmitMoveOutDetails
-            var moveOutDetailsForm = new MoveOutDetailsForm
-            {
-                TenancyDetailsSubmissionUniqueId = submission.UniqueId,
-                MoveOutDate = clock.OffsetNow.UtcDateTime.AddDays(3.0)
-
-            };
-            var submitMoveOutDetailsOutcome = await serviceUnderTest.SubmitMoveOutDetails(user.Id, moveOutDetailsForm);
-            Assert.IsTrue(submitMoveOutDetailsOutcome.IsRejected, "SubmitMoveOutDetails outcome field IsRejected is not the expected.");
-            Assert.AreEqual(CommonResources.GenericInvalidActionMessage, submitMoveOutDetailsOutcome.RejectionReason, 
-                "SubmitMoveOutDetails outcome field RejectionReason is not the expected.");
-            Assert.IsFalse(submitMoveOutDetailsOutcome.ReturnToForm, "SubmitMoveOutDetails outcome field ReturnToForm is not the expected.");
-
-            var retrievedSubmissionAtPoint4 = await RetrieveSubmission(submission.UniqueId);
-            Assert.IsNotNull(retrievedSubmissionAtPoint4, "Retrieved submission at point 4 is null.");
-            Assert.IsNull(retrievedSubmissionAtPoint4.MoveOutDate, "Field MoveOutDate on retrieved submission at point 4 is not the expected.");
-
-            var submitMoveOutDetailsOutcomeForOtherUser = await serviceUnderTest.SubmitMoveOutDetails(otherUser.Id, moveOutDetailsForm);
-            Assert.IsTrue(submitMoveOutDetailsOutcomeForOtherUser.IsRejected,
-                "SubmitMoveOutDetails outcome field IsRejected is not the expected when wrong user is used.");
-            Assert.AreEqual(CommonResources.GenericInvalidRequestMessage, submitMoveOutDetailsOutcomeForOtherUser.RejectionReason, 
-                "SubmitMoveOutDetails outcome field RejectionReason is not the expected when wrong user is used.");
-            Assert.IsFalse(submitMoveOutDetailsOutcomeForOtherUser.ReturnToForm,
-                "SubmitMoveOutDetails outcome field ReturnToForm is not the expected when wrong user is used.");
-
-            var retrievedSubmissionAtPoint5 = await RetrieveSubmission(submission.UniqueId);
-            Assert.IsNotNull(retrievedSubmissionAtPoint5, "Retrieved submission at point 5 is null.");
-            Assert.IsNull(retrievedSubmissionAtPoint5.MoveOutDate, "Field MoveOutDate on retrieved submission at point 5 is not the expected.");
 
             // I now try the valid actions
             // EnterVerificationCode
@@ -1255,7 +1119,6 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var sentVerifications = 1;
             var completeVerifications = 1;
             var areDetailsSubmitted = false;
-            var hasMovedOut = false;
 
             var helperContainer = CreateContainer();
 
@@ -1269,7 +1132,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             var submission = await CreateTenancyDetailsSubmissionAndSave(
                     random, helperContainer, user.Id, userIpAddress, otherUser.Id, otherUserIpAddress,
-                    justCreatedVerifications, sentVerifications, completeVerifications, areDetailsSubmitted, hasMovedOut);
+                    justCreatedVerifications, sentVerifications, completeVerifications, areDetailsSubmitted);
 
             var containerUnderTest = CreateContainer();
             var serviceUnderTest = containerUnderTest.Get<ITenancyDetailsSubmissionService>();
@@ -1277,44 +1140,13 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var retrievedSubmissionAtPoint1 = await RetrieveSubmission(submission.UniqueId);
             Assert.IsNotNull(retrievedSubmissionAtPoint1, "Retrieved submission at point 1 is null.");
             Assert.IsNull(retrievedSubmissionAtPoint1.RentPerMonth, "Field RentPerMonth on retrieved submission at point 1 is not the expected.");
-            Assert.IsNull(retrievedSubmissionAtPoint1.MoveOutDate, "Field MoveOutDate on retrieved submission at point 1 is not the expected.");
             Assert.IsTrue(retrievedSubmissionAtPoint1.TenantVerifications.Any(x => !x.VerifiedOn.HasValue),
                 "At point 1 some verifications should have null VerifiedOn field.");
             Assert.IsTrue(retrievedSubmissionAtPoint1.TenantVerifications.Any(x => x.VerifiedOn.HasValue),
                 "At point 1 some verifications should not have null VerifiedOn field.");
             Assert.IsTrue(retrievedSubmissionAtPoint1.TenantVerifications.All(x => x.MarkedAsSentOn.HasValue),
                 "At point 1 all verifications should have a value in MarkedAsSentOn field.");
-
-            // I try all invalid actions first
-            // SubmitMoveOutDetails
-            var moveOutDetailsForm = new MoveOutDetailsForm
-            {
-                TenancyDetailsSubmissionUniqueId = submission.UniqueId,
-                MoveOutDate = clock.OffsetNow.UtcDateTime.AddDays(3.0)
-
-            };
-            var submitMoveOutDetailsOutcome = await serviceUnderTest.SubmitMoveOutDetails(user.Id, moveOutDetailsForm);
-            Assert.IsTrue(submitMoveOutDetailsOutcome.IsRejected, "SubmitMoveOutDetails outcome field IsRejected is not the expected.");
-            Assert.AreEqual(CommonResources.GenericInvalidActionMessage, submitMoveOutDetailsOutcome.RejectionReason,
-                "SubmitMoveOutDetails outcome field RejectionReason is not the expected.");
-            Assert.IsFalse(submitMoveOutDetailsOutcome.ReturnToForm, "SubmitMoveOutDetails outcome field ReturnToForm is not the expected.");
-
-            var retrievedSubmissionAtPoint2 = await RetrieveSubmission(submission.UniqueId);
-            Assert.IsNotNull(retrievedSubmissionAtPoint2, "Retrieved submission at point 2 is null.");
-            Assert.IsNull(retrievedSubmissionAtPoint2.MoveOutDate, "Field MoveOutDate on retrieved submission at point 2 is not the expected.");
-
-            var submitMoveOutDetailsOutcomeForOtherUser = await serviceUnderTest.SubmitMoveOutDetails(otherUser.Id, moveOutDetailsForm);
-            Assert.IsTrue(submitMoveOutDetailsOutcomeForOtherUser.IsRejected,
-                "SubmitMoveOutDetails outcome field IsRejected is not the expected when wrong user is used.");
-            Assert.AreEqual(CommonResources.GenericInvalidRequestMessage, submitMoveOutDetailsOutcomeForOtherUser.RejectionReason,
-                "SubmitMoveOutDetails outcome field RejectionReason is not the expected when wrong user is used.");
-            Assert.IsFalse(submitMoveOutDetailsOutcomeForOtherUser.ReturnToForm,
-                "SubmitMoveOutDetails outcome field ReturnToForm is not the expected when wrong user is used.");
-
-            var retrievedSubmissionAtPoint3 = await RetrieveSubmission(submission.UniqueId);
-            Assert.IsNotNull(retrievedSubmissionAtPoint3, "Retrieved submission at point 3 is null.");
-            Assert.IsNull(retrievedSubmissionAtPoint3.MoveOutDate, "Field MoveOutDate on retrieved submission at point 3 is not the expected.");
-
+            
             // I now try the valid actions
             // EnterVerificationCode
             var verificationToUse = submission.TenantVerifications.Single(x => !x.VerifiedOn.HasValue);
@@ -1413,8 +1245,8 @@ namespace Epsilon.IntegrationTests.Logic.Services
             {
                 TenancyDetailsSubmissionUniqueId = submission.UniqueId,
                 IsPartOfProperty = true,
+                IsFurnished = true,
                 RentPerMonth = 100,
-                MoveInDate = clock.OffsetNow.UtcDateTime.AddDays(-10.0).Date,
                 NumberOfBedrooms = 3
 
             };
@@ -1443,13 +1275,13 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var timeAfterSubmitTenancyDetails = clock.OffsetNow;
 
             var retrievedSubmissionAtPoint9 = await RetrieveSubmission(submission.UniqueId);
-            Assert.IsNotNull(retrievedSubmissionAtPoint3, "Retrieved submission at point 9 is null.");
+            Assert.IsNotNull(retrievedSubmissionAtPoint9, "Retrieved submission at point 9 is null.");
             Assert.AreEqual(tenancyDetailsForm.IsPartOfProperty, retrievedSubmissionAtPoint9.IsPartOfProperty, 
                 "Field IsPartOfProperty on retrieved submission at point 9 is not the expected.");
             Assert.AreEqual(tenancyDetailsForm.RentPerMonth, retrievedSubmissionAtPoint9.RentPerMonth,
                 "Field Rent on retrieved submission at point 9 is not the expected.");
-            Assert.AreEqual(tenancyDetailsForm.MoveInDate, retrievedSubmissionAtPoint9.MoveInDate,
-                "Field MoveInDate on retrieved submission at point 9 is not the expected.");
+            Assert.AreEqual(tenancyDetailsForm.IsFurnished, retrievedSubmissionAtPoint9.IsFurnished,
+                "Field IsFurnished on retrieved submission at point 9 is not the expected.");
             Assert.AreEqual(tenancyDetailsForm.NumberOfBedrooms, retrievedSubmissionAtPoint9.NumberOfBedrooms,
                 "Field NumberOfBedrooms on retrieved submission at point 9 is not the expected.");
             Assert.IsTrue(retrievedSubmissionAtPoint9.SubmittedOn.HasValue,
@@ -1466,7 +1298,6 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var sentVerifications = 1;
             var completeVerifications = 1;
             var areDetailsSubmitted = true;
-            var hasMovedOut = false;
 
             var helperContainer = CreateContainer();
 
@@ -1480,7 +1311,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             var submission = await CreateTenancyDetailsSubmissionAndSave(
                     random, helperContainer, user.Id, userIpAddress, otherUser.Id, otherUserIpAddress,
-                    justCreatedVerifications, sentVerifications, completeVerifications, areDetailsSubmitted, hasMovedOut);
+                    justCreatedVerifications, sentVerifications, completeVerifications, areDetailsSubmitted);
 
             var containerUnderTest = CreateContainer();
             var serviceUnderTest = containerUnderTest.Get<ITenancyDetailsSubmissionService>();
@@ -1489,7 +1320,6 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.IsNotNull(retrievedSubmissionAtPoint1, "Retrieved submission at point 1 is null.");
             Assert.IsNotNull(retrievedSubmissionAtPoint1.SubmittedOn, "Field SubmittedOn on retrieved submission at point 1 is not the expected.");
             Assert.IsNotNull(retrievedSubmissionAtPoint1.RentPerMonth, "Field RentPerMonth on retrieved submission at point 1 is not the expected.");
-            Assert.IsNull(retrievedSubmissionAtPoint1.MoveOutDate, "Field MoveOutDate on retrieved submission at point 1 is not the expected.");
             Assert.IsTrue(retrievedSubmissionAtPoint1.TenantVerifications.Any(x => !x.VerifiedOn.HasValue),
                 "At point 1 some verifications should have null VerifiedOn field.");
             Assert.IsTrue(retrievedSubmissionAtPoint1.TenantVerifications.Any(x => x.VerifiedOn.HasValue),
@@ -1502,8 +1332,8 @@ namespace Epsilon.IntegrationTests.Logic.Services
             {
                 TenancyDetailsSubmissionUniqueId = submission.UniqueId,
                 IsPartOfProperty = !submission.IsPartOfProperty.Value,
+                IsFurnished = !submission.IsFurnished.Value,
                 RentPerMonth = submission.RentPerMonth.Value + 1,
-                MoveInDate = submission.MoveInDate.Value.AddDays(3.0),
                 NumberOfBedrooms = submission.NumberOfBedrooms.Value + 1
 
             };
@@ -1520,8 +1350,8 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 "Field IsPartOfProperty on retrieved submission at point 2 is not the expected.");
             Assert.AreEqual(submission.RentPerMonth, retrievedSubmissionAtPoint2.RentPerMonth, 
                 "Field Rent on retrieved submission at point 2 is not the expected.");
-            Assert.AreEqual(submission.MoveInDate, retrievedSubmissionAtPoint2.MoveInDate, 
-                "Field MoveInDate on retrieved submission at point 2 is not the expected.");
+            Assert.AreEqual(submission.IsFurnished, retrievedSubmissionAtPoint2.IsFurnished, 
+                "Field IsFurnished on retrieved submission at point 2 is not the expected.");
             Assert.AreEqual(submission.NumberOfBedrooms, retrievedSubmissionAtPoint2.NumberOfBedrooms, 
                 "Field NumberOfBedrooms on retrieved submission at point 2 is not the expected.");
             Assert.IsTrue(retrievedSubmissionAtPoint2.SubmittedOn.HasValue,
@@ -1620,246 +1450,6 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.IsTrue(timeBeforeEnterVerificationCode <= retrievedUsedVerificationAtPoint6.VerifiedOn.Value
                 && retrievedUsedVerificationAtPoint6.VerifiedOn.Value <= timeAfterEnterVerificationCode,
                 "Field VerifiedOn on used verification retrieved at point 6 is not in the expected range.");
-
-            // SubmitMoveOutDetails
-            var moveOutDetailsForm = new MoveOutDetailsForm
-            {
-                TenancyDetailsSubmissionUniqueId = submission.UniqueId,
-                MoveOutDate = clock.OffsetNow.UtcDateTime.AddDays(3.0).Date
-            };
-
-            // I try the wrong user
-            var submitMoveOutDetailsOutcomeForOtherUser = await serviceUnderTest.SubmitMoveOutDetails(otherUser.Id, moveOutDetailsForm);
-            Assert.IsTrue(submitMoveOutDetailsOutcomeForOtherUser.IsRejected,
-                "SubmitMoveOutDetails outcome field IsRejected is not the expected when wrong user is used.");
-            Assert.AreEqual(CommonResources.GenericInvalidRequestMessage, submitMoveOutDetailsOutcomeForOtherUser.RejectionReason,
-                "SubmitMoveOutDetails outcome field RejectionReason is not the expected when wrong user is used.");
-            Assert.IsFalse(submitMoveOutDetailsOutcomeForOtherUser.ReturnToForm,
-                "SubmitMoveOutDetails outcome field ReturnToForm is not the expected when wrong user is used.");
-
-            var retrievedSubmissionAtPoint7 = await RetrieveSubmission(submission.UniqueId);
-            Assert.IsNotNull(retrievedSubmissionAtPoint7, "Retrieved submission at point 7 is null.");
-            Assert.IsNull(retrievedSubmissionAtPoint7.MoveOutDate, "Field MoveOutDate on retrieved submission at point 7 is not the expected.");
-            Assert.IsNull(retrievedSubmissionAtPoint7.MoveOutDateSubmittedOn, "Field MoveOutDateSubmittedOn on retrieved submission at point 7 is not the expected.");
-
-            // I try the right user
-            var timeBeforeSubmitMoveOutDetails = clock.OffsetNow;
-            var submitMoveOutDetailsOutcome = await serviceUnderTest.SubmitMoveOutDetails(user.Id, moveOutDetailsForm);
-            Assert.IsFalse(submitMoveOutDetailsOutcome.IsRejected, "SubmitMoveOutDetails outcome field IsRejected is not the expected.");
-            Assert.IsNullOrEmpty(submitMoveOutDetailsOutcome.RejectionReason,
-                "SubmitMoveOutDetails outcome field RejectionReason is not the expected.");
-            Assert.IsFalse(submitMoveOutDetailsOutcome.ReturnToForm, "SubmitMoveOutDetails outcome field ReturnToForm is not the expected.");
-            var timeAfterSubmitMoveOutDetails = clock.OffsetNow;
-
-            var retrievedSubmissionAtPoint8 = await RetrieveSubmission(submission.UniqueId);
-            Assert.IsNotNull(retrievedSubmissionAtPoint8, "Retrieved submission at point 8 is null.");
-            Assert.IsNotNull(retrievedSubmissionAtPoint8.MoveOutDate, "Field MoveOutDate on retrieved submission at point 8 is null.");
-            Assert.AreEqual(moveOutDetailsForm.MoveOutDate, retrievedSubmissionAtPoint8.MoveOutDate, 
-                "Field MoveOutDate on retrieved submission at point 8 is not the expected.");
-            Assert.IsTrue(timeBeforeSubmitMoveOutDetails <= retrievedSubmissionAtPoint8.MoveOutDateSubmittedOn.Value
-                && retrievedSubmissionAtPoint8.MoveOutDateSubmittedOn.Value <= timeAfterSubmitMoveOutDetails,
-                "Field MoveOutDateSubmittedOn on retrieved submission at point 8 is not within the expected range.");
-        }
-
-        [Test]
-        public async Task ActionsTest_SubmissionWithSentAndCompleteVerificationsAndMoveOutDetailsSubmitted()
-        {
-            var justCreatedVerifications = 0;
-            var sentVerifications = 1;
-            var completeVerifications = 1;
-            var areDetailsSubmitted = true;
-            var hasMovedOut = true;
-
-            var helperContainer = CreateContainer();
-
-            var userIpAddress = "1.2.3.4";
-            var user = await CreateUser(helperContainer, "test@test.com", userIpAddress);
-            var otherUserIpAddress = "1.2.3.5";
-            var otherUser = await CreateUser(helperContainer, "test2@test.com", otherUserIpAddress);
-
-            var random = new RandomWrapper(2015);
-            var clock = helperContainer.Get<IClock>();
-
-            var submission = await CreateTenancyDetailsSubmissionAndSave(
-                    random, helperContainer, user.Id, userIpAddress, otherUser.Id, otherUserIpAddress,
-                    justCreatedVerifications, sentVerifications, completeVerifications, areDetailsSubmitted, hasMovedOut);
-
-            var containerUnderTest = CreateContainer();
-            var serviceUnderTest = containerUnderTest.Get<ITenancyDetailsSubmissionService>();
-
-            var retrievedSubmissionAtPoint1 = await RetrieveSubmission(submission.UniqueId);
-            Assert.IsNotNull(retrievedSubmissionAtPoint1, "Retrieved submission at point 1 is null.");
-            Assert.IsNotNull(retrievedSubmissionAtPoint1.SubmittedOn, "Field SubmittedOn on retrieved submission at point 1 is not the expected.");
-            Assert.IsNotNull(retrievedSubmissionAtPoint1.RentPerMonth, "Field RentPerMonth on retrieved submission at point 1 is not the expected.");
-            Assert.IsNotNull(retrievedSubmissionAtPoint1.MoveOutDate, "Field MoveOutDate on retrieved submission at point 1 is not the expected.");
-            Assert.IsTrue(retrievedSubmissionAtPoint1.TenantVerifications.Any(x => !x.VerifiedOn.HasValue),
-                "At point 1 some verifications should have null VerifiedOn field.");
-            Assert.IsTrue(retrievedSubmissionAtPoint1.TenantVerifications.Any(x => x.VerifiedOn.HasValue),
-                "At point 1 some verifications should not have null VerifiedOn field.");
-            Assert.IsTrue(retrievedSubmissionAtPoint1.TenantVerifications.All(x => x.MarkedAsSentOn.HasValue),
-                "At point 1 all verifications should have a value in MarkedAsSentOn field.");
-
-            // SubmitTenancyDetails
-            var tenancyDetailsForm = new TenancyDetailsForm
-            {
-                TenancyDetailsSubmissionUniqueId = submission.UniqueId,
-                IsPartOfProperty = !submission.IsPartOfProperty.Value,
-                RentPerMonth = submission.RentPerMonth.Value + 1,
-                MoveInDate = submission.MoveInDate.Value.AddDays(3.0),
-                NumberOfBedrooms = submission.NumberOfBedrooms.Value + 1
-
-            };
-
-            var submitTenancyDetailsOutcome = await serviceUnderTest.SubmitTenancyDetails(user.Id, tenancyDetailsForm);
-            Assert.IsTrue(submitTenancyDetailsOutcome.IsRejected, "SubmitTenancyDetails outcome field IsRejected is not the expected.");
-            Assert.AreEqual(CommonResources.GenericInvalidActionMessage, submitTenancyDetailsOutcome.RejectionReason,
-                "SubmitTenancyDetails outcome field RejectionReason is not the expected.");
-            Assert.IsFalse(submitTenancyDetailsOutcome.ReturnToForm, "SubmitTenancyDetails outcome field ReturnToForm is not the expected.");
-
-            var retrievedSubmissionAtPoint2 = await RetrieveSubmission(submission.UniqueId);
-            Assert.IsNotNull(retrievedSubmissionAtPoint2, "Retrieved submission at point 2 is null.");
-            Assert.AreEqual(submission.IsPartOfProperty, retrievedSubmissionAtPoint2.IsPartOfProperty,
-                "Field IsPartOfProperty on retrieved submission at point 2 is not the expected.");
-            Assert.AreEqual(submission.RentPerMonth, retrievedSubmissionAtPoint2.RentPerMonth,
-                "Field RentPerMonth on retrieved submission at point 2 is not the expected.");
-            Assert.AreEqual(submission.MoveInDate, retrievedSubmissionAtPoint2.MoveInDate,
-                "Field MoveInDate on retrieved submission at point 2 is not the expected.");
-            Assert.AreEqual(submission.NumberOfBedrooms, retrievedSubmissionAtPoint2.NumberOfBedrooms,
-                "Field NumberOfBedrooms on retrieved submission at point 2 is not the expected.");
-            Assert.IsTrue(retrievedSubmissionAtPoint2.SubmittedOn.HasValue,
-                "Field SubmittedOn on retrieved submission at point 2 should have a value.");
-            Assert.AreEqual(submission.SubmittedOn, retrievedSubmissionAtPoint2.SubmittedOn,
-                "Field SubmittedOn on retrieved submission at point 9 should not be updated.");
-
-            // EnterVerificationCode
-            var verificationToUse = submission.TenantVerifications.Single(x => !x.VerifiedOn.HasValue);
-            var completeVerification = submission.TenantVerifications.Single(x => x.VerifiedOn.HasValue);
-
-            // I try an invalid code
-            var verificationCodeFormInvalidCode = new VerificationCodeForm
-            {
-                TenancyDetailsSubmissionUniqueId = submission.UniqueId,
-                VerificationCode = "invalid-code"
-            };
-
-            var enterVerificationCodeOutcomeInvalidCode = await serviceUnderTest.EnterVerificationCode(user.Id, verificationCodeFormInvalidCode);
-            Assert.IsTrue(enterVerificationCodeOutcomeInvalidCode.IsRejected,
-                "EnterVerificationCode outcome field IsRejected is not the expected when invalid code is used.");
-            Assert.AreEqual(TenancyDetailsSubmissionResources.EnterVerification_InvalidVerificationCode_RejectionMessage, enterVerificationCodeOutcomeInvalidCode.RejectionReason,
-                "EnterVerificationCode outcome field RejectionReason is not the expected when invalid code is used.");
-            Assert.IsTrue(enterVerificationCodeOutcomeInvalidCode.ReturnToForm,
-                "EnterVerificationCode outcome field ReturnToForm is not the expected when invalid code is used.");
-
-            var retrievedSubmissionAtPoint3 = await RetrieveSubmission(submission.UniqueId);
-            var retrievedVerificationToUseAtPoint3 =
-                retrievedSubmissionAtPoint3.TenantVerifications.Single(x => x.UniqueId.Equals(verificationToUse.UniqueId));
-            Assert.IsNull(retrievedVerificationToUseAtPoint3.VerifiedOn,
-                "Field VerifiedOn on retrieved used verification at point 3 is not the expected.");
-
-            // I try the secret code of the complete verification
-
-            var verificationCodeFormPreviouslyEnteredCode = new VerificationCodeForm
-            {
-                TenancyDetailsSubmissionUniqueId = submission.UniqueId,
-                VerificationCode = completeVerification.SecretCode
-            };
-
-            var enterVerificationCodeOutcomePreviouslyEnteredCode =
-                await serviceUnderTest.EnterVerificationCode(user.Id, verificationCodeFormPreviouslyEnteredCode);
-            Assert.IsTrue(enterVerificationCodeOutcomePreviouslyEnteredCode.IsRejected,
-                "EnterVerificationCode outcome field IsRejected is not the expected when previously entered code is used.");
-            Assert.AreEqual(TenancyDetailsSubmissionResources.EnterVerification_VerificationAlreadyUsed_RejectionMessage, enterVerificationCodeOutcomePreviouslyEnteredCode.RejectionReason,
-                "EnterVerificationCode outcome field RejectionReason is not the expected when previously entered code is used.");
-            Assert.IsFalse(enterVerificationCodeOutcomePreviouslyEnteredCode.ReturnToForm,
-                "EnterVerificationCode outcome field ReturnToForm is not the expected when previously code is used.");
-
-            var retrievedSubmissionAtPoint4 = await RetrieveSubmission(submission.UniqueId);
-            var retrievedVerificationToUseAtPoint4 =
-                retrievedSubmissionAtPoint4.TenantVerifications.Single(x => x.UniqueId.Equals(verificationToUse.UniqueId));
-            Assert.IsNull(retrievedVerificationToUseAtPoint4.VerifiedOn,
-                "Field VerifiedOn on retrieved verification to use at point4 is not the expected.");
-            var retrievedCompleteVerificationAtPoint4 =
-                retrievedSubmissionAtPoint4.TenantVerifications.Single(x => x.UniqueId.Equals(completeVerification.UniqueId));
-            Assert.AreEqual(completeVerification.VerifiedOn.Value, retrievedCompleteVerificationAtPoint4.VerifiedOn.Value,
-                "The VerifiedOn field should not be updated when a previously entered code is used.");
-
-            // This is the right form.
-            var verificationCodeForm = new VerificationCodeForm
-            {
-                TenancyDetailsSubmissionUniqueId = submission.UniqueId,
-                VerificationCode = verificationToUse.SecretCode
-            };
-
-            // I try the right code but with the other user
-            var enterVerificationCodeOutcomeForOtherUser = await serviceUnderTest.EnterVerificationCode(otherUser.Id, verificationCodeForm);
-            Assert.IsTrue(enterVerificationCodeOutcomeForOtherUser.IsRejected,
-                "EnterVerificationCode outcome field IsRejected is not the expected when wrong user is used.");
-            Assert.AreEqual(CommonResources.GenericInvalidRequestMessage, enterVerificationCodeOutcomeForOtherUser.RejectionReason,
-                "EnterVerificationCode outcome field RejectionReason is not the expected when wrong user is used.");
-            Assert.IsFalse(enterVerificationCodeOutcomeForOtherUser.ReturnToForm,
-                "EnterVerificationCode outcome field ReturnToForm is not the expected when wrong user is used.");
-
-            var retrievedSubmissionAtPoint5 = await RetrieveSubmission(submission.UniqueId);
-            Assert.IsNotNull(retrievedSubmissionAtPoint5, "Retrieved submission at point 5 is null.");
-            var retrievedUsedVerificationAtPoint5 =
-                retrievedSubmissionAtPoint5.TenantVerifications.Single(x => x.UniqueId == verificationToUse.UniqueId);
-            Assert.IsNull(retrievedUsedVerificationAtPoint5.VerifiedOn,
-                "Field VerifiedOn on retrieved used verification at point 5 is not the expected.");
-
-            var timeBeforeEnterVerificationCode = clock.OffsetNow;
-            var enterVerificationCodeOutcome = await serviceUnderTest.EnterVerificationCode(user.Id, verificationCodeForm);
-            Assert.IsFalse(enterVerificationCodeOutcome.IsRejected, "EnterVerificationCode outcome field IsRejected is not the expected.");
-            Assert.IsNullOrEmpty(enterVerificationCodeOutcome.RejectionReason);
-            Assert.IsFalse(enterVerificationCodeOutcome.ReturnToForm, "EnterVerificationCode outcome field ReturnToForm is not the expected.");
-            var timeAfterEnterVerificationCode = clock.OffsetNow;
-
-            var retrievedSubmissionAtPoint6 = await RetrieveSubmission(submission.UniqueId);
-            Assert.IsNotNull(retrievedSubmissionAtPoint6, "Retrieved submission at point 6 is null.");
-            var retrievedUsedVerificationAtPoint6 =
-                retrievedSubmissionAtPoint6.TenantVerifications.Single(x => x.UniqueId == verificationToUse.UniqueId);
-            Assert.IsTrue(retrievedUsedVerificationAtPoint6.VerifiedOn.HasValue,
-                "Field VerifiedOn on used verification retrieved at point 6 does not have a value.");
-            Assert.IsTrue(timeBeforeEnterVerificationCode <= retrievedUsedVerificationAtPoint6.VerifiedOn.Value
-                && retrievedUsedVerificationAtPoint6.VerifiedOn.Value <= timeAfterEnterVerificationCode,
-                "Field VerifiedOn on used verification retrieved at point 6 is not in the expected range.");
-
-            // SubmitMoveOutDetails
-            var moveOutDetailsForm = new MoveOutDetailsForm
-            {
-                TenancyDetailsSubmissionUniqueId = submission.UniqueId,
-                MoveOutDate = submission.MoveOutDate.Value.AddDays(10)
-            };
-
-            // I try the wrong user
-            var submitMoveOutDetailsOutcomeForOtherUser = await serviceUnderTest.SubmitMoveOutDetails(otherUser.Id, moveOutDetailsForm);
-            Assert.IsTrue(submitMoveOutDetailsOutcomeForOtherUser.IsRejected,
-                "SubmitMoveOutDetails outcome field IsRejected is not the expected when wrong user is used.");
-            Assert.AreEqual(CommonResources.GenericInvalidRequestMessage, submitMoveOutDetailsOutcomeForOtherUser.RejectionReason,
-                "SubmitMoveOutDetails outcome field RejectionReason is not the expected when wrong user is used.");
-            Assert.IsFalse(submitMoveOutDetailsOutcomeForOtherUser.ReturnToForm,
-                "SubmitMoveOutDetails outcome field ReturnToForm is not the expected when wrong user is used.");
-
-            var retrievedSubmissionAtPoint7 = await RetrieveSubmission(submission.UniqueId);
-            Assert.IsNotNull(retrievedSubmissionAtPoint7, "Retrieved submission at point 7 is null.");
-            Assert.IsNotNull(retrievedSubmissionAtPoint7.MoveOutDate, 
-                "Field MoveOutDate on retrieved submission at point 7 is null.");
-            Assert.AreEqual(submission.MoveOutDate, retrievedSubmissionAtPoint7.MoveOutDate,
-                "Field MoveOutDate on retrieved submission at point 7 is not the expected.");
-
-            // I try the right user
-            var submitMoveOutDetailsOutcome = await serviceUnderTest.SubmitMoveOutDetails(user.Id, moveOutDetailsForm);
-            Assert.IsTrue(submitMoveOutDetailsOutcome.IsRejected, "SubmitMoveOutDetails outcome field IsRejected is not the expected.");
-            Assert.AreEqual(CommonResources.GenericInvalidActionMessage, submitMoveOutDetailsOutcome.RejectionReason,
-                "SubmitMoveOutDetails outcome field RejectionReason is not the expected.");
-            Assert.IsFalse(submitMoveOutDetailsOutcome.ReturnToForm, "SubmitMoveOutDetails outcome field ReturnToForm is not the expected.");
-
-            var retrievedSubmissionAtPoint8 = await RetrieveSubmission(submission.UniqueId);
-            Assert.IsNotNull(retrievedSubmissionAtPoint8, "Retrieved submission at point 8 is null.");
-            Assert.IsNotNull(retrievedSubmissionAtPoint8.MoveOutDate, "Field MoveOutDate on retrieved submission at point 8 is null.");
-            Assert.AreEqual(submission.MoveOutDate, retrievedSubmissionAtPoint8.MoveOutDate.Value,
-                "Field MoveOutDate on retrieved submission at point 8 is not the expected.");
-            Assert.AreEqual(submission.MoveOutDateSubmittedOn, retrievedSubmissionAtPoint8.MoveOutDateSubmittedOn,
-                "Field MoveOutDateSubmittedOn on retrieved submission at point 8 is not the expected.");
         }
 
         #endregion
@@ -1912,7 +1502,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             string userId, string userIpAddress,
             string userIdForVerfications, string userForVerificationsIpAddress,
             int justCreatedVerifications = 0, int sentVerifications = 0, int completeVerifications = 0, 
-            bool areDetailsSubmitted = false, bool hasMovedOut = false, string secretCode = null)
+            bool areDetailsSubmitted = false, string secretCode = null)
         {
             if (secretCode != null && justCreatedVerifications + sentVerifications + completeVerifications != 1)
                 throw new ArgumentException("If you choose your own secret secretCode then there should be only a single verification of any kind created.");
@@ -1935,13 +1525,8 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 tenancyDetailsSubmission.SubmittedOn = clock.OffsetNow;
                 tenancyDetailsSubmission.RentPerMonth = random.Next(100, 1000);
                 tenancyDetailsSubmission.IsPartOfProperty = random.NextDouble() >= 0.5;
-                tenancyDetailsSubmission.MoveInDate = clock.OffsetNow.AddDays(-100.0 * random.NextDouble()).Date;
+                tenancyDetailsSubmission.IsFurnished = random.NextDouble() >= 0.5;
                 tenancyDetailsSubmission.NumberOfBedrooms = random.Next(0, 5);
-            }
-
-            if (hasMovedOut)
-            {
-                tenancyDetailsSubmission.MoveOutDate = clock.OffsetNow.UtcDateTime.Date;
             }
 
             var verifications = new List<TenantVerification>();

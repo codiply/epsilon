@@ -114,10 +114,8 @@ declare module T4TS {
         stepVerificationCodeSentOutDone: boolean;
         stepVerificationCodeEnteredDone: boolean;
         stepTenancyDetailsSubmittedDone: boolean;
-        stepMoveOutDetailsSubmittedDone: boolean;
         canEnterVerificationCode: boolean;
         canSubmitTenancyDetails: boolean;
-        canSubmitMoveOutDetails: boolean;
     }
     /** Generated from Epsilon.Logic.JsonModels.TenantVerificationInfo **/
     export interface TenantVerificationInfo {

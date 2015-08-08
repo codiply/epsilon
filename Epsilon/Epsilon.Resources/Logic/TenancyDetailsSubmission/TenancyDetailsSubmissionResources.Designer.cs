@@ -125,15 +125,6 @@ namespace Epsilon.Resources.Logic.TenancyDetailsSubmission {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Move out details have been submitted succesfully..
-        /// </summary>
-        public static string SubmitMoveOutDetails_SuccessMessage {
-            get {
-                return ResourceManager.GetString("SubmitMoveOutDetails_SuccessMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Thanks you! The details have been submitted successfully..
         /// </summary>
         public static string SubmitTenancyDetails_SuccessMessage {

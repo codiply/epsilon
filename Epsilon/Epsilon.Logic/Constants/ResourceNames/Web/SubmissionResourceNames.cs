@@ -10,18 +10,15 @@ namespace Epsilon.Logic.Constants.ResourceNames.Web
     {
         // TODO_PANOS_TEST: possibly using reflection, enumerate the names here and make sure there is a resource for all of them.
 
-        public const string MoveOutDetailsForm_FieldMoveOutDate_DisplayName = "MoveOutDetailsForm_FieldMoveOutDate_DisplayName";
-        public const string MoveOutDetailsForm_FieldMoveOutDate_RequiredErrorMessage = "MoveOutDetailsForm_FieldMoveOutDate_RequiredErrorMessage";
-
         public const string SubmitTenancyDetailsForm_FieldNumberOfBedrooms_DisplayName = "SubmitTenancyDetailsForm_FieldNumberOfBedrooms_DisplayName";
         public const string SubmitTenancyDetailsForm_FieldNumberOfBedrooms_RangeErrorMessage = "SubmitTenancyDetailsForm_FieldNumberOfBedrooms_RangeErrorMessage";
         public const string SubmitTenancyDetailsForm_FieldNumberOfBedrooms_RequiredErrorMessage = "SubmitTenancyDetailsForm_FieldNumberOfBedrooms_RequiredErrorMessage";
 
+        public const string SubmitTenancyDetailsForm_FieldIsFurnished_DisplayName = "SubmitTenancyDetailsForm_FieldIsFurnished_DisplayName";
+        public const string SubmitTenancyDetailsForm_FieldIsFurnished_RequiredErrorMessage = "SubmitTenancyDetailsForm_FieldIsFurnished_RequiredErrorMessage";
+
         public const string SubmitTenancyDetailsForm_FieldIsPartOfProperty_DisplayName = "SubmitTenancyDetailsForm_FieldIsPartOfProperty_DisplayName";
         public const string SubmitTenancyDetailsForm_FieldIsPartOfProperty_RequiredErrorMessage = "SubmitTenancyDetailsForm_FieldIsPartOfProperty_RequiredErrorMessage";
-
-        public const string SubmitTenancyDetailsForm_FieldMoveInDate_DisplayName = "SubmitTenancyDetailsForm_FieldMoveInDate_DisplayName";
-        public const string SubmitTenancyDetailsForm_FieldMoveInDate_RequiredErrorMessage = "SubmitTenancyDetailsForm_FieldMoveInDate_RequiredErrorMessage";
 
         public const string SubmitTenancyDetailsForm_FieldRentPerMonth_DisplayName = "SubmitTenancyDetailsForm_FieldRentPerMonth_DisplayName";
         public const string SubmitTenancyDetailsForm_FieldRentPerMonth_RangeErrorMessage = "SubmitTenancyDetailsForm_FieldRentPerMonth_RangeErrorMessage";

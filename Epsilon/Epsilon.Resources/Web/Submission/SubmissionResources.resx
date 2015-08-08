@@ -147,9 +147,6 @@
   <data name="MySubmissionsSummary_ProgressColumnHeader" xml:space="preserve">
     <value>Progress</value>
   </data>
-  <data name="MySubmissionsSummary_StepMoveOutDetailsSubmittedDone_IconHoverText" xml:space="preserve">
-    <value>You have moved out from this address.</value>
-  </data>
   <data name="MySubmissionsSummary_StepTenancyDetailsSubmittedDone_IconHoverText" xml:space="preserve">
     <value>You have submitted the details for this address.</value>
   </data>
@@ -213,12 +210,6 @@
   <data name="MySubmissionsSummary_ActionEnterVerificationCode_ButtonText" xml:space="preserve">
     <value>Enter Code</value>
   </data>
-  <data name="MySubmissionsSummary_ActionSubmitMoveOutDetails_ButtonHoverText" xml:space="preserve">
-    <value>Submit the move-out date for this tenancy.</value>
-  </data>
-  <data name="MySubmissionsSummary_ActionSubmitMoveOutDetails_ButtonText" xml:space="preserve">
-    <value>Moved Out</value>
-  </data>
   <data name="MySubmissionsSummary_ActionSubmitTenancyDetails_ButtonHoverText" xml:space="preserve">
     <value>Submit rent and other details for this tenancy.</value>
   </data>
@@ -232,18 +223,6 @@
     <value>Enter Verification Code</value>
   </data>
   <data name="EnterVerificationCode_SubmitButtonText" xml:space="preserve">
-    <value>Submit</value>
-  </data>
-  <data name="SubmitMoveOutDetails_ConfirmationText" xml:space="preserve">
-    <value>The information above is correct.</value>
-  </data>
-  <data name="SubmitMoveOutDetails_PageHeader" xml:space="preserve">
-    <value>Submit Move-Out Details</value>
-  </data>
-  <data name="SubmitMoveOutDetails_PageTitle" xml:space="preserve">
-    <value>Submit Move-Out Details</value>
-  </data>
-  <data name="SubmitMoveOutDetails_SubmitButtonText" xml:space="preserve">
     <value>Submit</value>
   </data>
   <data name="SubmitTenancyDetails_ConfirmationText" xml:space="preserve">
@@ -264,17 +243,11 @@
   <data name="SubmitTenancyDetailsForm_FieldIsPartOfProperty_RequiredErrorMessage" xml:space="preserve">
     <value>The Renting Part of the Property field is Required.</value>
   </data>
-  <data name="SubmitTenancyDetailsForm_FieldMoveInDate_DisplayName" xml:space="preserve">
-    <value>Move-In Date</value>
-  </data>
-  <data name="SubmitTenancyDetailsForm_FieldMoveInDate_RequiredErrorMessage" xml:space="preserve">
-    <value>The Move-In Date field is required.</value>
-  </data>
   <data name="SubmitTenancyDetailsForm_FieldNumberOfBedrooms_DisplayName" xml:space="preserve">
     <value>Total Number of Bedrooms</value>
   </data>
   <data name="SubmitTenancyDetailsForm_FieldNumberOfBedrooms_RangeErrorMessage" xml:space="preserve">
-    <value>The Total Number of Bedrooms fields must be between 0 and 20.</value>
+    <value>The Total Number of Bedrooms field must be between 0 and 20.</value>
     <comment>Update if AppConstant.MAX_NUMBERS_OF_BEDROOMS changes.</comment>
   </data>
   <data name="SubmitTenancyDetailsForm_FieldNumberOfBedrooms_RequiredErrorMessage" xml:space="preserve">
@@ -295,13 +268,13 @@
   <data name="VerificationCodeForm_FieldVerificationCode_RequiredErrorMessage" xml:space="preserve">
     <value>The Verification Code field is required.</value>
   </data>
-  <data name="MoveOutDetailsForm_FieldMoveOutDate_DisplayName" xml:space="preserve">
-    <value>Move-Out Date</value>
-  </data>
-  <data name="MoveOutDetailsForm_FieldMoveOutDate_RequiredErrorMessage" xml:space="preserve">
-    <value>The Move-Out Date field is required.</value>
-  </data>
   <data name="Common_DisplayAddressLabel" xml:space="preserve">
     <value>Address</value>
+  </data>
+  <data name="SubmitTenancyDetailsForm_FieldIsFurnished_DisplayName" xml:space="preserve">
+    <value>Furnished Property?</value>
+  </data>
+  <data name="SubmitTenancyDetailsForm_FieldIsFurnished_RequiredErrorMessage" xml:space="preserve">
+    <value>The Furnished Property field is required.</value>
   </data>
 </root>

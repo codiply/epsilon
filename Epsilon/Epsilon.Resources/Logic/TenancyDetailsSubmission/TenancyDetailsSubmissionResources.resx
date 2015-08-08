@@ -138,9 +138,6 @@
   <data name="GlobalSwitch_CreateTenancyDetailsSubmissionDisabled_Message" xml:space="preserve">
     <value>Creating a new submission is temporarily disabled. Please try again later.</value>
   </data>
-  <data name="SubmitMoveOutDetails_SuccessMessage" xml:space="preserve">
-    <value>Move out details have been submitted succesfully.</value>
-  </data>
   <data name="SubmitTenancyDetails_SuccessMessage" xml:space="preserve">
     <value>Thanks you! The details have been submitted successfully.</value>
   </data>

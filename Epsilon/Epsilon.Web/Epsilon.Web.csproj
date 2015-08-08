@@ -1287,7 +1287,6 @@
     <Content Include="Views\Admin\TestEmail.cshtml" />
     <Content Include="Views\Admin\TestGoogleGeocodeApi.cshtml" />
     <Content Include="Views\NgDirectiveTemplate\MySubmissionsSummary.cshtml" />
-    <Content Include="Views\Submission\SubmitMoveOutDetails.cshtml" />
     <Content Include="Views\Submission\SubmitTenancyDetails.cshtml" />
     <Content Include="Views\Submission\EnterVerificationCode.cshtml" />
     <Content Include="Views\Submission\MySubmissionsSummary.cshtml" />
