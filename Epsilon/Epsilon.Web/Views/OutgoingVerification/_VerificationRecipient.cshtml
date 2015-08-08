@@ -8,7 +8,7 @@
     string theTenantLine = string.Empty;
 
     // EnumSwitch:CountryId 
-    switch (Model.CountryId)
+    switch (Model.CountryIdAsEnum)
     {
         case CountryId.GB:
             theTenantLine = "The tenant";
@@ -20,7 +20,7 @@
             throw new NotImplementedException(string.Format("Unexpected CountryId: '{0}'", Model.CountryId));
     }
 
-    var metadata = DependencyResolver.Current.GetService<ICountryAddressFieldMetadata>().GetForCountry(Model.CountryId);
+    var metadata = DependencyResolver.Current.GetService<ICountryAddressFieldMetadata>().GetForCountry(Model.CountryIdAsEnum);
 
     var pieces = new List<Tuple<FieldMetadata, string>> {
         Tuple.Create(metadata.Line1, Model.Line1),

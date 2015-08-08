@@ -159,6 +159,24 @@
   <data name="Address_Region_MaxLengthValidationMessage" xml:space="preserve">
     <value>The County field must be a string with a maximum length of {0}.</value>
   </data>
+  <data name="OutgoingVerificationInstructions_AddressChecker_DisplayName" xml:space="preserve">
+    <value>PostOffice: Find a postcode or address</value>
+  </data>
+  <data name="OutgoingVerificationInstructions_AddressChecker_Url" xml:space="preserve">
+    <value>http://www.postoffice.co.uk/postcode-finder</value>
+  </data>
+  <data name="OutgoingVerificationInstructions_SendPaperMailOnlineProvider_1_DisplayName" xml:space="preserve">
+    <value>PC2Paper</value>
+  </data>
+  <data name="OutgoingVerificationInstructions_SendPaperMailOnlineProvider_1_Url" xml:space="preserve">
+    <value>http://www.pc2paper.co.uk</value>
+  </data>
+  <data name="OutgoingVerificationInstructions_SendPaperMailOnlineProvider_2_DisplayName" xml:space="preserve">
+    <value>L-Mail</value>
+  </data>
+  <data name="OutgoingVerificationInstructions_SendPaperMailOnlineProvider_2_Url" xml:space="preserve">
+    <value>http://www.l-mail.com</value>
+  </data>
   <data name="SearchAddress_PostcodePlaceholder" xml:space="preserve">
     <value>exact postcode</value>
   </data>

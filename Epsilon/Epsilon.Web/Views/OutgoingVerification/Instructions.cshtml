@@ -2,9 +2,23 @@
 @using Epsilon.Resources.Web.OutgoingVerification
 @using Epsilon.Resources.Common
 @using Epsilon.Resources.Web.OutgoingVerification
+@using Epsilon.Logic.Helpers.Interfaces
+@using Epsilon.Logic.Constants.Enums
+@using Epsilon.Logic.Helpers
 
 @{
     ViewBag.Title = OutgoingVerificationResources.Instructions_PageTitle;
+
+    var countryVariantResourceHelper = DependencyResolver.Current.GetService<ICountryVariantResourceHelper>();
+    var countryVariantResources = countryVariantResourceHelper.GetVariantsForCountry(Model.Instructions.RecipientAddress.CountryId,
+        new List<CountryVariantResourceName> {
+            CountryVariantResourceName.OutgoingVerificationInstructions_AddressChecker_DisplayName,
+            CountryVariantResourceName.OutgoingVerificationInstructions_AddressChecker_Url,
+            CountryVariantResourceName.OutgoingVerificationInstructions_SendPaperMailOnlineProvider_1_DisplayName,
+            CountryVariantResourceName.OutgoingVerificationInstructions_SendPaperMailOnlineProvider_1_Url,
+            CountryVariantResourceName.OutgoingVerificationInstructions_SendPaperMailOnlineProvider_2_DisplayName,
+            CountryVariantResourceName.OutgoingVerificationInstructions_SendPaperMailOnlineProvider_2_Url
+        });
 }
 
 <h3>@OutgoingVerificationResources.Instructions_PageHeader</h3>
@@ -16,10 +30,23 @@
     </div>
 
     <div>
-        <h3>@(CommonResources.Step1):@(OutgoingVerificationResources.Instructions_StepVerifyValidAddress_Header)</h3>
+        <h4>@(CommonResources.Step1): @(OutgoingVerificationResources.Instructions_StepVerifyValidAddress_Header)</h4>
     </div>
 
-    @if (Model.Instructions.OtherUserHasMarkedAddressAsInvalid)
+    @{
+        // TODO_PANOS_TEST: Unit test that checks that everry country and and language has both of them defined (non-empty string).
+        var addressCheckerUrl = countryVariantResources[EnumsHelper.CountryVariantResourceName
+            .ToString(CountryVariantResourceName.OutgoingVerificationInstructions_AddressChecker_Url)];
+        var addressCheckerDisplayName = countryVariantResources[EnumsHelper.CountryVariantResourceName
+            .ToString(CountryVariantResourceName.OutgoingVerificationInstructions_AddressChecker_DisplayName)];
+    }
+
+    <div>
+        <a href="@addressCheckerUrl">@addressCheckerDisplayName</a>
+    </div>
+
+    @* TODO_PANOS: invert logic*@
+    @if (!Model.Instructions.OtherUserHasMarkedAddressAsInvalid)
     {
     <div class="form-group">
         <div class="alert alert-danger">
@@ -49,7 +76,36 @@
     }
 
     <div>
-        <h3>@(CommonResources.Step2):@(OutgoingVerificationResources.Instructions_StepSendVerification_Header)</h3>
+        <h4>@(CommonResources.Step2):@(OutgoingVerificationResources.Instructions_StepSendVerification_Header)</h4>
+    </div>
+
+    @{
+        // TODO_PANOS_TEST: Unit test that checks that everry country and and language has at least one provider defined (non-empty strings).
+        var paperMailOnlinleProvider1Url = countryVariantResources[EnumsHelper.CountryVariantResourceName
+            .ToString(CountryVariantResourceName.OutgoingVerificationInstructions_SendPaperMailOnlineProvider_1_Url)];
+        var paperMailOnlinleProvider1DisplayName = countryVariantResources[EnumsHelper.CountryVariantResourceName
+            .ToString(CountryVariantResourceName.OutgoingVerificationInstructions_SendPaperMailOnlineProvider_1_DisplayName)];
+        var paperMailOnlinleProvider2Url = countryVariantResources[EnumsHelper.CountryVariantResourceName
+            .ToString(CountryVariantResourceName.OutgoingVerificationInstructions_SendPaperMailOnlineProvider_2_Url)];
+        var paperMailOnlinleProvider2DisplayName = countryVariantResources[EnumsHelper.CountryVariantResourceName
+            .ToString(CountryVariantResourceName.OutgoingVerificationInstructions_SendPaperMailOnlineProvider_2_DisplayName)];
+    }
+
+    <div>
+        <ul>
+            @if (!string.IsNullOrWhiteSpace(paperMailOnlinleProvider1Url) && !string.IsNullOrWhiteSpace(paperMailOnlinleProvider1DisplayName))
+            {
+                <li>
+                    <a href="@paperMailOnlinleProvider1Url">@paperMailOnlinleProvider1DisplayName</a>
+                </li>
+            }
+            @if (!string.IsNullOrWhiteSpace(paperMailOnlinleProvider2Url) && !string.IsNullOrWhiteSpace(paperMailOnlinleProvider2DisplayName))
+            {
+                <li>
+                    <a href="@paperMailOnlinleProvider2Url">@paperMailOnlinleProvider2DisplayName</a>
+                </li>
+            }
+        </ul>
     </div>
 
     <div class="form-group">

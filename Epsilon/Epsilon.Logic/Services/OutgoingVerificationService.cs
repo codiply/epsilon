@@ -230,7 +230,7 @@ namespace Epsilon.Logic.Services
 
             var messageArguments = new VerificationMessageArgumentsModel
             {
-                CountryId = reciepientAddress.CountryId,
+                CountryId = reciepientAddress.CountryIdAsEnum,
                 SecretCode = verification.SecretCode
             };
 
@@ -277,7 +277,7 @@ namespace Epsilon.Logic.Services
 
             var messageArguments = new VerificationMessageArgumentsModel
             {
-                CountryId = reciepientAddress.CountryId,
+                CountryId = reciepientAddress.CountryIdAsEnum,
                 SecretCode = verification.SecretCode
             };
 

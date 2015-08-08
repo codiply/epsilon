@@ -187,6 +187,51 @@ namespace Epsilon.Resources.CountryVariants {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string OutgoingVerificationInstructions_AddressChecker_DisplayName {
+            get {
+                return ResourceManager.GetString("OutgoingVerificationInstructions_AddressChecker_DisplayName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string OutgoingVerificationInstructions_AddressChecker_Url {
+            get {
+                return ResourceManager.GetString("OutgoingVerificationInstructions_AddressChecker_Url", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string OutgoingVerificationInstructions_SendPaperMailOnlineProvider_1_DisplayName {
+            get {
+                return ResourceManager.GetString("OutgoingVerificationInstructions_SendPaperMailOnlineProvider_1_DisplayName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string OutgoingVerificationInstructions_SendPaperMailOnlineProvider_2_DisplayName {
+            get {
+                return ResourceManager.GetString("OutgoingVerificationInstructions_SendPaperMailOnlineProvider_2_DisplayName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string OutgoingVerificationInstructions_SendPaperMailOnlineProvider_2_Url {
+            get {
+                return ResourceManager.GetString("OutgoingVerificationInstructions_SendPaperMailOnlineProvider_2_Url", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to exact postal code.
         /// </summary>
         public static string SearchAddress_PostcodePlaceholder {

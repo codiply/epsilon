@@ -159,6 +159,24 @@
   <data name="Address_Region_MaxLengthValidationMessage" xml:space="preserve">
     <value>Το πεδίο Νομός πρέπει να περιέχει μέχρι {0} χαρακτήρες.</value>
   </data>
+  <data name="OutgoingVerificationInstructions_AddressChecker_DisplayName" xml:space="preserve">
+    <value />
+  </data>
+  <data name="OutgoingVerificationInstructions_AddressChecker_Url" xml:space="preserve">
+    <value />
+  </data>
+  <data name="OutgoingVerificationInstructions_SendPaperMailOnlineProvider_1_DisplayName" xml:space="preserve">
+    <value />
+  </data>
+  <data name="OutgoingVerificationInstructions_SendPaperMailOnlineProvider_1_Url" xml:space="preserve">
+    <value />
+  </data>
+  <data name="OutgoingVerificationInstructions_SendPaperMailOnlineProvider_2_DisplayName" xml:space="preserve">
+    <value />
+  </data>
+  <data name="OutgoingVerificationInstructions_SendPaperMailOnlineProvider_2_Url" xml:space="preserve">
+    <value />
+  </data>
   <data name="SearchAddress_PostcodePlaceholder" xml:space="preserve">
     <value>ακριβής ταχυδρομικός κώδικας</value>
   </data>

@@ -21,7 +21,8 @@ namespace Epsilon.Logic.Models
         public virtual string Locality { get; set; }
         public virtual string Region { get; set; }
         public virtual string Postcode { get; set; }
-        public virtual CountryId CountryId { get; set; }
+        public virtual string CountryId { get; set; }
+        public virtual CountryId CountryIdAsEnum { get; set; }
         public virtual string CountryEnglishName { get; set; }
         public virtual string CountryLocalName { get; set; }
 
@@ -42,7 +43,8 @@ namespace Epsilon.Logic.Models
                 Locality = address.Locality,
                 Region = address.Region,
                 Postcode = address.Postcode,
-                CountryId = address.CountryIdAsEnum(),
+                CountryId = address.CountryId,
+                CountryIdAsEnum = address.CountryIdAsEnum(),
                 CountryEnglishName = address.Country.EnglishName,
                 CountryLocalName = address.Country.LocalName
             };

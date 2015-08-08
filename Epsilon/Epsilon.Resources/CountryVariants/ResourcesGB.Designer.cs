@@ -187,6 +187,60 @@ namespace Epsilon.Resources.CountryVariants {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to PostOffice: Find a postcode or address.
+        /// </summary>
+        public static string OutgoingVerificationInstructions_AddressChecker_DisplayName {
+            get {
+                return ResourceManager.GetString("OutgoingVerificationInstructions_AddressChecker_DisplayName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to http://www.postoffice.co.uk/postcode-finder.
+        /// </summary>
+        public static string OutgoingVerificationInstructions_AddressChecker_Url {
+            get {
+                return ResourceManager.GetString("OutgoingVerificationInstructions_AddressChecker_Url", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to PC2Paper.
+        /// </summary>
+        public static string OutgoingVerificationInstructions_SendPaperMailOnlineProvider_1_DisplayName {
+            get {
+                return ResourceManager.GetString("OutgoingVerificationInstructions_SendPaperMailOnlineProvider_1_DisplayName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to http://www.pc2paper.co.uk.
+        /// </summary>
+        public static string OutgoingVerificationInstructions_SendPaperMailOnlineProvider_1_Url {
+            get {
+                return ResourceManager.GetString("OutgoingVerificationInstructions_SendPaperMailOnlineProvider_1_Url", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to L-Mail.
+        /// </summary>
+        public static string OutgoingVerificationInstructions_SendPaperMailOnlineProvider_2_DisplayName {
+            get {
+                return ResourceManager.GetString("OutgoingVerificationInstructions_SendPaperMailOnlineProvider_2_DisplayName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to http://www.l-mail.com.
+        /// </summary>
+        public static string OutgoingVerificationInstructions_SendPaperMailOnlineProvider_2_Url {
+            get {
+                return ResourceManager.GetString("OutgoingVerificationInstructions_SendPaperMailOnlineProvider_2_Url", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to exact postcode.
         /// </summary>
         public static string SearchAddress_PostcodePlaceholder {
