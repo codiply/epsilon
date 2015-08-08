@@ -41,6 +41,7 @@
                 <div class="input-group form-control-with-addons">
                     <span class="input-group-addon">@Model.CurrencySybmol</span>
                     @Html.EditorFor(model => model.RentPerMonth, new { htmlAttributes = new { @class = "form-control" } })
+                    <span class="glyphicon glyphicon-question-sign input-group-addon" aria-hidden="true"></span>
                 </div>
                 @Html.ValidationMessageFor(model => model.RentPerMonth, "", new { @class = "text-danger" })
             </div>
@@ -49,7 +50,10 @@
         <div class="form-group">
             @Html.LabelFor(model => model.IsPartOfProperty, htmlAttributes: new { @class = "control-label col-md-3" })
             <div class="col-md-9">
-                @Html.EditorFor(model => model.IsPartOfProperty, new { htmlAttributes = new { @class = "form-control" } })
+                <div class="input-group form-control-with-addons">
+                    @Html.EditorFor(model => model.IsPartOfProperty, new { htmlAttributes = new { @class = "form-control" } })
+                    <span class="glyphicon glyphicon-question-sign input-group-addon" aria-hidden="true"></span>
+                </div>
                 @Html.ValidationMessageFor(model => model.IsPartOfProperty, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -57,7 +61,10 @@
         <div class="form-group">
             @Html.LabelFor(model => model.NumberOfBedrooms, htmlAttributes: new { @class = "control-label col-md-3" })
             <div class="col-md-9">
-                @Html.EditorFor(model => model.NumberOfBedrooms, new { htmlAttributes = new { @class = "form-control" } })
+                <div class="input-group form-control-with-addons">
+                    @Html.EditorFor(model => model.NumberOfBedrooms, new { htmlAttributes = new { @class = "form-control" } })
+                    <span class="glyphicon glyphicon-question-sign input-group-addon" aria-hidden="true"></span>
+                </div>
                 @Html.ValidationMessageFor(model => model.NumberOfBedrooms, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -66,7 +73,10 @@
         <div class="form-group">
             @Html.LabelFor(model => model.IsFurnished, htmlAttributes: new { @class = "control-label col-md-3" })
             <div class="col-md-9">
-                @Html.EditorFor(model => model.IsFurnished, new { htmlAttributes = new { @class = "form-control" } })
+                <div class="input-group form-control-with-addons">
+                    @Html.EditorFor(model => model.IsFurnished, new { htmlAttributes = new { @class = "form-control" } })
+                    <span class="glyphicon glyphicon-question-sign input-group-addon" aria-hidden="true"></span>
+                </div>
                 @Html.ValidationMessageFor(model => model.IsFurnished, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -74,7 +84,10 @@
         <div class="form-group">
             @Html.LabelFor(model => model.PropertyConditionRating, htmlAttributes: new { @class = "control-label col-md-3" })
             <div class="col-md-9">
-                @Html.EditorFor(model => model.PropertyConditionRating, new { htmlAttributes = new { @class = "form-control" } })
+                <div class="input-group form-control-with-addons">
+                    @Html.EditorFor(model => model.PropertyConditionRating, new { htmlAttributes = new { @class = "form-control" } })
+                    <span class="glyphicon glyphicon-question-sign input-group-addon" aria-hidden="true"></span>
+                </div>
                 @Html.ValidationMessageFor(model => model.PropertyConditionRating, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -82,7 +95,10 @@
         <div class="form-group">
             @Html.LabelFor(model => model.LandlordRating, htmlAttributes: new { @class = "control-label col-md-3" })
             <div class="col-md-9">
-                @Html.EditorFor(model => model.LandlordRating, new { htmlAttributes = new { @class = "form-control" } })
+                <div class="input-group form-control-with-addons">
+                    @Html.EditorFor(model => model.LandlordRating, new { htmlAttributes = new { @class = "form-control" } })
+                    <span class="glyphicon glyphicon-question-sign input-group-addon" aria-hidden="true"></span>
+                </div>
                 @Html.ValidationMessageFor(model => model.LandlordRating, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -90,7 +106,10 @@
         <div class="form-group">
             @Html.LabelFor(model => model.NeighboursRating, htmlAttributes: new { @class = "control-label col-md-3" })
             <div class="col-md-9">
-                @Html.EditorFor(model => model.NeighboursRating, new { htmlAttributes = new { @class = "form-control" } })
+                <div class="input-group form-control-with-addons">
+                    @Html.EditorFor(model => model.NeighboursRating, new { htmlAttributes = new { @class = "form-control" } })
+                    <span class="glyphicon glyphicon-question-sign input-group-addon" aria-hidden="true"></span>
+                </div>
                 @Html.ValidationMessageFor(model => model.NeighboursRating, "", new { @class = "text-danger" })
             </div>
         </div>
