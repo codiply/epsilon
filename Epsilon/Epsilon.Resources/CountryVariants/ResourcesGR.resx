@@ -168,6 +168,9 @@
   <data name="OutgoingVerificationInstructions_SendPaperMailOnlineProvider_1_DisplayName" xml:space="preserve">
     <value />
   </data>
+  <data name="OutgoingVerificationInstructions_SendPaperMailOnlineProvider_1_Url" xml:space="preserve">
+    <value />
+  </data>
   <data name="OutgoingVerificationInstructions_SendPaperMailOnlineProvider_2_DisplayName" xml:space="preserve">
     <value />
   </data>

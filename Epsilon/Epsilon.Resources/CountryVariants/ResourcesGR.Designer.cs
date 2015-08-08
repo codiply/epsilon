@@ -216,6 +216,15 @@ namespace Epsilon.Resources.CountryVariants {
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
+        public static string OutgoingVerificationInstructions_SendPaperMailOnlineProvider_1_Url {
+            get {
+                return ResourceManager.GetString("OutgoingVerificationInstructions_SendPaperMailOnlineProvider_1_Url", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
         public static string OutgoingVerificationInstructions_SendPaperMailOnlineProvider_2_DisplayName {
             get {
                 return ResourceManager.GetString("OutgoingVerificationInstructions_SendPaperMailOnlineProvider_2_DisplayName", resourceCulture);
