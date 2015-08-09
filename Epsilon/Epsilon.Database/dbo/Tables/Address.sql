@@ -55,6 +55,8 @@
 
 
 
+
+
 GO
 CREATE NONCLUSTERED INDEX [IX_CountryId]
     ON [dbo].[Address]([CountryId] ASC);
@@ -100,4 +102,9 @@ CREATE NONCLUSTERED INDEX [IX_Address_CreatedOn_CreatedById]
 GO
 CREATE NONCLUSTERED INDEX [IX_Address_CreatedOn]
     ON [dbo].[Address]([CreatedOn] ASC);
+
+
+GO
+CREATE NONCLUSTERED INDEX [IX_Address_DistinctAddressCode]
+    ON [dbo].[Address]([DistinctAddressCode] ASC);
 

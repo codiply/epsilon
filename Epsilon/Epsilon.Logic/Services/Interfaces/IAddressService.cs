@@ -30,6 +30,8 @@ namespace Epsilon.Logic.Services.Interfaces
 
         Task<AddressGeometryResponse> GetGeometry(Guid addressUniqueId);
 
-        Task<AddAddressOutcome> AddAddress(string userId, string userIpAddress, AddressForm dto);
+        Task<AddAddressOutcome> AddAddress(string userId, string userIpAddress, AddressForm form);
+
+        Task<IList<long>> GetDuplicateAddressIds(Address address);
     }
 }

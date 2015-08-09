@@ -15,5 +15,7 @@ namespace Epsilon.Logic.Services.Interfaces
         Currency Get(string currencyId);
 
         string GetDisplayName(string currencyId);
+
+        string GetSymbol(string currencyId);
     }
 }

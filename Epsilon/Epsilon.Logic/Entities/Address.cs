@@ -38,6 +38,10 @@ namespace Epsilon.Logic.Entities
         public virtual ICollection<TenancyDetailsSubmission> TenancyDetailsSubmissions { get; set; }
         public virtual ICollection<PropertyInfoAccess> PropertyInfoAccesses { get; set; }
 
+        /// <summary>
+        /// NOTE: You will need to include the Country on the Address for this to work properly.
+        /// </summary>
+        /// <returns></returns>
         public string FullAddress()
         {
             var sb = new StringBuilder();

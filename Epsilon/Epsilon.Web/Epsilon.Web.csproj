@@ -1309,6 +1309,7 @@
     <Content Include="Views\OutgoingVerification\_VerificationRecipient.cshtml" />
     <Content Include="Views\OutgoingVerification\_VerificationMessage.cshtml" />
     <Content Include="Views\OutgoingVerification\PrintableVerificationMessage.cshtml" />
+    <Content Include="Views\PropertyInfo\_SinglePropertyInfo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

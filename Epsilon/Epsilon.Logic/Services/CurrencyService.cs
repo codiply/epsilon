@@ -46,6 +46,13 @@ namespace Epsilon.Logic.Services
             return AppConstant.CURRENCY_DISPLAY_FIELD_SELECTOR(currency);
         }
 
+        public string GetSymbol(string currencyId)
+        {
+            var dictionary = GetCurrencyDictionary();
+            var currency = dictionary[currencyId.ToUpper()];
+            return currency.Symbol;
+        }
+
         private ImmutableDictionary<string, Currency> GetCurrencyDictionary()
         {
             return _appCache.Get(AppCacheKey.CURRENCIES_DICTIONARY, () =>

@@ -19,7 +19,7 @@ namespace Epsilon.UnitTests.Logic.Services
         {
             var mockOutgoingVerificationServiceConfig = new Mock<IPropertyInfoAccessServiceConfig>();
             mockOutgoingVerificationServiceConfig.Setup(x => x.GlobalSwitch_DisableCreatePropertyInfoAccess).Returns(true);
-            var service = new PropertyInfoAccessService(mockOutgoingVerificationServiceConfig.Object, null, null, null, null, null);
+            var service = new PropertyInfoAccessService(mockOutgoingVerificationServiceConfig.Object, null, null, null, null, null, null);
 
             var outcome = await service.Create("some-user", "some-ip-address", Guid.NewGuid(), Guid.NewGuid());
 

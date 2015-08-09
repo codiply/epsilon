@@ -91,6 +91,11 @@ namespace Epsilon.Logic.SqlContext.Mapping
                 .HasColumnAnnotation(IndexAnnotation.AnnotationName,
                     new IndexAnnotation(new IndexAttribute("IX_Address_CreatedOn_CreatedById", 2)));
 
+            this.Property(x => x.DistinctAddressCode)
+               .HasColumnAnnotation(IndexAnnotation.AnnotationName, new IndexAnnotation(new[]
+               {
+                    new IndexAttribute("IX_Address_DistinctAddressCode")
+               }));
         }
     }
 }

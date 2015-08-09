@@ -21,6 +21,7 @@ using Epsilon.Logic.Configuration.Interfaces;
 using Epsilon.Logic.Entities.Interfaces;
 using Epsilon.Logic.Forms.Submission;
 using Epsilon.Resources.Logic.Address;
+using System.Text.RegularExpressions;
 
 namespace Epsilon.Logic.Services
 {
@@ -219,7 +220,7 @@ namespace Epsilon.Logic.Services
             return addressWithGeometry.Geometry.ToAddressGeometryResponse();
         }
 
-        public async Task<AddAddressOutcome> AddAddress(string userId, string userIpAddress, AddressForm dto)
+        public async Task<AddAddressOutcome> AddAddress(string userId, string userIpAddress, AddressForm form)
         {
             if (_addressServiceConfig.GlobalSwitch_DisableAddAddress)
                 return new AddAddressOutcome
@@ -240,7 +241,7 @@ namespace Epsilon.Logic.Services
                     AddressUniqueId = null
                 };
 
-            var verificationResponse = await _addressVerificationService.Verify(userId, userIpAddress, dto);
+            var verificationResponse = await _addressVerificationService.Verify(userId, userIpAddress, form);
             if (verificationResponse.IsRejected)
                 return new AddAddressOutcome
                 {
@@ -250,11 +251,12 @@ namespace Epsilon.Logic.Services
                     AddressUniqueId = null
                 };
 
-            var cleansedDto = _addressCleansingHelper.Cleanse(dto);
-            var entity = cleansedDto.ToEntity();
+            var cleansedForm = _addressCleansingHelper.Cleanse(form);
+            var entity = cleansedForm.ToEntity();
             entity.CreatedById = userId;
             entity.CreatedByIpAddress = userIpAddress;
-            entity.DistinctAddressCode = CalculateDistinctAddressCode(dto);
+            // TODO_PANOS_TEST
+            entity.DistinctAddressCode = CalculateDistinctAddressCode(form);
             if (verificationResponse.AddressGeometry != null)
             {
                 _dbContext.AddressGeometries.Add(verificationResponse.AddressGeometry);
@@ -270,12 +272,52 @@ namespace Epsilon.Logic.Services
             };
         }
 
-        public string CalculateDistinctAddressCode(AddressForm dto)
+        public async Task<IList<long>> GetDuplicateAddressIds(Address address)
         {
-            // TODO_PANOS: Find a mapping from address to a unique id.
-            // For UK for example it could be something like
-            // GB<POSTCODE><HOUSENUMBER>
-            return dto.Postcode;
+            if (string.IsNullOrWhiteSpace(address.DistinctAddressCode))
+            {
+                return new List<long>();
+            }
+
+            var duplicateAddressIds = await _dbContext.Addresses
+                .Where(x => x.DistinctAddressCode.Equals(address.DistinctAddressCode) && !x.Id.Equals(address.Id))
+                .Select(x => x.Id)
+                .ToListAsync();
+
+            return duplicateAddressIds;
+        }
+
+        // TODO_PANOS_TEST
+        public string CalculateDistinctAddressCode(AddressForm form)
+        {
+            var countryId = form.CountryIdAsEnum();
+            // EnumSwitch:CountryId
+            switch (countryId)
+            {
+                case CountryId.GB:
+                    return CalculateDistinctAddressCodeGB(form);
+                case CountryId.GR:
+                    return null;
+                default:
+                    throw new NotImplementedException(string.Format("Unexpected CountryId: '{0}'",
+                            EnumsHelper.CountryId.ToString()));
+            }
+        }
+
+        private string CalculateDistinctAddressCodeGB(AddressForm form)
+        {
+            if (string.IsNullOrWhiteSpace(form.Postcode))
+                return null;
+
+            var houseNumberRegex = new Regex(@"([0-9]{1,}[a-zA-z]*)");
+            var matches = houseNumberRegex.Matches(form.Line1);
+            if (matches.Count != 1)
+                return null;
+
+            var houseNumber = matches[0].Value;
+
+            var distinctAddressCode = string.Format("{0}{1}{2}", form.CountryId, form.Postcode, houseNumber).ToUpperInvariant();
+            return distinctAddressCode;
         }
     }
 }

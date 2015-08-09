@@ -286,6 +286,24 @@ namespace Epsilon.Resources.Web.PropertyInfo {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Possibly the same property.
+        /// </summary>
+        public static string ViewInfo_DuplicateProperties_Header {
+            get {
+                return ResourceManager.GetString("ViewInfo_DuplicateProperties_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Selected property.
+        /// </summary>
+        public static string ViewInfo_MainProperty_Header {
+            get {
+                return ResourceManager.GetString("ViewInfo_MainProperty_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Property Information.
         /// </summary>
         public static string ViewInfo_PageHeader {
@@ -300,6 +318,78 @@ namespace Epsilon.Resources.Web.PropertyInfo {
         public static string ViewInfo_PageTitle {
             get {
                 return ResourceManager.GetString("ViewInfo_PageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Furnished.
+        /// </summary>
+        public static string ViewInfo_SubmissionFieldIsFurnished_Header {
+            get {
+                return ResourceManager.GetString("ViewInfo_SubmissionFieldIsFurnished_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Part of Property.
+        /// </summary>
+        public static string ViewInfo_SubmissionFieldIsPartOfProperty_Header {
+            get {
+                return ResourceManager.GetString("ViewInfo_SubmissionFieldIsPartOfProperty_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Landlord.
+        /// </summary>
+        public static string ViewInfo_SubmissionFieldLandlordRating_Header {
+            get {
+                return ResourceManager.GetString("ViewInfo_SubmissionFieldLandlordRating_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Neighbours.
+        /// </summary>
+        public static string ViewInfo_SubmissionFieldNeighboursRating_Header {
+            get {
+                return ResourceManager.GetString("ViewInfo_SubmissionFieldNeighboursRating_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bedrooms.
+        /// </summary>
+        public static string ViewInfo_SubmissionFieldNumberOfBedrooms_Header {
+            get {
+                return ResourceManager.GetString("ViewInfo_SubmissionFieldNumberOfBedrooms_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Property Condition.
+        /// </summary>
+        public static string ViewInfo_SubmissionFieldPropertyConditionRating_Header {
+            get {
+                return ResourceManager.GetString("ViewInfo_SubmissionFieldPropertyConditionRating_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Monthly Rent.
+        /// </summary>
+        public static string ViewInfo_SubmissionFieldRentPerMonth_Header {
+            get {
+                return ResourceManager.GetString("ViewInfo_SubmissionFieldRentPerMonth_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Submitted.
+        /// </summary>
+        public static string ViewInfo_SubmissionFieldSubmittedOn_Header {
+            get {
+                return ResourceManager.GetString("ViewInfo_SubmissionFieldSubmittedOn_Header", resourceCulture);
             }
         }
     }

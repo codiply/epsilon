@@ -8,13 +8,37 @@
 <h3>@PropertyInfoResources.ViewInfo_PageHeader</h3>
 <hr />
 
+@{
+    var mainProperty = Model.PropertyInfo.MainProperty;
+}
+<div class="panel panel-primary">
+    <div class="panel-heading"><h4>@PropertyInfoResources.ViewInfo_MainProperty_Header</h4></div>
+    <div class="panel-body">
+
+        @Html.Partial("_SinglePropertyInfo", Model.PropertyInfo.MainProperty)
+    </div>
+</div>
+
+@if (Model.PropertyInfo.DuplicateProperties != null && Model.PropertyInfo.DuplicateProperties.Any())
+{
+<div class="panel panel-warning">
+    <div class="panel-heading"><h4>@PropertyInfoResources.ViewInfo_DuplicateProperties_Header</h4></div>
+    <div class="panel-body">
+        @foreach (var duplicateProperty in Model.PropertyInfo.DuplicateProperties)
+        {
+            @Html.Partial("_SinglePropertyInfo", duplicateProperty)
+        }
+    </div>
+</div>
+}
+
 @using Epsilon.Logic.Constants
 @using Epsilon.Resources.Common
 @using Epsilon.Web.Controllers
 
 <div>
     @if (Model.ReturnToSummary)
-    {
+            {
         @Html.ActionLink(CommonResources.BackLinkText, PropertyInfoController.MY_EXPLORED_PROPERTIES_SUMMARY_ACTION)
     }
     else
@@ -22,3 +46,4 @@
         @Html.ActionLink(CommonResources.BackLinkText, AppConstant.AUTHENTICATED_USER_HOME_ACTION, AppConstant.AUTHENTICATED_USER_HOME_CONTROLLER)
     }
 </div>
+

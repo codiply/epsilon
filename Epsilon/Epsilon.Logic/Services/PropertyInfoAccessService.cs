@@ -27,6 +27,7 @@ namespace Epsilon.Logic.Services
         private readonly IEpsilonContext _dbContext;
         private readonly IAddressService _addressService;
         private readonly IUserTokenService _userTokenService;
+        private readonly ICurrencyService _currencyService;
 
         public PropertyInfoAccessService(
             IPropertyInfoAccessServiceConfig propertInfoAccessServiceConfig,
@@ -34,7 +35,8 @@ namespace Epsilon.Logic.Services
             IAppCache appCache,
             IEpsilonContext dbContext,
             IAddressService addressService,
-            IUserTokenService userTokenService)
+            IUserTokenService userTokenService,
+            ICurrencyService currencyService)
         {
             _propertyInfoAccessServiceConfig = propertInfoAccessServiceConfig;
             _clock = clock;
@@ -42,6 +44,7 @@ namespace Epsilon.Logic.Services
             _dbContext = dbContext;
             _addressService = addressService;
             _userTokenService = userTokenService;
+            _currencyService = currencyService;
         }
 
         public async Task<MyExploredPropertiesSummaryResponse> GetUserExploredPropertiesSummaryWithCaching(
@@ -189,7 +192,7 @@ namespace Epsilon.Logic.Services
         public async Task<GetInfoOutcome> GetInfo(string userId, Guid accessUniqueId)
         {
             // TODO_PANOS_TEST
-            var access = await GetPropertyInfoAccessForUser(userId, accessUniqueId);
+            var access = await GetPropertyInfoAccessForUser(userId, accessUniqueId, includeAddress: true, includeSubmissions: true);
             if (access == null)
             {
                 // TODO_PANOS_TEST
@@ -213,11 +216,12 @@ namespace Epsilon.Logic.Services
                 };
             }
 
-            // TODO_PANOS
-            var propertyInfo = new ViewPropertyInfoModel
-            {
+            var mainProperty = access.Address;
+            var duplicateAddressIds = await _addressService.GetDuplicateAddressIds(mainProperty);
 
-            };
+            var duplicateProperties = await GetDuplicateProperties(duplicateAddressIds.ToList());
+
+            var propertyInfo = ViewPropertyInfoModel.Construct(mainProperty, duplicateProperties, _currencyService);
 
             return new GetInfoOutcome
             {
@@ -253,16 +257,41 @@ namespace Epsilon.Logic.Services
             return entity;
         }
 
-        private async Task<PropertyInfoAccess> GetPropertyInfoAccessForUser(string userId, Guid uniqueId)
+        private async Task<PropertyInfoAccess> GetPropertyInfoAccessForUser(
+            string userId, Guid uniqueId, bool includeAddress, bool includeSubmissions)
         {
-            var propertyInfoAccess = await _dbContext.PropertyInfoAccesses
-                .Include(a => a.Address)
-                .Include(a => a.Address.Country)
+            IQueryable<PropertyInfoAccess> query = _dbContext.PropertyInfoAccesses;
+
+            if (includeAddress)
+            {
+                query = query
+                    .Include(a => a.Address)
+                    .Include(a => a.Address.Country);
+            }
+
+            if (includeSubmissions)
+            {
+                query = query
+                    .Include(a => a.Address.TenancyDetailsSubmissions);
+            }
+
+            var propertyInfoAccess = await query
                 .Where(a => a.UniqueId.Equals(uniqueId))
                 .Where(a => a.UserId.Equals(userId))
                 .SingleOrDefaultAsync();
 
             return propertyInfoAccess;
+        }
+
+        private async Task<IList<Address>> GetDuplicateProperties(List<long> duplicateAddressIds)
+        {
+            var duplicateProperties = await _dbContext.Addresses
+                .Include(a => a.Country)
+                .Include(a => a.TenancyDetailsSubmissions)
+                .Where(a => duplicateAddressIds.Contains(a.Id))
+                .Where(a => a.TenancyDetailsSubmissions.Any(s => s.SubmittedOn.HasValue))
+                .ToListAsync();
+            return duplicateProperties;
         }
 
         private async Task<PropertyInfoAccess> GetExistingUnexpiredAccess(string userId, Guid addressUniqueId)

@@ -1,0 +1,35 @@
+﻿@model Epsilon.Logic.Models.ViewPropertyInfoPropertyModel
+
+@using Epsilon.Resources.Web.PropertyInfo
+
+<div>
+    <p>@Model.DisplayAddress</p>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>@PropertyInfoResources.ViewInfo_SubmissionFieldSubmittedOn_Header</th>
+                <th>@PropertyInfoResources.ViewInfo_SubmissionFieldRentPerMonth_Header</th>
+                <th>@PropertyInfoResources.ViewInfo_SubmissionFieldNumberOfBedrooms_Header</th>
+                <th>@PropertyInfoResources.ViewInfo_SubmissionFieldIsPartOfProperty_Header</th>
+                <th>@PropertyInfoResources.ViewInfo_SubmissionFieldIsFurnished_Header</th>
+                <th>@PropertyInfoResources.ViewInfo_SubmissionFieldPropertyConditionRating_Header</th>
+                <th>@PropertyInfoResources.ViewInfo_SubmissionFieldLandlordRating_Header</th>
+                <th>@PropertyInfoResources.ViewInfo_SubmissionFieldNeighboursRating_Header</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var submission in Model.CompleteSubmissions.OrderByDescending(x => x.SubmittedOn))
+            {
+            <td><span am-time-ago="'@submission.SubmittedOn'" title="{{ '@submission.SubmittedOn' | localDateTime }}"></span></td>
+                    <td>@submission.CurrencySymbol @submission.RentPerMonth</td>
+                    <td>@submission.NumberOfBedrooms</td>
+                    <td>@submission.IsPartOfProperty</td>
+                    <td>@submission.IsFurnished</td>
+                    <td>@submission.PropertyConditionRating</td>
+                    <td>@submission.LandlordRating</td>
+                    <td>@submission.NeighboursRating</td>
+            }
+            </tbody>
+        </table>
+    </div>
+
