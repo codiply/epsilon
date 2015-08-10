@@ -38,11 +38,12 @@
         <div class="form-group">
             @Html.LabelFor(model => model.RentPerMonth, htmlAttributes: new { @class = "control-label col-md-3" })
             <div class="col-md-9">
-                <div class="input-group input-group-with-addons"
-                     tooltip data-toggle="tooltip" data-placement="top"
-                     title="@SubmissionResources.SubmitTenancyDetailsForm_FieldRentPerMonth_HelpText">
+                <div class="input-group input-group-with-addons">
                     <span class="input-group-addon">@Model.CurrencySybmol</span>
                     @Html.EditorFor(model => model.RentPerMonth, new { htmlAttributes = new { @class = "form-control" } })
+                    <span class="input-group-addon glyphicon glyphicon-question-sign" 
+                          tooltip data-toggle="tooltip" data-placement="top"
+                          title="@SubmissionResources.SubmitTenancyDetailsForm_FieldRentPerMonth_HelpText"/>
                 </div>
                 @Html.ValidationMessageFor(model => model.RentPerMonth, "", new { @class = "text-danger" })
             </div>
@@ -51,10 +52,11 @@
         <div class="form-group">
             @Html.LabelFor(model => model.NumberOfBedrooms, htmlAttributes: new { @class = "control-label col-md-3" })
             <div class="col-md-9">
-                <div class="input-group"
-                     tooltip data-toggle="tooltip" data-placement="top"
-                     title="@SubmissionResources.SubmitTenancyDetailsForm_FieldNumberOfBedrooms_HelpText">
+                <div class="input-group input-group-with-addons">
                     @Html.EditorFor(model => model.NumberOfBedrooms, new { htmlAttributes = new { @class = "form-control" } })
+                    <span class="input-group-addon glyphicon glyphicon-question-sign"
+                          tooltip data-toggle="tooltip" data-placement="top"
+                          title="@SubmissionResources.SubmitTenancyDetailsForm_FieldNumberOfBedrooms_HelpText" />
                 </div>
                 @Html.ValidationMessageFor(model => model.NumberOfBedrooms, "", new { @class = "text-danger" })
             </div>
@@ -63,8 +65,13 @@
         <div class="form-group">
             @Html.LabelFor(model => model.IsPartOfProperty, htmlAttributes: new { @class = "control-label col-md-3" })
             <div class="col-md-9">
-                <div>
-                    @Html.CheckBoxFor(model => model.IsPartOfProperty, new { @class = "input-group form-control", tooltip = "", data_toggle = "tooltip", data_placement = "top", title = SubmissionResources.SubmitTenancyDetailsForm_FieldIsPartOfProperty_HelpText })
+                <div class="input-group input-group-with-addons">
+                    <div class="form-control">
+                        @Html.EditorFor(model => model.IsPartOfProperty)
+                    </div>
+                    <span class="input-group-addon glyphicon glyphicon-question-sign"
+                          tooltip data-toggle="tooltip" data-placement="top"
+                          title="@SubmissionResources.SubmitTenancyDetailsForm_FieldIsPartOfProperty_HelpText" />
                 </div>
                 @Html.ValidationMessageFor(model => model.IsPartOfProperty, "", new { @class = "text-danger" })
             </div>
@@ -73,8 +80,13 @@
         <div class="form-group">
             @Html.LabelFor(model => model.IsFurnished, htmlAttributes: new { @class = "control-label col-md-3" })
             <div class="col-md-9">
-                <div>
-                    @Html.CheckBoxFor(model => model.IsFurnished, new { @class = "input-group form-control", tooltip = "", data_toggle = "tooltip", data_placement = "top", title = SubmissionResources.SubmitTenancyDetailsForm_FieldIsFurnished_HelpText })
+                <div class="input-group input-group-with-addons">
+                    <div class="form-control">
+                        @Html.EditorFor(model => model.IsFurnished)
+                    </div>
+                    <span class="input-group-addon glyphicon glyphicon-question-sign"
+                          tooltip data-toggle="tooltip" data-placement="top"
+                          title="@SubmissionResources.SubmitTenancyDetailsForm_FieldIsFurnished_HelpText" />
                 </div>
                 @Html.ValidationMessageFor(model => model.IsFurnished, "", new { @class = "text-danger" })
             </div>
@@ -83,45 +95,48 @@
         <div class="form-group">
             @Html.LabelFor(model => model.PropertyConditionRating, htmlAttributes: new { @class = "control-label col-md-3" })
             <div class="col-md-9">
-                <div class="input-group">
-                    <div class="form-control"
-                         tooltip data-toggle="tooltip" data-placement="top"
-                         title="@SubmissionResources.SubmitTenancyDetailsForm_FieldPropertyConditionRating_HelpText">
+                <div class="input-group input-group-with-addons">
+                    <div class="form-control">
                         <star-rating-editor data-ng-model="propertyConditionRating" />
-                        @Html.HiddenFor(model => model.PropertyConditionRating, new { data_ng_value = "propertyConditionRating" })
                     </div>
+                    <span class="input-group-addon glyphicon glyphicon-question-sign"
+                          tooltip data-toggle="tooltip" data-placement="top"
+                          title="@SubmissionResources.SubmitTenancyDetailsForm_FieldPropertyConditionRating_HelpText" />
                 </div>
                 @Html.ValidationMessageFor(model => model.PropertyConditionRating, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.PropertyConditionRating, new { data_ng_value = "propertyConditionRating" })
             </div>
         </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.LandlordRating, htmlAttributes: new { @class = "control-label col-md-3" })
             <div class="col-md-9">
-                <div class="input-group">
-                    <div class="form-control"
-                         tooltip data-toggle="tooltip" data-placement="top"
-                         title="@SubmissionResources.SubmitTenancyDetailsForm_FieldLandlordRating_HelpText">
-                        <star-rating-editor data-ng-model="landlordRating" />
-                        @Html.HiddenFor(model => model.LandlordRating, new { data_ng_value = "landlordRating" })
+                <div class="input-group input-group-with-addons">
+                    <div class="form-control">
+                        <star-rating-editor data-ng-model="landlordRating" />        
                     </div>
+                    <span class="input-group-addon glyphicon glyphicon-question-sign"
+                          tooltip data-toggle="tooltip" data-placement="top"
+                          title="@SubmissionResources.SubmitTenancyDetailsForm_FieldLandlordRating_HelpText" />
                 </div>
                 @Html.ValidationMessageFor(model => model.LandlordRating, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.LandlordRating, new { data_ng_value = "landlordRating" })
             </div>
         </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.NeighboursRating, htmlAttributes: new { @class = "control-label col-md-3" })
             <div class="col-md-9">
-                <div class="input-group">
-                    <div class="form-control"
-                         tooltip data-toggle="tooltip" data-placement="top"
-                         title="@SubmissionResources.SubmitTenancyDetailsForm_FieldNeighboursRating_HelpText">
+                <div class="input-group input-group-with-addons">
+                    <div class="form-control">
                         <star-rating-editor data-ng-model="neighboursRating" />
-                        @Html.HiddenFor(model => model.NeighboursRating, new { data_ng_value = "neighboursRating" })
                     </div>
+                    <span class="input-group-addon glyphicon glyphicon-question-sign"
+                          tooltip data-toggle="tooltip" data-placement="top"
+                          title="@SubmissionResources.SubmitTenancyDetailsForm_FieldNeighboursRating_HelpText" />
                 </div>
                 @Html.ValidationMessageFor(model => model.NeighboursRating, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.NeighboursRating, new { data_ng_value = "neighboursRating" })
                 </div>
             </div>
 
