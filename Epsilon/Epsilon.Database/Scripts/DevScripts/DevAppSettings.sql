@@ -62,6 +62,7 @@ VALUES
 (N'OutgoingVerification_Instructions_ExpiryPeriodInDays', N'7.0'),
 (N'OutgoingVerification_MyOutgoingVerificationsSummary_CachingPeriodInMinutes', N'15.0'),
 (N'OutgoingVerification_MyOutgoingVerificationsSummary_ItemsLimit', N'2'),
+(N'OutgoingVerification_RewardSendersIfNoneUsed_AfterPeriodInDays', N'30.0'),
 (N'OutgoingVerification_VerificationsPerTenancyDetailsSubmission', N'2'),
 (N'PropertInfoAccess_ExpiryPeriodInDays', N'30'),
 (N'PropertInfoAccess_MyExploredPropertiesSummary_CachingPeriodInMinutes', N'15.0'),

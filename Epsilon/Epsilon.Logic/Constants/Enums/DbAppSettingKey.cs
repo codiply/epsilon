@@ -49,6 +49,7 @@ namespace Epsilon.Logic.Constants.Enums
         OutgoingVerification_Instructions_ExpiryPeriodInDays,
         OutgoingVerification_MyOutgoingVerificationsSummary_CachingPeriodInMinutes,
         OutgoingVerification_MyOutgoingVerificationsSummary_ItemsLimit,
+        OutgoingVerification_RewardSendersIfNoneUsed_AfterPeriodInDays,
         OutgoingVerification_VerificationsPerTenancyDetailsSubmission,
         PropertInfoAccess_ExpiryPeriodInDays,
         PropertInfoAccess_MyExploredPropertiesSummary_CachingPeriodInMinutes,

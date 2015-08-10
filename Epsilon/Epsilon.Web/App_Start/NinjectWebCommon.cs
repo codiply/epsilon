@@ -103,6 +103,7 @@ namespace Epsilon.Web.App_Start
             kernel.Bind<IPropertyInfoAccessServiceConfig>().To<PropertInfoAccessServiceConfig>().InRequestScope();
             kernel.Bind<ITenancyDetailsSubmissionServiceConfig>().To<TenancyDetailsSubmissionServiceConfig>().InRequestScope();
             kernel.Bind<ITokenAccountServiceConfig>().To<TokenAccountServiceConfig>().InRequestScope();
+            kernel.Bind<IUserAccountMaintenanceServiceConfig>().To<UserAccountMaintenanceServiceConfig>().InRequestScope();
             kernel.Bind<IUserTokenServiceConfig>().To<UserTokenServiceConfig>().InRequestScope();
 
             // Constants
