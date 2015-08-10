@@ -75,15 +75,13 @@ namespace Epsilon.Web.Controllers
                 PresentUiAlerts(outcome.UiAlerts, true);
             }
 
-            return RedirectToAction(
-                AppConstant.AUTHENTICATED_USER_HOME_ACTION,
-                AppConstant.AUTHENTICATED_USER_HOME_CONTROLLER);
+            return RedirectToAction("ViewInfo", new { id = outcome.PropertyInfoAccessUniqueId, returnToSummary = false });
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> ViewInfo(Guid accessUniqueId, bool returnToSummary)
+        [HttpGet]
+        public async Task<ActionResult> ViewInfo(Guid id, bool returnToSummary)
         {
+            var accessUniqueId = id;
             var getInfoOutcome =
                 await _propertyInfoAccessService.GetInfo(GetUserId(), accessUniqueId);
 

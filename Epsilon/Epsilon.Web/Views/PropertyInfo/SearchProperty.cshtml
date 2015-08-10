@@ -63,7 +63,12 @@
             </thead>
             <tbody>
                 <tr data-ng-repeat="property in propertySearchResponse.results">
-                    <td><input type="radio" name="radioSelectedAddressUniqueId" data-ng-model="$parent.selectedAddressUniqueId" ng-value="property.addressUniqueId"></td>
+                    <td>
+                        <input ng-disabled="property.numberOfCompletedSubmissions === 0"
+                               type="radio" name="radioSelectedAddressUniqueId" 
+                               data-ng-model="$parent.selectedAddressUniqueId" 
+                               ng-value="property.addressUniqueId">
+                    </td>
                     <td>{{property.fullAddress}}</td>
                     <td>{{property.numberOfCompletedSubmissions}}</td>
                     <td><span am-time-ago="property.lastSubmissionOn" title="{{property.lastSubmissionOn | localDateTime}}"></span></td>

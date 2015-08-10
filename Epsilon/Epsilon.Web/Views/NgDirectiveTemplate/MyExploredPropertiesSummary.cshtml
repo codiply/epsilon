@@ -25,17 +25,11 @@
                     <td>{{property.displayAddress}}</td>
                     <td>
                         <span data-ng-if="property.canViewInfo">
-                            @using (Html.BeginForm("ViewInfo", "PropertyInfo"))
-                            {
-                                @Html.AntiForgeryToken()
-
-                                <input type="hidden" name="accessUniqueId" value="{{property.accessUniqueId}}" />
-                                <input type="hidden" name="returnToSummary" value="{{isSummaryPage}}" />
-                                <button class="btn btn-default" type="submit"
-                                        title="@PropertyInfoResources.MyExploredPropertiesSummary_ActionView_ButtonHoverText">
-                                    @PropertyInfoResources.MyExploredPropertiesSummary_ActionView_ButtonText
-                                </button>
-                            }
+                            <a class="btn btn-default"
+                               title="@PropertyInfoResources.MyExploredPropertiesSummary_ActionView_ButtonHoverText"
+                               ng-href="@Url.Action("ViewInfo", "PropertyInfo")/{{property.accessUniqueId}}?returnToSummary={{isSummaryPage}}">
+                                @PropertyInfoResources.MyExploredPropertiesSummary_ActionView_ButtonText
+                            </a>
                         </span>
                     </td>
                 </tr>

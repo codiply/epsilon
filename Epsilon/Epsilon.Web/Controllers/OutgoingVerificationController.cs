@@ -44,15 +44,14 @@ namespace Epsilon.Web.Controllers
             else
             {
                 PresentUiAlerts(outcome.UiAlerts, true);
-                // TODO_PANOS: redirect to instructions instead
-                return RedirectHome(returnToSummary);
+                return RedirectToAction("Instructions", new { id = outcome.VerificationUniqueId, returnToSummary = returnToSummary });
             }
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Instructions(Guid verificationUniqueId, bool returnToSummary)
+        [HttpGet]
+        public async Task<ActionResult> Instructions(Guid id, bool returnToSummary)
         {
+            var verificationUniqueId = id;
             var getInstructionsOutcome =
                 await _outgoingVerificationService.GetInstructions(GetUserId(), verificationUniqueId);
 
@@ -99,6 +98,7 @@ namespace Epsilon.Web.Controllers
             {
                 PresentUiAlerts(outcome.UiAlerts, true);
             }
+
             return RedirectHome(returnToSummary);
         }
 
@@ -115,6 +115,7 @@ namespace Epsilon.Web.Controllers
             {
                 PresentUiAlerts(outcome.UiAlerts, true);
             }
+            
             return RedirectHome(returnToSummary);
         }
 
