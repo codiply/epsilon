@@ -79,7 +79,7 @@ namespace Epsilon.Resources.Web.OutgoingVerification {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Address is Invalid.
+        ///   Looks up a localized string similar to Mark address as is Invalid.
         /// </summary>
         public static string Instructions_ActionMarkAddressAsInvalid_ButtonText {
             get {
@@ -115,7 +115,7 @@ namespace Epsilon.Resources.Web.OutgoingVerification {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Another user has marked this address as invalid..
+        ///   Looks up a localized string similar to Another user has marked this address as invalid. Make sure you use the link provided to check that the address exists..
         /// </summary>
         public static string Instructions_OtherUserHasMarkedAddressAsInvalid_Message {
             get {
@@ -142,6 +142,15 @@ namespace Epsilon.Resources.Web.OutgoingVerification {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Recipient.
+        /// </summary>
+        public static string Instructions_RecipientAddressLabel {
+            get {
+                return ResourceManager.GetString("Instructions_RecipientAddressLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Send the Verification.
         /// </summary>
         public static string Instructions_StepSendVerification_Header {
@@ -151,11 +160,38 @@ namespace Epsilon.Resources.Web.OutgoingVerification {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Verify The Address is Valid.
+        ///   Looks up a localized string similar to You can send the verification using an online service like the ones listed below. If you send a handwritten letter rather than printing the message, make sure the code is clearly written..
+        /// </summary>
+        public static string Instructions_StepSendVerification_Instructions {
+            get {
+                return ResourceManager.GetString("Instructions_StepSendVerification_Instructions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Verify the address exists.
         /// </summary>
         public static string Instructions_StepVerifyValidAddress_Header {
             get {
                 return ResourceManager.GetString("Instructions_StepVerifyValidAddress_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use this link below to check that the address exists..
+        /// </summary>
+        public static string Instructions_StepVerifyValidAddress_Instructions {
+            get {
+                return ResourceManager.GetString("Instructions_StepVerifyValidAddress_Instructions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Message.
+        /// </summary>
+        public static string Instructions_VerificationMessageLabel {
+            get {
+                return ResourceManager.GetString("Instructions_VerificationMessageLabel", resourceCulture);
             }
         }
         

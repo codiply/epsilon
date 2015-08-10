@@ -160,6 +160,15 @@ namespace Epsilon.Resources.Common {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No.
+        /// </summary>
+        public static string No {
+            get {
+                return ResourceManager.GetString("No", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Register.
         /// </summary>
         public static string Register {
@@ -255,6 +264,15 @@ namespace Epsilon.Resources.Common {
         public static string WebsiteDisabledForMaintenanceMessage {
             get {
                 return ResourceManager.GetString("WebsiteDisabledForMaintenanceMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Yes.
+        /// </summary>
+        public static string Yes {
+            get {
+                return ResourceManager.GetString("Yes", resourceCulture);
             }
         }
     }

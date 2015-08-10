@@ -1317,6 +1317,7 @@
     <Content Include="Views\PropertyInfo\_SinglePropertyInfo.cshtml" />
     <Content Include="Views\NgDirectiveTemplate\StarRatingEditor.cshtml" />
     <Content Include="Views\Shared\_StarRatingReadonly.cshtml" />
+    <Content Include="Views\Shared\_YesNo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

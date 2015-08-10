@@ -141,4 +141,10 @@
   <data name="Step2" xml:space="preserve">
     <value>Βήμα 2ο</value>
   </data>
+  <data name="No" xml:space="preserve">
+    <value>Όχι</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Ναι</value>
+  </data>
 </root>

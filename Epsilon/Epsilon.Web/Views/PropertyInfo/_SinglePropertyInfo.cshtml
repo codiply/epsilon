@@ -23,8 +23,8 @@
             <td><span am-time-ago="'@submission.SubmittedOn'" title="{{ '@submission.SubmittedOn' | localDateTime }}"></span></td>
                     <td>@submission.CurrencySymbol @submission.RentPerMonth</td>
                     <td>@submission.NumberOfBedrooms</td>
-                    <td>@submission.IsPartOfProperty</td>
-                    <td>@submission.IsFurnished</td>
+                    <td>@Html.Partial("_YesNo", @submission.IsPartOfProperty)</td>
+                    <td>@Html.Partial("_YesNo", @submission.IsFurnished)</td>
                     <td>@Html.Partial("_StarRatingReadonly", @submission.PropertyConditionRating)</td>
                     <td>@Html.Partial("_StarRatingReadonly", @submission.LandlordRating)</td>
                     <td>@Html.Partial("_StarRatingReadonly", @submission.NeighboursRating)</td>

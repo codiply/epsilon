@@ -26,110 +26,134 @@
 
 <div class="form-horizontal">
     <div class="form-group">
-        @Html.Partial("_VerificationRecipient", Model.Instructions.RecipientAddress)
-    </div>
-
-    <div>
-        <h4>@(CommonResources.Step1): @(OutgoingVerificationResources.Instructions_StepVerifyValidAddress_Header)</h4>
-    </div>
-
-    @{
-        // TODO_PANOS_TEST: Unit test that checks that everry country and and language has both of them defined (non-empty string).
-        var addressCheckerUrl = countryVariantResources[EnumsHelper.CountryVariantResourceName
-            .ToString(CountryVariantResourceName.OutgoingVerificationInstructions_AddressChecker_Url)];
-        var addressCheckerDisplayName = countryVariantResources[EnumsHelper.CountryVariantResourceName
-            .ToString(CountryVariantResourceName.OutgoingVerificationInstructions_AddressChecker_DisplayName)];
-    }
-
-    <div>
-        <a href="@addressCheckerUrl">@addressCheckerDisplayName</a>
-    </div>
-
-    @* TODO_PANOS: invert logic*@
-    @if (!Model.Instructions.OtherUserHasMarkedAddressAsInvalid)
-    {
-    <div class="form-group">
-        <div class="alert alert-danger">
-            <p>
-                @OutgoingVerificationResources.Instructions_OtherUserHasMarkedAddressAsInvalid_Message
-            </p>
+        <label class="control-label col-md-3">@OutgoingVerificationResources.Instructions_RecipientAddressLabel</label>
+        <div class="col-md-9">
+            <div>
+                @Html.Partial("_VerificationRecipient", Model.Instructions.RecipientAddress)
+            </div>
         </div>
     </div>
-    }
-
-    @if (Model.Instructions.CanMarkAddressAsInvalid)
-    {
-    <div>
-        @using (Html.BeginForm("MarkAddressAsInvalid", "OutgoingVerification"))
-        {
-            @Html.AntiForgeryToken()
-
-            <input type="hidden" name="verificationUniqueId" value="@Model.Instructions.VerificationUniqueId" />
-            <input type="hidden" name="returnToSummary" value="@Model.ReturnToSummary.ToString()" />
-            <button class="btn btn-default" type="submit"
-                    title="@OutgoingVerificationResources.Instructions_ActionMarkAddressAsInvalid_ButtonHoverText"
-                    onclick="return confirm('@OutgoingVerificationResources.Instructions_ActionMarkAddressAsInvalid_ButtonConfirmationText')">
-                @OutgoingVerificationResources.Instructions_ActionMarkAddressAsInvalid_ButtonText
-            </button>
-        }
-    </div>
-    }
-
-    <div>
-        <h4>@(CommonResources.Step2):@(OutgoingVerificationResources.Instructions_StepSendVerification_Header)</h4>
-    </div>
-
-    @{
-        // TODO_PANOS_TEST: Unit test that checks that everry country and and language has at least one provider defined (non-empty strings).
-        var paperMailOnlinleProvider1Url = countryVariantResources[EnumsHelper.CountryVariantResourceName
-            .ToString(CountryVariantResourceName.OutgoingVerificationInstructions_SendPaperMailOnlineProvider_1_Url)];
-        var paperMailOnlinleProvider1DisplayName = countryVariantResources[EnumsHelper.CountryVariantResourceName
-            .ToString(CountryVariantResourceName.OutgoingVerificationInstructions_SendPaperMailOnlineProvider_1_DisplayName)];
-        var paperMailOnlinleProvider2Url = countryVariantResources[EnumsHelper.CountryVariantResourceName
-            .ToString(CountryVariantResourceName.OutgoingVerificationInstructions_SendPaperMailOnlineProvider_2_Url)];
-        var paperMailOnlinleProvider2DisplayName = countryVariantResources[EnumsHelper.CountryVariantResourceName
-            .ToString(CountryVariantResourceName.OutgoingVerificationInstructions_SendPaperMailOnlineProvider_2_DisplayName)];
-    }
-
-    <div>
-        <ul>
-            @if (!string.IsNullOrWhiteSpace(paperMailOnlinleProvider1Url) && !string.IsNullOrWhiteSpace(paperMailOnlinleProvider1DisplayName))
-            {
-                <li>
-                    <a href="@paperMailOnlinleProvider1Url">@paperMailOnlinleProvider1DisplayName</a>
-                </li>
-            }
-            @if (!string.IsNullOrWhiteSpace(paperMailOnlinleProvider2Url) && !string.IsNullOrWhiteSpace(paperMailOnlinleProvider2DisplayName))
-            {
-                <li>
-                    <a href="@paperMailOnlinleProvider2Url">@paperMailOnlinleProvider2DisplayName</a>
-                </li>
-            }
-        </ul>
-    </div>
-
     <div class="form-group">
-        @Html.Partial("_VerificationMessage", Model.Instructions.MessageArguments)
+        <label class="control-label col-md-3">@OutgoingVerificationResources.Instructions_VerificationMessageLabel</label>
+        <div class="col-md-9">
+            <div>
+                @Html.Partial("_VerificationMessage", Model.Instructions.MessageArguments)
+            </div>
+        </div>
     </div>
-    <p>@Html.ActionLink("Printable version", "PrintableVerificationMessage", new { id = Model.Instructions.VerificationUniqueId })</p>
+    <p class="col-md-offset-3">
+        @Html.ActionLink("Printable version", "PrintableVerificationMessage", new { id = Model.Instructions.VerificationUniqueId },
+            new { target = "_blank" })
+    </p>
+</div>
 
-    @if (Model.Instructions.CanMarkAsSent)
-    {
-    <div>
-        @using (Html.BeginForm("MarkAsSent", "OutgoingVerification"))
+<hr />
+
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h4>@(CommonResources.Step1): @(OutgoingVerificationResources.Instructions_StepVerifyValidAddress_Header)</h4>
+    </div>
+    <div class="panel-body">
+        @{
+            // TODO_PANOS_TEST: Unit test that checks that everry country and and language has both of them defined (non-empty string).
+            var addressCheckerUrl = countryVariantResources[EnumsHelper.CountryVariantResourceName
+                .ToString(CountryVariantResourceName.OutgoingVerificationInstructions_AddressChecker_Url)];
+            var addressCheckerDisplayName = countryVariantResources[EnumsHelper.CountryVariantResourceName
+                .ToString(CountryVariantResourceName.OutgoingVerificationInstructions_AddressChecker_DisplayName)];
+        }
+
+        <p>
+            @OutgoingVerificationResources.Instructions_StepVerifyValidAddress_Instructions <br />
+            <ul>
+                <li><a href="@addressCheckerUrl">@addressCheckerDisplayName</a></li>
+            </ul>
+        </p>
+
+        @if (Model.Instructions.OtherUserHasMarkedAddressAsInvalid)
         {
-            @Html.AntiForgeryToken()
+            <div class="alert alert-danger">
+                <p>
+                    @OutgoingVerificationResources.Instructions_OtherUserHasMarkedAddressAsInvalid_Message
+                </p>
+            </div>
+        }
 
-            <input type="hidden" name="verificationUniqueId" value="@Model.Instructions.VerificationUniqueId" />
-            <input type="hidden" name="returnToSummary" value="@Model.ReturnToSummary.ToString()" />
-            <button class="btn btn-default" type="submit"
-                    title="@OutgoingVerificationResources.Instructions_ActionMarkAsSent_ButtonHoverText"
-                    onclick="return confirm('@OutgoingVerificationResources.Instructions_ActionMarkAsSent_ButtonConfirmationText')">
-                @OutgoingVerificationResources.Instructions_ActionMarkAsSent_ButtonText
-            </button>
+        @if (Model.Instructions.CanMarkAddressAsInvalid)
+        {
+            <div>
+                @using (Html.BeginForm("MarkAddressAsInvalid", "OutgoingVerification"))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <input type="hidden" name="verificationUniqueId" value="@Model.Instructions.VerificationUniqueId" />
+                    <input type="hidden" name="returnToSummary" value="@Model.ReturnToSummary.ToString()" />
+                    <button class="btn btn-danger" type="submit"
+                            title="@OutgoingVerificationResources.Instructions_ActionMarkAddressAsInvalid_ButtonHoverText"
+                            onclick="return confirm('@OutgoingVerificationResources.Instructions_ActionMarkAddressAsInvalid_ButtonConfirmationText')">
+                        @OutgoingVerificationResources.Instructions_ActionMarkAddressAsInvalid_ButtonText
+                    </button>
+                }
+            </div>
+        }
+
+    </div>
+</div>
+
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h4>@(CommonResources.Step2): @(OutgoingVerificationResources.Instructions_StepSendVerification_Header)</h4>
+    </div>
+    <div class="panel-body">
+
+        @{
+            // TODO_PANOS_TEST: Unit test that checks that everry country and and language has at least one provider defined (non-empty strings).
+            var paperMailOnlinleProvider1Url = countryVariantResources[EnumsHelper.CountryVariantResourceName
+                .ToString(CountryVariantResourceName.OutgoingVerificationInstructions_SendPaperMailOnlineProvider_1_Url)];
+            var paperMailOnlinleProvider1DisplayName = countryVariantResources[EnumsHelper.CountryVariantResourceName
+                .ToString(CountryVariantResourceName.OutgoingVerificationInstructions_SendPaperMailOnlineProvider_1_DisplayName)];
+            var paperMailOnlinleProvider2Url = countryVariantResources[EnumsHelper.CountryVariantResourceName
+                .ToString(CountryVariantResourceName.OutgoingVerificationInstructions_SendPaperMailOnlineProvider_2_Url)];
+            var paperMailOnlinleProvider2DisplayName = countryVariantResources[EnumsHelper.CountryVariantResourceName
+                .ToString(CountryVariantResourceName.OutgoingVerificationInstructions_SendPaperMailOnlineProvider_2_DisplayName)];
+        }
+
+        <p>
+            @OutgoingVerificationResources.Instructions_StepSendVerification_Instructions
+            
+            <ul>
+                @if (!string.IsNullOrWhiteSpace(paperMailOnlinleProvider1Url) && !string.IsNullOrWhiteSpace(paperMailOnlinleProvider1DisplayName))
+            {
+                    <li>
+                        <a href="@paperMailOnlinleProvider1Url">@paperMailOnlinleProvider1DisplayName</a>
+                    </li>
+                }
+                @if (!string.IsNullOrWhiteSpace(paperMailOnlinleProvider2Url) && !string.IsNullOrWhiteSpace(paperMailOnlinleProvider2DisplayName))
+            {
+                    <li>
+                        <a href="@paperMailOnlinleProvider2Url">@paperMailOnlinleProvider2DisplayName</a>
+                    </li>
+                }
+            </ul>
+        </p>
+
+        @if (Model.Instructions.CanMarkAsSent)
+        {
+            <div>
+                @using (Html.BeginForm("MarkAsSent", "OutgoingVerification"))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <input type="hidden" name="verificationUniqueId" value="@Model.Instructions.VerificationUniqueId" />
+                    <input type="hidden" name="returnToSummary" value="@Model.ReturnToSummary.ToString()" />
+                    <button class="btn btn-success" type="submit"
+                            title="@OutgoingVerificationResources.Instructions_ActionMarkAsSent_ButtonHoverText"
+                            onclick="return confirm('@OutgoingVerificationResources.Instructions_ActionMarkAsSent_ButtonConfirmationText')">
+                        @OutgoingVerificationResources.Instructions_ActionMarkAsSent_ButtonText
+                    </button>
+                }
+            </div>
         }
     </div>
-    }
 </div>
 
 @using Epsilon.Logic.Constants
@@ -146,3 +170,4 @@
         @Html.ActionLink(CommonResources.BackLinkText, AppConstant.AUTHENTICATED_USER_HOME_ACTION, AppConstant.AUTHENTICATED_USER_HOME_CONTROLLER)
     }
 </div>
+
