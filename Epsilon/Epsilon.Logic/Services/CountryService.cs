@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 using System.Data.Entity;
 using System.Collections.Immutable;
 using Epsilon.Logic.Constants;
+using Epsilon.Logic.Helpers;
+using Epsilon.Logic.Constants.Enums;
 
 namespace Epsilon.Logic.Services
 {
@@ -37,6 +39,14 @@ namespace Epsilon.Logic.Services
             var dictionary = GetCountryDictionary();
             var country = dictionary[countryId.ToUpper()];
             return AppConstant.COUNTRY_DISPLAY_FIELD_SELECTOR(country);
+        }
+
+        // TODO_PANOS_TEST
+        public bool IsCountryAvailable(CountryId countryId)
+        {
+            var dictionary = GetCountryDictionary();
+            var country = dictionary[EnumsHelper.CountryId.ToString(countryId)];
+            return country != null && country.IsAvailable;
         }
 
         private IList<Country> GetAvailableCountriesFromDictionary()

@@ -1,4 +1,5 @@
-﻿using Epsilon.Logic.Helpers.Interfaces;
+﻿using Epsilon.Logic.Constants;
+using Epsilon.Logic.Helpers.Interfaces;
 using Epsilon.Logic.Infrastructure.Extensions;
 using Ninject;
 using System;
@@ -13,13 +14,24 @@ namespace Epsilon.Web.Controllers.Filters.Mvc
     public class SanitizeIpAddressAttribute : ActionFilterAttribute
     {
         [Inject]
-        public IIpAddressHelper Helper { get; set; }
+        public IIpAddressHelper IpAddressHelper { get; set; }
+
+        [Inject]
+        public IAppSettingsHelper AppSettingsHelper { get; set; }
 
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
+            var ipOverride = AppSettingsHelper.GetString(AppSettingsKey.IpAddressOverride);
+
+            if (!string.IsNullOrWhiteSpace(ipOverride))
+            {
+                filterContext.HttpContext.SetSanitizedIpAddress(ipOverride);
+                return;
+            }
+
             if (filterContext != null && filterContext.HttpContext != null)
             {
-                var ip = Helper.GetClientIpAddress(filterContext.HttpContext.Request);
+                var ip = IpAddressHelper.GetClientIpAddress(filterContext.HttpContext.Request);
                 filterContext.HttpContext.SetSanitizedIpAddress(ip);
             }
         }

@@ -18,7 +18,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
         [Test]
         public async Task Log_CreatesLogEntryAndSetsRecordedOn()
         {
-            var key = AdminEventLogKey.GooglGeocodeApiStatusOverQueryLimitSuccessAfterRetrying;
+            var key = AdminEventLogKey.GoogleGeocodeApiStatusOverQueryLimitSuccessAfterRetrying;
             var keyToString = EnumsHelper.AdminEventLogKey.ToString(key);
             var extraInfokey1 = "key1";
             var extraInfokey2 = "key2";
@@ -56,7 +56,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
         [Test]
         public async Task Log_CanHandleNullExtraInfo()
         {
-            var key = AdminEventLogKey.GooglGeocodeApiStatusOverQueryLimitSuccessAfterRetrying;
+            var key = AdminEventLogKey.GoogleGeocodeApiStatusOverQueryLimitSuccessAfterRetrying;
             var keyToString = EnumsHelper.AdminEventLogKey.ToString(key);
             Dictionary<string, object> extraInfo = null;
 

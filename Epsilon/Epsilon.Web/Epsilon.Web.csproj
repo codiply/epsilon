@@ -261,6 +261,7 @@
     <Compile Include="Controllers\ApiControllers\TokenController.cs" />
     <Compile Include="Controllers\BaseControllers\BaseApiController.cs" />
     <Compile Include="Controllers\BaseControllers\BaseMvcController.cs" />
+    <Compile Include="Controllers\Filters\Mvc\AvailableCountryAttribute.cs" />
     <Compile Include="Controllers\Filters\Mvc\DisableWholeWebsiteForMaintenanceAttribute.cs" />
     <Compile Include="Controllers\Filters\Mvc\ResponseTimingAttribute.cs" />
     <Compile Include="Controllers\Filters\Mvc\AllowIfConfigSettingTrueAttribute.cs" />
@@ -1320,6 +1321,7 @@
     <Content Include="Views\Shared\_StarRatingReadonly.cshtml" />
     <Content Include="Views\Shared\_YesNo.cshtml" />
     <Content Include="Views\Admin\TestTelizeGeoipApi.cshtml" />
+    <Content Include="Views\Shared\UnavailableCountry.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

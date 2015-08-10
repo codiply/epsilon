@@ -178,6 +178,15 @@ namespace Epsilon.Resources.Common {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Our service is not  available in your country yet..
+        /// </summary>
+        public static string ServiceNotAvailableInYourCountryMessage {
+            get {
+                return ResourceManager.GetString("ServiceNotAvailableInYourCountryMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Poor.
         /// </summary>
         public static string StarRating_1_Title {

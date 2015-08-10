@@ -22,6 +22,7 @@ namespace Epsilon.Logic.Constants
         public const string DisableWholeWebsiteForMaintenance = "Epsilon.DisableWholeWebsiteForMaintenance";
         public const string EnableDevHelperController = "Epsilon.EnableDevHelperController";
         public const string GoogleApiServerKey = "Epsilon.GoogleApiServerKey";
+        public const string IpAddressOverride = "Epsilon.IpAddressOverride";
         public const string SmtpServiceHost = "Epsilon.SmtpServiceHost";
         public const string SmtpServicePort = "Epsilon.SmtpServicePort";
         public const string SmtpServiceTimeoutMilliseconds = "Epsilon.SmtpServiceTimeoutMilliseconds";

@@ -41,8 +41,14 @@ namespace Epsilon.Logic.Services
             _adminAlertService = adminAlertService;
             _adminEventLogService = adminEventLogService;
         }
+        
+        public GeoipInfo GetInfo(string ipAddress)
+        {
+            return _appCache.Get(AppCacheKey.GetGeoipInfoForIpAddress(ipAddress),
+                () => Task.Run(() => DoGetInfo(ipAddress)).Result, WithLock.No);
+        }
 
-        public async Task<GeoipInfo> GetInfo(string ipAddress)
+        public async Task<GeoipInfo> GetInfoAsync(string ipAddress)
         {
             return await _appCache.GetAsync(AppCacheKey.GetGeoipInfoForIpAddress(ipAddress),
                 async () => await DoGetInfo(ipAddress), WithLock.No);

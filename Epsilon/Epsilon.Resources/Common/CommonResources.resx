@@ -189,4 +189,7 @@
   <data name="Yes" xml:space="preserve">
     <value>Yes</value>
   </data>
+  <data name="ServiceNotAvailableInYourCountryMessage" xml:space="preserve">
+    <value>Our service is not  available in your country yet.</value>
+  </data>
 </root>

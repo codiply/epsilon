@@ -1,4 +1,5 @@
-﻿using Epsilon.Logic.Entities;
+﻿using Epsilon.Logic.Constants.Enums;
+using Epsilon.Logic.Entities;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -13,5 +14,7 @@ namespace Epsilon.Logic.Services.Interfaces
         string GetDisplayName(string countryId);
 
         IList<Country> GetAvailableCountries();
+
+        bool IsCountryAvailable(CountryId countryId);
     }
 }
