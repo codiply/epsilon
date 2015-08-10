@@ -49,6 +49,10 @@ namespace Epsilon.Web
                         "~/Scripts/lib/angular-moment/angular-moment.js"
             ));
 
+            bundles.Add(new ScriptBundle("~/bundles/angular-ui").Include(
+                        "~/Scripts/lib/angular-ui/ui-bootstrap.js"
+            ));
+
             bundles.Add(new ScriptBundle("~/bundles/ngapp").Include(
                         // Controllers
                         "~/Scripts/ngapp/controllers/PropertyInfoPropertySearchController.js",

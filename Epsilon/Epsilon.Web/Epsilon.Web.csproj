@@ -321,10 +321,15 @@
     <Content Include="Content\prettify\Themes\doxy.css" />
     <Content Include="Content\prettify\Themes\sons-of-obsidian.css" />
     <Content Include="Content\prettify\Themes\sunburst.css" />
+    <Content Include="Content\ui-bootstrap-csp.css" />
     <Content Include="favicon.ico" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Scripts\lib\angular-ui\ui-bootstrap-tpls.js" />
+    <Content Include="Scripts\lib\angular-ui\ui-bootstrap-tpls.min.js" />
+    <Content Include="Scripts\lib\angular-ui\ui-bootstrap.js" />
+    <Content Include="Scripts\lib\angular-ui\ui-bootstrap.min.js" />
     <Content Include="Scripts\lib\angular-moment\angular-moment.js" />
     <Content Include="Scripts\lib\angular-moment\angular-moment.min.js" />
     <Content Include="Scripts\lib\bootstrap-datepicker\bootstrap-datepicker.js" />
