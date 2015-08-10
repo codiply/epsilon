@@ -18,7 +18,7 @@
 
 /* Set width on the form input elements since they're 100% wide by default */
 input,
-.form-control-with-addons,
+.input-group-with-addons,
 select,
 textarea {
     max-width: 280px;
