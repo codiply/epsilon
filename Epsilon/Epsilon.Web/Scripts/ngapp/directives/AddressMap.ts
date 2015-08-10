@@ -37,7 +37,7 @@
                 var center = new google.maps.LatLng(geometry.latitude, geometry.longitude);
                 var opts: google.maps.MapOptions = {
                     center: center,
-                    mapTypeId: google.maps.MapTypeId.ROADMAP,
+                    mapTypeId: google.maps.MapTypeId.ROADMAP
                 };
                 var map = new google.maps.Map(mapDiv, opts);
                 var bounds = new google.maps.LatLngBounds();

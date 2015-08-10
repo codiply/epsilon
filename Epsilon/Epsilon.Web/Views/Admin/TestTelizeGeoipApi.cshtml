@@ -1,0 +1,91 @@
+﻿@model Epsilon.Web.Models.ViewModels.Admin.TestTelizeGeoipApiViewModel
+@using Newtonsoft.Json
+
+@{
+    ViewBag.Title = "Test Telize Geoip API";
+}
+
+<h2>@ViewBag.Title</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.IpAddress, htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
+                @Html.EditorFor(model => model.IpAddress, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.IpAddress, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-3 col-md-9">
+                <input type="submit" value="Submit" class="btn btn-default" />
+            </div>
+        </div>
+
+        @if (!string.IsNullOrWhiteSpace(Model.Response))
+        {
+            <div class="form-group">
+                <div class="col-md-3"></div>
+                <div class="col-md-9">
+                    <div id="map-canvas" class="map-canvas"></div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Response, htmlAttributes: new { @class = "control-label col-md-3" })
+                <div class="col-md-9">
+                    <pre class="prettyprint">
+                        @Html.Raw(Model.Response.Replace(",", ",\n"))
+                    </pre>
+                </div>
+            </div>
+        }
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to Admin", "Index")
+</div>
+
+@section Styles {
+    <style>
+        .map-canvas {
+            width: 500px;
+            height: 400px;
+        }
+    </style>
+    @Styles.Render("~/Content/prettify")
+}
+
+@section Scripts {
+    @if (!string.IsNullOrWhiteSpace(Model.Response))
+    {
+        <script src="https://maps.googleapis.com/maps/api/js"></script>
+        <script>
+            function initialize() {
+                var mapCanvas = document.getElementById('map-canvas');
+                var mapOptions = {
+                    center: new google.maps.LatLng(@Model.GeoipInfo.Latitude, @Model.GeoipInfo.Longitude),
+                    mapTypeId: google.maps.MapTypeId.ROADMAP,
+                    zoom: 8
+                }
+                var map = new google.maps.Map(mapCanvas, mapOptions);
+                var marker = new google.maps.Marker({
+                    position: mapOptions.center,
+                    map: map
+                })
+            }
+            google.maps.event.addDomListener(window, 'load', initialize);
+        </script>
+    }
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/run_prettify")
+}

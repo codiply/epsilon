@@ -97,6 +97,10 @@
                     var southwest@(i) = new google.maps.LatLng(@geometry.Viewport.Southwest.Latitude, @geometry.Viewport.Southwest.Longitude);
                     bounds@(i).extend(southwest@(i));
                     map@(i).fitBounds(bounds@(i));
+                    var marker = new google.maps.Marker({
+                        position: mapOptions@(i).center,
+                        map: map@(i)
+                    })
                 </text>
                 }
             }

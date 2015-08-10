@@ -4,6 +4,7 @@ using Epsilon.Logic.Forms;
 using Epsilon.Logic.Forms.Admin;
 using Epsilon.Logic.FSharp;
 using Epsilon.Logic.FSharp.GoogleGeocode;
+using Epsilon.Logic.FSharp.TelizeGeoip;
 using Epsilon.Logic.Helpers.Interfaces;
 using Epsilon.Logic.Infrastructure.Interfaces;
 using Epsilon.Logic.Services.Interfaces;
@@ -132,6 +133,30 @@ namespace Epsilon.Web.Controllers
                 var response = await Geocoder.getResponse(model.Address, model.Region, googleApiKey);
                 model.Response = response;
                 model.Geometries = Geocoder.parseGeometries(response).ToList();
+                return View(model);
+            }
+            return View(model);
+        }
+
+        #endregion
+
+        #region TestGoogleGeocodeApi
+
+        public ActionResult TestTelizeGeoipApi()
+        {
+            var model = new TestTelizeGeoipApiViewModel();
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> TestTelizeGeoipApi(TestTelizeGeoipApiViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var response = await GeoipClient.getResponse(model.IpAddress);
+                model.Response = response;
+                model.GeoipInfo = GeoipClient.parseResponse(response);
                 return View(model);
             }
             return View(model);

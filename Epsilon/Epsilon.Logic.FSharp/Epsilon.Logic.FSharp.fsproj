@@ -52,9 +52,10 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
     <Compile Include="WebPage.fs" />
-    <Compile Include="GoogleGeocode.fs" />
+    <Compile Include="TelizeGeoip.fs" />
     <Content Include="packages.config" />
     <Content Include="app.config" />
+    <Compile Include="GoogleGeocode.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="FSharp.Data">
