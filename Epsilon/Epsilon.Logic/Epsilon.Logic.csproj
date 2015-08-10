@@ -153,6 +153,7 @@
     <Compile Include="Constants\Interfaces\IDbAppSettingDefaultValue.cs" />
     <Compile Include="Constants\Enums\IpAddressActivityType.cs" />
     <Compile Include="Constants\ResourceNames\Web\SubmissionResourceNames.cs" />
+    <Compile Include="Entities\GeoipInfo.cs" />
     <Compile Include="Models\AddressModel.cs" />
     <Compile Include="Models\OutgoingVerificationInstructionsModel.cs" />
     <Compile Include="Models\ViewPropertyInfoPropertyModel.cs" />
@@ -269,6 +270,7 @@
     <Compile Include="Services\UserResidenceService.cs" />
     <Compile Include="SqlContext\Mapping\AdminEventLogMap.cs" />
     <Compile Include="SqlContext\Mapping\AppSettingLabelMap.cs" />
+    <Compile Include="SqlContext\Mapping\GeoipInfoMap.cs" />
     <Compile Include="SqlContext\Mapping\PropertyInfoAccessMap.cs" />
     <Compile Include="SqlContext\Mapping\TokenRewardMap.cs" />
     <Compile Include="SqlContext\Mapping\TokenRewardSchemeMap.cs" />

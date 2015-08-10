@@ -24,6 +24,7 @@ namespace Epsilon.Logic.SqlContext.Interfaces
         DbSet<Country> Countries { get; set; }
         DbSet<Currency> Currencies { get; set; }
         DbSet<GeocodeFailure> GeocodeFailures { get; set; }
+        DbSet<GeoipInfo> GeoipInfos { get; set; }
         DbSet<IpAddressActivity> IpAddressActivities { get; set; }
         DbSet<Language> Languages { get; set; }
         DbSet<PostcodeGeometry> PostcodeGeometries { get; set; }

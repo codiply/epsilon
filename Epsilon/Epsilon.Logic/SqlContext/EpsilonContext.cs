@@ -31,6 +31,7 @@ namespace Epsilon.Logic.SqlContext
         public virtual DbSet<Country> Countries { get; set; }
         public virtual DbSet<Currency> Currencies { get; set; }
         public virtual DbSet<GeocodeFailure> GeocodeFailures { get; set; }
+        public virtual DbSet<GeoipInfo> GeoipInfos { get; set; }
         public virtual DbSet<IpAddressActivity> IpAddressActivities { get; set; }
         public virtual DbSet<Language> Languages { get; set; }
         public virtual DbSet<PostcodeGeometry> PostcodeGeometries { get; set; }
@@ -62,6 +63,7 @@ namespace Epsilon.Logic.SqlContext
             modelBuilder.Configurations.Add(new CountryMap());
             modelBuilder.Configurations.Add(new CurrencyMap());
             modelBuilder.Configurations.Add(new GeocodeFailureMap());
+            modelBuilder.Configurations.Add(new GeoipInfoMap());
             modelBuilder.Configurations.Add(new IpAddressActivityMap());
             modelBuilder.Configurations.Add(new LanguageMap());
             modelBuilder.Configurations.Add(new PostcodeGeometryMap());

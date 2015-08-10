@@ -106,6 +106,7 @@
     <Build Include="dbo\Tables\AppSettingLabel.sql" />
     <Build Include="dbo\Tables\TokenRewardType.sql" />
     <Build Include="dbo\Tables\PropertyInfoAccess.sql" />
+    <Build Include="dbo\Tables\GeoipInfo.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Scripts\PostDeploy\Script.PostDeployment.sql" />
