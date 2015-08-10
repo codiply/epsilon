@@ -139,6 +139,9 @@ VALUES
 -- geocode-service
 (N'geocode-service', N'GeocodeService_OverQueryLimitDelayBetweenRetriesInSeconds'),
 (N'geocode-service', N'GeocodeService_OverQueryLimitMaxRetries'),
+-- geoip-info
+(N'geoip-info', N'GeoipInfo_ExpiryPeriodInDays'),
+(N'geoip-info', N'GeoipInfoService_MaxRetries'),
 -- global-max-frequency
 (N'global-max-frequency', N'AntiAbuse_AddAddress_GlobalMaxFrequency'),
 (N'global-max-frequency', N'AntiAbuse_CreateTenancyDetailsSubmission_GlobalMaxFrequency'),
@@ -146,6 +149,7 @@ VALUES
 (N'global-max-frequency', N'AntiAbuse_Register_GlobalMaxFrequency'),
 -- max-retries
 (N'max-retries', N'GeocodeService_OverQueryLimitMaxRetries'),
+(N'max-retries', N'GeoipInfoService_MaxRetries'),
 -- global-switch
 (N'global-switch', N'AntiAbuse_AddAddress_DisableGlobalFrequencyCheck'),
 (N'global-switch', N'AntiAbuse_CreateTenancyDetailsSubmission_DisableGlobalFrequencyCheck'),
@@ -181,6 +185,7 @@ VALUES
 -- page-size
 (N'page-size', N'Token_MyTokenTransactions_PageSize'),
 -- period
+(N'period', N'GeoipInfo_ExpiryPeriodInDays'),
 (N'period', N'PropertInfoAccess_ExpiryPeriodInDays'),
 (N'period', N'OutgoingVerification_Instructions_ExpiryPeriodInDays'),
 (N'period', N'OutgoingVerification_MyOutgoingVerificationsSummary_CachingPeriodInMinutes'),

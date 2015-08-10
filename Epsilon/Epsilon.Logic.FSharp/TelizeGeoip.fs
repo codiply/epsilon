@@ -5,7 +5,7 @@ open System.Web
 open FSharp.Data
 open Epsilon.Logic.FSharp
 
-type GeoipInfo = 
+type TalizeGeoipInfo = 
     { CountryCode: string
       ContinentCode: string
       Latitude: decimal 

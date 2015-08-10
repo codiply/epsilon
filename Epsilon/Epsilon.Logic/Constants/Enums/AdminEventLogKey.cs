@@ -10,8 +10,10 @@ namespace Epsilon.Logic.Constants.Enums
     {
         AddAddressGlobalMaxFrequencyReached,
         CreateTenancyDetailsSubmissionGlobalMaxFrequencyReached,
-        GooglGeocodeApiStatusOverQueryLimitMaxRetriesReached,
-        GooglGeocodeApiStatusOverQueryLimitSuccessAfterRetrying,
+        GeoipApiMaxRetriesReached,
+        GeoipApiSuccessAfterRetrying,
+        GoogleGeocodeApiStatusOverQueryLimitMaxRetriesReached,
+        GoogleGeocodeApiStatusOverQueryLimitSuccessAfterRetrying,
         GoogleGeocodeApiStatusInvalidRequest,
         GoogleGeocodeApiStatusRequestDenied,
         GoogleGeocodeApiStatusUnexpected,

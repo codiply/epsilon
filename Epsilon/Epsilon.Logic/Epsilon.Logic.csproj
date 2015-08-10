@@ -110,7 +110,9 @@
     <Compile Include="Configuration\AddressServiceConfig.cs" />
     <Compile Include="Configuration\GeocodeServiceConfig.cs" />
     <Compile Include="Configuration\AdminAlertServiceConfig.cs" />
+    <Compile Include="Configuration\GeoipInfoServiceConfig.cs" />
     <Compile Include="Configuration\Interfaces\ICommonConfig.cs" />
+    <Compile Include="Configuration\Interfaces\IGeoipInfoServiceConfig.cs" />
     <Compile Include="Configuration\Interfaces\IOutgoingVerificationServiceConfig.cs" />
     <Compile Include="Configuration\Interfaces\IPropertyInfoAccessServiceConfig.cs" />
     <Compile Include="Configuration\Interfaces\IUserTokenServiceConfig.cs" />
@@ -247,8 +249,10 @@
     <Compile Include="Services\AdminEventLogService.cs" />
     <Compile Include="Services\AntiAbuseService.cs" />
     <Compile Include="Services\CountryService.cs" />
+    <Compile Include="Services\GeoipInfoService.cs" />
     <Compile Include="Services\Interfaces\IAdminEventLogService.cs" />
     <Compile Include="Services\Interfaces\ICurrencyService.cs" />
+    <Compile Include="Services\Interfaces\IGeoipInfoService.cs" />
     <Compile Include="Services\Interfaces\IOutgoingVerificationService.cs" />
     <Compile Include="Services\Interfaces\IPropertyInfoAccessService.cs" />
     <Compile Include="Services\Interfaces\ITokenRewardService.cs" />

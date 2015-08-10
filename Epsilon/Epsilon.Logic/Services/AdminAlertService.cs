@@ -59,7 +59,7 @@ namespace Epsilon.Logic.Services
             {
                 Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
             }
-            }
+        }
 
         private bool IsNotAllowedToSendAgain(string key)
         {

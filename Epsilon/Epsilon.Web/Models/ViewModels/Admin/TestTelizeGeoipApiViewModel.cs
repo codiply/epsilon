@@ -15,6 +15,6 @@ namespace Epsilon.Web.Models.ViewModels.Admin
 
         public string Response { get; set; }
 
-        public GeoipInfo GeoipInfo { get; set;}
+        public TalizeGeoipInfo GeoipInfo { get; set;}
     }
 }

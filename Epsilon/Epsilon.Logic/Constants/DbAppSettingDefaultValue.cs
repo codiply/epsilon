@@ -33,6 +33,9 @@ namespace Epsilon.Logic.Constants
         public double GeocodeService_OverQueryLimitDelayBetweenRetriesInSeconds { get { return 1.0; } }
         public int GeocodeService_OverQueryLimitMaxRetries { get { return 3; } }
 
+        public double GeoipInfo_ExpiryPeriodInDays { get { return 30; } }
+        public int GeoipInfoService_MaxRetries { get { return 1; } }
+
         public double OutgoingVerification_Instructions_ExpiryPeriodInDays { get { return 7.0; } }
         public double OutgoingVerification_MyOutgoingVerificationsSummary_CachingPeriodInMinutes { get { return 15.0; } }
         public int OutgoingVerification_MyOutgoingVerificationsSummary_ItemsLimit { get { return 10; } }

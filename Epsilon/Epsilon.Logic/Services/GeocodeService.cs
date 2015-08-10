@@ -189,7 +189,7 @@ namespace Epsilon.Logic.Services
                 { "QueryType", queryType },
                 { "MaximumRetries", _geocodeServiceConfig.OverQueryLimitMaxRetries }
             };
-            await _adminEventLogService.Log(AdminEventLogKey.GooglGeocodeApiStatusOverQueryLimitMaxRetriesReached, extraInfo);
+            await _adminEventLogService.Log(AdminEventLogKey.GoogleGeocodeApiStatusOverQueryLimitMaxRetriesReached, extraInfo);
         }
 
         private async Task LogOverQueryLimitSuccessAfterRetrying(int retryNo, string queryType)
@@ -199,7 +199,7 @@ namespace Epsilon.Logic.Services
                 { "QueryType", queryType },
                 { "RetriesUntilSuccess", retryNo }
             };
-            await _adminEventLogService.Log(AdminEventLogKey.GooglGeocodeApiStatusOverQueryLimitSuccessAfterRetrying, extraInfo);
+            await _adminEventLogService.Log(AdminEventLogKey.GoogleGeocodeApiStatusOverQueryLimitSuccessAfterRetrying, extraInfo);
         }
 
         private GeocodeAddressStatus InspectGeocodeAddressResult(GeocodeResult result, string countryId)

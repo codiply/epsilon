@@ -52,6 +52,8 @@ VALUES
 (N'EnableResponseTiming', N'True'),
 (N'GeocodeService_OverQueryLimitDelayBetweenRetriesInSeconds', N'1.0'),
 (N'GeocodeService_OverQueryLimitMaxRetries', N'3'),
+(N'GeoipInfo_ExpiryPeriodInDays', N'30'),
+(N'GeoipInfoService_MaxRetries', N'3'),
 (N'GlobalSwitch_DisableAddAddress', N'False'),
 (N'GlobalSwitch_DisableCreatePropertyInfoAccess', N'False'),
 (N'GlobalSwitch_DisableCreateTenancyDetailsSubmission', N'False'),

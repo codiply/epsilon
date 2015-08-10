@@ -39,6 +39,8 @@ namespace Epsilon.Logic.Constants.Enums
         EnableResponseTiming,
         GeocodeService_OverQueryLimitDelayBetweenRetriesInSeconds,
         GeocodeService_OverQueryLimitMaxRetries,
+        GeoipInfo_ExpiryPeriodInDays,
+        GeoipInfoService_MaxRetries,
         GlobalSwitch_DisableAddAddress,
         GlobalSwitch_DisableCreateTenancyDetailsSubmission,
         GlobalSwitch_DisableCreatePropertyInfoAccess,
