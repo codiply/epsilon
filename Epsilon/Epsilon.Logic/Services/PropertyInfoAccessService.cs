@@ -137,6 +137,18 @@ namespace Epsilon.Logic.Services
                 };
             }
 
+            var completeSubmissionsExist = await _addressService.AddressHasCompletedSubmissions(addressUniqueId);
+
+            if (!completeSubmissionsExist)
+            {
+                // TODO_PANOS_TEST
+                return new CreatePropertyInfoAccessOutcome
+                {
+                    IsRejected = true,
+                    RejectionReason = CommonResources.GenericInvalidActionMessage
+                };
+            }
+
             var tokenRewardKey = TokenRewardKey.SpendPerPropertyInfoAccess;
             var sufficientFundsExist = await _userTokenService.SufficientFundsExistForTransaction(userId, tokenRewardKey);
 
@@ -148,8 +160,6 @@ namespace Epsilon.Logic.Services
                     RejectionReason = "Insufficient funds." // TODO_PANOS: put in a resource common with the status messages below.
                 };
             }
-
-            // TODO_PANOS: check if there is already an active property access
 
             var propertyInfoAccess = await DoCreate(userId, userIpAddress, accessUniqueId, address.Id);
 

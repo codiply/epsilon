@@ -200,8 +200,17 @@ namespace Epsilon.Logic.Services
 
         public async Task<Address> GetAddress(Guid addressUniqueId)
         {
+            return await _dbContext.Addresses.SingleOrDefaultAsync(a => a.UniqueId.Equals(addressUniqueId));
+        }
+
+        // TODO_PANOS_TEST: Create other addresses as well
+        public async Task<bool> AddressHasCompletedSubmissions(Guid addressUniqueId)
+        {
             return await _dbContext.Addresses
-                .SingleOrDefaultAsync(a => a.UniqueId.Equals(addressUniqueId));
+                .Include(x => x.TenancyDetailsSubmissions)
+                .Where(a => a.UniqueId.Equals(addressUniqueId))
+                .SelectMany(s => s.TenancyDetailsSubmissions)
+                .AnyAsync(s => s.SubmittedOn.HasValue);
         }
 
         public async Task<Address> GetAddressWithGeometries(Guid addressUniqueId)

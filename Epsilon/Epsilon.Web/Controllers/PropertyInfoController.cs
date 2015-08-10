@@ -1,6 +1,7 @@
 ﻿using Epsilon.Logic.Constants;
 using Epsilon.Logic.Constants.Enums;
 using Epsilon.Logic.Services.Interfaces;
+using Epsilon.Resources.Common;
 using Epsilon.Web.Controllers.BaseControllers;
 using Epsilon.Web.Models.ViewModels.PropertyInfo;
 using Epsilon.Web.Models.ViewModels.Shared;
@@ -47,6 +48,14 @@ namespace Epsilon.Web.Controllers
         public async Task<ActionResult> GainAccess(Guid id)
         {
             var addressUniqueId = id;
+
+            var hasCompletedSubmissions = await _addressService.AddressHasCompletedSubmissions(addressUniqueId);
+            if (!hasCompletedSubmissions)
+            {
+                Danger(CommonResources.GenericInvalidActionMessage, true);
+                return RedirectHome(false);
+            }
+
             var entity = await _addressService.GetAddress(addressUniqueId);
             var existingAccessUniqueId = await _propertyInfoAccessService.GetExistingUnexpiredAccessUniqueId(GetUserId(), addressUniqueId);
             var model = new GainAccessViewModel
@@ -69,13 +78,13 @@ namespace Epsilon.Web.Controllers
             if (outcome.IsRejected)
             {
                 Danger(outcome.RejectionReason, true);
+                return RedirectHome(false);
             }
             else
             {
                 PresentUiAlerts(outcome.UiAlerts, true);
-            }
-
-            return RedirectToAction("ViewInfo", new { id = outcome.PropertyInfoAccessUniqueId, returnToSummary = false });
+                return RedirectToAction("ViewInfo", new { id = outcome.PropertyInfoAccessUniqueId, returnToSummary = false });
+            }      
         }
 
         [HttpGet]
