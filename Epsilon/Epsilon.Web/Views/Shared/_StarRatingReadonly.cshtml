@@ -1,0 +1,49 @@
+﻿@model Nullable<byte>
+
+@using Epsilon.Resources.Common
+@using Epsilon.Logic.Constants
+
+@{ 
+    string title = string.Empty;
+    if (Model.HasValue)
+    {
+        switch (Model.Value)
+        {
+            case 1:
+                title = CommonResources.StarRating_1_Title;
+                break;
+            case 2:
+                title = CommonResources.StarRating_2_Title;
+                break;
+            case 3:
+                title = CommonResources.StarRating_3_Title;
+                break;
+            case 4:
+                title = CommonResources.StarRating_4_Title;
+                break;
+            case 5:
+                title = CommonResources.StarRating_5_Title;
+                break;
+            default:
+                throw new ArgumentException(string.Format("Unexpected rating value {0}", Model.Value));
+
+        }
+    }
+}
+
+@if (Model.HasValue)
+{
+<span title="@title">
+    @for (var i = AppConstant.RATING_MIN_VALUE; i <= AppConstant.RATING_MAX_VALUE; i++)
+    {
+        if (i <= Model.Value)
+        {
+            <span class="glyphicon glyphicon-star" ></span>
+        }
+        else
+        {
+            <span class="glyphicon glyphicon-star-empty" ></span>
+        }
+    }
+</span>
+}

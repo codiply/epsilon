@@ -321,7 +321,7 @@
     <Content Include="Content\prettify\Themes\doxy.css" />
     <Content Include="Content\prettify\Themes\sons-of-obsidian.css" />
     <Content Include="Content\prettify\Themes\sunburst.css" />
-    <Content Include="Content\ui-bootstrap-csp.css" />
+    <Content Include="Content\ui-bootstrap\ui-bootstrap-csp.css" />
     <Content Include="favicon.ico" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -1315,6 +1315,8 @@
     <Content Include="Views\OutgoingVerification\_VerificationMessage.cshtml" />
     <Content Include="Views\OutgoingVerification\PrintableVerificationMessage.cshtml" />
     <Content Include="Views\PropertyInfo\_SinglePropertyInfo.cshtml" />
+    <Content Include="Views\NgDirectiveTemplate\StarRatingEditor.cshtml" />
+    <Content Include="Views\Shared\_StarRatingReadonly.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1344,6 +1346,8 @@
     <TypeScriptCompile Include="Scripts\ngapp\app.ts" />
     <TypeScriptCompile Include="Scripts\ngapp\controllers\PropertyInfoPropertySearchController.ts" />
     <TypeScriptCompile Include="Scripts\ngapp\controllers\SubmissionAddressSearchController.ts" />
+    <TypeScriptCompile Include="Scripts\ngapp\directives\Tooltip.ts" />
+    <TypeScriptCompile Include="Scripts\ngapp\directives\StarRatingEditor.ts" />
     <TypeScriptCompile Include="Scripts\ngapp\directives\MyExploredPropertiesSummary.ts" />
     <TypeScriptCompile Include="Scripts\ngapp\directives\MyOutgoingVerificationsSummary.ts" />
     <TypeScriptCompile Include="Scripts\ngapp\directives\TokenRewardsSummary.ts" />
@@ -1356,6 +1360,7 @@
     <TypeScriptCompile Include="Scripts\ngapp\directives\ClickOnce.ts" />
     <TypeScriptCompile Include="Scripts\ngapp\filters\LocalDateTime.ts" />
     <TypeScriptCompile Include="Scripts\ngapp\filters\StringFormat.ts" />
+    <TypeScriptCompile Include="Scripts\typings\angular-ui-bootstrap\angular-ui-bootstrap.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular-animate.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular-cookies.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular-mocks.d.ts" />
@@ -1363,6 +1368,7 @@
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular-route.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular-sanitize.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\bootstrap\bootstrap.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\googlemaps\google.maps.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\jquery\jquery.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\linq\linq.d.ts" />

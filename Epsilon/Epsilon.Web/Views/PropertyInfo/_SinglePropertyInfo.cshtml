@@ -25,9 +25,9 @@
                     <td>@submission.NumberOfBedrooms</td>
                     <td>@submission.IsPartOfProperty</td>
                     <td>@submission.IsFurnished</td>
-                    <td>@submission.PropertyConditionRating</td>
-                    <td>@submission.LandlordRating</td>
-                    <td>@submission.NeighboursRating</td>
+                    <td>@Html.Partial("_StarRatingReadonly", @submission.PropertyConditionRating)</td>
+                    <td>@Html.Partial("_StarRatingReadonly", @submission.LandlordRating)</td>
+                    <td>@Html.Partial("_StarRatingReadonly", @submission.NeighboursRating)</td>
             }
             </tbody>
         </table>

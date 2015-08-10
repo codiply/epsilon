@@ -50,7 +50,7 @@ namespace Epsilon.Web
             ));
 
             bundles.Add(new ScriptBundle("~/bundles/angular-ui").Include(
-                        "~/Scripts/lib/angular-ui/ui-bootstrap.js"
+                        "~/Scripts/lib/angular-ui/ui-bootstrap-tpls.js"
             ));
 
             bundles.Add(new ScriptBundle("~/bundles/ngapp").Include(
@@ -67,8 +67,11 @@ namespace Epsilon.Web
                         "~/Scripts/ngapp/directives/MyOutgoingVerificationsSummary.js",
                         "~/Scripts/ngapp/directives/MySubmissionsSummary.js",
                         "~/Scripts/ngapp/directives/MyTokenTransactions.js",
+                        "~/Scripts/ngapp/directives/StarRatingEditor.js",
                         "~/Scripts/ngapp/directives/TokenBalanceBadge.js",
                         "~/Scripts/ngapp/directives/TokenRewardsSummary.js",
+                        "~/Scripts/ngapp/directives/Tooltip.js",
+                        // Needs to be last!
                         "~/Scripts/ngapp/app.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/run_prettify").Include(

@@ -169,6 +169,51 @@ namespace Epsilon.Resources.Common {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Poor.
+        /// </summary>
+        public static string StarRating_1_Title {
+            get {
+                return ResourceManager.GetString("StarRating_1_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fair.
+        /// </summary>
+        public static string StarRating_2_Title {
+            get {
+                return ResourceManager.GetString("StarRating_2_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Average.
+        /// </summary>
+        public static string StarRating_3_Title {
+            get {
+                return ResourceManager.GetString("StarRating_3_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Good.
+        /// </summary>
+        public static string StarRating_4_Title {
+            get {
+                return ResourceManager.GetString("StarRating_4_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Excellent.
+        /// </summary>
+        public static string StarRating_5_Title {
+            get {
+                return ResourceManager.GetString("StarRating_5_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Step 1.
         /// </summary>
         public static string Step1 {

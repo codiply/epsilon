@@ -296,6 +296,27 @@
     <value>The Property Condition Rating field is required.</value>
   </data>
   <data name="SubmitTenancyDetailsForm_RatingField_RangeErrorMessage" xml:space="preserve">
-    <value>The value of a raring field must be between 1 and 5.</value>
+    <value>The value of a rating field must be between 1 and 5.</value>
+  </data>
+  <data name="SubmitTenancyDetailsForm_FieldIsFurnished_HelpText" xml:space="preserve">
+    <value>Is the property furnished?</value>
+  </data>
+  <data name="SubmitTenancyDetailsForm_FieldIsPartOfProperty_HelpText" xml:space="preserve">
+    <value>Are you renting part of this property, for example a room?</value>
+  </data>
+  <data name="SubmitTenancyDetailsForm_FieldLandlordRating_HelpText" xml:space="preserve">
+    <value>Rate your landlord.</value>
+  </data>
+  <data name="SubmitTenancyDetailsForm_FieldNeighboursRating_HelpText" xml:space="preserve">
+    <value>How considerate are your neighbours?</value>
+  </data>
+  <data name="SubmitTenancyDetailsForm_FieldNumberOfBedrooms_HelpText" xml:space="preserve">
+    <value>Enter 0 for studio.</value>
+  </data>
+  <data name="SubmitTenancyDetailsForm_FieldPropertyConditionRating_HelpText" xml:space="preserve">
+    <value>Rate the condition of the property.</value>
+  </data>
+  <data name="SubmitTenancyDetailsForm_FieldRentPerMonth_HelpText" xml:space="preserve">
+    <value>The rent paid on a monthly basis.</value>
   </data>
 </root>

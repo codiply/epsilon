@@ -168,4 +168,19 @@
   <data name="Step2" xml:space="preserve">
     <value>Step 2</value>
   </data>
+  <data name="StarRating_1_Title" xml:space="preserve">
+    <value>Poor</value>
+  </data>
+  <data name="StarRating_2_Title" xml:space="preserve">
+    <value>Fair</value>
+  </data>
+  <data name="StarRating_3_Title" xml:space="preserve">
+    <value>Average</value>
+  </data>
+  <data name="StarRating_4_Title" xml:space="preserve">
+    <value>Good</value>
+  </data>
+  <data name="StarRating_5_Title" xml:space="preserve">
+    <value>Excellent</value>
+  </data>
 </root>
