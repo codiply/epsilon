@@ -11,6 +11,8 @@ namespace Epsilon.Logic.Services.Interfaces
     {
         Task Create(string userId, string languageId);
 
-        Task<UserPreference> Get(string userId);
+        UserPreference Get(string userId);
+
+        Task<UserPreference> GetAsync(string userId);
     }
 }

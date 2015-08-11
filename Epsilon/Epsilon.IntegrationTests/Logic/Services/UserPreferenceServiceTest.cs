@@ -57,7 +57,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             await serviceForCreate.Create(user.Id, languageId);
 
             var serviceForGet = containerForGet.Get<IUserPreferenceService>();
-            var retrievedUserPreference = await serviceForGet.Get(user.Id);
+            var retrievedUserPreference = await serviceForGet.GetAsync(user.Id);
 
             Assert.IsNotNull(retrievedUserPreference, "The UserPreference was not found.");
             Assert.AreEqual(languageId, retrievedUserPreference.LanguageId,
