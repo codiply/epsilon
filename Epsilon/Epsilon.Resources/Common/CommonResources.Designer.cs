@@ -178,7 +178,7 @@ namespace Epsilon.Resources.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Our service is not  available in your country yet..
+        ///   Looks up a localized string similar to Our service is not  available in your country yet. (or possibly we couldn&apos;t determine your country from your IP address).
         /// </summary>
         public static string ServiceNotAvailableInYourCountryMessage {
             get {

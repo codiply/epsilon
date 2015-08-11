@@ -50,7 +50,7 @@ namespace Epsilon.Logic.Services
         public async Task<GeoipInfo> GetInfoAsync(string ipAddress)
         {
             return await _appCache.GetAsync(AppCacheKey.GetGeoipInfoForIpAddress(ipAddress),
-                async () => await DoGetInfo(ipAddress), WithLock.No);
+                async () => await DoGetInfo(ipAddress), WithLock.Yes);
         }
 
         private async Task<GeoipInfo> DoGetInfo(string ipAddress)
@@ -115,8 +115,8 @@ namespace Epsilon.Logic.Services
         {
             to.CountryCode = from.CountryCode;
             to.ContinentCode = from.ContinentCode;
-            to.Latitude = (double)from.Latitude;
-            to.Longitude = (double)from.Longitude;
+            to.Latitude = (double?)from.Latitude;
+            to.Longitude = (double?)from.Longitude;
         }
 
         private async Task RaiseMaxRetriesReached()

@@ -18,6 +18,7 @@ using Epsilon.Logic.Infrastructure;
 using Epsilon.Logic.Services.Interfaces;
 using Epsilon.Logic.Infrastructure.Extensions;
 using Microsoft.AspNet.Identity;
+using Epsilon.Logic.Constants.Enums;
 
 namespace Epsilon.Web.Controllers.Filters.Mvc
 {
@@ -38,6 +39,9 @@ namespace Epsilon.Web.Controllers.Filters.Mvc
 
         [Inject]
         public IUserPreferenceService UserPreferenceService { get; set; }
+
+        [Inject]
+        public IDbAppSettingsHelper DbAppSettingsHelper { get; set; }
 
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
@@ -61,7 +65,8 @@ namespace Epsilon.Web.Controllers.Filters.Mvc
             }
 
             // Attempt 3: Get it from the IP address country
-            if (string.IsNullOrWhiteSpace(languageId))
+            if (DbAppSettingsHelper.GetBool(DbAppSettingKey.GlobalSwitch_DisableUseOfGeoipInformation) != true
+                || string.IsNullOrWhiteSpace(languageId))
             {
                 var ipAddress = filterContext.HttpContext.GetSanitizedIpAddress();
                 var geoip = GeoipInfoService.GetInfo(ipAddress);
