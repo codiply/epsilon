@@ -34,7 +34,7 @@ namespace Epsilon.Logic.Services
             {
                 Id = userId,
                 LanguageId = languageId.ToLower(),
-                UpdatedOn = _clock.OffsetNow
+                UpdatedOn = _clock.OffsetNow // TODO_PANOS_TEST
             };
             _dbContext.UserPreferences.Add(newUserPreference);
             await _dbContext.SaveChangesAsync();

@@ -52,6 +52,8 @@ namespace Epsilon.Logic.Services
                 .ToListAsync();
 
             var outgoingVerificationsToReward = unrewardedOutgoingVerifications
+                // There should be at least on more verification
+                .Where(x => x.TenancyDetailsSubmission.TenantVerifications.Count > 1)
                 .Where(x => x.TenancyDetailsSubmission.TenantVerifications.All(y => !y.SenderRewardedOn.HasValue && y.CreatedOn < cutoff))
                 .SelectMany(x => x.TenancyDetailsSubmission.TenantVerifications).ToList();
 
