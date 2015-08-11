@@ -1,7 +1,10 @@
 ﻿@using Epsilon.Resources.Web.UserHome
+@using Epsilon.Logic.Models
 
 @{
     ViewBag.Title = UserHomeResources.Index_PageTitle;
+
+    var userInterfaceCustomisation = (UserInterfaceCustomisationModel) ViewBag.UserInterfaceCustomisation;
 }
 
 <hr />
@@ -20,15 +23,34 @@
     </div>
 
     <div class="col-md-4">
+        @if (userInterfaceCustomisation.CanCreateTenancyDetailsSubmission)
+        {
         <div class="panel panel-primary">
-            <div class="panel-heading"><h4>@UserHomeResources.SectionCreateSubmission_Header</h4></div>
+            <div class="panel-heading">
+                <h4>
+                    @(userInterfaceCustomisation.HasNoTenancyDetailsSubmissions ? 
+                      UserHomeResources.SectionCreateSubmission_NoPreviousSubmissions_Header :
+                      UserHomeResources.SectionCreateSubmission_Header)
+                </h4>
+            </div>
             <div class="panel-body">
                 <p>
-                    @UserHomeResources.SectionCreateSubmission_Text
+                    @(userInterfaceCustomisation.HasNoTenancyDetailsSubmissions ?
+                      UserHomeResources.SectionCreateSubmission_NoPreviousSubmissions_Text :
+                      UserHomeResources.SectionCreateSubmission_Text)
                 </p>
-                <p><a class="btn btn-primary" href="@Url.Action("SearchAddress", "Submission")">@UserHomeResources.SectionCreateSubmission_ButtonText &raquo;</a></p>
+                <p><a class="btn btn-primary" 
+                      href="@Url.Action("SearchAddress", "Submission")">
+                    @(userInterfaceCustomisation.HasNoTenancyDetailsSubmissions ?
+                      UserHomeResources.SectionCreateSubmission_NoPreviousSubmissions_ButtonText :
+                      UserHomeResources.SectionCreateSubmission_ButtonText) &raquo;
+                   </a>
+                </p>
             </div>
         </div>
+        }
+        @if (userInterfaceCustomisation.CanPickOutgoingVerification)
+        {
         <div class="panel panel-primary">
             <div class="panel-heading"><h4>@UserHomeResources.SectionPickOutgoingVerification_Header</h4></div>
             <div class="panel-body">
@@ -46,6 +68,7 @@
                 </p>
             </div>
         </div>
+        }
         <div class="panel panel-primary">
             <div class="panel-heading"><h4>@UserHomeResources.SectionExploreProperties_Header</h4></div>
             <div class="panel-body">

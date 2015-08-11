@@ -27,6 +27,11 @@ namespace Epsilon.Logic.Constants
                 userId, limitItemsReturned ? "TRUE" : "FALSE");
         }
 
+        public static string GetUserInterfaceCustomisationForUser(string userId)
+        {
+            return string.Format("APPCACHE:GET_USER_INTERFACE_CUSTOMISATION_FOR_USER:{0}", userId);
+        }
+
         public static string GetUserOutgoingVerificationsSummary(string userId, bool limitItemsReturned)
         {
             return string.Format("APPCACHE:GET_USER_OUTGOING_VERIFICATIONS_SUMMARY:{0}:LIMIT_ITEMS_RETURNED:{1}",

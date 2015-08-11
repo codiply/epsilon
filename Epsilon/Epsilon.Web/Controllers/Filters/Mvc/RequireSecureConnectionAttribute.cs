@@ -9,6 +9,7 @@ using System.Web.Mvc;
 
 namespace Epsilon.Web.Controllers.Filters.Mvc
 {
+    [AttributeUsage(AttributeTargets.Class, Inherited = true)]
     public class RequireSecureConnectionAttribute : RequireHttpsAttribute
     {
         [Inject]

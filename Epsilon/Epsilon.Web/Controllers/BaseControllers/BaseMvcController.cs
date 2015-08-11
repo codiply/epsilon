@@ -18,7 +18,8 @@ namespace Epsilon.Web.Controllers.BaseControllers
     [AvailableCountry(Order = 400)]
     [DisableWholeWebsiteForMaintenance(Order = 500)]
     [Authorize(Order = 600)]
-    [ResponseTiming(Order = 700)]
+    [UserInterfaceCustomisation(Order = 700)]
+    [ResponseTiming(Order = 800)]
     public class BaseMvcController : Controller
     {
         internal string GetUserIpAddress()

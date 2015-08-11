@@ -160,6 +160,7 @@
     <Compile Include="Entities\GeoipInfo.cs" />
     <Compile Include="Models\AddressModel.cs" />
     <Compile Include="Models\OutgoingVerificationInstructionsModel.cs" />
+    <Compile Include="Models\UserInterfaceCustomisationModel.cs" />
     <Compile Include="Models\ViewPropertyInfoPropertyModel.cs" />
     <Compile Include="Models\UiAlert.cs" />
     <Compile Include="Entities\AddressGeometry.cs" />
@@ -259,6 +260,7 @@
     <Compile Include="Services\Interfaces\IPropertyInfoAccessService.cs" />
     <Compile Include="Services\Interfaces\ITokenRewardService.cs" />
     <Compile Include="Services\Interfaces\IUserAccountMaintenanceService.cs" />
+    <Compile Include="Services\Interfaces\IUserInterfaceCustomisationService.cs" />
     <Compile Include="Services\Interfaces\IUserResidenceService.cs" />
     <Compile Include="Services\OutgoingVerificationService.cs" />
     <Compile Include="Services\PropertyInfoAccessService.cs" />
@@ -274,6 +276,7 @@
     <Compile Include="Services\Interfaces\ICountryService.cs" />
     <Compile Include="Helpers\Interfaces\ICountryVariantResourceHelper.cs" />
     <Compile Include="Services\TokenRewardService.cs" />
+    <Compile Include="Services\UserInterfaceCustomisationService.cs" />
     <Compile Include="Services\UserAccountMaintenanceService.cs" />
     <Compile Include="Services\UserResidenceService.cs" />
     <Compile Include="SqlContext\Mapping\AdminEventLogMap.cs" />

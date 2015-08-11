@@ -15,11 +15,9 @@ using Epsilon.Logic.Constants;
 
 namespace Epsilon.Web.Controllers.Filters.Mvc
 {
-    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
+    [AttributeUsage(AttributeTargets.Class, Inherited = true)]
     public class AvailableCountryAttribute : ActionFilterAttribute
     {
-        private readonly string _settingKey;
-
         [Inject]
         public IDbAppSettingsHelper DbAppSettingsHelper { get; set; }
 

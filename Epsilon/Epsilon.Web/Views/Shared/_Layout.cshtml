@@ -1,11 +1,15 @@
 ﻿@using Epsilon.Logic.Constants
 @using Epsilon.Logic.Helpers.Interfaces
+@using Epsilon.Logic.Models
 @using System
 @using System.Text
+
 @{
     var appSettingsHelper = DependencyResolver.Current.GetService<IAppSettingsHelper>();
     var applicationName = appSettingsHelper.GetString(AppSettingsKey.ApplicationName);
     var companyName = appSettingsHelper.GetString(AppSettingsKey.CompanyName);
+
+    var userInterfaceCustomisation = (UserInterfaceCustomisationModel)ViewBag.UserInterfaceCustomisation;
 }
 <!DOCTYPE html>
 <html>

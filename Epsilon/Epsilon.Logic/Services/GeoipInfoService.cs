@@ -44,8 +44,7 @@ namespace Epsilon.Logic.Services
         
         public GeoipInfo GetInfo(string ipAddress)
         {
-            return _appCache.Get(AppCacheKey.GetGeoipInfoForIpAddress(ipAddress),
-                () => Task.Run(() => DoGetInfo(ipAddress)).Result, WithLock.No);
+            return Task.Run(() => GetInfoAsync(ipAddress)).Result;
         }
 
         public async Task<GeoipInfo> GetInfoAsync(string ipAddress)

@@ -79,7 +79,7 @@ namespace Epsilon.Resources.Web.UserHome {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Start.
+        ///   Looks up a localized string similar to Moved houses?.
         /// </summary>
         public static string SectionCreateSubmission_Header {
             get {
@@ -88,7 +88,34 @@ namespace Epsilon.Resources.Web.UserHome {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Start.
+        /// </summary>
+        public static string SectionCreateSubmission_NoPreviousSubmissions_ButtonText {
+            get {
+                return ResourceManager.GetString("SectionCreateSubmission_NoPreviousSubmissions_ButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Start.
+        /// </summary>
+        public static string SectionCreateSubmission_NoPreviousSubmissions_Header {
+            get {
+                return ResourceManager.GetString("SectionCreateSubmission_NoPreviousSubmissions_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Start by providing your address details..
+        /// </summary>
+        public static string SectionCreateSubmission_NoPreviousSubmissions_Text {
+            get {
+                return ResourceManager.GetString("SectionCreateSubmission_NoPreviousSubmissions_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Make a new submission.
         /// </summary>
         public static string SectionCreateSubmission_Text {
             get {

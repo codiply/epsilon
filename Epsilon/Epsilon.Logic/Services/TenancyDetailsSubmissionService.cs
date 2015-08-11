@@ -32,6 +32,7 @@ namespace Epsilon.Logic.Services
         private readonly IAddressService _addressService;
         private readonly IAntiAbuseService _antiAbuseService;
         private readonly IUserTokenService _userTokenService;
+        private readonly IUserInterfaceCustomisationService _userInterfaceCustomisationService;
 
         public TenancyDetailsSubmissionService(
             IClock clock,
@@ -40,7 +41,8 @@ namespace Epsilon.Logic.Services
             IEpsilonContext dbContext,
             IAddressService addressService,
             IAntiAbuseService antiAbuseService,
-            IUserTokenService userTokenService)
+            IUserTokenService userTokenService,
+            IUserInterfaceCustomisationService userInterfaceCustomisationService)
         {
             _clock = clock;
             _appCache = appCache;
@@ -49,6 +51,7 @@ namespace Epsilon.Logic.Services
             _addressService = addressService;
             _antiAbuseService = antiAbuseService;
             _userTokenService = userTokenService;
+            _userInterfaceCustomisationService = userInterfaceCustomisationService;
         }
 
         public async Task<bool> SubmissionBelongsToUser(string userId, Guid submissionUniqueId)
@@ -159,6 +162,8 @@ namespace Epsilon.Logic.Services
             });
 
             RemoveCachedUserSubmissionsSummary(userId);
+            // TODO_PANOS_TEST
+            _userInterfaceCustomisationService.ClearCachedCustomisationForUser(userId);
 
             return new CreateTenancyDetailsSubmissionOutcome
             {
@@ -268,6 +273,8 @@ namespace Epsilon.Logic.Services
             // TODO_PANOS: commit the transaction down here
 
             RemoveCachedUserSubmissionsSummary(userId);
+            // TODO_PANOS_TEST
+            _userInterfaceCustomisationService.ClearCachedCustomisationForUser(userId);
 
             return new EnterVerificationCodeOutcome
             {

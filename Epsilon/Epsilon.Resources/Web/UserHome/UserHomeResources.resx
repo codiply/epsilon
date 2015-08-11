@@ -124,10 +124,19 @@
     <value>Start</value>
   </data>
   <data name="SectionCreateSubmission_Header" xml:space="preserve">
+    <value>Moved houses?</value>
+  </data>
+  <data name="SectionCreateSubmission_NoPreviousSubmissions_ButtonText" xml:space="preserve">
     <value>Start</value>
   </data>
-  <data name="SectionCreateSubmission_Text" xml:space="preserve">
+  <data name="SectionCreateSubmission_NoPreviousSubmissions_Header" xml:space="preserve">
+    <value>Start</value>
+  </data>
+  <data name="SectionCreateSubmission_NoPreviousSubmissions_Text" xml:space="preserve">
     <value>Start by providing your address details.</value>
+  </data>
+  <data name="SectionCreateSubmission_Text" xml:space="preserve">
+    <value>Make a new submission</value>
   </data>
   <data name="SectionExploreProperties_ButtonText" xml:space="preserve">
     <value>Explore</value>

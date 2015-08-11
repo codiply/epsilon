@@ -19,6 +19,7 @@ using Epsilon.Logic.Services.Interfaces;
 
 namespace Epsilon.Web.Controllers.Filters.Mvc
 {
+    [AttributeUsage(AttributeTargets.Class, Inherited = true)]
     public class InternationalizationAttribute : ActionFilterAttribute
     {
         [Inject]

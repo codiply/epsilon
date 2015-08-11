@@ -18,6 +18,7 @@ namespace Epsilon.Logic.Services.Interfaces
         Task<AntiAbuseServiceResponse> CanRegister(string userIpAddress);
         Task<AntiAbuseServiceResponse> CanAddAddress(string userId, string userIpAddress, CountryId addressCountryId);
         Task<AntiAbuseServiceResponse> CanCreateTenancyDetailsSubmission(string userId, string userIpAddress, CountryId addressCountryId);
+        Task<AntiAbuseServiceResponse> CanCreateTenancyDetailsSubmissionCheckUserFrequency(string userId);
         Task<AntiAbuseServiceResponse> CanPickOutgoingVerification(string userId, string userIpAddress, CountryId verificationCountryId);
     }
 }

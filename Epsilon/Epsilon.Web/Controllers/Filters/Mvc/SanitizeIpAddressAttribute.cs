@@ -10,7 +10,7 @@ using System.Web.Mvc;
 
 namespace Epsilon.Web.Controllers.Filters.Mvc
 {
-    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
+    [AttributeUsage(AttributeTargets.Class, Inherited = true)]
     public class SanitizeIpAddressAttribute : ActionFilterAttribute
     {
         [Inject]

@@ -116,6 +116,30 @@ namespace Epsilon.Logic.Services
             return new AntiAbuseServiceResponse { IsRejected = false };
         }
 
+        // TODO_PANOS_TEST
+        public async Task<AntiAbuseServiceResponse> CanCreateTenancyDetailsSubmissionCheckUserFrequency(string userId)
+        {
+            if (_antiAbuseServiceConfig.CreateTenancyDetailsSubmission_DisableUserFrequencyCheck)
+                return new AntiAbuseServiceResponse { IsRejected = false };
+
+            var maxFrequency = _antiAbuseServiceConfig.CreateTenancyDetailsSubmission_MaxFrequencyPerUser;
+
+            var windowStart = _clock.OffsetNow - maxFrequency.Period;
+            var actualTimes = await _dbContext.TenancyDetailsSubmissions
+                .Where(a => a.UserId.Equals(userId))
+                .Where(a => a.CreatedOn > windowStart)
+                .CountAsync();
+
+            if (actualTimes >= maxFrequency.Times)
+                return new AntiAbuseServiceResponse
+                {
+                    IsRejected = true,
+                    RejectionReason = AntiAbuseResources.CreateTenancyDetailsSubmission_UserFrequencyCheck_RejectionMessage
+                };
+
+            return new AntiAbuseServiceResponse { IsRejected = false };
+        }
+
         public async Task<AntiAbuseServiceResponse> CanPickOutgoingVerification(string userId, string userIpAddress, CountryId verificationCountryId)
         {
             var checkGlobalFrequency = await CanPickOutgoingVerificationCheckGlobalFrequency();
@@ -354,29 +378,6 @@ namespace Epsilon.Logic.Services
                 {
                     IsRejected = true,
                     RejectionReason = AntiAbuseResources.CreateTenancyDetailsSubmission_IpAddressFrequencyCheck_RejectionMessage
-                };
-
-            return new AntiAbuseServiceResponse { IsRejected = false };
-        }
-
-        private async Task<AntiAbuseServiceResponse> CanCreateTenancyDetailsSubmissionCheckUserFrequency(string userId)
-        {
-            if (_antiAbuseServiceConfig.CreateTenancyDetailsSubmission_DisableUserFrequencyCheck)
-                return new AntiAbuseServiceResponse { IsRejected = false };
-
-            var maxFrequency = _antiAbuseServiceConfig.CreateTenancyDetailsSubmission_MaxFrequencyPerUser;
-
-            var windowStart = _clock.OffsetNow - maxFrequency.Period;
-            var actualTimes = await _dbContext.TenancyDetailsSubmissions
-                .Where(a => a.UserId.Equals(userId))
-                .Where(a => a.CreatedOn > windowStart)
-                .CountAsync();
-
-            if (actualTimes >= maxFrequency.Times)
-                return new AntiAbuseServiceResponse
-                {
-                    IsRejected = true,
-                    RejectionReason = AntiAbuseResources.CreateTenancyDetailsSubmission_UserFrequencyCheck_RejectionMessage
                 };
 
             return new AntiAbuseServiceResponse { IsRejected = false };

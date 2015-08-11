@@ -45,6 +45,11 @@ You will need to use a Google Api Key in order to access the [Google Geocoding A
 
 To run the integration tests publish first the Database project into a new local database named **EpsilonTest**.  
 
+## Tips and Tricks
+
+- You can simulate a different IP address by setting `Epsilon.IpAddressOverride` in the `Web.config`
+- There are many anti-abuse and other checks in place that limit the number of times you can perform actions. You can change these settings in the database or use `Scripts/DevScripts/DevAppSettings.sql` by changing the values and running it on your database. DbAppSettings are cached so you will need to restart the website for the changes to take effect.
+
 ## Checklists
 
 ### New DbAppSetting Checklist

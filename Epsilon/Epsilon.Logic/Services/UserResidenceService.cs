@@ -23,7 +23,7 @@ namespace Epsilon.Logic.Services
 
         public async Task<GetResidenceResponse> GetResidence(string userId)
         {
-            var lastVerifiedSubmission = _dbContext.TenancyDetailsSubmissions
+            var lastVerifiedSubmission = await _dbContext.TenancyDetailsSubmissions
                 .Include(s => s.TenantVerifications)
                 .Include(s => s.Address)
                 .Include(s => s.Address.Country)
@@ -31,7 +31,7 @@ namespace Epsilon.Logic.Services
                 .Where(s => s.UserId.Equals(userId))
                 .Where(s => s.TenantVerifications.Any(v => v.VerifiedOn.HasValue))
                 .OrderByDescending(s => s.CreatedOn)
-                .FirstOrDefault();
+                .FirstOrDefaultAsync();
 
             if (lastVerifiedSubmission != null)
             {
@@ -43,13 +43,13 @@ namespace Epsilon.Logic.Services
                 };
             }
 
-            var lastUnverifiedSubmission = _dbContext.TenancyDetailsSubmissions
+            var lastUnverifiedSubmission = await _dbContext.TenancyDetailsSubmissions
                 .Include(s => s.Address)
                 .Include(s => s.Address.Country)
                 .Include(s => s.Address.Geometry)
                 .Where(s => s.UserId.Equals(userId))
                 .OrderByDescending(s => s.CreatedOn)
-                .FirstOrDefault();
+                .FirstOrDefaultAsync();
 
             if (lastUnverifiedSubmission != null)
             {
