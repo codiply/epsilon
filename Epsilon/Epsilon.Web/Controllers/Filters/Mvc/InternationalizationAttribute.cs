@@ -66,7 +66,7 @@ namespace Epsilon.Web.Controllers.Filters.Mvc
 
             // Attempt 3: Get it from the IP address country
             if (DbAppSettingsHelper.GetBool(DbAppSettingKey.GlobalSwitch_DisableUseOfGeoipInformation) != true
-                || string.IsNullOrWhiteSpace(languageId))
+                && string.IsNullOrWhiteSpace(languageId))
             {
                 var ipAddress = filterContext.HttpContext.GetSanitizedIpAddress();
                 var geoip = GeoipInfoService.GetInfo(ipAddress);

@@ -40,15 +40,16 @@ namespace Epsilon.Logic.Services
             _adminEventLogService = adminEventLogService;
         }
 
-        public async Task DoMaintenance(string userId)
+        public async Task DoMaintenance(string email)
         {
             try {
-                await CheckForUnrewardedOutgoingVerifications(userId);
+                var user = await _dbContext.Users.SingleAsync(u => u.Email.Equals(email));
+                await CheckForUnrewardedOutgoingVerifications(user.Id);
             }
             catch (Exception ex)
             {
                 Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
-                await RaiseMaintenanceThrewException(userId);
+                await RaiseMaintenanceThrewException(email);
             }
         }
 
@@ -97,12 +98,12 @@ namespace Epsilon.Logic.Services
             }
         }
 
-        private async Task RaiseMaintenanceThrewException(string maintenanceUserId)
+        private async Task RaiseMaintenanceThrewException(string maintenanceUserEmail)
         {
             _adminAlertService.SendAlert(AdminAlertKey.UserAccountMaintenanceThrewException);
             var extraInfo = new Dictionary<string, object>
             {
-                { "MaintenanceUserId", maintenanceUserId }
+                { "MaintenanceUserEmail", maintenanceUserEmail }
             };
             await _adminEventLogService.Log(AdminEventLogKey.UserAccountMaintenanceThrewException, extraInfo);
         }

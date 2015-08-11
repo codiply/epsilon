@@ -8,6 +8,6 @@ namespace Epsilon.Logic.Services.Interfaces
 {
     public interface IUserAccountMaintenanceService
     {
-        Task DoMaintenance(string userId);
+        Task DoMaintenance(string email);
     }
 }

@@ -77,7 +77,7 @@ namespace Epsilon.Web.Controllers
             {
                 case SignInStatus.Success:
                     await _ipAddressActivityService.RecordLogin(model.Email, GetUserIpAddress());
-                    await _userAccountMaintenanceService.DoMaintenance(GetUserId());
+                    await _userAccountMaintenanceService.DoMaintenance(model.Email);
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
