@@ -79,8 +79,9 @@
     <div class="form-group row" data-ng-cloak data-ng-show="propertySearchResponse.results.length > 0">
         <div class="col-md-offset-3 col-md-9">
             <a class="btn btn-default" aria-label="Left Align"
-               data-ng-href="@(Url.Action("GainAccess") + "/{{selectedAddressUniqueId}}")"
-               data-ng-disabled="!selectedAddressUniqueId">
+               data-ng-href="{{ selectedAddressUniqueId ? '@(Url.Action("GainAccess"))/' + selectedAddressUniqueId : ''}}"
+               data-ng-disabled="!selectedAddressUniqueId"
+               ng-click="alert('panos');">
                 <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> @PropertyInfoResources.SearchProperties_GainAccessButton
             </a>
         </div>
