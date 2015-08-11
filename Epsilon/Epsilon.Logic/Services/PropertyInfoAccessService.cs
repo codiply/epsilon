@@ -16,6 +16,7 @@ using Epsilon.Logic.JsonModels;
 using Epsilon.Logic.Configuration.Interfaces;
 using Epsilon.Logic.Wrappers.Interfaces;
 using Epsilon.Resources.Common;
+using System.Transactions;
 
 namespace Epsilon.Logic.Services
 {
@@ -103,100 +104,104 @@ namespace Epsilon.Logic.Services
             Guid accessUniqueId,
             Guid addressUniqueId)
         {
-            if (_propertyInfoAccessServiceConfig.GlobalSwitch_DisableCreatePropertyInfoAccess)
+            using (var transactionScope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+            {
+                if (_propertyInfoAccessServiceConfig.GlobalSwitch_DisableCreatePropertyInfoAccess)
+                    return new CreatePropertyInfoAccessOutcome
+                    {
+                        IsRejected = true,
+                        RejectionReason = PropertyInfoAccessResources.GlobalSwitch_CreatePropertyInfoAccessDisabled_Message,
+                        PropertyInfoAccessUniqueId = null
+                    };
+
+                // TODO_PANOS_TEST: the whole thing
+
+                var uiAlerts = new List<UiAlert>();
+
+                var address = await _addressService.GetAddress(addressUniqueId);
+                if (address == null)
+                {
+                    // TODO_PANOS_TEST
+                    return new CreatePropertyInfoAccessOutcome
+                    {
+                        IsRejected = true,
+                        RejectionReason = PropertyInfoAccessResources.Create_AddressNotFoundMessage
+                    };
+                }
+
+                var existingPropertyInfoAccess = await GetExistingUnexpiredAccess(userId, addressUniqueId);
+                if (existingPropertyInfoAccess != null)
+                {
+                    // TODO_PANOS_TEST
+                    return new CreatePropertyInfoAccessOutcome
+                    {
+                        IsRejected = true,
+                        RejectionReason = CommonResources.GenericInvalidActionMessage
+                    };
+                }
+
+                var completeSubmissionsExist = await _addressService.AddressHasCompletedSubmissions(addressUniqueId);
+
+                if (!completeSubmissionsExist)
+                {
+                    // TODO_PANOS_TEST
+                    return new CreatePropertyInfoAccessOutcome
+                    {
+                        IsRejected = true,
+                        RejectionReason = CommonResources.GenericInvalidActionMessage
+                    };
+                }
+
+                var tokenRewardKey = TokenRewardKey.SpendPerPropertyInfoAccess;
+                var sufficientFundsExist = await _userTokenService.SufficientFundsExistForTransaction(userId, tokenRewardKey);
+
+                if (!sufficientFundsExist)
+                {
+                    return new CreatePropertyInfoAccessOutcome
+                    {
+                        IsRejected = true,
+                        RejectionReason = "Insufficient funds." // TODO_PANOS: put in a resource common with the status messages below.
+                    };
+                }
+
+                var propertyInfoAccess = await DoCreate(userId, userIpAddress, accessUniqueId, address.Id);
+
+                var tokenTransactionStatus = await _userTokenService
+                    .MakeTransaction(userId, tokenRewardKey, internalReference: propertyInfoAccess.UniqueId);
+
+                if (tokenTransactionStatus == TokenAccountTransactionStatus.Success)
+                {
+                    // TODO_PANOS: maybe add UiAlert for spending tokens.
+                }
+                else
+                {
+                    return new CreatePropertyInfoAccessOutcome
+                    {
+                        IsRejected = true,
+                        RejectionReason = "Oops, something went wrong." // TODO_PANOS: translate status to message.
+                    };
+                }
+
+                // TODO_PANOS: commit the transaction here.
+                transactionScope.Complete();
+
+                uiAlerts.Add(new UiAlert
+                {
+                    Type = UiAlertType.Success,
+                    Message = string.Format(
+                        PropertyInfoAccessResources.Create_SuccessMessage, _propertyInfoAccessServiceConfig.ExpiryPeriodInDays)
+                });
+
+                RemoveCachedUserExploredPropertiesSummary(userId);
+
                 return new CreatePropertyInfoAccessOutcome
                 {
-                    IsRejected = true,
-                    RejectionReason = PropertyInfoAccessResources.GlobalSwitch_CreatePropertyInfoAccessDisabled_Message,
-                    PropertyInfoAccessUniqueId = null
-                };
-
-            // TODO_PANOS_TEST: the whole thing
-
-            var uiAlerts = new List<UiAlert>();
-
-            var address = await _addressService.GetAddress(addressUniqueId);
-            if (address == null)
-            {
-                // TODO_PANOS_TEST
-                return new CreatePropertyInfoAccessOutcome
-                {
-                    IsRejected = true,
-                    RejectionReason =  PropertyInfoAccessResources.Create_AddressNotFoundMessage
+                    IsRejected = false,
+                    PropertyInfoAccessUniqueId = propertyInfoAccess.UniqueId,
+                    // TODO_PANOS_TEST
+                    UiAlerts = uiAlerts
                 };
             }
-
-            var existingPropertyInfoAccess = await GetExistingUnexpiredAccess(userId, addressUniqueId);
-            if (existingPropertyInfoAccess != null)
-            {
-                // TODO_PANOS_TEST
-                return new CreatePropertyInfoAccessOutcome
-                {
-                    IsRejected = true,
-                    RejectionReason = CommonResources.GenericInvalidActionMessage
-                };
-            }
-
-            var completeSubmissionsExist = await _addressService.AddressHasCompletedSubmissions(addressUniqueId);
-
-            if (!completeSubmissionsExist)
-            {
-                // TODO_PANOS_TEST
-                return new CreatePropertyInfoAccessOutcome
-                {
-                    IsRejected = true,
-                    RejectionReason = CommonResources.GenericInvalidActionMessage
-                };
-            }
-
-            var tokenRewardKey = TokenRewardKey.SpendPerPropertyInfoAccess;
-            var sufficientFundsExist = await _userTokenService.SufficientFundsExistForTransaction(userId, tokenRewardKey);
-
-            if (!sufficientFundsExist)
-            {
-                return new CreatePropertyInfoAccessOutcome
-                {
-                    IsRejected = true,
-                    RejectionReason = "Insufficient funds." // TODO_PANOS: put in a resource common with the status messages below.
-                };
-            }
-
-            var propertyInfoAccess = await DoCreate(userId, userIpAddress, accessUniqueId, address.Id);
-
-            var tokenTransactionStatus = await _userTokenService
-                .MakeTransaction(userId, tokenRewardKey, internalReference: propertyInfoAccess.UniqueId);
-
-            if (tokenTransactionStatus == TokenAccountTransactionStatus.Success)
-            {
-                // TODO_PANOS: maybe add UiAlert for spending tokens.
-            }
-            else
-            {
-                return new CreatePropertyInfoAccessOutcome
-                {
-                    IsRejected = true,
-                    RejectionReason = "Oops, something went wrong." // TODO_PANOS: translate status to message.
-                };
-            }
-
-            // TODO_PANOS: commit the transaction here.
-
-            uiAlerts.Add(new UiAlert
-            {
-                Type = UiAlertType.Success,
-                Message = string.Format(
-                    PropertyInfoAccessResources.Create_SuccessMessage, _propertyInfoAccessServiceConfig.ExpiryPeriodInDays)
-            });
-
-            RemoveCachedUserExploredPropertiesSummary(userId);
-
-            return new CreatePropertyInfoAccessOutcome
-            {
-                IsRejected = false,
-                PropertyInfoAccessUniqueId = propertyInfoAccess.UniqueId,
-                // TODO_PANOS_TEST
-                UiAlerts = uiAlerts
-            };
         }
 
         public async Task<GetInfoOutcome> GetInfo(string userId, Guid accessUniqueId)

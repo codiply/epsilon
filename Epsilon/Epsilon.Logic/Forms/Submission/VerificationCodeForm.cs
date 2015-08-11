@@ -10,7 +10,6 @@ using System.Web.Mvc;
 
 namespace Epsilon.Logic.Forms.Submission
 {
-    [Bind(Exclude = "DisplayAddress")]
     public class VerificationCodeForm
     {
         public string DisplayAddress { get; set; }

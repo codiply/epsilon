@@ -20,6 +20,7 @@ using Epsilon.Logic.Constants.Enums;
 using Epsilon.Logic.Infrastructure.Interfaces;
 using Epsilon.Logic.Constants;
 using Epsilon.Logic.Entities.Interfaces;
+using System.Transactions;
 
 namespace Epsilon.Logic.Services
 {
@@ -111,156 +112,149 @@ namespace Epsilon.Logic.Services
             Guid submissionUniqueId,
             Guid addressUniqueId)
         {
-            var uiAlerts = new List<UiAlert>();
-
-            if (_tenancyDetailsSubmissionServiceConfig.GlobalSwitch_DisableCreateTenancyDetailsSubmission)
-                return new CreateTenancyDetailsSubmissionOutcome
-                {
-                    IsRejected = true,
-                    RejectionReason = TenancyDetailsSubmissionResources.GlobalSwitch_CreateTenancyDetailsSubmissionDisabled_Message,
-                    ReturnToForm = false,
-                    TenancyDetailsSubmissionUniqueId = null
-                };
-
-            var address = await _addressService.GetAddress(addressUniqueId);
-            if (address == null)
+            using (var transactionScope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
-                return new CreateTenancyDetailsSubmissionOutcome
-                {
-                    IsRejected = true,
-                    RejectionReason = TenancyDetailsSubmissionResources.Create_AddressNotFoundMessage
-                };
-            }
+                var uiAlerts = new List<UiAlert>();
 
-            var antiAbuseCheck = await _antiAbuseService.CanCreateTenancyDetailsSubmission(userId, userIpAddress, address.CountryIdAsEnum());
-            if (antiAbuseCheck.IsRejected)
-            {
-                return new CreateTenancyDetailsSubmissionOutcome
-                {
-                    IsRejected = true,
-                    RejectionReason = antiAbuseCheck.RejectionReason
-                };
-            }
-
-            if (!_tenancyDetailsSubmissionServiceConfig.Create_DisableFrequencyPerAddressCheck)
-            {
-                var tooManyRecentSubmissionsExist = await TooManyRecentSubmissionsExist(address.Id);
-                if (tooManyRecentSubmissionsExist)
+                if (_tenancyDetailsSubmissionServiceConfig.GlobalSwitch_DisableCreateTenancyDetailsSubmission)
                     return new CreateTenancyDetailsSubmissionOutcome
                     {
                         IsRejected = true,
-                        RejectionReason = TenancyDetailsSubmissionResources.Create_MaxFrequencyPerAddressCheck_RejectionMessage
+                        RejectionReason = TenancyDetailsSubmissionResources.GlobalSwitch_CreateTenancyDetailsSubmissionDisabled_Message,
+                        ReturnToForm = false,
+                        TenancyDetailsSubmissionUniqueId = null
                     };
-            }
 
-            var tenancyDetailsSubmission = await DoCreate(userId, userIpAddress, submissionUniqueId, address.Id);
+                var address = await _addressService.GetAddress(addressUniqueId);
+                if (address == null)
+                {
+                    return new CreateTenancyDetailsSubmissionOutcome
+                    {
+                        IsRejected = true,
+                        RejectionReason = TenancyDetailsSubmissionResources.Create_AddressNotFoundMessage
+                    };
+                }
 
-            uiAlerts.Add(new UiAlert
-            {
-                Type = UiAlertType.Success,
-                Message = TenancyDetailsSubmissionResources.Create_SuccessMessage
-            });
+                var antiAbuseCheck = await _antiAbuseService.CanCreateTenancyDetailsSubmission(userId, userIpAddress, address.CountryIdAsEnum());
+                if (antiAbuseCheck.IsRejected)
+                {
+                    return new CreateTenancyDetailsSubmissionOutcome
+                    {
+                        IsRejected = true,
+                        RejectionReason = antiAbuseCheck.RejectionReason
+                    };
+                }
 
-            RemoveCachedUserSubmissionsSummary(userId);
-            // TODO_PANOS_TEST
-            _userInterfaceCustomisationService.ClearCachedCustomisationForUser(userId);
+                if (!_tenancyDetailsSubmissionServiceConfig.Create_DisableFrequencyPerAddressCheck)
+                {
+                    var tooManyRecentSubmissionsExist = await TooManyRecentSubmissionsExist(address.Id);
+                    if (tooManyRecentSubmissionsExist)
+                        return new CreateTenancyDetailsSubmissionOutcome
+                        {
+                            IsRejected = true,
+                            RejectionReason = TenancyDetailsSubmissionResources.Create_MaxFrequencyPerAddressCheck_RejectionMessage
+                        };
+                }
 
-            return new CreateTenancyDetailsSubmissionOutcome
-            {
-                IsRejected = false,
-                TenancyDetailsSubmissionUniqueId = tenancyDetailsSubmission.UniqueId,
+                var tenancyDetailsSubmission = await DoCreate(userId, userIpAddress, submissionUniqueId, address.Id);
+
+                transactionScope.Complete();
+
+                uiAlerts.Add(new UiAlert
+                {
+                    Type = UiAlertType.Success,
+                    Message = TenancyDetailsSubmissionResources.Create_SuccessMessage
+                });
+
+                RemoveCachedUserSubmissionsSummary(userId);
                 // TODO_PANOS_TEST
-                UiAlerts = uiAlerts
-            };
+                _userInterfaceCustomisationService.ClearCachedCustomisationForUser(userId);
+
+                return new CreateTenancyDetailsSubmissionOutcome
+                {
+                    IsRejected = false,
+                    TenancyDetailsSubmissionUniqueId = tenancyDetailsSubmission.UniqueId,
+                    // TODO_PANOS_TEST
+                    UiAlerts = uiAlerts
+                };
+            }
         }
 
         public async Task<EnterVerificationCodeOutcome> EnterVerificationCode(string userId, VerificationCodeForm form)
         {
-            var uiAlerts = new List<UiAlert>();
-
-            var submission = await GetSubmissionForUser(userId, form.TenancyDetailsSubmissionUniqueId);
-            if (submission == null)
+            using (var transactionScope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
-                return new EnterVerificationCodeOutcome
+                var uiAlerts = new List<UiAlert>();
+
+                var submission = await GetSubmissionForUser(userId, form.TenancyDetailsSubmissionUniqueId);
+                if (submission == null)
                 {
-                    IsRejected = true,
-                    RejectionReason = CommonResources.GenericInvalidRequestMessage
-                };
-            }
+                    return new EnterVerificationCodeOutcome
+                    {
+                        IsRejected = true,
+                        RejectionReason = CommonResources.GenericInvalidRequestMessage
+                    };
+                }
 
-            if(!submission.CanEnterVerificationCode())
-            {
-                return new EnterVerificationCodeOutcome
+                if (!submission.CanEnterVerificationCode())
                 {
-                    IsRejected = true,
-                    RejectionReason = CommonResources.GenericInvalidActionMessage
-                };
-            }
+                    return new EnterVerificationCodeOutcome
+                    {
+                        IsRejected = true,
+                        RejectionReason = CommonResources.GenericInvalidActionMessage
+                    };
+                }
 
-            var trimmedVerificationCodeToLower = form.VerificationCode.Trim().ToLowerInvariant();
+                var trimmedVerificationCodeToLower = form.VerificationCode.Trim().ToLowerInvariant();
 
-            var verification = 
-                submission.TenantVerifications.SingleOrDefault(v => v.SecretCode.ToLowerInvariant().Equals(trimmedVerificationCodeToLower));
+                var verification =
+                    submission.TenantVerifications.SingleOrDefault(v => v.SecretCode.ToLowerInvariant().Equals(trimmedVerificationCodeToLower));
 
-            if (verification == null)
-            {
-                return new EnterVerificationCodeOutcome
+                if (verification == null)
                 {
-                    IsRejected = true,
-                    ReturnToForm = true,
-                    RejectionReason = TenancyDetailsSubmissionResources.EnterVerification_InvalidVerificationCode_RejectionMessage
-                };
-            }
+                    return new EnterVerificationCodeOutcome
+                    {
+                        IsRejected = true,
+                        ReturnToForm = true,
+                        RejectionReason = TenancyDetailsSubmissionResources.EnterVerification_InvalidVerificationCode_RejectionMessage
+                    };
+                }
 
-            if (verification.StepVerificationReceivedDone())
-            {
-                return new EnterVerificationCodeOutcome
+                if (verification.StepVerificationReceivedDone())
                 {
-                    IsRejected = true,
-                    ReturnToForm = false,
-                    RejectionReason = TenancyDetailsSubmissionResources.EnterVerification_VerificationAlreadyUsed_RejectionMessage
-                };
-            }
+                    return new EnterVerificationCodeOutcome
+                    {
+                        IsRejected = true,
+                        ReturnToForm = false,
+                        RejectionReason = TenancyDetailsSubmissionResources.EnterVerification_VerificationAlreadyUsed_RejectionMessage
+                    };
+                }
 
-            var hasSenderBeenRewarded = verification.IsSenderRewarded();
-            if (!hasSenderBeenRewarded)
-                verification.SenderRewardedOn = _clock.OffsetNow; // TODO_PANOS_TEST
+                var hasSenderBeenRewarded = verification.IsSenderRewarded();
+                if (!hasSenderBeenRewarded)
+                    verification.SenderRewardedOn = _clock.OffsetNow; // TODO_PANOS_TEST
 
-            verification.VerifiedOn = _clock.OffsetNow;
-            _dbContext.Entry(verification).State = EntityState.Modified;
-            await _dbContext.SaveChangesAsync();
+                verification.VerifiedOn = _clock.OffsetNow;
+                _dbContext.Entry(verification).State = EntityState.Modified;
+                await _dbContext.SaveChangesAsync();
 
-            uiAlerts.Add(new UiAlert
-            {
-                Type = UiAlertType.Success,
-                Message = TenancyDetailsSubmissionResources.EnterVerificationCode_SuccessMessage
-            });
-
-            // TODO_PANOS_TEST: also test the correct internal reference is used.
-            var recipientRewardStatus = await _userTokenService.MakeTransaction(userId, TokenRewardKey.EarnPerVerificationCodeEntered, submission.UniqueId);
-            if (recipientRewardStatus == TokenAccountTransactionStatus.Success)
-            {
                 uiAlerts.Add(new UiAlert
                 {
-                    Message = "Your account has been credited with tokens for this action.", // TODO_PANOS: put in resource
-                    Type = UiAlertType.Success
+                    Type = UiAlertType.Success,
+                    Message = TenancyDetailsSubmissionResources.EnterVerificationCode_SuccessMessage
                 });
-            }
-            else
-            {
-                // TODO_PANOS_TEST
-                // TODO_PANOS: return failure before committing the transaction later on. 
-                // Use generic message as this shouldn't fail.
-                // Log exception
-                // Send AdminAlert
-            }
 
-            if (!hasSenderBeenRewarded)
-            {
                 // TODO_PANOS_TEST: also test the correct internal reference is used.
-                var senderRewardStatus = await _userTokenService
-                    .MakeTransaction(verification.AssignedToId, TokenRewardKey.EarnPerVerificationMailSent, verification.UniqueId);
-                if (senderRewardStatus != TokenAccountTransactionStatus.Success)
+                var recipientRewardStatus = await _userTokenService.MakeTransaction(userId, TokenRewardKey.EarnPerVerificationCodeEntered, submission.UniqueId);
+                if (recipientRewardStatus == TokenAccountTransactionStatus.Success)
+                {
+                    uiAlerts.Add(new UiAlert
+                    {
+                        Message = "Your account has been credited with tokens for this action.", // TODO_PANOS: put in resource
+                        Type = UiAlertType.Success
+                    });
+                }
+                else
                 {
                     // TODO_PANOS_TEST
                     // TODO_PANOS: return failure before committing the transaction later on. 
@@ -268,89 +262,111 @@ namespace Epsilon.Logic.Services
                     // Log exception
                     // Send AdminAlert
                 }
-            }
 
-            // TODO_PANOS: commit the transaction down here
+                if (!hasSenderBeenRewarded)
+                {
+                    // TODO_PANOS_TEST: also test the correct internal reference is used.
+                    var senderRewardStatus = await _userTokenService
+                        .MakeTransaction(verification.AssignedToId, TokenRewardKey.EarnPerVerificationMailSent, verification.UniqueId);
+                    if (senderRewardStatus != TokenAccountTransactionStatus.Success)
+                    {
+                        // TODO_PANOS_TEST
+                        // TODO_PANOS: return failure before committing the transaction later on. 
+                        // Use generic message as this shouldn't fail.
+                        // Log exception
+                        // Send AdminAlert
+                    }
+                }
 
-            RemoveCachedUserSubmissionsSummary(userId);
-            // TODO_PANOS_TEST
-            _userInterfaceCustomisationService.ClearCachedCustomisationForUser(userId);
-
-            return new EnterVerificationCodeOutcome
-            {
-                IsRejected = false,
-                ReturnToForm = false,
+                // TODO_PANOS: commit the transaction down here
                 // TODO_PANOS_TEST
-                UiAlerts = uiAlerts
-            };
+                transactionScope.Complete();
+
+                RemoveCachedUserSubmissionsSummary(userId);
+                // TODO_PANOS_TEST
+                _userInterfaceCustomisationService.ClearCachedCustomisationForUser(userId);
+
+                return new EnterVerificationCodeOutcome
+                {
+                    IsRejected = false,
+                    ReturnToForm = false,
+                    // TODO_PANOS_TEST
+                    UiAlerts = uiAlerts
+                };
+            }
         }
 
         public async Task<SubmitTenancyDetailsOutcome> SubmitTenancyDetails(string userId, TenancyDetailsForm form)
         {
-            var uiAlerts = new List<UiAlert>();
-
-            var submission = await GetSubmissionForUser(userId, form.TenancyDetailsSubmissionUniqueId);
-            if (submission == null)
+            using (var transactionScope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
-                return new SubmitTenancyDetailsOutcome
+                var uiAlerts = new List<UiAlert>();
+
+                var submission = await GetSubmissionForUser(userId, form.TenancyDetailsSubmissionUniqueId);
+                if (submission == null)
                 {
-                    IsRejected = true,
-                    RejectionReason = CommonResources.GenericInvalidRequestMessage
-                };
-            }
+                    return new SubmitTenancyDetailsOutcome
+                    {
+                        IsRejected = true,
+                        RejectionReason = CommonResources.GenericInvalidRequestMessage
+                    };
+                }
 
-            if(!submission.CanSubmitTenancyDetails())
-            {
-                return new SubmitTenancyDetailsOutcome
+                if (!submission.CanSubmitTenancyDetails())
                 {
-                    IsRejected = true,
-                    RejectionReason = CommonResources.GenericInvalidActionMessage
-                };
-            }
+                    return new SubmitTenancyDetailsOutcome
+                    {
+                        IsRejected = true,
+                        RejectionReason = CommonResources.GenericInvalidActionMessage
+                    };
+                }
 
-            form.ApplyOnEntity(submission);
-            submission.SubmittedOn = _clock.OffsetNow;
-            // TODO_PANOS_TEST
-            submission.CurrencyId = submission.Address.Country.CurrencyId;
-
-            _dbContext.Entry(submission).State = EntityState.Modified;
-            await _dbContext.SaveChangesAsync();
-
-            uiAlerts.Add(new UiAlert
-            {
-                Type = UiAlertType.Success,
+                form.ApplyOnEntity(submission);
+                submission.SubmittedOn = _clock.OffsetNow;
                 // TODO_PANOS_TEST
-                Message = TenancyDetailsSubmissionResources.SubmitTenancyDetails_SuccessMessage
-            });
+                submission.CurrencyId = submission.Address.Country.CurrencyId;
 
-            // TODO_PANOS_TEST: also test the correct internal reference is used.
-            var rewardStatus = await _userTokenService.MakeTransaction(userId, TokenRewardKey.EarnPerTenancyDetailsSubmission, submission.UniqueId);
-            if (rewardStatus == TokenAccountTransactionStatus.Success)
-            {
+                _dbContext.Entry(submission).State = EntityState.Modified;
+                await _dbContext.SaveChangesAsync();
+
                 uiAlerts.Add(new UiAlert
                 {
-                    Message = "Your account has been credited with tokens for this action.", // TODO_PANOS: put in resource
-                    Type = UiAlertType.Success
+                    Type = UiAlertType.Success,
+                    // TODO_PANOS_TEST
+                    Message = TenancyDetailsSubmissionResources.SubmitTenancyDetails_SuccessMessage
                 });
-            }
-            else
-            {
+
+                // TODO_PANOS_TEST: also test the correct internal reference is used.
+                var rewardStatus = await _userTokenService.MakeTransaction(userId, TokenRewardKey.EarnPerTenancyDetailsSubmission, submission.UniqueId);
+                if (rewardStatus == TokenAccountTransactionStatus.Success)
+                {
+                    uiAlerts.Add(new UiAlert
+                    {
+                        Message = "Your account has been credited with tokens for this action.", // TODO_PANOS: put in resource
+                        Type = UiAlertType.Success
+                    });
+                }
+                else
+                {
+                    // TODO_PANOS_TEST
+                    // TODO_PANOS: return failure before committing the transaction later on. 
+                    // Use generic message as this shouldn't fail.
+                    // Log exception
+                    // Send AdminAlert
+                }
+
+                // TODO_PANOS: commit the transaction down here
                 // TODO_PANOS_TEST
-                // TODO_PANOS: return failure before committing the transaction later on. 
-                // Use generic message as this shouldn't fail.
-                // Log exception
-                // Send AdminAlert
+                transactionScope.Complete();
+
+                RemoveCachedUserSubmissionsSummary(userId);
+
+                return new SubmitTenancyDetailsOutcome
+                {
+                    IsRejected = false,
+                    UiAlerts = uiAlerts
+                };
             }
-
-            // TODO_PANOS: commit the transaction down here
-
-            RemoveCachedUserSubmissionsSummary(userId);
-
-            return new SubmitTenancyDetailsOutcome
-            {
-                IsRejected = false,
-                UiAlerts = uiAlerts
-            };
         }
 
         public async Task<GetSubmissionAddressOutcome> GetSubmissionAddress(string userId, Guid submissionUniqueId)
