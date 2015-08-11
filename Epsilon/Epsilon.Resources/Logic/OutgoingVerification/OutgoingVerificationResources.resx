@@ -126,6 +126,9 @@
   <data name="MarkAsSent_SuccessMessage" xml:space="preserve">
     <value>Outgoing verification was marked as sent.</value>
   </data>
+  <data name="Pick_CannotDetermineUserResidenceErrorMessage" xml:space="preserve">
+    <value>We cannot determine your country of residence. Please submit your address first.</value>
+  </data>
   <data name="Pick_NoVerificationAssignableToUser_RejectionMessage" xml:space="preserve">
     <value>There are no verifications that can be assinged to you at the moment, please try again later.</value>
   </data>

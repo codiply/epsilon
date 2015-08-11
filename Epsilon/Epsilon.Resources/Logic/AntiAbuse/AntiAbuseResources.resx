@@ -132,6 +132,9 @@
   <data name="AddAddress_UserFrequencyCheck_RejectionMessage" xml:space="preserve">
     <value>You can only add a certain number of addresses in a certain period.</value>
   </data>
+  <data name="CannotDetermineGeoipCountryErrorMessage" xml:space="preserve">
+    <value>Sorry, we couldn't determine your country from your IP address.</value>
+  </data>
   <data name="CreateTenancyDetailsSubmission_GlobalFrequencyCheck_RejectionMessage" xml:space="preserve">
     <value>Due to big number of submissions created today, this function has been disabled. Please try again tomorrow.</value>
   </data>
@@ -140,6 +143,9 @@
   </data>
   <data name="CreateTenancyDetailsSubmission_UserFrequencyCheck_RejectionMessage" xml:space="preserve">
     <value>You can only make a certain number of submissions in a certain period of time.</value>
+  </data>
+  <data name="GeoipCountryMismatchErrorMessage" xml:space="preserve">
+    <value>Your IP address appears to be in Country {0}. We cannot process this request.</value>
   </data>
   <data name="GlobalSwitch_RegisterDisabled_Message" xml:space="preserve">
     <value>Registration is temporarily disabled. Please try again later.</value>

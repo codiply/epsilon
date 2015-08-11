@@ -19,7 +19,7 @@ namespace Epsilon.UnitTests.Logic.Services
         {
             var mockOutgoingVerificationServiceConfig = new Mock<IOutgoingVerificationServiceConfig>();
             mockOutgoingVerificationServiceConfig.Setup(x => x.GlobalSwitch_DisablePickOutgoingVerification).Returns(true);
-            var service = new OutgoingVerificationService(null, null, null, null, mockOutgoingVerificationServiceConfig.Object, null);
+            var service = new OutgoingVerificationService(null, null, null, null, mockOutgoingVerificationServiceConfig.Object, null, null);
 
             var outcome = await service.Pick("some-user", "some-ip-address", Guid.NewGuid());
 

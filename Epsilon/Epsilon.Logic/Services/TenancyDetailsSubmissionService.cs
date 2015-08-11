@@ -19,6 +19,7 @@ using Epsilon.Logic.Models;
 using Epsilon.Logic.Constants.Enums;
 using Epsilon.Logic.Infrastructure.Interfaces;
 using Epsilon.Logic.Constants;
+using Epsilon.Logic.Entities.Interfaces;
 
 namespace Epsilon.Logic.Services
 {
@@ -128,7 +129,7 @@ namespace Epsilon.Logic.Services
                 };
             }
 
-            var antiAbuseCheck = await _antiAbuseService.CanCreateTenancyDetailsSubmission(userId, userIpAddress);
+            var antiAbuseCheck = await _antiAbuseService.CanCreateTenancyDetailsSubmission(userId, userIpAddress, address.CountryIdAsEnum());
             if (antiAbuseCheck.IsRejected)
             {
                 return new CreateTenancyDetailsSubmissionOutcome

@@ -20,6 +20,7 @@ using Epsilon.Logic.Helpers.Interfaces;
 using Epsilon.Logic.Forms.Submission;
 using System.Data.SqlClient;
 using System.Data.Entity.Infrastructure;
+using Epsilon.Logic.Constants.Enums;
 
 namespace Epsilon.IntegrationTests.Logic.Services
 {
@@ -546,7 +547,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             AntiAbuseServiceResponse response)
         {
             var mockAntiAbuseService = new Mock<IAntiAbuseService>();
-            mockAntiAbuseService.Setup(x => x.CanAddAddress(It.IsAny<string>(), It.IsAny<string>()))
+            mockAntiAbuseService.Setup(x => x.CanAddAddress(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CountryId>()))
                 .Callback(callback)
                 .Returns(Task.FromResult(response));
 

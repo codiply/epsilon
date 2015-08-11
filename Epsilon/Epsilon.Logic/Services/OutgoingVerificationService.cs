@@ -33,6 +33,7 @@ namespace Epsilon.Logic.Services
         private readonly IAntiAbuseService _antiAbuseService;
         private readonly IOutgoingVerificationServiceConfig _outgoingVerificationServiceConfig;
         private readonly IRandomFactory _randomFactory;
+        private readonly IUserResidenceService _userResidenceService;
 
         public OutgoingVerificationService(
             IClock clock,
@@ -40,7 +41,8 @@ namespace Epsilon.Logic.Services
             IEpsilonContext dbContext,
             IAntiAbuseService antiAbuseService,
             IOutgoingVerificationServiceConfig outgoingVerificationServiceConfig,
-            IRandomFactory randomFactory)
+            IRandomFactory randomFactory,
+            IUserResidenceService userResidenceService)
         {
             _clock = clock;
             _appCache = appCache;
@@ -48,6 +50,7 @@ namespace Epsilon.Logic.Services
             _antiAbuseService = antiAbuseService;
             _outgoingVerificationServiceConfig = outgoingVerificationServiceConfig;
             _randomFactory = randomFactory;
+            _userResidenceService = userResidenceService;
         }
 
         public async Task<bool> VerificationIsAssignedToUser(string userId, Guid verificationUniqueId)
@@ -119,7 +122,21 @@ namespace Epsilon.Logic.Services
                     VerificationUniqueId = null
                 };
 
-            var antiAbuseServiceResponse = await _antiAbuseService.CanPickOutgoingVerification(userId, userIpAddress);
+            var userResidence = await _userResidenceService.GetResidence(userId);
+            // TODO_PANOS_TEST
+            if (userResidence == null)
+            {
+                return new PickVerificationOutcome
+                {
+                    IsRejected = true,
+                    RejectionReason = OutgoingVerificationResources.Pick_CannotDetermineUserResidenceErrorMessage,
+                    VerificationUniqueId = null
+                };
+            }
+
+            var countryId = userResidence.Address.CountryIdAsEnum();
+
+            var antiAbuseServiceResponse = await _antiAbuseService.CanPickOutgoingVerification(userId, userIpAddress, userResidence.Address.CountryIdAsEnum());
             if (antiAbuseServiceResponse.IsRejected)
                 return new PickVerificationOutcome
                 {
@@ -138,7 +155,7 @@ namespace Epsilon.Logic.Services
                 .Distinct()
                 .ToListAsync();
 
-            // TODO_PANOS_TEST
+            // TODO_PANOS_TEST: all where clauses below
             // TODO_PANOS: pick a submission from the same country.
             var pickedSubmission = await _dbContext.TenancyDetailsSubmissions
                 .Include(s => s.Address)
@@ -148,6 +165,7 @@ namespace Epsilon.Logic.Services
                 .Where(s => s.Address.CreatedById != userId)
                 .Where(s => s.Address.CreatedByIpAddress != userIpAddress)
                 .Where(s => s.TenantVerifications.Count() < verificationsPerTenancyDetailsSubmission)
+                .Where(s => s.Address.CountryId.Equals(userResidence.Address.CountryId))
                 .Where(s => !submissionIdsToAvoid.Contains(s.Id))
                 .OrderBy(s => s.TenantVerifications.Count())
                 .FirstOrDefaultAsync();

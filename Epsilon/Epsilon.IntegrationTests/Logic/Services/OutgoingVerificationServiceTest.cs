@@ -487,7 +487,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             AntiAbuseServiceResponse response)
         {
             var mockAntiAbuseService = new Mock<IAntiAbuseService>();
-            mockAntiAbuseService.Setup(x => x.CanPickOutgoingVerification(It.IsAny<string>(), It.IsAny<string>()))
+            mockAntiAbuseService.Setup(x => x.CanPickOutgoingVerification(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CountryId>()))
                 .Callback(callback)
                 .Returns(Task.FromResult(response));
 

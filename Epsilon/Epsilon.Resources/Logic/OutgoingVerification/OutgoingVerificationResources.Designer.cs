@@ -88,6 +88,15 @@ namespace Epsilon.Resources.Logic.OutgoingVerification {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to We cannot determine your country of residence. Please submit your address first..
+        /// </summary>
+        public static string Pick_CannotDetermineUserResidenceErrorMessage {
+            get {
+                return ResourceManager.GetString("Pick_CannotDetermineUserResidenceErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to There are no verifications that can be assinged to you at the moment, please try again later..
         /// </summary>
         public static string Pick_NoVerificationAssignableToUser_RejectionMessage {

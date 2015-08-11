@@ -39,11 +39,12 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var maxFrequencyPerUser = "1/D";
             var disableIpAddressFrequencyCheck = true;
             var maxFrequencyPerIpAddress = "1/D";
+            var countryId = CountryId.GB;
 
             var ipAddress = "1.2.3.4";
 
             var container = CreateContainer();
-            SetupContainerForCanAddAddressWithoutGeocodeFailureCheck(container,
+            SetupContainerForCanAddAddressWithoutGeocodeFailureOrGeoipCheck(container,
                 disableGlobalFrequencyCheck, globalMaxFrequency,
                 disableUserFrequencyCheck, maxFrequencyPerUser,
                 disableIpAddressFrequencyCheck, maxFrequencyPerIpAddress);
@@ -58,7 +59,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 Assert.IsNotNull(address, "The address created for i {0} is null.");
             }
 
-            var response = await service.CanAddAddress(user.Id, ipAddress);
+            var response = await service.CanAddAddress(user.Id, ipAddress, countryId);
 
             Assert.IsFalse(response.IsRejected, "The response IsRejected property should be false.");
             Assert.IsNullOrEmpty(response.RejectionReason, "The rejection reason should have no value.");
@@ -73,11 +74,12 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var maxFrequencyPerUser = "1/D";
             var disableIpAddressFrequencyCheck = true;
             var maxFrequencyPerIpAddress = "1/D";
+            var countryId = CountryId.GB;
 
             var ipAddress = "1.2.3.4";
 
             var containerUnderTest = CreateContainer();
-            SetupContainerForCanAddAddressWithoutGeocodeFailureCheck(containerUnderTest,
+            SetupContainerForCanAddAddressWithoutGeocodeFailureOrGeoipCheck(containerUnderTest,
                 disableGlobalFrequencyCheck, globalMaxFrequency,
                 disableUserFrequencyCheck, maxFrequencyPerUser,
                 disableIpAddressFrequencyCheck, maxFrequencyPerIpAddress);
@@ -96,17 +98,17 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var random = new RandomWrapper(2015);
 
             // I add the first address.
-            var address1 = await AddressHelper.CreateRandomAddressAndSave(random, helperContainer, user.Id, ipAddress, CountryId.GB);
+            var address1 = await AddressHelper.CreateRandomAddressAndSave(random, helperContainer, user.Id, ipAddress, countryId);
 
-            var firstResponse = await serviceUnderTest.CanAddAddress(user.Id, ipAddress);
+            var firstResponse = await serviceUnderTest.CanAddAddress(user.Id, ipAddress, countryId);
             Assert.IsFalse(firstResponse.IsRejected, "The first check should pass.");
             Assert.AreEqual(string.Empty, adminAlertKey, "Admin alert should not be sent the first time.");
             Assert.IsNull(adminEventLogKey, "Admin event should not be logged the first time.");
 
             // I add the second address.
-            var address2 = await AddressHelper.CreateRandomAddressAndSave(random, helperContainer, user.Id, ipAddress, CountryId.GB);
+            var address2 = await AddressHelper.CreateRandomAddressAndSave(random, helperContainer, user.Id, ipAddress, countryId);
 
-            var secondResponse = await serviceUnderTest.CanAddAddress(user.Id, ipAddress);
+            var secondResponse = await serviceUnderTest.CanAddAddress(user.Id, ipAddress, countryId);
             Assert.IsTrue(secondResponse.IsRejected, "The second check should fail.");
             Assert.AreEqual(AntiAbuseResources.AddAddress_GlobalFrequencyCheck_RejectionMessage,
                 secondResponse.RejectionReason, "The rejection reason is not the expected.");
@@ -129,12 +131,14 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var disableIpAddressFrequencyCheck = true;
             var maxFrequencyPerIpAddress = "1/D";
 
+            var countryId = CountryId.GB;
+
             var ipAddress1 = "1.2.3.1";
             var ipAddress2 = "1.2.3.2";
             var ipAddress3 = "1.2.3.3";
 
             var containerUnderTest = CreateContainer();
-            SetupContainerForCanAddAddressWithoutGeocodeFailureCheck(containerUnderTest,
+            SetupContainerForCanAddAddressWithoutGeocodeFailureOrGeoipCheck(containerUnderTest,
                 disableGlobalFrequencyCheck, globalMaxFrequency,
                 disableUserFrequencyCheck, maxFrequencyPerUser,
                 disableIpAddressFrequencyCheck, maxFrequencyPerIpAddress);
@@ -152,10 +156,10 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             var random = new RandomWrapper(2015);
 
-            var address = await AddressHelper.CreateRandomAddressAndSave(random, helperContainer, user.Id, ipAddress1, CountryId.GB);
+            var address = await AddressHelper.CreateRandomAddressAndSave(random, helperContainer, user.Id, ipAddress1, countryId);
             Assert.IsNotNull(address, "Address created is null.");
 
-            var firstResponse = await serviceUnderTest.CanAddAddress(user.Id, ipAddress2);
+            var firstResponse = await serviceUnderTest.CanAddAddress(user.Id, ipAddress2, countryId);
             Assert.IsTrue(firstResponse.IsRejected, "The first check should fail.");
             Assert.AreEqual(AntiAbuseResources.AddAddress_GlobalFrequencyCheck_RejectionMessage,
                 firstResponse.RejectionReason, "The rejection reason is not the expected.");
@@ -166,7 +170,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             await Task.Delay(TimeSpan.FromSeconds(periodInSeconds));
 
-            var secondResponse = await serviceUnderTest.CanAddAddress(user.Id, ipAddress3);
+            var secondResponse = await serviceUnderTest.CanAddAddress(user.Id, ipAddress3, countryId);
             Assert.IsFalse(secondResponse.IsRejected, "The request should not be rejected the second time.");
         }
 
@@ -180,10 +184,12 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var disableIpAddressFrequencyCheck = false;
             var maxFrequencyPerIpAddress = "2/D";
 
+            var countryId = CountryId.GB;
+
             var ipAddress = "1.2.3.4";
 
             var containerUnderTest = CreateContainer();
-            SetupContainerForCanAddAddressWithoutGeocodeFailureCheck(containerUnderTest,
+            SetupContainerForCanAddAddressWithoutGeocodeFailureOrGeoipCheck(containerUnderTest,
                 disableGlobalFrequencyCheck, globalMaxFrequency,
                 disableUserFrequencyCheck, maxFrequencyPerUser,
                 disableIpAddressFrequencyCheck, maxFrequencyPerIpAddress);
@@ -196,15 +202,15 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var random = new RandomWrapper(2015);
 
             // I add the first address.
-            var address1 = await AddressHelper.CreateRandomAddressAndSave(random, helperContainer, user.Id, ipAddress, CountryId.GB);
+            var address1 = await AddressHelper.CreateRandomAddressAndSave(random, helperContainer, user.Id, ipAddress, countryId);
 
-            var firstResponse = await serviceUnderTest.CanAddAddress(user.Id, ipAddress);
+            var firstResponse = await serviceUnderTest.CanAddAddress(user.Id, ipAddress, countryId);
             Assert.IsFalse(firstResponse.IsRejected, "The first check should pass.");
 
             // I add the second address.
-            var address2 = await AddressHelper.CreateRandomAddressAndSave(random, helperContainer, user.Id, ipAddress, CountryId.GB);
+            var address2 = await AddressHelper.CreateRandomAddressAndSave(random, helperContainer, user.Id, ipAddress, countryId);
 
-            var secondResponse = await serviceUnderTest.CanAddAddress(user.Id, ipAddress);
+            var secondResponse = await serviceUnderTest.CanAddAddress(user.Id, ipAddress, countryId);
             Assert.IsTrue(secondResponse.IsRejected, "The second check should fail.");
             Assert.AreEqual(AntiAbuseResources.AddAddress_IpAddressFrequencyCheck_RejectionMessage,
                 secondResponse.RejectionReason, "The rejection reason is not the expected.");
@@ -221,10 +227,12 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var disableIpAddressFrequencyCheck = false;
             var maxFrequencyPerIpAddress = string.Format("1/{0}S", periodInSeconds);
 
+            var countryId = CountryId.GB;
+
             var ipAddress = "1.2.3.4";
 
             var containerUnderTest = CreateContainer();
-            SetupContainerForCanAddAddressWithoutGeocodeFailureCheck(containerUnderTest,
+            SetupContainerForCanAddAddressWithoutGeocodeFailureOrGeoipCheck(containerUnderTest,
                 disableGlobalFrequencyCheck, globalMaxFrequency,
                 disableUserFrequencyCheck, maxFrequencyPerUser,
                 disableIpAddressFrequencyCheck, maxFrequencyPerIpAddress);
@@ -234,17 +242,17 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var random = new RandomWrapper(2015);
 
             var user = await CreateUser(helperContainer, "test@test.com", ipAddress);
-            var address = await AddressHelper.CreateRandomAddressAndSave(random, helperContainer, user.Id, ipAddress, CountryId.GB);
+            var address = await AddressHelper.CreateRandomAddressAndSave(random, helperContainer, user.Id, ipAddress, countryId);
             Assert.IsNotNull(address, "Address created is null.");
 
-            var firstResponse = await serviceUnderTest.CanAddAddress(user.Id, ipAddress);
+            var firstResponse = await serviceUnderTest.CanAddAddress(user.Id, ipAddress, countryId);
             Assert.IsTrue(firstResponse.IsRejected, "The first check should fail.");
             Assert.AreEqual(AntiAbuseResources.AddAddress_IpAddressFrequencyCheck_RejectionMessage,
                 firstResponse.RejectionReason, "The rejection reason is not the expected.");
 
             await Task.Delay(TimeSpan.FromSeconds(periodInSeconds));
 
-            var secondResponse = await serviceUnderTest.CanAddAddress(user.Id, ipAddress);
+            var secondResponse = await serviceUnderTest.CanAddAddress(user.Id, ipAddress, countryId);
             Assert.IsFalse(secondResponse.IsRejected, "The request should not be rejected the second time.");
         }
 
@@ -258,13 +266,15 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var disableIpAddressFrequencyCheck = true;
             var maxFrequencyPerIpAddress = "2/D";
 
+            var countryId = CountryId.GB;
+
             var ipAddress1 = "1.2.3.1";
             var ipAddress2 = "1.2.3.2";
             var ipAddress3 = "1.2.3.3";
             var ipAddress4 = "1.2.3.4";
 
             var containerUnderTest = CreateContainer();
-            SetupContainerForCanAddAddressWithoutGeocodeFailureCheck(containerUnderTest,
+            SetupContainerForCanAddAddressWithoutGeocodeFailureOrGeoipCheck(containerUnderTest,
                 disableGlobalFrequencyCheck, globalMaxFrequency,
                 disableUserFrequencyCheck, maxFrequencyPerUser,
                 disableIpAddressFrequencyCheck, maxFrequencyPerIpAddress);
@@ -276,15 +286,15 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var user = await CreateUser(helperContainer, "test@test.com", ipAddress1);
 
             // I add the first address.
-            var address1 = await AddressHelper.CreateRandomAddressAndSave(random, helperContainer, user.Id, ipAddress1, CountryId.GB);
+            var address1 = await AddressHelper.CreateRandomAddressAndSave(random, helperContainer, user.Id, ipAddress1, countryId);
 
-            var firstResponse = await serviceUnderTest.CanAddAddress(user.Id, ipAddress2);
+            var firstResponse = await serviceUnderTest.CanAddAddress(user.Id, ipAddress2, countryId);
             Assert.IsFalse(firstResponse.IsRejected, "The first check should pass.");
 
             // I add the second address
-            var address2 = await AddressHelper.CreateRandomAddressAndSave(random, helperContainer, user.Id, ipAddress3, CountryId.GB);
+            var address2 = await AddressHelper.CreateRandomAddressAndSave(random, helperContainer, user.Id, ipAddress3, countryId);
             
-            var secondResponse = await serviceUnderTest.CanAddAddress(user.Id, ipAddress4);
+            var secondResponse = await serviceUnderTest.CanAddAddress(user.Id, ipAddress4, countryId);
             Assert.IsTrue(secondResponse.IsRejected, "The second check should fail.");
             Assert.AreEqual(AntiAbuseResources.AddAddress_UserFrequencyCheck_RejectionMessage,
                 secondResponse.RejectionReason, "The rejection reason is not the expected.");
@@ -301,12 +311,14 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var disableIpAddressFrequencyCheck = true;
             var maxFrequencyPerIpAddress = "2/D";
 
+            var countryId = CountryId.GB;
+
             var ipAddress1 = "1.2.3.1";
             var ipAddress2 = "1.2.3.2";
             var ipAddress3 = "1.2.3.3";
 
             var containerUnderTest = CreateContainer();
-            SetupContainerForCanAddAddressWithoutGeocodeFailureCheck(containerUnderTest,
+            SetupContainerForCanAddAddressWithoutGeocodeFailureOrGeoipCheck(containerUnderTest,
                 disableGlobalFrequencyCheck, globalMaxFrequency,
                 disableUserFrequencyCheck, maxFrequencyPerUser,
                 disableIpAddressFrequencyCheck, maxFrequencyPerIpAddress);
@@ -316,17 +328,17 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var random = new RandomWrapper(2015);
 
             var user = await CreateUser(helperContainer, "test@test.com", ipAddress1);
-            var address = await AddressHelper.CreateRandomAddressAndSave(random, helperContainer, user.Id, ipAddress1, CountryId.GB);
+            var address = await AddressHelper.CreateRandomAddressAndSave(random, helperContainer, user.Id, ipAddress1, countryId);
             Assert.IsNotNull(address, "Address created is null.");
 
-            var firstResponse = await serviceUnderTest.CanAddAddress(user.Id, ipAddress2);
+            var firstResponse = await serviceUnderTest.CanAddAddress(user.Id, ipAddress2, countryId);
             Assert.IsTrue(firstResponse.IsRejected, "The first check should fail.");
             Assert.AreEqual(AntiAbuseResources.AddAddress_UserFrequencyCheck_RejectionMessage,
                 firstResponse.RejectionReason, "The rejection reason is not the expected.");
 
             await Task.Delay(TimeSpan.FromSeconds(periodInSeconds));
 
-            var secondResponse = await serviceUnderTest.CanAddAddress(user.Id, ipAddress3);
+            var secondResponse = await serviceUnderTest.CanAddAddress(user.Id, ipAddress3, countryId);
             Assert.IsFalse(secondResponse.IsRejected, "The request should not be rejected the second time.");
         }
 
@@ -337,6 +349,8 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var maxGeocodeFailureFrequencyPerUser = "2/H";
             var disableGeocodeFailureIpAddressFrequencyCheck = false;
             var maxGeocodeFailureFrequencyPerIpAddress = "2/H";
+
+            var countryId = CountryId.GB;
 
             var ipAddress = "1.2.3.4";
 
@@ -353,13 +367,13 @@ namespace Epsilon.IntegrationTests.Logic.Services
             // I add the first failure.
             var geocodeFailure1 = await CreateGeocodeFailureAndSave(helperContainer, user.Id, ipAddress);
 
-            var firstResponse = await serviceUnderTest.CanAddAddress(user.Id, ipAddress);
+            var firstResponse = await serviceUnderTest.CanAddAddress(user.Id, ipAddress, countryId);
             Assert.IsFalse(firstResponse.IsRejected, "The first check should pass.");
 
             // I add the second failure.
             var geocodeFailure2 = await CreateGeocodeFailureAndSave(helperContainer, user.Id, ipAddress);
 
-            var secondResponse = await serviceUnderTest.CanAddAddress(user.Id, ipAddress);
+            var secondResponse = await serviceUnderTest.CanAddAddress(user.Id, ipAddress, countryId);
             Assert.IsTrue(secondResponse.IsRejected, "The second check should fail.");
             Assert.AreEqual(AntiAbuseResources.AddAddress_GeocodeFailureIpAddressFrequencyCheck_RejectionMessage,
                 secondResponse.RejectionReason, "The rejection reason is not the expected.");
@@ -373,6 +387,8 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var maxGeocodeFailureFrequencyPerUser = "2/H";
             var disableGeocodeFailureIpAddressFrequencyCheck = false;
             var maxGeocodeFailureFrequencyPerIpAddress = string.Format("1/{0}S", periodInSeconds);
+
+            var countryId = CountryId.GB;
 
             var ipAddress = "1.2.3.4";
 
@@ -389,14 +405,14 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var geocodeFailure = await CreateGeocodeFailureAndSave(helperContainer, user.Id, ipAddress);
             Assert.IsNotNull(geocodeFailure, "GeocodeFailure created is null.");
 
-            var firstResponse = await serviceUnderTest.CanAddAddress(user.Id, ipAddress);
+            var firstResponse = await serviceUnderTest.CanAddAddress(user.Id, ipAddress, countryId);
             Assert.IsTrue(firstResponse.IsRejected, "The first check should fail.");
             Assert.AreEqual(AntiAbuseResources.AddAddress_GeocodeFailureIpAddressFrequencyCheck_RejectionMessage,
                 firstResponse.RejectionReason, "The rejection reason is not the expected.");
 
             await Task.Delay(TimeSpan.FromSeconds(periodInSeconds));
 
-            var secondResponse = await serviceUnderTest.CanAddAddress(user.Id, ipAddress);
+            var secondResponse = await serviceUnderTest.CanAddAddress(user.Id, ipAddress, countryId);
             Assert.IsFalse(secondResponse.IsRejected, "The request should not be rejected the second time.");
         }
 
@@ -407,6 +423,8 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var maxGeocodeFailureFrequencyPerUser = "2/H";
             var disableGeocodeFailureIpAddressFrequencyCheck = true;
             var maxGeocodeFailureFrequencyPerIpAddress = "2/H";
+
+            var countryId = CountryId.GB;
 
             var ipAddress1 = "1.2.3.1";
             var ipAddress2 = "1.2.3.2";
@@ -426,13 +444,13 @@ namespace Epsilon.IntegrationTests.Logic.Services
             // I add the first failure.
             var geocodeFailure1 = await CreateGeocodeFailureAndSave(helperContainer, user.Id, ipAddress1);
 
-            var firstResponse = await serviceUnderTest.CanAddAddress(user.Id, ipAddress2);
+            var firstResponse = await serviceUnderTest.CanAddAddress(user.Id, ipAddress2, countryId);
             Assert.IsFalse(firstResponse.IsRejected, "The first check should pass.");
 
             // I add the second failure
             var geocodeFailure2 = await CreateGeocodeFailureAndSave(helperContainer, user.Id, ipAddress1);
 
-            var secondResponse = await serviceUnderTest.CanAddAddress(user.Id, ipAddress3);
+            var secondResponse = await serviceUnderTest.CanAddAddress(user.Id, ipAddress3, countryId);
             Assert.IsTrue(secondResponse.IsRejected, "The second check should fail.");
             Assert.AreEqual(AntiAbuseResources.AddAddress_GeocodeFailureUserFrequencyCheck_RejectionMessage,
                 secondResponse.RejectionReason, "The rejection reason is not the expected.");
@@ -446,6 +464,8 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var maxGeocodeFailureFrequencyPerUser = string.Format("1/{0}S", periodInSeconds);
             var disableGeocodeFailureIpAddressFrequencyCheck = true;
             var maxGeocodeFailureFrequencyPerIpAddress = "2/H";
+
+            var countryId = CountryId.GB;
 
             var ipAddress1 = "1.2.3.1";
             var ipAddress2 = "1.2.3.2";
@@ -464,14 +484,14 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var geocodeFailure = await CreateGeocodeFailureAndSave(helperContainer, user.Id, ipAddress1);
             Assert.IsNotNull(geocodeFailure, "GeocodeFailure created is null.");
 
-            var firstResponse = await serviceUnderTest.CanAddAddress(user.Id, ipAddress2);
+            var firstResponse = await serviceUnderTest.CanAddAddress(user.Id, ipAddress2, countryId);
             Assert.IsTrue(firstResponse.IsRejected, "The first check should fail.");
             Assert.AreEqual(AntiAbuseResources.AddAddress_GeocodeFailureUserFrequencyCheck_RejectionMessage,
                 firstResponse.RejectionReason, "The rejection reason is not the expected.");
 
             await Task.Delay(TimeSpan.FromSeconds(periodInSeconds));
 
-            var secondResponse = await serviceUnderTest.CanAddAddress(user.Id, ipAddress3);
+            var secondResponse = await serviceUnderTest.CanAddAddress(user.Id, ipAddress3, countryId);
             Assert.IsFalse(secondResponse.IsRejected, "The request should not be rejected the second time.");
         }
 
@@ -490,10 +510,12 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var disableIpAddressFrequencyCheck = true;
             var maxFrequencyPerIpAddress = "1/D";
 
+            var countryId = CountryId.GB;
+
             var ipAddress = "1.2.3.4";
 
             var container = CreateContainer();
-            SetupContainerForCanCreateTenancyDetailsSubmission(container,
+            SetupContainerForCanCreateTenancyDetailsSubmissionWithoutGeoipCheck(container,
                 disableGlobalFrequencyCheck, globalMaxFrequency,
                 disableUserFrequencyCheck, maxFrequencyPerUser,
                 disableIpAddressFrequencyCheck, maxFrequencyPerIpAddress);
@@ -508,7 +530,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 Assert.IsNotNull(submission, "The submission created for i {0} is null.");
             }
 
-            var response = await service.CanCreateTenancyDetailsSubmission(user.Id, ipAddress);
+            var response = await service.CanCreateTenancyDetailsSubmission(user.Id, ipAddress, countryId);
 
             Assert.IsFalse(response.IsRejected, "The response IsRejected property should be false.");
             Assert.IsNullOrEmpty(response.RejectionReason, "The rejection reason should have no value.");
@@ -524,10 +546,12 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var disableIpAddressFrequencyCheck = true;
             var maxFrequencyPerIpAddress = "1/D";
 
+            var countryId = CountryId.GB;
+
             var ipAddress = "1.2.3.4";
 
             var containerUnderTest = CreateContainer();
-            SetupContainerForCanCreateTenancyDetailsSubmission(containerUnderTest,
+            SetupContainerForCanCreateTenancyDetailsSubmissionWithoutGeoipCheck(containerUnderTest,
                 disableGlobalFrequencyCheck, globalMaxFrequency,
                 disableUserFrequencyCheck, maxFrequencyPerUser,
                 disableIpAddressFrequencyCheck, maxFrequencyPerIpAddress);
@@ -549,7 +573,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             // I add the first submission.
             var submission1 = await CreateTenancyDetailsSubmissionAndSave(random, helperContainer, user.Id, ipAddress);
 
-            var firstResponse = await serviceUnderTest.CanCreateTenancyDetailsSubmission(user.Id, ipAddress);
+            var firstResponse = await serviceUnderTest.CanCreateTenancyDetailsSubmission(user.Id, ipAddress, countryId);
             Assert.IsFalse(firstResponse.IsRejected, "The first check should pass.");
             Assert.AreEqual(string.Empty, adminAlertKey, "Admin alert should not be sent the first time.");
             Assert.IsNull(adminEventLogKey, "Admin event should not be logged the first time.");
@@ -557,7 +581,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             // I add the second submission.
             var submission2 = await CreateTenancyDetailsSubmissionAndSave(random, helperContainer, user.Id, ipAddress);
 
-            var secondResponse = await serviceUnderTest.CanCreateTenancyDetailsSubmission(user.Id, ipAddress);
+            var secondResponse = await serviceUnderTest.CanCreateTenancyDetailsSubmission(user.Id, ipAddress, countryId);
             Assert.IsTrue(secondResponse.IsRejected, "The second check should fail.");
             Assert.AreEqual(AntiAbuseResources.CreateTenancyDetailsSubmission_GlobalFrequencyCheck_RejectionMessage,
                 secondResponse.RejectionReason, "The rejection reason is not the expected.");
@@ -580,11 +604,12 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var disableIpAddressFrequencyCheck = true;
             var maxFrequencyPerIpAddress = "1/D";
 
+            var countryId = CountryId.GB;
+
             var ipAddress = "1.2.3.4";
 
-
             var containerUnderTest = CreateContainer();
-            SetupContainerForCanCreateTenancyDetailsSubmission(containerUnderTest,
+            SetupContainerForCanCreateTenancyDetailsSubmissionWithoutGeoipCheck(containerUnderTest,
                 disableGlobalFrequencyCheck, globalMaxFrequency,
                 disableUserFrequencyCheck, maxFrequencyPerUser,
                 disableIpAddressFrequencyCheck, maxFrequencyPerIpAddress);
@@ -605,7 +630,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var submission = await CreateTenancyDetailsSubmissionAndSave(random, helperContainer, user.Id, ipAddress);
             Assert.IsNotNull(submission, "TenancyDetailsSubmission created is null.");
 
-            var firstResponse = await serviceUnderTest.CanCreateTenancyDetailsSubmission(user.Id, ipAddress);
+            var firstResponse = await serviceUnderTest.CanCreateTenancyDetailsSubmission(user.Id, ipAddress, countryId);
             Assert.IsTrue(firstResponse.IsRejected, "The first check should fail.");
             Assert.AreEqual(AntiAbuseResources.CreateTenancyDetailsSubmission_GlobalFrequencyCheck_RejectionMessage,
                 firstResponse.RejectionReason, "The rejection reason is not the expected.");
@@ -616,7 +641,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             await Task.Delay(TimeSpan.FromSeconds(periodInSeconds));
 
-            var secondResponse = await serviceUnderTest.CanCreateTenancyDetailsSubmission(user.Id, ipAddress);
+            var secondResponse = await serviceUnderTest.CanCreateTenancyDetailsSubmission(user.Id, ipAddress, countryId);
             Assert.IsFalse(secondResponse.IsRejected, "The request should not be rejected the second time.");
         }
 
@@ -630,10 +655,12 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var disableIpAddressFrequencyCheck = false;
             var maxFrequencyPerIpAddress = "2/D";
 
+            var countryId = CountryId.GB;
+
             var ipAddress = "1.2.3.4";
 
             var containerUnderTest = CreateContainer();
-            SetupContainerForCanCreateTenancyDetailsSubmission(containerUnderTest,
+            SetupContainerForCanCreateTenancyDetailsSubmissionWithoutGeoipCheck(containerUnderTest,
                 disableGlobalFrequencyCheck, globalMaxFrequency,
                 disableUserFrequencyCheck, maxFrequencyPerUser,
                 disableIpAddressFrequencyCheck, maxFrequencyPerIpAddress);
@@ -648,13 +675,13 @@ namespace Epsilon.IntegrationTests.Logic.Services
             // I add the first submission.
             var submission1 = await CreateTenancyDetailsSubmissionAndSave(random, helperContainer, user.Id, ipAddress);
 
-            var firstResponse = await serviceUnderTest.CanCreateTenancyDetailsSubmission(user.Id, ipAddress);
+            var firstResponse = await serviceUnderTest.CanCreateTenancyDetailsSubmission(user.Id, ipAddress, countryId);
             Assert.IsFalse(firstResponse.IsRejected, "The first check should pass.");
 
             // I add the second submission.
             var submission2 = await CreateTenancyDetailsSubmissionAndSave(random, helperContainer, user.Id, ipAddress);
 
-            var secondResponse = await serviceUnderTest.CanCreateTenancyDetailsSubmission(user.Id, ipAddress);
+            var secondResponse = await serviceUnderTest.CanCreateTenancyDetailsSubmission(user.Id, ipAddress, countryId);
             Assert.IsTrue(secondResponse.IsRejected, "The second check should fail.");
             Assert.AreEqual(AntiAbuseResources.CreateTenancyDetailsSubmission_IpAddressFrequencyCheck_RejectionMessage,
                 secondResponse.RejectionReason, "The rejection reason is not the expected.");
@@ -671,10 +698,12 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var disableIpAddressFrequencyCheck = false;
             var maxFrequencyPerIpAddress = string.Format("1/{0}S", periodInSeconds);
 
+            var countryId = CountryId.GB;
+
             var ipAddress = "1.2.3.4";
 
             var containerUnderTest = CreateContainer();
-            SetupContainerForCanCreateTenancyDetailsSubmission(containerUnderTest,
+            SetupContainerForCanCreateTenancyDetailsSubmissionWithoutGeoipCheck(containerUnderTest,
                 disableGlobalFrequencyCheck, globalMaxFrequency,
                 disableUserFrequencyCheck, maxFrequencyPerUser,
                 disableIpAddressFrequencyCheck, maxFrequencyPerIpAddress);
@@ -688,14 +717,14 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var submission = await CreateTenancyDetailsSubmissionAndSave(random, helperContainer, user.Id, ipAddress);
             Assert.IsNotNull(submission, "TenancyDetailsSubmission created is null.");
 
-            var firstResponse = await serviceUnderTest.CanCreateTenancyDetailsSubmission(user.Id, ipAddress);
+            var firstResponse = await serviceUnderTest.CanCreateTenancyDetailsSubmission(user.Id, ipAddress, countryId);
             Assert.IsTrue(firstResponse.IsRejected, "The first check should fail.");
             Assert.AreEqual(AntiAbuseResources.CreateTenancyDetailsSubmission_IpAddressFrequencyCheck_RejectionMessage,
                 firstResponse.RejectionReason, "The rejection reason is not the expected.");
 
             await Task.Delay(TimeSpan.FromSeconds(periodInSeconds));
 
-            var secondResponse = await serviceUnderTest.CanCreateTenancyDetailsSubmission(user.Id, ipAddress);
+            var secondResponse = await serviceUnderTest.CanCreateTenancyDetailsSubmission(user.Id, ipAddress, countryId);
             Assert.IsFalse(secondResponse.IsRejected, "The request should not be rejected the second time.");
         }
 
@@ -709,13 +738,15 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var disableIpAddressFrequencyCheck = true;
             var maxFrequencyPerIpAddress = "2/D";
 
+            var countryId = CountryId.GB;
+
             var ipAddress1 = "1.2.3.1";
             var ipAddress2 = "1.2.3.2";
             var ipAddress3 = "1.2.3.3";
             var ipAddress4 = "1.2.3.4";
 
             var containerUnderTest = CreateContainer();
-            SetupContainerForCanCreateTenancyDetailsSubmission(containerUnderTest,
+            SetupContainerForCanCreateTenancyDetailsSubmissionWithoutGeoipCheck(containerUnderTest,
                 disableGlobalFrequencyCheck, globalMaxFrequency,
                 disableUserFrequencyCheck, maxFrequencyPerUser,
                 disableIpAddressFrequencyCheck, maxFrequencyPerIpAddress);
@@ -730,14 +761,14 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var submission1 = await CreateTenancyDetailsSubmissionAndSave(random, helperContainer, user.Id, ipAddress1);
             Assert.IsNotNull(submission1, "Submission1 is null.");
 
-            var firstResponse = await serviceUnderTest.CanCreateTenancyDetailsSubmission(user.Id, ipAddress2);
+            var firstResponse = await serviceUnderTest.CanCreateTenancyDetailsSubmission(user.Id, ipAddress2, countryId);
             Assert.IsFalse(firstResponse.IsRejected, "The first check should pass.");
 
             // I add the second submission.
             var submission2 = await CreateTenancyDetailsSubmissionAndSave(random, helperContainer, user.Id, ipAddress3);
             Assert.IsNotNull(submission1, "Submission2 is null.");
 
-            var secondResponse = await serviceUnderTest.CanCreateTenancyDetailsSubmission(user.Id, ipAddress4);
+            var secondResponse = await serviceUnderTest.CanCreateTenancyDetailsSubmission(user.Id, ipAddress4, countryId);
             Assert.IsTrue(secondResponse.IsRejected, "The second check should fail.");
             Assert.AreEqual(AntiAbuseResources.CreateTenancyDetailsSubmission_UserFrequencyCheck_RejectionMessage,
                 secondResponse.RejectionReason, "The rejection reason is not the expected.");
@@ -754,12 +785,14 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var disableIpAddressFrequencyCheck = true;
             var maxFrequencyPerIpAddress = "2/D";
 
+            var countryId = CountryId.GB;
+
             var ipAddress1 = "1.2.3.1";
             var ipAddress2 = "1.2.3.2";
             var ipAddress3 = "1.2.3.3";
 
             var containerUnderTest = CreateContainer();
-            SetupContainerForCanCreateTenancyDetailsSubmission(containerUnderTest,
+            SetupContainerForCanCreateTenancyDetailsSubmissionWithoutGeoipCheck(containerUnderTest,
                 disableGlobalFrequencyCheck, globalMaxFrequency,
                 disableUserFrequencyCheck, maxFrequencyPerUser,
                 disableIpAddressFrequencyCheck, maxFrequencyPerIpAddress);
@@ -772,14 +805,14 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var submission = await CreateTenancyDetailsSubmissionAndSave(random, helperContainer, user.Id, ipAddress1);
             Assert.IsNotNull(submission, "TenancyDetailsSubmission created is null.");
 
-            var firstResponse = await serviceUnderTest.CanCreateTenancyDetailsSubmission(user.Id, ipAddress2);
+            var firstResponse = await serviceUnderTest.CanCreateTenancyDetailsSubmission(user.Id, ipAddress2, countryId);
             Assert.IsTrue(firstResponse.IsRejected, "The first check should fail.");
             Assert.AreEqual(AntiAbuseResources.CreateTenancyDetailsSubmission_UserFrequencyCheck_RejectionMessage,
                 firstResponse.RejectionReason, "The rejection reason is not the expected.");
 
             await Task.Delay(TimeSpan.FromSeconds(periodInSeconds));
 
-            var secondResponse = await serviceUnderTest.CanCreateTenancyDetailsSubmission(user.Id, ipAddress3);
+            var secondResponse = await serviceUnderTest.CanCreateTenancyDetailsSubmission(user.Id, ipAddress3, countryId);
             Assert.IsFalse(secondResponse.IsRejected, "The request should not be rejected the second time.");
         }
 
@@ -799,10 +832,12 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var disableIpAddressFrequencyCheck = true;
             var maxFrequencyPerIpAddress = "1/D";
 
+            var countryId = CountryId.GB;
+
             var ipAddress = "1.2.3.4";
 
             var container = CreateContainer();
-            SetupContainerForCanPickOutgoingVerification(container,
+            SetupContainerForCanPickOutgoingVerificationWithoutGeoipCheck(container,
                 disableGlobalFrequencyCheck, globalMaxFrequency,
                 disableMaxOutstandingPerUserCheck, maxOutstandingFrequencyPerUserForNewUser, maxOutstandingFrequencyPerUser,
                 disableIpAddressFrequencyCheck, maxFrequencyPerIpAddress);
@@ -817,7 +852,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 Assert.IsNotNull(verification, "The verification created for i {0} is null.");
             }
 
-            var response = await service.CanPickOutgoingVerification(user.Id, ipAddress);
+            var response = await service.CanPickOutgoingVerification(user.Id, ipAddress, countryId);
 
             Assert.IsFalse(response.IsRejected, "The response IsRejected property should be false.");
             Assert.IsNullOrEmpty(response.RejectionReason, "The rejection reason should have no value.");
@@ -834,6 +869,8 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var disableIpAddressFrequencyCheck = true;
             var maxFrequencyPerIpAddress = "1/D";
 
+            var countryId = CountryId.GB;
+
             var ipAddress = "1.2.3.4";
 
             var containerUnderTest = CreateContainer();
@@ -843,7 +880,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             SetupContainerWithMockAdminAlertService(containerUnderTest, x => adminAlertKey = x);
             SetupContainerWithMockAdminEventLogService(containerUnderTest, (x, info) => adminEventLogKey = x);
 
-            SetupContainerForCanPickOutgoingVerification(containerUnderTest,
+            SetupContainerForCanPickOutgoingVerificationWithoutGeoipCheck(containerUnderTest,
                 disableGlobalFrequencyCheck, globalMaxFrequency,
                 disableMaxOutstandingPerUserCheck, maxOutstandingFrequencyPerUserForNewUser, maxOutstandingFrequencyPerUser,
                 disableIpAddressFrequencyCheck, maxFrequencyPerIpAddress);
@@ -858,7 +895,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             // I add the first verification.
             var verification1 = await CreateTenantVerificationAndSave(random, helperContainer, user.Id, ipAddress, false);
 
-            var firstResponse = await serviceUnderTest.CanPickOutgoingVerification(user.Id, ipAddress);
+            var firstResponse = await serviceUnderTest.CanPickOutgoingVerification(user.Id, ipAddress, countryId);
             Assert.IsFalse(firstResponse.IsRejected, "The first check should pass.");
             Assert.AreEqual(string.Empty, adminAlertKey, "Admin alert should not be sent the first time.");
             Assert.IsNull(adminEventLogKey, "Admin event should not be logged the first time.");
@@ -866,7 +903,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             // I add the second verification.
             var verification2 = await CreateTenantVerificationAndSave(random, helperContainer, user.Id, ipAddress, false);
 
-            var secondResponse = await serviceUnderTest.CanPickOutgoingVerification(user.Id, ipAddress);
+            var secondResponse = await serviceUnderTest.CanPickOutgoingVerification(user.Id, ipAddress, countryId);
             Assert.IsTrue(secondResponse.IsRejected, "The second check should fail.");
             Assert.AreEqual(AntiAbuseResources.PickOutgoingVerification_GlobalFrequencyCheck_RejectionMessage,
                 secondResponse.RejectionReason, "The rejection reason is not the expected.");
@@ -890,6 +927,8 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var disableIpAddressFrequencyCheck = true;
             var maxFrequencyPerIpAddress = "1/D";
 
+            var countryId = CountryId.GB;
+
             var ipAddress = "1.2.3.4";
 
             var containerUnderTest = CreateContainer();
@@ -899,7 +938,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             SetupContainerWithMockAdminAlertService(containerUnderTest, x => adminAlertKey = x);
             SetupContainerWithMockAdminEventLogService(containerUnderTest, (x, info) => adminEventLogKey = x);
 
-            SetupContainerForCanPickOutgoingVerification(containerUnderTest,
+            SetupContainerForCanPickOutgoingVerificationWithoutGeoipCheck(containerUnderTest,
                 disableGlobalFrequencyCheck, globalMaxFrequency,
                 disableMaxOutstandingPerUserCheck, maxOutstandingFrequencyPerUserForNewUser, maxOutstandingFrequencyPerUser,
                 disableIpAddressFrequencyCheck, maxFrequencyPerIpAddress);
@@ -914,7 +953,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var verification = await CreateTenantVerificationAndSave(random, helperContainer, user.Id, ipAddress, false);
             Assert.IsNotNull(verification, "TenantVerifiation created is null.");
 
-            var firstResponse = await serviceUnderTest.CanPickOutgoingVerification(user.Id, ipAddress);
+            var firstResponse = await serviceUnderTest.CanPickOutgoingVerification(user.Id, ipAddress, countryId);
             Assert.IsTrue(firstResponse.IsRejected, "The first check should fail.");
             Assert.AreEqual(AntiAbuseResources.PickOutgoingVerification_GlobalFrequencyCheck_RejectionMessage,
                 firstResponse.RejectionReason, "The rejection reason is not the expected.");
@@ -925,7 +964,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             await Task.Delay(TimeSpan.FromSeconds(periodInSeconds));
 
-            var secondResponse = await serviceUnderTest.CanPickOutgoingVerification(user.Id, ipAddress);
+            var secondResponse = await serviceUnderTest.CanPickOutgoingVerification(user.Id, ipAddress, countryId);
             Assert.IsFalse(secondResponse.IsRejected, "The request should not be rejected the second time.");
         }
 
@@ -940,10 +979,12 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var disableIpAddressFrequencyCheck = false;
             var maxFrequencyPerIpAddress = "2/D";
 
+            var countryId = CountryId.GB;
+
             var ipAddress = "1.2.3.4";
 
             var containerUnderTest = CreateContainer();
-            SetupContainerForCanPickOutgoingVerification(containerUnderTest,
+            SetupContainerForCanPickOutgoingVerificationWithoutGeoipCheck(containerUnderTest,
                 disableGlobalFrequencyCheck, globalMaxFrequency,
                 disableMaxOutstandingPerUserCheck, maxOutstandingFrequencyPerUserForNewUser, maxOutstandingFrequencyPerUser,
                 disableIpAddressFrequencyCheck, maxFrequencyPerIpAddress);
@@ -958,13 +999,13 @@ namespace Epsilon.IntegrationTests.Logic.Services
             // I add the first verification.
             var verification1 = await CreateTenantVerificationAndSave(random, helperContainer, user.Id, ipAddress, false);
 
-            var firstResponse = await serviceUnderTest.CanPickOutgoingVerification(user.Id, ipAddress);
+            var firstResponse = await serviceUnderTest.CanPickOutgoingVerification(user.Id, ipAddress, countryId);
             Assert.IsFalse(firstResponse.IsRejected, "The first check should pass.");
 
             // I add the second verification.
             var verification2 = await CreateTenantVerificationAndSave(random, helperContainer, user.Id, ipAddress, false);
 
-            var secondResponse = await serviceUnderTest.CanPickOutgoingVerification(user.Id, ipAddress);
+            var secondResponse = await serviceUnderTest.CanPickOutgoingVerification(user.Id, ipAddress, countryId);
             Assert.IsTrue(secondResponse.IsRejected, "The second check should fail.");
             Assert.AreEqual(AntiAbuseResources.PickOutgoingVerification_IpAddressFrequencyCheck_RejectionMessage,
                 secondResponse.RejectionReason, "The rejection reason is not the expected.");
@@ -982,10 +1023,12 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var disableIpAddressFrequencyCheck = false;
             var maxFrequencyPerIpAddress = string.Format("1/{0}S", periodInSeconds);
 
+            var countryId = CountryId.GB;
+
             var ipAddress = "1.2.3.4";
 
             var containerUnderTest = CreateContainer();
-            SetupContainerForCanPickOutgoingVerification(containerUnderTest,
+            SetupContainerForCanPickOutgoingVerificationWithoutGeoipCheck(containerUnderTest,
                 disableGlobalFrequencyCheck, globalMaxFrequency,
                 disableMaxOutstandingPerUserCheck, maxOutstandingFrequencyPerUserForNewUser, maxOutstandingFrequencyPerUser,
                 disableIpAddressFrequencyCheck, maxFrequencyPerIpAddress);
@@ -1000,14 +1043,14 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var verification = await CreateTenantVerificationAndSave(random, helperContainer, user.Id, ipAddress, false);
             Assert.IsNotNull(verification, "TenantVerifiation created is null.");
 
-            var firstResponse = await serviceUnderTest.CanPickOutgoingVerification(user.Id, ipAddress);
+            var firstResponse = await serviceUnderTest.CanPickOutgoingVerification(user.Id, ipAddress, countryId);
             Assert.IsTrue(firstResponse.IsRejected, "The first check should fail.");
             Assert.AreEqual(AntiAbuseResources.PickOutgoingVerification_IpAddressFrequencyCheck_RejectionMessage,
                 firstResponse.RejectionReason, "The rejection reason is not the expected.");
 
             await Task.Delay(TimeSpan.FromSeconds(periodInSeconds));
 
-            var secondResponse = await serviceUnderTest.CanPickOutgoingVerification(user.Id, ipAddress);
+            var secondResponse = await serviceUnderTest.CanPickOutgoingVerification(user.Id, ipAddress, countryId);
             Assert.IsFalse(secondResponse.IsRejected, "The request should not be rejected the second time.");
         }
 
@@ -1022,10 +1065,12 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var disableIpAddressFrequencyCheck = true;
             var maxFrequencyPerIpAddress = "2/D";
 
+            var countryId = CountryId.GB;
+
             var ipAddress = "1.2.3.4";
 
             var containerUnderTest = CreateContainer();
-            SetupContainerForCanPickOutgoingVerification(containerUnderTest,
+            SetupContainerForCanPickOutgoingVerificationWithoutGeoipCheck(containerUnderTest,
                 disableGlobalFrequencyCheck, globalMaxFrequency,
                 disableMaxOutstandingPerUserCheck, maxOutstandingFrequencyPerUserForNewUser, maxOutstandingFrequencyPerUser,
                 disableIpAddressFrequencyCheck, maxFrequencyPerIpAddress);
@@ -1040,13 +1085,13 @@ namespace Epsilon.IntegrationTests.Logic.Services
             // I add the first verification.
             var verification1 = await CreateTenantVerificationAndSave(random, helperContainer, user.Id, ipAddress, false);
 
-            var firstResponse = await serviceUnderTest.CanPickOutgoingVerification(user.Id, ipAddress);
+            var firstResponse = await serviceUnderTest.CanPickOutgoingVerification(user.Id, ipAddress, countryId);
             Assert.IsFalse(firstResponse.IsRejected, "The first check should pass.");
 
             // I add the second verification.
             var verification2 = await CreateTenantVerificationAndSave(random, helperContainer, user.Id, ipAddress, false);
 
-            var secondResponse = await serviceUnderTest.CanPickOutgoingVerification(user.Id, ipAddress);
+            var secondResponse = await serviceUnderTest.CanPickOutgoingVerification(user.Id, ipAddress, countryId);
             Assert.IsTrue(secondResponse.IsRejected, "The second check should fail.");
             Assert.AreEqual(AntiAbuseResources.PickOutgoingVerification_MaxOutstandingFrequencyPerUserCheck_RejectionMessage,
                 secondResponse.RejectionReason, "The rejection reason is not the expected.");
@@ -1064,10 +1109,12 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var disableIpAddressFrequencyCheck = true;
             var maxFrequencyPerIpAddress = "2/D";
 
+            var countryId = CountryId.GB;
+
             var ipAddress = "1.2.3.4";
 
             var containerUnderTest = CreateContainer();
-            SetupContainerForCanPickOutgoingVerification(containerUnderTest,
+            SetupContainerForCanPickOutgoingVerificationWithoutGeoipCheck(containerUnderTest,
                 disableGlobalFrequencyCheck, globalMaxFrequency,
                 disableMaxOutstandingPerUserCheck, maxOutstandingFrequencyPerUserForNewUser, maxOutstandingFrequencyPerUser,
                 disableIpAddressFrequencyCheck, maxFrequencyPerIpAddress);
@@ -1082,14 +1129,14 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var verification = await CreateTenantVerificationAndSave(random, helperContainer, user.Id, ipAddress, false);
             Assert.IsNotNull(verification, "TenantVerifiation created is null.");
 
-            var firstResponse = await serviceUnderTest.CanPickOutgoingVerification(user.Id, ipAddress);
+            var firstResponse = await serviceUnderTest.CanPickOutgoingVerification(user.Id, ipAddress, countryId);
             Assert.IsTrue(firstResponse.IsRejected, "The first check should fail.");
             Assert.AreEqual(AntiAbuseResources.PickOutgoingVerification_MaxOutstandingFrequencyPerUserCheck_RejectionMessage,
                 firstResponse.RejectionReason, "The rejection reason is not the expected.");
 
             await Task.Delay(TimeSpan.FromSeconds(periodInSeconds));
 
-            var secondResponse = await serviceUnderTest.CanPickOutgoingVerification(user.Id, ipAddress);
+            var secondResponse = await serviceUnderTest.CanPickOutgoingVerification(user.Id, ipAddress, countryId);
             Assert.IsFalse(secondResponse.IsRejected, "The request should not be rejected the second time.");
         }
 
@@ -1104,10 +1151,12 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var disableIpAddressFrequencyCheck = true;
             var maxFrequencyPerIpAddress = "2/D";
 
+            var countryId = CountryId.GB;
+
             var ipAddress = "1.2.3.4";
 
             var containerUnderTest = CreateContainer();
-            SetupContainerForCanPickOutgoingVerification(containerUnderTest,
+            SetupContainerForCanPickOutgoingVerificationWithoutGeoipCheck(containerUnderTest,
                 disableGlobalFrequencyCheck, globalMaxFrequency,
                 disableMaxOutstandingPerUserCheck, maxOutstandingFrequencyPerUserForNewUser, maxOutstandingFrequencyPerUser,
                 disableIpAddressFrequencyCheck, maxFrequencyPerIpAddress);
@@ -1124,13 +1173,13 @@ namespace Epsilon.IntegrationTests.Logic.Services
             // I add the first verification.
             var verification1 = await CreateTenantVerificationAndSave(random, helperContainer, user.Id, ipAddress, false);
 
-            var firstResponse = await serviceUnderTest.CanPickOutgoingVerification(user.Id, ipAddress);
+            var firstResponse = await serviceUnderTest.CanPickOutgoingVerification(user.Id, ipAddress, countryId);
             Assert.IsFalse(firstResponse.IsRejected, "The first check should pass.");
 
             // I add the second verification.
             var verification2 = await CreateTenantVerificationAndSave(random, helperContainer, user.Id, ipAddress, false);
 
-            var secondResponse = await serviceUnderTest.CanPickOutgoingVerification(user.Id, ipAddress);
+            var secondResponse = await serviceUnderTest.CanPickOutgoingVerification(user.Id, ipAddress, countryId);
             Assert.IsTrue(secondResponse.IsRejected, "The second check should fail.");
             Assert.AreEqual(AntiAbuseResources.PickOutgoingVerification_MaxOutstandingFrequencyPerUserCheck_RejectionMessage,
                 secondResponse.RejectionReason, "The rejection reason is not the expected.");
@@ -1149,10 +1198,12 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var disableIpAddressFrequencyCheck = true;
             var maxFrequencyPerIpAddress = "2/D";
 
+            var countryId = CountryId.GB;
+
             var ipAddress = "1.2.3.4";
 
             var containerUnderTest = CreateContainer();
-            SetupContainerForCanPickOutgoingVerification(containerUnderTest,
+            SetupContainerForCanPickOutgoingVerificationWithoutGeoipCheck(containerUnderTest,
                 disableGlobalFrequencyCheck, globalMaxFrequency,
                 disableMaxOutstandingPerUserCheck, maxOutstandingFrequencyPerUserForNewUser, maxOutstandingFrequencyPerUser,
                 disableIpAddressFrequencyCheck, maxFrequencyPerIpAddress);
@@ -1169,14 +1220,14 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var incompleteVerification = await CreateTenantVerificationAndSave(random, helperContainer, user.Id, ipAddress, false);
             Assert.IsNotNull(completeVerification, "Incomplete TenantVerifiation created is null.");
 
-            var firstResponse = await serviceUnderTest.CanPickOutgoingVerification(user.Id, ipAddress);
+            var firstResponse = await serviceUnderTest.CanPickOutgoingVerification(user.Id, ipAddress, countryId);
             Assert.IsTrue(firstResponse.IsRejected, "The first check should fail.");
             Assert.AreEqual(AntiAbuseResources.PickOutgoingVerification_MaxOutstandingFrequencyPerUserCheck_RejectionMessage,
                 firstResponse.RejectionReason, "The rejection reason is not the expected.");
 
             await Task.Delay(TimeSpan.FromSeconds(periodInSeconds));
 
-            var secondResponse = await serviceUnderTest.CanPickOutgoingVerification(user.Id, ipAddress);
+            var secondResponse = await serviceUnderTest.CanPickOutgoingVerification(user.Id, ipAddress, countryId);
             Assert.IsFalse(secondResponse.IsRejected, "The request should not be rejected the second time.");
         }
 
@@ -1443,7 +1494,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             container.Rebind<IAntiAbuseServiceConfig>().ToConstant(mockAntiAbuseServiceConfig.Object);
         }
 
-        private static void SetupContainerForCanAddAddressWithoutGeocodeFailureCheck(IKernel container,
+        private static void SetupContainerForCanAddAddressWithoutGeocodeFailureOrGeoipCheck(IKernel container,
             bool disableGlobalFrequencyCheck, string globalMaxFrequency,
             bool disableUserFrequencyCheck, string maxFrequencyPerUser,
             bool disableIpAddressFrequencyCheck, string maxFrequencyPerIpAddress)
@@ -1467,6 +1518,8 @@ namespace Epsilon.IntegrationTests.Logic.Services
             mockAntiAbuseServiceConfig.Setup(x => x.AddAddress_DisableGeocodeFailureIpAddressFrequencyCheck)
                 .Returns(true);
             mockAntiAbuseServiceConfig.Setup(x => x.AddAddress_DisableGeocodeFailureUserFrequencyCheck)
+                .Returns(true);
+            mockAntiAbuseServiceConfig.Setup(x => x.GlobalSwitch_DisableUseOfGeoipInformation)
                 .Returns(true);
             container.Rebind<IAntiAbuseServiceConfig>().ToConstant(mockAntiAbuseServiceConfig.Object);
         }
@@ -1493,10 +1546,12 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 .Returns(true);
             mockAntiAbuseServiceConfig.Setup(x => x.AddAddress_DisableIpAddressFrequencyCheck)
                 .Returns(true);
+            mockAntiAbuseServiceConfig.Setup(x => x.GlobalSwitch_DisableUseOfGeoipInformation)
+                .Returns(true);
             container.Rebind<IAntiAbuseServiceConfig>().ToConstant(mockAntiAbuseServiceConfig.Object);
         }
 
-        private static void SetupContainerForCanPickOutgoingVerification(IKernel container,
+        private static void SetupContainerForCanPickOutgoingVerificationWithoutGeoipCheck(IKernel container,
             bool disableGlobalFrequencyCheck, string globalMaxFrequency,
             bool disableMaxOutstandingPerUserCheck, string maxOutstandingFrequencyPerUserForNewUser, string maxOutstandingFrequencyPerUser,
             bool disableIpAddressFrequencyCheck, string maxFrequencyPerIpAddress)
@@ -1521,10 +1576,13 @@ namespace Epsilon.IntegrationTests.Logic.Services
             mockAntiAbuseServiceConfig.Setup(x => x.PickOutgoingVerification_MaxFrequencyPerIpAddress)
                 .Returns(parseHelper.ParseFrequency(maxFrequencyPerIpAddress));
 
+            mockAntiAbuseServiceConfig.Setup(x => x.GlobalSwitch_DisableUseOfGeoipInformation)
+                .Returns(true);
+
             container.Rebind<IAntiAbuseServiceConfig>().ToConstant(mockAntiAbuseServiceConfig.Object);
         }
 
-        private static void SetupContainerForCanCreateTenancyDetailsSubmission(IKernel container,
+        private static void SetupContainerForCanCreateTenancyDetailsSubmissionWithoutGeoipCheck(IKernel container,
             bool disableGlobalFrequencyCheck, string globalMaxFrequency,
             bool disableUserFrequencyCheck, string maxFrequencyPerUser,
             bool disableIpAddressFrequencyCheck, string maxFrequencyPerIpAddress)
@@ -1544,6 +1602,10 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 .Returns(disableIpAddressFrequencyCheck);
             mockAntiAbuseServiceConfig.Setup(x => x.CreateTenancyDetailsSubmission_MaxFrequencyPerIpAddress)
                 .Returns(parseHelper.ParseFrequency(maxFrequencyPerIpAddress));
+
+            mockAntiAbuseServiceConfig.Setup(x => x.GlobalSwitch_DisableUseOfGeoipInformation)
+                .Returns(true);
+
             container.Rebind<IAntiAbuseServiceConfig>().ToConstant(mockAntiAbuseServiceConfig.Object);
         }
 

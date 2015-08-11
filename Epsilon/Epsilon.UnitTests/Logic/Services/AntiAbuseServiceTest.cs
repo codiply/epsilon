@@ -19,7 +19,7 @@ namespace Epsilon.UnitTests.Logic.Services
         {
             var mockAntiAbuseServiceConfig = new Mock<IAntiAbuseServiceConfig>();
             mockAntiAbuseServiceConfig.Setup(x => x.GlobalSwitch_DisableRegister).Returns(true);
-            var service = new AntiAbuseService(null, mockAntiAbuseServiceConfig.Object, null, null, null);
+            var service = new AntiAbuseService(null, mockAntiAbuseServiceConfig.Object, null, null, null, null);
 
             var outcome = await service.CanRegister("some-ip-address");
 

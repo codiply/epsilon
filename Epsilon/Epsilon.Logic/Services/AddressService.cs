@@ -240,7 +240,9 @@ namespace Epsilon.Logic.Services
                     AddressUniqueId = null
                 };
 
-            var antiAbuseServiceResponse = await _antiAbuseService.CanAddAddress(userId, userIpAddress);
+            var formCountryId = form.CountryIdAsEnum();
+
+            var antiAbuseServiceResponse = await _antiAbuseService.CanAddAddress(userId, userIpAddress, formCountryId);
             if (antiAbuseServiceResponse.IsRejected)
                 return new AddAddressOutcome
                 {

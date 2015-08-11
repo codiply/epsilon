@@ -106,6 +106,15 @@ namespace Epsilon.Resources.Logic.AntiAbuse {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sorry, we couldn&apos;t determine your country from your IP address..
+        /// </summary>
+        public static string CannotDetermineGeoipCountryErrorMessage {
+            get {
+                return ResourceManager.GetString("CannotDetermineGeoipCountryErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Due to big number of submissions created today, this function has been disabled. Please try again tomorrow..
         /// </summary>
         public static string CreateTenancyDetailsSubmission_GlobalFrequencyCheck_RejectionMessage {
@@ -129,6 +138,15 @@ namespace Epsilon.Resources.Logic.AntiAbuse {
         public static string CreateTenancyDetailsSubmission_UserFrequencyCheck_RejectionMessage {
             get {
                 return ResourceManager.GetString("CreateTenancyDetailsSubmission_UserFrequencyCheck_RejectionMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your IP address appears to be in Country {0}. We cannot process this request..
+        /// </summary>
+        public static string GeoipCountryMismatchErrorMessage {
+            get {
+                return ResourceManager.GetString("GeoipCountryMismatchErrorMessage", resourceCulture);
             }
         }
         

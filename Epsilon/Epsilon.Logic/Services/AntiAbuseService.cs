@@ -24,19 +24,22 @@ namespace Epsilon.Logic.Services
         private readonly IAdminAlertService _adminAlertService;
         private readonly IAdminEventLogService _adminEventLogService;
         private readonly IEpsilonContext _dbContext;
+        private readonly IGeoipInfoService _geoipInfoService;
 
         public AntiAbuseService(
             IClock clock,
             IAntiAbuseServiceConfig antiAbuseServiceConfig,
             IAdminAlertService adminAlertService,
             IAdminEventLogService adminEventLogService,
-            IEpsilonContext dbContext)
+            IEpsilonContext dbContext,
+            IGeoipInfoService geoipInfoService)
         {
             _clock = clock;
             _antiAbuseServiceConfig = antiAbuseServiceConfig;
             _adminAlertService = adminAlertService;
             _adminEventLogService = adminEventLogService;
             _dbContext = dbContext;
+            _geoipInfoService = geoipInfoService;
         }
 
         public async Task<AntiAbuseServiceResponse> CanRegister(string userIpAddress)
@@ -59,11 +62,17 @@ namespace Epsilon.Logic.Services
             return new AntiAbuseServiceResponse { IsRejected = false };
         }
 
-        public async Task<AntiAbuseServiceResponse> CanAddAddress(string userId, string userIpAddress)
+        public async Task<AntiAbuseServiceResponse> CanAddAddress(string userId, string userIpAddress, CountryId addressCountryId)
         {
             var checkGlobalFrequency = await CanAddAddressCheckGlobalFrequency();
             if (checkGlobalFrequency.IsRejected)
                 return checkGlobalFrequency;
+
+            // TODO_PANOS_TEST
+            var geoipCountryMatchesCheck = await CheckGeoipCountryMatches(
+                userIpAddress, addressCountryId, _antiAbuseServiceConfig.AddAddress_DisableGeoipCheck);
+            if (geoipCountryMatchesCheck.IsRejected)
+                return geoipCountryMatchesCheck;
 
             var checkIpFrequency = await CanAddAddressCheckIpFrequency(userIpAddress);
             if (checkIpFrequency.IsRejected)
@@ -84,11 +93,17 @@ namespace Epsilon.Logic.Services
             return new AntiAbuseServiceResponse { IsRejected = false };
         }
 
-        public async Task<AntiAbuseServiceResponse> CanCreateTenancyDetailsSubmission(string userId, string userIpAddress)
+        public async Task<AntiAbuseServiceResponse> CanCreateTenancyDetailsSubmission(string userId, string userIpAddress, CountryId addressCountryId)
         {
             var checkGlobalFrequency = await CanCreateTenancyDetailsSubmissionCheckGlobalFrequency();
             if (checkGlobalFrequency.IsRejected)
                 return checkGlobalFrequency;
+
+            // TODO_PANOS_TEST
+            var geoipCountryMatchesCheck = await CheckGeoipCountryMatches(
+                userIpAddress, addressCountryId, _antiAbuseServiceConfig.CreateTenancyDetailsSubmission_DisableGeoipCheck);
+            if (geoipCountryMatchesCheck.IsRejected)
+                return geoipCountryMatchesCheck;
 
             var checkIpFrequency = await CanCreateTenancyDetailsSubmissionCheckIpFrequency(userIpAddress);
             if (checkIpFrequency.IsRejected)
@@ -101,11 +116,17 @@ namespace Epsilon.Logic.Services
             return new AntiAbuseServiceResponse { IsRejected = false };
         }
 
-        public async Task<AntiAbuseServiceResponse> CanPickOutgoingVerification(string userId, string userIpAddress)
+        public async Task<AntiAbuseServiceResponse> CanPickOutgoingVerification(string userId, string userIpAddress, CountryId verificationCountryId)
         {
             var checkGlobalFrequency = await CanPickOutgoingVerificationCheckGlobalFrequency();
             if (checkGlobalFrequency.IsRejected)
                 return checkGlobalFrequency;
+
+            // TODO_PANOS_TEST
+            var geoipCountryMatchesCheck = await CheckGeoipCountryMatches(
+                userIpAddress, verificationCountryId, _antiAbuseServiceConfig.PickOutgoingVerification_DisableGeoipCheck);
+            if (geoipCountryMatchesCheck.IsRejected)
+                return geoipCountryMatchesCheck;
 
             var checkIpFrequency = await CanPickOutgoingVerificationCheckIpFrequency(userIpAddress);
             if (checkIpFrequency.IsRejected)
@@ -440,6 +461,41 @@ namespace Epsilon.Logic.Services
                     RejectionReason = AntiAbuseResources.PickOutgoingVerification_MaxOutstandingFrequencyPerUserCheck_RejectionMessage
                 };
             }
+
+            return new AntiAbuseServiceResponse { IsRejected = false };
+        }
+
+        private async Task<AntiAbuseServiceResponse> CheckGeoipCountryMatches(string ipAddress, CountryId countryId, bool disableSwitch)
+        {
+            // TODO_PANOS_TEST
+
+            if (_antiAbuseServiceConfig.GlobalSwitch_DisableUseOfGeoipInformation || disableSwitch)
+                return new AntiAbuseServiceResponse { IsRejected = false };
+
+            var geoipInfo = await _geoipInfoService.GetInfoAsync(ipAddress);
+
+            if (geoipInfo == null)
+                return new AntiAbuseServiceResponse
+                {
+                    IsRejected = true,
+                    RejectionReason = AntiAbuseResources.CannotDetermineGeoipCountryErrorMessage
+                };
+
+            var geoipCountry = geoipInfo.CountryCodeAsEnum();
+
+            if (geoipCountry == null)
+                return new AntiAbuseServiceResponse
+                {
+                    IsRejected = true,
+                    RejectionReason = AntiAbuseResources.CannotDetermineGeoipCountryErrorMessage
+                };
+
+            if (geoipCountry != countryId)
+                return new AntiAbuseServiceResponse
+                {
+                    IsRejected = true,
+                    RejectionReason = string.Format(AntiAbuseResources.GeoipCountryMismatchErrorMessage, geoipCountry)
+                };
 
             return new AntiAbuseServiceResponse { IsRejected = false };
         }
