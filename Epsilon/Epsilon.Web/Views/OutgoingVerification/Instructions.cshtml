@@ -28,7 +28,7 @@
     <div class="form-group">
         <label class="control-label col-md-3">@OutgoingVerificationResources.Instructions_RecipientAddressLabel</label>
         <div class="col-md-9">
-            <div class="form-control">
+            <div class="panel panel-primary panel-body">
                 @Html.Partial("_VerificationRecipient", Model.Instructions.RecipientAddress)
             </div>
         </div>
@@ -36,7 +36,7 @@
     <div class="form-group">
         <label class="control-label col-md-3">@OutgoingVerificationResources.Instructions_VerificationMessageLabel</label>
         <div class="col-md-9">
-            <div class="form-control">
+            <div class="panel panel-primary panel-body" >
                 @Html.Partial("_VerificationMessage", Model.Instructions.MessageArguments)
             </div>
         </div>
