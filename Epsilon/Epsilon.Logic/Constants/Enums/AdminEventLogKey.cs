@@ -19,6 +19,8 @@ namespace Epsilon.Logic.Constants.Enums
         GoogleGeocodeApiStatusUnexpected,
         GoogleGeocodeApiStatusUknownError,
         PickOutgoingVerificationGlobalMaxFrequencyReached,
-        RegistrationGlobalMaxFrequencyReached
+        RegistrationGlobalMaxFrequencyReached,
+        UserAccountMaintenanceCheckForUnrewardedOutgoingVerificationsTokenTransactionFailed,
+        UserAccountMaintenanceThrewException
     }
 }

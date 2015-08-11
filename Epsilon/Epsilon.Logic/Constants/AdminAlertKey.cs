@@ -18,5 +18,9 @@ namespace Epsilon.Logic.Constants
         public const string GoogleGeocodeApiStatusUknownError = "GoogleGeocodeApiStatusUknownError";
         public const string PickOutgoingVerificationGlobalMaxFrequencyReached = "PickOutgoingVerificationGlobalMaxFrequencyReached";
         public const string RegistrationGlobalMaxFrequencyReached = "RegistrationGlobalMaxFrequencyReached";
+        public const string UserAccountMaintenanceCheckForUnrewardedOutgoingVerificationsTokenTransactionFailed =
+            "UserAccountMaintenanceCheckForUnrewardedOutgoingVerificationsTokenTransactionFailed";
+        public const string UserAccountMaintenanceThrewException = "UserAccountMaintenanceThrewException";
+        
     }
 }

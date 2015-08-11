@@ -24,16 +24,22 @@ namespace Epsilon.Logic.Services
 
         public async Task Log(AdminEventLogKey key, Dictionary<string, object> extraInfo)
         {
-            var entity = new AdminEventLog
-            {
-                Key = EnumsHelper.AdminEventLogKey.ToString(key),
-            };
-            if (extraInfo != null)
-            {
-                entity.ExtraInfo = JsonConvert.SerializeObject(extraInfo, Formatting.None);
+            try {
+                var entity = new AdminEventLog
+                {
+                    Key = EnumsHelper.AdminEventLogKey.ToString(key),
+                };
+                if (extraInfo != null)
+                {
+                    entity.ExtraInfo = JsonConvert.SerializeObject(extraInfo, Formatting.None);
+                }
+                _dbContext.AdminEventLogs.Add(entity);
+                await _dbContext.SaveChangesAsync();
             }
-            _dbContext.AdminEventLogs.Add(entity);
-            await _dbContext.SaveChangesAsync();
+            catch (Exception ex)
+            {
+                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+            }
         }
     }
 }

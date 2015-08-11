@@ -27,6 +27,7 @@ namespace Epsilon.Web.Controllers
         private readonly IAuthenticationManager _authenticationManager;
         private readonly INewUserService _newUserService;
         private readonly IIpAddressActivityService _ipAddressActivityService;
+        private readonly IUserAccountMaintenanceService _userAccountMaintenanceService;
 
         public AccountController(
             ApplicationUserManager userManager, 
@@ -35,7 +36,8 @@ namespace Epsilon.Web.Controllers
             IAppSettingsHelper appSettingsHelper,
             IAuthenticationManager authenticationManager,
             INewUserService newUserService,
-            IIpAddressActivityService ipAddressActivityService)
+            IIpAddressActivityService ipAddressActivityService,
+            IUserAccountMaintenanceService userAccountMaintenanceService)
         {
             _signInManager = signInManager;
             _userManager = userManager;
@@ -44,6 +46,7 @@ namespace Epsilon.Web.Controllers
             _authenticationManager = authenticationManager;
             _newUserService = newUserService;
             _ipAddressActivityService = ipAddressActivityService;
+            _userAccountMaintenanceService = userAccountMaintenanceService;
         }
 
         //
@@ -74,6 +77,7 @@ namespace Epsilon.Web.Controllers
             {
                 case SignInStatus.Success:
                     await _ipAddressActivityService.RecordLogin(model.Email, GetUserIpAddress());
+                    await _userAccountMaintenanceService.DoMaintenance(GetUserId());
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
