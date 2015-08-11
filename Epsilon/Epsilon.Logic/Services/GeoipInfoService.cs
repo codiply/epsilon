@@ -19,10 +19,10 @@ namespace Epsilon.Logic.Services
     // TODO_PANOS_TEST: whole thing
     public class GeoipInfoService : IGeoipInfoService
     {
-        private IClock _clock;
-        private IAppCache _appCache;
-        private IEpsilonContext _dbContext;
-        private IGeoipInfoServiceConfig _geoipInfoServiceConfig;
+        private readonly IClock _clock;
+        private readonly IAppCache _appCache;
+        private readonly IEpsilonContext _dbContext;
+        private readonly IGeoipInfoServiceConfig _geoipInfoServiceConfig;
         private readonly IAdminAlertService _adminAlertService;
         private readonly IAdminEventLogService _adminEventLogService;
 

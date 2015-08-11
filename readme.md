@@ -47,10 +47,18 @@ To run the integration tests publish first the Database project into a new local
 
 ## Checklists
 
+### New DbAppSetting Checklist
+
+- Add setting key to `Constants/Enums/DbAppSettingsKey`
+- Add setting in `Scripts/PostDeploy/ReferenceData/AppSetting.sql` script
+- Add labels for new key in `Scripts/PostDeploy/ReferenceData/AppSettingLabel.sql` script
+- Add setting in `Scripts/DevScripts/DevAppSettings.sql` script
+- Update your test database and run your tests (as always).
+
 ### New Country Checklist
 
-- Add Currency in ReferenceData\Currency.sql script
-- Add Country in ReferenceData\Country.sql script
+- Add Currency in `ReferenceData/Currency.sql` script
+- Add Country in `ReferenceData/Country.sql` script
 - Add Country Id in `CountryId` enumeration script
 - Add two Resource files in CountryVariants folder with names **ResourcesXX** and **ResourceXX.yy**, where **XX** is the Id of the Country and **yy** is the culture code of the language of the country.
 - Add field metadata in `CountryAddressFieldMetadata` constants class.

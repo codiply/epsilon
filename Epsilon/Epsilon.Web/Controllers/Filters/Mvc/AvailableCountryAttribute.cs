@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using Epsilon.Logic.Infrastructure.Extensions;
 using Epsilon.Logic.Constants.Enums;
+using Epsilon.Logic.Constants;
 
 namespace Epsilon.Web.Controllers.Filters.Mvc
 {
@@ -20,7 +21,7 @@ namespace Epsilon.Web.Controllers.Filters.Mvc
         private readonly string _settingKey;
 
         [Inject]
-        public IAppSettingsHelper AppSettingsHelper { get; set; }
+        public IDbAppSettingsHelper DbAppSettingsHelper { get; set; }
 
         [Inject]
         public ICountryService CountryService { get; set; }
@@ -30,6 +31,9 @@ namespace Epsilon.Web.Controllers.Filters.Mvc
 
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
+            // TODO_PANOS_TEST
+            if (DbAppSettingsHelper.GetBool(DbAppSettingKey.GlobalSwitch_DisableUseOfGeoipInformation) == true)
+                return;
 
             var ipAddress = filterContext.HttpContext.GetSanitizedIpAddress();
             var geoip = GeoipInfoService.GetInfo(ipAddress);
@@ -38,7 +42,6 @@ namespace Epsilon.Web.Controllers.Filters.Mvc
 
             if (!isAvailable)
             {
-                var message = CommonResources.ServiceNotAvailableInYourCountryMessage;
                 filterContext.Result = new ViewResult
                 {
                     ViewName = "UnavailableCountry",
