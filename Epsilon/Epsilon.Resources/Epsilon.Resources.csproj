@@ -149,6 +149,16 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>LayoutResources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Web\Manage\ManageResources.el.Designer.cs">
+      <DependentUpon>ManageResources.el.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Web\Manage\ManageResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ManageResources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Web\OutgoingVerification\OutgoingVerificationResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -278,6 +288,14 @@
     <EmbeddedResource Include="Web\Layout\LayoutResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>LayoutResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Web\Manage\ManageResources.el.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>ManageResources.el.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Web\Manage\ManageResources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>ManageResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Web\OutgoingVerification\OutgoingVerificationResources.el.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

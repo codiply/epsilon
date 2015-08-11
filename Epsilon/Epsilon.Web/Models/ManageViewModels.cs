@@ -2,6 +2,8 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
+using System.ComponentModel;
+using Epsilon.Resources.Web.Manage;
 
 namespace Epsilon.Web.Models
 {
@@ -43,18 +45,18 @@ namespace Epsilon.Web.Models
     {
         [Required]
         [DataType(DataType.Password)]
-        [Display(Name = "Current password")]
+        [Display(ResourceType = typeof(ManageResources), Name = "ChangePassword_FieldOldPassword_DisplayName")]
         public string OldPassword { get; set; }
 
         [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [StringLength(100, ErrorMessageResourceType = typeof(ManageResources), ErrorMessageResourceName = "ChangePassword_FieldNewPassword_StringLengthErrorMessage", MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "New password")]
+        [Display(ResourceType = typeof(ManageResources), Name = "ChangePassword_FieldNewPassword_DisplayName")]
         public string NewPassword { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm new password")]
-        [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
+        [Display(ResourceType = typeof(ManageResources), Name = "ChangePassword_FieldConfirmPassword_DisplayName")]
+        [Compare("NewPassword", ErrorMessageResourceType = typeof(ManageResources), ErrorMessageResourceName = "ChangePassword_FieldConfirmPassword_CompareErrorMessage")]
         public string ConfirmPassword { get; set; }
     }
 
