@@ -4,6 +4,11 @@
 @using Epsilon.Resources.Common;
 @using Epsilon.Resources.Web.Layout;
 @using Microsoft.AspNet.Identity;
+@using Epsilon.Logic.Models
+
+@{ 
+    var userInterfaceCustomisation = (UserInterfaceCustomisationModel)ViewBag.UserInterfaceCustomisation;
+}
 
 @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
 {
@@ -11,14 +16,6 @@
 }
 <ul class="nav navbar-nav navbar-right">
 
-    @if (User.Identity.IsAuthenticated)
-    {
-        <li>
-            <a href="@Url.Action("Transactions","Token")" title="@CommonResources.TokenBalanceBadgeHoverText">
-                <token-balance-badge />
-            </a>
-        </li>
-    }
     @if (User.IsInRole(AspNetRole.Admin))
     {
         <li class="dropdown">
@@ -28,9 +25,9 @@
             </a>
             <ul class="dropdown-menu">
                 <li>
-                    <a href="@Url.Action("Index", "Admin")" title="Admin" >Admin</a>
+                    <a href="@Url.Action("Index", "Admin")" title="Admin">Admin</a>
                 </li>
-                @{ 
+                @{
                     var appSettingsHelper = DependencyResolver.Current.GetService<IAppSettingsHelper>();
                 }
                 @if (appSettingsHelper.GetBool(AppSettingsKey.EnableDevHelperController) == true)
@@ -39,6 +36,51 @@
                 }
             </ul>
         </li>
+    }
+
+    @if (User.Identity.IsAuthenticated)
+    {
+        <li>
+            <a href="@Url.Action("Transactions","Token")" title="@CommonResources.TokenBalanceBadgeHoverText">
+                <token-balance-badge />
+            </a>
+        </li>
+    }
+    @if (User.Identity.IsAuthenticated)
+    {
+    <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"
+           title="@LayoutResources.NavBar_ActionsGroup_HoverText">
+            <span class="glyphicon glyphicon-asterisk glyphicon-lg" aria-hidden="true"></span>
+        </a>
+        <ul class="dropdown-menu">
+            @if (userInterfaceCustomisation.CanCreateTenancyDetailsSubmission)
+            {
+            <li>
+                <a href="@Url.Action("SearchAddress", "Submission")" class="btn btn-default">
+                    @LayoutResources.NavBar_ActionsGroup_NewSubmissionLinkText
+                </a>
+            </li>
+            }
+            @if (userInterfaceCustomisation.CanPickOutgoingVerification)
+            {
+            <li>
+                @using (Html.BeginForm("Pick", "OutgoingVerification"))
+                {
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="verificationUniqueId" value="@Guid.NewGuid()" />
+                    <input type="hidden" name="returnToSummary" value="false" />
+                    <input type="submit" value="@LayoutResources.NavBar_ActionsGroup_NewOutgoingVerificationLinkText" class="btn btn-default" />
+                }
+            </li>
+            }
+            <li>
+                <a href="@Url.Action("SearchProperty", "PropertyInfo")" class="btn btn-default">
+                    @LayoutResources.NavBar_ActionsGroup_SearchPropertyLinkText
+                </a>
+            </li>
+        </ul>
+    </li>
     }
 
     <li class="dropdown">
@@ -71,7 +113,6 @@
             }
         </ul>
     </li>
-
 
     @if (Request.IsAuthenticated)
     {

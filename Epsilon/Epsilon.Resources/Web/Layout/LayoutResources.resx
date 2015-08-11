@@ -117,6 +117,18 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="NavBar_ActionsGroup_HoverText" xml:space="preserve">
+    <value>Actions</value>
+  </data>
+  <data name="NavBar_ActionsGroup_NewOutgoingVerificationLinkText" xml:space="preserve">
+    <value>New Outgoing Verification</value>
+  </data>
+  <data name="NavBar_ActionsGroup_NewSubmissionLinkText" xml:space="preserve">
+    <value>New Submission</value>
+  </data>
+  <data name="NavBar_ActionsGroup_SearchPropertyLinkText" xml:space="preserve">
+    <value>Explore Properties</value>
+  </data>
   <data name="NavBar_InfoGroup_HoverText" xml:space="preserve">
     <value>Info</value>
   </data>

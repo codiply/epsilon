@@ -61,6 +61,42 @@ namespace Epsilon.Resources.Web.Layout {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Actions.
+        /// </summary>
+        public static string NavBar_ActionsGroup_HoverText {
+            get {
+                return ResourceManager.GetString("NavBar_ActionsGroup_HoverText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New Outgoing Verification.
+        /// </summary>
+        public static string NavBar_ActionsGroup_NewOutgoingVerificationLinkText {
+            get {
+                return ResourceManager.GetString("NavBar_ActionsGroup_NewOutgoingVerificationLinkText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New Submission.
+        /// </summary>
+        public static string NavBar_ActionsGroup_NewSubmissionLinkText {
+            get {
+                return ResourceManager.GetString("NavBar_ActionsGroup_NewSubmissionLinkText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Explore Properties.
+        /// </summary>
+        public static string NavBar_ActionsGroup_SearchPropertyLinkText {
+            get {
+                return ResourceManager.GetString("NavBar_ActionsGroup_SearchPropertyLinkText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Info.
         /// </summary>
         public static string NavBar_InfoGroup_HoverText {
