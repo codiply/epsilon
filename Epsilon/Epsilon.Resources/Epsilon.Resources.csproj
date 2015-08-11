@@ -133,6 +133,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>TokenRewardKeyResources.el.resx</DependentUpon>
     </Compile>
+    <Compile Include="Web\Account\AccountResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AccountResources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Web\Home\HomeResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -276,6 +281,10 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>TokenRewardKeyResources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Web\Account\AccountResources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>AccountResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Web\Home\HomeResources.el.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
