@@ -1,6 +1,7 @@
 ﻿using Epsilon.Logic.Constants;
 using Epsilon.Logic.Services.Interfaces;
 using Epsilon.Resources.Common;
+using Epsilon.Resources.Web.OutgoingVerification;
 using Epsilon.Web.Controllers.BaseControllers;
 using Epsilon.Web.Models.ViewModels.OutgoingVerification;
 using System;
@@ -17,17 +18,27 @@ namespace Epsilon.Web.Controllers
         public const string MY_OUTGOING_VERIFICATIONS_SUMMARY_ACTION = "MyOutgoingVerificationsSummary";
 
         private readonly IOutgoingVerificationService _outgoingVerificationService;
+        private readonly IUserResidenceService _userResidenceService;
 
         public OutgoingVerificationController(
-            IOutgoingVerificationService outgoingVerificationService)
+            IOutgoingVerificationService outgoingVerificationService,
+            IUserResidenceService userResidenceService)
         {
             _outgoingVerificationService = outgoingVerificationService;
+            _userResidenceService = userResidenceService;
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Pick(PickOutgoingVerificationViewModel model)
         {
+            var userResidenceServiceResponse = await _userResidenceService.GetResidence(GetUserId());
+            if (userResidenceServiceResponse.HasNoSubmissions)
+            {
+                Danger(OutgoingVerificationResources.Pick_CannotDetermineUserResidenceBecauseOfNoSubmissions_ErrorMessage, true);
+                return RedirectHome(false);
+            }
+
             return View(model);
         }
 

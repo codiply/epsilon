@@ -340,6 +340,15 @@ namespace Epsilon.Resources.Web.OutgoingVerification {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to We will need to initiate a submission for your address before you can send verification mail to other users..
+        /// </summary>
+        public static string Pick_CannotDetermineUserResidenceBecauseOfNoSubmissions_ErrorMessage {
+            get {
+                return ResourceManager.GetString("Pick_CannotDetermineUserResidenceBecauseOfNoSubmissions_ErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to You will be assigned to send a verification mail by post to verify another user. The address will be in the Country shown above. If you have changed country, you will need to make another submission first..
         /// </summary>
         public static string Pick_ConfirmationText {
