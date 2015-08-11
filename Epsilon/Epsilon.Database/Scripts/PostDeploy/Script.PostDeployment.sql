@@ -16,8 +16,8 @@ Post-Deployment Script Template
 :r .\ReferenceData\AppSettingLabel.sql
 :r .\ReferenceData\AspNetRoles.sql
 :r .\ReferenceData\Currency.sql
-:r .\ReferenceData\Country.sql
 :r .\ReferenceData\Language.sql
+:r .\ReferenceData\Country.sql -- Needs to be after Currency and Language
 :r .\ReferenceData\TokenRewardScheme.sql
 :r .\ReferenceData\TokenRewardType.sql
 :r .\ReferenceData\TokenReward.sql -- Needs to be after TokenRewardScheme and TokenRewardType

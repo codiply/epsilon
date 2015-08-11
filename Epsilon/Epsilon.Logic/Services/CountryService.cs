@@ -42,11 +42,30 @@ namespace Epsilon.Logic.Services
         }
 
         // TODO_PANOS_TEST
+        public Country GetCountry(string countryId)
+        {
+            var dictionary = GetCountryDictionary();
+            var key = countryId.ToUpper();
+            if (dictionary.ContainsKey(key))
+            {
+                var country = dictionary[countryId.ToUpper()];
+                return country;
+            }
+            return null;
+        }
+
+        // TODO_PANOS_TEST
         public bool IsCountryAvailable(CountryId countryId)
         {
             var dictionary = GetCountryDictionary();
-            var country = dictionary[EnumsHelper.CountryId.ToString(countryId)];
-            return country != null && country.IsAvailable;
+            var key = EnumsHelper.CountryId.ToString(countryId).ToUpperInvariant();
+            if (dictionary.ContainsKey(key))
+            {
+                var country = dictionary[key];
+                return country != null && country.IsAvailable;
+            }
+     
+            return false;
         }
 
         private IList<Country> GetAvailableCountriesFromDictionary()

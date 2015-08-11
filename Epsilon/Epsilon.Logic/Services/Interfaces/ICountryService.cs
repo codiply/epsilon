@@ -15,6 +15,8 @@ namespace Epsilon.Logic.Services.Interfaces
 
         IList<Country> GetAvailableCountries();
 
+        Country GetCountry(string countryId);
+
         bool IsCountryAvailable(CountryId countryId);
     }
 }

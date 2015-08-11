@@ -35,6 +35,8 @@ namespace Epsilon.Web.Controllers.Filters.WebApi
             // NOTE: If you change the logic in this filter update
             // !!!!! the corresponding MVC filter as well. !!!!!!!
 
+            // NOTE: I assume the languageId is always defined for WebApi requests. If not I fall back to default language.
+
             string languageId = (string)actionContext.RequestContext.RouteData.Values["languageId"] 
                 ?? AppSettingsHelper.GetString(AppSettingsKey.DefaultLanguageId);
             
@@ -45,7 +47,7 @@ namespace Epsilon.Web.Controllers.Filters.WebApi
 
             if (language == null || !language.IsAvailable)
             {
-                actionContext.Response= new HttpResponseMessage(HttpStatusCode.NotFound);
+                actionContext.Response = new HttpResponseMessage(HttpStatusCode.NotFound);
                 return;
             }
 

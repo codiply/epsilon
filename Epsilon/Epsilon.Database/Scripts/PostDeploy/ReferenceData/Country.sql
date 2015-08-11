@@ -17,13 +17,13 @@ FROM [dbo].[Country]
 WHERE 1 = 0
 
 INSERT INTO #TMP
-([Id], [EnglishName], [LocalName], [CurrencyId], [IsAvailable])
+([Id], [EnglishName], [LocalName], [CurrencyId], [MainLanguageId], [IsAvailable])
 VALUES
 -- Edit the values below to update the target table.
-(N'GB', N'United Kingdom', N'United Kingdom', N'GBP', 1),
-(N'GR', N'Greece', N'Ελλάδα', N'EUR', 1),
-(N'IE', N'Ireland', N'Ireland', N'EUR', 0),
-(N'US', N'United States of America', N'United States of America', N'USD', 0);
+(N'GB', N'United Kingdom', N'United Kingdom', N'GBP', N'en', 1),
+(N'GR', N'Greece', N'Ελλάδα', N'EUR', N'el', 1),
+(N'IE', N'Ireland', N'Ireland', N'EUR', N'en', 0),
+(N'US', N'United States of America', N'United States of America', N'USD', N'en', 0);
 GO
 
 MERGE [dbo].[Country] AS T -- Target
@@ -34,10 +34,11 @@ WHEN MATCHED
 	    T.[EnglishName] = S.[EnglishName],
 		T.[LocalName] = S.[LocalName],
 		T.[CurrencyId] = S.[CurrencyId],
+		T.[MainLanguageId] = S.[MainLanguageId],
 		T.[IsAvailable] = S.[IsAvailable]
 WHEN NOT MATCHED
-    THEN INSERT ([Id], [EnglishName], [LocalName], [CurrencyId], [IsAvailable])
-	VALUES (S.[Id], S.[EnglishName], S.[LocalName], S.[CurrencyId], S.[IsAvailable])
+    THEN INSERT ([Id], [EnglishName], [LocalName], [CurrencyId], [MainLanguageId], [IsAvailable])
+	VALUES (S.[Id], S.[EnglishName], S.[LocalName], S.[CurrencyId], S.[MainLanguageId], S.[IsAvailable])
 WHEN NOT MATCHED BY SOURCE 
     THEN DELETE;
 GO

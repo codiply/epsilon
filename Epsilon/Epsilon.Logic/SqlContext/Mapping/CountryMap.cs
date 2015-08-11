@@ -33,6 +33,10 @@ namespace Epsilon.Logic.SqlContext.Mapping
                 .WithMany()
                 .HasForeignKey(x => x.CurrencyId)
                 .WillCascadeOnDelete(false);
+            this.HasRequired(x => x.MainLanguage)
+                .WithMany()
+                .HasForeignKey(x => x.MainLanguageId)
+                .WillCascadeOnDelete(false);
         }
     }
 }

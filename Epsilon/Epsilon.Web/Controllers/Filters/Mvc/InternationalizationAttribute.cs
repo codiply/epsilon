@@ -16,6 +16,7 @@ using Epsilon.Resources.Common;
 using Epsilon.Logic.Infrastructure.Interfaces;
 using Epsilon.Logic.Infrastructure;
 using Epsilon.Logic.Services.Interfaces;
+using Epsilon.Logic.Infrastructure.Extensions;
 
 namespace Epsilon.Web.Controllers.Filters.Mvc
 {
@@ -26,15 +27,38 @@ namespace Epsilon.Web.Controllers.Filters.Mvc
         public IAppSettingsHelper AppSettingsHelper { get; set; }
 
         [Inject]
+        public IGeoipInfoService GeoipInfoService { get; set; }
+
+        [Inject]
+        public ICountryService CountryService { get; set; }
+
+        [Inject]
         public IAppCache Cache { get; set; }
 
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             // NOTE: If you change the logic in this filter update
             // !!!!! the corresponding WebApi filter as well. !!!!
+            
+            // Attempt 1: Get it from the url
+            string languageId = (string)filterContext.RouteData.Values["languageId"];
 
-            string languageId = (string)filterContext.RouteData.Values["languageId"] 
-                ?? AppSettingsHelper.GetString(AppSettingsKey.DefaultLanguageId);
+            // Attempt 2: Get it from the IP address country
+            if (string.IsNullOrWhiteSpace(languageId))
+            {
+                var ipAddress = filterContext.HttpContext.GetSanitizedIpAddress();
+                var geoip = GeoipInfoService.GetInfo(ipAddress);
+                var country = CountryService.GetCountry(geoip.CountryCode);
+                if (country != null)
+                    languageId = country.MainLanguageId;
+            }
+
+            // Attempt 3: Use the default
+            if (string.IsNullOrEmpty(languageId))
+                languageId = AppSettingsHelper.GetString(AppSettingsKey.DefaultLanguageId);
+
+            // Save back the languageId on the RouteData.
+            filterContext.RouteData.Values["languageId"] = languageId;
 
             var languageService = DependencyResolver.Current.GetService<ILanguageService>();
 
