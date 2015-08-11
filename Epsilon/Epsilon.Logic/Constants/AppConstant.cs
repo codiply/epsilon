@@ -18,9 +18,9 @@ namespace Epsilon.Logic.Constants
         public const string COUNTRY_VARIANT_RESOURCES_STEM = "Epsilon.Resources.CountryVariants.Resources";
 
         public const string COUNTRY_DISPLAY_FIELD = "EnglishName";
-        public static Func<Country, string> COUNTRY_DISPLAY_FIELD_SELECTOR = (x => x.EnglishName);
+        public static Func<Country, string> COUNTRY_DISPLAY_FIELD_SELECTOR = (x => string.Format("{0} - {1}", x.EnglishName, x.LocalName));
 
-        public static Func<Currency, string> CURRENCY_DISPLAY_FIELD_SELECTOR = (x => x.EnglishName);
+        public static Func<Currency, string> CURRENCY_DISPLAY_FIELD_SELECTOR = (x => string.Format("{0} - {1}", x.EnglishName, x.LocalName));
 
         public const byte IP_ADDRESS_MAX_LENGTH = 39;
 

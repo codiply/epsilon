@@ -340,7 +340,7 @@ namespace Epsilon.Resources.Web.OutgoingVerification {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You will be assigned to send a verification mail by post to verify another user..
+        ///   Looks up a localized string similar to You will be assigned to send a verification mail by post to verify another user. The address will be in the Country shown above. If you have changed country, you will need to make another submission first..
         /// </summary>
         public static string Pick_ConfirmationText {
             get {

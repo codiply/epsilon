@@ -211,7 +211,7 @@
     <value>My Latest Outgoing Verifications</value>
   </data>
   <data name="Pick_ConfirmationText" xml:space="preserve">
-    <value>You will be assigned to send a verification mail by post to verify another user.</value>
+    <value>You will be assigned to send a verification mail by post to verify another user. The address will be in the Country shown above. If you have changed country, you will need to make another submission first.</value>
   </data>
   <data name="Pick_Header" xml:space="preserve">
     <value>New Outgoing Verification</value>
