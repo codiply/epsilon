@@ -120,7 +120,4 @@
   <data name="ChangePassword_FieldNewPassword_DisplayName" xml:space="preserve">
     <value>Νέος μυστικός κωδικός</value>
   </data>
-  <data name="ChangePassword_FieldNewPassword_StringLengthErrorMessage" xml:space="preserve">
-    <value>Ο {0} πρέπει να περιέχει τουλάχιστον {2} χαρακτήρες.</value>
-  </data>
 </root>

@@ -1,12 +1,12 @@
 ﻿@{
-    ViewBag.Title = "Confirm Email";
+    ViewBag.Title = AccountResources.ConfirmEmail_PageTitle;
 }
 
 @using Epsilon.Resources.Web.Account
 
-<h2>@ViewBag.Title.</h2>
+<h2>@AccountResources.ConfirmEmail_PageHeader.</h2>
 <div>
     <p>
-        Thank you for confirming your email. Please @Html.ActionLink("Click here to Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })
+        @AccountResources.ConfirmEmail_MessageBeginning @Html.ActionLink(AccountResources.ClickHereToLogin, "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })
     </p>
 </div>

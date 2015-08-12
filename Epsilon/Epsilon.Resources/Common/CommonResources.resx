@@ -192,4 +192,7 @@
   <data name="ServiceNotAvailableInYourCountryMessage" xml:space="preserve">
     <value>Our service is not  available in your country yet. (or possibly we couldn't determine your country from your IP address)</value>
   </data>
+  <data name="StringLengthErrorMessage" xml:space="preserve">
+    <value>The {0} must be at least {2} characters long.</value>
+  </data>
 </root>

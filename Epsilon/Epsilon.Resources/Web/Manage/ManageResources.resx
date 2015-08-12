@@ -129,11 +129,14 @@
   <data name="ChangePassword_FieldNewPassword_DisplayName" xml:space="preserve">
     <value>New password</value>
   </data>
-  <data name="ChangePassword_FieldNewPassword_StringLengthErrorMessage" xml:space="preserve">
-    <value>The {0} must be at least {2} characters long.</value>
+  <data name="ChangePassword_FieldNewPassword_RequiredErrorMessage" xml:space="preserve">
+    <value>The New Password field is required.</value>
   </data>
   <data name="ChangePassword_FieldOldPassword_DisplayName" xml:space="preserve">
     <value>Current password</value>
+  </data>
+  <data name="ChangePassword_FieldOldPassword_RequiredErrorMessage" xml:space="preserve">
+    <value>The Old Password field is required.</value>
   </data>
   <data name="ChangePassword_FormTitle" xml:space="preserve">
     <value>Change Password Form</value>

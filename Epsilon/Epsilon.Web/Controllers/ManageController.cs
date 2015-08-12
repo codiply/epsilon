@@ -40,10 +40,10 @@ namespace Epsilon.Web.Controllers
             var model = new IndexViewModel
             {
                 HasPassword = HasPassword(),
-                PhoneNumber = await _userManager.GetPhoneNumberAsync(userId),
-                TwoFactor = await _userManager.GetTwoFactorEnabledAsync(userId),
-                Logins = await _userManager.GetLoginsAsync(userId),
-                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
+                //PhoneNumber = await _userManager.GetPhoneNumberAsync(userId),
+                //TwoFactor = await _userManager.GetTwoFactorEnabledAsync(userId),
+                //Logins = await _userManager.GetLoginsAsync(userId),
+                //BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
             };
             return View(model);
         }
@@ -222,30 +222,30 @@ namespace Epsilon.Web.Controllers
             return View();
         }
 
-        //
-        // POST: /Manage/SetPassword
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> SetPassword(SetPasswordViewModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                var result = await _userManager.AddPasswordAsync(User.Identity.GetUserId(), model.NewPassword);
-                if (result.Succeeded)
-                {
-                    var user = await _userManager.FindByIdAsync(User.Identity.GetUserId());
-                    if (user != null)
-                    {
-                        await _signInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-                    }
-                    return RedirectToAction("Index", new { Message = ManageMessageId.SetPasswordSuccess });
-                }
-                AddErrors(result);
-            }
+        ////
+        //// POST: /Manage/SetPassword
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<ActionResult> SetPassword(SetPasswordViewModel model)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        var result = await _userManager.AddPasswordAsync(User.Identity.GetUserId(), model.NewPassword);
+        //        if (result.Succeeded)
+        //        {
+        //            var user = await _userManager.FindByIdAsync(User.Identity.GetUserId());
+        //            if (user != null)
+        //            {
+        //                await _signInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+        //            }
+        //            return RedirectToAction("Index", new { Message = ManageMessageId.SetPasswordSuccess });
+        //        }
+        //        AddErrors(result);
+        //    }
 
-            // If we got this far, something failed, redisplay form
-            return View(model);
-        }
+        //    // If we got this far, something failed, redisplay form
+        //    return View(model);
+        //}
 
         ////
         //// GET: /Manage/ManageLogins

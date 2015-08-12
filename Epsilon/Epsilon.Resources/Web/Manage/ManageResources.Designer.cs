@@ -97,11 +97,11 @@ namespace Epsilon.Resources.Web.Manage {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The {0} must be at least {2} characters long..
+        ///   Looks up a localized string similar to The New Password field is required..
         /// </summary>
-        public static string ChangePassword_FieldNewPassword_StringLengthErrorMessage {
+        public static string ChangePassword_FieldNewPassword_RequiredErrorMessage {
             get {
-                return ResourceManager.GetString("ChangePassword_FieldNewPassword_StringLengthErrorMessage", resourceCulture);
+                return ResourceManager.GetString("ChangePassword_FieldNewPassword_RequiredErrorMessage", resourceCulture);
             }
         }
         
@@ -111,6 +111,15 @@ namespace Epsilon.Resources.Web.Manage {
         public static string ChangePassword_FieldOldPassword_DisplayName {
             get {
                 return ResourceManager.GetString("ChangePassword_FieldOldPassword_DisplayName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Old Password field is required..
+        /// </summary>
+        public static string ChangePassword_FieldOldPassword_RequiredErrorMessage {
+            get {
+                return ResourceManager.GetString("ChangePassword_FieldOldPassword_RequiredErrorMessage", resourceCulture);
             }
         }
         

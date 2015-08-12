@@ -218,6 +218,7 @@
     <EmbeddedResource Include="Common\CommonResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>CommonResources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="CountryVariants\ResourcesGB.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
@@ -301,10 +302,12 @@
     <EmbeddedResource Include="Web\Manage\ManageResources.el.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>ManageResources.el.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Web\Manage\ManageResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>ManageResources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Web\OutgoingVerification\OutgoingVerificationResources.el.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

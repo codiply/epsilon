@@ -250,6 +250,15 @@ namespace Epsilon.Resources.Common {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The {0} must be at least {2} characters long..
+        /// </summary>
+        public static string StringLengthErrorMessage {
+            get {
+                return ResourceManager.GetString("StringLengthErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This is the balance of tokens currently in your account..
         /// </summary>
         public static string TokenBalanceBadgeHoverText {

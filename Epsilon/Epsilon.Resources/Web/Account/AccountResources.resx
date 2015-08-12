@@ -117,6 +117,63 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ClickHereToLogin" xml:space="preserve">
+    <value>Click here to Log in</value>
+  </data>
+  <data name="ConfirmEmail_MessageBeginning" xml:space="preserve">
+    <value>Thank you for confirming your email. Please</value>
+  </data>
+  <data name="ConfirmEmail_PageHeader" xml:space="preserve">
+    <value>Confirm Email</value>
+  </data>
+  <data name="ConfirmEmail_PageTitle" xml:space="preserve">
+    <value>Confirm Email</value>
+  </data>
+  <data name="FieldConfirmPassword_CompareErrorMessage" xml:space="preserve">
+    <value>The password and confirmation password do not match.</value>
+  </data>
+  <data name="FieldConfirmPassword_DisplayName" xml:space="preserve">
+    <value>Confirm password</value>
+  </data>
+  <data name="FieldEmail_DisplayName" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="FieldEmail_RequiredErrorMessage" xml:space="preserve">
+    <value>The Email field is required.</value>
+  </data>
+  <data name="FieldPassword_DisplayName" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="FieldPassword_RequiredErrorMessage" xml:space="preserve">
+    <value>The Password field is required.</value>
+  </data>
+  <data name="FieldRememberMe_DisplayName" xml:space="preserve">
+    <value>Remember me?</value>
+  </data>
+  <data name="ForgotPasswordConfirmation_MessageText" xml:space="preserve">
+    <value>Please check your email to reset your password.</value>
+  </data>
+  <data name="ForgotPasswordConfirmation_PageHeader" xml:space="preserve">
+    <value>Forgot Password Confirmation</value>
+  </data>
+  <data name="ForgotPasswordConfirmation_PageTitle" xml:space="preserve">
+    <value>Forgot Password Confirmation</value>
+  </data>
+  <data name="ForgotPassword_EmailLinkButtonText" xml:space="preserve">
+    <value>Email Link</value>
+  </data>
+  <data name="ForgotPassword_FormHeader" xml:space="preserve">
+    <value>Enter your email.</value>
+  </data>
+  <data name="ForgotPassword_PageHeader" xml:space="preserve">
+    <value>Forgot your password?</value>
+  </data>
+  <data name="ForgotPassword_PageTitle" xml:space="preserve">
+    <value>Forgot your password?</value>
+  </data>
+  <data name="Login_ForgotYourPasswordLinkText" xml:space="preserve">
+    <value>Forgot your password?</value>
+  </data>
   <data name="Login_PageHeader" xml:space="preserve">
     <value>Log in</value>
   </data>
@@ -131,5 +188,26 @@
   </data>
   <data name="Register_PageTitle" xml:space="preserve">
     <value>Register</value>
+  </data>
+  <data name="ResetPasswordConfirmation_MessageBeginning" xml:space="preserve">
+    <value>Your password has been reset. Please</value>
+  </data>
+  <data name="ResetPasswordConfirmation_PageHeader" xml:space="preserve">
+    <value>Reset password confirmation</value>
+  </data>
+  <data name="ResetPasswordConfirmation_PageTitle" xml:space="preserve">
+    <value>Reset password confirmation</value>
+  </data>
+  <data name="ResetPassword_FormHeader" xml:space="preserve">
+    <value>Reset your password</value>
+  </data>
+  <data name="ResetPassword_PageHeader" xml:space="preserve">
+    <value>Reset password</value>
+  </data>
+  <data name="ResetPassword_PageTitle" xml:space="preserve">
+    <value>Reset password</value>
+  </data>
+  <data name="ResetPassword_SubmitButtonText" xml:space="preserve">
+    <value>Submit</value>
   </data>
 </root>
