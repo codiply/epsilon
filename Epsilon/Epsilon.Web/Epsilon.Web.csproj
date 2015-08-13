@@ -261,6 +261,7 @@
     <Compile Include="Controllers\ApiControllers\TokenController.cs" />
     <Compile Include="Controllers\BaseControllers\BaseApiController.cs" />
     <Compile Include="Controllers\BaseControllers\BaseMvcController.cs" />
+    <Compile Include="Controllers\Filters\Mvc\DbAppSettingsLoadedAttribute.cs" />
     <Compile Include="Controllers\Filters\Mvc\UserInterfaceCustomisationAttribute.cs" />
     <Compile Include="Controllers\Filters\Mvc\AvailableCountryAttribute.cs" />
     <Compile Include="Controllers\Filters\Mvc\DisableWholeWebsiteForMaintenanceAttribute.cs" />

@@ -15,11 +15,12 @@ namespace Epsilon.Web.Controllers.BaseControllers
     [RequireSecureConnection(Order = 100)]
     [SanitizeIpAddress(Order = 200)]
     [Internationalization(Order = 300)]
-    [AvailableCountry(Order = 400)]
-    [DisableWholeWebsiteForMaintenance(Order = 500)]
-    [Authorize(Order = 600)]
-    [UserInterfaceCustomisation(Order = 700)]
-    [ResponseTiming(Order = 800)]
+    [DbAppSettingsLoaded(Order = 400)]
+    [AvailableCountry(Order = 500)]
+    [DisableWholeWebsiteForMaintenance(Order = 600)]
+    [Authorize(Order = 700)]
+    [UserInterfaceCustomisation(Order = 800)]
+    [ResponseTiming(Order = 900)]
     public class BaseMvcController : Controller
     {
         internal string GetUserIpAddress()

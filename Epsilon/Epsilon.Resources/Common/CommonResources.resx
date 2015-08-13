@@ -195,4 +195,7 @@
   <data name="StringLengthErrorMessage" xml:space="preserve">
     <value>The {0} must be at least {2} characters long.</value>
   </data>
+  <data name="WebsiteDownMessage" xml:space="preserve">
+    <value>We are experiencing some technical issues. We are working on it! Come back shortly.</value>
+  </data>
 </root>

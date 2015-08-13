@@ -10,6 +10,7 @@ namespace Epsilon.Logic.Constants
     {
         public const string AddAddressGlobalMaxFrequencyReached = "AddAddressGlobalMaxFrequencyReached";
         public const string CreateTenancyDetailsSubmissionGlobalMaxFrequencyReached = "CreateTenancyDetailsSubmissionGlobalMaxFrequencyReached";
+        public const string DbAppSettingsNotLoaded = "DbAppSettingsNotLoaded";
         public const string GoogleGeocodeApiClientException = "GoogleGeocodeApiClientException";
         public const string GoogleGeocodeApiStatusInvalidRequest = "GoogleGeocodeApiStatusInvalidRequest";
         public const string GoogleGeocodeApiStatusOverQueryLimitMaxRetriesReached = "GoogleGeocodeApiStatusOverQueryLimitMaxRetriesReached";

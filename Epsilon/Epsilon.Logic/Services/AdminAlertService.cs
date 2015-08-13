@@ -14,6 +14,7 @@ using Epsilon.Logic.Entities;
 using Epsilon.Logic.Constants.Interfaces;
 using System.Net.Mail;
 using Epsilon.Logic.Configuration.Interfaces;
+using Epsilon.Logic.Infrastructure.Interfaces;
 
 namespace Epsilon.Logic.Services
 {
@@ -23,58 +24,73 @@ namespace Epsilon.Logic.Services
             new ConcurrentDictionary<string, object>();
 
         private readonly IClock _clock;
+        private readonly IAppCache _appCache;
         private readonly IAdminAlertServiceConfig _adminAlertServiceConfig;
         private readonly IEpsilonContext _dbContext;
         private readonly ISmtpService _smtpService;
 
         public AdminAlertService(
             IClock clock,
+            IAppCache appCache,
             IAdminAlertServiceConfig adminAlertServiceConfig,
             IEpsilonContext dbContext,
             ISmtpService smtpService)
         {
             _clock = clock;
+            _appCache = appCache;
             _adminAlertServiceConfig = adminAlertServiceConfig;
             _dbContext = dbContext;
             _smtpService = smtpService;
         }
 
-        public void SendAlert(string key)
+        // TODO_PANOS_TEST
+        public void SendAlert(string key, bool doNotUseDatabase = false)
         {
             try
             {
-                if (IsNotAllowedToSendAgain(key))
+                if (IsNotAllowedToSendAgain(key, doNotUseDatabase))
                     return;
 
                 lock (GetLock(key))
                 {
-                    if (IsNotAllowedToSendAgain(key))
+                    if (IsNotAllowedToSendAgain(key, doNotUseDatabase))
                         return;
 
                     DoSendAlert(key);
-                    RecordAlertSent(key);
+                    RecordAlertSent(key, doNotUseDatabase);
                 }
             }
             catch (Exception ex)
             {
                 Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                if (doNotUseDatabase == false)
+                {
+                    SendAlert(key, doNotUseDatabase: true);
+                }
             }
         }
 
-        private bool IsNotAllowedToSendAgain(string key)
+        private bool IsNotAllowedToSendAgain(string key, bool doNotUseDatabase)
         {
-            var latestAlertSent = 
-                _dbContext.AdminAlerts
-                .Where(x => x.Key.Equals(key))
-                .OrderByDescending(x => x.SentOn)
-                .FirstOrDefault();
+            if (doNotUseDatabase)
+            {
+                return _appCache.ContainsKey(AppCacheKey.AdminAlertSent(key)); // TODO_PANOS_TEST
+            }
+            else
+            {
+                var latestAlertSent =
+                    _dbContext.AdminAlerts
+                    .Where(x => x.Key.Equals(key))
+                    .OrderByDescending(x => x.SentOn)
+                    .FirstOrDefault();
 
-            if (latestAlertSent == null)
-                return false;
+                if (latestAlertSent == null)
+                    return false;
 
-            var timeElapsed = _clock.OffsetNow - latestAlertSent.SentOn;
+                var timeElapsed = _clock.OffsetNow - latestAlertSent.SentOn;
 
-            return timeElapsed < _adminAlertServiceConfig.SnoozePeriod;
+                return timeElapsed < _adminAlertServiceConfig.SnoozePeriod;
+            }
         }
 
         private void DoSendAlert(string key)
@@ -96,13 +112,22 @@ namespace Epsilon.Logic.Services
             _smtpService.Send(message);
         }
 
-        private void RecordAlertSent(string key)
+        private void RecordAlertSent(string key, bool doNotUseDatabase)
         {
-            _dbContext.AdminAlerts.Add(new AdminAlert
+            if (doNotUseDatabase)
             {
-                Key = key
-            });
-            _dbContext.SaveChanges();
+                // TODO_PANOS_TEST
+                var value = _appCache.Get(AppCacheKey.AdminAlertSent(key), 
+                    () => "value-is-irrelevant", _adminAlertServiceConfig.SnoozePeriod, WithLock.No);
+            }
+            else
+            {
+                _dbContext.AdminAlerts.Add(new AdminAlert
+                {
+                    Key = key
+                });
+                _dbContext.SaveChanges();
+            }
         }
 
         private static object GetLock(string key)

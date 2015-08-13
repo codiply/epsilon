@@ -16,9 +16,14 @@ namespace Epsilon.Logic.Constants
         public const string DB_APP_SETTINGS = "APPCACHE:DB_APP_SETTINGS";
         public const string CURRENT_TOKEN_REWARD_SCHEME = "APPCACHE:CURRENT_TOKEN_REWARD_SCHEME";
 
+        public static string AdminAlertSent(string key)
+        {
+            return string.Format("APPCACHE:ADMIN_ALERT_SENT:{0}", key.ToLowerInvariant());
+        }
+
         public static string GetGeoipInfoForIpAddress(string ipAddress)
         {
-            return string.Format("APPCACHE:GET_GEOIP_INFO_FOR_IP_ADDRESS:{0}", ipAddress);
+            return string.Format("APPCACHE:GET_GEOIP_INFO_FOR_IP_ADDRESS:{0}", ipAddress.ToLowerInvariant());
         }
 
         public static string GetUserExploredPropertiesSummary(string userId, bool limitItemsReturned)
@@ -29,7 +34,7 @@ namespace Epsilon.Logic.Constants
 
         public static string GetUserInterfaceCustomisationForUser(string userId)
         {
-            return string.Format("APPCACHE:GET_USER_INTERFACE_CUSTOMISATION_FOR_USER:{0}", userId);
+            return string.Format("APPCACHE:GET_USER_INTERFACE_CUSTOMISATION_FOR_USER:{0}", userId.ToLowerInvariant());
         }
 
         public static string GetUserOutgoingVerificationsSummary(string userId, bool limitItemsReturned)

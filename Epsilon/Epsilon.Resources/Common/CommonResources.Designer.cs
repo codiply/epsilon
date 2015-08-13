@@ -286,6 +286,15 @@ namespace Epsilon.Resources.Common {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to We are experiencing some technical issues. We are working on it! Come back shortly..
+        /// </summary>
+        public static string WebsiteDownMessage {
+            get {
+                return ResourceManager.GetString("WebsiteDownMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Yes.
         /// </summary>
         public static string Yes {

@@ -86,7 +86,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             string adminAlertKey = string.Empty;
             AdminEventLogKey? adminEventLogKey = null;
-            SetupContainerWithMockAdminAlertService(containerUnderTest, x => adminAlertKey = x);
+            SetupContainerWithMockAdminAlertService(containerUnderTest, (x, databaseDown) => adminAlertKey = x); // TODO_PANOS: check databaseDown
             SetupContainerWithMockAdminEventLogService(containerUnderTest, (x, info) => adminEventLogKey = x);
 
             var serviceUnderTest = containerUnderTest.Get<IAntiAbuseService>();
@@ -145,7 +145,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             string adminAlertKey = string.Empty;
             AdminEventLogKey? adminEventLogKey = null;
-            SetupContainerWithMockAdminAlertService(containerUnderTest, x => adminAlertKey = x);
+            SetupContainerWithMockAdminAlertService(containerUnderTest, (x, databaseDown) => adminAlertKey = x); // TODO_PANOS: check databaseDown
             SetupContainerWithMockAdminEventLogService(containerUnderTest, (x, info) => adminEventLogKey = x);
 
             var serviceUnderTest = containerUnderTest.Get<IAntiAbuseService>();
@@ -558,7 +558,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             string adminAlertKey = string.Empty;
             AdminEventLogKey? adminEventLogKey = null;
-            SetupContainerWithMockAdminAlertService(containerUnderTest, x => adminAlertKey = x);
+            SetupContainerWithMockAdminAlertService(containerUnderTest, (x, databaseDown) => adminAlertKey = x); // TODO_PANOS: check databaseDown
             SetupContainerWithMockAdminEventLogService(containerUnderTest, (x, info) => adminEventLogKey = x);
 
             var serviceUnderTest = containerUnderTest.Get<IAntiAbuseService>();
@@ -616,7 +616,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             string adminAlertKey = string.Empty;
             AdminEventLogKey? adminEventLogKey = null;
-            SetupContainerWithMockAdminAlertService(containerUnderTest, x => adminAlertKey = x);
+            SetupContainerWithMockAdminAlertService(containerUnderTest, (x, databaseDown) => adminAlertKey = x); // TODO_PANOS: check databaseDown
             SetupContainerWithMockAdminEventLogService(containerUnderTest, (x, info) => adminEventLogKey = x);
 
             var serviceUnderTest = containerUnderTest.Get<IAntiAbuseService>();
@@ -877,7 +877,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             string adminAlertKey = string.Empty;
             AdminEventLogKey? adminEventLogKey = null;
-            SetupContainerWithMockAdminAlertService(containerUnderTest, x => adminAlertKey = x);
+            SetupContainerWithMockAdminAlertService(containerUnderTest, (x, databaseDown) => adminAlertKey = x); // TODO_PANOS: check databaseDown
             SetupContainerWithMockAdminEventLogService(containerUnderTest, (x, info) => adminEventLogKey = x);
 
             SetupContainerForCanPickOutgoingVerificationWithoutGeoipCheck(containerUnderTest,
@@ -935,7 +935,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             string adminAlertKey = string.Empty;
             AdminEventLogKey? adminEventLogKey = null;
-            SetupContainerWithMockAdminAlertService(containerUnderTest, x => adminAlertKey = x);
+            SetupContainerWithMockAdminAlertService(containerUnderTest, (x, databaseDown) => adminAlertKey = x); // TODO_PANOS: check databaseDown
             SetupContainerWithMockAdminEventLogService(containerUnderTest, (x, info) => adminEventLogKey = x);
 
             SetupContainerForCanPickOutgoingVerificationWithoutGeoipCheck(containerUnderTest,
@@ -1279,7 +1279,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             string adminAlertKey = string.Empty;
             AdminEventLogKey? adminEventLogKey = null;
-            SetupContainerWithMockAdminAlertService(containerUnderTest, x => adminAlertKey = x);
+            SetupContainerWithMockAdminAlertService(containerUnderTest, (x, databaseDown) => adminAlertKey = x); // TODO_PANOS: check databaseDown
             SetupContainerWithMockAdminEventLogService(containerUnderTest, (x, info) => adminEventLogKey = x);
 
             var serviceUnderTest = containerUnderTest.Get<IAntiAbuseService>();
@@ -1325,7 +1325,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             string adminAlertKey = string.Empty;
             AdminEventLogKey? adminEventLogKey = null;
-            SetupContainerWithMockAdminAlertService(containerUnderTest, x => adminAlertKey = x);
+            SetupContainerWithMockAdminAlertService(containerUnderTest, (x, databaseDown) => adminAlertKey = x); // TODO_PANOS: check databaseDown
             SetupContainerWithMockAdminEventLogService(containerUnderTest, (x, info) => adminEventLogKey = x);
 
             var serviceUnderTest = containerUnderTest.Get<IAntiAbuseService>();
@@ -1609,11 +1609,11 @@ namespace Epsilon.IntegrationTests.Logic.Services
             container.Rebind<IAntiAbuseServiceConfig>().ToConstant(mockAntiAbuseServiceConfig.Object);
         }
 
-        private static void SetupContainerWithMockAdminAlertService(IKernel container, Action<string> callback)
+        private static void SetupContainerWithMockAdminAlertService(IKernel container, Action<string, bool> callback)
         {
             var mockAdminAlertService = new Mock<IAdminAlertService>();
 
-            mockAdminAlertService.Setup(x => x.SendAlert(It.IsAny<string>())).Callback<string>(callback);
+            mockAdminAlertService.Setup(x => x.SendAlert(It.IsAny<string>(), It.IsAny<bool>())).Callback<string, bool>(callback);
             container.Rebind<IAdminAlertService>().ToConstant(mockAdminAlertService.Object);
         }
 
