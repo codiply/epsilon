@@ -158,9 +158,11 @@
     <Compile Include="Constants\Enums\IpAddressActivityType.cs" />
     <Compile Include="Constants\ResourceNames\Web\SubmissionResourceNames.cs" />
     <Compile Include="Entities\GeoipInfo.cs" />
+    <Compile Include="Forms\Manage\ChangePreferencesForm.cs" />
     <Compile Include="Models\AddressModel.cs" />
     <Compile Include="Models\OutgoingVerificationInstructionsModel.cs" />
     <Compile Include="Models\UserInterfaceCustomisationModel.cs" />
+    <Compile Include="Models\UserPreferenceModel.cs" />
     <Compile Include="Models\ViewPropertyInfoPropertyModel.cs" />
     <Compile Include="Models\UiAlert.cs" />
     <Compile Include="Entities\AddressGeometry.cs" />

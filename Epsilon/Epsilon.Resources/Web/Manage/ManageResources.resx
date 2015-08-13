@@ -117,9 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ChangePassword_ChangePasswordButton" xml:space="preserve">
-    <value>Change password</value>
-  </data>
   <data name="ChangePassword_FieldConfirmPassword_CompareErrorMessage" xml:space="preserve">
     <value>The new password and confirmation password do not match.</value>
   </data>
@@ -138,6 +135,9 @@
   <data name="ChangePassword_FieldOldPassword_RequiredErrorMessage" xml:space="preserve">
     <value>The Old Password field is required.</value>
   </data>
+  <data name="ChangePassword_FormSubmitButtonText" xml:space="preserve">
+    <value>Change password</value>
+  </data>
   <data name="ChangePassword_FormTitle" xml:space="preserve">
     <value>Change Password Form</value>
   </data>
@@ -146,6 +146,27 @@
   </data>
   <data name="ChangePassword_PageTitle" xml:space="preserve">
     <value>Change Password</value>
+  </data>
+  <data name="ChangePreferences_FieldLanguageId_DisplayName" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="ChangePreferences_FieldLanguageId_RequiredErrorMessage" xml:space="preserve">
+    <value>The Language field is required.</value>
+  </data>
+  <data name="ChangePreferences_FormSubmitButtonText" xml:space="preserve">
+    <value>Update</value>
+  </data>
+  <data name="ChangePreferences_FormTitle" xml:space="preserve">
+    <value>Change your preferences</value>
+  </data>
+  <data name="ChangePreferences_PageHeader" xml:space="preserve">
+    <value>Change preferences</value>
+  </data>
+  <data name="ChangePreferences_PageTitle" xml:space="preserve">
+    <value>Change preferences</value>
+  </data>
+  <data name="ChangePreferences_SuccessMessage" xml:space="preserve">
+    <value>Your preferences have been updated!</value>
   </data>
   <data name="Index_PageHeader" xml:space="preserve">
     <value>Manage</value>
@@ -158,6 +179,12 @@
   </data>
   <data name="Index_PasswordSection_Title" xml:space="preserve">
     <value>Password:</value>
+  </data>
+  <data name="Index_PreferencesSection_ChangePreferencesLinkText" xml:space="preserve">
+    <value>Change preferences</value>
+  </data>
+  <data name="Index_PreferencesSection_Title" xml:space="preserve">
+    <value>Preferences</value>
   </data>
   <data name="Index_SubHeader" xml:space="preserve">
     <value>Change your account settings</value>

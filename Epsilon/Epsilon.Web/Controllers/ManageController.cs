@@ -9,6 +9,10 @@ using Microsoft.Owin.Security;
 using Epsilon.Web.Models;
 using Epsilon.Web.Controllers.BaseControllers;
 using Epsilon.Resources.Web.Manage;
+using Epsilon.Logic.Services.Interfaces;
+using Epsilon.Logic.Forms.Manage;
+using Epsilon.Logic.Constants;
+using Epsilon.Logic.Models;
 
 namespace Epsilon.Web.Controllers
 {
@@ -16,11 +20,19 @@ namespace Epsilon.Web.Controllers
     {
         private readonly ApplicationSignInManager _signInManager;
         private readonly ApplicationUserManager _userManager;
+        private readonly IUserPreferenceService _userPreferenceService;
+        private readonly ILanguageService _languageService;
 
-        public ManageController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
+        public ManageController(
+            ApplicationUserManager userManager, 
+            ApplicationSignInManager signInManager,
+            IUserPreferenceService userPreferenceService,
+            ILanguageService languageService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _userPreferenceService = userPreferenceService;
+            _languageService = languageService;
         }
 
         //
@@ -37,9 +49,12 @@ namespace Epsilon.Web.Controllers
                 : "";
 
             var userId = User.Identity.GetUserId();
+            var userPreference = await _userPreferenceService.GetAsync(userId, allowCaching: false);
+
             var model = new IndexViewModel
             {
                 HasPassword = HasPassword(),
+                UserPreference = UserPreferenceModel.FromEntity(userPreference)
                 //PhoneNumber = await _userManager.GetPhoneNumberAsync(userId),
                 //TwoFactor = await _userManager.GetTwoFactorEnabledAsync(userId),
                 //Logins = await _userManager.GetLoginsAsync(userId),
@@ -216,11 +231,56 @@ namespace Epsilon.Web.Controllers
         }
 
         //
-        // GET: /Manage/SetPassword
-        public ActionResult SetPassword()
+        // GET: /Manage/ChangePreferences
+        public async Task<ActionResult> ChangePreferences()
         {
-            return View();
+            var preferences = await _userPreferenceService.GetAsync(GetUserId(), allowCaching: false);
+            var model = ChangePreferencesForm.FromEntity(preferences);
+
+            ViewBag.LanguageId = new SelectList(_languageService.GetAvailableLanguages(), "Id", AppConstant.LANGUAGE_DISPLAY_FIELD, model.LanguageId);
+
+            return View(model);
         }
+
+        //
+        // POST: /Manage/ChangePreferences
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> ChangePreferences(ChangePreferencesForm form)
+        {
+            if (ModelState.IsValid)
+            {
+                var outcome = await _userPreferenceService.ChangePreferences(GetUserId(), form);
+                if (outcome.IsSuccess)
+                {
+                    Success(ManageResources.ChangePreferences_SuccessMessage, true);
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    Danger(outcome.ErrorMessage, true);
+                    if (outcome.ReturnToForm)
+                    {
+                        ViewBag.LanguageId = new SelectList(_languageService.GetAvailableLanguages(), "Id", AppConstant.LANGUAGE_DISPLAY_FIELD, form.LanguageId);
+                        return View(form);
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index");
+                    }
+                }
+            }
+            
+            ViewBag.LanguageId = new SelectList(_languageService.GetAvailableLanguages(), "Id", AppConstant.LANGUAGE_DISPLAY_FIELD, form.LanguageId);
+            return View(form);
+        }
+
+        ////
+        //// GET: /Manage/SetPassword
+        //public ActionResult SetPassword()
+        //{
+        //    return View();
+        //}
 
         ////
         //// POST: /Manage/SetPassword
@@ -293,7 +353,7 @@ namespace Epsilon.Web.Controllers
         //    return result.Succeeded ? RedirectToAction("ManageLogins") : RedirectToAction("ManageLogins", new { Message = ManageMessageId.Error });
         //}
 
-#region Helpers
+        #region Helpers
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";
 

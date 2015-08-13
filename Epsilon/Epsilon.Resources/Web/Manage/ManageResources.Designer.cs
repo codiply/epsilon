@@ -61,15 +61,6 @@ namespace Epsilon.Resources.Web.Manage {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Change password.
-        /// </summary>
-        public static string ChangePassword_ChangePasswordButton {
-            get {
-                return ResourceManager.GetString("ChangePassword_ChangePasswordButton", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to The new password and confirmation password do not match..
         /// </summary>
         public static string ChangePassword_FieldConfirmPassword_CompareErrorMessage {
@@ -124,6 +115,15 @@ namespace Epsilon.Resources.Web.Manage {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Change password.
+        /// </summary>
+        public static string ChangePassword_FormSubmitButtonText {
+            get {
+                return ResourceManager.GetString("ChangePassword_FormSubmitButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Change Password Form.
         /// </summary>
         public static string ChangePassword_FormTitle {
@@ -147,6 +147,69 @@ namespace Epsilon.Resources.Web.Manage {
         public static string ChangePassword_PageTitle {
             get {
                 return ResourceManager.GetString("ChangePassword_PageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Language.
+        /// </summary>
+        public static string ChangePreferences_FieldLanguageId_DisplayName {
+            get {
+                return ResourceManager.GetString("ChangePreferences_FieldLanguageId_DisplayName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Language field is required..
+        /// </summary>
+        public static string ChangePreferences_FieldLanguageId_RequiredErrorMessage {
+            get {
+                return ResourceManager.GetString("ChangePreferences_FieldLanguageId_RequiredErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Update.
+        /// </summary>
+        public static string ChangePreferences_FormSubmitButtonText {
+            get {
+                return ResourceManager.GetString("ChangePreferences_FormSubmitButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Change your preferences.
+        /// </summary>
+        public static string ChangePreferences_FormTitle {
+            get {
+                return ResourceManager.GetString("ChangePreferences_FormTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Change preferences.
+        /// </summary>
+        public static string ChangePreferences_PageHeader {
+            get {
+                return ResourceManager.GetString("ChangePreferences_PageHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Change preferences.
+        /// </summary>
+        public static string ChangePreferences_PageTitle {
+            get {
+                return ResourceManager.GetString("ChangePreferences_PageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your preferences have been updated!.
+        /// </summary>
+        public static string ChangePreferences_SuccessMessage {
+            get {
+                return ResourceManager.GetString("ChangePreferences_SuccessMessage", resourceCulture);
             }
         }
         
@@ -183,6 +246,24 @@ namespace Epsilon.Resources.Web.Manage {
         public static string Index_PasswordSection_Title {
             get {
                 return ResourceManager.GetString("Index_PasswordSection_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Change preferences.
+        /// </summary>
+        public static string Index_PreferencesSection_ChangePreferencesLinkText {
+            get {
+                return ResourceManager.GetString("Index_PreferencesSection_ChangePreferencesLinkText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Preferences.
+        /// </summary>
+        public static string Index_PreferencesSection_Title {
+            get {
+                return ResourceManager.GetString("Index_PreferencesSection_Title", resourceCulture);
             }
         }
         

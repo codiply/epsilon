@@ -1,5 +1,6 @@
 ﻿@model Epsilon.Web.Models.IndexViewModel
 @using Epsilon.Resources.Web.Manage
+@using Epsilon.Resources.Common
 
 @{
     ViewBag.Title = ManageResources.Index_PageTitle;
@@ -24,6 +25,14 @@
                 @Html.ActionLink("Create", "SetPassword")
             }*@
             ]
+        </dd>
+        <dt>@ManageResources.Index_PreferencesSection_Title</dt>
+        <dd>
+            [ @Html.ActionLink(ManageResources.Index_PreferencesSection_ChangePreferencesLinkText, "ChangePreferences") ]
+            <dl>
+                <dt>@CommonResources.Language</dt>
+                <dd>@Model.UserPreference.Language</dd>
+            </dl>
         </dd>
         @*<dt>External Logins:</dt>
         <dd>

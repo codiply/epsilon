@@ -17,12 +17,16 @@ namespace Epsilon.Logic.Constants
 
         public const string COUNTRY_VARIANT_RESOURCES_STEM = "Epsilon.Resources.CountryVariants.Resources";
 
-        public const string COUNTRY_DISPLAY_FIELD = "EnglishName";
+        public const string COUNTRY_DISPLAY_FIELD = "LocalName";
         public static Func<Country, string> COUNTRY_DISPLAY_FIELD_SELECTOR = (x => string.Format("{0} - {1}", x.EnglishName, x.LocalName));
 
         public static Func<Currency, string> CURRENCY_DISPLAY_FIELD_SELECTOR = (x => string.Format("{0} - {1}", x.EnglishName, x.LocalName));
 
         public const byte IP_ADDRESS_MAX_LENGTH = 39;
+
+        public const string LANGUAGE_DISPLAY_FIELD = "LocalName";
+        public static Func<Language, string> LANGUAGE_DISPLAY_FIELD_SELECTOR = (x => string.Format("{0} - {1}", x.EnglishName, x.LocalName));
+
 
         public const int MAX_NUMBERS_OF_BEDROOMS = 20;
 

@@ -5,12 +5,15 @@ using Microsoft.Owin.Security;
 using System.ComponentModel;
 using Epsilon.Resources.Web.Manage;
 using Epsilon.Resources.Common;
+using Epsilon.Logic.Entities;
+using Epsilon.Logic.Models;
 
 namespace Epsilon.Web.Models
 {
     public class IndexViewModel
-    {
+    { 
         public bool HasPassword { get; set; }
+        public UserPreferenceModel UserPreference { get; set; }
         //public IList<UserLoginInfo> Logins { get; set; }
         //public string PhoneNumber { get; set; }
         //public bool TwoFactor { get; set; }
