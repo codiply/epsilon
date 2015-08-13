@@ -98,6 +98,7 @@ namespace Epsilon.Web.App_Start
             kernel.Bind<IAntiAbuseServiceConfig>().To<AntiAbuseServiceConfig>().InRequestScope();
             kernel.Bind<ICommonConfig>().To<CommonConfig>().InRequestScope();
             kernel.Bind<IGeocodeServiceConfig>().To<GeocodeServiceConfig>().InRequestScope();
+            kernel.Bind<IGeoipRotatingClientConfig>().To<GeoipRotatingClientConfig>().InRequestScope();
             kernel.Bind<IGeoipInfoServiceConfig>().To<GeoipInfoServiceConfig>().InRequestScope();
             kernel.Bind<IOutgoingVerificationServiceConfig>().To<OutgoingVerificationServiceConfig>().InRequestScope();
             kernel.Bind<IPropertyInfoAccessServiceConfig>().To<PropertInfoAccessServiceConfig>().InRequestScope();
@@ -162,6 +163,9 @@ namespace Epsilon.Web.App_Start
             kernel.Bind<IClock>().To<SystemClock>().InSingletonScope();
             kernel.Bind<IGeocodeClientFactory>().ToFactory();
             kernel.Bind<IGeocodeClientWrapper>().To<GeocodeClientWrapper>().InTransientScope();
+            kernel.Bind<IGeoipClient>().To<GeoipClient>().InRequestScope();
+            kernel.Bind<IGeoipClientFactory>().ToFactory();
+            kernel.Bind<IGeoipRotatingClient>().To<GeoipRotatingClient>().InRequestScope();
             kernel.Bind<IRandomFactory>().ToFactory();
             kernel.Bind<IRandomWrapper>().To<RandomWrapper>().InTransientScope();
             kernel.Bind<ISmtpClientWrapper>().To<SmtpClientWrapper>().InTransientScope();

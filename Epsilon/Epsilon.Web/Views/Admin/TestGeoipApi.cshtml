@@ -1,8 +1,8 @@
-﻿@model Epsilon.Web.Models.ViewModels.Admin.TestTelizeGeoipApiViewModel
+﻿@model Epsilon.Web.Models.ViewModels.Admin.TestGeoipClientViewModel
 @using Newtonsoft.Json
 
 @{
-    ViewBag.Title = "Test Telize Geoip API";
+    ViewBag.Title = "Test Geoip Client";
 }
 
 <h2>@ViewBag.Title</h2>
@@ -25,12 +25,20 @@
         </div>
 
         <div class="form-group">
+            @Html.LabelFor(model => model.GeoipProviderName, htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
+                @Html.DropDownListFor(model => model.GeoipProviderName, null, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.GeoipProviderName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
             <div class="col-md-offset-3 col-md-9">
                 <input type="submit" value="Submit" class="btn btn-default" />
             </div>
         </div>
 
-        @if (!string.IsNullOrWhiteSpace(Model.Response))
+        @if (Model.ClientResponse != null)
         {
             <div class="form-group">
                 <div class="col-md-3"></div>
@@ -40,10 +48,12 @@
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(model => model.Response, htmlAttributes: new { @class = "control-label col-md-3" })
+                <div class="control-label col-md-3">
+                    Raw Response
+                </div>
                 <div class="col-md-9">
                     <pre class="prettyprint">
-                        @Html.Raw(Model.Response.Replace(",", ",\n"))
+                        @Html.Raw(Model.ClientResponse.RawResponse.Replace(",", ",\n"))
                     </pre>
                 </div>
             </div>
@@ -66,14 +76,14 @@
 }
 
 @section Scripts {
-    @if (!string.IsNullOrWhiteSpace(Model.Response))
+    @if (Model.ClientResponse != null)
     {
         <script src="https://maps.googleapis.com/maps/api/js"></script>
         <script>
             function initialize() {
                 var mapCanvas = document.getElementById('map-canvas');
                 var mapOptions = {
-                    center: new google.maps.LatLng(@Model.GeoipInfo.Latitude, @Model.GeoipInfo.Longitude),
+                    center: new google.maps.LatLng(@Model.ClientResponse.Latitude, @Model.ClientResponse.Longitude),
                     mapTypeId: google.maps.MapTypeId.ROADMAP,
                     zoom: 8
                 }

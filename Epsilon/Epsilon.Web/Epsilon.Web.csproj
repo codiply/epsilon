@@ -294,7 +294,7 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\ViewModels\Admin\DbAppSettingLabelCloudViewModel.cs" />
     <Compile Include="Models\ViewModels\Admin\DbAppSettingListViewModel.cs" />
-    <Compile Include="Models\ViewModels\Admin\TestTelizeGeoipApiViewModel.cs" />
+    <Compile Include="Models\ViewModels\Admin\TestGeoipClientViewModel.cs" />
     <Compile Include="Models\ViewModels\Admin\TestGoogleGeocodeApiViewModel.cs" />
     <Compile Include="Models\ViewModels\Admin\TestEmailViewModel.cs" />
     <Compile Include="Models\ViewModels\OutgoingVerification\InstructionsViewModel.cs" />
@@ -1322,7 +1322,7 @@
     <Content Include="Views\NgDirectiveTemplate\StarRatingEditor.cshtml" />
     <Content Include="Views\Shared\_StarRatingReadonly.cshtml" />
     <Content Include="Views\Shared\_YesNo.cshtml" />
-    <Content Include="Views\Admin\TestTelizeGeoipApi.cshtml" />
+    <Content Include="Views\Admin\TestGeoipApi.cshtml" />
     <Content Include="Views\Shared\UnavailableCountry.cshtml" />
     <Content Include="Views\Manage\ChangePreferences.cshtml" />
   </ItemGroup>

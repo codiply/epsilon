@@ -34,7 +34,7 @@ namespace Epsilon.Logic.Constants
         public int GeocodeService_OverQueryLimitMaxRetries { get { return 3; } }
 
         public double GeoipInfo_ExpiryPeriodInDays { get { return 30; } }
-        public int GeoipInfoService_MaxRetries { get { return 1; } }
+        public int GeoipRotatingClient_MaxRotations { get { return 2; } }
 
         public double OutgoingVerification_Instructions_ExpiryPeriodInDays { get { return 7.0; } }
         public double OutgoingVerification_MyOutgoingVerificationsSummary_CachingPeriodInMinutes { get { return 15.0; } }

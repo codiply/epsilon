@@ -153,7 +153,7 @@ VALUES
 (N'geoip-info', N'AntiAbuse_CreateTenancyDetailsSubmission_DisableGeoipCheck'),
 (N'geoip-info', N'AntiAbuse_PickOutgoingVerification_DisableGeoipCheck'),
 (N'geoip-info', N'GeoipInfo_ExpiryPeriodInDays'),
-(N'geoip-info', N'GeoipInfoService_MaxRetries'),
+(N'geoip-info', N'GeoipRotatingClient_MaxRotations'),
 (N'geoip-info', N'GlobalSwitch_DisableUseOfGeoipInformation'),
 -- global-max-frequency
 (N'global-max-frequency', N'AntiAbuse_AddAddress_GlobalMaxFrequency'),
@@ -162,7 +162,7 @@ VALUES
 (N'global-max-frequency', N'AntiAbuse_Register_GlobalMaxFrequency'),
 -- max-retries
 (N'max-retries', N'GeocodeService_OverQueryLimitMaxRetries'),
-(N'max-retries', N'GeoipInfoService_MaxRetries'),
+(N'max-retries', N'GeoipRotatingClient_MaxRotations'),
 -- global-switch
 (N'global-switch', N'AntiAbuse_AddAddress_DisableGlobalFrequencyCheck'),
 (N'global-switch', N'AntiAbuse_CreateTenancyDetailsSubmission_DisableGlobalFrequencyCheck'),

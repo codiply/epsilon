@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Epsilon.Logic.Wrappers.GeoipProviderClients
+namespace Epsilon.Logic.Configuration.Interfaces
 {
-    public class TelizeGeoipProviderClient : BaseGeoipProviderClient
+    public interface IGeoipRotatingClientConfig
     {
+        int MaxRotations { get; }
     }
 }

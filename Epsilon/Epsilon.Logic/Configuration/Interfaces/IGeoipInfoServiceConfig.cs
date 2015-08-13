@@ -9,6 +9,5 @@ namespace Epsilon.Logic.Configuration.Interfaces
     public interface IGeoipInfoServiceConfig
     {
         TimeSpan ExpiryPeriod { get; }
-        int MaxRetries { get; }
     }
 }

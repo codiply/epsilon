@@ -5,7 +5,7 @@ open System.Web
 open FSharp.Data
 open Epsilon.Logic.FSharp
 
-type GeoipProviderResponse = 
+type GeoipProviderClientResponse = 
     { CountryCode: string
       Latitude: Nullable<double> 
       Longitude: Nullable<double> }
@@ -27,7 +27,7 @@ module Helpers =
         new System.Nullable<_>(x |> double)
 
 [<RequireQualifiedAccess>]
-module TelizeFsGeoipClient = 
+module TelizeGeoipProviderClient = 
 
     type private TelizeGeoipDataProvider = JsonProvider<"""
     [{"longitude":4.9,"latitude":52.3667,"asn":"AS196752","offset":"2","ip":"46.19.37.108","area_code":"0","continent_code":"EU","dma_code":"0","timezone":"Europe\/Amsterdam","country_code":"NL","isp":"Tilaa B.V.","country":"Netherlands","country_code3":"NLD"},
@@ -35,7 +35,6 @@ module TelizeFsGeoipClient =
 
     let private getResponseAsync (ipAddress: string) =
         async {
-
             let url = 
                 sprintf "https://www.telize.com/geoip/%s" ipAddress
             return! WebPage.downloadAsync(url)
@@ -51,7 +50,7 @@ module TelizeFsGeoipClient =
           Longitude = typedResponse.Longitude |> Helpers.decimalOptionToNullableDouble }
 
 [<RequireQualifiedAccess>]
-module FreegeoipFsGeoipClient = 
+module FreegeoipGeoipProviderClient = 
 
     type private FreegeoipGeoipDataProvider = JsonProvider<"""
     [{"ip":"8.8.8.8","country_code":"US","country_name":"United States","region_code":"CA","region_name":"California","city":"Mountain View","zip_code":"94040","time_zone":"America/Los_Angeles","latitude":37.386,"longitude":-122.084,"metro_code":807},
@@ -59,7 +58,6 @@ module FreegeoipFsGeoipClient =
 
     let private getResponseAsync (ipAddress: string) =
         async {
-
             let url = 
                 sprintf "https://freegeoip.net/json/%s" ipAddress
             return! WebPage.downloadAsync(url)

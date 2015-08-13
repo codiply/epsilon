@@ -10,12 +10,12 @@ using System.Threading.Tasks;
 
 namespace Epsilon.Logic.Configuration
 {
-    public class GeoipInfoServiceConfig : IGeoipInfoServiceConfig
+    public class GeoipRotatingClientConfig : IGeoipRotatingClientConfig
     {
         private readonly IDbAppSettingsHelper _dbAppSettingsHelper;
         private readonly IDbAppSettingDefaultValue _dbAppSettingDefaultValue;
 
-        public GeoipInfoServiceConfig(
+        public GeoipRotatingClientConfig(
            IDbAppSettingsHelper dbAppSettingsHelper,
            IDbAppSettingDefaultValue dbAppSettingDefaultValue)
         {
@@ -23,14 +23,13 @@ namespace Epsilon.Logic.Configuration
             _dbAppSettingDefaultValue = dbAppSettingDefaultValue;
         }
 
-        public TimeSpan ExpiryPeriod
+        public int MaxRotations
         {
             get
             {
-                var periodInDays = _dbAppSettingsHelper.GetDouble(
-                    DbAppSettingKey.GeoipInfo_ExpiryPeriodInDays,
-                    _dbAppSettingDefaultValue.GeoipInfo_ExpiryPeriodInDays);
-                return TimeSpan.FromDays(periodInDays);
+                return _dbAppSettingsHelper.GetInt(
+                    DbAppSettingKey.GeoipRotatingClient_MaxRotations,
+                    _dbAppSettingDefaultValue.GeoipRotatingClient_MaxRotations);
             }
         }
     }

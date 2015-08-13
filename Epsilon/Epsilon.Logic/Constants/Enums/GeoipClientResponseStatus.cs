@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Epsilon.Logic.Wrappers.GeoipProviderClients
+namespace Epsilon.Logic.Constants.Enums
 {
-    public class FreegeoipGeoipProviderClient : BaseGeoipProviderClient
+    public enum GeoipClientResponseStatus
     {
+        Succcess,
+        Failure
     }
 }

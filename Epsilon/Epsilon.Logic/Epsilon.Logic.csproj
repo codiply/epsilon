@@ -111,8 +111,10 @@
     <Compile Include="Configuration\GeocodeServiceConfig.cs" />
     <Compile Include="Configuration\AdminAlertServiceConfig.cs" />
     <Compile Include="Configuration\GeoipInfoServiceConfig.cs" />
+    <Compile Include="Configuration\GeoipRotatingClientConfig.cs" />
     <Compile Include="Configuration\Interfaces\ICommonConfig.cs" />
     <Compile Include="Configuration\Interfaces\IGeoipInfoServiceConfig.cs" />
+    <Compile Include="Configuration\Interfaces\IGeoipRotatingClientConfig.cs" />
     <Compile Include="Configuration\Interfaces\IOutgoingVerificationServiceConfig.cs" />
     <Compile Include="Configuration\Interfaces\IPropertyInfoAccessServiceConfig.cs" />
     <Compile Include="Configuration\Interfaces\IUserAccountMaintenanceServiceConfig.cs" />
@@ -142,6 +144,7 @@
     <Compile Include="Constants\Enums\DbAppSettingKey.cs" />
     <Compile Include="Constants\Enums\GeocodeAddressStatus.cs" />
     <Compile Include="Constants\Enums\GeocodePostcodeStatus.cs" />
+    <Compile Include="Constants\Enums\GeoipClientResponseStatus.cs" />
     <Compile Include="Constants\Enums\GeoipProviderName.cs" />
     <Compile Include="Constants\Enums\TokenAccountTransactionStatus.cs" />
     <Compile Include="Constants\Enums\CountryId.cs" />
@@ -161,6 +164,7 @@
     <Compile Include="Entities\GeoipInfo.cs" />
     <Compile Include="Forms\Manage\ChangePreferencesForm.cs" />
     <Compile Include="Models\AddressModel.cs" />
+    <Compile Include="Models\GeoipClientResponse.cs" />
     <Compile Include="Models\OutgoingVerificationInstructionsModel.cs" />
     <Compile Include="Models\UserInterfaceCustomisationModel.cs" />
     <Compile Include="Models\UserPreferenceModel.cs" />
@@ -288,9 +292,8 @@
     <Compile Include="SqlContext\Mapping\PropertyInfoAccessMap.cs" />
     <Compile Include="SqlContext\Mapping\TokenRewardMap.cs" />
     <Compile Include="SqlContext\Mapping\TokenRewardSchemeMap.cs" />
-    <Compile Include="Wrappers\GeoipProviderClients\BaseGeoipProviderClient.cs" />
-    <Compile Include="Wrappers\GeoipProviderClients\FreegeoipGeoipProviderClient.cs" />
-    <Compile Include="Wrappers\GeoipProviderClients\TelizeGeoipProviderClient.cs" />
+    <Compile Include="Wrappers\GeoipClient.cs" />
+    <Compile Include="Wrappers\GeoipRotatingClient.cs" />
     <Compile Include="Wrappers\Interfaces\IGeocodeClientFactory.cs" />
     <Compile Include="Services\Interfaces\IGeocodeService.cs" />
     <Compile Include="Services\Interfaces\IIpAddressActivityService.cs" />
@@ -338,6 +341,9 @@
     <Compile Include="Wrappers\Interfaces\ICacheWrapper.cs" />
     <Compile Include="Wrappers\Interfaces\IClock.cs" />
     <Compile Include="Wrappers\Interfaces\IGeocodeClientWrapper.cs" />
+    <Compile Include="Wrappers\Interfaces\IGeoipClient.cs" />
+    <Compile Include="Wrappers\Interfaces\IGeoipRotatingClient.cs" />
+    <Compile Include="Wrappers\Interfaces\IGeoipClientFactory.cs" />
     <Compile Include="Wrappers\Interfaces\IRandomFactory.cs" />
     <Compile Include="Wrappers\Interfaces\IRandomWrapper.cs" />
     <Compile Include="Wrappers\Interfaces\ISmtpClientWrapper.cs" />

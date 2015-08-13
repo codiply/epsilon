@@ -17,7 +17,7 @@ namespace Epsilon.Logic.Entities
         public double? Latitude { get; set; }
         public double? Longitude { get; set; }
 
-        public string GeoipProvider { get; set; }
+        public string GeoipProviderName { get; set; }
         public DateTimeOffset RecordedOn { get; set; }
 
         [Timestamp]

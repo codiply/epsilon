@@ -10,7 +10,7 @@ namespace Epsilon.Logic.SqlContext.Mapping
 {
     public class GeoipInfoMap : EntityTypeConfiguration<GeoipInfo>
     {
-        public const int CONTINENT_CODE_MAX_LENGTH = 2;
+        public const int GEOIP_PROVIDER_NAME_MAX_LENGTH = 32;
 
         public GeoipInfoMap()
         {
@@ -20,8 +20,9 @@ namespace Epsilon.Logic.SqlContext.Mapping
             this.Property(x => x.CountryCode)
                 .IsRequired()
                 .HasMaxLength(CountryMap.ID_MAX_LENGTH);
-            this.Property(x => x.ContinentCode)
-                .HasMaxLength(CONTINENT_CODE_MAX_LENGTH);
+            this.Property(x => x.GeoipProviderName)
+                .IsRequired()
+                .HasMaxLength(GEOIP_PROVIDER_NAME_MAX_LENGTH);
             this.Property(x => x.RecordedOn)
                 .IsRequired();
         }

@@ -4,7 +4,6 @@ using Epsilon.Logic.Forms;
 using Epsilon.Logic.Forms.Admin;
 using Epsilon.Logic.FSharp;
 using Epsilon.Logic.FSharp.GoogleGeocode;
-using Epsilon.Logic.FSharp.;
 using Epsilon.Logic.Helpers.Interfaces;
 using Epsilon.Logic.Infrastructure.Interfaces;
 using Epsilon.Logic.Services.Interfaces;
@@ -18,6 +17,8 @@ using System.Net.Mail;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using Epsilon.Logic.Wrappers.Interfaces;
+using Epsilon.Logic.Helpers;
 
 namespace Epsilon.Web.Controllers
 {
@@ -28,17 +29,20 @@ namespace Epsilon.Web.Controllers
         private readonly IAppSettingsHelper _appSettingsHelper;
         private readonly IDbAppSettingsHelper _dbAppSettingsHelper;
         private readonly ISmtpService _smtpService;
+        private readonly IGeoipClientFactory _geoipClientFactory;
 
         public AdminController(
             IAppCache appCache,
             IAppSettingsHelper appSettingsHelper,
             IDbAppSettingsHelper dbAppSettingsHelper,
-            ISmtpService smtpService)
+            ISmtpService smtpService,
+            IGeoipClientFactory geoipClientFactory)
         {
             _appCache = appCache;
             _appSettingsHelper = appSettingsHelper;
             _dbAppSettingsHelper = dbAppSettingsHelper;
             _smtpService = smtpService;
+            _geoipClientFactory = geoipClientFactory;
         }
 
         public ActionResult Index()
@@ -140,23 +144,30 @@ namespace Epsilon.Web.Controllers
 
         #endregion
 
-        #region TestGoogleGeocodeApi
+        #region TestGeoipApi
 
-        public ActionResult TestTelizeGeoipApi()
+        public ActionResult TestGeoipApi()
         {
-            var model = new TestTelizeGeoipApiViewModel();
+            var model = new TestGeoipClientViewModel();
+
+            var providerNames = EnumsHelper.GeoipProviderName.GetNames();
+            ViewBag.GeoipProviderName = new SelectList(providerNames);
+
             return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> TestTelizeGeoipApi(TestTelizeGeoipApiViewModel model)
+        public async Task<ActionResult> TestGeoipApi(TestGeoipClientViewModel model)
         {
+            var providerNames = EnumsHelper.GeoipProviderName.GetNames();
+            ViewBag.GeoipProviderName = new SelectList(providerNames);
+
             if (ModelState.IsValid)
             {
-                var response = await GeoipClient.getResponse(model.IpAddress);
-                model.Response = response;
-                model.GeoipInfo = GeoipClient.parseResponse(response);
+                var client = _geoipClientFactory.Create();
+                var providerName = EnumsHelper.GeoipProviderName.Parse(model.GeoipProviderName).Value;
+                model.ClientResponse = await client.Geoip(providerName, model.IpAddress);
                 return View(model);
             }
             return View(model);
