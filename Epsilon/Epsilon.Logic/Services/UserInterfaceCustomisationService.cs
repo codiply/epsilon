@@ -33,7 +33,7 @@ namespace Epsilon.Logic.Services
 
         public UserInterfaceCustomisationModel GetForUser(string userId)
         {
-            return Task.Run(() => GetForUserAsync(userId)).Result;
+            return Task.Run(async () => await GetForUserAsync(userId)).Result;
         }
 
         public async Task<UserInterfaceCustomisationModel> GetForUserAsync(string userId)

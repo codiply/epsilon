@@ -58,7 +58,7 @@ namespace Epsilon.Logic.Services
             if (allowCaching)
             {
                 var userPreference = await _appCache
-                    .Get(AppCacheKey.UserPreference(userId), async () => await query.SingleOrDefaultAsync(x => x.Id.Equals(userId)), WithLock.Yes);
+                    .Get(AppCacheKey.UserPreference(userId), () => query.SingleOrDefaultAsync(x => x.Id.Equals(userId)), WithLock.Yes);
                 return userPreference;
             }
             else

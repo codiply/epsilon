@@ -44,7 +44,7 @@ namespace Epsilon.Logic.Services
         
         public GeoipInfo GetInfo(string ipAddress)
         {
-            return Task.Run(() => GetInfoAsync(ipAddress)).Result;
+            return Task.Run(async () => await GetInfoAsync(ipAddress)).Result;
         }
 
         public async Task<GeoipInfo> GetInfoAsync(string ipAddress)
