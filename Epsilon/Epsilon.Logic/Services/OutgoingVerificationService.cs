@@ -162,6 +162,7 @@ namespace Epsilon.Logic.Services
                 var pickedSubmission = await _dbContext.TenancyDetailsSubmissions
                     .Include(s => s.Address)
                     .Include(s => s.TenantVerifications)
+                    .Where(x => !x.IsHidden) // TODO_PANOS_TEST
                     .Where(s => s.UserId != userId)
                     .Where(s => s.CreatedByIpAddress != userIpAddress)
                     .Where(s => s.Address.CreatedById != userId)

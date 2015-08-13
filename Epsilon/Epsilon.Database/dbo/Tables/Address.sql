@@ -13,6 +13,7 @@
     [CreatedOn]           DATETIMEOFFSET (7) NOT NULL,
     [CreatedById]         NVARCHAR (128)     NOT NULL,
     [CreatedByIpAddress]  NVARCHAR (39)      NULL,
+	[IsHidden]            BIT                NULL,
     [Timestamp]           ROWVERSION         NOT NULL,
     CONSTRAINT [PK_dbo.Address] PRIMARY KEY CLUSTERED ([Id] ASC),
     CONSTRAINT [FK_dbo.Address_dbo.Country_CountryId] FOREIGN KEY ([CountryId]) REFERENCES [dbo].[Country] ([Id]),

@@ -14,6 +14,7 @@
     [CreatedOn]              DATETIMEOFFSET (7) NOT NULL,
     [SubmittedOn]            DATETIMEOFFSET (7) NULL,
     [CreatedByIpAddress]     NVARCHAR (39)      NOT NULL,
+	[IsHidden]               BIT                NULL,
     [Timestamp]              ROWVERSION         NOT NULL,
     CONSTRAINT [PK_dbo.TenancyDetailsSubmission] PRIMARY KEY CLUSTERED ([Id] ASC),
     CONSTRAINT [FK_dbo.TenancyDetailsSubmission_dbo.Address_AddressId] FOREIGN KEY ([AddressId]) REFERENCES [dbo].[Address] ([Id]),

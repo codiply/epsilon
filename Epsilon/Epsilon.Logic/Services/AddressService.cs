@@ -68,6 +68,7 @@ namespace Epsilon.Logic.Services
 
             var query = _dbContext.Addresses
                 .Include(x => x.Country)
+                .Where(x => !x.IsHidden) // TODO_PANOS_TEST
                 .Where(x => x.CountryId.Equals(request.countryId)
                             && (x.Postcode.Equals(cleanPostcode)));
 
@@ -138,6 +139,7 @@ namespace Epsilon.Logic.Services
             var query = _dbContext.Addresses
                 .Include(x => x.Country)
                 .Include(x => x.TenancyDetailsSubmissions)
+                .Where(x => !x.IsHidden) // TODO_PANOS_TEST
                 .Where(x => x.CountryId.Equals(request.countryId)
                             && (x.Postcode.Equals(cleanPostcode)));
 
@@ -299,6 +301,7 @@ namespace Epsilon.Logic.Services
             }
 
             var duplicateAddressIds = await _dbContext.Addresses
+                .Where(x => !x.IsHidden) // TODO_PANOS_TEST
                 .Where(x => x.DistinctAddressCode.Equals(address.DistinctAddressCode) && !x.Id.Equals(address.Id))
                 .Select(x => x.Id)
                 .ToListAsync();

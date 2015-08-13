@@ -26,6 +26,9 @@ namespace Epsilon.Logic.Entities
         public virtual DateTimeOffset? SubmittedOn { get; set; }
         public virtual string CreatedByIpAddress { get; set; }
 
+        // This is for later convenience in order to hide some submissions from property information if needed.
+        public virtual bool IsHidden { get; set; }
+
         [Timestamp]
         public virtual Byte[] Timestamp { get; set; }
 

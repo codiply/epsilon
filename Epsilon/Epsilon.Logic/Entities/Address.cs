@@ -28,6 +28,9 @@ namespace Epsilon.Logic.Entities
         public virtual string CreatedById { get; set; }
         public virtual string CreatedByIpAddress { get; set; }
 
+        // This is for later convenience in order to hide some addresses from searches if needed.
+        public virtual bool IsHidden { get; set; }
+
         [Timestamp]
         public virtual Byte[] Timestamp { get; set; }
 
