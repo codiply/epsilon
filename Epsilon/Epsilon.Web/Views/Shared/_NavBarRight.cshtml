@@ -54,7 +54,7 @@
             <span class="glyphicon glyphicon-asterisk glyphicon-lg" aria-hidden="true"></span>
         </a>
         <ul class="dropdown-menu">
-            @if (userInterfaceCustomisation.CanCreateTenancyDetailsSubmission)
+            @if (userInterfaceCustomisation != null && userInterfaceCustomisation.CanCreateTenancyDetailsSubmission)
             {
             <li>
                 <a href="@Url.Action("SearchAddress", "Submission")" class="btn btn-default">
@@ -62,7 +62,7 @@
                 </a>
             </li>
             }
-            @if (userInterfaceCustomisation.CanPickOutgoingVerification)
+            @if (userInterfaceCustomisation != null && userInterfaceCustomisation.CanPickOutgoingVerification)
             {
             <li>
                 @using (Html.BeginForm("Pick", "OutgoingVerification"))

@@ -20,6 +20,8 @@ VALUES
      N'The number of results returned when performing and Property Search.'),
 (N'AdminAlertSnoozePeriodInHours', N'12.0', N'Double',
      N'The AdminAlertService will wait this amount of time (in hours) until it sends a second alert for any given AdminAlert key.'),
+(N'AlwaysTrue', N'True', 'Boolean',
+     N'This is a setting that is always true. Do not change! I use this to detect that the DbAppSettings have loaded correctly.'),
 (N'AntiAbuse_AddAddress_DisableGeocodeFailureIpAddressFrequencyCheck', N'False', N'Boolean',
      N'Disables the anti-abuse IP Address frequency check for geocode failures.'),
 (N'AntiAbuse_AddAddress_DisableGeocodeFailureUserFrequencyCheck', N'False', N'Boolean',

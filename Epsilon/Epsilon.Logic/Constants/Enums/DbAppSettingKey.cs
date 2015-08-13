@@ -9,6 +9,9 @@ namespace Epsilon.Logic.Constants.Enums
     public enum DbAppSettingKey
     {
         AdminAlertSnoozePeriodInHours,
+        Address_SearchAddressResultsLimit,
+        Address_SearchPropertyResultsLimit,
+        AlwaysTrue,
         AntiAbuse_AddAddress_DisableGeocodeFailureIpAddressFrequencyCheck,
         AntiAbuse_AddAddress_DisableGeocodeFailureUserFrequencyCheck,
         AntiAbuse_AddAddress_DisableGeoipCheck,
@@ -58,8 +61,6 @@ namespace Epsilon.Logic.Constants.Enums
         PropertInfoAccess_ExpiryPeriodInDays,
         PropertInfoAccess_MyExploredPropertiesSummary_CachingPeriodInMinutes,
         PropertInfoAccess_MyExploredPropertiesSummary_ItemsLimit,
-        Address_SearchAddressResultsLimit,
-        Address_SearchPropertyResultsLimit,
         TenancyDetailsSubmission_Create_DisableFrequencyPerAddressCheck,
         TenancyDetailsSubmission_Create_MaxFrequencyPerAddress,
         TenancyDetailsSubmission_MySubmissionsSummary_CachingPeriodInMinutes,
