@@ -52,7 +52,7 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
     <Compile Include="WebPage.fs" />
-    <Compile Include="TelizeGeoip.fs" />
+    <Compile Include="GeoipProvider.fs" />
     <Content Include="packages.config" />
     <Content Include="app.config" />
     <Compile Include="GoogleGeocode.fs" />

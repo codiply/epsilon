@@ -142,6 +142,7 @@
     <Compile Include="Constants\Enums\DbAppSettingKey.cs" />
     <Compile Include="Constants\Enums\GeocodeAddressStatus.cs" />
     <Compile Include="Constants\Enums\GeocodePostcodeStatus.cs" />
+    <Compile Include="Constants\Enums\GeoipProviderName.cs" />
     <Compile Include="Constants\Enums\TokenAccountTransactionStatus.cs" />
     <Compile Include="Constants\Enums\CountryId.cs" />
     <Compile Include="Constants\DbAppSettingDefaultValue.cs" />
@@ -287,6 +288,9 @@
     <Compile Include="SqlContext\Mapping\PropertyInfoAccessMap.cs" />
     <Compile Include="SqlContext\Mapping\TokenRewardMap.cs" />
     <Compile Include="SqlContext\Mapping\TokenRewardSchemeMap.cs" />
+    <Compile Include="Wrappers\GeoipProviderClients\BaseGeoipProviderClient.cs" />
+    <Compile Include="Wrappers\GeoipProviderClients\FreegeoipGeoipProviderClient.cs" />
+    <Compile Include="Wrappers\GeoipProviderClients\TelizeGeoipProviderClient.cs" />
     <Compile Include="Wrappers\Interfaces\IGeocodeClientFactory.cs" />
     <Compile Include="Services\Interfaces\IGeocodeService.cs" />
     <Compile Include="Services\Interfaces\IIpAddressActivityService.cs" />

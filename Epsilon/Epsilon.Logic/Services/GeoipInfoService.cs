@@ -2,7 +2,7 @@
 using Epsilon.Logic.Constants;
 using Epsilon.Logic.Constants.Enums;
 using Epsilon.Logic.Entities;
-using Epsilon.Logic.FSharp.TelizeGeoip;
+using Epsilon.Logic.FSharp.GeoipProvider;
 using Epsilon.Logic.Infrastructure.Interfaces;
 using Epsilon.Logic.Services.Interfaces;
 using Epsilon.Logic.SqlContext.Interfaces;

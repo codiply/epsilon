@@ -38,6 +38,9 @@ namespace Epsilon.Logic.Helpers
         public static EnumMemoizer<GeocodeQueryType> GeocodeQueryType =
             new EnumMemoizer<GeocodeQueryType>();
 
+        public static EnumMemoizer<GeoipProviderName> GeoipProviderName =
+            new EnumMemoizer<GeoipProviderName>();
+
         public static EnumMemoizer<IpAddressActivityType> IpAddressActivityType =
             new EnumMemoizer<IpAddressActivityType>();
 

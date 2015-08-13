@@ -4,7 +4,7 @@ using Epsilon.Logic.Forms;
 using Epsilon.Logic.Forms.Admin;
 using Epsilon.Logic.FSharp;
 using Epsilon.Logic.FSharp.GoogleGeocode;
-using Epsilon.Logic.FSharp.TelizeGeoip;
+using Epsilon.Logic.FSharp.;
 using Epsilon.Logic.Helpers.Interfaces;
 using Epsilon.Logic.Infrastructure.Interfaces;
 using Epsilon.Logic.Services.Interfaces;

@@ -14,10 +14,10 @@ namespace Epsilon.Logic.Entities
         public string IpAddress { get; set; }
 
         public string CountryCode { get; set; }
-        public string ContinentCode { get; set; }
         public double? Latitude { get; set; }
         public double? Longitude { get; set; }
 
+        public string GeoipProvider { get; set; }
         public DateTimeOffset RecordedOn { get; set; }
 
         [Timestamp]
