@@ -68,6 +68,9 @@ namespace Epsilon.IntegrationTests.Logic.Constants.Enums
                     case DbAppSettingValueType.Integer:
                         canParseValue = parseHelper.ParseInt(setting.Value).HasValue;
                         break;
+                    case DbAppSettingValueType.String:
+                        canParseValue = true;
+                        break;
                     default:
                         throw new NotImplementedException(string.Format("Unexpected DbAppSettingValueType: '{0}'",
                         EnumsHelper.DbAppSettingValueType.ToString(valueType)));

@@ -95,6 +95,8 @@ VALUES
      N'The number of days the GeoipInfo will be stored and reused without querying the Geoip IP for the specific IP Address.'),
 (N'GeoipRotatingClient_MaxRotations', N'3', N'Integer',
      N'The number of times the rotating client will try all possible providers before giving up.'),
+(N'GeoipRotatingClient_ProviderRotation', N'Telize,Freegeoip', N'String',
+     N'The values of the enum GeoipProviderName in the order they will be used in each rotation. To omit a provider simply remove it from the rotation.'),
 (N'GlobalSwitch_DisableAddAddress', N'False', N'Boolean',
      N'Disables completely adding a new address.'),
 (N'GlobalSwitch_DisableUseOfGeoipInformation', N'False', N'Boolean',

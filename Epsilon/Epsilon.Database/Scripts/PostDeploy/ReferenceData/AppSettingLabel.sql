@@ -154,6 +154,7 @@ VALUES
 (N'geoip-info', N'AntiAbuse_PickOutgoingVerification_DisableGeoipCheck'),
 (N'geoip-info', N'GeoipInfo_ExpiryPeriodInDays'),
 (N'geoip-info', N'GeoipRotatingClient_MaxRotations'),
+(N'geoip-info', N'GeoipRotatingClient_ProviderRotation'),
 (N'geoip-info', N'GlobalSwitch_DisableUseOfGeoipInformation'),
 -- global-max-frequency
 (N'global-max-frequency', N'AntiAbuse_AddAddress_GlobalMaxFrequency'),

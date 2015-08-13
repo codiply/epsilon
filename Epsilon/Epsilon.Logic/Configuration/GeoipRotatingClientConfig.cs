@@ -32,5 +32,13 @@ namespace Epsilon.Logic.Configuration
                     _dbAppSettingDefaultValue.GeoipRotatingClient_MaxRotations);
             }
         }
+
+        public string ProviderRotation
+        {
+            get
+            {
+                return _dbAppSettingsHelper.GetString(DbAppSettingKey.GeoipRotatingClient_ProviderRotation);
+            }
+        }
     }
 }

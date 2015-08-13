@@ -49,7 +49,8 @@ namespace Epsilon.Logic.Services
         public async Task<GeoipInfo> GetInfoAsync(string ipAddress)
         {
             return await _appCache.GetAsync(AppCacheKey.GetGeoipInfoForIpAddress(ipAddress),
-                async () => await DoGetInfo(ipAddress), WithLock.Yes);
+                async () => await DoGetInfo(ipAddress), 
+                _geoipInfoServiceConfig.ExpiryPeriod, WithLock.Yes);
         }
 
         private async Task<GeoipInfo> DoGetInfo(string ipAddress)
@@ -64,8 +65,14 @@ namespace Epsilon.Logic.Services
 
             var geoipInfo = existingGeoipInfo == null ? new GeoipInfo() { IpAddress = ipAddress } : existingGeoipInfo;
 
-            var geoip = await _geoipRotatingClient.Geoip(ipAddress);
-            Copy(geoip, geoipInfo);
+            var geoipClientResponse = await _geoipRotatingClient.Geoip(ipAddress);
+
+            if (geoipClientResponse.Status != GeoipClientResponseStatus.Succcess)
+            {
+                return null;
+            }
+
+            Copy(geoipClientResponse, geoipInfo);
             geoipInfo.RecordedOn = _clock.OffsetNow;
 
             if(existingGeoipInfo == null)

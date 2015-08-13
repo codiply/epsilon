@@ -11,11 +11,13 @@ using Epsilon.Logic.Helpers;
 
 namespace Epsilon.Logic.Wrappers
 {
+    // TODO_PANOS_TEST
     public class GeoipClient : IGeoipClient
     {
         public async Task<GeoipClientResponse> Geoip(GeoipProviderName providerName, string ipAddress)
         {
             try {
+                var timeoutInMilliseconds = 1000; // TODO_PANOS: from config
                 string rawResponse = string.Empty;
                 GeoipProviderClientResponse parsedResponse = null;
 
@@ -23,11 +25,11 @@ namespace Epsilon.Logic.Wrappers
                 switch (providerName)
                 {
                     case GeoipProviderName.Freegeoip:
-                        rawResponse = await FreegeoipGeoipProviderClient.getResponse(ipAddress);
+                        rawResponse = await FreegeoipGeoipProviderClient.getResponse(ipAddress, timeoutInMilliseconds);
                         parsedResponse = FreegeoipGeoipProviderClient.parseResponse(rawResponse);
                         break;
                     case GeoipProviderName.Telize:
-                        rawResponse = await TelizeGeoipProviderClient.getResponse(ipAddress);
+                        rawResponse = await TelizeGeoipProviderClient.getResponse(ipAddress, timeoutInMilliseconds);
                         parsedResponse = TelizeGeoipProviderClient.parseResponse(rawResponse);
                         break;
                     default:
@@ -44,6 +46,8 @@ namespace Epsilon.Logic.Wrappers
             }
             catch (Exception ex)
             {
+                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+
                 return new GeoipClientResponse
                 {
                     Status = GeoipClientResponseStatus.Failure,
