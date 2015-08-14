@@ -1,6 +1,10 @@
 ﻿@model string
 @using Epsilon.Resources.Common
 
+@{
+    ViewBag.Title = CommonResources.Error;
+}
+
 <br />
 <div class="alert alert-danger">
     @if (String.IsNullOrWhiteSpace(Model))

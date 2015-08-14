@@ -10,7 +10,8 @@ namespace Epsilon.Logic.Models
 {
     public class GeoipClientResponse
     {
-        public GeoipClientResponseStatus Status { get; set; }
+        public WebClientResponseStatus Status { get; set; }
+        public string ErrorMessage { get; set; }
 
         public string RawResponse { get; set; }
 

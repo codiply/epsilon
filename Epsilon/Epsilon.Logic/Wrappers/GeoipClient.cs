@@ -25,26 +25,29 @@ namespace Epsilon.Logic.Wrappers
         public async Task<GeoipClientResponse> Geoip(GeoipProviderName providerName, string ipAddress)
         {
             try {
-                string rawResponse = await GetRawResponse(providerName, ipAddress);
+                var rawResponse = await GetRawResponse(providerName, ipAddress);
 
-                var parsedResponse = ParseResponse(providerName, rawResponse);
-
-                var thisResponse = GeoipClientResponse.FromProviderClientResponse(parsedResponse);
-                thisResponse.RawResponse = rawResponse;
-                thisResponse.GeoipProviderName = providerName;
-                thisResponse.Status = GeoipClientResponseStatus.Succcess;
-
-                return thisResponse;
-            }
-            catch (WebClientTimeoutException ex)
-            {
-                //Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
-
-                return new GeoipClientResponse
+                if (rawResponse.Status == WebClientResponseStatus.Success)
                 {
-                    Status = GeoipClientResponseStatus.Timeout,
-                    GeoipProviderName = providerName
-                };
+
+                    var parsedResponse = ParseResponse(providerName, rawResponse.Response);
+
+                    var thisResponse = GeoipClientResponse.FromProviderClientResponse(parsedResponse);
+                    thisResponse.RawResponse = rawResponse.Response;
+                    thisResponse.GeoipProviderName = providerName;
+                    thisResponse.Status = WebClientResponseStatus.Success;
+
+                    return thisResponse;
+                }
+                else
+                {
+                    return new GeoipClientResponse
+                    {
+                        Status = rawResponse.Status,
+                        ErrorMessage = rawResponse.ErrorMessage,
+                        GeoipProviderName = providerName
+                    };
+                }
             }
             catch (Exception ex)
             {
@@ -52,35 +55,36 @@ namespace Epsilon.Logic.Wrappers
 
                 return new GeoipClientResponse
                 {
-                    Status = GeoipClientResponseStatus.Failure,
+                    Status = WebClientResponseStatus.Error,
+                    ErrorMessage = ex.Message,
                     GeoipProviderName = providerName
                 };
             }
         }
 
-        private async Task<string> GetRawResponse(GeoipProviderName providerName, string ipAddress)
+        private async Task<WebClientResponse> GetRawResponse(GeoipProviderName providerName, string ipAddress)
         {
             string url = string.Empty;
             // EnumSwitch:GeoipProviderName
             switch (providerName)
             {
                 case GeoipProviderName.Freegeoip:
-                    url = string.Format(@"https://freegeoip.netSS/json/%s", ipAddress);
+                    url = string.Format(@"https://freegeoip.net/json/{0}", ipAddress);
                     break;
                 case GeoipProviderName.Telize:
-                    url = string.Format(@"https://www.telize.com/geoip/%s", ipAddress);
+                    url = string.Format(@"https://www.telize.com/geoip/{0}", ipAddress);
                     break;
                 default:
                     throw new NotImplementedException(string.Format("Unexpected GeoipProviderName: '{0}'",
                         EnumsHelper.GeoipProviderName.ToString(providerName)));
             }
 
-            var timeoutInMilliseconds = 1000.0; // TODO_PANOS: from config
+            var timeoutInMilliseconds = 2000.0; // TODO_PANOS: from config
 
             var webClient = _webClientFactory.Create();
-            var rawResponse = await webClient.DownloadStringTaskAsync(url, timeoutInMilliseconds);
+            var response = await webClient.DownloadStringTaskAsync(url, timeoutInMilliseconds);
 
-            return rawResponse;
+            return response;
         }
 
         private GeoipProviderClientResponse ParseResponse(GeoipProviderName providerName, string rawResponse)

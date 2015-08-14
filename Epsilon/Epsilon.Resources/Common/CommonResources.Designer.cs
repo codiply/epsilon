@@ -88,6 +88,15 @@ namespace Epsilon.Resources.Common {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Error.
+        /// </summary>
+        public static string Error {
+            get {
+                return ResourceManager.GetString("Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to FAQ.
         /// </summary>
         public static string Faq_Acronym {
@@ -142,6 +151,33 @@ namespace Epsilon.Resources.Common {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This account has been locked out, please try again later..
+        /// </summary>
+        public static string LockedOut_MessageHeader {
+            get {
+                return ResourceManager.GetString("LockedOut_MessageHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Locked out..
+        /// </summary>
+        public static string LockedOut_MessageText {
+            get {
+                return ResourceManager.GetString("LockedOut_MessageText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Locked Out.
+        /// </summary>
+        public static string LockedOut_PageTitle {
+            get {
+                return ResourceManager.GetString("LockedOut_PageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Login.
         /// </summary>
         public static string Login {
@@ -156,6 +192,15 @@ namespace Epsilon.Resources.Common {
         public static string LogOff {
             get {
                 return ResourceManager.GetString("LogOff", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Maintenance.
+        /// </summary>
+        public static string Maintenance {
+            get {
+                return ResourceManager.GetString("Maintenance", resourceCulture);
             }
         }
         
@@ -264,6 +309,15 @@ namespace Epsilon.Resources.Common {
         public static string TokenBalanceBadgeHoverText {
             get {
                 return ResourceManager.GetString("TokenBalanceBadgeHoverText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Country unavailable.
+        /// </summary>
+        public static string UnavailableCountry {
+            get {
+                return ResourceManager.GetString("UnavailableCountry", resourceCulture);
             }
         }
         

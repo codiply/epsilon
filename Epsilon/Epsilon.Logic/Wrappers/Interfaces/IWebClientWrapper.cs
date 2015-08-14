@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Epsilon.Logic.Constants.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,11 +11,16 @@ namespace Epsilon.Logic.Wrappers.Interfaces
     {
     }
 
+    public class WebClientResponse
+    {
+        public string Response { get; set; }
+        public WebClientResponseStatus Status { get; set; }
+        public string ErrorMessage { get; set; }
+    }
+
     public interface IWebClientWrapper
     {
-        Task<string> DownloadStringTaskAsync(string url);
-
-        Task<string> DownloadStringTaskAsync(string url, double timeoutMilliseconds);
+        Task<WebClientResponse> DownloadStringTaskAsync(string url, double timeoutMilliseconds);
 
         void CancelAsync();
     }

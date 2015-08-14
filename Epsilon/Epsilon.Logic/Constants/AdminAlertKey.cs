@@ -15,10 +15,10 @@ namespace Epsilon.Logic.Constants
         public const string DbAppSettingsNotLoaded = "DbAppSettingsNotLoaded";
         public const string GeoipRotatingClientMaxRotationsReached = "GeoipRotatingClientMaxRotationsReached";
 
-        public static string GeoipRotatingClientProviderFailed(GeoipProviderName providerName, GeoipClientResponseStatus responseStatus)
+        public static string GeoipRotatingClientProviderFailed(GeoipProviderName providerName, WebClientResponseStatus responseStatus)
         {
             return string.Format("GeoipRotatingClientProviderFailed:{0}:{1}", 
-                EnumsHelper.GeoipProviderName.ToString(providerName), EnumsHelper.GeoipClientResponseStatus.ToString(responseStatus));
+                EnumsHelper.GeoipProviderName.ToString(providerName), EnumsHelper.WebClientResponseStatus.ToString(responseStatus));
         }
 
         public const string GoogleGeocodeApiClientException = "GoogleGeocodeApiClientException";

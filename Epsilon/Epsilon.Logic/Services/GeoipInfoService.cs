@@ -72,7 +72,7 @@ namespace Epsilon.Logic.Services
 
             var geoipClientResponse = await _geoipRotatingClient.Geoip(ipAddress);
 
-            if (geoipClientResponse.Status != GeoipClientResponseStatus.Succcess)
+            if (geoipClientResponse.Status != WebClientResponseStatus.Success)
             {
                 return null;
             }

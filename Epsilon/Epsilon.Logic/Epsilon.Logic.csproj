@@ -144,7 +144,7 @@
     <Compile Include="Constants\Enums\DbAppSettingKey.cs" />
     <Compile Include="Constants\Enums\GeocodeAddressStatus.cs" />
     <Compile Include="Constants\Enums\GeocodePostcodeStatus.cs" />
-    <Compile Include="Constants\Enums\GeoipClientResponseStatus.cs" />
+    <Compile Include="Constants\Enums\WebClientResponseStatus.cs" />
     <Compile Include="Constants\Enums\GeoipProviderName.cs" />
     <Compile Include="Constants\Enums\TokenAccountTransactionStatus.cs" />
     <Compile Include="Constants\Enums\CountryId.cs" />

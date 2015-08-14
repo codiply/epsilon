@@ -1,4 +1,5 @@
-﻿using Epsilon.Logic.Wrappers.Interfaces;
+﻿using Epsilon.Logic.Constants.Enums;
+using Epsilon.Logic.Wrappers.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,12 +21,7 @@ namespace Epsilon.Logic.Wrappers
             _timerFactory = timerFactory;
         }
 
-        public async Task<string> DownloadStringTaskAsync(string url)
-        {
-            return await _client.DownloadStringTaskAsync(url);
-        }
-
-        public async Task<string> DownloadStringTaskAsync(string url, double timeoutMilliseconds)
+        public async Task<WebClientResponse> DownloadStringTaskAsync(string url, double timeoutMilliseconds)
         {
             try {
                 var timer = _timerFactory.Create();
@@ -36,16 +32,31 @@ namespace Epsilon.Logic.Wrappers
 
                 _client.DownloadStringCompleted += new DownloadStringCompletedEventHandler(CompletedEventHandler);
 
-                var answer = await _client.DownloadStringTaskAsync(url);
+                var response = await _client.DownloadStringTaskAsync(url);
 
-                return answer;
+                return new WebClientResponse
+                {
+                    Status = WebClientResponseStatus.Success,
+                    Response = response
+                };
             }
-            catch (WebException ex)
+            catch (Exception ex)
             {
                 if (_cancelled)
-                    throw new WebClientTimeoutException();
+                {
+                    return new WebClientResponse
+                    {
+                        Status = WebClientResponseStatus.Timeout
+                    };
+                }
                 else
-                    throw ex;
+                {
+                    return new WebClientResponse
+                    {
+                        Status = WebClientResponseStatus.Error,
+                        ErrorMessage = ex.Message
+                    };
+                }
             }
         }
 

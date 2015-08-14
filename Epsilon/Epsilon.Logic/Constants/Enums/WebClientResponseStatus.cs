@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace Epsilon.Logic.Constants.Enums
 {
-    public enum GeoipClientResponseStatus
+    public enum WebClientResponseStatus
     {
-        Succcess,
+        Success,
         Timeout,
-        Failure
+        Error
     }
 }

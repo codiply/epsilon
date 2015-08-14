@@ -198,4 +198,22 @@
   <data name="WebsiteDownMessage" xml:space="preserve">
     <value>We are experiencing some technical issues. We are working on it! Come back shortly.</value>
   </data>
+  <data name="Error" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="LockedOut_MessageHeader" xml:space="preserve">
+    <value>This account has been locked out, please try again later.</value>
+  </data>
+  <data name="LockedOut_MessageText" xml:space="preserve">
+    <value>Locked out.</value>
+  </data>
+  <data name="LockedOut_PageTitle" xml:space="preserve">
+    <value>Locked Out</value>
+  </data>
+  <data name="Maintenance" xml:space="preserve">
+    <value>Maintenance</value>
+  </data>
+  <data name="UnavailableCountry" xml:space="preserve">
+    <value>Country unavailable</value>
+  </data>
 </root>
