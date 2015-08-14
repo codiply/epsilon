@@ -11,6 +11,7 @@ using System.Data.Entity;
 using Epsilon.Logic.Constants.Enums;
 using System.Transactions;
 using Epsilon.Logic.Constants;
+using Epsilon.Logic.Helpers;
 
 namespace Epsilon.Logic.Services
 {
@@ -48,7 +49,7 @@ namespace Epsilon.Logic.Services
             }
             catch (Exception ex)
             {
-                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                ElmahHelper.Raise(ex);
                 await RaiseMaintenanceThrewException(email);
             }
         }

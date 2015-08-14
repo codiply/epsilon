@@ -1,4 +1,5 @@
 ﻿using Epsilon.Logic.Constants.Enums;
+using Epsilon.Logic.Helpers;
 using Epsilon.Logic.Wrappers.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -42,6 +43,8 @@ namespace Epsilon.Logic.Wrappers
             }
             catch (Exception ex)
             {
+                ElmahHelper.Raise(ex);
+
                 if (_cancelled)
                 {
                     return new WebClientResponse

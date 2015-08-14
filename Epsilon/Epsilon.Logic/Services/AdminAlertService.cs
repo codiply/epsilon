@@ -15,6 +15,7 @@ using Epsilon.Logic.Constants.Interfaces;
 using System.Net.Mail;
 using Epsilon.Logic.Configuration.Interfaces;
 using Epsilon.Logic.Infrastructure.Interfaces;
+using Epsilon.Logic.Helpers;
 
 namespace Epsilon.Logic.Services
 {
@@ -62,7 +63,7 @@ namespace Epsilon.Logic.Services
             }
             catch (Exception ex)
             {
-                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                ElmahHelper.Raise(ex);
                 if (doNotUseDatabase == false)
                 {
                     SendAlert(key, doNotUseDatabase: true);

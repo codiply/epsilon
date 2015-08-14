@@ -38,7 +38,7 @@ namespace Epsilon.Logic.Services
             }
             catch (Exception ex)
             {
-                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                ElmahHelper.Raise(ex);
             }
         }
     }

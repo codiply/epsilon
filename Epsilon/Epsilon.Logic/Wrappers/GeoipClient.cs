@@ -51,8 +51,7 @@ namespace Epsilon.Logic.Wrappers
             }
             catch (Exception ex)
             {
-                //Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
-
+                ElmahHelper.Raise(ex);
                 return new GeoipClientResponse
                 {
                     Status = WebClientResponseStatus.Error,
@@ -79,7 +78,7 @@ namespace Epsilon.Logic.Wrappers
                         EnumsHelper.GeoipProviderName.ToString(providerName)));
             }
 
-            var timeoutInMilliseconds = 2000.0; // TODO_PANOS: from config
+            var timeoutInMilliseconds = 2000.0; // TODO_PANOS: put in config
 
             var webClient = _webClientFactory.Create();
             var response = await webClient.DownloadStringTaskAsync(url, timeoutInMilliseconds);
