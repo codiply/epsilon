@@ -416,10 +416,26 @@ namespace Epsilon.Logic.Services
             var maxFrequency = _tenancyDetailsSubmissionServiceConfig.Create_MaxFrequencyPerAddress;
 
             var windowStart = _clock.OffsetNow - maxFrequency.Period;
-            var actualTimes = await _dbContext.TenancyDetailsSubmissions
-                .Where(s => s.AddressId.Equals(addressId))
-                .Where(a => a.CreatedOn > windowStart)
-                .CountAsync();
+
+
+            int actualTimes;
+
+            var address = await _dbContext.Addresses.FindAsync(addressId);
+
+            if (string.IsNullOrWhiteSpace(address.DistinctAddressCode))
+            {
+                actualTimes = await _dbContext.TenancyDetailsSubmissions
+                    .Where(s => s.AddressId.Equals(addressId))
+                    .Where(a => a.CreatedOn > windowStart)
+                    .CountAsync();
+            }
+            else
+            {
+                actualTimes = await _dbContext.TenancyDetailsSubmissions
+                    .Where(s => s.Address.DistinctAddressCode.Equals(address.DistinctAddressCode))
+                    .Where(a => a.CreatedOn > windowStart)
+                    .CountAsync();
+            }
 
             return actualTimes >= maxFrequency.Times;
         }
