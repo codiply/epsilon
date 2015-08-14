@@ -142,6 +142,15 @@ namespace Epsilon.Resources.Common {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You do not have enough tokens for this action..
+        /// </summary>
+        public static string InsufficientTokensErrorMessage {
+            get {
+                return ResourceManager.GetString("InsufficientTokensErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Language.
         /// </summary>
         public static string Language {
@@ -300,6 +309,15 @@ namespace Epsilon.Resources.Common {
         public static string StringLengthErrorMessage {
             get {
                 return ResourceManager.GetString("StringLengthErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your account has been credited with tokens for this action..
+        /// </summary>
+        public static string TokenAccountCreditedForThisAction {
+            get {
+                return ResourceManager.GetString("TokenAccountCreditedForThisAction", resourceCulture);
             }
         }
         

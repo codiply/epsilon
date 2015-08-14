@@ -250,17 +250,20 @@ namespace Epsilon.Logic.Services
                 {
                     uiAlerts.Add(new UiAlert
                     {
-                        Message = "Your account has been credited with tokens for this action.", // TODO_PANOS: put in resource
+                        Message = CommonResources.TokenAccountCreditedForThisAction,
                         Type = UiAlertType.Success
                     });
                 }
                 else
                 {
                     // TODO_TEST_PANOS
-                    // TODO_PANOS: return failure before committing the transaction later on. 
-                    // Use generic message as this shouldn't fail.
-                    // Log exception
-                    // Send AdminAlert
+                    // This shouldn't fail, but I return failure before committing the transaction.
+                    return new EnterVerificationCodeOutcome
+                    {
+                        IsRejected = true,
+                        ReturnToForm = false,
+                        RejectionReason = CommonResources.GenericErrorMessage
+                    };
                 }
 
                 if (!hasSenderBeenRewarded)
@@ -271,14 +274,16 @@ namespace Epsilon.Logic.Services
                     if (senderRewardStatus != TokenAccountTransactionStatus.Success)
                     {
                         // TODO_TEST_PANOS
-                        // TODO_PANOS: return failure before committing the transaction later on. 
-                        // Use generic message as this shouldn't fail.
-                        // Log exception
-                        // Send AdminAlert
+                        // This shouldn't fail, but I return failure before committing the transaction.
+                        return new EnterVerificationCodeOutcome
+                        {
+                            IsRejected = true,
+                            ReturnToForm = false,
+                            RejectionReason = CommonResources.GenericErrorMessage
+                        };
                     }
                 }
 
-                // TODO_PANOS: commit the transaction down here
                 // TODO_TEST_PANOS
                 transactionScope.Complete();
 
@@ -342,17 +347,20 @@ namespace Epsilon.Logic.Services
                 {
                     uiAlerts.Add(new UiAlert
                     {
-                        Message = "Your account has been credited with tokens for this action.", // TODO_PANOS: put in resource
+                        Message = CommonResources.TokenAccountCreditedForThisAction,
                         Type = UiAlertType.Success
                     });
                 }
                 else
                 {
                     // TODO_TEST_PANOS
-                    // TODO_PANOS: return failure before committing the transaction later on. 
-                    // Use generic message as this shouldn't fail.
-                    // Log exception
-                    // Send AdminAlert
+                    // This shouldn't fail, but I return failure before committing the transaction.
+                    return new SubmitTenancyDetailsOutcome
+                    {
+                        IsRejected = true,
+                        ReturnToForm = false,
+                        RejectionReason = CommonResources.GenericErrorMessage
+                    };
                 }
 
                 // TODO_TEST_PANOS

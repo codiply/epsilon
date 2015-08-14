@@ -216,4 +216,10 @@
   <data name="UnavailableCountry" xml:space="preserve">
     <value>Country unavailable</value>
   </data>
+  <data name="InsufficientTokensErrorMessage" xml:space="preserve">
+    <value>You do not have enough tokens for this action.</value>
+  </data>
+  <data name="TokenAccountCreditedForThisAction" xml:space="preserve">
+    <value>Your account has been credited with tokens for this action.</value>
+  </data>
 </root>

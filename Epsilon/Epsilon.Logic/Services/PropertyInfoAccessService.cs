@@ -160,7 +160,7 @@ namespace Epsilon.Logic.Services
                     return new CreatePropertyInfoAccessOutcome
                     {
                         IsRejected = true,
-                        RejectionReason = "Insufficient funds." // TODO_PANOS: put in a resource common with the status messages below.
+                        RejectionReason = CommonResources.InsufficientTokensErrorMessage
                     };
                 }
 
@@ -169,16 +169,12 @@ namespace Epsilon.Logic.Services
                 var tokenTransactionStatus = await _userTokenService
                     .MakeTransaction(userId, tokenRewardKey, internalReference: propertyInfoAccess.UniqueId);
 
-                if (tokenTransactionStatus == TokenAccountTransactionStatus.Success)
-                {
-                    // TODO_PANOS: maybe add UiAlert for spending tokens.
-                }
-                else
+                if (tokenTransactionStatus != TokenAccountTransactionStatus.Success)
                 {
                     return new CreatePropertyInfoAccessOutcome
                     {
                         IsRejected = true,
-                        RejectionReason = "Oops, something went wrong." // TODO_PANOS: translate status to message.
+                        RejectionReason = CommonResources.GenericErrorMessage
                     };
                 }
 
