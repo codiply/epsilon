@@ -49,8 +49,13 @@ namespace Epsilon.Logic.Services
         public async Task<GeoipInfo> GetInfoAsync(string ipAddress)
         {
             return await _appCache.GetAsync(AppCacheKey.GetGeoipInfoForIpAddress(ipAddress),
-                async () => await DoGetInfo(ipAddress), 
-                _geoipInfoServiceConfig.ExpiryPeriod, WithLock.Yes);
+                async () => await DoGetInfo(ipAddress), x =>
+                {
+                    var timeToExpiry = (x.RecordedOn + _geoipInfoServiceConfig.ExpiryPeriod) - _clock.OffsetNow;
+                    return timeToExpiry;
+                },
+                _geoipInfoServiceConfig.ExpiryPeriod, 
+                WithLock.Yes);
         }
 
         private async Task<GeoipInfo> DoGetInfo(string ipAddress)

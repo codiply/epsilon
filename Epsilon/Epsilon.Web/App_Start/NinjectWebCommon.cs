@@ -170,6 +170,10 @@ namespace Epsilon.Web.App_Start
             kernel.Bind<IRandomWrapper>().To<RandomWrapper>().InTransientScope();
             kernel.Bind<ISmtpClientWrapper>().To<SmtpClientWrapper>().InTransientScope();
             kernel.Bind<ISmtpClientWrapperFactory>().ToFactory();
+            kernel.Bind<ITimerFactory>().ToFactory();
+            kernel.Bind<ITimerWrapper>().To<TimerWrapper>().InTransientScope();
+            kernel.Bind<IWebClientFactory>().ToFactory();
+            kernel.Bind<IWebClientWrapper>().To<WebClientWrapper>().InTransientScope();
         }        
     }
 }

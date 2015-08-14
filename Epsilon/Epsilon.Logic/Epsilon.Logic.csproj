@@ -344,13 +344,19 @@
     <Compile Include="Wrappers\Interfaces\IGeoipClient.cs" />
     <Compile Include="Wrappers\Interfaces\IGeoipRotatingClient.cs" />
     <Compile Include="Wrappers\Interfaces\IGeoipClientFactory.cs" />
+    <Compile Include="Wrappers\Interfaces\ITimerFactory.cs" />
+    <Compile Include="Wrappers\Interfaces\ITimerWrapper.cs" />
+    <Compile Include="Wrappers\Interfaces\IWebClientFactory.cs" />
     <Compile Include="Wrappers\Interfaces\IRandomFactory.cs" />
     <Compile Include="Wrappers\Interfaces\IRandomWrapper.cs" />
     <Compile Include="Wrappers\Interfaces\ISmtpClientWrapper.cs" />
     <Compile Include="Wrappers\Interfaces\ISmtpClientWrapperFactory.cs" />
+    <Compile Include="Wrappers\Interfaces\IWebClientWrapper.cs" />
     <Compile Include="Wrappers\RandomWrapper.cs" />
     <Compile Include="Wrappers\SmtpClientWrapper.cs" />
     <Compile Include="Wrappers\SystemClock.cs" />
+    <Compile Include="Wrappers\TimerWrapper.cs" />
+    <Compile Include="Wrappers\WebClientWrapper.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Epsilon.Logic.FSharp\Epsilon.Logic.FSharp.fsproj">

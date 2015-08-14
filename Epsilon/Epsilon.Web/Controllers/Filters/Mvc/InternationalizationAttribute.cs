@@ -70,9 +70,12 @@ namespace Epsilon.Web.Controllers.Filters.Mvc
             {
                 var ipAddress = filterContext.HttpContext.GetSanitizedIpAddress();
                 var geoip = GeoipInfoService.GetInfo(ipAddress);
-                var country = CountryService.GetCountry(geoip.CountryCode);
-                if (country != null)
-                    languageId = country.MainLanguageId;
+                if (geoip != null)
+                {
+                    var country = CountryService.GetCountry(geoip.CountryCode);
+                    if (country != null)
+                        languageId = country.MainLanguageId;
+                }
             }
 
             // Attempt 4: Use the default

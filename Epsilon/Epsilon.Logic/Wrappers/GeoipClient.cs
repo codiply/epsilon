@@ -14,45 +14,77 @@ namespace Epsilon.Logic.Wrappers
     // TODO_PANOS_TEST
     public class GeoipClient : IGeoipClient
     {
+        private readonly IWebClientFactory _webClientFactory;
+
+        public GeoipClient(
+            IWebClientFactory webClientFactory)
+        {
+            _webClientFactory = webClientFactory;
+        }
+
         public async Task<GeoipClientResponse> Geoip(GeoipProviderName providerName, string ipAddress)
         {
             try {
-                var timeoutInMilliseconds = 1000; // TODO_PANOS: from config
-                string rawResponse = string.Empty;
-                GeoipProviderClientResponse parsedResponse = null;
+                string rawResponse = await GetRawResponse(providerName, ipAddress);
 
-                // EnumSwitch:GeoipProviderName
-                switch (providerName)
-                {
-                    case GeoipProviderName.Freegeoip:
-                        rawResponse = await FreegeoipGeoipProviderClient.getResponse(ipAddress, timeoutInMilliseconds);
-                        parsedResponse = FreegeoipGeoipProviderClient.parseResponse(rawResponse);
-                        break;
-                    case GeoipProviderName.Telize:
-                        rawResponse = await TelizeGeoipProviderClient.getResponse(ipAddress, timeoutInMilliseconds);
-                        parsedResponse = TelizeGeoipProviderClient.parseResponse(rawResponse);
-                        break;
-                    default:
-                        throw new NotImplementedException(string.Format("Unexpected GeoipProviderName: '{0}'",
-                            EnumsHelper.GeoipProviderName.ToString(providerName)));
-                }
+                var parsedResponse = ParseResponse(providerName, rawResponse);
 
-                var response = GeoipClientResponse.FromProviderClientResponse(parsedResponse);
-                response.RawResponse = rawResponse;
-                response.GeoipProviderName = providerName;
-                response.Status = GeoipClientResponseStatus.Succcess;
+                var thisResponse = GeoipClientResponse.FromProviderClientResponse(parsedResponse);
+                thisResponse.RawResponse = rawResponse;
+                thisResponse.GeoipProviderName = providerName;
+                thisResponse.Status = GeoipClientResponseStatus.Succcess;
 
-                return response;
+                return thisResponse;
             }
             catch (Exception ex)
             {
-                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                //Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
 
                 return new GeoipClientResponse
                 {
                     Status = GeoipClientResponseStatus.Failure,
                     GeoipProviderName = providerName
                 };
+            }
+        }
+
+        private async Task<string> GetRawResponse(GeoipProviderName providerName, string ipAddress)
+        {
+            string url = string.Empty;
+            // EnumSwitch:GeoipProviderName
+            switch (providerName)
+            {
+                case GeoipProviderName.Freegeoip:
+                    url = string.Format(@"https://freegeoip.netSS/json/%s", ipAddress);
+                    break;
+                case GeoipProviderName.Telize:
+                    url = string.Format(@"https://www.telize.comSS/geoip/%s", ipAddress);
+                    break;
+                default:
+                    throw new NotImplementedException(string.Format("Unexpected GeoipProviderName: '{0}'",
+                        EnumsHelper.GeoipProviderName.ToString(providerName)));
+            }
+
+            var timeoutInMilliseconds = 1000.0; // TODO_PANOS: from config
+
+            var webClient = _webClientFactory.Create();
+            var rawResponse = await webClient.DownloadStringTaskAsync(url, timeoutInMilliseconds);
+
+            return rawResponse;
+        }
+
+        private GeoipProviderClientResponse ParseResponse(GeoipProviderName providerName, string rawResponse)
+        {
+            // EnumSwitch:GeoipProviderName
+            switch (providerName)
+            {
+                case GeoipProviderName.Freegeoip:
+                    return FreegeoipGeoipProviderClient.ParseResponse(rawResponse);
+                case GeoipProviderName.Telize:
+                    return TelizeGeoipProviderClient.ParseResponse(rawResponse);
+                default:
+                    throw new NotImplementedException(string.Format("Unexpected GeoipProviderName: '{0}'",
+                        EnumsHelper.GeoipProviderName.ToString(providerName)));
             }
         }
     }
