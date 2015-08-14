@@ -70,11 +70,16 @@ namespace Epsilon.Logic.Services
             }
         }
 
+        // TODO_PANOS_TEST
         private bool IsNotAllowedToSendAgain(string key, bool doNotUseDatabase)
         {
+            var appCacheContainsKey = _appCache.ContainsKey(AppCacheKey.AdminAlertSent(key)); 
+            if (appCacheContainsKey)
+                return true;
+
             if (doNotUseDatabase)
             {
-                return _appCache.ContainsKey(AppCacheKey.AdminAlertSent(key)); // TODO_PANOS_TEST
+                return appCacheContainsKey; 
             }
             else
             {
@@ -114,13 +119,11 @@ namespace Epsilon.Logic.Services
 
         private void RecordAlertSent(string key, bool doNotUseDatabase)
         {
-            if (doNotUseDatabase)
-            {
-                // TODO_PANOS_TEST
-                var value = _appCache.Get(AppCacheKey.AdminAlertSent(key), 
-                    () => "value-is-irrelevant", _adminAlertServiceConfig.SnoozePeriod, WithLock.No);
-            }
-            else
+            // TODO_PANOS_TEST
+            var value = _appCache.Get(AppCacheKey.AdminAlertSent(key),
+                () => "value-is-irrelevant", _adminAlertServiceConfig.SnoozePeriod, WithLock.No);
+
+            if (doNotUseDatabase == false)
             {
                 _dbContext.AdminAlerts.Add(new AdminAlert
                 {
