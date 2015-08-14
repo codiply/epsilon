@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace Epsilon.Logic.Wrappers.Interfaces
 {
+    public class WebClientTimeoutException : Exception
+    {
+    }
+
     public interface IWebClientWrapper
     {
         Task<string> DownloadStringTaskAsync(string url);

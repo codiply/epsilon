@@ -13,6 +13,7 @@ namespace Epsilon.Logic.Wrappers
     {
         private readonly ITimerFactory _timerFactory;
         private readonly WebClient _client = new WebClient();
+        private bool _cancelled = false;
 
         public WebClientWrapper(ITimerFactory timerFactory)
         {
@@ -26,14 +27,32 @@ namespace Epsilon.Logic.Wrappers
 
         public async Task<string> DownloadStringTaskAsync(string url, double timeoutMilliseconds)
         {
-            var timer = _timerFactory.Create();
-            timer.IntervalMilliseconds = timeoutMilliseconds;
-            timer.AutoReset = false;
-            timer.Start();
-            timer.Elapsed += new ElapsedEventHandler((source, args) => CancelAsync());
+            try {
+                var timer = _timerFactory.Create();
+                timer.IntervalMilliseconds = timeoutMilliseconds;
+                timer.AutoReset = false;
+                timer.Start();
+                timer.Elapsed += new ElapsedEventHandler((source, e) => CancelAsync());
 
-            var answer = await _client.DownloadStringTaskAsync(url);
-            return answer;
+                _client.DownloadStringCompleted += new DownloadStringCompletedEventHandler(CompletedEventHandler);
+
+                var answer = await _client.DownloadStringTaskAsync(url);
+
+                return answer;
+            }
+            catch (WebException ex)
+            {
+                if (_cancelled)
+                    throw new WebClientTimeoutException();
+                else
+                    throw ex;
+            }
+        }
+
+        private void CompletedEventHandler(object sender, DownloadStringCompletedEventArgs e)
+        {
+            if (e.Cancelled)
+                _cancelled = true;
         }
 
         public void CancelAsync()

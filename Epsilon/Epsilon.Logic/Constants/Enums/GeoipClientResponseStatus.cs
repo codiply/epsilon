@@ -9,6 +9,7 @@ namespace Epsilon.Logic.Constants.Enums
     public enum GeoipClientResponseStatus
     {
         Succcess,
+        Timeout,
         Failure
     }
 }

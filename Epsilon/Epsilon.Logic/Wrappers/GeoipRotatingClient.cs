@@ -21,7 +21,7 @@ namespace Epsilon.Logic.Wrappers
         private readonly IAdminEventLogService _adminEventLogService;
         private readonly IGeoipClient _geoipClient;
 
-        private readonly IList<GeoipProviderName> _providers = new List<GeoipProviderName>();
+        private readonly IList<GeoipProviderName> _providerNames = new List<GeoipProviderName>();
 
         public GeoipRotatingClient(
             IGeoipRotatingClientConfig geoipRotatingClientConfig,
@@ -36,29 +36,35 @@ namespace Epsilon.Logic.Wrappers
 
             foreach (var p in _geoipRotatingClientConfig.ProviderRotation.Split(','))
             {
-                var provider = EnumsHelper.GeoipProviderName.Parse(p);
-                if (!provider.HasValue)
+                var providerName = EnumsHelper.GeoipProviderName.Parse(p);
+                if (!providerName.HasValue)
                 {
                     throw new Exception(string.Format("Cannot parse GeoipProviderName {0}.", p));
                 }
 
-                _providers.Add(provider.Value);
+                _providerNames.Add(providerName.Value);
             }
         }
 
         public async Task<GeoipClientResponse> Geoip(string ipAddress, int rotationNo = 1)
         {
+            bool hasFailedOnce = false;
             // TODO_PANOS_TEST
-            foreach (var provider in _providers)
+            foreach (var providerName in _providerNames)
             {
-                var response = await _geoipClient.Geoip(provider, ipAddress);
+                var response = await _geoipClient.Geoip(providerName, ipAddress);
                 if (response.Status == GeoipClientResponseStatus.Succcess)
                 {
+                    if (hasFailedOnce)
+                    {
+                        await LogSucccessAfterFailures(providerName, rotationNo);
+                    }
                     return response;
                 }
                 else
                 {
-                    await LogGeoipClientFailure(provider, rotationNo);
+                    hasFailedOnce = true;
+                    AlertGeoipClientFailed(providerName, response.Status);
                 }
             }
 
@@ -83,14 +89,19 @@ namespace Epsilon.Logic.Wrappers
             await _adminEventLogService.Log(AdminEventLogKey.GeoipRotatingClientMaxRotationsReached, extraInfo);
         }
 
-        private async Task LogGeoipClientFailure(GeoipProviderName providerName, int rotationNo)
+        private void AlertGeoipClientFailed(GeoipProviderName providerName, GeoipClientResponseStatus responseStatus)
+        {
+            _adminAlertService.SendAlert(AdminAlertKey.GeoipRotatingClientProviderFailed(providerName, responseStatus));
+        }
+
+        private async Task LogSucccessAfterFailures(GeoipProviderName successfulProviderName, int rotationNo)
         {
             var extraInfo = new Dictionary<string, object>
             {
-                { "GeoipProviderName", EnumsHelper.GeoipProviderName.ToString(providerName) },
+                { "SuccessfulGeoipProviderName", EnumsHelper.GeoipProviderName.ToString(successfulProviderName) },
                 { "RotationNo", rotationNo }
             };
-            await _adminEventLogService.Log(AdminEventLogKey.GeoipClientFailure, extraInfo);
+            await _adminEventLogService.Log(AdminEventLogKey.GeoipRotatingClientSucccessAfterFailures, extraInfo);
         }
     }
 }

@@ -36,6 +36,16 @@ namespace Epsilon.Logic.Wrappers
 
                 return thisResponse;
             }
+            catch (WebClientTimeoutException ex)
+            {
+                //Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+
+                return new GeoipClientResponse
+                {
+                    Status = GeoipClientResponseStatus.Timeout,
+                    GeoipProviderName = providerName
+                };
+            }
             catch (Exception ex)
             {
                 //Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
@@ -58,7 +68,7 @@ namespace Epsilon.Logic.Wrappers
                     url = string.Format(@"https://freegeoip.netSS/json/%s", ipAddress);
                     break;
                 case GeoipProviderName.Telize:
-                    url = string.Format(@"https://www.telize.comSS/geoip/%s", ipAddress);
+                    url = string.Format(@"https://www.telize.com/geoip/%s", ipAddress);
                     break;
                 default:
                     throw new NotImplementedException(string.Format("Unexpected GeoipProviderName: '{0}'",
