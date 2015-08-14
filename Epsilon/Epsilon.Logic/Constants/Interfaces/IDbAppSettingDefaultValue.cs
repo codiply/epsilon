@@ -40,6 +40,7 @@ namespace Epsilon.Logic.Constants.Interfaces
         double OutgoingVerification_MyOutgoingVerificationsSummary_CachingPeriodInMinutes { get; }
         int OutgoingVerification_MyOutgoingVerificationsSummary_ItemsLimit { get; }
         double OutgoingVerification_RewardSendersIfNoneUsed_AfterPeriodInDays { get; }
+        double OutgoingVerification_Pick_MinDegreesDistanceInAnyDirection { get; }
         int OutgoingVerification_VerificationsPerTenancyDetailsSubmission { get; }
 
         double PropertInfoAccess_ExpiryPeriodInDays { get; }

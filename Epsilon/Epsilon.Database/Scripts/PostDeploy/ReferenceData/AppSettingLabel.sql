@@ -197,6 +197,7 @@ VALUES
 (N'outgoing-verification', N'OutgoingVerification_Instructions_ExpiryPeriodInDays'),
 (N'outgoing-verification', N'OutgoingVerification_MyOutgoingVerificationsSummary_CachingPeriodInMinutes'),
 (N'outgoing-verification', N'OutgoingVerification_MyOutgoingVerificationsSummary_ItemsLimit'),
+(N'outgoing-verification', N'OutgoingVerification_Pick_MinDegreesDistanceInAnyDirection'),
 (N'outgoing-verification', N'OutgoingVerification_RewardSendersIfNoneUsed_AfterPeriodInDays'),
 (N'outgoing-verification', N'OutgoingVerification_VerificationsPerTenancyDetailsSubmission'),
 -- page-size

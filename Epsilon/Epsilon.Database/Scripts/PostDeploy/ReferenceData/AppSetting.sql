@@ -117,6 +117,8 @@ VALUES
      N'Caching period in minutes for MyOutgoingVerificationsSummary data.'),
 (N'OutgoingVerification_MyOutgoingVerificationsSummary_ItemsLimit', N'10', N'Integer',
      N'The maximum number of outgoing verifications that will apear in the summary on the front page.'),
+(N'OutgoingVerification_Pick_MinDegreesDistanceInAnyDirection', N'0.1', N'Double',
+    N'Minimum distance in Latitude and Longitude between user residence and the address of the outgoing verification. 1 degree is roughly 100 km (it varies slightly depending on the location).'),
 (N'OutgoingVerification_RewardSendersIfNoneUsed_AfterPeriodInDays', N'30.0', N'Double',
      N'The number of days after the verification was sent, when all senders will be rewarded if no verification was used.'),
 (N'OutgoingVerification_VerificationsPerTenancyDetailsSubmission', N'2', N'Integer',

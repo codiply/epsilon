@@ -157,9 +157,17 @@ namespace Epsilon.Logic.Services
                     .Distinct()
                     .ToListAsync();
 
+                // I create a box around the user residence and avoid addresses in that box.
+                var minDegreesDistance = _outgoingVerificationServiceConfig.Pick_MinDegreesDistanceInAnyDirection;
+                var latitudeLowerBound = userResidence.Address.Geometry.Latitude - minDegreesDistance;
+                var latitudeUpperBound = userResidence.Address.Geometry.Latitude + minDegreesDistance;
+                var longitudeLowerBound = userResidence.Address.Geometry.Longitude - minDegreesDistance;
+                var longitudeUpperBound = userResidence.Address.Geometry.Longitude + minDegreesDistance;
+
                 // TODO_TEST_PANOS: all where clauses below
                 var pickedSubmission = await _dbContext.TenancyDetailsSubmissions
                     .Include(s => s.Address)
+                    .Include(s => s.Address.Geometry)
                     .Include(s => s.TenantVerifications)
                     .Where(x => x.Address.CountryId.Equals(userResidence.Address.CountryId)) // TODO_TEST_PANOS
                     .Where(x => !x.IsHidden) // TODO_TEST_PANOS
@@ -170,6 +178,8 @@ namespace Epsilon.Logic.Services
                     .Where(s => s.TenantVerifications.Count() < verificationsPerTenancyDetailsSubmission)
                     .Where(s => s.Address.CountryId.Equals(userResidence.Address.CountryId))
                     .Where(s => !submissionIdsToAvoid.Contains(s.Id))
+                    .Where(s => s.Address.Geometry.Latitude < latitudeLowerBound || latitudeUpperBound < s.Address.Geometry.Latitude ||
+                                s.Address.Geometry.Longitude < longitudeLowerBound || longitudeUpperBound < s.Address.Geometry.Longitude)
                     .OrderBy(s => s.TenantVerifications.Count())
                     .FirstOrDefaultAsync();
 

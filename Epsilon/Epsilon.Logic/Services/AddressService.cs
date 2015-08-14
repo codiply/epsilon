@@ -272,7 +272,7 @@ namespace Epsilon.Logic.Services
                 entity.CreatedById = userId;
                 entity.CreatedByIpAddress = userIpAddress;
                 // TODO_TEST_PANOS
-                entity.DistinctAddressCode = CalculateDistinctAddressCode(form);
+                entity.DistinctAddressCode = CalculateDistinctAddressCode(cleansedForm);
                 if (verificationResponse.AddressGeometry != null)
                 {
                     _dbContext.AddressGeometries.Add(verificationResponse.AddressGeometry);

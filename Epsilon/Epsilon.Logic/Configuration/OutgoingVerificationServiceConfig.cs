@@ -63,6 +63,16 @@ namespace Epsilon.Logic.Configuration
             }
         }
 
+        public double Pick_MinDegreesDistanceInAnyDirection
+        {
+            get
+            {
+                return _dbAppSettingsHelper.GetDouble(
+                    DbAppSettingKey.OutgoingVerification_Pick_MinDegreesDistanceInAnyDirection,
+                    _dbAppSettingDefaultValue.OutgoingVerification_Pick_MinDegreesDistanceInAnyDirection);
+            }
+        }
+
         public int VerificationsPerTenancyDetailsSubmission
         {
             get
