@@ -111,9 +111,11 @@
     <Compile Include="Configuration\GeocodeServiceConfig.cs" />
     <Compile Include="Configuration\AdminAlertServiceConfig.cs" />
     <Compile Include="Configuration\GeoipInfoServiceConfig.cs" />
+    <Compile Include="Configuration\GeoipClientConfig.cs" />
     <Compile Include="Configuration\GeoipRotatingClientConfig.cs" />
     <Compile Include="Configuration\Interfaces\ICommonConfig.cs" />
     <Compile Include="Configuration\Interfaces\IGeoipInfoServiceConfig.cs" />
+    <Compile Include="Configuration\Interfaces\IGeoipClientConfig.cs" />
     <Compile Include="Configuration\Interfaces\IGeoipRotatingClientConfig.cs" />
     <Compile Include="Configuration\Interfaces\IOutgoingVerificationServiceConfig.cs" />
     <Compile Include="Configuration\Interfaces\IPropertyInfoAccessServiceConfig.cs" />

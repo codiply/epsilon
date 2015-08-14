@@ -46,6 +46,7 @@ namespace Epsilon.Logic.Constants.Enums
         GeocodeService_OverQueryLimitDelayBetweenRetriesInSeconds,
         GeocodeService_OverQueryLimitMaxRetries,
         GeoipInfo_ExpiryPeriodInDays,
+        GeoipClient_TimeoutInMilliseconds,
         GeoipRotatingClient_MaxRotations,
         GeoipRotatingClient_ProviderRotation,
         GlobalSwitch_DisableAddAddress,

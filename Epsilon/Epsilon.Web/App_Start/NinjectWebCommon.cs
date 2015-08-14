@@ -99,6 +99,7 @@ namespace Epsilon.Web.App_Start
             kernel.Bind<ICommonConfig>().To<CommonConfig>().InRequestScope();
             kernel.Bind<IGeocodeServiceConfig>().To<GeocodeServiceConfig>().InRequestScope();
             kernel.Bind<IGeoipRotatingClientConfig>().To<GeoipRotatingClientConfig>().InRequestScope();
+            kernel.Bind<IGeoipClientConfig>().To<GeoipClientConfig>().InRequestScope();
             kernel.Bind<IGeoipInfoServiceConfig>().To<GeoipInfoServiceConfig>().InRequestScope();
             kernel.Bind<IOutgoingVerificationServiceConfig>().To<OutgoingVerificationServiceConfig>().InRequestScope();
             kernel.Bind<IPropertyInfoAccessServiceConfig>().To<PropertInfoAccessServiceConfig>().InRequestScope();

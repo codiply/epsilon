@@ -56,6 +56,7 @@ VALUES
 (N'GeocodeService_OverQueryLimitDelayBetweenRetriesInSeconds', N'1.0'),
 (N'GeocodeService_OverQueryLimitMaxRetries', N'3'),
 (N'GeoipInfo_ExpiryPeriodInDays', N'30'),
+(N'GeoipClient_TimeoutInMilliseconds', N'8000.0'),
 (N'GeoipRotatingClient_MaxRotations', N'2'),
 (N'GeoipRotatingClient_ProviderRotation', N'Telize,Freegeoip'),
 (N'GlobalSwitch_DisableAddAddress', N'False'),

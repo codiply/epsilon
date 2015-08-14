@@ -153,6 +153,7 @@ VALUES
 (N'geoip-info', N'AntiAbuse_CreateTenancyDetailsSubmission_DisableGeoipCheck'),
 (N'geoip-info', N'AntiAbuse_PickOutgoingVerification_DisableGeoipCheck'),
 (N'geoip-info', N'GeoipInfo_ExpiryPeriodInDays'),
+(N'geoip-info', N'GeoipClient_TimeoutInMilliseconds'),
 (N'geoip-info', N'GeoipRotatingClient_MaxRotations'),
 (N'geoip-info', N'GeoipRotatingClient_ProviderRotation'),
 (N'geoip-info', N'GlobalSwitch_DisableUseOfGeoipInformation'),
@@ -249,6 +250,8 @@ VALUES
 (N'switch', N'GlobalSwitch_DisablePickOutgoingVerification'),
 (N'switch', N'GlobalSwitch_DisableRegister'),
 (N'switch', N'TenancyDetailsSubmission_Create_DisableFrequencyPerAddressCheck'),
+-- timeout
+(N'timeout', N'GeoipClient_TimeoutInMilliseconds'),
 -- tenancy-details-submission
 (N'tenancy-details-submission', N'GlobalSwitch_DisableCreateTenancyDetailsSubmission'),
 (N'tenancy-details-submission', N'TenancyDetailsSubmission_Create_DisableFrequencyPerAddressCheck'),

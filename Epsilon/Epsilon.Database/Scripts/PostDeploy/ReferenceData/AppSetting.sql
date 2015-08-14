@@ -93,6 +93,8 @@ VALUES
      N'Maximum number of retries when Google Geocode API responds with OverQueryLimit. Set to zero for no retrying.'),
 (N'GeoipInfo_ExpiryPeriodInDays', N'30', N'Double',
      N'The number of days the GeoipInfo will be stored and reused without querying the Geoip IP for the specific IP Address.'),
+(N'GeoipClient_TimeoutInMilliseconds', N'8000.0', N'Double',
+     N'The timeout in milliseconds for the request to the Geoip API for any of the providers.'),
 (N'GeoipRotatingClient_MaxRotations', N'3', N'Integer',
      N'The number of times the rotating client will try all possible providers before giving up.'),
 (N'GeoipRotatingClient_ProviderRotation', N'Telize,Freegeoip', N'String',

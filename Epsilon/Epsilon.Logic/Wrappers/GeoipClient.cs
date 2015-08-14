@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Epsilon.Logic.FSharp.GeoipProvider;
 using Epsilon.Logic.Helpers;
+using Epsilon.Logic.Configuration.Interfaces;
 
 namespace Epsilon.Logic.Wrappers
 {
@@ -15,11 +16,14 @@ namespace Epsilon.Logic.Wrappers
     public class GeoipClient : IGeoipClient
     {
         private readonly IWebClientFactory _webClientFactory;
+        private readonly IGeoipClientConfig _geoipClientConfig;
 
         public GeoipClient(
-            IWebClientFactory webClientFactory)
+            IWebClientFactory webClientFactory,
+            IGeoipClientConfig geoipClientConfig)
         {
             _webClientFactory = webClientFactory;
+            _geoipClientConfig = geoipClientConfig;
         }
 
         public async Task<GeoipClientResponse> Geoip(GeoipProviderName providerName, string ipAddress)
@@ -78,10 +82,8 @@ namespace Epsilon.Logic.Wrappers
                         EnumsHelper.GeoipProviderName.ToString(providerName)));
             }
 
-            var timeoutInMilliseconds = 2000.0; // TODO_PANOS: put in config
-
             var webClient = _webClientFactory.Create();
-            var response = await webClient.DownloadStringTaskAsync(url, timeoutInMilliseconds);
+            var response = await webClient.DownloadStringTaskAsync(url, _geoipClientConfig.TimeoutInMilliseconds);
 
             return response;
         }
