@@ -97,6 +97,33 @@ namespace Epsilon.Resources.Web.Account {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please confirm your account by clicking &lt;a href=\&quot;{0}\&quot;&gt;here&lt;/a&gt;.
+        /// </summary>
+        public static string ConfirmYourAccountEmail_Body {
+            get {
+                return ResourceManager.GetString("ConfirmYourAccountEmail_Body", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Confirm your account.
+        /// </summary>
+        public static string ConfirmYourAccountEmail_Subject {
+            get {
+                return ResourceManager.GetString("ConfirmYourAccountEmail_Subject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid login attempt..
+        /// </summary>
+        public static string Error_InvalidLoginAttempt {
+            get {
+                return ResourceManager.GetString("Error_InvalidLoginAttempt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The password and confirmation password do not match..
         /// </summary>
         public static string FieldConfirmPassword_CompareErrorMessage {
@@ -336,6 +363,24 @@ namespace Epsilon.Resources.Web.Account {
         public static string ResetPasswordConfirmation_PageTitle {
             get {
                 return ResourceManager.GetString("ResetPasswordConfirmation_PageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please reset your password by clicking &lt;a href=\&quot;{0}\&quot;&gt;here&lt;/a&gt;.
+        /// </summary>
+        public static string ResetPasswordEmail_Body {
+            get {
+                return ResourceManager.GetString("ResetPasswordEmail_Body", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reset Password.
+        /// </summary>
+        public static string ResetPasswordEmail_Subject {
+            get {
+                return ResourceManager.GetString("ResetPasswordEmail_Subject", resourceCulture);
             }
         }
     }

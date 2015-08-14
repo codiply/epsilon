@@ -15,6 +15,7 @@ using Epsilon.Logic.Constants;
 using Epsilon.Logic.Services.Interfaces;
 using Ninject;
 using Epsilon.Logic.Helpers.Interfaces;
+using Epsilon.Resources.Web.Account;
 
 namespace Epsilon.Web.Controllers
 {
@@ -85,7 +86,7 @@ namespace Epsilon.Web.Controllers
                     return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
                 case SignInStatus.Failure:
                 default:
-                    ModelState.AddModelError("", "Invalid login attempt.");
+                    ModelState.AddModelError("", AccountResources.Error_InvalidLoginAttempt);
                     return View(model);
             }
         }
@@ -171,7 +172,9 @@ namespace Epsilon.Web.Controllers
                     {
                         string code = await _userManager.GenerateEmailConfirmationTokenAsync(user.Id);
                         var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                        await _userManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                        await _userManager.SendEmailAsync(user.Id, 
+                            AccountResources.ConfirmYourAccountEmail_Subject, 
+                            string.Format(AccountResources.ConfirmYourAccountEmail_Body, callbackUrl));
                     }
                     await _newUserService.Setup(user.Id, GetUserIpAddress(), GetLanguageId());
 
@@ -227,7 +230,9 @@ namespace Epsilon.Web.Controllers
                 // Send an email with this link
                 string code = await _userManager.GeneratePasswordResetTokenAsync(user.Id);
                 var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                await _userManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                await _userManager.SendEmailAsync(user.Id, 
+                    AccountResources.ResetPasswordEmail_Subject, 
+                    string.Format(AccountResources.ResetPasswordEmail_Body, callbackUrl));
                 return RedirectToAction("ForgotPasswordConfirmation", "Account");
             }
 

@@ -354,8 +354,8 @@ namespace Epsilon.Web.Controllers
         //}
 
         #region Helpers
-        // Used for XSRF protection when adding external logins
-        private const string XsrfKey = "XsrfId";
+        //// Used for XSRF protection when adding external logins
+        //private const string XsrfKey = "XsrfId";
 
         private IAuthenticationManager AuthenticationManager
         {
@@ -383,24 +383,24 @@ namespace Epsilon.Web.Controllers
             return false;
         }
 
-        private bool HasPhoneNumber()
-        {
-            var user = _userManager.FindById(User.Identity.GetUserId());
-            if (user != null)
-            {
-                return user.PhoneNumber != null;
-            }
-            return false;
-        }
+        //private bool HasPhoneNumber()
+        //{
+        //    var user = _userManager.FindById(User.Identity.GetUserId());
+        //    if (user != null)
+        //    {
+        //        return user.PhoneNumber != null;
+        //    }
+        //    return false;
+        //}
 
         public enum ManageMessageId
         {
-            AddPhoneSuccess,
+            //AddPhoneSuccess,
             ChangePasswordSuccess,
-            SetTwoFactorSuccess,
+            //SetTwoFactorSuccess,
             SetPasswordSuccess,
-            RemoveLoginSuccess,
-            RemovePhoneSuccess,
+            //RemoveLoginSuccess,
+            //RemovePhoneSuccess,
             Error
         }
 
