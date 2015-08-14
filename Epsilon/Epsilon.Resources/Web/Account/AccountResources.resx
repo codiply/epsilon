@@ -130,7 +130,7 @@
     <value>Confirm Email</value>
   </data>
   <data name="ConfirmYourAccountEmail_Body" xml:space="preserve">
-    <value>Please confirm your account by clicking &lt;a href=\"{0}\"&gt;here&lt;/a&gt;</value>
+    <value>Please confirm your account by clicking &lt;a href="{0}"&gt;here&lt;/a&gt;</value>
   </data>
   <data name="ConfirmYourAccountEmail_Subject" xml:space="preserve">
     <value>Confirm your account</value>
@@ -208,7 +208,7 @@
     <value>Reset password confirmation</value>
   </data>
   <data name="ResetPasswordEmail_Body" xml:space="preserve">
-    <value>Please reset your password by clicking &lt;a href=\"{0}\"&gt;here&lt;/a&gt;</value>
+    <value>Please reset your password by clicking &lt;a href="{0}"&gt;here&lt;/a&gt;</value>
   </data>
   <data name="ResetPasswordEmail_Subject" xml:space="preserve">
     <value>Reset Password</value>

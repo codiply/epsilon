@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace Epsilon.Logic.Services
 {
-    // TODO_PANOS_TEST
+    // TODO_TEST_PANOS
     public class UserTokenService : IUserTokenService
     {
         private readonly IAppCache _appCache;
@@ -53,7 +53,7 @@ namespace Epsilon.Logic.Services
 
         public async Task<bool> SufficientFundsExistForTransaction(string userId, TokenRewardKey tokenRewardKey, int quantity = 1)
         {
-            // TODO_PANOS_TEST
+            // TODO_TEST_PANOS
             if (quantity < 1)
                 throw new ArgumentException(string.Format("Quantity has value '{0}' which is less than 1.", quantity));
 
@@ -68,7 +68,7 @@ namespace Epsilon.Logic.Services
             string userId, TokenRewardKey tokenRewardKey, Guid? internalReference,
             string externalReference = null, int quantity = 1)
         {
-            // TODO_PANOS_TEST
+            // TODO_TEST_PANOS
             if (quantity < 1)
                 return TokenAccountTransactionStatus.WrongQuantity;
 
@@ -95,7 +95,7 @@ namespace Epsilon.Logic.Services
             string userId, decimal totalAmount, TokenRewardKey tokenRewardKey, Guid? internalReference, 
             string externalReference = null, int quantity = 1)
         {
-            // TODO_PANOS_TEST
+            // TODO_TEST_PANOS
             switch (tokenRewardKey.AmountSign())
             {
                 case TokenRewardKeyAmountSign.Positive:

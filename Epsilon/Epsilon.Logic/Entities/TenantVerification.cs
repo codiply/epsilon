@@ -30,7 +30,7 @@ namespace Epsilon.Logic.Entities
 
         public bool MarkedAddressAsInvalid()
         {
-            // TODO_PANOS_TEST
+            // TODO_TEST_PANOS
             return MarkedAddressAsInvalidOn.HasValue;
         }
 
@@ -56,7 +56,7 @@ namespace Epsilon.Logic.Entities
 
         public bool CanViewInstructions(DateTimeOffset now, TimeSpan expiryPeriod)
         {
-            // TODO_PANOS_TEST
+            // TODO_TEST_PANOS
             return !MarkedAddressAsInvalid() && now < ExpiresOn(expiryPeriod);
         }
 
@@ -67,7 +67,7 @@ namespace Epsilon.Logic.Entities
 
         public DateTimeOffset ExpiresOn(TimeSpan expiryPeriod)
         {
-            // TODO_PANOS_TEST
+            // TODO_TEST_PANOS
             return CreatedOn + expiryPeriod;
         }
 

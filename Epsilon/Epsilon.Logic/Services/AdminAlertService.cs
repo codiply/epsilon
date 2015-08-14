@@ -44,7 +44,7 @@ namespace Epsilon.Logic.Services
             _smtpService = smtpService;
         }
 
-        // TODO_PANOS_TEST
+        // TODO_TEST_PANOS
         public void SendAlert(string key, bool doNotUseDatabase = false)
         {
             try
@@ -71,7 +71,7 @@ namespace Epsilon.Logic.Services
             }
         }
 
-        // TODO_PANOS_TEST
+        // TODO_TEST_PANOS
         private bool IsNotAllowedToSendAgain(string key, bool doNotUseDatabase)
         {
             var appCacheContainsKey = _appCache.ContainsKey(AppCacheKey.AdminAlertSent(key)); 
@@ -115,12 +115,12 @@ namespace Epsilon.Logic.Services
             {
                 message.To.Add(new MailAddress(em, em));
             }
-            _smtpService.Send(message);
+            _smtpService.Send(message, allowThrowException: true);
         }
 
         private void RecordAlertSent(string key, bool doNotUseDatabase)
         {
-            // TODO_PANOS_TEST
+            // TODO_TEST_PANOS
             var value = _appCache.Get(AppCacheKey.AdminAlertSent(key),
                 () => "value-is-irrelevant", _adminAlertServiceConfig.SnoozePeriod, WithLock.No);
 

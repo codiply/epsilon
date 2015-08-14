@@ -12,7 +12,7 @@ using Epsilon.Logic.Configuration.Interfaces;
 
 namespace Epsilon.Logic.Wrappers
 {
-    // TODO_PANOS_TEST
+    // TODO_TEST_PANOS
     public class GeoipClient : IGeoipClient
     {
         private readonly IWebClientFactory _webClientFactory;

@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Epsilon.Logic.Wrappers
 {
-    // TODO_PANOS_TEST
+    // TODO_TEST_PANOS
     public class GeoipRotatingClient : IGeoipRotatingClient
     {
         private readonly IGeoipRotatingClientConfig _geoipRotatingClientConfig;
@@ -49,7 +49,7 @@ namespace Epsilon.Logic.Wrappers
         public async Task<GeoipClientResponse> Geoip(string ipAddress, int rotationNo = 1)
         {
             bool hasFailedOnce = false;
-            // TODO_PANOS_TEST
+            // TODO_TEST_PANOS
             foreach (var providerName in _providerNames)
             {
                 var response = await _geoipClient.Geoip(providerName, ipAddress);

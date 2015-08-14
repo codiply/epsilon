@@ -65,7 +65,7 @@ namespace Epsilon.Logic.Services
         public async Task<MySubmissionsSummaryResponse> GetUserSubmissionsSummaryWithCaching(
             string userId, bool limitItemsReturned)
         {
-            // TODO_PANOS_TEST: unit test
+            // TODO_TEST_PANOS: unit test
             return await _appCache.GetAsync(
                 AppCacheKey.GetUserSubmissionsSummary(userId, limitItemsReturned),
                 () => GetUserSubmissionsSummary(userId, limitItemsReturned), 
@@ -167,14 +167,14 @@ namespace Epsilon.Logic.Services
                 });
 
                 RemoveCachedUserSubmissionsSummary(userId);
-                // TODO_PANOS_TEST
+                // TODO_TEST_PANOS
                 _userInterfaceCustomisationService.ClearCachedCustomisationForUser(userId);
 
                 return new CreateTenancyDetailsSubmissionOutcome
                 {
                     IsRejected = false,
                     TenancyDetailsSubmissionUniqueId = tenancyDetailsSubmission.UniqueId,
-                    // TODO_PANOS_TEST
+                    // TODO_TEST_PANOS
                     UiAlerts = uiAlerts
                 };
             }
@@ -232,7 +232,7 @@ namespace Epsilon.Logic.Services
 
                 var hasSenderBeenRewarded = verification.IsSenderRewarded();
                 if (!hasSenderBeenRewarded)
-                    verification.SenderRewardedOn = _clock.OffsetNow; // TODO_PANOS_TEST
+                    verification.SenderRewardedOn = _clock.OffsetNow; // TODO_TEST_PANOS
 
                 verification.VerifiedOn = _clock.OffsetNow;
                 _dbContext.Entry(verification).State = EntityState.Modified;
@@ -244,7 +244,7 @@ namespace Epsilon.Logic.Services
                     Message = TenancyDetailsSubmissionResources.EnterVerificationCode_SuccessMessage
                 });
 
-                // TODO_PANOS_TEST: also test the correct internal reference is used.
+                // TODO_TEST_PANOS: also test the correct internal reference is used.
                 var recipientRewardStatus = await _userTokenService.MakeTransaction(userId, TokenRewardKey.EarnPerVerificationCodeEntered, submission.UniqueId);
                 if (recipientRewardStatus == TokenAccountTransactionStatus.Success)
                 {
@@ -256,7 +256,7 @@ namespace Epsilon.Logic.Services
                 }
                 else
                 {
-                    // TODO_PANOS_TEST
+                    // TODO_TEST_PANOS
                     // TODO_PANOS: return failure before committing the transaction later on. 
                     // Use generic message as this shouldn't fail.
                     // Log exception
@@ -265,12 +265,12 @@ namespace Epsilon.Logic.Services
 
                 if (!hasSenderBeenRewarded)
                 {
-                    // TODO_PANOS_TEST: also test the correct internal reference is used.
+                    // TODO_TEST_PANOS: also test the correct internal reference is used.
                     var senderRewardStatus = await _userTokenService
                         .MakeTransaction(verification.AssignedToId, TokenRewardKey.EarnPerVerificationMailSent, verification.UniqueId);
                     if (senderRewardStatus != TokenAccountTransactionStatus.Success)
                     {
-                        // TODO_PANOS_TEST
+                        // TODO_TEST_PANOS
                         // TODO_PANOS: return failure before committing the transaction later on. 
                         // Use generic message as this shouldn't fail.
                         // Log exception
@@ -279,18 +279,18 @@ namespace Epsilon.Logic.Services
                 }
 
                 // TODO_PANOS: commit the transaction down here
-                // TODO_PANOS_TEST
+                // TODO_TEST_PANOS
                 transactionScope.Complete();
 
                 RemoveCachedUserSubmissionsSummary(userId);
-                // TODO_PANOS_TEST
+                // TODO_TEST_PANOS
                 _userInterfaceCustomisationService.ClearCachedCustomisationForUser(userId);
 
                 return new EnterVerificationCodeOutcome
                 {
                     IsRejected = false,
                     ReturnToForm = false,
-                    // TODO_PANOS_TEST
+                    // TODO_TEST_PANOS
                     UiAlerts = uiAlerts
                 };
             }
@@ -323,7 +323,7 @@ namespace Epsilon.Logic.Services
 
                 form.ApplyOnEntity(submission);
                 submission.SubmittedOn = _clock.OffsetNow;
-                // TODO_PANOS_TEST
+                // TODO_TEST_PANOS
                 submission.CurrencyId = submission.Address.Country.CurrencyId;
 
                 _dbContext.Entry(submission).State = EntityState.Modified;
@@ -332,11 +332,11 @@ namespace Epsilon.Logic.Services
                 uiAlerts.Add(new UiAlert
                 {
                     Type = UiAlertType.Success,
-                    // TODO_PANOS_TEST
+                    // TODO_TEST_PANOS
                     Message = TenancyDetailsSubmissionResources.SubmitTenancyDetails_SuccessMessage
                 });
 
-                // TODO_PANOS_TEST: also test the correct internal reference is used.
+                // TODO_TEST_PANOS: also test the correct internal reference is used.
                 var rewardStatus = await _userTokenService.MakeTransaction(userId, TokenRewardKey.EarnPerTenancyDetailsSubmission, submission.UniqueId);
                 if (rewardStatus == TokenAccountTransactionStatus.Success)
                 {
@@ -348,15 +348,14 @@ namespace Epsilon.Logic.Services
                 }
                 else
                 {
-                    // TODO_PANOS_TEST
+                    // TODO_TEST_PANOS
                     // TODO_PANOS: return failure before committing the transaction later on. 
                     // Use generic message as this shouldn't fail.
                     // Log exception
                     // Send AdminAlert
                 }
 
-                // TODO_PANOS: commit the transaction down here
-                // TODO_PANOS_TEST
+                // TODO_TEST_PANOS
                 transactionScope.Complete();
 
                 RemoveCachedUserSubmissionsSummary(userId);
@@ -371,7 +370,7 @@ namespace Epsilon.Logic.Services
 
         public async Task<GetSubmissionAddressOutcome> GetSubmissionAddress(string userId, Guid submissionUniqueId)
         {
-            // TODO_PANOS_TEST
+            // TODO_TEST_PANOS
             var submission = await _dbContext.TenancyDetailsSubmissions
                 .Where(s => s.UniqueId.Equals(submissionUniqueId))
                 .Where(s => s.UserId.Equals(userId))

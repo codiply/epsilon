@@ -37,7 +37,7 @@ namespace Epsilon.Web
                 IsBodyHtml = true
             };
             mailMessage.To.Add(new MailAddress(message.Destination, message.Destination));
-            _smtpService.Send(mailMessage);
+            _smtpService.Send(mailMessage, allowThrowException: true);
 
             return Task.FromResult(0);
         }

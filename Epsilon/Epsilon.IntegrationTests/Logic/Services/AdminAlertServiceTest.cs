@@ -32,7 +32,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             SetupConfig(container, applicationName, emailList, snoozePeriod);
 
             MailMessage mailMessage = null;
-            SetupSmtpService(container, x => mailMessage = x);
+            SetupSmtpService(container, (x, allowThrow) => mailMessage = x); // TODO_TEST_PANOS: check allowThrow
 
             var service = container.Get<IAdminAlertService>();
 
@@ -85,7 +85,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             SetupConfig(container, applicationName, emailList, snoozePeriod);
 
             MailMessage mailMessage1 = null;
-            SetupSmtpService(container, x => mailMessage1 = x);
+            SetupSmtpService(container, (x, allowThrow) => mailMessage1 = x); // TODO_TEST_PANOS: check allowThrow
             var service1 = container.Get<IAdminAlertService>();
 
             var time1 = DateTimeOffset.Now;
@@ -95,7 +95,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var time2 = DateTimeOffset.Now;
 
             MailMessage mailMessage2 = null;
-            SetupSmtpService(container, x => mailMessage2 = x);
+            SetupSmtpService(container, (x, allowThrow) => mailMessage2 = x); // TODO_TEST_PANOS: check allowThrow
             var service2 = container.Get<IAdminAlertService>();
 
             service2.SendAlert(adminAlertKey);
@@ -105,7 +105,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             await Task.Delay(snoozePeriod);
 
             MailMessage mailMessage3 = null;
-            SetupSmtpService(container, x => mailMessage3 = x);
+            SetupSmtpService(container, (x, allowThrow) => mailMessage3 = x); // TODO_TEST_PANOS: check allowThrow
             var service3 = container.Get<IAdminAlertService>();
 
             service3.SendAlert(adminAlertKey);
@@ -127,10 +127,10 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.IsNotNull(mailMessage3, "An email should be sent the third time.");
         }
 
-        private static void SetupSmtpService(IKernel container, Action<MailMessage> callback)
+        private static void SetupSmtpService(IKernel container, Action<MailMessage, bool> callback)
         {
             var mockSmtpService = new Mock<ISmtpService>();
-            mockSmtpService.Setup(x => x.Send(It.IsAny<MailMessage>())).Callback(callback);
+            mockSmtpService.Setup(x => x.Send(It.IsAny<MailMessage>(), It.IsAny<bool>())).Callback(callback);
 
             container.Rebind<ISmtpService>().ToConstant(mockSmtpService.Object);
         }

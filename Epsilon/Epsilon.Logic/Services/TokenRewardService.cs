@@ -42,7 +42,7 @@ namespace Epsilon.Logic.Services
 
         public TokenRewardsSummaryResponse GetTokenRewardsSummary()
         {
-            // TODO_PANOS_TEST: all
+            // TODO_TEST_PANOS: all
             var currentScheme = GetCurrentScheme();
             var rewards = currentScheme.Rewards
                 .Select(r => new { TypeKey = r.TypeKeyAsEnum, Reward = r })
@@ -62,7 +62,7 @@ namespace Epsilon.Logic.Services
 
         public TokenRewardMetadata GetAllTokenRewardMetadata()
         {
-            // TODO_PANOS_TEST:
+            // TODO_TEST_PANOS:
             return new TokenRewardMetadata
             {
                 typeMetadata = _tokenRewardMetadataHelper.GetAll()
@@ -71,7 +71,7 @@ namespace Epsilon.Logic.Services
 
         public TokenRewardScheme GetCurrentScheme()
         {
-            // TODO_PANOS_TEST
+            // TODO_TEST_PANOS
             var now = _clock.OffsetNow;
             return _appCache.Get(AppCacheKey.CURRENT_TOKEN_REWARD_SCHEME, 
                 () => {
@@ -102,7 +102,7 @@ namespace Epsilon.Logic.Services
 
         public TokenReward GetCurrentReward(TokenRewardKey rewardKey)
         {
-            // TODO_PANOS_TEST
+            // TODO_TEST_PANOS
             var currentScheme = GetCurrentScheme();
             var keyToString = EnumsHelper.TokenRewardKey.ToString(rewardKey);
             var currentReward = currentScheme.Rewards

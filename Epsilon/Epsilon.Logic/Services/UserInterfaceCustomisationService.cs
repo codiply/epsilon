@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Epsilon.Logic.Services
 {
-    // TODO_PANOS_TEST
+    // TODO_TEST_PANOS
     public class UserInterfaceCustomisationService : IUserInterfaceCustomisationService
     {
         private readonly IEpsilonContext _dbContext;

@@ -18,7 +18,7 @@ using System.Threading.Tasks;
 
 namespace Epsilon.Logic.Services
 {
-    // TODO_PANOS_TEST: whole thing
+    // TODO_TEST_PANOS: whole thing
     public class GeoipInfoService : IGeoipInfoService
     {
         private readonly IClock _clock;

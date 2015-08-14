@@ -25,19 +25,19 @@ namespace Epsilon.Logic.Entities
 
         public DateTimeOffset ExpiresOn(TimeSpan expiryPeriod)
         {
-            // TODO_PANOS_TEST
+            // TODO_TEST_PANOS
             return CreatedOn + expiryPeriod;
         }
 
         public bool CanViewInfo(DateTimeOffset now, TimeSpan expiryPeriod)
         {
-            // TODO_PANOS_TEST
+            // TODO_TEST_PANOS
             return now < ExpiresOn(expiryPeriod);
         }
 
         public ExploredPropertyInfo ToExploredPropertyInfo(DateTimeOffset now, TimeSpan expiryPeriod)
         {
-            // TODO_PANOS_TEST
+            // TODO_TEST_PANOS
             return new ExploredPropertyInfo
             {
                 accessUniqueId = UniqueId,

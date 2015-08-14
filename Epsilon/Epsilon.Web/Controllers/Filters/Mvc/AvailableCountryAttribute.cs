@@ -29,7 +29,7 @@ namespace Epsilon.Web.Controllers.Filters.Mvc
 
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            // TODO_PANOS_TEST
+            // TODO_TEST_PANOS
             if (DbAppSettingsHelper.GetBool(DbAppSettingKey.GlobalSwitch_DisableUseOfGeoipInformation) == true)
                 return;
 

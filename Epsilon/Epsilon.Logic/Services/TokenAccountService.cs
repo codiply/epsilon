@@ -48,7 +48,7 @@ namespace Epsilon.Logic.Services
 
         public async Task<bool> SufficientFundsExistForTransaction(string accountId, Decimal amount)
         {
-            // TODO_PANOS_TEST: whole function
+            // TODO_TEST_PANOS: whole function
             if (amount >= 0.0M)
                 return true;
 
@@ -65,7 +65,7 @@ namespace Epsilon.Logic.Services
             string externalReference = null,
             int quantity = 1)
         {
-            // TODO_PANOS_TEST
+            // TODO_TEST_PANOS
             if (quantity < 1)
                 return TokenAccountTransactionStatus.WrongQuantity;
 
@@ -138,57 +138,61 @@ namespace Epsilon.Logic.Services
 
         public async Task MakeSnapshot(string accountId)
         {
-            // TODO_PANOS: wrap in a transaction
-            var account = await _dbContext.TokenAccounts.FindAsync(accountId);
-
-            if (account == null)
-                throw new ArgumentException(string.Format("No account found for acountId: '{0}'", accountId));
-
-            var lastSnapshot = await GetLastSnapshot(account.Id);
-
-            var newSnapshot = new TokenAccountSnapshot
+            using (var transactionScope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
-                AccountId = accountId,
-                IsFinalised = false
-            };
-            _dbContext.TokenAccountSnapshots.Add(newSnapshot);
-            await _dbContext.SaveChangesAsync();
+                var account = await _dbContext.TokenAccounts.FindAsync(accountId);
 
-            decimal newSnapshotBalance;
-            if (lastSnapshot == null)
-            {
-                newSnapshotBalance = await _dbContext.TokenAccountTransactions
-                    .Where(tr => tr.AccountId.Equals(account.Id))
-                    .Where(tr => tr.MadeOn < newSnapshot.MadeOn)
-                    .Select(tr => tr.Amount)
-                    .DefaultIfEmpty(0.0M)
-                    .SumAsync();
+                if (account == null)
+                    throw new ArgumentException(string.Format("No account found for acountId: '{0}'", accountId));
+
+                var lastSnapshot = await GetLastSnapshot(account.Id);
+
+                var newSnapshot = new TokenAccountSnapshot
+                {
+                    AccountId = accountId,
+                    IsFinalised = false
+                };
+                _dbContext.TokenAccountSnapshots.Add(newSnapshot);
+                await _dbContext.SaveChangesAsync();
+
+                decimal newSnapshotBalance;
+                if (lastSnapshot == null)
+                {
+                    newSnapshotBalance = await _dbContext.TokenAccountTransactions
+                        .Where(tr => tr.AccountId.Equals(account.Id))
+                        .Where(tr => tr.MadeOn < newSnapshot.MadeOn)
+                        .Select(tr => tr.Amount)
+                        .DefaultIfEmpty(0.0M)
+                        .SumAsync();
+                }
+                else
+                {
+                    var newTransactionsSum = await _dbContext.TokenAccountTransactions
+                        .Where(tr => tr.AccountId.Equals(account.Id))
+                        .Where(tr => lastSnapshot.MadeOn <= tr.MadeOn && tr.MadeOn < newSnapshot.MadeOn)
+                        .Select(tr => tr.Amount)
+                        .DefaultIfEmpty(0.0M)
+                        .SumAsync();
+                    newSnapshotBalance = lastSnapshot.Balance + newTransactionsSum;
+                }
+
+                newSnapshot.Balance = newSnapshotBalance;
+                newSnapshot.IsFinalised = true;
+                _dbContext.Entry(newSnapshot).State = EntityState.Modified;
+
+                account.LastSnapshotOn = newSnapshot.MadeOn;
+                _dbContext.Entry(account).State = EntityState.Modified;
+
+                await _dbContext.SaveChangesAsync();
+
+                transactionScope.Complete();
             }
-            else
-            {
-                var newTransactionsSum = await _dbContext.TokenAccountTransactions
-                    .Where(tr => tr.AccountId.Equals(account.Id))
-                    .Where(tr => lastSnapshot.MadeOn <= tr.MadeOn && tr.MadeOn < newSnapshot.MadeOn)
-                    .Select(tr => tr.Amount)
-                    .DefaultIfEmpty(0.0M)
-                    .SumAsync();
-                newSnapshotBalance = lastSnapshot.Balance + newTransactionsSum;
-            }
-
-            newSnapshot.Balance = newSnapshotBalance;
-            newSnapshot.IsFinalised = true;
-            _dbContext.Entry(newSnapshot).State = EntityState.Modified;
-
-            account.LastSnapshotOn = newSnapshot.MadeOn;
-            _dbContext.Entry(account).State = EntityState.Modified;
-
-            await _dbContext.SaveChangesAsync();
         }
 
         public async Task<MyTokenTransactionsPageResponse> GetMyTokenTransactionsNextPage(
             string accountId, MyTokenTransactionsPageRequest request, int pageSize)
         {
-            // TODO_PANOS_TEST: the whole thing
+            // TODO_TEST_PANOS: the whole thing
             var query = _dbContext.TokenAccountTransactions
                 .OrderByDescending(x => x.MadeOn)
                 .Where(x => x.AccountId.Equals(accountId));

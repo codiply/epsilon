@@ -196,7 +196,7 @@ namespace Epsilon.Web.Controllers
                     IsBodyHtml = true
                 };
                 message.To.Add(new MailAddress(model.ToEmailAddress, model.ToDisplayName));
-                _smtpService.Send(message);
+                _smtpService.Send(message, allowThrowException: true);
 
                 Success(String.Format("Message sent to <strong>{0}<strong>.", model.ToEmailAddress), true);
                 return RedirectToAction("Index");

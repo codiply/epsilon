@@ -33,7 +33,7 @@ namespace Epsilon.Logic.Models
         /// <returns></returns>
         public static AddressModel FromEntity(Address address)
         {
-            // TODO_PANOS_TEST
+            // TODO_TEST_PANOS
             return new AddressModel
             {
                 Line1 = address.Line1,

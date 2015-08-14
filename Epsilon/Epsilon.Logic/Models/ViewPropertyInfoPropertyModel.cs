@@ -22,7 +22,7 @@ namespace Epsilon.Logic.Models
         /// <returns></returns>
         public static ViewPropertyInfoPropertyModel FromAddress(Address entity, ICurrencyService currencyService)
         {
-            // TODO_PANOS_TEST
+            // TODO_TEST_PANOS
             var completeSubmissions = entity.TenancyDetailsSubmissions
                 .Where(s => s.SubmittedOn.HasValue)
                 .Select(s => ViewPropertyInfoPropertySubmissionModel.FromTenancyDetailsSubmission(s, currencyService))

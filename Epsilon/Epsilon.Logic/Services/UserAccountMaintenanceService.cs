@@ -15,7 +15,7 @@ using Epsilon.Logic.Helpers;
 
 namespace Epsilon.Logic.Services
 {
-    // TODO_PANOS_TEST: whole thing
+    // TODO_TEST_PANOS: whole thing
     public class UserAccountMaintenanceService : IUserAccountMaintenanceService
     {
         private readonly IClock _clock;

@@ -12,7 +12,7 @@ namespace Epsilon.Logic.Helpers
 {
     public class TokenRewardMetadataHelper : ITokenRewardMetadataHelper
     {
-        // TODO_PANOS_TEST: everything here
+        // TODO_TEST_PANOS: everything here
 
         public IList<TokenRewardTypeMetadata> GetAll()
         {

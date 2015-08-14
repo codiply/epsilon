@@ -1,4 +1,5 @@
 ﻿using Epsilon.Logic.Constants;
+using Epsilon.Logic.Helpers;
 using Epsilon.Logic.Helpers.Interfaces;
 using Epsilon.Logic.Services.Interfaces;
 using Epsilon.Logic.Wrappers;
@@ -25,7 +26,7 @@ namespace Epsilon.Logic.Services
             _appSettingsHelper = appSettingsHelper;
         }
 
-        public void Send(MailMessage message)
+        public void Send(MailMessage message, bool allowThrowException)
         {
             try {
                 var client = _smtpClientWrapperFactory.CreateSmtpClientWrapper();
@@ -54,8 +55,10 @@ namespace Epsilon.Logic.Services
             }
             catch (Exception ex)
             {
-                // TODO_PANOS: decide whether to throw or just log the exception.
-                throw ex;
+                if (allowThrowException)
+                    throw ex;
+                else
+                    ElmahHelper.Raise(ex);
             }
         }
     }

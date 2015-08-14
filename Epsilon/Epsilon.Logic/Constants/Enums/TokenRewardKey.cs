@@ -13,7 +13,7 @@ namespace Epsilon.Logic.Constants.Enums
     // NOTE 1: These keys should match the keys of TokenRewardType's in the database (see reference data in database project).
     // NOTE 2: Each new key needs to have a DisplayName and Description defined in TokenRewardKeyResources.
 
-    // TODO_PANOS_TEST: unit test for Note 2 above.
+    // TODO_TEST_PANOS: unit test for Note 2 above.
 
     public enum TokenRewardKey
     {

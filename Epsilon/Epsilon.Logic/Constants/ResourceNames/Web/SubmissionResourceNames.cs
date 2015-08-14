@@ -8,7 +8,7 @@ namespace Epsilon.Logic.Constants.ResourceNames.Web
 {
     public static class SubmissionResourceName
     {
-        // TODO_PANOS_TEST: possibly using reflection, enumerate the names here and make sure there is a resource for all of them.
+        // TODO_TEST_PANOS: possibly using reflection, enumerate the names here and make sure there is a resource for all of them.
 
         public const string SubmitTenancyDetailsForm_FieldNumberOfBedrooms_DisplayName = "SubmitTenancyDetailsForm_FieldNumberOfBedrooms_DisplayName";
         public const string SubmitTenancyDetailsForm_FieldNumberOfBedrooms_RangeErrorMessage = "SubmitTenancyDetailsForm_FieldNumberOfBedrooms_RangeErrorMessage";

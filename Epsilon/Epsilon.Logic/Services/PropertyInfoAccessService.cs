@@ -51,7 +51,7 @@ namespace Epsilon.Logic.Services
         public async Task<MyExploredPropertiesSummaryResponse> GetUserExploredPropertiesSummaryWithCaching(
             string userId, bool limitItemsReturned)
         {
-            // TODO_PANOS_TEST: unit test
+            // TODO_TEST_PANOS: unit test
             return await _appCache.GetAsync(
                 AppCacheKey.GetUserExploredPropertiesSummary(userId, limitItemsReturned),
                 () => GetUserExploredPropertiesSummary(userId, limitItemsReturned),
@@ -63,10 +63,10 @@ namespace Epsilon.Logic.Services
         {
             var expiryPeriod = ExpiryPeriod();
             var now = _clock.OffsetNow;
-            // TODO_PANOS_TEST
+            // TODO_TEST_PANOS
             var cutoff = now - expiryPeriod;
 
-            // TODO_PANOS_TEST: test the whole thing
+            // TODO_TEST_PANOS: test the whole thing
             var query = _dbContext.PropertyInfoAccesses
                 .Include(x => x.Address)
                 .Include(x => x.Address.Country)
@@ -114,14 +114,14 @@ namespace Epsilon.Logic.Services
                         PropertyInfoAccessUniqueId = null
                     };
 
-                // TODO_PANOS_TEST: the whole thing
+                // TODO_TEST_PANOS: the whole thing
 
                 var uiAlerts = new List<UiAlert>();
 
                 var address = await _addressService.GetAddress(addressUniqueId);
                 if (address == null)
                 {
-                    // TODO_PANOS_TEST
+                    // TODO_TEST_PANOS
                     return new CreatePropertyInfoAccessOutcome
                     {
                         IsRejected = true,
@@ -132,7 +132,7 @@ namespace Epsilon.Logic.Services
                 var existingPropertyInfoAccess = await GetExistingUnexpiredAccess(userId, addressUniqueId);
                 if (existingPropertyInfoAccess != null)
                 {
-                    // TODO_PANOS_TEST
+                    // TODO_TEST_PANOS
                     return new CreatePropertyInfoAccessOutcome
                     {
                         IsRejected = true,
@@ -144,7 +144,7 @@ namespace Epsilon.Logic.Services
 
                 if (!completeSubmissionsExist)
                 {
-                    // TODO_PANOS_TEST
+                    // TODO_TEST_PANOS
                     return new CreatePropertyInfoAccessOutcome
                     {
                         IsRejected = true,
@@ -182,7 +182,6 @@ namespace Epsilon.Logic.Services
                     };
                 }
 
-                // TODO_PANOS: commit the transaction here.
                 transactionScope.Complete();
 
                 uiAlerts.Add(new UiAlert
@@ -198,7 +197,7 @@ namespace Epsilon.Logic.Services
                 {
                     IsRejected = false,
                     PropertyInfoAccessUniqueId = propertyInfoAccess.UniqueId,
-                    // TODO_PANOS_TEST
+                    // TODO_TEST_PANOS
                     UiAlerts = uiAlerts
                 };
             }
@@ -206,11 +205,11 @@ namespace Epsilon.Logic.Services
 
         public async Task<GetInfoOutcome> GetInfo(string userId, Guid accessUniqueId)
         {
-            // TODO_PANOS_TEST
+            // TODO_TEST_PANOS
             var access = await GetPropertyInfoAccessForUser(userId, accessUniqueId, includeAddress: true, includeSubmissions: true);
             if (access == null)
             {
-                // TODO_PANOS_TEST
+                // TODO_TEST_PANOS
                 return new GetInfoOutcome
                 {
                     IsRejected = true,
@@ -223,7 +222,7 @@ namespace Epsilon.Logic.Services
 
             if (!access.CanViewInfo(now, expiryPeriod))
             {
-                // TODO_PANOS_TEST
+                // TODO_TEST_PANOS
                 return new GetInfoOutcome
                 {
                     IsRejected = true,
@@ -247,7 +246,7 @@ namespace Epsilon.Logic.Services
 
         public async Task<Guid?> GetExistingUnexpiredAccessUniqueId(string userId, Guid addressUniqueId)
         {
-            // TODO_PANOS_TEST
+            // TODO_TEST_PANOS
             var existingUnexpiredAccess = await GetExistingUnexpiredAccess(userId, addressUniqueId);
             if (existingUnexpiredAccess == null)
                 return null;
@@ -311,7 +310,7 @@ namespace Epsilon.Logic.Services
 
         private async Task<PropertyInfoAccess> GetExistingUnexpiredAccess(string userId, Guid addressUniqueId)
         {
-            // TODO_PANOS_TEST
+            // TODO_TEST_PANOS
             var cutoff = _clock.OffsetNow - ExpiryPeriod();
 
             var propertyInfoAccess = await _dbContext.PropertyInfoAccesses

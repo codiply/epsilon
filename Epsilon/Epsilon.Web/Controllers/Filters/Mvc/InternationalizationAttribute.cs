@@ -55,7 +55,8 @@ namespace Epsilon.Web.Controllers.Filters.Mvc
             {
                 var userId = filterContext.HttpContext.User.Identity.GetUserId();
                 var userPreference = UserPreferenceService.Get(userId);
-                languageId = userPreference.LanguageId;
+                if (userPreference != null)
+                    languageId = userPreference.LanguageId;
             }
 
             // Attempt 2: Get it from the url

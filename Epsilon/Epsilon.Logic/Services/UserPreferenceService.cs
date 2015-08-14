@@ -40,7 +40,7 @@ namespace Epsilon.Logic.Services
             {
                 Id = userId,
                 LanguageId = languageId.ToLower(),
-                UpdatedOn = _clock.OffsetNow // TODO_PANOS_TEST
+                UpdatedOn = _clock.OffsetNow // TODO_TEST_PANOS
             };
             _dbContext.UserPreferences.Add(newUserPreference);
             await _dbContext.SaveChangesAsync();
@@ -68,7 +68,7 @@ namespace Epsilon.Logic.Services
             }
         }
 
-        // TODO_PANOS_TEST
+        // TODO_TEST_PANOS
         public async Task<ChangePreferencesOutcome> ChangePreferences(string userId, ChangePreferencesForm form)
         {
             var userPreference = await _dbContext.UserPreferences.FindAsync(userId);
@@ -95,11 +95,11 @@ namespace Epsilon.Logic.Services
             }
             else
             {
-                userPreference.LanguageId = form.LanguageId; // TODO_PANOS_TEST
+                userPreference.LanguageId = form.LanguageId; // TODO_TEST_PANOS
             }
 
             // Timestamp the preferences and save
-            userPreference.UpdatedOn = _clock.OffsetNow; // TODO_PANOS_TEST
+            userPreference.UpdatedOn = _clock.OffsetNow; // TODO_TEST_PANOS
             _dbContext.Entry(userPreference).State = EntityState.Modified;
             var result = await _dbContext.SaveChangesAsync();
 

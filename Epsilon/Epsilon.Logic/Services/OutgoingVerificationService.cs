@@ -24,7 +24,7 @@ using Epsilon.Logic.Entities.Interfaces;
 
 namespace Epsilon.Logic.Services
 {
-    // TODO_PANOS_TEST
+    // TODO_TEST_PANOS
     public class OutgoingVerificationService : IOutgoingVerificationService
     {
         private readonly IClock _clock;
@@ -55,7 +55,7 @@ namespace Epsilon.Logic.Services
 
         public async Task<bool> VerificationIsAssignedToUser(string userId, Guid verificationUniqueId)
         {
-            // TODO_PANOS_TEST
+            // TODO_TEST_PANOS
             var verification = await _dbContext.TenantVerifications
                 .SingleOrDefaultAsync(v => v.AssignedToId.Equals(userId) && v.UniqueId.Equals(verificationUniqueId));
             return verification != null;
@@ -64,7 +64,7 @@ namespace Epsilon.Logic.Services
         public async Task<MyOutgoingVerificationsSummaryResponse> GetUserOutgoingVerificationsSummaryWithCaching(
             string userId, bool limitItemsReturned)
         {
-            // TODO_PANOS_TEST: unit test
+            // TODO_TEST_PANOS: unit test
             return await _appCache.GetAsync(
                 AppCacheKey.GetUserOutgoingVerificationsSummary(userId, limitItemsReturned), 
                 () => GetUserOutgoingVerificationsSummary(userId, limitItemsReturned), 
@@ -125,7 +125,7 @@ namespace Epsilon.Logic.Services
                     };
 
                 var userResidence = await _userResidenceService.GetResidence(userId);
-                // TODO_PANOS_TEST
+                // TODO_TEST_PANOS
                 if (userResidence == null)
                 {
                     return new PickVerificationOutcome
@@ -147,22 +147,22 @@ namespace Epsilon.Logic.Services
                         VerificationUniqueId = null
                     };
 
-                // TODO_PANOS_TEST
+                // TODO_TEST_PANOS
                 var verificationsPerTenancyDetailsSubmission = _outgoingVerificationServiceConfig.VerificationsPerTenancyDetailsSubmission;
 
-                // TODO_PANOS_TEST
+                // TODO_TEST_PANOS
                 var submissionIdsToAvoid = await _dbContext.TenantVerifications
                     .Where(v => v.AssignedToId.Equals(userId) || v.AssignedByIpAddress.Equals(userIpAddress))
                     .Select(v => v.TenancyDetailsSubmissionId)
                     .Distinct()
                     .ToListAsync();
 
-                // TODO_PANOS_TEST: all where clauses below
-                // TODO_PANOS: pick a submission from the same country.
+                // TODO_TEST_PANOS: all where clauses below
                 var pickedSubmission = await _dbContext.TenancyDetailsSubmissions
                     .Include(s => s.Address)
                     .Include(s => s.TenantVerifications)
-                    .Where(x => !x.IsHidden) // TODO_PANOS_TEST
+                    .Where(x => x.Address.CountryId.Equals(userResidence.Address.CountryId)) // TODO_TEST_PANOS
+                    .Where(x => !x.IsHidden) // TODO_TEST_PANOS
                     .Where(s => s.UserId != userId)
                     .Where(s => s.CreatedByIpAddress != userIpAddress)
                     .Where(s => s.Address.CreatedById != userId)
@@ -175,7 +175,7 @@ namespace Epsilon.Logic.Services
 
                 if (pickedSubmission == null)
                 {
-                    // TODO_PANOS_TEST
+                    // TODO_TEST_PANOS
                     return new PickVerificationOutcome
                     {
                         IsRejected = true,
@@ -198,13 +198,13 @@ namespace Epsilon.Logic.Services
                 _dbContext.TenantVerifications.Add(tenantVerification);
                 await _dbContext.SaveChangesAsync();
 
-                // TODO_PANOS_TEST
+                // TODO_TEST_PANOS
                 transactionScope.Complete();
 
                 uiAlerts.Add(new UiAlert
                 {
                     Type = Constants.Enums.UiAlertType.Success,
-                    // TODO_PANOS_TEST
+                    // TODO_TEST_PANOS
                     Message = string.Format(
                         OutgoingVerificationResources.Pick_SuccessMessage,
                         _outgoingVerificationServiceConfig.Instructions_ExpiryPeriodInDays)
@@ -212,7 +212,7 @@ namespace Epsilon.Logic.Services
 
                 RemoveCachedUserOutoingVerificationsSummary(userId);
 
-                // TODO_PANOS_TEST
+                // TODO_TEST_PANOS
                 return new PickVerificationOutcome
                 {
                     IsRejected = false,
@@ -224,13 +224,13 @@ namespace Epsilon.Logic.Services
 
         public async Task<GetVerificationMessageOutcome> GetVerificationMessage(string userId, Guid verificationUniqueId)
         {
-            // TODO_PANOS_TEST
+            // TODO_TEST_PANOS
 
             var verification = await GetVerificationForUser(userId, verificationUniqueId,
                 includeTenancyDetailsSubmission: true, includeAddress: true, includeOtherVerifications: false);
             if (verification == null)
             {
-                // TODO_PANOS_TEST
+                // TODO_TEST_PANOS
                 return new GetVerificationMessageOutcome
                 {
                     IsRejected = true,
@@ -243,7 +243,7 @@ namespace Epsilon.Logic.Services
 
             if (!verification.CanViewInstructions(now, expiryPeriod))
             {
-                // TODO_PANOS_TEST
+                // TODO_TEST_PANOS
                 return new GetVerificationMessageOutcome
                 {
                     IsRejected = true,
@@ -268,13 +268,13 @@ namespace Epsilon.Logic.Services
 
         public async Task<GetInstructionsOutcome> GetInstructions(string userId, Guid verificationUniqueId)
         {
-            // TODO_PANOS_TEST
+            // TODO_TEST_PANOS
 
             var verification = await GetVerificationForUser(userId, verificationUniqueId,
                 includeTenancyDetailsSubmission: true, includeAddress: true, includeOtherVerifications: true);
             if (verification == null)
             {
-                // TODO_PANOS_TEST
+                // TODO_TEST_PANOS
                 return new GetInstructionsOutcome
                 {
                     IsRejected = true,
@@ -287,7 +287,7 @@ namespace Epsilon.Logic.Services
 
             if (!verification.CanViewInstructions(now, expiryPeriod))
             {
-                // TODO_PANOS_TEST
+                // TODO_TEST_PANOS
                 return new GetInstructionsOutcome
                 {
                     IsRejected = true,
@@ -306,7 +306,6 @@ namespace Epsilon.Logic.Services
                 SecretCode = verification.SecretCode
             };
 
-            // TODO_PANOS
             var instructions = new OutgoingVerificationInstructionsModel
             {
                 RecipientAddress = reciepientAddress,
@@ -333,7 +332,7 @@ namespace Epsilon.Logic.Services
                 includeTenancyDetailsSubmission: false, includeAddress: false, includeOtherVerifications: false);
             if (verification == null)
             {
-                // TODO_PANOS_TEST
+                // TODO_TEST_PANOS
                 return new MarkVerificationAsSentOutcome
                 {
                     IsRejected = true,
@@ -343,7 +342,7 @@ namespace Epsilon.Logic.Services
 
             if (!verification.CanMarkAsSent())
             {
-                // TODO_PANOS_TEST
+                // TODO_TEST_PANOS
                 return new MarkVerificationAsSentOutcome
                 {
                     IsRejected = true,
@@ -351,7 +350,7 @@ namespace Epsilon.Logic.Services
                 };
             }
 
-            // TODO_PANOS_TEST
+            // TODO_TEST_PANOS
             verification.MarkedAsSentOn = _clock.OffsetNow;
             _dbContext.Entry(verification).State = EntityState.Modified;
             await _dbContext.SaveChangesAsync();
@@ -359,13 +358,13 @@ namespace Epsilon.Logic.Services
             uiAlerts.Add(new UiAlert
             {
                 Type = UiAlertType.Success,
-                // TODO_PANOS_TEST
+                // TODO_TEST_PANOS
                 Message = OutgoingVerificationResources.MarkAsSent_SuccessMessage
             });
 
             RemoveCachedUserOutoingVerificationsSummary(userId);
 
-            // TODO_PANOS_TEST
+            // TODO_TEST_PANOS
             return new MarkVerificationAsSentOutcome
             {
                 IsRejected = false,
@@ -382,7 +381,7 @@ namespace Epsilon.Logic.Services
                 includeTenancyDetailsSubmission: false, includeAddress: false, includeOtherVerifications: false);
             if (verification == null)
             {
-                // TODO_PANOS_TEST
+                // TODO_TEST_PANOS
                 return new MarkAddressAsInvalidOutcome
                 {
                     IsRejected = true,
@@ -392,7 +391,7 @@ namespace Epsilon.Logic.Services
 
             if (!verification.CanMarkAddressAsInvalid())
             {
-                // TODO_PANOS_TEST
+                // TODO_TEST_PANOS
                 return new MarkAddressAsInvalidOutcome
                 {
                     IsRejected = true,
@@ -400,7 +399,7 @@ namespace Epsilon.Logic.Services
                 };
             }
 
-            // TODO_PANOS_TEST
+            // TODO_TEST_PANOS
             verification.MarkedAddressAsInvalidOn = _clock.OffsetNow;
             _dbContext.Entry(verification).State = EntityState.Modified;
             await _dbContext.SaveChangesAsync();
@@ -408,13 +407,13 @@ namespace Epsilon.Logic.Services
             uiAlerts.Add(new UiAlert
             {
                 Type = UiAlertType.Success,
-                // TODO_PANOS_TEST
+                // TODO_TEST_PANOS
                 Message = OutgoingVerificationResources.MarkAddressAsInvalid_SuccessMessage
             });
 
             RemoveCachedUserOutoingVerificationsSummary(userId);
 
-            // TODO_PANOS_TEST
+            // TODO_TEST_PANOS
             return new MarkAddressAsInvalidOutcome
             {
                 IsRejected = false,

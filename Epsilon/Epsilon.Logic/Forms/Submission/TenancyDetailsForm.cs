@@ -74,7 +74,7 @@ namespace Epsilon.Logic.Forms.Submission
 
         public bool ReturnToSummary { get; set; }
 
-        // PANOS_TODO_TEST
+        // TODO_TEST_PANOS
         public void ApplyOnEntity(TenancyDetailsSubmission entity)
         {
             entity.RentPerMonth = RentPerMonth;

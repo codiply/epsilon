@@ -56,7 +56,7 @@ namespace Epsilon.Logic.Entities
             return sb.ToString();
         }
 
-        // TODO_PANOS_TEST
+        // TODO_TEST_PANOS
         public string LocalityRegionPostcode()
         {
             var pieces = new List<string> { Locality, Region, Postcode };

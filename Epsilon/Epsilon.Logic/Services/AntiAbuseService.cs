@@ -68,7 +68,7 @@ namespace Epsilon.Logic.Services
             if (checkGlobalFrequency.IsRejected)
                 return checkGlobalFrequency;
 
-            // TODO_PANOS_TEST
+            // TODO_TEST_PANOS
             var geoipCountryMatchesCheck = await CheckGeoipCountryMatches(
                 userIpAddress, addressCountryId, _antiAbuseServiceConfig.AddAddress_DisableGeoipCheck);
             if (geoipCountryMatchesCheck.IsRejected)
@@ -99,7 +99,7 @@ namespace Epsilon.Logic.Services
             if (checkGlobalFrequency.IsRejected)
                 return checkGlobalFrequency;
 
-            // TODO_PANOS_TEST
+            // TODO_TEST_PANOS
             var geoipCountryMatchesCheck = await CheckGeoipCountryMatches(
                 userIpAddress, addressCountryId, _antiAbuseServiceConfig.CreateTenancyDetailsSubmission_DisableGeoipCheck);
             if (geoipCountryMatchesCheck.IsRejected)
@@ -116,7 +116,7 @@ namespace Epsilon.Logic.Services
             return new AntiAbuseServiceResponse { IsRejected = false };
         }
 
-        // TODO_PANOS_TEST
+        // TODO_TEST_PANOS
         public async Task<AntiAbuseServiceResponse> CanCreateTenancyDetailsSubmissionCheckUserFrequency(string userId)
         {
             if (_antiAbuseServiceConfig.CreateTenancyDetailsSubmission_DisableUserFrequencyCheck)
@@ -146,7 +146,7 @@ namespace Epsilon.Logic.Services
             if (checkGlobalFrequency.IsRejected)
                 return checkGlobalFrequency;
 
-            // TODO_PANOS_TEST
+            // TODO_TEST_PANOS
             var geoipCountryMatchesCheck = await CheckGeoipCountryMatches(
                 userIpAddress, verificationCountryId, _antiAbuseServiceConfig.PickOutgoingVerification_DisableGeoipCheck);
             if (geoipCountryMatchesCheck.IsRejected)
@@ -468,7 +468,7 @@ namespace Epsilon.Logic.Services
 
         private async Task<AntiAbuseServiceResponse> CheckGeoipCountryMatches(string ipAddress, CountryId countryId, bool disableSwitch)
         {
-            // TODO_PANOS_TEST
+            // TODO_TEST_PANOS
 
             if (_antiAbuseServiceConfig.GlobalSwitch_DisableUseOfGeoipInformation || disableSwitch)
                 return new AntiAbuseServiceResponse { IsRejected = false };

@@ -12,7 +12,7 @@ using System.Web.Mvc;
 
 namespace Epsilon.Web.Controllers.Filters.Mvc
 {
-    // TODO_PANOS_TEST
+    // TODO_TEST_PANOS
     [AttributeUsage(AttributeTargets.Class, Inherited = true)]
     public class DisableWholeWebsiteForMaintenanceAttribute : ActionFilterAttribute
     {

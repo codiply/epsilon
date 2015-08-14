@@ -97,7 +97,7 @@ namespace Epsilon.Resources.Web.Account {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please confirm your account by clicking &lt;a href=\&quot;{0}\&quot;&gt;here&lt;/a&gt;.
+        ///   Looks up a localized string similar to Please confirm your account by clicking &lt;a href=&quot;{0}&quot;&gt;here&lt;/a&gt;.
         /// </summary>
         public static string ConfirmYourAccountEmail_Body {
             get {
@@ -367,7 +367,7 @@ namespace Epsilon.Resources.Web.Account {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please reset your password by clicking &lt;a href=\&quot;{0}\&quot;&gt;here&lt;/a&gt;.
+        ///   Looks up a localized string similar to Please reset your password by clicking &lt;a href=&quot;{0}&quot;&gt;here&lt;/a&gt;.
         /// </summary>
         public static string ResetPasswordEmail_Body {
             get {
