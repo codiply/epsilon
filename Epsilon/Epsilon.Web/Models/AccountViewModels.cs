@@ -1,6 +1,5 @@
 ﻿using Epsilon.Resources.Common;
 using Epsilon.Resources.Web.Account;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Epsilon.Web.Models

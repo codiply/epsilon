@@ -2,11 +2,7 @@
 using Epsilon.Logic.Entities.Interfaces;
 using Epsilon.Logic.SqlContext.Mapping;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Epsilon.Logic.Forms.Submission
 {

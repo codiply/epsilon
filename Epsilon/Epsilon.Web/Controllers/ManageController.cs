@@ -1,18 +1,15 @@
-﻿using System;
-using System.Linq;
+﻿using Epsilon.Logic.Constants;
+using Epsilon.Logic.Forms.Manage;
+using Epsilon.Logic.Models;
+using Epsilon.Logic.Services.Interfaces;
+using Epsilon.Resources.Web.Manage;
+using Epsilon.Web.Controllers.BaseControllers;
+using Epsilon.Web.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.Owin.Security;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
-using Microsoft.Owin.Security;
-using Epsilon.Web.Models;
-using Epsilon.Web.Controllers.BaseControllers;
-using Epsilon.Resources.Web.Manage;
-using Epsilon.Logic.Services.Interfaces;
-using Epsilon.Logic.Forms.Manage;
-using Epsilon.Logic.Constants;
-using Epsilon.Logic.Models;
 
 namespace Epsilon.Web.Controllers
 {

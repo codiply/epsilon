@@ -1,22 +1,16 @@
-﻿using System;
-using System.Globalization;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Mvc;
+﻿using Epsilon.Logic.Constants;
+using Epsilon.Logic.Entities;
+using Epsilon.Logic.Helpers.Interfaces;
+using Epsilon.Logic.Services.Interfaces;
+using Epsilon.Resources.Web.Account;
+using Epsilon.Web.Controllers.BaseControllers;
+using Epsilon.Web.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
-using Epsilon.Web.Models;
-using Epsilon.Logic.Entities;
-using Epsilon.Web.Controllers.BaseControllers;
-using Epsilon.Logic.Constants;
-using Epsilon.Logic.Services.Interfaces;
-using Ninject;
-using Epsilon.Logic.Helpers.Interfaces;
-using Epsilon.Resources.Web.Account;
-using System.Transactions;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Mvc;
 
 namespace Epsilon.Web.Controllers
 {

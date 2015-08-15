@@ -1,24 +1,17 @@
-﻿using Epsilon.Logic.Helpers.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Globalization;
-using System.Linq;
-using System.Threading;
-using System.Web;
-using System.Web.Mvc;
-using Ninject;
-using Epsilon.Logic.Constants;
-using Epsilon.Logic.SqlContext;
-using System.Net;
-using System.Threading.Tasks;
-using Epsilon.Resources.Common;
-using Epsilon.Logic.Infrastructure.Interfaces;
-using Epsilon.Logic.Infrastructure;
-using Epsilon.Logic.Services.Interfaces;
-using Epsilon.Logic.Infrastructure.Extensions;
-using Microsoft.AspNet.Identity;
+﻿using Epsilon.Logic.Constants;
 using Epsilon.Logic.Constants.Enums;
+using Epsilon.Logic.Helpers.Interfaces;
+using Epsilon.Logic.Infrastructure.Extensions;
+using Epsilon.Logic.Infrastructure.Interfaces;
+using Epsilon.Logic.Services.Interfaces;
+using Epsilon.Resources.Common;
+using Microsoft.AspNet.Identity;
+using Ninject;
+using System;
+using System.Globalization;
+using System.Net;
+using System.Threading;
+using System.Web.Mvc;
 
 namespace Epsilon.Web.Controllers.Filters.Mvc
 {

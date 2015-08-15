@@ -3,13 +3,9 @@ using Epsilon.Logic.Entities;
 using Epsilon.Logic.Infrastructure.Interfaces;
 using Epsilon.Logic.Services.Interfaces;
 using Epsilon.Logic.SqlContext.Interfaces;
-using System;
 using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Collections.Immutable;
+using System.Linq;
 
 namespace Epsilon.Logic.Services
 {

@@ -1,16 +1,11 @@
-﻿using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Data.Entity;
-using Ninject;
-using Epsilon.IntegrationTests.BaseFixtures;
-using Epsilon.Logic.Services.Interfaces;
-using Epsilon.Logic.Wrappers.Interfaces;
-using Epsilon.Logic.SqlContext.Interfaces;
+﻿using Epsilon.IntegrationTests.BaseFixtures;
 using Epsilon.Logic.Entities;
+using Epsilon.Logic.Services.Interfaces;
+using Epsilon.Logic.SqlContext.Interfaces;
+using Epsilon.Logic.Wrappers.Interfaces;
+using Ninject;
+using NUnit.Framework;
+using System.Threading.Tasks;
 
 namespace Epsilon.IntegrationTests.Logic.Services
 {

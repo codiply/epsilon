@@ -1,15 +1,12 @@
 ﻿using Epsilon.IntegrationTests.BaseFixtures;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Epsilon.Logic.Helpers;
+using Epsilon.Logic.Helpers.Interfaces;
+using Epsilon.Logic.SqlContext.Interfaces;
 using Ninject;
 using NUnit.Framework;
+using System;
 using System.Data.Entity;
-using Epsilon.Logic.SqlContext.Interfaces;
-using Epsilon.Logic.Helpers.Interfaces;
-using Epsilon.Logic.Helpers;
+using System.Threading.Tasks;
 
 namespace Epsilon.IntegrationTests.Logic.Helpers
 {

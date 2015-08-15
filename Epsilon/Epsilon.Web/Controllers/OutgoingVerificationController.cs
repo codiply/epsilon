@@ -1,14 +1,10 @@
 ﻿using Epsilon.Logic.Constants;
 using Epsilon.Logic.Services.Interfaces;
-using Epsilon.Resources.Common;
 using Epsilon.Resources.Web.OutgoingVerification;
 using Epsilon.Web.Controllers.BaseControllers;
 using Epsilon.Web.Models.ViewModels.OutgoingVerification;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
 
 namespace Epsilon.Web.Controllers

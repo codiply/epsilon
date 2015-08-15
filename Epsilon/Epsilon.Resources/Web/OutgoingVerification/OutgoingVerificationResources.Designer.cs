@@ -8,10 +8,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Epsilon.Resources.Web.OutgoingVerification {
-    using System;
-    
-    
+namespace Epsilon.Resources.Web.OutgoingVerification
+{
+
+
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>

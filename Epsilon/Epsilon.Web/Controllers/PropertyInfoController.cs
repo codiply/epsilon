@@ -6,10 +6,7 @@ using Epsilon.Web.Controllers.BaseControllers;
 using Epsilon.Web.Models.ViewModels.PropertyInfo;
 using Epsilon.Web.Models.ViewModels.Shared;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
 
 namespace Epsilon.Web.Controllers

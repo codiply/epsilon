@@ -1,11 +1,6 @@
 ﻿using Epsilon.Logic.Constants.Enums;
 using Epsilon.Logic.Entities;
 using Epsilon.Logic.Entities.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Epsilon.Logic.Models
 {

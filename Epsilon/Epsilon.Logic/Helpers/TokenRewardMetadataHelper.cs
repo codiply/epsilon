@@ -2,11 +2,7 @@
 using Epsilon.Logic.Helpers.Interfaces;
 using Epsilon.Logic.JsonModels;
 using Epsilon.Resources.Logic.TokenRewardKey;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Epsilon.Logic.Helpers
 {

@@ -1,13 +1,10 @@
 ﻿using Epsilon.IntegrationTests.BaseFixtures;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Data.Entity;
-using Ninject;
 using Epsilon.Logic.Services.Interfaces;
+using Ninject;
 using NUnit.Framework;
+using System.Data.Entity;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Epsilon.IntegrationTests.Logic.Services
 {

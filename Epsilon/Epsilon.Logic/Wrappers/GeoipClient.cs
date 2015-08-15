@@ -1,15 +1,12 @@
-﻿using Epsilon.Logic.Constants.Enums;
+﻿using Epsilon.Logic.Configuration.Interfaces;
+using Epsilon.Logic.Constants.Enums;
+using Epsilon.Logic.FSharp.GeoipProvider;
+using Epsilon.Logic.Helpers;
+using Epsilon.Logic.Helpers.Interfaces;
 using Epsilon.Logic.Models;
 using Epsilon.Logic.Wrappers.Interfaces;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Epsilon.Logic.FSharp.GeoipProvider;
-using Epsilon.Logic.Helpers;
-using Epsilon.Logic.Configuration.Interfaces;
-using Epsilon.Logic.Helpers.Interfaces;
 
 namespace Epsilon.Logic.Wrappers
 {

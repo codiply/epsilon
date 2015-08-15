@@ -1,14 +1,8 @@
-﻿using Epsilon.Logic.Constants;
-using Epsilon.Logic.Constants.Enums;
-using Epsilon.Logic.Helpers;
+﻿using Epsilon.Logic.Constants.Enums;
 using Epsilon.Logic.Helpers.Interfaces;
 using Epsilon.Logic.Services.Interfaces;
-using Ninject;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace Epsilon.Web.Controllers.Filters.Mvc

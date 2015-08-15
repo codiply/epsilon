@@ -13,6 +13,7 @@ From **Tools > Extension and Updates...** install
 
 * **Typescript 1.5 for Visual Studio 2015** (if not installed)
 * **NUnit Test Adapter**
+* **Productivity Power Tools 2015**
 * **HgSccPackage**
 * **CodeLineage**
 

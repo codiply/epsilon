@@ -1,18 +1,15 @@
 ﻿using Epsilon.IntegrationTests.BaseFixtures;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Ninject;
-using Epsilon.Logic.Services.Interfaces;
-using Epsilon.Logic.Helpers;
 using Epsilon.Logic.Constants.Enums;
-using NUnit.Framework;
-using System.Data.Entity;
+using Epsilon.Logic.Helpers;
+using Epsilon.Logic.Services.Interfaces;
 using Epsilon.Logic.Wrappers.Interfaces;
-using Moq;
 using GeocodeSharp.Google;
+using Moq;
+using Ninject;
+using NUnit.Framework;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Epsilon.IntegrationTests.Logic.Services
 {

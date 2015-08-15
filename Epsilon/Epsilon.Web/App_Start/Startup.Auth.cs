@@ -1,17 +1,15 @@
-﻿using System;
+﻿using Epsilon.Logic.Entities;
+using Epsilon.Logic.SqlContext;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
-using Microsoft.Owin.Security.Google;
-using Owin;
-using Epsilon.Web.Models;
-using Epsilon.Logic.Entities;
-using Epsilon.Logic.SqlContext;
-using System.Web.Mvc;
-using System.Web;
 using Microsoft.Owin.Security.DataProtection;
 using Ninject;
+using Owin;
+using System;
+using System.Web;
+using System.Web.Mvc;
 
 namespace Epsilon.Web
 {

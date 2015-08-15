@@ -1,20 +1,16 @@
 ﻿using Epsilon.Logic.Configuration.Interfaces;
 using Epsilon.Logic.Constants;
+using Epsilon.Logic.Constants.Enums;
 using Epsilon.Logic.Entities;
+using Epsilon.Logic.Helpers;
+using Epsilon.Logic.Helpers.Interfaces;
 using Epsilon.Logic.Infrastructure.Interfaces;
+using Epsilon.Logic.JsonModels;
 using Epsilon.Logic.Services.Interfaces;
 using Epsilon.Logic.SqlContext.Interfaces;
 using Epsilon.Logic.Wrappers.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Data.Entity;
-using Epsilon.Logic.Constants.Enums;
-using Epsilon.Logic.Helpers;
-using Epsilon.Logic.Helpers.Interfaces;
-using Epsilon.Logic.JsonModels;
+using System.Linq;
 
 namespace Epsilon.Logic.Services
 {

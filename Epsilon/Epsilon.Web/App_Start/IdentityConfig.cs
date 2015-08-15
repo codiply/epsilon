@@ -1,21 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using System.Web;
+﻿using Epsilon.Logic.Entities;
+using Epsilon.Logic.Services.Interfaces;
 using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
-using Epsilon.Web.Models;
-using Epsilon.Logic.Entities;
-using Epsilon.Logic.SqlContext;
-using Epsilon.Logic.Services.Interfaces;
-using System.Net.Mail;
 using Microsoft.Owin.Security.DataProtection;
+using System;
+using System.Net.Mail;
+using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace Epsilon.Web
 {

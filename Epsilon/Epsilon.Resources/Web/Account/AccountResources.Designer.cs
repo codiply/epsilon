@@ -8,10 +8,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Epsilon.Resources.Web.Account {
-    using System;
-    
-    
+namespace Epsilon.Resources.Web.Account
+{
+
+
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>

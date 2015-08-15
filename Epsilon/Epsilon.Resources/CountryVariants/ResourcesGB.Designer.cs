@@ -8,10 +8,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Epsilon.Resources.CountryVariants {
-    using System;
-    
-    
+namespace Epsilon.Resources.CountryVariants
+{
+
+
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>

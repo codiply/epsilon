@@ -1,25 +1,17 @@
 ﻿using Epsilon.Logic.Constants;
-using Epsilon.Logic.Constants.Enums;
-using Epsilon.Logic.Constants.Interfaces;
-using Epsilon.Logic.Forms;
-using Epsilon.Logic.Helpers.Interfaces;
-using Epsilon.Logic.Services.Interfaces;
-using Epsilon.Web.Controllers.BaseControllers;
-using Epsilon.Web.Models.ViewModels.Submission;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Mvc;
-using Microsoft.AspNet.Identity;
-using Epsilon.Web.Models.ViewModels.Shared;
-using Epsilon.Resources.Web.Submission;
 using Epsilon.Logic.Forms.Submission;
+using Epsilon.Logic.Services.Interfaces;
 using Epsilon.Resources.Common;
+using Epsilon.Web.Controllers.BaseControllers;
+using Epsilon.Web.Models.ViewModels.Shared;
+using Epsilon.Web.Models.ViewModels.Submission;
+using Microsoft.AspNet.Identity;
+using System;
+using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace Epsilon.Web.Controllers
-{ 
+{
     public class SubmissionController : BaseMvcController
     {
         public const string MY_SUBMISSIONS_SUMMARY_ACTION = "MySubmissionsSummary";

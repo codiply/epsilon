@@ -1,14 +1,14 @@
 ﻿using Epsilon.IntegrationTests.BaseFixtures;
+using Epsilon.Logic.Constants.Enums;
+using Epsilon.Logic.Entities;
+using Epsilon.Logic.Helpers;
+using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Data.Entity;
-using NUnit.Framework;
-using Epsilon.Logic.Constants.Enums;
-using Epsilon.Logic.Helpers;
-using Epsilon.Logic.Entities;
 
 namespace Epsilon.IntegrationTests.Logic.Constants.Enums
 {

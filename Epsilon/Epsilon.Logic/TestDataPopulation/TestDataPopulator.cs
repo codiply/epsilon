@@ -1,10 +1,6 @@
 ﻿using Epsilon.Logic.SqlContext.Interfaces;
 using Epsilon.Logic.TestDataPopulation.Interfaces;
 using Epsilon.Logic.Wrappers.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Epsilon.Logic.TestDataPopulation

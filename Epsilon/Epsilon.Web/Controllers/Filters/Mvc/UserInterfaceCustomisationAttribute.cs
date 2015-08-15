@@ -1,18 +1,8 @@
-﻿using Epsilon.Logic.Helpers.Interfaces;
-using Epsilon.Logic.Services.Interfaces;
-using Epsilon.Resources.Common;
+﻿using Epsilon.Logic.Services.Interfaces;
+using Microsoft.AspNet.Identity;
 using Ninject;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web.Mvc;
-using Epsilon.Logic.Infrastructure.Extensions;
-using Epsilon.Logic.Constants.Enums;
-using Epsilon.Logic.Constants;
-using Microsoft.AspNet.Identity;
 
 namespace Epsilon.Web.Controllers.Filters.Mvc
 {

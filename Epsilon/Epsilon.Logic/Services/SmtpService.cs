@@ -1,14 +1,9 @@
 ﻿using Epsilon.Logic.Constants;
 using Epsilon.Logic.Helpers.Interfaces;
 using Epsilon.Logic.Services.Interfaces;
-using Epsilon.Logic.Wrappers;
 using Epsilon.Logic.Wrappers.Interfaces;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Mail;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Epsilon.Logic.Services
 {

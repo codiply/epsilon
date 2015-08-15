@@ -3,37 +3,35 @@
 
 namespace Epsilon.Web.App_Start
 {
-    using System;
-    using System.Web;
-
-    using Microsoft.Web.Infrastructure.DynamicModuleHelper;
-
-    using Ninject;
-    using Ninject.Web.Common;
-    using Ninject.Extensions.Factory;
-    using Epsilon.Logic.SqlContext.Interfaces;
-    using Epsilon.Logic.Services.Interfaces;
-    using Epsilon.Logic.Services;
-    using Epsilon.Logic.Wrappers.Interfaces;
-    using Epsilon.Logic.Wrappers;
-    using Epsilon.Logic.Infrastructure.Interfaces;
-    using Epsilon.Logic.Infrastructure;
-    using Epsilon.Logic.Helpers.Interfaces;
-    using Epsilon.Logic.Helpers;
-    using System.Collections.Specialized;
-    using System.Configuration;
-    using Epsilon.Logic.TestDataPopulation.Interfaces;
-    using Epsilon.Logic.TestDataPopulation;
-    using Epsilon.Logic.SqlContext;
-    using Epsilon.Logic.Constants.Interfaces;
-    using Epsilon.Logic.Constants;
-    using Microsoft.Owin.Security;
-    using Microsoft.AspNet.Identity;
-    using Epsilon.Logic.Entities;
-    using Microsoft.AspNet.Identity.EntityFramework;
-    using System.Data.Entity;
     using Epsilon.Logic.Configuration;
     using Epsilon.Logic.Configuration.Interfaces;
+    using Epsilon.Logic.Constants;
+    using Epsilon.Logic.Constants.Interfaces;
+    using Epsilon.Logic.Entities;
+    using Epsilon.Logic.Helpers;
+    using Epsilon.Logic.Helpers.Interfaces;
+    using Epsilon.Logic.Infrastructure;
+    using Epsilon.Logic.Infrastructure.Interfaces;
+    using Epsilon.Logic.Services;
+    using Epsilon.Logic.Services.Interfaces;
+    using Epsilon.Logic.SqlContext;
+    using Epsilon.Logic.SqlContext.Interfaces;
+    using Epsilon.Logic.TestDataPopulation;
+    using Epsilon.Logic.TestDataPopulation.Interfaces;
+    using Epsilon.Logic.Wrappers;
+    using Epsilon.Logic.Wrappers.Interfaces;
+    using Microsoft.AspNet.Identity;
+    using Microsoft.AspNet.Identity.EntityFramework;
+    using Microsoft.Owin.Security;
+    using Microsoft.Web.Infrastructure.DynamicModuleHelper;
+    using Ninject;
+    using Ninject.Extensions.Factory;
+    using Ninject.Web.Common;
+    using System;
+    using System.Collections.Specialized;
+    using System.Configuration;
+    using System.Data.Entity;
+    using System.Web;
 
     public static class NinjectWebCommon 
     {

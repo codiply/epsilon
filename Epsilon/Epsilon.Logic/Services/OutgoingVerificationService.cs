@@ -1,26 +1,25 @@
-﻿using Epsilon.Logic.Entities;
+﻿using Epsilon.Logic.Configuration.Interfaces;
+using Epsilon.Logic.Constants;
+using Epsilon.Logic.Constants.Enums;
+using Epsilon.Logic.Entities;
+using Epsilon.Logic.Entities.Interfaces;
+using Epsilon.Logic.Helpers;
+using Epsilon.Logic.Infrastructure.Interfaces;
+using Epsilon.Logic.JsonModels;
+using Epsilon.Logic.Models;
 using Epsilon.Logic.Services.Interfaces;
 using Epsilon.Logic.Services.Interfaces.OutgoingVerification;
 using Epsilon.Logic.SqlContext.Interfaces;
+using Epsilon.Logic.Wrappers.Interfaces;
+using Epsilon.Resources.Common;
+using Epsilon.Resources.Logic.OutgoingVerification;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Data.Entity;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Transactions;
-using Epsilon.Resources.Logic.OutgoingVerification;
-using Epsilon.Logic.JsonModels;
-using Epsilon.Logic.Configuration.Interfaces;
-using Epsilon.Resources.Common;
-using Epsilon.Logic.Wrappers.Interfaces;
-using Epsilon.Logic.Helpers;
 using static Epsilon.Logic.Helpers.RandomStringHelper;
-using Epsilon.Logic.Constants;
-using Epsilon.Logic.Models;
-using Epsilon.Logic.Infrastructure.Interfaces;
-using Epsilon.Logic.Constants.Enums;
-using Epsilon.Logic.Entities.Interfaces;
 
 namespace Epsilon.Logic.Services
 {

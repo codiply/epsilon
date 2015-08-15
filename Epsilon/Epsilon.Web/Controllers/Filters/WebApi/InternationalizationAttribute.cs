@@ -1,24 +1,15 @@
-﻿using Epsilon.Logic.Helpers.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Globalization;
-using System.Linq;
-using System.Threading;
-using System.Web;
-using Ninject;
-using Epsilon.Logic.Constants;
-using Epsilon.Logic.SqlContext;
-using System.Net;
-using System.Threading.Tasks;
-using Epsilon.Resources.Common;
+﻿using Epsilon.Logic.Constants;
+using Epsilon.Logic.Helpers.Interfaces;
 using Epsilon.Logic.Infrastructure.Interfaces;
-using Epsilon.Logic.Infrastructure;
 using Epsilon.Logic.Services.Interfaces;
-using System.Web.Http.Filters;
-using System.Web.Http.Controllers;
+using Ninject;
+using System.Globalization;
+using System.Net;
 using System.Net.Http;
+using System.Threading;
 using System.Web.Http;
+using System.Web.Http.Controllers;
+using System.Web.Http.Filters;
 
 namespace Epsilon.Web.Controllers.Filters.WebApi
 {

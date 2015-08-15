@@ -1,22 +1,16 @@
 ﻿using Epsilon.IntegrationTests.BaseFixtures;
+using Epsilon.Logic.Configuration.Interfaces;
+using Epsilon.Logic.Constants.Enums;
+using Epsilon.Logic.Helpers;
 using Epsilon.Logic.Services.Interfaces;
+using Moq;
+using Ninject;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Ninject;
-using Epsilon.Logic.SqlContext.Interfaces;
-using Epsilon.Logic.Constants.Enums;
 using System.Data.Entity;
-using Epsilon.Logic.Constants;
-using Moq;
-using Epsilon.Logic.Helpers.Interfaces;
-using Epsilon.Logic.Constants.Interfaces;
-using System.Collections.Specialized;
-using Epsilon.Logic.Helpers;
-using Epsilon.Logic.Configuration.Interfaces;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Epsilon.IntegrationTests.Logic.Services
 {

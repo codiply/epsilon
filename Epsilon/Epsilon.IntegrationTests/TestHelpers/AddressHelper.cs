@@ -2,13 +2,9 @@
 using Epsilon.Logic.Entities;
 using Epsilon.Logic.Helpers;
 using Epsilon.Logic.SqlContext.Interfaces;
-using Epsilon.Logic.Wrappers;
 using Epsilon.Logic.Wrappers.Interfaces;
 using Ninject;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Epsilon.IntegrationTests.TestHelpers

@@ -1,17 +1,13 @@
-﻿using Epsilon.Logic.Entities;
+﻿using Epsilon.Logic.Constants;
+using Epsilon.Logic.Constants.Enums;
+using Epsilon.Logic.Entities;
+using Epsilon.Logic.Helpers;
 using Epsilon.Logic.Infrastructure.Interfaces;
 using Epsilon.Logic.Services.Interfaces;
 using Epsilon.Logic.SqlContext.Interfaces;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Data.Entity;
 using System.Collections.Immutable;
-using Epsilon.Logic.Constants;
-using Epsilon.Logic.Helpers;
-using Epsilon.Logic.Constants.Enums;
+using System.Linq;
 
 namespace Epsilon.Logic.Services
 {

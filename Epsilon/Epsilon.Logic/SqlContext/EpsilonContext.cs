@@ -1,15 +1,10 @@
 ﻿using Epsilon.Logic.Entities;
 using Epsilon.Logic.SqlContext.Interfaces;
 using Epsilon.Logic.SqlContext.Mapping;
-using Microsoft.AspNet.Identity.EntityFramework;
-using System;
-using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Data.Entity.Validation;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Epsilon.Logic.SqlContext

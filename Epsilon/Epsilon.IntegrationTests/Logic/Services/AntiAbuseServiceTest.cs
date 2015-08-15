@@ -3,11 +3,8 @@ using Epsilon.IntegrationTests.TestHelpers;
 using Epsilon.Logic.Configuration.Interfaces;
 using Epsilon.Logic.Constants;
 using Epsilon.Logic.Constants.Enums;
-using Epsilon.Logic.Constants.Interfaces;
 using Epsilon.Logic.Entities;
 using Epsilon.Logic.Helpers;
-using Epsilon.Logic.Helpers.Interfaces;
-using Epsilon.Logic.Infrastructure.Primitives;
 using Epsilon.Logic.Services.Interfaces;
 using Epsilon.Logic.SqlContext.Interfaces;
 using Epsilon.Logic.Wrappers;
@@ -18,9 +15,6 @@ using Ninject;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Epsilon.IntegrationTests.Logic.Services

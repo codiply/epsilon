@@ -1,10 +1,6 @@
-﻿using System;
+﻿using Epsilon.Logic.FSharp.GoogleGeocode;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Epsilon.Logic.FSharp.GoogleGeocode;
 
 namespace Epsilon.Web.Models.ViewModels.Admin
 {

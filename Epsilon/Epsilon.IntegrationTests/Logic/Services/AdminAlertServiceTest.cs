@@ -1,16 +1,14 @@
 ﻿using Epsilon.IntegrationTests.BaseFixtures;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Ninject;
-using System.Data.Entity;
-using Moq;
 using Epsilon.Logic.Configuration.Interfaces;
-using System.Net.Mail;
 using Epsilon.Logic.Services.Interfaces;
+using Moq;
+using Ninject;
 using NUnit.Framework;
+using System;
+using System.Data.Entity;
+using System.Linq;
+using System.Net.Mail;
+using System.Threading.Tasks;
 
 namespace Epsilon.IntegrationTests.Logic.Services
 {

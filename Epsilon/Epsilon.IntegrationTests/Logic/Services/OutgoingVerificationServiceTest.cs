@@ -1,26 +1,24 @@
 ﻿using Epsilon.IntegrationTests.BaseFixtures;
+using Epsilon.IntegrationTests.TestHelpers;
+using Epsilon.Logic.Configuration.Interfaces;
+using Epsilon.Logic.Constants;
+using Epsilon.Logic.Constants.Enums;
+using Epsilon.Logic.Entities;
+using Epsilon.Logic.Helpers;
 using Epsilon.Logic.Services.Interfaces;
+using Epsilon.Logic.SqlContext.Interfaces;
+using Epsilon.Logic.Wrappers;
+using Epsilon.Logic.Wrappers.Interfaces;
 using Moq;
 using Ninject;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Data.Entity;
-using Epsilon.Logic.Configuration.Interfaces;
-using Epsilon.Logic.Wrappers.Interfaces;
-using Epsilon.Logic.SqlContext.Interfaces;
-using Epsilon.Logic.Entities;
-using Epsilon.Logic.Helpers;
-using static Epsilon.Logic.Helpers.RandomStringHelper;
-using Epsilon.IntegrationTests.TestHelpers;
-using Epsilon.Logic.Constants.Enums;
-using Epsilon.Logic.Wrappers;
-using Epsilon.Logic.JsonModels;
 using System.Data.Entity.Infrastructure;
-using Epsilon.Logic.Constants;
+using System.Linq;
+using System.Threading.Tasks;
+using static Epsilon.Logic.Helpers.RandomStringHelper;
 
 namespace Epsilon.IntegrationTests.Logic.Services
 {

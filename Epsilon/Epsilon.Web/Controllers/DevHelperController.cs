@@ -1,17 +1,14 @@
 ﻿using Epsilon.Logic.Constants;
+using Epsilon.Logic.Helpers;
 using Epsilon.Logic.Services.Interfaces;
 using Epsilon.Logic.SqlContext.Interfaces;
 using Epsilon.Logic.TestDataPopulation.Interfaces;
 using Epsilon.Web.Controllers.BaseControllers;
 using Epsilon.Web.Controllers.Filters.Mvc;
-using System;
-using System.Collections.Generic;
+using Microsoft.AspNet.Identity;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
-using Microsoft.AspNet.Identity;
-using Epsilon.Logic.Helpers;
 
 namespace Epsilon.Web.Controllers
 {

@@ -1,14 +1,9 @@
 ﻿using Epsilon.Logic.Constants;
 using Epsilon.Logic.Helpers.Interfaces;
-using Epsilon.Resources.Common;
 using Ninject;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
 

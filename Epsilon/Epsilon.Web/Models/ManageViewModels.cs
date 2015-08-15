@@ -1,12 +1,7 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNet.Identity;
-using Microsoft.Owin.Security;
-using System.ComponentModel;
-using Epsilon.Resources.Web.Manage;
+﻿using Epsilon.Logic.Models;
 using Epsilon.Resources.Common;
-using Epsilon.Logic.Entities;
-using Epsilon.Logic.Models;
+using Epsilon.Resources.Web.Manage;
+using System.ComponentModel.DataAnnotations;
 
 namespace Epsilon.Web.Models
 {

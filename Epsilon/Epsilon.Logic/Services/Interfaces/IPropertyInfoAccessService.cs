@@ -1,11 +1,8 @@
-﻿using Epsilon.Logic.Models;
-using Epsilon.Logic.JsonModels;
+﻿using Epsilon.Logic.JsonModels;
+using Epsilon.Logic.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Epsilon.Logic.Entities;
 
 namespace Epsilon.Logic.Services.Interfaces
 {

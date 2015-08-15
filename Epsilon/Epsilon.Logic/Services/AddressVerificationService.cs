@@ -1,21 +1,15 @@
-﻿using Epsilon.Logic.Configuration.Interfaces;
-using Epsilon.Logic.Forms;
-using Epsilon.Logic.FSharp;
+﻿using Epsilon.Logic.Constants;
+using Epsilon.Logic.Constants.Enums;
+using Epsilon.Logic.Entities;
+using Epsilon.Logic.Entities.Interfaces;
+using Epsilon.Logic.Forms.Submission;
+using Epsilon.Logic.Helpers;
 using Epsilon.Logic.Helpers.Interfaces;
 using Epsilon.Logic.Services.Interfaces;
 using Epsilon.Logic.SqlContext.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Epsilon.Logic.Entities.Interfaces;
-using Epsilon.Logic.Constants.Enums;
-using Epsilon.Logic.Helpers;
 using Epsilon.Resources.Logic.AddressVerification;
-using Epsilon.Logic.Entities;
-using Epsilon.Logic.Constants;
-using Epsilon.Logic.Forms.Submission;
+using System;
+using System.Threading.Tasks;
 
 namespace Epsilon.Logic.Services
 {

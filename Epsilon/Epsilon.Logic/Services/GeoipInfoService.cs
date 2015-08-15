@@ -2,18 +2,13 @@
 using Epsilon.Logic.Constants;
 using Epsilon.Logic.Constants.Enums;
 using Epsilon.Logic.Entities;
-using Epsilon.Logic.FSharp.GeoipProvider;
 using Epsilon.Logic.Helpers;
 using Epsilon.Logic.Infrastructure.Interfaces;
 using Epsilon.Logic.Models;
 using Epsilon.Logic.Services.Interfaces;
 using Epsilon.Logic.SqlContext.Interfaces;
 using Epsilon.Logic.Wrappers.Interfaces;
-using System;
-using System.Collections.Generic;
 using System.Data.Entity;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Epsilon.Logic.Services

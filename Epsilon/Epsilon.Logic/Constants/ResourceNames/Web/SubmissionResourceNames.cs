@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Epsilon.Logic.Constants.ResourceNames.Web
+﻿namespace Epsilon.Logic.Constants.ResourceNames.Web
 {
     public static class SubmissionResourceName
     {

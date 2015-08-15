@@ -1,14 +1,10 @@
 ﻿using Epsilon.IntegrationTests.BaseFixtures;
+using Epsilon.Logic.Constants.Enums;
+using Epsilon.Logic.Helpers;
+using Epsilon.Logic.Helpers.Interfaces;
+using Ninject;
 using NUnit.Framework;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Ninject;
-using Epsilon.Logic.Helpers.Interfaces;
-using Epsilon.Logic.Helpers;
-using Epsilon.Logic.Constants.Enums;
 
 namespace Epsilon.IntegrationTests.ReferenceData
 {

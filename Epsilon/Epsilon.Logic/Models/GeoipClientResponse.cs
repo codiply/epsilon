@@ -1,10 +1,5 @@
 ﻿using Epsilon.Logic.Constants.Enums;
 using Epsilon.Logic.FSharp.GeoipProvider;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Epsilon.Logic.Models
 {

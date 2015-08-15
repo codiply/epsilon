@@ -1,28 +1,12 @@
-﻿using Epsilon.Logic.Constants;
-using Epsilon.Logic.Constants.Interfaces;
-using Epsilon.Logic.Helpers;
-using Epsilon.Logic.Helpers.Interfaces;
-using Epsilon.Logic.Infrastructure;
-using Epsilon.Logic.Infrastructure.Interfaces;
-using Epsilon.Logic.Services;
+﻿using Epsilon.Logic.Entities;
 using Epsilon.Logic.Services.Interfaces;
 using Epsilon.Logic.SqlContext;
 using Epsilon.Logic.SqlContext.Interfaces;
-using Epsilon.Logic.Wrappers;
-using Epsilon.Logic.Wrappers.Interfaces;
+using Epsilon.Web.App_Start;
 using Ninject;
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Configuration;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Transactions;
-using Ninject.Extensions.Factory;
-using Epsilon.Logic.Entities;
-using Epsilon.Web.App_Start;
 
 namespace Epsilon.IntegrationTests.BaseFixtures
 {
