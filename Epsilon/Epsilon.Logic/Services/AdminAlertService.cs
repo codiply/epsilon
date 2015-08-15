@@ -15,7 +15,6 @@ using Epsilon.Logic.Constants.Interfaces;
 using System.Net.Mail;
 using Epsilon.Logic.Configuration.Interfaces;
 using Epsilon.Logic.Infrastructure.Interfaces;
-using Epsilon.Logic.Helpers;
 
 namespace Epsilon.Logic.Services
 {
@@ -29,19 +28,22 @@ namespace Epsilon.Logic.Services
         private readonly IAdminAlertServiceConfig _adminAlertServiceConfig;
         private readonly IEpsilonContext _dbContext;
         private readonly ISmtpService _smtpService;
+        private readonly IElmahHelper _elmahHelper;
 
         public AdminAlertService(
             IClock clock,
             IAppCache appCache,
             IAdminAlertServiceConfig adminAlertServiceConfig,
             IEpsilonContext dbContext,
-            ISmtpService smtpService)
+            ISmtpService smtpService,
+            IElmahHelper elmahHelper)
         {
             _clock = clock;
             _appCache = appCache;
             _adminAlertServiceConfig = adminAlertServiceConfig;
             _dbContext = dbContext;
             _smtpService = smtpService;
+            _elmahHelper = elmahHelper;
         }
 
         // TODO_TEST_PANOS
@@ -63,7 +65,7 @@ namespace Epsilon.Logic.Services
             }
             catch (Exception ex)
             {
-                ElmahHelper.Raise(ex);
+                _elmahHelper.Raise(ex);
                 if (doNotUseDatabase == false)
                 {
                     SendAlert(key, doNotUseDatabase: true);

@@ -1,6 +1,7 @@
 ﻿using Epsilon.Logic.Constants.Enums;
 using Epsilon.Logic.Entities;
 using Epsilon.Logic.Helpers;
+using Epsilon.Logic.Helpers.Interfaces;
 using Epsilon.Logic.Services.Interfaces;
 using Epsilon.Logic.SqlContext.Interfaces;
 using Newtonsoft.Json;
@@ -15,11 +16,14 @@ namespace Epsilon.Logic.Services
     public class AdminEventLogService : IAdminEventLogService
     {
         private readonly IEpsilonContext _dbContext;
+        private readonly IElmahHelper _elmahHelper;
 
         public AdminEventLogService(
-            IEpsilonContext dbContext)
+            IEpsilonContext dbContext,
+            IElmahHelper elmahHelper)
         {
             _dbContext = dbContext;
+            _elmahHelper = elmahHelper;
         }
 
         public async Task Log(AdminEventLogKey key, Dictionary<string, object> extraInfo)
@@ -38,7 +42,7 @@ namespace Epsilon.Logic.Services
             }
             catch (Exception ex)
             {
-                ElmahHelper.Raise(ex);
+                _elmahHelper.Raise(ex);
             }
         }
     }

@@ -152,44 +152,39 @@ namespace Epsilon.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                using (var transactionScope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+                var antiAbuseCheck = await _antiAbuseService.CanRegister(GetUserIpAddress());
+                if (antiAbuseCheck.IsRejected)
                 {
-                    var antiAbuseCheck = await _antiAbuseService.CanRegister(GetUserIpAddress());
-                    if (antiAbuseCheck.IsRejected)
-                    {
-                        Danger(antiAbuseCheck.RejectionReason, true);
-                        return RedirectToAction(
-                            AppConstant.ANONYMOUS_USER_HOME_ACTION,
-                            AppConstant.ANONYMOUS_USER_HOME_CONTROLLER);
-                    }
-
-                    var user = new User { UserName = model.Email, Email = model.Email };
-                    var result = await _userManager.CreateAsync(user, model.Password);
-                    if (result.Succeeded)
-                    {
-                        await _newUserService.Setup(user.Id, GetUserIpAddress(), GetLanguageId());
-
-                        // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
-                        // Send an email with this link
-                        if (_appSettingsHelper.GetBool(AppSettingsKey.DisableRegistrationEmailConfirmation) != true)
-                        {
-                            string code = await _userManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                            var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                            var emailBody = string.Format(AccountResources.ConfirmYourAccountEmail_Body, callbackUrl);
-                            await _userManager.SendEmailAsync(user.Id, AccountResources.ConfirmYourAccountEmail_Subject, emailBody);
-                        }
-                       
-                        transactionScope.Complete();
-                        
-                        await _signInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-                        
-                        return RedirectToAction(
-                            AppConstant.AUTHENTICATED_USER_HOME_ACTION,
-                            AppConstant.AUTHENTICATED_USER_HOME_CONTROLLER);
-                    }
-
-                    AddErrors(result);
+                    Danger(antiAbuseCheck.RejectionReason, true);
+                    return RedirectToAction(
+                        AppConstant.ANONYMOUS_USER_HOME_ACTION,
+                        AppConstant.ANONYMOUS_USER_HOME_CONTROLLER);
                 }
+
+                var user = new User { UserName = model.Email, Email = model.Email };
+                var result = await _userManager.CreateAsync(user, model.Password);
+                if (result.Succeeded)
+                {
+                    await _newUserService.Setup(user.Id, GetUserIpAddress(), GetLanguageId());
+
+                    await _signInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+
+                    // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
+                    // Send an email with this link
+                    if (_appSettingsHelper.GetBool(AppSettingsKey.DisableRegistrationEmailConfirmation) != true)
+                    {
+                        string code = await _userManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                        var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                        var emailBody = string.Format(AccountResources.ConfirmYourAccountEmail_Body, callbackUrl);
+                        await _userManager.SendEmailAsync(user.Id, AccountResources.ConfirmYourAccountEmail_Subject, emailBody);
+                    }
+
+                    return RedirectToAction(
+                        AppConstant.AUTHENTICATED_USER_HOME_ACTION,
+                        AppConstant.AUTHENTICATED_USER_HOME_CONTROLLER);
+                }
+
+                AddErrors(result);
             }
 
             // If we got this far, something failed, redisplay form
@@ -226,26 +221,21 @@ namespace Epsilon.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                using (var transactionScope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+                var user = await _userManager.FindByNameAsync(model.Email);
+                if (user == null || !(await _userManager.IsEmailConfirmedAsync(user.Id)))
                 {
-                    var user = await _userManager.FindByNameAsync(model.Email);
-                    if (user == null || !(await _userManager.IsEmailConfirmedAsync(user.Id)))
-                    {
-                        // Don't reveal that the user does not exist or is not confirmed
-                        return View("ForgotPasswordConfirmation");
-                    }
-
-                    // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
-                    // Send an email with this link
-                    string code = await _userManager.GeneratePasswordResetTokenAsync(user.Id);
-                    var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    var emailBody = string.Format(AccountResources.ResetPasswordEmail_Body, callbackUrl);
-                    await _userManager.SendEmailAsync(user.Id, AccountResources.ResetPasswordEmail_Subject, emailBody);
-
-                    transactionScope.Complete();
-
-                    return RedirectToAction("ForgotPasswordConfirmation", "Account");
+                    // Don't reveal that the user does not exist or is not confirmed
+                    return View("ForgotPasswordConfirmation");
                 }
+
+                // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
+                // Send an email with this link
+                string code = await _userManager.GeneratePasswordResetTokenAsync(user.Id);
+                var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                var emailBody = string.Format(AccountResources.ResetPasswordEmail_Body, callbackUrl);
+                await _userManager.SendEmailAsync(user.Id, AccountResources.ResetPasswordEmail_Subject, emailBody);
+
+                return RedirectToAction("ForgotPasswordConfirmation", "Account");
             }
 
             // If we got this far, something failed, redisplay form

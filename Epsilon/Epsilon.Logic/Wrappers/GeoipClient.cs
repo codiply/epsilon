@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Epsilon.Logic.FSharp.GeoipProvider;
 using Epsilon.Logic.Helpers;
 using Epsilon.Logic.Configuration.Interfaces;
+using Epsilon.Logic.Helpers.Interfaces;
 
 namespace Epsilon.Logic.Wrappers
 {
@@ -17,13 +18,16 @@ namespace Epsilon.Logic.Wrappers
     {
         private readonly IWebClientFactory _webClientFactory;
         private readonly IGeoipClientConfig _geoipClientConfig;
+        private readonly IElmahHelper _elmahHelper;
 
         public GeoipClient(
             IWebClientFactory webClientFactory,
-            IGeoipClientConfig geoipClientConfig)
+            IGeoipClientConfig geoipClientConfig,
+            IElmahHelper elmahHelper)
         {
             _webClientFactory = webClientFactory;
             _geoipClientConfig = geoipClientConfig;
+            _elmahHelper = elmahHelper;
         }
 
         public async Task<GeoipClientResponse> Geoip(GeoipProviderName providerName, string ipAddress)
@@ -55,7 +59,7 @@ namespace Epsilon.Logic.Wrappers
             }
             catch (Exception ex)
             {
-                ElmahHelper.Raise(ex);
+                _elmahHelper.Raise(ex);
                 return new GeoipClientResponse
                 {
                     Status = WebClientResponseStatus.Error,

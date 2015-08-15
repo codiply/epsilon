@@ -1,5 +1,6 @@
 ﻿using Epsilon.Logic.Constants.Enums;
 using Epsilon.Logic.Helpers;
+using Epsilon.Logic.Helpers.Interfaces;
 using Epsilon.Logic.Wrappers.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -14,12 +15,17 @@ namespace Epsilon.Logic.Wrappers
     public class WebClientWrapper : IWebClientWrapper
     {
         private readonly ITimerFactory _timerFactory;
+        private readonly IElmahHelper _elmahHelper;
+
         private readonly WebClient _client = new WebClient();
         private bool _cancelled = false;
 
-        public WebClientWrapper(ITimerFactory timerFactory)
+        public WebClientWrapper(
+            ITimerFactory timerFactory,
+            IElmahHelper elmahHelper)
         {
             _timerFactory = timerFactory;
+            _elmahHelper = elmahHelper;
         }
 
         public async Task<WebClientResponse> DownloadStringTaskAsync(string url, double timeoutMilliseconds)
@@ -43,7 +49,7 @@ namespace Epsilon.Logic.Wrappers
             }
             catch (Exception ex)
             {
-                ElmahHelper.Raise(ex);
+                _elmahHelper.Raise(ex);
 
                 if (_cancelled)
                 {

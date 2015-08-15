@@ -9,29 +9,45 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.Entity;
 using Epsilon.Logic.Helpers;
+using Epsilon.Logic.Helpers.Interfaces;
 
 namespace Epsilon.Logic.Services
 {
     public class IpAddressActivityService : IIpAddressActivityService
     {
         private readonly IEpsilonContext _dbContext;
+        private readonly IElmahHelper _elmahHelper;
 
-        public IpAddressActivityService(IEpsilonContext dbContext)
+        public IpAddressActivityService(
+            IEpsilonContext dbContext,
+            IElmahHelper elmahHelper)
         {
             _dbContext = dbContext;
+            _elmahHelper = elmahHelper;
         }
 
         public async Task RecordRegistration(string userId, string ipAddress)
         {
-            // TODO_PANOS: wrap in try catch
-            await RecordActivity(userId, IpAddressActivityType.Registration, ipAddress);
+            try {
+                await RecordActivity(userId, IpAddressActivityType.Registration, ipAddress);
+            }
+            catch (Exception ex)
+            {
+                _elmahHelper.Raise(ex);
+            }
         }
 
         public async Task RecordLogin(string email, string ipAddress)
-        { 
-            // TODO_PANOS: wrap in try catch
-            var user = await _dbContext.Users.SingleAsync(u => u.Email.Equals(email));
-            await RecordActivity(user.Id, IpAddressActivityType.Login, ipAddress);
+        {
+            try
+            {
+                var user = await _dbContext.Users.SingleAsync(u => u.Email.Equals(email));
+                await RecordActivity(user.Id, IpAddressActivityType.Login, ipAddress);
+            }
+            catch (Exception ex)
+            {
+                _elmahHelper.Raise(ex);
+            }
         }
 
         private async Task RecordActivity(string userId, IpAddressActivityType activityType, string ipAddress)

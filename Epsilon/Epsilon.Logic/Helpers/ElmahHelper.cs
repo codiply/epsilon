@@ -1,4 +1,5 @@
 ﻿using Elmah;
+using Epsilon.Logic.Helpers.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,18 +8,27 @@ using System.Threading.Tasks;
 
 namespace Epsilon.Logic.Helpers
 {
-    public static class ElmahHelper
+    public class ElmahHelper : IElmahHelper
     {
-        public static void Raise(Exception ex)
+        public void Raise(Exception ex)
         {
             try
             {
                 ErrorSignal.FromCurrentContext().Raise(ex);
             }
-            catch (Exception ignored)
+            catch (Exception)
+            {
+                RaiseWithoutContext(ex);
+            }
+        }
+
+        private void RaiseWithoutContext(Exception ex)
+        {
+            try
             {
                 ErrorLog.GetDefault(null).Log(new Error(ex));
             }
+            catch (Exception) { }
         }
     }
 }

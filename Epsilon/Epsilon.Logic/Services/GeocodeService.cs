@@ -2,7 +2,7 @@
 using Epsilon.Logic.Constants;
 using Epsilon.Logic.Constants.Enums;
 using Epsilon.Logic.Entities;
-using Epsilon.Logic.Helpers;
+using Epsilon.Logic.Helpers.Interfaces;
 using Epsilon.Logic.Services.Interfaces;
 using Epsilon.Logic.SqlContext.Interfaces;
 using Epsilon.Logic.Wrappers.Interfaces;
@@ -28,6 +28,7 @@ namespace Epsilon.Logic.Services
         private readonly IGeocodeClientFactory _geocodeClientFactory;
         private readonly IAdminAlertService _adminAlertService;
         private readonly IAdminEventLogService _adminEventLogService;
+        private readonly IElmahHelper _elmahHelper;
 
         public GeocodeService(
             IClock clock,
@@ -36,7 +37,8 @@ namespace Epsilon.Logic.Services
             IGeocodeServiceConfig geocodeServiceConfig,
             IGeocodeClientFactory geocodeClientFactory,
             IAdminAlertService adminAlertService,
-            IAdminEventLogService adminEventLogService)
+            IAdminEventLogService adminEventLogService,
+            IElmahHelper elmahHelper)
         {
             _clock = clock;
             _randomFactory = randomFactory;
@@ -45,6 +47,7 @@ namespace Epsilon.Logic.Services
             _geocodeClientFactory = geocodeClientFactory;
             _adminAlertService = adminAlertService;
             _adminEventLogService = adminEventLogService;
+            _elmahHelper = elmahHelper;
         }
 
         public async Task<GeocodeAddressResponse> GeocodeAddress(string address, string countryId)
@@ -271,7 +274,7 @@ namespace Epsilon.Logic.Services
             }
             catch(Exception ex)
             {
-                ElmahHelper.Raise(ex);
+                _elmahHelper.Raise(ex);
                 _adminAlertService.SendAlert(AdminAlertKey.GoogleGeocodeApiClientException);
             }
 

@@ -166,6 +166,7 @@
     <Compile Include="Entities\GeoipInfo.cs" />
     <Compile Include="Forms\Manage\ChangePreferencesForm.cs" />
     <Compile Include="Helpers\ElmahHelper.cs" />
+    <Compile Include="Helpers\Interfaces\IElmahHelper.cs" />
     <Compile Include="Models\AddressModel.cs" />
     <Compile Include="Models\GeoipClientResponse.cs" />
     <Compile Include="Models\OutgoingVerificationInstructionsModel.cs" />

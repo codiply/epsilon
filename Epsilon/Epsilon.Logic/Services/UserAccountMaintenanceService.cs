@@ -12,6 +12,7 @@ using Epsilon.Logic.Constants.Enums;
 using System.Transactions;
 using Epsilon.Logic.Constants;
 using Epsilon.Logic.Helpers;
+using Epsilon.Logic.Helpers.Interfaces;
 
 namespace Epsilon.Logic.Services
 {
@@ -24,6 +25,7 @@ namespace Epsilon.Logic.Services
         private readonly IUserTokenService _userTokenService;
         private readonly IAdminAlertService _adminAlertService;
         private readonly IAdminEventLogService _adminEventLogService;
+        private readonly IElmahHelper _elmahHelper;
 
         public UserAccountMaintenanceService(
             IClock clock,
@@ -31,7 +33,8 @@ namespace Epsilon.Logic.Services
             IUserAccountMaintenanceServiceConfig userAccountMaintenanceServiceConfig,
             IUserTokenService userTokenService,
             IAdminAlertService adminAlertService,
-            IAdminEventLogService adminEventLogService)
+            IAdminEventLogService adminEventLogService,
+            IElmahHelper elmahHelper)
         {
             _clock = clock;
             _dbContext = dbContext;
@@ -39,6 +42,7 @@ namespace Epsilon.Logic.Services
             _userTokenService = userTokenService;
             _adminAlertService = adminAlertService;
             _adminEventLogService = adminEventLogService;
+            _elmahHelper = elmahHelper;
         }
 
         public async Task DoMaintenance(string email)
@@ -49,7 +53,7 @@ namespace Epsilon.Logic.Services
             }
             catch (Exception ex)
             {
-                ElmahHelper.Raise(ex);
+                _elmahHelper.Raise(ex);
                 await RaiseMaintenanceThrewException(email);
             }
         }

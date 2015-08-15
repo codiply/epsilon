@@ -1,5 +1,4 @@
 ﻿using Epsilon.Logic.Constants;
-using Epsilon.Logic.Helpers;
 using Epsilon.Logic.Helpers.Interfaces;
 using Epsilon.Logic.Services.Interfaces;
 using Epsilon.Logic.Wrappers;
@@ -17,13 +16,16 @@ namespace Epsilon.Logic.Services
     {
         private readonly ISmtpClientWrapperFactory _smtpClientWrapperFactory;
         private readonly IAppSettingsHelper _appSettingsHelper;
+        private readonly IElmahHelper _elmahHelper;
 
         public SmtpService(
             ISmtpClientWrapperFactory smtpClientWrapperFactory,
-            IAppSettingsHelper appSettingsHelper)
+            IAppSettingsHelper appSettingsHelper,
+            IElmahHelper elmahHelper)
         {
             _smtpClientWrapperFactory = smtpClientWrapperFactory;
             _appSettingsHelper = appSettingsHelper;
+            _elmahHelper = elmahHelper;
         }
 
         public void Send(MailMessage message, bool allowThrowException)
@@ -58,7 +60,7 @@ namespace Epsilon.Logic.Services
                 if (allowThrowException)
                     throw ex;
                 else
-                    ElmahHelper.Raise(ex);
+                    _elmahHelper.Raise(ex);
             }
         }
     }
