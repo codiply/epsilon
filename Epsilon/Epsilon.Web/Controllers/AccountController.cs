@@ -32,8 +32,8 @@ namespace Epsilon.Web.Controllers
         private readonly IUserAccountMaintenanceService _userAccountMaintenanceService;
 
         public AccountController(
-            ApplicationUserManager userManager, 
             ApplicationSignInManager signInManager,
+            ApplicationUserManager userManager, 
             IAntiAbuseService antiAbuseService,
             IAppSettingsHelper appSettingsHelper,
             IAuthenticationManager authenticationManager,
@@ -78,13 +78,14 @@ namespace Epsilon.Web.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
+                    // TODO_PANOS: check that both actions below do not throw exception
                     await _ipAddressActivityService.RecordLogin(model.Email, GetUserIpAddress());
                     await _userAccountMaintenanceService.DoMaintenance(model.Email);
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
-                case SignInStatus.RequiresVerification:
-                    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
+                //case SignInStatus.RequiresVerification:
+                //    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
                 case SignInStatus.Failure:
                 default:
                     ModelState.AddModelError("", AccountResources.Error_InvalidLoginAttempt);
@@ -167,8 +168,6 @@ namespace Epsilon.Web.Controllers
                     var result = await _userManager.CreateAsync(user, model.Password);
                     if (result.Succeeded)
                     {
-                        await _signInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-
                         await _newUserService.Setup(user.Id, GetUserIpAddress(), GetLanguageId());
 
                         // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
@@ -182,13 +181,13 @@ namespace Epsilon.Web.Controllers
                         }
                        
                         transactionScope.Complete();
-
+                        
+                        await _signInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                        
                         return RedirectToAction(
                             AppConstant.AUTHENTICATED_USER_HOME_ACTION,
                             AppConstant.AUTHENTICATED_USER_HOME_CONTROLLER);
                     }
-
-                    transactionScope.Complete();
 
                     AddErrors(result);
                 }
