@@ -17,9 +17,9 @@ using Epsilon.Logic.Models;
 namespace Epsilon.Web.Controllers
 {
     public class ManageController : BaseMvcController
-    {
-        private readonly ApplicationSignInManager _signInManager;
+    { 
         private readonly ApplicationUserManager _userManager;
+        private readonly ApplicationSignInManager _signInManager;
         private readonly IUserPreferenceService _userPreferenceService;
         private readonly ILanguageService _languageService;
 
