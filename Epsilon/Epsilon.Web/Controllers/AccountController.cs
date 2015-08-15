@@ -78,7 +78,6 @@ namespace Epsilon.Web.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    // TODO_PANOS: check that both actions below do not throw exception
                     await _ipAddressActivityService.RecordLogin(model.Email, GetUserIpAddress());
                     await _userAccountMaintenanceService.DoMaintenance(model.Email);
                     return RedirectToLocal(returnUrl);
