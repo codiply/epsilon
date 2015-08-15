@@ -23,11 +23,13 @@ namespace Epsilon.Logic.Services
 
         public async Task RecordRegistration(string userId, string ipAddress)
         {
+            // TODO_PANOS: wrap in try catch
             await RecordActivity(userId, IpAddressActivityType.Registration, ipAddress);
         }
 
         public async Task RecordLogin(string email, string ipAddress)
-        {
+        { 
+            // TODO_PANOS: wrap in try catch
             var user = await _dbContext.Users.SingleAsync(u => u.Email.Equals(email));
             await RecordActivity(user.Id, IpAddressActivityType.Login, ipAddress);
         }
