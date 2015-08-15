@@ -48,10 +48,10 @@ namespace Epsilon.Logic.Configuration
         {
             get
             {
-                var value = _dbAppSettingsHelper.GetDouble(
+                var valueInHours = _dbAppSettingsHelper.GetDouble(
                     DbAppSettingKey.AdminAlertSnoozePeriodInHours,
                     _dbAppSettingDefaultValue.AdminAlertSnoozePeriodInHours);
-                return TimeSpan.FromHours(value);
+                return TimeSpan.FromHours(valueInHours);
             }
         }
     }

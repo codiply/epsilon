@@ -29,7 +29,7 @@ namespace Epsilon.Logic.Configuration
             get
             {
                 return _dbAppSettingsHelper.GetInt(
-                    EnumsHelper.DbAppSettingKey.ToString(DbAppSettingKey.Token_MyTokenTransactions_PageSize),
+                    DbAppSettingKey.Token_MyTokenTransactions_PageSize,
                     _dbAppSettingDefaultValue.Token_MyTokenTransactions_PageSize);
             }
         }
