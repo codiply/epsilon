@@ -1,6 +1,5 @@
 ﻿using Epsilon.Logic.Constants.Enums;
 using Epsilon.Logic.Helpers;
-using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
