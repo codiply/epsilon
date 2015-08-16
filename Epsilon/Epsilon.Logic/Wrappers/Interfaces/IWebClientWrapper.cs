@@ -4,9 +4,7 @@ using System.Threading.Tasks;
 
 namespace Epsilon.Logic.Wrappers.Interfaces
 {
-    public class WebClientTimeoutException : Exception
-    {
-    }
+    public class WebClientTimeoutException : Exception { }
 
     public class WebClientResponse
     {

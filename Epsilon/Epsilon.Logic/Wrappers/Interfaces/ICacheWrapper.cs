@@ -10,7 +10,6 @@ namespace Epsilon.Logic.Wrappers.Interfaces
         Object Get(string key);
 
         void Insert(string key, Object value);
-
         void Insert(string key, Object value, TimeSpan slidingExpiration);
 
         void Remove(string key);

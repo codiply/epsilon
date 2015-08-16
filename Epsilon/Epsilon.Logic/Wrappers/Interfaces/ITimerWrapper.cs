@@ -7,11 +7,9 @@ namespace Epsilon.Logic.Wrappers.Interfaces
         event ElapsedEventHandler Elapsed;
 
         bool AutoReset { get; set; }
-
         double IntervalMilliseconds { get; set; }
 
         void Start();
-
         void Stop();
     }
 }

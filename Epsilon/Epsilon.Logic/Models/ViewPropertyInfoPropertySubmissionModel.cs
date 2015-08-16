@@ -19,7 +19,6 @@ namespace Epsilon.Logic.Models
         public static ViewPropertyInfoPropertySubmissionModel FromTenancyDetailsSubmission(
             TenancyDetailsSubmission entity, ICurrencyService currencyService)
         {
-            // TODO_TEST_PANOS
             return new ViewPropertyInfoPropertySubmissionModel
             {
                 RentPerMonth = entity.RentPerMonth,

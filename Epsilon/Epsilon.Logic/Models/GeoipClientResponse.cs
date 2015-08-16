@@ -18,7 +18,6 @@ namespace Epsilon.Logic.Models
 
         static public GeoipClientResponse FromProviderClientResponse(GeoipProviderClientResponse providerClientResponse)
         {
-            // TODO_TEST_PANOS
             return new GeoipClientResponse
             {
                 CountryCode = providerClientResponse.CountryCode,
