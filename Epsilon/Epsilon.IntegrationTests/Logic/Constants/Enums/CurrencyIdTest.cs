@@ -43,7 +43,7 @@ namespace Epsilon.IntegrationTests.Logic.Constants.Enums
         }
 
         [Test]
-        public async Task EveryCurrencyIdShouldHaveAnCurrencyInTheDatabase()
+        public async Task EveryCurrencyIdShouldHaveACurrencyInTheDatabase()
         {
             var enumCurrencyIds = EnumsHelper.CurrencyId.GetNames();
 

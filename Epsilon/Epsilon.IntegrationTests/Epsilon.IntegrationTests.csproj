@@ -88,6 +88,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseFixtures\BaseIntegrationTestWithRollback.cs" />
+    <Compile Include="Logic\Constants\Enums\DbAppSettingKeyTest.cs" />
     <Compile Include="Logic\Constants\Enums\CurrencyIdTest.cs" />
     <Compile Include="Logic\Constants\Enums\TokenRewardKeyTest.cs" />
     <Compile Include="Logic\Constants\Enums\CountryIdTest.cs" />
