@@ -4,6 +4,7 @@ using Epsilon.Logic.Configuration.Interfaces;
 using Epsilon.Logic.Constants;
 using Epsilon.Logic.Constants.Enums;
 using Epsilon.Logic.Entities;
+using Epsilon.Logic.Entities.Interfaces;
 using Epsilon.Logic.Helpers;
 using Epsilon.Logic.Services.Interfaces;
 using Epsilon.Logic.SqlContext.Interfaces;

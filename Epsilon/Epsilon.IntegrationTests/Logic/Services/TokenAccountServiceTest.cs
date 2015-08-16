@@ -54,8 +54,8 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var user = await CreateUser(containerUnderTest, "test@test.com", "1.2.3.4");
             var accountId = user.Id;
 
-            Decimal expectedBalance = 0;
-            Decimal actualBalance;
+            decimal expectedBalance = 0;
+            decimal actualBalance;
             for (int i = 0; i < numberOfRounds; i++)
             {
                 foreach (var am in amounts)

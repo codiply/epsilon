@@ -9,7 +9,7 @@ namespace Epsilon.Logic.Services.Interfaces
     {
         Task CreateAccount(string accountId);
 
-        Task<bool> SufficientFundsExistForTransaction(string accountId, Decimal amount);
+        Task<bool> SufficientFundsExistForTransaction(string accountId, decimal amount);
 
         /// <summary>
         /// It makes a transaction for the specific account.
@@ -37,7 +37,7 @@ namespace Epsilon.Logic.Services.Interfaces
         /// <returns></returns>
         Task<TokenAccountTransactionStatus> MakeTransaction(
             string accountId, 
-            Decimal amount,
+            decimal amount,
             TokenRewardKey tokenRewardKey,
             Guid? internalReference = null,
             string externalReference = null,

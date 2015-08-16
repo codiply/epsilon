@@ -12,7 +12,7 @@ namespace Epsilon.Logic.Entities
         public virtual Guid UniqueId { get; set; }
         public virtual string UserId { get; set; }
         public virtual long AddressId { get; set; }
-        public virtual Decimal? RentPerMonth { get; set; }
+        public virtual decimal? RentPerMonth { get; set; }
         public virtual string CurrencyId { get; set; }
         public virtual byte? NumberOfBedrooms { get; set; }
         public virtual bool? IsPartOfProperty { get; set; }
@@ -28,7 +28,7 @@ namespace Epsilon.Logic.Entities
         public virtual bool IsHidden { get; set; }
 
         [Timestamp]
-        public virtual Byte[] Timestamp { get; set; }
+        public virtual byte[] Timestamp { get; set; }
 
         public virtual User User { get; set; }
         public virtual Address Address { get; set; }

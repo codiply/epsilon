@@ -1,4 +1,5 @@
-﻿using Epsilon.Logic.JsonModels;
+﻿using Epsilon.Logic.Entities.Interfaces;
+using Epsilon.Logic.JsonModels;
 using System;
 using System.ComponentModel.DataAnnotations;
 
@@ -19,14 +20,13 @@ namespace Epsilon.Logic.Entities
         public virtual string AssignedByIpAddress { get; set; }
 
         [Timestamp]
-        public virtual Byte[] Timestamp { get; set; }
+        public virtual byte[] Timestamp { get; set; }
 
         public virtual User AssignedTo { get; set; }
         public virtual TenancyDetailsSubmission TenancyDetailsSubmission { get; set; }
 
         public bool MarkedAddressAsInvalid()
         {
-            // TODO_TEST_PANOS
             return MarkedAddressAsInvalidOn.HasValue;
         }
 
@@ -52,7 +52,6 @@ namespace Epsilon.Logic.Entities
 
         public bool CanViewInstructions(DateTimeOffset now, TimeSpan expiryPeriod)
         {
-            // TODO_TEST_PANOS
             return !MarkedAddressAsInvalid() && now < ExpiresOn(expiryPeriod);
         }
 
@@ -63,7 +62,6 @@ namespace Epsilon.Logic.Entities
 
         public DateTimeOffset ExpiresOn(TimeSpan expiryPeriod)
         {
-            // TODO_TEST_PANOS
             return CreatedOn + expiryPeriod;
         }
 

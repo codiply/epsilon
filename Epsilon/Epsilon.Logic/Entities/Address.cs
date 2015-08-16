@@ -29,7 +29,7 @@ namespace Epsilon.Logic.Entities
         public virtual bool IsHidden { get; set; }
 
         [Timestamp]
-        public virtual Byte[] Timestamp { get; set; }
+        public virtual byte[] Timestamp { get; set; }
 
         public virtual User CreatedBy { get; set; }
         public virtual Country Country { get; set; }
@@ -51,14 +51,6 @@ namespace Epsilon.Logic.Entities
                 sb.Append(", ").Append(Country.LocalName);
             }
             return sb.ToString();
-        }
-
-        // TODO_TEST_PANOS
-        public string LocalityRegionPostcode()
-        {
-            var pieces = new List<string> { Locality, Region, Postcode };
-
-            return string.Join(", ", pieces.Where(x => !string.IsNullOrWhiteSpace(x)));
         }
     }
 }

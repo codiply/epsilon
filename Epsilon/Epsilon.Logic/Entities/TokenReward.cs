@@ -25,7 +25,7 @@ namespace Epsilon.Logic.Entities
         }
 
         [NotMapped]
-        public virtual Decimal AbsValue
+        public virtual decimal AbsValue
         {
             get
             {

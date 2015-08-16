@@ -20,7 +20,7 @@ namespace Epsilon.Logic.Entities
         public virtual DateTimeOffset GeocodedOn { get; set; }
 
         [Timestamp]
-        public virtual Byte[] Timestamp { get; set; }
+        public virtual byte[] Timestamp { get; set; }
 
         public virtual ICollection<Address> Addresses { get; set; }
         public virtual Country Country { get; set; }

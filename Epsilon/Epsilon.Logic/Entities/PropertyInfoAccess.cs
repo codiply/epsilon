@@ -14,26 +14,23 @@ namespace Epsilon.Logic.Entities
         public virtual string CreatedByIpAddress { get; set; }
 
         [Timestamp]
-        public virtual Byte[] Timestamp { get; set; }
+        public virtual byte[] Timestamp { get; set; }
 
         public virtual User User { get; set; }
         public virtual Address Address { get; set; }
 
         public DateTimeOffset ExpiresOn(TimeSpan expiryPeriod)
         {
-            // TODO_TEST_PANOS
             return CreatedOn + expiryPeriod;
         }
 
         public bool CanViewInfo(DateTimeOffset now, TimeSpan expiryPeriod)
         {
-            // TODO_TEST_PANOS
             return now < ExpiresOn(expiryPeriod);
         }
 
         public ExploredPropertyInfo ToExploredPropertyInfo(DateTimeOffset now, TimeSpan expiryPeriod)
         {
-            // TODO_TEST_PANOS
             return new ExploredPropertyInfo
             {
                 accessUniqueId = UniqueId,

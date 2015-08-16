@@ -9,13 +9,7 @@ namespace Epsilon.Logic.Constants
         public const string CreateTenancyDetailsSubmissionGlobalMaxFrequencyReached = "CreateTenancyDetailsSubmissionGlobalMaxFrequencyReached";
         public const string DbAppSettingsNotLoaded = "DbAppSettingsNotLoaded";
         public const string GeoipRotatingClientMaxRotationsReached = "GeoipRotatingClientMaxRotationsReached";
-
-        public static string GeoipRotatingClientProviderFailed(GeoipProviderName providerName, WebClientResponseStatus responseStatus)
-        {
-            return string.Format("GeoipRotatingClientProviderFailed:{0}:{1}", 
-                EnumsHelper.GeoipProviderName.ToString(providerName), EnumsHelper.WebClientResponseStatus.ToString(responseStatus));
-        }
-
+        public const string GeoipRotatingClientProviderFailed_PREFIX = "GeoipRotatingClientProviderFailed";
         public const string GoogleGeocodeApiClientException = "GoogleGeocodeApiClientException";
         public const string GoogleGeocodeApiStatusInvalidRequest = "GoogleGeocodeApiStatusInvalidRequest";
         public const string GoogleGeocodeApiStatusOverQueryLimitMaxRetriesReached = "GoogleGeocodeApiStatusOverQueryLimitMaxRetriesReached";
@@ -27,6 +21,12 @@ namespace Epsilon.Logic.Constants
         public const string UserAccountMaintenanceCheckForUnrewardedOutgoingVerificationsTokenTransactionFailed =
             "UserAccountMaintenanceCheckForUnrewardedOutgoingVerificationsTokenTransactionFailed";
         public const string UserAccountMaintenanceThrewException = "UserAccountMaintenanceThrewException";
-        
+
+        public static string GeoipRotatingClientProviderFailed(GeoipProviderName providerName, WebClientResponseStatus responseStatus)
+        {
+            return string.Format("{0}:{1}:{2}", GeoipRotatingClientProviderFailed_PREFIX,
+                EnumsHelper.GeoipProviderName.ToString(providerName), EnumsHelper.WebClientResponseStatus.ToString(responseStatus));
+        }
+
     }
 }

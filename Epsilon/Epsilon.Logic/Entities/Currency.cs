@@ -11,6 +11,6 @@ namespace Epsilon.Logic.Entities
         public virtual string Symbol { get; set; }
 
         [Timestamp]
-        public virtual Byte[] Timestamp { get; set; }
+        public virtual byte[] Timestamp { get; set; }
     }
 }

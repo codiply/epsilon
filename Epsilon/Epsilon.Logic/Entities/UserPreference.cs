@@ -13,7 +13,7 @@ namespace Epsilon.Logic.Entities
         public virtual DateTimeOffset UpdatedOn { get; set; }
 
         [Timestamp]
-        public virtual Byte[] Timestamp { get; set; }
+        public virtual byte[] Timestamp { get; set; }
 
         public virtual User User { get; set; }
         public virtual Language Language { get; set; } 

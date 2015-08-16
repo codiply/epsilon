@@ -2,8 +2,6 @@
 {
     public static class SubmissionResourceName
     {
-        // TODO_TEST_PANOS: possibly using reflection, enumerate the names here and make sure there is a resource for all of them.
-
         public const string SubmitTenancyDetailsForm_FieldNumberOfBedrooms_DisplayName = "SubmitTenancyDetailsForm_FieldNumberOfBedrooms_DisplayName";
         public const string SubmitTenancyDetailsForm_FieldNumberOfBedrooms_RangeErrorMessage = "SubmitTenancyDetailsForm_FieldNumberOfBedrooms_RangeErrorMessage";
         public const string SubmitTenancyDetailsForm_FieldNumberOfBedrooms_RequiredErrorMessage = "SubmitTenancyDetailsForm_FieldNumberOfBedrooms_RequiredErrorMessage";

@@ -12,6 +12,6 @@ namespace Epsilon.Logic.Entities
         public virtual bool IsAvailable { get; set; }
 
         [Timestamp]
-        public virtual Byte[] Timestamp { get; set; }
+        public virtual byte[] Timestamp { get; set; }
     }
 }

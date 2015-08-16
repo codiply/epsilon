@@ -9,7 +9,7 @@ namespace Epsilon.Logic.Entities
         public virtual Guid UniqueId { get; set; }
         public virtual string AccountId { get; set; }
         public virtual string RewardTypeKey { get; set; }
-        public virtual Decimal Amount { get; set; }
+        public virtual decimal Amount { get; set; }
         public virtual int Quantity { get; set; }
         public virtual DateTimeOffset MadeOn { get; set; }
 

@@ -19,12 +19,18 @@ namespace Epsilon.Logic.Entities.Interfaces
 
     public static class IAddressExtensions
     {
-        // TDODO_PANOS_TEST
         public static string FullAddressWithoutCountry(this IAddress address)
         {
             var pieces = new List<string> {
                 address.Line1, address.Line2, address.Line3, address.Line4,
                 address.Locality, address.Region, address.Postcode };
+
+            return string.Join(", ", pieces.Where(x => !string.IsNullOrWhiteSpace(x)));
+        }
+
+        public static string LocalityRegionPostcode(this IAddress address)
+        {
+            var pieces = new List<string> { address.Locality, address.Region, address.Postcode };
 
             return string.Join(", ", pieces.Where(x => !string.IsNullOrWhiteSpace(x)));
         }

@@ -17,7 +17,7 @@ namespace Epsilon.Logic.Entities
         public DateTimeOffset RecordedOn { get; set; }
 
         [Timestamp]
-        public virtual Byte[] Timestamp { get; set; }
+        public virtual byte[] Timestamp { get; set; }
 
         public CountryId? CountryCodeAsEnum()
         {

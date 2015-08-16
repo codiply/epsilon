@@ -8,7 +8,7 @@ namespace Epsilon.Logic.JsonModels
     {
         public Guid uniqueId { get; set; }
         public string rewardTypeKey { get; set; }
-        public Decimal amount { get; set; }
+        public decimal amount { get; set; }
         public int quantity { get; set; }
         public DateTimeOffset madeOn { get; set; }
     }

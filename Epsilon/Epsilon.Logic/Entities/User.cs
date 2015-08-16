@@ -16,7 +16,7 @@ namespace Epsilon.Logic.Entities
         public virtual UserPreference Preference { get; set; }
 
         [Timestamp]
-        public virtual Byte[] Timestamp { get; set; }
+        public virtual byte[] Timestamp { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<User> manager)
         {
