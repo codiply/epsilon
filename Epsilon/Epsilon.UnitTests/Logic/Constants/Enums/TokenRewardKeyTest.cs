@@ -1,4 +1,5 @@
 ﻿using Epsilon.Logic.Constants;
+using Epsilon.Logic.Constants.Enums;
 using Epsilon.Logic.Helpers;
 using Epsilon.Resources.Logic.TokenRewardKey;
 using NUnit.Framework;
@@ -42,5 +43,28 @@ namespace Epsilon.UnitTests.Logic.Constants.Enums
 
             }
         }
+
+        [Test]
+        public void AmountSignTest()
+        {
+            var allKeys = EnumsHelper.TokenRewardKey.GetValues();
+            foreach (var key in allKeys)
+            { 
+                var earnOrSpend = key.EarnOrSpend();
+                var amountSign = key.AmountSign();
+
+                if (earnOrSpend == TokenRewardKeyType.Earn)
+                {
+                    Assert.AreEqual(TokenRewardKeyAmountSign.Positive, amountSign,
+                        string.Format("AmountSign for key '{0}' should be Positive.", EnumsHelper.TokenRewardKey.ToString(key)));
+                }
+                else
+                {
+                    Assert.AreEqual(TokenRewardKeyAmountSign.Negative, amountSign,
+                        string.Format("AmountSign for key '{0}' should be Negative.", EnumsHelper.TokenRewardKey.ToString(key)));
+                }
+
+            }
+        } 
     }
 }
