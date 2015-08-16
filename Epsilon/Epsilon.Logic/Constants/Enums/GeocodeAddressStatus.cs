@@ -1,6 +1,6 @@
 ﻿namespace Epsilon.Logic.Constants.Enums
 {
-    // NOTE: If you add a CountryId search for string 'EnumSwitch:GeocodeAddressStatus' for 
+    // NOTE: If you add a GeocodeAddressStatus search for string 'EnumSwitch:GeocodeAddressStatus' for 
     //       all places where you need to add a case in a switch statement.
     public enum GeocodeAddressStatus
     {

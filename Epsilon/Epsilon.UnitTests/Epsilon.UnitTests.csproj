@@ -98,6 +98,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Logic\Constants\CountryAddressFieldMetadataTest.cs" />
+    <Compile Include="Logic\Constants\Enums\IpAddressActivityTypeTest.cs" />
+    <Compile Include="Logic\Constants\Enums\DbAppSettingValueTypeTest.cs" />
+    <Compile Include="Logic\Constants\Enums\DbAppSettingKeyTest.cs" />
+    <Compile Include="Logic\Constants\Enums\AdminEventLogKeyTest.cs" />
+    <Compile Include="Logic\Constants\Enums\CurrencyIdTest.cs" />
+    <Compile Include="Logic\Constants\Enums\CountryIdTest.cs" />
     <Compile Include="Logic\Constants\Enums\TokenRewardKeyTest.cs" />
     <Compile Include="Logic\Helpers\BaseAppSettingsHelperTest.cs" />
     <Compile Include="Logic\Helpers\CountryVariantResourceHelperTest.cs" />
