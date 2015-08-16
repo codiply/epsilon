@@ -10,8 +10,10 @@ namespace Epsilon.Logic.Wrappers
 {
     public class WebClientWrapper : IWebClientWrapper
     {
+        private readonly object _monitor = new object();
         private readonly ITimerFactory _timerFactory;
         private readonly IElmahHelper _elmahHelper;
+        private bool _used = false;
 
         private readonly WebClient _client = new WebClient();
         private bool _cancelled = false;
@@ -27,6 +29,12 @@ namespace Epsilon.Logic.Wrappers
         public async Task<WebClientResponse> DownloadStringTaskAsync(string url, double timeoutMilliseconds)
         {
             try {
+                lock (_monitor)
+                {
+                    if (_used)
+                        throw new Exception("Do not reuse the WebClientWrapper!");
+                    _used = true;
+                }
                 var timer = _timerFactory.Create();
                 timer.IntervalMilliseconds = timeoutMilliseconds;
                 timer.AutoReset = false;
