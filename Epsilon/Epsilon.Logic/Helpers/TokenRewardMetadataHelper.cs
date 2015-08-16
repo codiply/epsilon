@@ -8,8 +8,6 @@ namespace Epsilon.Logic.Helpers
 {
     public class TokenRewardMetadataHelper : ITokenRewardMetadataHelper
     {
-        // TODO_TEST_PANOS: everything here
-
         public IList<TokenRewardTypeMetadata> GetAll()
         {
             var resourceManager = TokenRewardKeyResources.ResourceManager;
@@ -29,12 +27,12 @@ namespace Epsilon.Logic.Helpers
             return typeMetadata;
         }
 
-        private static string ResourceNameForDisplayName(TokenRewardKey key)
+        public static string ResourceNameForDisplayName(TokenRewardKey key)
         {
             return string.Format("{0}_DisplayName", EnumsHelper.TokenRewardKey.ToString(key));
         }
 
-        private static string ResourceNameForDescription(TokenRewardKey key)
+        public static string ResourceNameForDescription(TokenRewardKey key)
         {
             return string.Format("{0}_Description", EnumsHelper.TokenRewardKey.ToString(key));
         }

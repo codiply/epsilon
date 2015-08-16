@@ -26,17 +26,17 @@ namespace Epsilon.UnitTests.Logic.Constants.Enums
         [Test]
         public void DisplayNameAndDescriptionIsDefinedForAllTokenRewardKeys()
         {
-            var allKeys = EnumsHelper.TokenRewardKey.GetNames();
+            var allKeys = EnumsHelper.TokenRewardKey.GetValues();
 
             foreach (var key in allKeys)
             {
-                var displayNameResourceName = key + "_DisplayName";
+                var displayNameResourceName = TokenRewardMetadataHelper.ResourceNameForDisplayName(key);
                 var displayName = TokenRewardKeyResources.ResourceManager.GetString(displayNameResourceName);
                 Assert.IsNotNullOrEmpty(displayName,
                     string.Format("Resource '{0}' was not found in TokenRewardKeyResources.", displayNameResourceName));
 
 
-                var descriptionResourceName = key + "_Description";
+                var descriptionResourceName = TokenRewardMetadataHelper.ResourceNameForDescription(key);
                 var descriptionName = TokenRewardKeyResources.ResourceManager.GetString(descriptionResourceName);
                 Assert.IsNotNullOrEmpty(descriptionName,
                     string.Format("Resource '{0}' was not found in TokenRewardKeyResources.", descriptionResourceName));

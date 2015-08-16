@@ -44,5 +44,29 @@ namespace Epsilon.UnitTests.Logic.Helpers
                 }
             }
         }
+
+        [Test]
+        public void GetVariantsForCountry_AllResourcesAreDefinedForAllCountries()
+        {
+            var allCountryIds = EnumsHelper.CountryId.GetNames();
+            var allCountryVariantResourceNameEnums = EnumsHelper.CountryVariantResourceName.GetValues();
+            var allCountryVariantResourceNames = EnumsHelper.CountryVariantResourceName.GetNames();
+
+            {
+                foreach (var countryId in allCountryIds)
+                {
+                    var variants = _helper.GetVariantsForCountry(countryId, allCountryVariantResourceNameEnums);
+
+                    Assert.AreEqual(allCountryVariantResourceNames.Count, variants.Count,
+                        string.Format("Variants for countryId '{0}' do not have the expected Count.", countryId));
+
+                    foreach (var resourceName in allCountryVariantResourceNames)
+                    {
+                        Assert.IsTrue(variants.ContainsKey(resourceName),
+                            "Resource '{0}' was not found for countryId {1}.", resourceName, countryId);
+                    }
+                }
+            }
+        }
     }
 }

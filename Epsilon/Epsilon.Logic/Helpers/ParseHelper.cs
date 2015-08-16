@@ -158,7 +158,7 @@ namespace Epsilon.Logic.Helpers
                 return TimeSpan.FromDays(value);
             }
 
-            throw new ArgumentException();
+            throw new ArgumentException(string.Format("Unexpected period unit '{0}'", unit));
         }
     }
 }

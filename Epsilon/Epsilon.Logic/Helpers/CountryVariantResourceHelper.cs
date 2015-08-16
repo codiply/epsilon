@@ -14,18 +14,13 @@ namespace Epsilon.Logic.Helpers
     {
         private ConcurrentDictionary<string, ResourceManager> _countryResourceManagers = 
             new ConcurrentDictionary<string, ResourceManager>();
-        private List<string> _countryIds;
 
-        public CountryVariantResourceHelper()
-        {
-            _countryIds = Enum.GetNames(typeof(CountryId)).OrderBy(x => x).ToList();
-        }
 
         public Dictionary<string, string> GetVariants(CountryVariantResourceName resourceName)
         {
             var answer = new Dictionary<string, string>();
 
-            foreach (var countryId in _countryIds)
+            foreach (var countryId in GetCountryIds())
             {
                 var resourceManager = GetCountryResourceManager(countryId);
                 var value = resourceManager.GetString(EnumsHelper.CountryVariantResourceName.ToString(resourceName));
@@ -37,12 +32,11 @@ namespace Epsilon.Logic.Helpers
 
         public Dictionary<string, Dictionary<string, string>> GetVariants(IList<CountryVariantResourceName> resourceNames)
         {
-            var answer = _countryIds.ToDictionary(id => id, id => GetVariantsForCountry(id, resourceNames));
+            var answer = GetCountryIds().ToDictionary(id => id, id => GetVariantsForCountry(id, resourceNames));
             return answer;
         }
         
-        public Dictionary<string, string> GetVariantsForCountry(string countryId, 
-            IList<CountryVariantResourceName> resourceNames)
+        public Dictionary<string, string> GetVariantsForCountry(string countryId, IList<CountryVariantResourceName> resourceNames)
         {
             var resourceManager = GetCountryResourceManager(countryId);
             var answer = resourceNames
@@ -55,6 +49,11 @@ namespace Epsilon.Logic.Helpers
         {
             return _countryResourceManagers.GetOrAdd(countryId, id =>
                 new ResourceManager(AppConstant.COUNTRY_VARIANT_RESOURCES_STEM + id, typeof(ResourcesGB).Assembly));
+        }
+
+        private IList<string> GetCountryIds()
+        {
+            return EnumsHelper.CountryId.GetNames().OrderBy(x => x).ToList();     
         }
     }
 }
