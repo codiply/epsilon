@@ -7,9 +7,7 @@ namespace Epsilon.Logic.JsonModels
     public class TokenRewardsSummaryResponse
     {
         public IList<TokenRewardTypeMetadata> typeMetadata { get; set; }
-
         public IList<TokenRewardTypeValue> earnTypeValues { get; set; }
-
         public IList<TokenRewardTypeValue> spendTypeValues { get; set; }
     }
 }

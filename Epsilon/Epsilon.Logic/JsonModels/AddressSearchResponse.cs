@@ -7,9 +7,7 @@ namespace Epsilon.Logic.JsonModels
     public class AddressSearchResponse
     {
         public IList<AddressSearchResult> results { get; set; }
-
         public int resultsLimit { get; set; }
-        
         public bool isResultsLimitExceeded { get; set; }
     }
 }

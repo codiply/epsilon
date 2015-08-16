@@ -7,7 +7,6 @@ namespace Epsilon.Logic.JsonModels
     public class MyOutgoingVerificationsSummaryResponse
     {
         public IList<TenantVerificationInfo> tenantVerifications { get; set; }
-
         public bool moreItemsExist { get; set; }
     }
 }

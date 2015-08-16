@@ -7,7 +7,6 @@ namespace Epsilon.Logic.JsonModels
     public class MySubmissionsSummaryResponse
     {
         public IList<TenancyDetailsSubmissionInfo> tenancyDetailsSubmissions { get; set; }
-
         public bool moreItemsExist { get; set; }
     }
 }

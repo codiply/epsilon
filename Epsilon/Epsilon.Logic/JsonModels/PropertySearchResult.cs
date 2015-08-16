@@ -7,11 +7,8 @@ namespace Epsilon.Logic.JsonModels
     public class PropertySearchResult
     {
         public Guid addressUniqueId { get; set; }
-
         public string fullAddress { get; set; }
-
         public int numberOfCompletedSubmissions { get; set; }
-
         public DateTimeOffset? lastSubmissionOn { get; set; }
     }
 }

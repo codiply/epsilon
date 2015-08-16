@@ -7,7 +7,6 @@ namespace Epsilon.Logic.JsonModels
     public class AddressSearchResult
     {
         public Guid addressUniqueId { get; set; }
-
         public string fullAddress { get; set; }
     }
 }

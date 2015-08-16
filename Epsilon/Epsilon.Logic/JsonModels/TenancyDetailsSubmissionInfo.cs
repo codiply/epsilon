@@ -7,7 +7,6 @@ namespace Epsilon.Logic.JsonModels
     public class TenancyDetailsSubmissionInfo
     {
         public Guid uniqueId { get; set; }
-
         public string displayAddress { get; set; }
 
         public bool stepVerificationCodeSentOutDone { get; set; }
