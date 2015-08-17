@@ -9,36 +9,39 @@ namespace Epsilon.Logic.Wrappers
 {
     public class HttpRuntimeCache : ICacheWrapper
     {
-        private Cache _cache = HttpRuntime.Cache;
+        private Cache Cache
+        {
+            get { return HttpRuntime.Cache; }
+        }
 
         public bool ContainsKey(string key)
         {
-            return _cache.Get(key) != null;
+            return Cache.Get(key) != null;
         }
 
         public Object Get(string key)
         {
-            return _cache.Get(key);
+            return Cache.Get(key);
         }
 
         public void Insert(string key, Object value)
         {
-            _cache.Insert(key, value);
+            Cache.Insert(key, value);
         }
 
         public void Insert(string key, Object value, TimeSpan slidingExpiration)
         {
-            _cache.Insert(key, value, null, Cache.NoAbsoluteExpiration, slidingExpiration);
+            Cache.Insert(key, value, null, Cache.NoAbsoluteExpiration, slidingExpiration);
         }
 
         public void Remove(string key)
         {
-            _cache.Remove(key);
+            Cache.Remove(key);
         }
 
         public IEnumerable<string> AllKeys()
         {
-            var enumerator = HttpRuntime.Cache.GetEnumerator();
+            var enumerator = Cache.GetEnumerator();
             while (enumerator.MoveNext())
             {
                 yield return (string)enumerator.Key;
@@ -49,7 +52,7 @@ namespace Epsilon.Logic.Wrappers
         {
             foreach (var key in AllKeys().ToList())
             {
-                _cache.Remove(key);
+                Cache.Remove(key);
             }
         }
     }
