@@ -1,4 +1,5 @@
-﻿using Epsilon.Logic.Constants;
+﻿using Epsilon.Logic.Configuration.Interfaces;
+using Epsilon.Logic.Constants;
 using Epsilon.Logic.Helpers.Interfaces;
 using Epsilon.Logic.Services.Interfaces;
 using Epsilon.Logic.Wrappers.Interfaces;
@@ -9,17 +10,17 @@ namespace Epsilon.Logic.Services
 {
     public class SmtpService : ISmtpService
     {
+        private readonly ISmtpServiceConfig _smtpServiceConfig;
         private readonly ISmtpClientWrapperFactory _smtpClientWrapperFactory;
-        private readonly IAppSettingsHelper _appSettingsHelper;
         private readonly IElmahHelper _elmahHelper;
 
         public SmtpService(
+            ISmtpServiceConfig smtpServiceConfig,
             ISmtpClientWrapperFactory smtpClientWrapperFactory,
-            IAppSettingsHelper appSettingsHelper,
             IElmahHelper elmahHelper)
         {
+            _smtpServiceConfig = smtpServiceConfig;
             _smtpClientWrapperFactory = smtpClientWrapperFactory;
-            _appSettingsHelper = appSettingsHelper;
             _elmahHelper = elmahHelper;
         }
 
@@ -29,22 +30,22 @@ namespace Epsilon.Logic.Services
                 var client = _smtpClientWrapperFactory.CreateSmtpClientWrapper();
 
                 client.DeliveryMethod = SmtpDeliveryMethod.Network;
-                client.Host = _appSettingsHelper.GetString(AppSettingsKey.SmtpServiceHost);
-                client.Port = _appSettingsHelper.GetInt(AppSettingsKey.SmtpServicePort).Value;
-                client.Timeout = _appSettingsHelper.GetInt(AppSettingsKey.SmtpServiceTimeoutMilliseconds).Value;
+                client.Host = _smtpServiceConfig.Host;
+                client.Port = _smtpServiceConfig.Port;
+                client.Timeout = _smtpServiceConfig.TimeoutMilliseconds;
 
-                client.EnableSsl = _appSettingsHelper.GetBool(AppSettingsKey.SmtpServiceEnableSsl).Value;
+                client.EnableSsl = _smtpServiceConfig.EnableSsl;
 
-                var userName = _appSettingsHelper.GetString(AppSettingsKey.SmtpServiceUserName);
-                var password = _appSettingsHelper.GetString(AppSettingsKey.SmtpServicePassword);
+                var userName = _smtpServiceConfig.UserName;
+                var password = _smtpServiceConfig.Password;
 
                 System.Net.NetworkCredential credentials =
                     new System.Net.NetworkCredential(userName, password);
                 client.UseDefaultCredentials = false;
                 client.Credentials = credentials;
 
-                var fromAddress = _appSettingsHelper.GetString(AppSettingsKey.SmtpServiceFromAddress);
-                var fromDisplayName = _appSettingsHelper.GetString(AppSettingsKey.SmtpServiceFromDisplayName);
+                var fromAddress = _smtpServiceConfig.FromAddress;
+                var fromDisplayName = _smtpServiceConfig.FromDisplayName;
 
                 message.From = new MailAddress(fromAddress, fromDisplayName);
 

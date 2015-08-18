@@ -119,10 +119,12 @@
     <Compile Include="Configuration\Interfaces\IGeoipRotatingClientConfig.cs" />
     <Compile Include="Configuration\Interfaces\IOutgoingVerificationServiceConfig.cs" />
     <Compile Include="Configuration\Interfaces\IPropertyInfoAccessServiceConfig.cs" />
+    <Compile Include="Configuration\Interfaces\ISmtpServiceConfig.cs" />
     <Compile Include="Configuration\Interfaces\IUserAccountMaintenanceServiceConfig.cs" />
     <Compile Include="Configuration\Interfaces\IUserTokenServiceConfig.cs" />
     <Compile Include="Configuration\OutgoingVerificationServiceConfig.cs" />
     <Compile Include="Configuration\PropertyInfoAccessServiceConfig.cs" />
+    <Compile Include="Configuration\SmtpServiceConfig.cs" />
     <Compile Include="Configuration\TokenAccountServiceConfig.cs" />
     <Compile Include="Configuration\AntiAbuseServiceConfig.cs" />
     <Compile Include="Configuration\Interfaces\IAddressServiceConfig.cs" />
