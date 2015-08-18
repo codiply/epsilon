@@ -136,6 +136,7 @@
     <Compile Include="Configuration\UserAccountMaintenanceServiceConfig.cs" />
     <Compile Include="Configuration\UserTokenServiceConfig.cs" />
     <Compile Include="Constants\AdminAlertKey.cs" />
+    <Compile Include="Constants\AdminEventLogExtraInfoKey.cs" />
     <Compile Include="Constants\AppSettingsKey.cs" />
     <Compile Include="Constants\AppConstant.cs" />
     <Compile Include="Constants\AspNetRole.cs" />

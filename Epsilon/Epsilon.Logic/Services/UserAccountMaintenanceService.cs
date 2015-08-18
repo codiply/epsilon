@@ -106,7 +106,7 @@ namespace Epsilon.Logic.Services
             _adminAlertService.SendAlert(AdminAlertKey.UserAccountMaintenanceThrewException);
             var extraInfo = new Dictionary<string, object>
             {
-                { "MaintenanceUserEmail", maintenanceUserEmail }
+                { AdminEventLogExtraInfoKey.MaintenanceUserEmail, maintenanceUserEmail }
             };
             await _adminEventLogService.Log(AdminEventLogKey.UserAccountMaintenanceThrewException, extraInfo);
         }
@@ -116,8 +116,8 @@ namespace Epsilon.Logic.Services
             _adminAlertService.SendAlert(AdminAlertKey.UserAccountMaintenanceCheckForUnrewardedOutgoingVerificationsTokenTransactionFailed);
             var extraInfo = new Dictionary<string, object>
             {
-                { "MaintenanceUserId", maintenanceUserId },
-                { "FailedTransactionUserId", failedTransactionUserId }
+                { AdminEventLogExtraInfoKey.MaintenanceUserId, maintenanceUserId },
+                { AdminEventLogExtraInfoKey.FailedTransactionUserId, failedTransactionUserId }
             };
             await _adminEventLogService.Log(AdminEventLogKey.UserAccountMaintenanceCheckForUnrewardedOutgoingVerificationsTokenTransactionFailed, extraInfo);
         }

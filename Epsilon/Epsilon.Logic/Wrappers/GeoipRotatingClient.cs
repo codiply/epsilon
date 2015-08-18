@@ -11,7 +11,6 @@ using System.Threading.Tasks;
 
 namespace Epsilon.Logic.Wrappers
 {
-    // TODO_TEST_PANOS
     public class GeoipRotatingClient : IGeoipRotatingClient
     {
         private readonly IGeoipRotatingClientConfig _geoipRotatingClientConfig;
@@ -47,7 +46,6 @@ namespace Epsilon.Logic.Wrappers
         public async Task<GeoipClientResponse> Geoip(string ipAddress, int rotationNo = 1)
         {
             bool hasFailedOnce = false;
-            // TODO_TEST_PANOS
             foreach (var providerName in _providerNames)
             {
                 var response = await _geoipClient.Geoip(providerName, ipAddress);
@@ -82,7 +80,7 @@ namespace Epsilon.Logic.Wrappers
             _adminAlertService.SendAlert(AdminAlertKey.GeoipRotatingClientMaxRotationsReached);
             var extraInfo = new Dictionary<string, object>
             {
-                { "MaxRotations", _geoipRotatingClientConfig.MaxRotations }
+                { AdminEventLogExtraInfoKey.MaximumRotations, _geoipRotatingClientConfig.MaxRotations }
             };
             await _adminEventLogService.Log(AdminEventLogKey.GeoipRotatingClientMaxRotationsReached, extraInfo);
         }
@@ -92,9 +90,9 @@ namespace Epsilon.Logic.Wrappers
             _adminAlertService.SendAlert(AdminAlertKey.GeoipRotatingClientProviderFailed(providerName, responseStatus));
             var extraInfo = new Dictionary<string, object>
             {
-                { "GeoipProviderName", EnumsHelper.GeoipProviderName.ToString(providerName) },
-                { "ResponseStatus", EnumsHelper.WebClientResponseStatus.ToString(responseStatus) },
-                { "ErrorMessage", errorMessage }
+                { AdminEventLogExtraInfoKey.GeoipProviderName, EnumsHelper.GeoipProviderName.ToString(providerName) },
+                { AdminEventLogExtraInfoKey.ResponseStatus, EnumsHelper.WebClientResponseStatus.ToString(responseStatus) },
+                { AdminEventLogExtraInfoKey.ErrorMessage, errorMessage }
             };
             await _adminEventLogService.Log(AdminEventLogKey.GeoipClientFailure, extraInfo);
         }
@@ -103,8 +101,8 @@ namespace Epsilon.Logic.Wrappers
         {
             var extraInfo = new Dictionary<string, object>
             {
-                { "SuccessfulGeoipProviderName", EnumsHelper.GeoipProviderName.ToString(successfulProviderName) },
-                { "RotationNo", rotationNo }
+                { AdminEventLogExtraInfoKey.SuccessfulGeoipProviderName, EnumsHelper.GeoipProviderName.ToString(successfulProviderName) },
+                { AdminEventLogExtraInfoKey.RotationNo, rotationNo }
             };
             await _adminEventLogService.Log(AdminEventLogKey.GeoipRotatingClientSuccessAfterFailures, extraInfo);
         }

@@ -188,8 +188,8 @@ namespace Epsilon.Logic.Services
             _adminAlertService.SendAlert(AdminAlertKey.GoogleGeocodeApiStatusOverQueryLimitMaxRetriesReached);
             var extraInfo = new Dictionary<string, object>
             {
-                { "QueryType", queryType },
-                { "MaximumRetries", _geocodeServiceConfig.OverQueryLimitMaxRetries }
+                { AdminEventLogExtraInfoKey.QueryType, queryType },
+                { AdminEventLogExtraInfoKey.MaximumRetries, _geocodeServiceConfig.OverQueryLimitMaxRetries }
             };
             await _adminEventLogService.Log(AdminEventLogKey.GoogleGeocodeApiStatusOverQueryLimitMaxRetriesReached, extraInfo);
         }
@@ -198,8 +198,8 @@ namespace Epsilon.Logic.Services
         {
             var extraInfo = new Dictionary<string, object>
             {
-                { "QueryType", queryType },
-                { "RetriesUntilSuccess", retryNo }
+                { AdminEventLogExtraInfoKey.QueryType, queryType },
+                { AdminEventLogExtraInfoKey.RetriesUntilSuccess, retryNo }
             };
             await _adminEventLogService.Log(AdminEventLogKey.GoogleGeocodeApiStatusOverQueryLimitSuccessAfterRetrying, extraInfo);
         }
@@ -251,7 +251,8 @@ namespace Epsilon.Logic.Services
                         _adminAlertService.SendAlert(AdminAlertKey.GoogleGeocodeApiStatusInvalidRequest);
                         var extraInfo = new Dictionary<string, object>
                         {
-                            { "Address", address }, { "Region", countryId }
+                            { AdminEventLogExtraInfoKey.Address, address },
+                            { AdminEventLogExtraInfoKey.Region, countryId }
                         };
                         await _adminEventLogService.Log(AdminEventLogKey.GoogleGeocodeApiStatusInvalidRequest, extraInfo);
                         return response;
