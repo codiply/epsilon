@@ -108,11 +108,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration\AddressServiceConfig.cs" />
+    <Compile Include="Configuration\AppCacheConfig.cs" />
     <Compile Include="Configuration\GeocodeServiceConfig.cs" />
     <Compile Include="Configuration\AdminAlertServiceConfig.cs" />
     <Compile Include="Configuration\GeoipInfoServiceConfig.cs" />
     <Compile Include="Configuration\GeoipClientConfig.cs" />
     <Compile Include="Configuration\GeoipRotatingClientConfig.cs" />
+    <Compile Include="Configuration\Interfaces\IAppCacheConfig.cs" />
     <Compile Include="Configuration\Interfaces\ICommonConfig.cs" />
     <Compile Include="Configuration\Interfaces\IGeoipInfoServiceConfig.cs" />
     <Compile Include="Configuration\Interfaces\IGeoipClientConfig.cs" />

@@ -94,6 +94,7 @@ namespace Epsilon.Web.App_Start
             kernel.Bind<IAddressServiceConfig>().To<AddressServiceConfig>().InRequestScope();
             kernel.Bind<IAdminAlertServiceConfig>().To<AdminAlertServiceConfig>().InRequestScope();
             kernel.Bind<IAntiAbuseServiceConfig>().To<AntiAbuseServiceConfig>().InRequestScope();
+            kernel.Bind<IAppCacheConfig>().To<AppCacheConfig>().InRequestScope();
             kernel.Bind<ICommonConfig>().To<CommonConfig>().InRequestScope();
             kernel.Bind<IGeocodeServiceConfig>().To<GeocodeServiceConfig>().InRequestScope();
             kernel.Bind<IGeoipRotatingClientConfig>().To<GeoipRotatingClientConfig>().InRequestScope();

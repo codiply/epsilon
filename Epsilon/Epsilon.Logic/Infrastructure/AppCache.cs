@@ -1,4 +1,5 @@
-﻿using Epsilon.Logic.Constants;
+﻿using Epsilon.Logic.Configuration.Interfaces;
+using Epsilon.Logic.Constants;
 using Epsilon.Logic.Helpers.Interfaces;
 using Epsilon.Logic.Infrastructure.Interfaces;
 using Epsilon.Logic.Infrastructure.Primitives;
@@ -17,14 +18,14 @@ namespace Epsilon.Logic.Infrastructure
         private static ConcurrentDictionary<string, AsyncLock> _asyncLocks =
             new ConcurrentDictionary<string, AsyncLock>();
         private ICacheWrapper _cache;
-        private IAppSettingsHelper _appSettingsHelper;
+        private IAppCacheConfig _appCacheConfig;
 
         public AppCache(
             ICacheWrapper cache,
-            IAppSettingsHelper appSettingsHelper)
+            IAppCacheConfig appCacheConfig)
         {
             _cache = cache;
-            _appSettingsHelper = appSettingsHelper;
+            _appCacheConfig = appCacheConfig;
         }
 
         public bool ContainsKey(string key)
@@ -118,12 +119,10 @@ namespace Epsilon.Logic.Infrastructure
             TimeSpan? defaultSlidingExpiration,
             WithLock lockOption) where T : class
         {
-            var disableCache = _appSettingsHelper.GetBool(AppSettingsKey.DisableAppCache) == true;
-            if (disableCache)
+            if (_appCacheConfig.DisableAppCache)
                 return getItemCallback();
 
-            var disableLocking = _appSettingsHelper.GetBool(AppSettingsKey.DisableSynchronousLockingInAppCache) == true;
-            if (disableLocking)
+            if (_appCacheConfig.DisableSynchronousLocking)
                 lockOption = WithLock.No;
 
             switch (lockOption)
@@ -200,12 +199,10 @@ namespace Epsilon.Logic.Infrastructure
             TimeSpan? defaultSlidingExpiration,
             WithLock lockOption) where T : class
         {
-            var disableCache = _appSettingsHelper.GetBool(AppSettingsKey.DisableAppCache) == true;
-            if (disableCache)
+            if (_appCacheConfig.DisableAppCache)
                 return await getItemCallback();
 
-            var disableLocking = _appSettingsHelper.GetBool(AppSettingsKey.DisableAsynchronousLockingInAppCache) == true;
-            if (disableLocking)
+            if (_appCacheConfig.DisableAsynchronousLocking)
                 lockOption = WithLock.No;
 
             switch (lockOption)
