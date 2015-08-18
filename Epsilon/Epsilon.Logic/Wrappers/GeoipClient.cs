@@ -10,7 +10,6 @@ using System.Threading.Tasks;
 
 namespace Epsilon.Logic.Wrappers
 {
-    // TODO_TEST_PANOS
     public class GeoipClient : IGeoipClient
     {
         private readonly IWebClientFactory _webClientFactory;
