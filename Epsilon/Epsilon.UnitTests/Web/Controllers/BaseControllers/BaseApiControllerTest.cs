@@ -47,7 +47,9 @@ namespace Epsilon.UnitTests.Web.Controllers.BaseControllers
             var mvcFiltersNamespace = "Epsilon.Web.Controllers.Filters.Mvc";
             var allMvcFilterTypes =
                 typeof(BaseApiController).Assembly.GetTypes()
-                .Where(type => type.Namespace == mvcFiltersNamespace).ToList();
+                .Where(type => type.Namespace == mvcFiltersNamespace)
+                .Where(type => !type.Name.Contains("<"))
+                .ToList();
 
             Assert.IsTrue(allMvcFilterTypes.Any(),
                 string.Format("No types found in namespace {0}. If namespace changed, please update test.", mvcFiltersNamespace));
