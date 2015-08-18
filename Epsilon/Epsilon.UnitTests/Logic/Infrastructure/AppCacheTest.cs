@@ -91,7 +91,7 @@ namespace Epsilon.UnitTests.Logic.Infrastructure
         #region Get
         
         [Test]
-        public void Get_WithLock_CanHandleNulls()
+        public void Get_CanHandleNulls_WithLock()
         {
             var withLock = WithLock.Yes;
             var config = CreateConfig();
@@ -109,7 +109,7 @@ namespace Epsilon.UnitTests.Logic.Infrastructure
         }
 
         [Test]
-        public void Get_WithoutLock_CanHandleNulls()
+        public void Get_CanHandleNulls_WithoutLock()
         {
             var withLock = WithLock.No;
             var config = CreateConfig();
@@ -127,7 +127,7 @@ namespace Epsilon.UnitTests.Logic.Infrastructure
         }
 
         [Test]
-        public void Get_WithLock_GetItemCallbackIsNotUsedTheSecondTime()
+        public void Get_GetItemCallbackIsNotUsedTheSecondTime_WithLock()
         {
             var withLock = WithLock.Yes;
             var config = CreateConfig();
@@ -151,7 +151,7 @@ namespace Epsilon.UnitTests.Logic.Infrastructure
         }
 
         [Test]
-        public void Get_WithoutLock_GetItemCallbackIsNotUsedTheSecondTime()
+        public void Get_GetItemCallbackIsNotUsedTheSecondTime_WithoutLock()
         {
             var withLock = WithLock.No;
             var config = CreateConfig();
@@ -172,12 +172,60 @@ namespace Epsilon.UnitTests.Logic.Infrastructure
 
             Assert.AreEqual(value, value1, "Value1 is not the expected.");
             Assert.AreEqual(value, value2, "Value2 is not the expected.");
+        }
+
+        [Test]
+        public void Get_CachingDisabled_WithLock()
+        {
+            var withLock = WithLock.Yes;
+            var config = CreateConfig(disableAppCache: true);
+            var appCache = new AppCache(_cacheWrapper, config);
+
+            var key = "key";
+            var value = "value";
+
+            var callbackCalled = false;
+            Assert.IsFalse(_cacheWrapper.ContainsKey(key), "Key should not be in cache before.");
+            var value1 = appCache.Get(key, () => { callbackCalled = true; return value; }, withLock);
+            Assert.IsTrue(callbackCalled, "GetItemCallback was not called the first time.");
+            Assert.AreEqual(value, value1, "Value1 is not the expected.");
+
+            var newValue = "new-value";
+            callbackCalled = false;
+            Assert.IsFalse(_cacheWrapper.ContainsKey(key), "Key should not be in cache after the first time.");
+            var value2 = appCache.Get(key, () => { callbackCalled = true; return newValue; }, withLock);
+            Assert.IsTrue(callbackCalled, "GetItemCallback should be called the second time.");
+            Assert.AreEqual(newValue, value2, "Value2 is not the expected.");
+        }
+
+        [Test]
+        public void Get_CachingDisabled_WithoutLock()
+        {
+            var withLock = WithLock.No;
+            var config = CreateConfig(disableAppCache: true);
+            var appCache = new AppCache(_cacheWrapper, config);
+
+            var key = "key";
+            var value = "value";
+
+            var callbackCalled = false;
+            Assert.IsFalse(_cacheWrapper.ContainsKey(key), "Key should not be in cache before.");
+            var value1 = appCache.Get(key, () => { callbackCalled = true; return value; }, withLock);
+            Assert.IsTrue(callbackCalled, "GetItemCallback was not called the first time.");
+            Assert.AreEqual(value, value1, "Value1 is not the expected.");
+
+            var newValue = "new-value";
+            callbackCalled = false;
+            Assert.IsFalse(_cacheWrapper.ContainsKey(key), "Key should not be in cache after the first time.");
+            var value2 = appCache.Get(key, () => { callbackCalled = true; return newValue; }, withLock);
+            Assert.IsTrue(callbackCalled, "GetItemCallback should be called the second time.");
+            Assert.AreEqual(newValue, value2, "Value2 is not the expected.");
         }
 
         #endregion GetAsync
 
         [Test]
-        public async Task GetAsync_WithLock_CanHandleNulls()
+        public async Task GetAsync_CanHandleNulls_WithLock()
         {
             var withLock = WithLock.Yes;
             var config = CreateConfig();
@@ -195,7 +243,7 @@ namespace Epsilon.UnitTests.Logic.Infrastructure
         }
 
         [Test]
-        public async Task GetAsync_WithoutLock_CanHandleNulls()
+        public async Task GetAsync_CanHandleNulls_WithoutLock()
         {
             var withLock = WithLock.No;
             var config = CreateConfig();
@@ -213,7 +261,7 @@ namespace Epsilon.UnitTests.Logic.Infrastructure
         }
 
         [Test]
-        public async Task GetAsync_WithLock_GetItemCallbackIsNotUsedTheSecondTime()
+        public async Task GetAsync_GetItemCallbackIsNotUsedTheSecondTime_WithLock()
         {
             var withLock = WithLock.Yes;
             var config = CreateConfig();
@@ -224,13 +272,13 @@ namespace Epsilon.UnitTests.Logic.Infrastructure
 
             var callbackCalled = false;
             Assert.IsFalse(_cacheWrapper.ContainsKey(key), "Key should not be in cache before.");
-            var value1 = await appCache.Get(key, 
+            var value1 = await appCache.GetAsync(key, 
                 () => { callbackCalled = true; return Task.FromResult(value); }, withLock);
             Assert.IsTrue(callbackCalled, "GetItemCallback was not called the first time.");
 
             callbackCalled = false;
             Assert.IsTrue(_cacheWrapper.ContainsKey(key), "Key should be in cache after the first time.");
-            var value2 = await appCache.Get(key, 
+            var value2 = await appCache.GetAsync(key, 
                 () => { callbackCalled = true; return Task.FromResult("value-not-to-be-used"); }, withLock);
             Assert.IsFalse(callbackCalled, "GetItemCallback should not be called the second time.");
 
@@ -239,7 +287,7 @@ namespace Epsilon.UnitTests.Logic.Infrastructure
         }
 
         [Test]
-        public async Task GetAsync_WithoutLock_GetItemCallbackIsNotUsedTheSecondTime()
+        public async Task GetAsync_GetItemCallbackIsNotUsedTheSecondTime_WithoutLock()
         {
             var withLock = WithLock.No;
             var config = CreateConfig();
@@ -262,6 +310,58 @@ namespace Epsilon.UnitTests.Logic.Infrastructure
 
             Assert.AreEqual(value, value1, "Value1 is not the expected.");
             Assert.AreEqual(value, value2, "Value2 is not the expected.");
+        }
+
+        [Test]
+        public async Task GetAsync_CachingDisabled_WithLock()
+        {
+            var withLock = WithLock.Yes;
+            var config = CreateConfig(disableAppCache: true);
+            var appCache = new AppCache(_cacheWrapper, config);
+
+            var key = "key";
+            var value = "value";
+
+            var callbackCalled = false;
+            Assert.IsFalse(_cacheWrapper.ContainsKey(key), "Key should not be in cache before.");
+            var value1 = await appCache.GetAsync(key,
+                () => { callbackCalled = true; return Task.FromResult(value); }, withLock);
+            Assert.IsTrue(callbackCalled, "GetItemCallback was not called the first time.");
+            Assert.AreEqual(value, value1, "Value1 is not the expected.");
+
+            var newValue = "new-value";
+            callbackCalled = false;
+            Assert.IsFalse(_cacheWrapper.ContainsKey(key), "Key should not be in cache after the first time.");
+            var value2 = await appCache.GetAsync(key,
+                () => { callbackCalled = true; return Task.FromResult(newValue); }, withLock);
+            Assert.IsTrue(callbackCalled, "GetItemCallback should be called the second time.");
+            Assert.AreEqual(newValue, value2, "Value2 is not the expected.");
+        }
+
+        [Test]
+        public async Task GetAsync_CachingDisabled_WithoutLock()
+        {
+            var withLock = WithLock.No;
+            var config = CreateConfig(disableAppCache: true);
+            var appCache = new AppCache(_cacheWrapper, config);
+
+            var key = "key";
+            var value = "value";
+
+            var callbackCalled = false;
+            Assert.IsFalse(_cacheWrapper.ContainsKey(key), "Key should not be in cache before.");
+            var value1 = await appCache.GetAsync(key,
+                () => { callbackCalled = true; return Task.FromResult(value); }, withLock);
+            Assert.IsTrue(callbackCalled, "GetItemCallback was not called the first time.");
+            Assert.AreEqual(value, value1, "Value1 is not the expected.");
+
+            var newValue = "new-value";
+            callbackCalled = false;
+            Assert.IsFalse(_cacheWrapper.ContainsKey(key), "Key should not be in cache after the first time.");
+            var value2 = await appCache.GetAsync(key,
+                () => { callbackCalled = true; return Task.FromResult(newValue); }, withLock);
+            Assert.IsTrue(callbackCalled, "GetItemCallback should be called the second time.");
+            Assert.AreEqual(newValue, value2, "Value2 is not the expected.");
         }
 
         #region
