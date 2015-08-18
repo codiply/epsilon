@@ -8,16 +8,11 @@ using System.Web.Mvc;
 
 namespace Epsilon.Web.Controllers.Filters.Mvc
 {
-    // TODO_TEST_PANOS
     [AttributeUsage(AttributeTargets.Class, Inherited = true)]
     public class DisableWholeWebsiteForMaintenanceAttribute : ActionFilterAttribute
     {
         [Inject]
         public IAppSettingsHelper AppSettingsHelper { get; set; }
-
-        public DisableWholeWebsiteForMaintenanceAttribute()
-        {
-        }
 
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
