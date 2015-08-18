@@ -1,4 +1,6 @@
 ﻿using Epsilon.IntegrationTests.BaseFixtures;
+using Epsilon.Logic.Constants.Enums;
+using Epsilon.Logic.Forms.Admin;
 using Epsilon.Logic.Helpers;
 using Epsilon.Logic.Helpers.Interfaces;
 using Epsilon.Logic.SqlContext.Interfaces;
@@ -28,7 +30,7 @@ namespace Epsilon.IntegrationTests.Logic.Helpers
                 var actualSettingValue = helper.GetString(id);
                 Assert.AreEqual(originalValue, actualSettingValue,
                     string.Format("The value for DbAppSetting with Id '{0}' was not the expected.", id));
-                
+
                 // I update the value
                 var newValue = "new-value";
                 expectedSetting.Value = newValue;
@@ -46,6 +48,43 @@ namespace Epsilon.IntegrationTests.Logic.Helpers
                 Assert.AreEqual(originalValue, actualSettingValueAfterUpdate,
                     string.Format("The value for DbAppSetting with Id '{0}' was not the cached.", id));
             }
+        }
+
+        [Test]
+        public async Task UpdateRefreshesTheCache()
+        {
+            var container = CreateContainer();
+            var helper = container.Get<IDbAppSettingsHelper>();
+
+
+            var user = await CreateUser(container, "test@test.com", "1.2.3.4");
+
+            var keyEnum = DbAppSettingKey.Address_SearchAddressResultsLimit;
+            var key = EnumsHelper.DbAppSettingKey.ToString(keyEnum);
+
+            var originalValue = helper.GetInt(keyEnum);
+
+            Assert.IsNotNull(originalValue, "OriginalValue must not be null.");
+
+            var newValue = originalValue.Value + 1;
+            var form = new DbAppSettingForm
+            {
+                Id = key,
+                Value = newValue.ToString()
+            };
+
+            await helper.Update(form, user.Id);
+
+            var retrievedNewValueViaHelper = helper.GetInt(keyEnum);
+
+            Assert.AreEqual(newValue, retrievedNewValueViaHelper,
+                "The retrieved new value via the helper is not the expected.");
+
+            var retrievedNewValueViaDbProbe = 
+                int.Parse((await DbProbe.AppSettings.SingleOrDefaultAsync(x => x.Id.Equals(key))).Value);
+
+            Assert.AreEqual(newValue, retrievedNewValueViaDbProbe,
+                "The retrieved new value via the DbProbe is not the expected.");
         }
 
         [Test]

@@ -1,4 +1,5 @@
 ﻿using Epsilon.Logic.Entities;
+using Epsilon.Logic.Infrastructure.Interfaces;
 using Epsilon.Logic.Services.Interfaces;
 using Epsilon.Logic.SqlContext;
 using Epsilon.Logic.SqlContext.Interfaces;
@@ -23,6 +24,9 @@ namespace Epsilon.IntegrationTests.BaseFixtures
         {
             _transactionScope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled);
             _dbProbe = new EpsilonContext();
+            // I clear the cache at the beginning of each test.
+            var cache = CreateContainer().Get<IAppCache>();
+            cache.Clear();
         }
 
         [TearDown]
