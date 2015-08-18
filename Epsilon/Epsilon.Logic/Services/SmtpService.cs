@@ -4,6 +4,7 @@ using Epsilon.Logic.Helpers.Interfaces;
 using Epsilon.Logic.Services.Interfaces;
 using Epsilon.Logic.Wrappers.Interfaces;
 using System;
+using System.Net;
 using System.Net.Mail;
 
 namespace Epsilon.Logic.Services
@@ -39,8 +40,7 @@ namespace Epsilon.Logic.Services
                 var userName = _smtpServiceConfig.UserName;
                 var password = _smtpServiceConfig.Password;
 
-                System.Net.NetworkCredential credentials =
-                    new System.Net.NetworkCredential(userName, password);
+                var credentials = new NetworkCredential(userName, password);
                 client.UseDefaultCredentials = false;
                 client.Credentials = credentials;
 
