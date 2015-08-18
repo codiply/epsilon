@@ -120,6 +120,7 @@
     <Compile Include="Logic\Wrappers\HttpRuntimeCacheTest.cs" />
     <Compile Include="Logic\Wrappers\RandomWrapperTest.cs" />
     <Compile Include="Logic\Wrappers\SystemClockTest.cs" />
+    <Compile Include="Logic\Wrappers\TimerWrapperTest.cs" />
     <Compile Include="Logic\Wrappers\WebClientWrapperTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Web\Controllers\BaseControllers\BaseApiControllerTest.cs" />
