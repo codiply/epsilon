@@ -55,6 +55,23 @@ namespace Epsilon.IntegrationTests.Logic.Services
         }
 
         [Test]
+        public async Task GetSymbolTest()
+        {
+            var container = CreateContainer();
+            var service = container.Get<ICurrencyService>();
+
+            var allCurrencies = await DbProbe.Currencies.ToListAsync();
+
+            foreach (var currency in allCurrencies)
+            {
+                var expectedSymbol = currency.Symbol;
+                var actualSymbol = service.GetSymbol(currency.Id);
+                Assert.AreEqual(expectedSymbol, actualSymbol,
+                    string.Format("The Symbol was not the expected for currency with Id '{0}'.", currency.Id));
+            }
+        }
+
+        [Test]
         public async Task GetTest()
         {
             var container = CreateContainer();
