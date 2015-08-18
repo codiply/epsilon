@@ -105,6 +105,7 @@
     <Compile Include="Logic\Constants\Enums\CurrencyIdTest.cs" />
     <Compile Include="Logic\Constants\Enums\CountryIdTest.cs" />
     <Compile Include="Logic\Constants\Enums\TokenRewardKeyTest.cs" />
+    <Compile Include="Logic\Helpers\AddressCleansingHelperTest.cs" />
     <Compile Include="Logic\Helpers\BaseAppSettingsHelperTest.cs" />
     <Compile Include="Logic\Helpers\CountryVariantResourceHelperTest.cs" />
     <Compile Include="Logic\Helpers\ElmahHelperTest.cs" />
