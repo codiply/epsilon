@@ -35,6 +35,8 @@ namespace Epsilon.UnitTests.Logic.Wrappers
                 exceptionLogged = null;
                 var providerToString = EnumsHelper.GeoipProviderName.ToString(provider);
                 var geoipClientResponse = await geoipClient.Geoip(provider, ipAddress);
+                Assert.IsNullOrEmpty(geoipClientResponse.ErrorMessage,
+                    string.Format("ErrorMessage is not the expected for provider '{0}'.", providerToString));
                 Assert.AreEqual(WebClientResponseStatus.Success, geoipClientResponse.Status,
                     string.Format("Status is not the expected for provider '{0}'.", providerToString));
                 Assert.AreEqual(provider, geoipClientResponse.GeoipProviderName,
@@ -43,8 +45,6 @@ namespace Epsilon.UnitTests.Logic.Wrappers
                     string.Format("Latitude is not the expected for provider '{0}'.", providerToString));
                 Assert.AreEqual(expectedLongitude, geoipClientResponse.Longitude, acceptableDelta,
                     string.Format("Longitude is not the expected for provider '{0}'.", providerToString));
-                Assert.IsNullOrEmpty(geoipClientResponse.ErrorMessage,
-                    string.Format("ErrorMessage is not the expected for provider '{0}'.", providerToString));
                 Assert.IsNull(exceptionLogged,
                     string.Format("No exception should be logged for provider '{0}'.", providerToString));
             }
