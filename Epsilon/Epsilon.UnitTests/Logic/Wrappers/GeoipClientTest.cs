@@ -51,6 +51,34 @@ namespace Epsilon.UnitTests.Logic.Wrappers
         }
 
         [Test]
+        public async Task Geoip_InternalIpAddressForAllProviders_HandledGracefully()
+        {
+            var timeoutInMilliseconds = 10 * 1000;
+            Exception exceptionLogged = null;
+            var ipAddress = "192.168.1.1";
+
+            var elmahHelper = CreateElmahHelper((ex) => exceptionLogged = ex);
+            var geoipClient = CreateGeoipClient(timeoutInMilliseconds, () => CreateWebClient(elmahHelper), elmahHelper);
+
+            foreach (var provider in EnumsHelper.GeoipProviderName.GetValues())
+            {
+                exceptionLogged = null;
+                var providerToString = EnumsHelper.GeoipProviderName.ToString(provider);
+                var geoipClientResponse = await geoipClient.Geoip(provider, ipAddress);
+                Assert.IsNullOrEmpty(geoipClientResponse.ErrorMessage,
+                    string.Format("ErrorMessage is not the expected for provider '{0}'.", providerToString));
+                Assert.AreEqual(WebClientResponseStatus.Success, geoipClientResponse.Status,
+                    string.Format("Status is not the expected for provider '{0}'.", providerToString));
+                Assert.AreEqual(provider, geoipClientResponse.GeoipProviderName,
+                    string.Format("ProviderName is not the expected for provider '{0}'.", providerToString));
+                Assert.IsNullOrEmpty(geoipClientResponse.CountryCode,
+                    string.Format("CountryCode is not the expected for provider '{0}'.", providerToString));
+                Assert.IsNull(exceptionLogged,
+                    string.Format("No exception should be logged for provider '{0}'.", providerToString));
+            }
+        }
+
+        [Test]
         public async Task Geoip_WebClientReturnsError()
         {
             var timeoutInMilliseconds = 10 * 1000;

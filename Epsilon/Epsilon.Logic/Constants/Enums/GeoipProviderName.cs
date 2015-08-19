@@ -4,7 +4,9 @@
     //       all places where you need to add a case in a switch statement.
     public enum GeoipProviderName
     {
-        Telize,
-        Freegeoip
+        Freegeoip,
+        Ipapi,
+        Nekudo,
+        Telize
     }
 }

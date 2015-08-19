@@ -58,7 +58,7 @@ VALUES
 (N'GeoipInfo_ExpiryPeriodInDays', N'30'),
 (N'GeoipClient_TimeoutInMilliseconds', N'8000.0'),
 (N'GeoipRotatingClient_MaxRotations', N'2'),
-(N'GeoipRotatingClient_ProviderRotation', N'Telize,Freegeoip'),
+(N'GeoipRotatingClient_ProviderRotation', N'Telize,Freegeoip,Nekudo,Ipapi'),
 (N'GlobalSwitch_DisableAddAddress', N'False'),
 (N'GlobalSwitch_DisableCreatePropertyInfoAccess', N'False'),
 (N'GlobalSwitch_DisableCreateTenancyDetailsSubmission', N'False'),
@@ -86,7 +86,7 @@ USING #TMP AS S -- Source
     ON T.Id = S.Id
 WHEN MATCHED
     THEN UPDATE SET
-	    T.[Value] = S.[Value];
+        T.[Value] = S.[Value];
 GO
 
 DROP TABLE #TMP;

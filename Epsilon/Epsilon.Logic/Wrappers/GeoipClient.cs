@@ -74,6 +74,12 @@ namespace Epsilon.Logic.Wrappers
                 case GeoipProviderName.Freegeoip:
                     url = string.Format(@"https://freegeoip.net/json/{0}", ipAddress);
                     break;
+                case GeoipProviderName.Ipapi:
+                    url = string.Format(@"http://ip-api.com/json/{0}", ipAddress);
+                    break;
+                case GeoipProviderName.Nekudo:
+                    url = string.Format(@"http://geoip.nekudo.com/api/{0}", ipAddress);
+                    break;
                 case GeoipProviderName.Telize:
                     url = string.Format(@"https://www.telize.com/geoip/{0}", ipAddress);
                     break;
@@ -95,6 +101,10 @@ namespace Epsilon.Logic.Wrappers
             {
                 case GeoipProviderName.Freegeoip:
                     return FreegeoipGeoipProviderClient.ParseResponse(rawResponse);
+                case GeoipProviderName.Ipapi:
+                    return IpapiGeoipProviderClient.ParseResponse(rawResponse);
+                case GeoipProviderName.Nekudo:
+                    return NekudoGeoipProviderClient.ParseResponse(rawResponse);
                 case GeoipProviderName.Telize:
                     return TelizeGeoipProviderClient.ParseResponse(rawResponse);
                 default:

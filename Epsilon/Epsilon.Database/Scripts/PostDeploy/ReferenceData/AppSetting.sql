@@ -97,7 +97,7 @@ VALUES
      N'The timeout in milliseconds for the request to the Geoip API for any of the providers.'),
 (N'GeoipRotatingClient_MaxRotations', N'3', N'Integer',
      N'The number of times the rotating client will try all possible providers before giving up.'),
-(N'GeoipRotatingClient_ProviderRotation', N'Telize,Freegeoip', N'String',
+(N'GeoipRotatingClient_ProviderRotation', N'Telize,Freegeoip,Nekudo,Ipapi', N'String',
      N'The values of the enum GeoipProviderName in the order they will be used in each rotation. To omit a provider simply remove it from the rotation.'),
 (N'GlobalSwitch_DisableAddAddress', N'False', N'Boolean',
      N'Disables completely adding a new address.'),
@@ -147,12 +147,12 @@ USING #TMP AS S -- Source
     ON T.Id = S.Id
 WHEN MATCHED
     THEN UPDATE SET
-	    T.[Value] = S.[Value],
-		T.[ValueType] = S.[ValueType],
-		T.[Description] = S.[Description]
+        T.[Value] = S.[Value],
+        T.[ValueType] = S.[ValueType],
+        T.[Description] = S.[Description]
 WHEN NOT MATCHED
     THEN INSERT ([Id], [Value], [ValueType], [Description])
-	VALUES (S.[Id], S.[Value], S.[ValueType], S.[Description])
+    VALUES (S.[Id], S.[Value], S.[ValueType], S.[Description])
 WHEN NOT MATCHED BY SOURCE 
     THEN DELETE;
 GO
