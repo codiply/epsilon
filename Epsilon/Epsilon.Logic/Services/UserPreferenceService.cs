@@ -64,20 +64,8 @@ namespace Epsilon.Logic.Services
             }
         }
 
-        // TODO_TEST_PANOS
         public async Task<ChangePreferencesOutcome> ChangePreferences(string userId, ChangePreferencesForm form)
         {
-            var userPreference = await _dbContext.UserPreferences.FindAsync(userId);
-            if (userPreference == null)
-            {
-                return new ChangePreferencesOutcome
-                {
-                    IsSuccess = false,
-                    ErrorMessage = CommonResources.GenericInvalidRequestMessage,
-                    ReturnToForm = false
-                };
-            }
-
             // Check the selected language is valid
             var selectedLanguage = _languageService.GetLanguage(form.LanguageId);
             if (selectedLanguage == null || !selectedLanguage.IsAvailable)
@@ -89,12 +77,20 @@ namespace Epsilon.Logic.Services
                     ReturnToForm = false
                 };
             }
-            else
+
+            var userPreference = await _dbContext.UserPreferences.FindAsync(userId);
+            if (userPreference == null)
             {
-                userPreference.LanguageId = form.LanguageId; // TODO_TEST_PANOS
+                // TODO_TEST_PANOS
+                return new ChangePreferencesOutcome
+                {
+                    IsSuccess = false,
+                    ErrorMessage = CommonResources.GenericInvalidRequestMessage,
+                    ReturnToForm = false
+                };
             }
 
-            // Timestamp the preferences and save
+            userPreference.LanguageId = form.LanguageId; // TODO_TEST_PANOS
             userPreference.UpdatedOn = _clock.OffsetNow; // TODO_TEST_PANOS
             _dbContext.Entry(userPreference).State = EntityState.Modified;
             var result = await _dbContext.SaveChangesAsync();
