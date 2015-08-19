@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Epsilon.UnitTests.Logic.Infrastructure
@@ -16,6 +17,12 @@ namespace Epsilon.UnitTests.Logic.Infrastructure
     [TestFixture]
     public class AppCacheTest
     {
+        private class TestCacheable
+        {
+            public string Name { get; set; }
+            public double SlidingWindowExpirationInSeconds { get; set; }
+        }
+
         private ICacheWrapper _cacheWrapper = new HttpRuntimeCache();
 
         #region Setup
@@ -222,6 +229,238 @@ namespace Epsilon.UnitTests.Logic.Infrastructure
             Assert.AreEqual(newValue, value2, "Value2 is not the expected.");
         }
 
+        [Test]
+        public void Get_WithSlidingExpiration_WithoutLock()
+        {
+            var withLock = WithLock.No;
+            var config = CreateConfig();
+            var appCache = new AppCache(_cacheWrapper, config);
+
+            var key = "key";
+            var value = "value";
+            var slidingExpirationInSeconds = 0.1;
+            var slidingExpiration = TimeSpan.FromSeconds(slidingExpirationInSeconds);
+
+            var callbackCalled = false;
+            Assert.IsFalse(_cacheWrapper.ContainsKey(key), "Key should not be in cache before.");
+            var value1 = appCache.Get(key, () => { callbackCalled = true; return value; }, slidingExpiration, withLock);
+            Assert.IsTrue(callbackCalled, "GetItemCallback was not called the first time.");
+            Assert.AreEqual(value, value1, "Value1 is not the expected.");
+            Assert.IsTrue(_cacheWrapper.ContainsKey(key), 
+                "Key is not present in the underlying cache wrapper before the expiration.");
+
+            var newValue = "new-value";
+            callbackCalled = false;
+            var value2 = appCache.Get(key, () => { callbackCalled = true; return newValue; }, withLock);
+            Assert.IsFalse(callbackCalled, "GetItemCallback should not be called the second time.");
+            Assert.AreEqual(value, value2, "Value2 is not the expected.");
+
+            Thread.Sleep(slidingExpiration);
+            Assert.IsFalse(_cacheWrapper.ContainsKey(key),
+                "Key should not be present in the underlying cache wrapper after the expiration.");
+        }
+
+        [Test]
+        public void Get_WithSlidingExpiration_WithLock()
+        {
+            var withLock = WithLock.Yes;
+            var config = CreateConfig();
+            var appCache = new AppCache(_cacheWrapper, config);
+
+            var key = "key";
+            var value = "value";
+            var slidingExpirationInSeconds = 0.1;
+            var slidingExpiration = TimeSpan.FromSeconds(slidingExpirationInSeconds);
+
+            var callbackCalled = false;
+            Assert.IsFalse(_cacheWrapper.ContainsKey(key), "Key should not be in cache before.");
+            var value1 = appCache.Get(key, () => { callbackCalled = true; return value; }, slidingExpiration, withLock);
+            Assert.IsTrue(callbackCalled, "GetItemCallback was not called the first time.");
+            Assert.AreEqual(value, value1, "Value1 is not the expected.");
+            Assert.IsTrue(_cacheWrapper.ContainsKey(key),
+                "Key is not present in the underlying cache wrapper before the expiration.");
+
+            var newValue = "new-value";
+            callbackCalled = false;
+            var value2 = appCache.Get(key, () => { callbackCalled = true; return newValue; }, withLock);
+            Assert.IsFalse(callbackCalled, "GetItemCallback should not be called the second time.");
+            Assert.AreEqual(value, value2, "Value2 is not the expected.");
+
+            Thread.Sleep(slidingExpiration);
+            Assert.IsFalse(_cacheWrapper.ContainsKey(key),
+                "Key should not be present in the underlying cache wrapper after the expiration.");
+        }
+
+        [Test]
+        public void Get_WithSlidingExpirationFunc_WithoutLock()
+        {
+            var withLock = WithLock.No;
+            var config = CreateConfig();
+            var appCache = new AppCache(_cacheWrapper, config);
+
+            var key = "key";
+            var slidingExpirationInSeconds = 0.1;
+            var defaultSlidingExpirationInSeconds = 60.0;
+            var value = new TestCacheable
+            {
+                Name = "name",
+                SlidingWindowExpirationInSeconds = slidingExpirationInSeconds
+            };
+            var defaultSlidingExpiration = TimeSpan.FromSeconds(defaultSlidingExpirationInSeconds);
+
+            var callbackCalled = false;
+            Assert.IsFalse(_cacheWrapper.ContainsKey(key), "Key should not be in cache before.");
+            var value1 = appCache.Get(key, 
+                () => { callbackCalled = true; return value; }, 
+                x => TimeSpan.FromSeconds(x.SlidingWindowExpirationInSeconds) , defaultSlidingExpiration, withLock);
+            Assert.IsTrue(callbackCalled, "GetItemCallback was not called the first time.");
+            Assert.AreEqual(value.Name, value1.Name, "Value1.Name is not the expected.");
+            Assert.IsTrue(_cacheWrapper.ContainsKey(key),
+                "Key is not present in the underlying cache wrapper before the expiration.");
+
+            var newValue = new TestCacheable
+            {
+                Name = "new-name",
+                SlidingWindowExpirationInSeconds = slidingExpirationInSeconds * 100
+            };
+            callbackCalled = false;
+            var value2 = appCache.Get(key, 
+                () => { callbackCalled = true; return newValue; },
+                x => TimeSpan.FromSeconds(x.SlidingWindowExpirationInSeconds), 
+                defaultSlidingExpiration, withLock);
+            Assert.IsFalse(callbackCalled, "GetItemCallback should not be called the second time.");
+            Assert.AreEqual(value.Name, value2.Name, "Value2.Name is not the expected.");
+
+            Thread.Sleep(TimeSpan.FromSeconds(value.SlidingWindowExpirationInSeconds));
+            Assert.IsFalse(_cacheWrapper.ContainsKey(key),
+                "Key should not be present in the underlying cache wrapper after the expiration.");
+        }
+
+        [Test]
+        public void Get_WithSlidingExpirationFunc_WithLock()
+        {
+            var withLock = WithLock.Yes;
+            var config = CreateConfig();
+            var appCache = new AppCache(_cacheWrapper, config);
+
+            var key = "key";
+            var slidingExpirationInSeconds = 0.1;
+            var defaultSlidingExpirationInSeconds = 60.0;
+            var value = new TestCacheable
+            {
+                Name = "name",
+                SlidingWindowExpirationInSeconds = slidingExpirationInSeconds
+            };
+            var defaultSlidingExpiration = TimeSpan.FromSeconds(defaultSlidingExpirationInSeconds);
+
+            var callbackCalled = false;
+            Assert.IsFalse(_cacheWrapper.ContainsKey(key), "Key should not be in cache before.");
+            var value1 = appCache.Get(key,
+                () => { callbackCalled = true; return value; },
+                x => TimeSpan.FromSeconds(x.SlidingWindowExpirationInSeconds), defaultSlidingExpiration, withLock);
+            Assert.IsTrue(callbackCalled, "GetItemCallback was not called the first time.");
+            Assert.AreEqual(value.Name, value1.Name, "Value1.Name is not the expected.");
+            Assert.IsTrue(_cacheWrapper.ContainsKey(key),
+                "Key is not present in the underlying cache wrapper before the expiration.");
+
+            var newValue = new TestCacheable
+            {
+                Name = "new-name",
+                SlidingWindowExpirationInSeconds = slidingExpirationInSeconds * 100
+            };
+            callbackCalled = false;
+            var value2 = appCache.Get(key,
+                () => { callbackCalled = true; return newValue; },
+                x => TimeSpan.FromSeconds(x.SlidingWindowExpirationInSeconds),
+                defaultSlidingExpiration, withLock);
+            Assert.IsFalse(callbackCalled, "GetItemCallback should not be called the second time.");
+            Assert.AreEqual(value.Name, value2.Name, "Value2.Name is not the expected.");
+
+            Thread.Sleep(TimeSpan.FromSeconds(value.SlidingWindowExpirationInSeconds));
+            Assert.IsFalse(_cacheWrapper.ContainsKey(key),
+                "Key should not be present in the underlying cache wrapper after the expiration.");
+        }
+
+        [Test]
+        public void Get_WithSlidingExpirationFunc_UsesDefaultWhenCallbackReturnsNull_WithoutLock()
+        {
+            var withLock = WithLock.No;
+            var config = CreateConfig();
+            var appCache = new AppCache(_cacheWrapper, config);
+
+            var key = "key";
+            var slidingExpirationInSeconds = 60.0;
+            var defaultSlidingExpirationInSeconds = 0.1;
+            var defaultSlidingExpiration = TimeSpan.FromSeconds(defaultSlidingExpirationInSeconds);
+
+            var callbackCalled = false;
+            Assert.IsFalse(_cacheWrapper.ContainsKey(key), "Key should not be in cache before.");
+            var value1 = appCache.Get<TestCacheable>(key,
+                () => { callbackCalled = true; return null; },
+                x => TimeSpan.FromSeconds(x.SlidingWindowExpirationInSeconds), defaultSlidingExpiration, withLock);
+            Assert.IsTrue(callbackCalled, "GetItemCallback was not called the first time.");
+            Assert.IsNull(value1, "Value1 should be null.");
+            Assert.IsTrue(_cacheWrapper.ContainsKey(key),
+                "Key is not present in the underlying cache wrapper before the expiration.");
+
+            var newValue = new TestCacheable
+            {
+                Name = "new-name",
+                SlidingWindowExpirationInSeconds = slidingExpirationInSeconds * 100
+            };
+            callbackCalled = false;
+            var value2 = appCache.Get(key,
+                () => { callbackCalled = true; return newValue; },
+                x => TimeSpan.FromSeconds(x.SlidingWindowExpirationInSeconds),
+                defaultSlidingExpiration, withLock);
+            Assert.IsFalse(callbackCalled, "GetItemCallback should not be called the second time.");
+            Assert.IsNull(value2, "Value2 shold be null.");
+
+            Thread.Sleep(TimeSpan.FromSeconds(defaultSlidingExpirationInSeconds));
+            Assert.IsFalse(_cacheWrapper.ContainsKey(key),
+                "Key should not be present in the underlying cache wrapper after the expiration.");
+        }
+
+        [Test]
+        public void Get_WithSlidingExpirationFunc_UsesDefaultWhenCallbackReturnsNull_WithLock()
+        {
+            var withLock = WithLock.Yes;
+            var config = CreateConfig();
+            var appCache = new AppCache(_cacheWrapper, config);
+
+            var key = "key";
+            var slidingExpirationInSeconds = 60.0;
+            var defaultSlidingExpirationInSeconds = 0.1;
+            var defaultSlidingExpiration = TimeSpan.FromSeconds(defaultSlidingExpirationInSeconds);
+
+            var callbackCalled = false;
+            Assert.IsFalse(_cacheWrapper.ContainsKey(key), "Key should not be in cache before.");
+            var value1 = appCache.Get<TestCacheable>(key,
+                () => { callbackCalled = true; return null; },
+                x => TimeSpan.FromSeconds(x.SlidingWindowExpirationInSeconds), defaultSlidingExpiration, withLock);
+            Assert.IsTrue(callbackCalled, "GetItemCallback was not called the first time.");
+            Assert.IsNull(value1, "Value1 should be null.");
+            Assert.IsTrue(_cacheWrapper.ContainsKey(key),
+                "Key is not present in the underlying cache wrapper before the expiration.");
+
+            var newValue = new TestCacheable
+            {
+                Name = "new-name",
+                SlidingWindowExpirationInSeconds = slidingExpirationInSeconds * 100
+            };
+            callbackCalled = false;
+            var value2 = appCache.Get(key,
+                () => { callbackCalled = true; return newValue; },
+                x => TimeSpan.FromSeconds(x.SlidingWindowExpirationInSeconds),
+                defaultSlidingExpiration, withLock);
+            Assert.IsFalse(callbackCalled, "GetItemCallback should not be called the second time.");
+            Assert.IsNull(value2, "Value2 shold be null.");
+
+            Thread.Sleep(TimeSpan.FromSeconds(defaultSlidingExpirationInSeconds));
+            Assert.IsFalse(_cacheWrapper.ContainsKey(key),
+                "Key should not be present in the underlying cache wrapper after the expiration.");
+        }
+
         #endregion GetAsync
 
         [Test]
@@ -362,6 +601,199 @@ namespace Epsilon.UnitTests.Logic.Infrastructure
                 () => { callbackCalled = true; return Task.FromResult(newValue); }, withLock);
             Assert.IsTrue(callbackCalled, "GetItemCallback should be called the second time.");
             Assert.AreEqual(newValue, value2, "Value2 is not the expected.");
+        }
+
+        [Test]
+        public async Task GetAsync_WithSlidingExpiration_WithoutLock()
+        {
+            var withLock = WithLock.No;
+            var config = CreateConfig();
+            var appCache = new AppCache(_cacheWrapper, config);
+
+            var key = "key";
+            var value = "value";
+            var slidingExpirationInSeconds = 0.1;
+            var slidingExpiration = TimeSpan.FromSeconds(slidingExpirationInSeconds);
+
+            var callbackCalled = false;
+            Assert.IsFalse(_cacheWrapper.ContainsKey(key), "Key should not be in cache before.");
+            var value1 = await appCache.GetAsync(key, 
+                () => { callbackCalled = true; return Task.FromResult(value); }, slidingExpiration, withLock);
+            Assert.IsTrue(callbackCalled, "GetItemCallback was not called the first time.");
+            Assert.AreEqual(value, value1, "Value1 is not the expected.");
+            Assert.IsTrue(_cacheWrapper.ContainsKey(key),
+                "Key is not present in the underlying cache wrapper before the expiration.");
+
+            var newValue = "new-value";
+            callbackCalled = false;
+            var value2 = await appCache.GetAsync(key, 
+                () => { callbackCalled = true; return Task.FromResult(newValue); }, withLock);
+            Assert.IsFalse(callbackCalled, "GetItemCallback should not be called the second time.");
+            Assert.AreEqual(value, value2, "Value2 is not the expected.");
+
+            await Task.Delay(slidingExpiration);
+
+            Assert.IsFalse(_cacheWrapper.ContainsKey(key),
+                "Key should not be present in the underlying cache wrapper after the expiration.");
+        }
+
+        [Test]
+        public async Task GetAsync_WithSlidingExpiration_WithLock()
+        {
+            var withLock = WithLock.Yes;
+            var config = CreateConfig();
+            var appCache = new AppCache(_cacheWrapper, config);
+
+            var key = "key";
+            var value = "value";
+            var slidingExpirationInSeconds = 0.1;
+            var slidingExpiration = TimeSpan.FromSeconds(slidingExpirationInSeconds);
+
+            var callbackCalled = false;
+            Assert.IsFalse(_cacheWrapper.ContainsKey(key), "Key should not be in cache before.");
+            var value1 = await appCache.GetAsync(key,
+                () => { callbackCalled = true; return Task.FromResult(value); }, slidingExpiration, withLock);
+            Assert.IsTrue(callbackCalled, "GetItemCallback was not called the first time.");
+            Assert.AreEqual(value, value1, "Value1 is not the expected.");
+            Assert.IsTrue(_cacheWrapper.ContainsKey(key),
+                "Key is not present in the underlying cache wrapper before the expiration.");
+
+            var newValue = "new-value";
+            callbackCalled = false;
+            var value2 = await appCache.GetAsync(key,
+                () => { callbackCalled = true; return Task.FromResult(newValue); }, withLock);
+            Assert.IsFalse(callbackCalled, "GetItemCallback should not be called the second time.");
+            Assert.AreEqual(value, value2, "Value2 is not the expected.");
+
+            await Task.Delay(slidingExpiration);
+
+            Assert.IsFalse(_cacheWrapper.ContainsKey(key),
+                "Key should not be present in the underlying cache wrapper after the expiration.");
+        }
+
+        [Test]
+        public async Task GetAsync_WithSlidingExpirationFunc_WithoutLock()
+        {
+            var withLock = WithLock.No;
+            var config = CreateConfig();
+            var appCache = new AppCache(_cacheWrapper, config);
+
+            var key = "key";
+            var slidingExpirationInSeconds = 0.1;
+            var defaultSlidingExpirationInSeconds = 60.0;
+            var value = new TestCacheable
+            {
+                Name = "name",
+                SlidingWindowExpirationInSeconds = slidingExpirationInSeconds
+            };
+            var defaultSlidingExpiration = TimeSpan.FromSeconds(defaultSlidingExpirationInSeconds);
+
+            var callbackCalled = false;
+            Assert.IsFalse(_cacheWrapper.ContainsKey(key), "Key should not be in cache before.");
+            var value1 = await appCache.GetAsync(key,
+                () => { callbackCalled = true; return Task.FromResult(value); },
+                x => TimeSpan.FromSeconds(x.SlidingWindowExpirationInSeconds), defaultSlidingExpiration, withLock);
+            Assert.IsTrue(callbackCalled, "GetItemCallback was not called the first time.");
+            Assert.AreEqual(value.Name, value1.Name, "Value1.Name is not the expected.");
+            Assert.IsTrue(_cacheWrapper.ContainsKey(key),
+                "Key is not present in the underlying cache wrapper before the expiration.");
+
+            var newValue = new TestCacheable
+            {
+                Name = "new-name",
+                SlidingWindowExpirationInSeconds = slidingExpirationInSeconds * 100
+            };
+            callbackCalled = false;
+            var value2 = await appCache.GetAsync(key,
+                () => { callbackCalled = true; return Task.FromResult(newValue); },
+                x => TimeSpan.FromSeconds(x.SlidingWindowExpirationInSeconds),
+                defaultSlidingExpiration, withLock);
+            Assert.IsFalse(callbackCalled, "GetItemCallback should not be called the second time.");
+            Assert.AreEqual(value.Name, value2.Name, "Value2.Name is not the expected.");
+
+            Thread.Sleep(TimeSpan.FromSeconds(value.SlidingWindowExpirationInSeconds));
+            Assert.IsFalse(_cacheWrapper.ContainsKey(key),
+                "Key should not be present in the underlying cache wrapper after the expiration.");
+        }
+
+        [Test]
+        public async Task GetAsync_WithSlidingExpirationFunc_UsesDefaultWhenCallbackReturnsNull_WithoutLock()
+        {
+            var withLock = WithLock.No;
+            var config = CreateConfig();
+            var appCache = new AppCache(_cacheWrapper, config);
+
+            var key = "key";
+            var slidingExpirationInSeconds = 60.0;
+            var defaultSlidingExpirationInSeconds = 0.1;
+            var defaultSlidingExpiration = TimeSpan.FromSeconds(defaultSlidingExpirationInSeconds);
+
+            var callbackCalled = false;
+            Assert.IsFalse(_cacheWrapper.ContainsKey(key), "Key should not be in cache before.");
+            var value1 = await appCache.GetAsync(key,
+                () => { callbackCalled = true; return Task.FromResult<TestCacheable>(null); },
+                x => TimeSpan.FromSeconds(x.SlidingWindowExpirationInSeconds), defaultSlidingExpiration, withLock);
+            Assert.IsTrue(callbackCalled, "GetItemCallback was not called the first time.");
+            Assert.IsNull(value1, "Value1 should be null.");
+            Assert.IsTrue(_cacheWrapper.ContainsKey(key),
+                "Key is not present in the underlying cache wrapper before the expiration.");
+
+            var newValue = new TestCacheable
+            {
+                Name = "new-name",
+                SlidingWindowExpirationInSeconds = slidingExpirationInSeconds * 100
+            };
+            callbackCalled = false;
+            var value2 = await appCache.GetAsync(key,
+                () => { callbackCalled = true; return Task.FromResult(newValue); },
+                x => TimeSpan.FromSeconds(x.SlidingWindowExpirationInSeconds),
+                defaultSlidingExpiration, withLock);
+            Assert.IsFalse(callbackCalled, "GetItemCallback should not be called the second time.");
+            Assert.IsNull(value2, "Value2 shold be null.");
+
+            Thread.Sleep(TimeSpan.FromSeconds(defaultSlidingExpirationInSeconds));
+            Assert.IsFalse(_cacheWrapper.ContainsKey(key),
+                "Key should not be present in the underlying cache wrapper after the expiration.");
+        }
+
+        [Test]
+        public async Task GetAsync_WithSlidingExpirationFunc_UsesDefaultWhenCallbackReturnsNull_WithLock()
+        {
+            var withLock = WithLock.Yes;
+            var config = CreateConfig();
+            var appCache = new AppCache(_cacheWrapper, config);
+
+            var key = "key";
+            var slidingExpirationInSeconds = 60.0;
+            var defaultSlidingExpirationInSeconds = 0.1;
+            var defaultSlidingExpiration = TimeSpan.FromSeconds(defaultSlidingExpirationInSeconds);
+
+            var callbackCalled = false;
+            Assert.IsFalse(_cacheWrapper.ContainsKey(key), "Key should not be in cache before.");
+            var value1 = await appCache.GetAsync(key,
+                () => { callbackCalled = true; return Task.FromResult<TestCacheable>(null); },
+                x => TimeSpan.FromSeconds(x.SlidingWindowExpirationInSeconds), defaultSlidingExpiration, withLock);
+            Assert.IsTrue(callbackCalled, "GetItemCallback was not called the first time.");
+            Assert.IsNull(value1, "Value1 should be null.");
+            Assert.IsTrue(_cacheWrapper.ContainsKey(key),
+                "Key is not present in the underlying cache wrapper before the expiration.");
+
+            var newValue = new TestCacheable
+            {
+                Name = "new-name",
+                SlidingWindowExpirationInSeconds = slidingExpirationInSeconds * 100
+            };
+            callbackCalled = false;
+            var value2 = await appCache.GetAsync(key,
+                () => { callbackCalled = true; return Task.FromResult(newValue); },
+                x => TimeSpan.FromSeconds(x.SlidingWindowExpirationInSeconds),
+                defaultSlidingExpiration, withLock);
+            Assert.IsFalse(callbackCalled, "GetItemCallback should not be called the second time.");
+            Assert.IsNull(value2, "Value2 shold be null.");
+
+            Thread.Sleep(TimeSpan.FromSeconds(defaultSlidingExpirationInSeconds));
+            Assert.IsFalse(_cacheWrapper.ContainsKey(key),
+                "Key should not be present in the underlying cache wrapper after the expiration.");
         }
 
         #region
