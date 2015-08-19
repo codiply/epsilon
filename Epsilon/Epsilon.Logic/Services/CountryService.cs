@@ -37,7 +37,6 @@ namespace Epsilon.Logic.Services
             return AppConstant.COUNTRY_DISPLAY_FIELD_SELECTOR(country);
         }
 
-        // TODO_TEST_PANOS
         public Country GetCountry(string countryId)
         {
             var dictionary = GetCountryDictionary();
@@ -50,7 +49,6 @@ namespace Epsilon.Logic.Services
             return null;
         }
 
-        // TODO_TEST_PANOS
         public bool IsCountryAvailable(CountryId countryId)
         {
             var dictionary = GetCountryDictionary();
