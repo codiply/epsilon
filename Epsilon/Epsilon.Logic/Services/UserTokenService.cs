@@ -50,7 +50,6 @@ namespace Epsilon.Logic.Services
             if (quantity < 1)
                 throw new ArgumentException(string.Format("Quantity has value '{0}' which is less than 1.", quantity));
 
-            // TODO_TEST_PANOS
             var totalAmount = CalculateTotalAmount(tokenRewardKey, quantity);
 
             var accountId = userId;
@@ -65,7 +64,6 @@ namespace Epsilon.Logic.Services
             if (quantity < 1)
                 return TokenAccountTransactionStatus.WrongQuantity;
 
-            // TODO_TEST_PANOS
             var totalAmount = CalculateTotalAmount(tokenRewardKey, quantity);
 
             return await MakeTransaction(userId, totalAmount, tokenRewardKey, internalReference, externalReference, quantity);
@@ -89,7 +87,6 @@ namespace Epsilon.Logic.Services
             string userId, decimal totalAmount, TokenRewardKey tokenRewardKey, Guid? internalReference, 
             string externalReference = null, int quantity = 1)
         {
-            // TODO_TEST_PANOS
             switch (tokenRewardKey.AmountSign())
             {
                 case TokenRewardKeyAmountSign.Positive:
