@@ -43,7 +43,6 @@ namespace Epsilon.Logic.Services
 
         public async Task<bool> SufficientFundsExistForTransaction(string accountId, decimal amount)
         {
-            // TODO_TEST_PANOS: whole function
             if (amount >= 0.0M)
                 return true;
 
@@ -60,7 +59,6 @@ namespace Epsilon.Logic.Services
             string externalReference = null,
             int quantity = 1)
         {
-            // TODO_TEST_PANOS
             if (quantity < 1)
                 return TokenAccountTransactionStatus.WrongQuantity;
 
@@ -72,11 +70,10 @@ namespace Epsilon.Logic.Services
             if (await IsTimeToMakeSnapshot(account))
                 await MakeSnapshot(account.Id);
 
-            if (amount < 0)
+            var sufficientFundsExist = await SufficientFundsExistForTransaction(account.Id, amount);
+            if (!sufficientFundsExist)
             {
-                var currentBalance = await GetBalance(account.Id);
-                if (currentBalance + amount < 0.0M)
-                    return TokenAccountTransactionStatus.InsufficientFunds;
+                return TokenAccountTransactionStatus.InsufficientFunds;
             }
 
             // NOTE: I am checking for sufficient funds above and making the transaction below.
