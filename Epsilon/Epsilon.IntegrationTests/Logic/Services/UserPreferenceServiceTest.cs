@@ -1,8 +1,10 @@
 ﻿using Epsilon.IntegrationTests.BaseFixtures;
 using Epsilon.Logic.Entities;
+using Epsilon.Logic.Forms.Manage;
 using Epsilon.Logic.Services.Interfaces;
 using Epsilon.Logic.SqlContext.Interfaces;
 using Epsilon.Logic.Wrappers.Interfaces;
+using Epsilon.Resources.Common;
 using Ninject;
 using NUnit.Framework;
 using System.Data.Entity;
@@ -128,7 +130,84 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 "The LanguageId on NonCached UserPreference is not the expected.");
         }
 
-        
+        [Test]
+        public async Task ChangePreferences_HappyPath()
+        {
+            var containerForCreate = CreateContainer();
+            var containerForChange = CreateContainer();
+            var containerForGet = CreateContainer();
+
+            var clock = containerForCreate.Get<IClock>();
+
+            var ipAddress = "1.2.3.5";
+            var originalLanguageId = "en";
+
+            var user = await CreateUser(containerForCreate, "test@test.com", ipAddress, false);
+            var serviceForCreate = containerForCreate.Get<IUserPreferenceService>();
+
+            await serviceForCreate.Create(user.Id, originalLanguageId);
+
+            var form = new ChangePreferencesForm
+            {
+                LanguageId = "el"
+            };
+            
+            var serviceForChange = containerForChange.Get<IUserPreferenceService>();
+            var timeBefore = clock.OffsetNow;
+            var outcome = await serviceForChange.ChangePreferences(user.Id, form);
+            var timeAfter = clock.OffsetNow;
+
+            Assert.IsTrue(outcome.IsSuccess, "IsSuccess on outcome is not the expected.");
+
+            var serviceForGet = containerForGet.Get<IUserPreferenceService>();
+            var userPreference = await serviceForGet.GetAsync(user.Id, allowCaching: true);
+
+            Assert.IsNotNull(userPreference, "The UserPreference is null.");
+            Assert.AreEqual(form.LanguageId, userPreference.LanguageId,
+                "The LanguageId on UserPreference is not the expected.");
+            Assert.IsTrue(timeBefore <= userPreference.UpdatedOn && userPreference.UpdatedOn <= timeAfter,
+                "The UserPreference field UpdatedOn is not within the expected range.");
+
+            var retrievedUserPreference = await DbProbe.UserPreferences.FindAsync(user.Id);
+
+            Assert.IsNotNull(retrievedUserPreference, "The retrieved UserPreference is null.");
+            Assert.AreEqual(form.LanguageId, retrievedUserPreference.LanguageId,
+                "The LanguageId on retrieved UserPreference is not the expected.");
+            Assert.IsTrue(timeBefore <= retrievedUserPreference.UpdatedOn && retrievedUserPreference.UpdatedOn <= timeAfter,
+                "The retrieved UserPreference field UpdatedOn is not within the expected range.");
+        }
+
+        [Test]
+        public async Task ChangePreferences_UserIdNotFound()
+        {
+            var containerForCreate = CreateContainer();
+            var containerForChange = CreateContainer();
+
+            var clock = containerForCreate.Get<IClock>();
+
+            var ipAddress = "1.2.3.5";
+            var originalLanguageId = "en";
+
+            var user = await CreateUser(containerForCreate, "test@test.com", ipAddress, false);
+            var serviceForCreate = containerForCreate.Get<IUserPreferenceService>();
+
+            await serviceForCreate.Create(user.Id, originalLanguageId);
+
+            var form = new ChangePreferencesForm
+            {
+                LanguageId = "el"
+            };
+
+            var serviceForChange = containerForChange.Get<IUserPreferenceService>();
+            var outcome = await serviceForChange.ChangePreferences(user.Id + "-invalid", form);
+
+            Assert.IsFalse(outcome.IsSuccess, "IsSuccess on outcome is not the expected.");
+            Assert.AreEqual(CommonResources.GenericInvalidRequestMessage, outcome.ErrorMessage,
+                "ErrorMessage on the outcome is not the expected.");
+            Assert.IsFalse(outcome.ReturnToForm,
+                "ReturnToForm on the outcome is not the expected.");
+        }
+
         private async Task UpdateLanguageIdUsingDbProbe(string userId, string languageId)
         {
             var userPreference = await DbProbe.UserPreferences.FindAsync(userId);

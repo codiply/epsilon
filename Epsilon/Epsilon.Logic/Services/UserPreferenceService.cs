@@ -81,7 +81,6 @@ namespace Epsilon.Logic.Services
             var userPreference = await _dbContext.UserPreferences.FindAsync(userId);
             if (userPreference == null)
             {
-                // TODO_TEST_PANOS
                 return new ChangePreferencesOutcome
                 {
                     IsSuccess = false,
