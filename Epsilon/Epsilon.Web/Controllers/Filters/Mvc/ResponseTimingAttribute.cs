@@ -8,17 +8,12 @@ using System.Web.Mvc;
 namespace Epsilon.Web.Controllers.Filters.Mvc
 {
     [AttributeUsage(AttributeTargets.Class, Inherited = true)]
-    public class ResponseTimingAttribute : ActionFilterAttribute
+    public class ResponseTimingAttribute : BaseActionFilterAttribute
     {
         // NOTE: If you change the logic in this filter update
         // !!!!! the corresponding WebApi filter as well. !!!!
 
         private const string ITEMS_KEY = "Stopwatch";
-
-        public IDependencyResolver CurrentDependencyResolver
-        {
-            get { return DependencyResolver.Current; }
-        }
 
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {

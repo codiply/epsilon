@@ -8,14 +8,9 @@ using System.Web.Mvc;
 namespace Epsilon.Web.Controllers.Filters.Mvc
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
-    public class AllowIfConfigSettingTrueAttribute : ActionFilterAttribute
+    public class AllowIfConfigSettingTrueAttribute : BaseActionFilterAttribute
     {
         private readonly string _settingKey;
-
-        public IDependencyResolver CurrentDependencyResolver
-        {
-            get { return DependencyResolver.Current; }
-        }
 
         public AllowIfConfigSettingTrueAttribute(string settingKey)
         {

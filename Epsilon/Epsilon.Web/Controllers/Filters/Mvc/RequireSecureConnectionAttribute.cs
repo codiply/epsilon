@@ -9,9 +9,22 @@ namespace Epsilon.Web.Controllers.Filters.Mvc
     [AttributeUsage(AttributeTargets.Class, Inherited = true)]
     public class RequireSecureConnectionAttribute : RequireHttpsAttribute
     {
+        private IDependencyResolver _dependencyResolverOverride = null;
+
         public IDependencyResolver CurrentDependencyResolver
         {
-            get { return DependencyResolver.Current; }
+            get
+            {
+                if (_dependencyResolverOverride == null)
+                    return DependencyResolver.Current;
+                else
+                    return _dependencyResolverOverride;
+            }
+
+            set
+            {
+                _dependencyResolverOverride = value;
+            }
         }
 
         public override void OnAuthorization(AuthorizationContext filterContext)

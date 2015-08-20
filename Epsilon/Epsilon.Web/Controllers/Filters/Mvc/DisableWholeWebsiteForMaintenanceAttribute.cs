@@ -9,13 +9,8 @@ using System.Web.Mvc;
 namespace Epsilon.Web.Controllers.Filters.Mvc
 {
     [AttributeUsage(AttributeTargets.Class, Inherited = true)]
-    public class DisableWholeWebsiteForMaintenanceAttribute : ActionFilterAttribute
+    public class DisableWholeWebsiteForMaintenanceAttribute : BaseActionFilterAttribute
     {
-        public IDependencyResolver CurrentDependencyResolver
-        {
-            get { return DependencyResolver.Current; }
-        }
-
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             // NOTE: If you change the logic in this filter update

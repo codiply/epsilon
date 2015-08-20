@@ -8,13 +8,8 @@ using System.Web.Mvc;
 namespace Epsilon.Web.Controllers.Filters.Mvc
 {
     [AttributeUsage(AttributeTargets.Class, Inherited = true)]
-    public class SanitizeIpAddressAttribute : ActionFilterAttribute
+    public class SanitizeIpAddressAttribute : BaseActionFilterAttribute
     {
-        public IDependencyResolver CurrentDependencyResolver
-        {
-            get { return DependencyResolver.Current; }
-        }
-
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             var appSettingsHelper = CurrentDependencyResolver.GetService<IAppSettingsHelper>();

@@ -1,5 +1,6 @@
 ﻿using Epsilon.Logic.Constants;
 using Epsilon.Logic.Helpers.Interfaces;
+using Epsilon.Logic.Infrastructure.Extensions;
 using Epsilon.Logic.Infrastructure.Interfaces;
 using Epsilon.Logic.Services.Interfaces;
 using Ninject;
@@ -14,13 +15,8 @@ using System.Web.Http.Filters;
 
 namespace Epsilon.Web.Controllers.Filters.WebApi
 {
-    public class InternationalizationAttribute : ActionFilterAttribute
+    public class InternationalizationAttribute : BaseActionFilterAttribute
     {
-        public IDependencyResolver CurrentDependencyResolver
-        {
-            get { return GlobalConfiguration.Configuration.DependencyResolver; }
-        }
-
         public override void OnActionExecuting(HttpActionContext actionContext)
         {
             // NOTE: If you change the logic in this filter update
@@ -28,13 +24,13 @@ namespace Epsilon.Web.Controllers.Filters.WebApi
 
             // NOTE: I assume the languageId is always defined for WebApi requests. If not I fall back to default language.
 
-            var appSettingsHelper = (IAppSettingsHelper)CurrentDependencyResolver.GetService(typeof(IAppSettingsHelper));
+            var appSettingsHelper = CurrentDependencyResolver.Resolve<IAppSettingsHelper>();
 
             string languageId = (string)actionContext.RequestContext.RouteData.Values["languageId"] 
                 ?? appSettingsHelper.GetString(AppSettingsKey.DefaultLanguageId);
             
             var languageService = 
-                (ILanguageService)GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof(ILanguageService));
+                CurrentDependencyResolver.Resolve<ILanguageService>();
 
             var language = languageService.GetLanguage(languageId);
 

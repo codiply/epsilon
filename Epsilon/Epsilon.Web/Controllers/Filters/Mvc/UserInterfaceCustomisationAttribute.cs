@@ -7,13 +7,8 @@ using System.Web.Mvc;
 namespace Epsilon.Web.Controllers.Filters.Mvc
 {
     [AttributeUsage(AttributeTargets.Class, Inherited = true)]
-    public class UserInterfaceCustomisationAttribute : ActionFilterAttribute
+    public class UserInterfaceCustomisationAttribute : BaseActionFilterAttribute
     {
-        public IDependencyResolver CurrentDependencyResolver
-        {
-            get { return DependencyResolver.Current; }
-        }
-
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             if (filterContext.HttpContext.User.Identity.IsAuthenticated)

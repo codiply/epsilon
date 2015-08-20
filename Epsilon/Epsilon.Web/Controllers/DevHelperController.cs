@@ -33,7 +33,7 @@ namespace Epsilon.Web.Controllers
             _userTokenService = userTokenService;
         }
         
-        public async Task<ActionResult> Index()
+        public ActionResult Index()
         {
             return View();
         }

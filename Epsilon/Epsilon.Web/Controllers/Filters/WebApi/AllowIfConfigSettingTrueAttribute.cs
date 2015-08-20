@@ -1,4 +1,5 @@
 ﻿using Epsilon.Logic.Helpers.Interfaces;
+using Epsilon.Logic.Infrastructure.Extensions;
 using Ninject;
 using System;
 using System.Net;
@@ -11,14 +12,9 @@ using System.Web.Http.Filters;
 namespace Epsilon.Web.Controllers.Filters.WebApi
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
-    public class AllowIfConfigSettingTrueAttribute : ActionFilterAttribute
+    public class AllowIfConfigSettingTrueAttribute : BaseActionFilterAttribute
     {
         private readonly string _settingKey;
-
-        public IDependencyResolver CurrentDependencyResolver
-        {
-            get { return GlobalConfiguration.Configuration.DependencyResolver; }
-        }
 
         public AllowIfConfigSettingTrueAttribute(string settingKey)
         {
@@ -30,7 +26,7 @@ namespace Epsilon.Web.Controllers.Filters.WebApi
             // NOTE: If you change the logic in this filter update
             // !!!!! the corresponding MVC filter as well. !!!!!!!
 
-            var appSettingsHelper = (IAppSettingsHelper)CurrentDependencyResolver.GetService(typeof(IAppSettingsHelper));
+            var appSettingsHelper = CurrentDependencyResolver.Resolve<IAppSettingsHelper>();
 
             var notAllowed = (appSettingsHelper.GetBool(_settingKey) != true);
 

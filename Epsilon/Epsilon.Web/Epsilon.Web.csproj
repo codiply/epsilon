@@ -262,6 +262,7 @@
     <Compile Include="Controllers\ApiControllers\TokenController.cs" />
     <Compile Include="Controllers\BaseControllers\BaseApiController.cs" />
     <Compile Include="Controllers\BaseControllers\BaseMvcController.cs" />
+    <Compile Include="Controllers\Filters\Mvc\BaseActionFilterAttribute.cs" />
     <Compile Include="Controllers\Filters\Mvc\DbAppSettingsLoadedAttribute.cs" />
     <Compile Include="Controllers\Filters\Mvc\UserInterfaceCustomisationAttribute.cs" />
     <Compile Include="Controllers\Filters\Mvc\AvailableCountryAttribute.cs" />
@@ -270,6 +271,7 @@
     <Compile Include="Controllers\Filters\Mvc\AllowIfConfigSettingTrueAttribute.cs" />
     <Compile Include="Controllers\Filters\Mvc\RequireSecureConnectionAttribute.cs" />
     <Compile Include="Controllers\Filters\Mvc\SanitizeIpAddressAttribute.cs" />
+    <Compile Include="Controllers\Filters\WebApi\BaseActionFilterAttribute.cs" />
     <Compile Include="Controllers\Filters\WebApi\DisableWholeWebsiteForMaintenanceAttribute.cs" />
     <Compile Include="Controllers\Filters\WebApi\AllowIfConfigSettingTrueAttribute.cs" />
     <Compile Include="Controllers\Filters\WebApi\ResponseTimingAttribute.cs" />
