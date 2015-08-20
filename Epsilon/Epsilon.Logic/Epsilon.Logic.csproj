@@ -182,7 +182,9 @@
     <Compile Include="Constants\ResourceNames\Web\SubmissionResourceNames.cs" />
     <Compile Include="Entities\GeoipInfo.cs" />
     <Compile Include="Forms\Manage\ChangePreferencesForm.cs" />
+    <Compile Include="Helpers\AppCacheHelper.cs" />
     <Compile Include="Helpers\ElmahHelper.cs" />
+    <Compile Include="Helpers\Interfaces\IAppCacheHelper.cs" />
     <Compile Include="Helpers\Interfaces\IElmahHelper.cs" />
     <Compile Include="Infrastructure\Extensions\DateTimeOffsetExtensions.cs" />
     <Compile Include="Infrastructure\Extensions\HttpDependencyResolverExtensions.cs" />

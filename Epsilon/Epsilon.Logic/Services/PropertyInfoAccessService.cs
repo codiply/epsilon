@@ -2,6 +2,7 @@
 using Epsilon.Logic.Constants;
 using Epsilon.Logic.Constants.Enums;
 using Epsilon.Logic.Entities;
+using Epsilon.Logic.Helpers.Interfaces;
 using Epsilon.Logic.Infrastructure.Interfaces;
 using Epsilon.Logic.JsonModels;
 using Epsilon.Logic.Models;
@@ -24,6 +25,7 @@ namespace Epsilon.Logic.Services
         private readonly IPropertyInfoAccessServiceConfig _propertyInfoAccessServiceConfig;
         private readonly IClock _clock;
         private readonly IAppCache _appCache;
+        private readonly IAppCacheHelper _appCacheHelper;
         private readonly IEpsilonContext _dbContext;
         private readonly IAddressService _addressService;
         private readonly IUserTokenService _userTokenService;
@@ -33,6 +35,7 @@ namespace Epsilon.Logic.Services
             IPropertyInfoAccessServiceConfig propertInfoAccessServiceConfig,
             IClock clock,
             IAppCache appCache,
+            IAppCacheHelper appCacheHelper,
             IEpsilonContext dbContext,
             IAddressService addressService,
             IUserTokenService userTokenService,
@@ -41,6 +44,7 @@ namespace Epsilon.Logic.Services
             _propertyInfoAccessServiceConfig = propertInfoAccessServiceConfig;
             _clock = clock;
             _appCache = appCache;
+            _appCacheHelper = appCacheHelper;
             _dbContext = dbContext;
             _addressService = addressService;
             _userTokenService = userTokenService;
@@ -186,7 +190,7 @@ namespace Epsilon.Logic.Services
                         PropertyInfoAccessResources.Create_SuccessMessage, _propertyInfoAccessServiceConfig.ExpiryPeriodInDays)
                 });
 
-                RemoveCachedUserExploredPropertiesSummary(userId);
+                _appCacheHelper.RemoveCachedUserExploredPropertiesSummary(userId);
 
                 return new CreatePropertyInfoAccessOutcome
                 {
@@ -317,12 +321,6 @@ namespace Epsilon.Logic.Services
                 .FirstOrDefaultAsync();
 
             return propertyInfoAccess;
-        }
-
-        private void RemoveCachedUserExploredPropertiesSummary(string userId)
-        {
-            _appCache.Remove(AppCacheKey.GetUserExploredPropertiesSummary(userId, true));
-            _appCache.Remove(AppCacheKey.GetUserExploredPropertiesSummary(userId, false));
         }
 
         private TimeSpan ExpiryPeriod()

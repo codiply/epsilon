@@ -4,6 +4,7 @@ using Epsilon.Logic.Constants.Enums;
 using Epsilon.Logic.Entities;
 using Epsilon.Logic.Entities.Interfaces;
 using Epsilon.Logic.Helpers;
+using Epsilon.Logic.Helpers.Interfaces;
 using Epsilon.Logic.Infrastructure.Interfaces;
 using Epsilon.Logic.JsonModels;
 using Epsilon.Logic.Models;
@@ -28,6 +29,7 @@ namespace Epsilon.Logic.Services
     {
         private readonly IClock _clock;
         private readonly IAppCache _appCache;
+        private readonly IAppCacheHelper _appCacheHelper;
         private readonly IEpsilonContext _dbContext;
         private readonly IAntiAbuseService _antiAbuseService;
         private readonly IOutgoingVerificationServiceConfig _outgoingVerificationServiceConfig;
@@ -37,6 +39,7 @@ namespace Epsilon.Logic.Services
         public OutgoingVerificationService(
             IClock clock,
             IAppCache appCache,
+            IAppCacheHelper appCacheHelper,
             IEpsilonContext dbContext,
             IAntiAbuseService antiAbuseService,
             IOutgoingVerificationServiceConfig outgoingVerificationServiceConfig,
@@ -45,6 +48,7 @@ namespace Epsilon.Logic.Services
         {
             _clock = clock;
             _appCache = appCache;
+            _appCacheHelper = appCacheHelper;
             _dbContext = dbContext;
             _antiAbuseService = antiAbuseService;
             _outgoingVerificationServiceConfig = outgoingVerificationServiceConfig;
@@ -219,8 +223,8 @@ namespace Epsilon.Logic.Services
                         _outgoingVerificationServiceConfig.Instructions_ExpiryPeriodInDays)
                 });
 
-                RemoveCachedUserOutoingVerificationsSummary(userId);
-                RemoveCachedUserSubmissionsSummary(pickedSubmission.UserId);
+                _appCacheHelper.RemoveCachedUserOutgoingVerificationsSummary(userId);
+                _appCacheHelper.RemoveCachedUserSubmissionsSummary(pickedSubmission.UserId);
 
                 // TODO_TEST_PANOS
                 return new PickVerificationOutcome
@@ -372,8 +376,8 @@ namespace Epsilon.Logic.Services
                 Message = OutgoingVerificationResources.MarkAsSent_SuccessMessage
             });
 
-            RemoveCachedUserOutoingVerificationsSummary(userId);
-            RemoveCachedUserSubmissionsSummary(verification.TenancyDetailsSubmission.UserId);
+            _appCacheHelper.RemoveCachedUserOutgoingVerificationsSummary(userId);
+            _appCacheHelper.RemoveCachedUserSubmissionsSummary(verification.TenancyDetailsSubmission.UserId);
 
             // TODO_TEST_PANOS
             return new MarkVerificationAsSentOutcome
@@ -422,7 +426,7 @@ namespace Epsilon.Logic.Services
                 Message = OutgoingVerificationResources.MarkAddressAsInvalid_SuccessMessage
             });
 
-            RemoveCachedUserOutoingVerificationsSummary(userId);
+            _appCacheHelper.RemoveCachedUserOutgoingVerificationsSummary(userId);
 
             // TODO_TEST_PANOS
             return new MarkAddressAsInvalidOutcome
@@ -463,18 +467,6 @@ namespace Epsilon.Logic.Services
                 .SingleOrDefaultAsync();
 
             return submission;
-        }
-
-        private void RemoveCachedUserOutoingVerificationsSummary(string userId)
-        {
-            _appCache.Remove(AppCacheKey.GetUserOutgoingVerificationsSummary(userId, true));
-            _appCache.Remove(AppCacheKey.GetUserOutgoingVerificationsSummary(userId, false));
-        }
-
-        private void RemoveCachedUserSubmissionsSummary(string userId)
-        {
-            _appCache.Remove(AppCacheKey.GetUserSubmissionsSummary(userId, true));
-            _appCache.Remove(AppCacheKey.GetUserSubmissionsSummary(userId, false));
         }
     }
 }

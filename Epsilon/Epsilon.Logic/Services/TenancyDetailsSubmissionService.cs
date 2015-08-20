@@ -4,6 +4,7 @@ using Epsilon.Logic.Constants.Enums;
 using Epsilon.Logic.Entities;
 using Epsilon.Logic.Entities.Interfaces;
 using Epsilon.Logic.Forms.Submission;
+using Epsilon.Logic.Helpers.Interfaces;
 using Epsilon.Logic.Infrastructure.Interfaces;
 using Epsilon.Logic.JsonModels;
 using Epsilon.Logic.Models;
@@ -26,6 +27,7 @@ namespace Epsilon.Logic.Services
     {
         private readonly IClock _clock;
         private readonly IAppCache _appCache;
+        private readonly IAppCacheHelper _appCacheHelper;
         private readonly ITenancyDetailsSubmissionServiceConfig _tenancyDetailsSubmissionServiceConfig;
         private readonly IEpsilonContext _dbContext;
         private readonly IAddressService _addressService;
@@ -36,6 +38,7 @@ namespace Epsilon.Logic.Services
         public TenancyDetailsSubmissionService(
             IClock clock,
             IAppCache appCache,
+            IAppCacheHelper appCacheHelper,
             ITenancyDetailsSubmissionServiceConfig tenancyDetailsSubmissionServiceConfig,
             IEpsilonContext dbContext,
             IAddressService addressService,
@@ -45,6 +48,7 @@ namespace Epsilon.Logic.Services
         {
             _clock = clock;
             _appCache = appCache;
+            _appCacheHelper = appCacheHelper;
             _tenancyDetailsSubmissionServiceConfig = tenancyDetailsSubmissionServiceConfig;
             _dbContext = dbContext;
             _addressService = addressService;
@@ -164,7 +168,7 @@ namespace Epsilon.Logic.Services
                     Message = TenancyDetailsSubmissionResources.Create_SuccessMessage
                 });
 
-                RemoveCachedUserSubmissionsSummary(userId);
+                _appCacheHelper.RemoveCachedUserSubmissionsSummary(userId);
                 // TODO_TEST_PANOS
                 _userInterfaceCustomisationService.ClearCachedCustomisationForUser(userId);
 
@@ -285,7 +289,8 @@ namespace Epsilon.Logic.Services
                 // TODO_TEST_PANOS
                 transactionScope.Complete();
 
-                RemoveCachedUserSubmissionsSummary(userId);
+                _appCacheHelper.RemoveCachedUserSubmissionsSummary(userId);
+                _appCacheHelper.RemoveCachedUserOutgoingVerificationsSummary(verification.AssignedToId);
                 // TODO_TEST_PANOS
                 _userInterfaceCustomisationService.ClearCachedCustomisationForUser(userId);
 
@@ -364,7 +369,7 @@ namespace Epsilon.Logic.Services
                 // TODO_TEST_PANOS
                 transactionScope.Complete();
 
-                RemoveCachedUserSubmissionsSummary(userId);
+                _appCacheHelper.RemoveCachedUserSubmissionsSummary(userId);
 
                 return new SubmitTenancyDetailsOutcome
                 {
@@ -454,12 +459,6 @@ namespace Epsilon.Logic.Services
             _dbContext.TenancyDetailsSubmissions.Add(entity);
             await _dbContext.SaveChangesAsync();
             return entity;
-        }
-
-        private void RemoveCachedUserSubmissionsSummary(string userId)
-        {
-            _appCache.Remove(AppCacheKey.GetUserSubmissionsSummary(userId, true));
-            _appCache.Remove(AppCacheKey.GetUserSubmissionsSummary(userId, false));
         }
     }
 }

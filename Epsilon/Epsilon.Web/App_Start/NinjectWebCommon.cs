@@ -118,6 +118,7 @@ namespace Epsilon.Web.App_Start
 
             // Helpers
             kernel.Bind<IAddressCleansingHelper>().To<AddressCleansingHelper>().InSingletonScope();
+            kernel.Bind<IAppCacheHelper>().To<AppCacheHelper>().InSingletonScope();
             kernel.Bind<NameValueCollection>().ToConstant(ConfigurationManager.AppSettings)
                 .WhenInjectedExactlyInto<AppSettingsHelper>();
             kernel.Bind<IAppSettingsHelper>().To<AppSettingsHelper>().InSingletonScope();
