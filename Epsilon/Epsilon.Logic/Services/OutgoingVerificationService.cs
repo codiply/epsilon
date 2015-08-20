@@ -220,6 +220,7 @@ namespace Epsilon.Logic.Services
                 });
 
                 RemoveCachedUserOutoingVerificationsSummary(userId);
+                RemoveCachedUserSubmissionsSummary(pickedSubmission.UserId);
 
                 // TODO_TEST_PANOS
                 return new PickVerificationOutcome
@@ -338,7 +339,7 @@ namespace Epsilon.Logic.Services
 
             var verification = await GetVerificationForUser(
                 userId, verificationUniqueId,
-                includeTenancyDetailsSubmission: false, includeAddress: false, includeOtherVerifications: false);
+                includeTenancyDetailsSubmission: true, includeAddress: false, includeOtherVerifications: false);
             if (verification == null)
             {
                 // TODO_TEST_PANOS
@@ -372,6 +373,7 @@ namespace Epsilon.Logic.Services
             });
 
             RemoveCachedUserOutoingVerificationsSummary(userId);
+            RemoveCachedUserSubmissionsSummary(verification.TenancyDetailsSubmission.UserId);
 
             // TODO_TEST_PANOS
             return new MarkVerificationAsSentOutcome
@@ -467,6 +469,12 @@ namespace Epsilon.Logic.Services
         {
             _appCache.Remove(AppCacheKey.GetUserOutgoingVerificationsSummary(userId, true));
             _appCache.Remove(AppCacheKey.GetUserOutgoingVerificationsSummary(userId, false));
+        }
+
+        private void RemoveCachedUserSubmissionsSummary(string userId)
+        {
+            _appCache.Remove(AppCacheKey.GetUserSubmissionsSummary(userId, true));
+            _appCache.Remove(AppCacheKey.GetUserSubmissionsSummary(userId, false));
         }
     }
 }
