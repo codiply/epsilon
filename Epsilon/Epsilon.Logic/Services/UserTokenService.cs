@@ -10,34 +10,32 @@ using System.Threading.Tasks;
 
 namespace Epsilon.Logic.Services
 {
-    // TODO_TEST_PANOS
     public class UserTokenService : IUserTokenService
     {
         private readonly IAppCache _appCache;
-        private readonly IEpsilonContext _dbContext;
         private readonly IUserTokenServiceConfig _userTokenServiceConfig;
         private readonly ITokenAccountService _tokenAccountService;
         private readonly ITokenRewardService _tokenRewardService;
 
         public UserTokenService(
             IAppCache appCache,
-            IEpsilonContext dbContext,
             IUserTokenServiceConfig userTokenServiceConfig,
             ITokenAccountService tokenAccountService,
             ITokenRewardService tokenRewardService)
         {
             _appCache = appCache;
-            _dbContext = dbContext;
             _userTokenServiceConfig = userTokenServiceConfig;
             _tokenAccountService = tokenAccountService;
             _tokenRewardService = tokenRewardService;
         }
+
 
         public async Task CreateAccount(string userId)
         {
             await _tokenAccountService.CreateAccount(userId);
         }
 
+        // TODO_TEST_PANOS
         public async Task<TokenBalanceResponse> GetBalance(string userId)
         {
             var balance = await _appCache.GetAsync(AppCacheKey.UserTokenBalance(userId), async () =>
@@ -49,10 +47,10 @@ namespace Epsilon.Logic.Services
 
         public async Task<bool> SufficientFundsExistForTransaction(string userId, TokenRewardKey tokenRewardKey, int quantity = 1)
         {
-            // TODO_TEST_PANOS
             if (quantity < 1)
                 throw new ArgumentException(string.Format("Quantity has value '{0}' which is less than 1.", quantity));
 
+            // TODO_TEST_PANOS
             var totalAmount = CalculateTotalAmount(tokenRewardKey, quantity);
 
             var accountId = userId;
@@ -64,10 +62,10 @@ namespace Epsilon.Logic.Services
             string userId, TokenRewardKey tokenRewardKey, Guid? internalReference,
             string externalReference = null, int quantity = 1)
         {
-            // TODO_TEST_PANOS
             if (quantity < 1)
                 return TokenAccountTransactionStatus.WrongQuantity;
 
+            // TODO_TEST_PANOS
             var totalAmount = CalculateTotalAmount(tokenRewardKey, quantity);
 
             return await MakeTransaction(userId, totalAmount, tokenRewardKey, internalReference, externalReference, quantity);

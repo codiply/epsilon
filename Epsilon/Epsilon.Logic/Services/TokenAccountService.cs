@@ -184,7 +184,6 @@ namespace Epsilon.Logic.Services
         public async Task<MyTokenTransactionsPageResponse> GetMyTokenTransactionsNextPage(
             string accountId, MyTokenTransactionsPageRequest request, int pageSize)
         {
-            // TODO_TEST_PANOS: the whole thing
             var query = _dbContext.TokenAccountTransactions
                 .OrderByDescending(x => x.MadeOn)
                 .Where(x => x.AccountId.Equals(accountId));
