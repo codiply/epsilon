@@ -12,24 +12,24 @@ namespace Epsilon.Web.Controllers.Filters.Mvc
     [AttributeUsage(AttributeTargets.Class, Inherited = true)]
     public class AvailableCountryAttribute : ActionFilterAttribute
     {
-        [Inject]
-        public IDbAppSettingsHelper DbAppSettingsHelper { get; set; }
-
-        [Inject]
-        public ICountryService CountryService { get; set; }
-
-        [Inject]
-        public IGeoipInfoService GeoipInfoService { get; set; }
+        public IDependencyResolver CurrentDependencyResolver
+        {
+            get { return DependencyResolver.Current; }
+        }
 
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            if (DbAppSettingsHelper.GetBool(DbAppSettingKey.GlobalSwitch_DisableUseOfGeoipInformation) == true)
+            var dbAppSettingsHelper = CurrentDependencyResolver.GetService<IDbAppSettingsHelper>();
+
+            if (dbAppSettingsHelper.GetBool(DbAppSettingKey.GlobalSwitch_DisableUseOfGeoipInformation) == true)
                 return;
 
+            var geoipInfoService = CurrentDependencyResolver.GetService<IGeoipInfoService>();
+            var countryService = CurrentDependencyResolver.GetService<ICountryService>();
             var ipAddress = filterContext.HttpContext.GetSanitizedIpAddress();
-            var geoip = GeoipInfoService.GetInfo(ipAddress);
+            var geoip = geoipInfoService.GetInfo(ipAddress);
             CountryId? countryId = geoip == null ? null : geoip.CountryCodeAsEnum();
-            var isAvailable = countryId.HasValue && CountryService.IsCountryAvailable(countryId.Value);
+            var isAvailable = countryId.HasValue && countryService.IsCountryAvailable(countryId.Value);
 
             if (!isAvailable)
             {

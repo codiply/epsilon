@@ -15,9 +15,14 @@ namespace Epsilon.Web.Controllers.Filters.Mvc
 
         private const string ITEMS_KEY = "Stopwatch";
 
+        public IDependencyResolver CurrentDependencyResolver
+        {
+            get { return DependencyResolver.Current; }
+        }
+
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            var dbAppSettingsHelper = DependencyResolver.Current.GetService<IDbAppSettingsHelper>();
+            var dbAppSettingsHelper = CurrentDependencyResolver.GetService<IDbAppSettingsHelper>();
             if (dbAppSettingsHelper.GetBool(DbAppSettingKey.EnableResponseTiming) == true)
             {
                 var stopwatch = new Stopwatch();
@@ -31,7 +36,7 @@ namespace Epsilon.Web.Controllers.Filters.Mvc
         {
             if (filterContext.HttpContext.Items.Contains(ITEMS_KEY))
             {
-                var responseTimingService = DependencyResolver.Current.GetService<IResponseTimingService>();
+                var responseTimingService = CurrentDependencyResolver.GetService<IResponseTimingService>();
 
                 var stopwatch = (Stopwatch)filterContext.HttpContext.Items[ITEMS_KEY];
 

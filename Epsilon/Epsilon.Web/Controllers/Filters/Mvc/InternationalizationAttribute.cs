@@ -18,23 +18,10 @@ namespace Epsilon.Web.Controllers.Filters.Mvc
     [AttributeUsage(AttributeTargets.Class, Inherited = true)]
     public class InternationalizationAttribute : ActionFilterAttribute
     {
-        [Inject]
-        public IAppSettingsHelper AppSettingsHelper { get; set; }
-
-        [Inject]
-        public IGeoipInfoService GeoipInfoService { get; set; }
-
-        [Inject]
-        public ICountryService CountryService { get; set; }
-
-        [Inject]
-        public IAppCache Cache { get; set; }
-
-        [Inject]
-        public IUserPreferenceService UserPreferenceService { get; set; }
-
-        [Inject]
-        public IDbAppSettingsHelper DbAppSettingsHelper { get; set; }
+        public IDependencyResolver CurrentDependencyResolver
+        {
+            get { return DependencyResolver.Current; }
+        }
 
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
@@ -46,8 +33,9 @@ namespace Epsilon.Web.Controllers.Filters.Mvc
             // Attempt 1: For logged in user get it from UserPreference
             if (filterContext.HttpContext.User.Identity.IsAuthenticated)
             {
+                var userPreferenceService = CurrentDependencyResolver.GetService<IUserPreferenceService>();
                 var userId = filterContext.HttpContext.User.Identity.GetUserId();
-                var userPreference = UserPreferenceService.Get(userId);
+                var userPreference = userPreferenceService.Get(userId);
                 if (userPreference != null)
                     languageId = userPreference.LanguageId;
             }
@@ -58,23 +46,29 @@ namespace Epsilon.Web.Controllers.Filters.Mvc
                 languageId = (string)filterContext.RouteData.Values["languageId"];
             }
 
+            var dbAppSettingsHelper = CurrentDependencyResolver.GetService<IDbAppSettingsHelper>();
+
             // Attempt 3: Get it from the IP address country
-            if (DbAppSettingsHelper.GetBool(DbAppSettingKey.GlobalSwitch_DisableUseOfGeoipInformation) != true
+            if (dbAppSettingsHelper.GetBool(DbAppSettingKey.GlobalSwitch_DisableUseOfGeoipInformation) != true
                 && string.IsNullOrWhiteSpace(languageId))
             {
+                var geoipInfoService = CurrentDependencyResolver.GetService<IGeoipInfoService>();
                 var ipAddress = filterContext.HttpContext.GetSanitizedIpAddress();
-                var geoip = GeoipInfoService.GetInfo(ipAddress);
+                var geoip = geoipInfoService.GetInfo(ipAddress);
                 if (geoip != null)
                 {
-                    var country = CountryService.GetCountry(geoip.CountryCode);
+                    var countryService = CurrentDependencyResolver.GetService<ICountryService>();
+                    var country = countryService.GetCountry(geoip.CountryCode);
                     if (country != null)
                         languageId = country.MainLanguageId;
                 }
             }
 
+            var appSettingsHelper = CurrentDependencyResolver.GetService<IAppSettingsHelper>();
+
             // Attempt 4: Use the default
             if (string.IsNullOrEmpty(languageId))
-                languageId = AppSettingsHelper.GetString(AppSettingsKey.DefaultLanguageId);
+                languageId = appSettingsHelper.GetString(AppSettingsKey.DefaultLanguageId);
 
             // Save back the languageId on the RouteData.
             filterContext.RouteData.Values["languageId"] = languageId;

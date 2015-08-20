@@ -10,15 +10,15 @@ namespace Epsilon.Web.Controllers.Filters.Mvc
     [AttributeUsage(AttributeTargets.Class, Inherited = true)]
     public class SanitizeIpAddressAttribute : ActionFilterAttribute
     {
-        [Inject]
-        public IIpAddressHelper IpAddressHelper { get; set; }
-
-        [Inject]
-        public IAppSettingsHelper AppSettingsHelper { get; set; }
+        public IDependencyResolver CurrentDependencyResolver
+        {
+            get { return DependencyResolver.Current; }
+        }
 
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            var ipOverride = AppSettingsHelper.GetString(AppSettingsKey.IpAddressOverride);
+            var appSettingsHelper = CurrentDependencyResolver.GetService<IAppSettingsHelper>();
+            var ipOverride = appSettingsHelper.GetString(AppSettingsKey.IpAddressOverride);
 
             if (!string.IsNullOrWhiteSpace(ipOverride))
             {
@@ -28,7 +28,8 @@ namespace Epsilon.Web.Controllers.Filters.Mvc
 
             if (filterContext != null && filterContext.HttpContext != null)
             {
-                var ip = IpAddressHelper.GetClientIpAddress(filterContext.HttpContext.Request);
+                var ipAddressHelper = CurrentDependencyResolver.GetService<IIpAddressHelper>();
+                var ip = ipAddressHelper.GetClientIpAddress(filterContext.HttpContext.Request);
                 filterContext.HttpContext.SetSanitizedIpAddress(ip);
             }
         }

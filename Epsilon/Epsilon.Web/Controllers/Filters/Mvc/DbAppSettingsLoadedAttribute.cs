@@ -13,18 +13,21 @@ namespace Epsilon.Web.Controllers.Filters.Mvc
     [AttributeUsage(AttributeTargets.Class, Inherited = true)]
     public class DbAppSettingsLoadedAttribute : ActionFilterAttribute
     {
-        [Inject]
-        public IDbAppSettingsHelper DbAppSettingsHelper { get; set; }
-
-        [Inject]
-        public IAdminAlertService AdminAlertService { get; set; }
+        public IDependencyResolver CurrentDependencyResolver
+        {
+            get { return DependencyResolver.Current; }
+        }
 
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            if (DbAppSettingsHelper.GetBool(DbAppSettingKey.AlwaysTrue) == true)
+            var dbAppSettingsHelper = CurrentDependencyResolver.GetService<IDbAppSettingsHelper>();
+
+            if (dbAppSettingsHelper.GetBool(DbAppSettingKey.AlwaysTrue) == true)
                 return;
 
-            AdminAlertService.SendAlert(AdminAlertKey.DbAppSettingsNotLoaded, doNotUseDatabase: true);
+            var adminAlertService = CurrentDependencyResolver.GetService<IAdminAlertService>();
+
+            adminAlertService.SendAlert(AdminAlertKey.DbAppSettingsNotLoaded, doNotUseDatabase: true);
 
             var message = CommonResources.WebsiteDownMessage;
             filterContext.Controller.ViewData.Model = message;

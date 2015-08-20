@@ -4,7 +4,9 @@ using Ninject;
 using System;
 using System.Net;
 using System.Net.Http;
+using System.Web.Http;
 using System.Web.Http.Controllers;
+using System.Web.Http.Dependencies;
 using System.Web.Http.Filters;
 
 namespace Epsilon.Web.Controllers.Filters.WebApi
@@ -12,11 +14,9 @@ namespace Epsilon.Web.Controllers.Filters.WebApi
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
     public class DisableWholeWebsiteForMaintenanceAttribute : ActionFilterAttribute
     {
-        [Inject]
-        public IAppSettingsHelper AppSettingsHelper { get; set; }
-
-        public DisableWholeWebsiteForMaintenanceAttribute()
+        public IDependencyResolver CurrentDependencyResolver
         {
+            get { return GlobalConfiguration.Configuration.DependencyResolver; }
         }
 
         public override void OnActionExecuting(HttpActionContext actionContext)
@@ -24,7 +24,9 @@ namespace Epsilon.Web.Controllers.Filters.WebApi
             // NOTE: If you change the logic in this filter update
             // !!!!! the corresponding MVC filter as well. !!!!!!!
 
-            var notAllowed = (AppSettingsHelper.GetBool(AppSettingsKey.DisableWholeWebsiteForMaintenance) == true);
+            var appSettingsHelper = (IAppSettingsHelper)CurrentDependencyResolver.GetService(typeof(IAppSettingsHelper));
+
+            var notAllowed = (appSettingsHelper.GetBool(AppSettingsKey.DisableWholeWebsiteForMaintenance) == true);
 
             if (notAllowed)
             {

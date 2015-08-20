@@ -9,8 +9,10 @@ namespace Epsilon.Web.Controllers.Filters.Mvc
     [AttributeUsage(AttributeTargets.Class, Inherited = true)]
     public class RequireSecureConnectionAttribute : RequireHttpsAttribute
     {
-        [Inject]
-        public IAppSettingsHelper AppSettingsHelper { get; set; }
+        public IDependencyResolver CurrentDependencyResolver
+        {
+            get { return DependencyResolver.Current; }
+        }
 
         public override void OnAuthorization(AuthorizationContext filterContext)
         {
@@ -19,7 +21,9 @@ namespace Epsilon.Web.Controllers.Filters.Mvc
                 throw new ArgumentNullException("filterContext");
             }
 
-            if (AppSettingsHelper.GetBool(AppSettingsKey.DisableHttps) == true)
+            var appSettingsHelper = CurrentDependencyResolver.GetService<IAppSettingsHelper>();
+
+            if (appSettingsHelper.GetBool(AppSettingsKey.DisableHttps) == true)
             {
                 return;
             }

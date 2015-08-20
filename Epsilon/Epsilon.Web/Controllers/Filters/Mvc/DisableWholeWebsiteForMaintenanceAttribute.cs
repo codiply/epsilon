@@ -11,15 +11,19 @@ namespace Epsilon.Web.Controllers.Filters.Mvc
     [AttributeUsage(AttributeTargets.Class, Inherited = true)]
     public class DisableWholeWebsiteForMaintenanceAttribute : ActionFilterAttribute
     {
-        [Inject]
-        public IAppSettingsHelper AppSettingsHelper { get; set; }
+        public IDependencyResolver CurrentDependencyResolver
+        {
+            get { return DependencyResolver.Current; }
+        }
 
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             // NOTE: If you change the logic in this filter update
             // !!!!! the corresponding WebApi filter as well. !!!!
 
-            var notAllowed = (AppSettingsHelper.GetBool(AppSettingsKey.DisableWholeWebsiteForMaintenance) == true);
+            var appSettingsHelper = CurrentDependencyResolver.GetService<IAppSettingsHelper>();
+
+            var notAllowed = (appSettingsHelper.GetBool(AppSettingsKey.DisableWholeWebsiteForMaintenance) == true);
 
             if (notAllowed)
             {

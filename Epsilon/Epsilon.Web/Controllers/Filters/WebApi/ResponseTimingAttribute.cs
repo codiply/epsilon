@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Controllers;
+using System.Web.Http.Dependencies;
 using System.Web.Http.Filters;
 
 namespace Epsilon.Web.Controllers.Filters.WebApi
@@ -18,11 +19,14 @@ namespace Epsilon.Web.Controllers.Filters.WebApi
 
         private const string PROPERTIES_KEY = "Stopwatch";
 
+        public IDependencyResolver CurrentDependencyResolver
+        {
+            get { return GlobalConfiguration.Configuration.DependencyResolver; }
+        }
+
         public override void OnActionExecuting(HttpActionContext actionContext)
         {
-            var dbAppSettingsHelper =
-                (IDbAppSettingsHelper)GlobalConfiguration.Configuration.DependencyResolver
-                    .GetService(typeof(IDbAppSettingsHelper));
+            var dbAppSettingsHelper = (IDbAppSettingsHelper)CurrentDependencyResolver.GetService(typeof(IDbAppSettingsHelper));
 
             if (dbAppSettingsHelper.GetBool(DbAppSettingKey.EnableResponseTiming) == true)
             {

@@ -9,17 +9,17 @@ using System.Net.Http;
 using System.Threading;
 using System.Web.Http;
 using System.Web.Http.Controllers;
+using System.Web.Http.Dependencies;
 using System.Web.Http.Filters;
 
 namespace Epsilon.Web.Controllers.Filters.WebApi
 {
     public class InternationalizationAttribute : ActionFilterAttribute
     {
-        [Inject]
-        public IAppSettingsHelper AppSettingsHelper { get; set; }
-
-        [Inject]
-        public IAppCache Cache { get; set; }
+        public IDependencyResolver CurrentDependencyResolver
+        {
+            get { return GlobalConfiguration.Configuration.DependencyResolver; }
+        }
 
         public override void OnActionExecuting(HttpActionContext actionContext)
         {
@@ -28,8 +28,10 @@ namespace Epsilon.Web.Controllers.Filters.WebApi
 
             // NOTE: I assume the languageId is always defined for WebApi requests. If not I fall back to default language.
 
+            var appSettingsHelper = (IAppSettingsHelper)CurrentDependencyResolver.GetService(typeof(IAppSettingsHelper));
+
             string languageId = (string)actionContext.RequestContext.RouteData.Values["languageId"] 
-                ?? AppSettingsHelper.GetString(AppSettingsKey.DefaultLanguageId);
+                ?? appSettingsHelper.GetString(AppSettingsKey.DefaultLanguageId);
             
             var languageService = 
                 (ILanguageService)GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof(ILanguageService));

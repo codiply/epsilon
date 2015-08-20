@@ -3,7 +3,9 @@ using Ninject;
 using System;
 using System.Net;
 using System.Net.Http;
+using System.Web.Http;
 using System.Web.Http.Controllers;
+using System.Web.Http.Dependencies;
 using System.Web.Http.Filters;
 
 namespace Epsilon.Web.Controllers.Filters.WebApi
@@ -13,8 +15,10 @@ namespace Epsilon.Web.Controllers.Filters.WebApi
     {
         private readonly string _settingKey;
 
-        [Inject]
-        public IAppSettingsHelper AppSettingsHelper { get; set; }
+        public IDependencyResolver CurrentDependencyResolver
+        {
+            get { return GlobalConfiguration.Configuration.DependencyResolver; }
+        }
 
         public AllowIfConfigSettingTrueAttribute(string settingKey)
         {
@@ -26,7 +30,9 @@ namespace Epsilon.Web.Controllers.Filters.WebApi
             // NOTE: If you change the logic in this filter update
             // !!!!! the corresponding MVC filter as well. !!!!!!!
 
-            var notAllowed = (AppSettingsHelper.GetBool(_settingKey) != true);
+            var appSettingsHelper = (IAppSettingsHelper)CurrentDependencyResolver.GetService(typeof(IAppSettingsHelper));
+
+            var notAllowed = (appSettingsHelper.GetBool(_settingKey) != true);
 
             if (notAllowed)
             {

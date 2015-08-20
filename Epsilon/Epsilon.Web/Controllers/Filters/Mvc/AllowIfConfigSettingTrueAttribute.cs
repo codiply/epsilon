@@ -12,8 +12,10 @@ namespace Epsilon.Web.Controllers.Filters.Mvc
     {
         private readonly string _settingKey;
 
-        [Inject]
-        public IAppSettingsHelper AppSettingsHelper { get; set; }
+        public IDependencyResolver CurrentDependencyResolver
+        {
+            get { return DependencyResolver.Current; }
+        }
 
         public AllowIfConfigSettingTrueAttribute(string settingKey)
         {
@@ -25,7 +27,9 @@ namespace Epsilon.Web.Controllers.Filters.Mvc
             // NOTE: If you change the logic in this filter update
             // !!!!! the corresponding WebApi filter as well. !!!!
 
-            var notAllowed = (AppSettingsHelper.GetBool(_settingKey) != true);
+            var appSettingsHelper = CurrentDependencyResolver.GetService<IAppSettingsHelper>();
+
+            var notAllowed = (appSettingsHelper.GetBool(_settingKey) != true);
 
             if (notAllowed)
             {

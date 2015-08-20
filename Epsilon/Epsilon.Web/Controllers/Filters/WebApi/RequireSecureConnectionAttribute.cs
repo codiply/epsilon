@@ -4,15 +4,19 @@ using Ninject;
 using System;
 using System.Net;
 using System.Net.Http;
+using System.Web.Http;
 using System.Web.Http.Controllers;
+using System.Web.Http.Dependencies;
 using System.Web.Http.Filters;
 
 namespace Epsilon.Web.Controllers.Filters.WebApi
 {
     public class RequireSecureConnectionAttribute : ActionFilterAttribute
     {
-        [Inject]
-        public IAppSettingsHelper AppSettingsHelper { get; set; }
+        public IDependencyResolver CurrentDependencyResolver
+        {
+            get { return GlobalConfiguration.Configuration.DependencyResolver; }
+        }
 
         public override void OnActionExecuting(HttpActionContext actionContext)
         {
@@ -21,7 +25,9 @@ namespace Epsilon.Web.Controllers.Filters.WebApi
                 throw new ArgumentNullException("actionContext");
             }
 
-            if (AppSettingsHelper.GetBool(AppSettingsKey.DisableHttps) == true)
+            var appSettingsHelper = (IAppSettingsHelper)CurrentDependencyResolver.GetService(typeof(IAppSettingsHelper));
+
+            if (appSettingsHelper.GetBool(AppSettingsKey.DisableHttps) == true)
             {
                 return;
             }
