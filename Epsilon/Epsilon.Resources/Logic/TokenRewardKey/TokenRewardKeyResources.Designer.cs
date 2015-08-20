@@ -8,10 +8,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Epsilon.Resources.Logic.TokenRewardKey
-{
-
-
+namespace Epsilon.Resources.Logic.TokenRewardKey {
+    using System;
+    
+    
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -115,7 +115,7 @@ namespace Epsilon.Resources.Logic.TokenRewardKey
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Tokens spend for accessing the information for a property..
+        ///   Looks up a localized string similar to Tokens spent for accessing the information for a property..
         /// </summary>
         public static string SpendPerPropertyInfoAccess_Description {
             get {

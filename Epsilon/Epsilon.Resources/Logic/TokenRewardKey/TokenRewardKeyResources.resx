@@ -136,7 +136,7 @@
     <value>Outgoing Verification Sent</value>
   </data>
   <data name="SpendPerPropertyInfoAccess_Description" xml:space="preserve">
-    <value>Tokens spend for accessing the information for a property.</value>
+    <value>Tokens spent for accessing the information for a property.</value>
   </data>
   <data name="SpendPerPropertyInfoAccess_DisplayName" xml:space="preserve">
     <value>Access Property Information</value>

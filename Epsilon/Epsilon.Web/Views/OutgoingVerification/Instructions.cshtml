@@ -65,7 +65,7 @@
         <p>
             @OutgoingVerificationResources.Instructions_StepVerifyValidAddress_Instructions <br />
             <ul>
-                <li><a href="@addressCheckerUrl">@addressCheckerDisplayName</a></li>
+                <li><a href="@addressCheckerUrl" target="_blank">@addressCheckerDisplayName</a></li>
             </ul>
         </p>
 
@@ -106,7 +106,7 @@
     <div class="panel-body">
 
         @{
-            // TODO_TEST_PANOS: Unit test that checks that everry country and and language has at least one provider defined (non-empty strings).
+            // TODO_TEST_PANOS: Unit test that checks that every country and and language has at least one provider defined (non-empty strings).
             var paperMailOnlinleProvider1Url = countryVariantResources[EnumsHelper.CountryVariantResourceName
                 .ToString(CountryVariantResourceName.OutgoingVerificationInstructions_SendPaperMailOnlineProvider_1_Url)];
             var paperMailOnlinleProvider1DisplayName = countryVariantResources[EnumsHelper.CountryVariantResourceName
@@ -124,13 +124,13 @@
                 @if (!string.IsNullOrWhiteSpace(paperMailOnlinleProvider1Url) && !string.IsNullOrWhiteSpace(paperMailOnlinleProvider1DisplayName))
             {
                     <li>
-                        <a href="@paperMailOnlinleProvider1Url">@paperMailOnlinleProvider1DisplayName</a>
+                        <a href="@paperMailOnlinleProvider1Url" target="_blank">@paperMailOnlinleProvider1DisplayName</a>
                     </li>
                 }
                 @if (!string.IsNullOrWhiteSpace(paperMailOnlinleProvider2Url) && !string.IsNullOrWhiteSpace(paperMailOnlinleProvider2DisplayName))
             {
                     <li>
-                        <a href="@paperMailOnlinleProvider2Url">@paperMailOnlinleProvider2DisplayName</a>
+                        <a href="@paperMailOnlinleProvider2Url" target="_blank">@paperMailOnlinleProvider2DisplayName</a>
                     </li>
                 }
             </ul>

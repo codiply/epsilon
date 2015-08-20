@@ -49,7 +49,7 @@ namespace Epsilon.Logic.Services
 
             var balance = await GetBalance(accountId);
 
-            return amount <= balance;
+            return balance + amount >= 0.0M;
         }
 
         public async Task<TokenAccountTransactionStatus> MakeTransaction(

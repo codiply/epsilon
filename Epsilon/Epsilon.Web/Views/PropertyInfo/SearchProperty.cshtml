@@ -52,7 +52,7 @@
         <div class="alert alert-warning" data-ng-clock data-ng-if="propertySearchResponse.isResultsLimitExceeded">
             <p>{{ '@PropertyInfoResources.SearchProperty_NarrowDownYourSearchMessage' | stringFormat : propertySearchResponse.resultsLimit }}</p>
         </div> 
-        <table class="table table-striped">
+        <table class="table table-striped" data-ng-cloak data-ng-show="propertySearchResponse.results.length > 0">
             <thead>
                 <tr>
                     <th></th>

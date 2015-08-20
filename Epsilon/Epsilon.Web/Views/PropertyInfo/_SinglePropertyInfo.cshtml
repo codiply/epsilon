@@ -1,6 +1,7 @@
 ﻿@model Epsilon.Logic.Models.ViewPropertyInfoPropertyModel
 
 @using Epsilon.Resources.Web.PropertyInfo
+@using Epsilon.Logic.Infrastructure.Extensions
 
 <div>
     <p>@Model.DisplayAddress</p>
@@ -20,7 +21,12 @@
         <tbody>
             @foreach (var submission in Model.CompleteSubmissions.OrderByDescending(x => x.SubmittedOn))
             {
-            <td><span am-time-ago="'@submission.SubmittedOn'" title="{{ '@submission.SubmittedOn' | localDateTime }}"></span></td>
+                <tr>
+                    <td>
+                        <span am-time-ago="'@Html.Raw(submission.SubmittedOn.ToStringUnambiguous())'" 
+                              title="{{ '@(submission.SubmittedOn.ToStringUnambiguous())' | localDateTime }}" >
+                        </span>
+                    </td>
                     <td>@submission.CurrencySymbol @submission.RentPerMonth</td>
                     <td>@submission.NumberOfBedrooms</td>
                     <td>@Html.Partial("_YesNo", @submission.IsPartOfProperty)</td>
@@ -28,8 +34,9 @@
                     <td>@Html.Partial("_StarRatingReadonly", @submission.PropertyConditionRating)</td>
                     <td>@Html.Partial("_StarRatingReadonly", @submission.LandlordRating)</td>
                     <td>@Html.Partial("_StarRatingReadonly", @submission.NeighboursRating)</td>
+                </tr>
             }
-            </tbody>
-        </table>
-    </div>
+        </tbody>
+    </table>
+</div>
 

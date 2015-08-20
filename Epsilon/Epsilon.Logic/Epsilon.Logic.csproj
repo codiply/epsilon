@@ -184,6 +184,7 @@
     <Compile Include="Forms\Manage\ChangePreferencesForm.cs" />
     <Compile Include="Helpers\ElmahHelper.cs" />
     <Compile Include="Helpers\Interfaces\IElmahHelper.cs" />
+    <Compile Include="Infrastructure\Extensions\DateTimeOffsetExtensions.cs" />
     <Compile Include="Infrastructure\Extensions\HttpDependencyResolverExtensions.cs" />
     <Compile Include="Models\AddressModel.cs" />
     <Compile Include="Models\GeoipClientResponse.cs" />
