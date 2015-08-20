@@ -35,7 +35,6 @@ namespace Epsilon.Logic.Services
             await _tokenAccountService.CreateAccount(userId);
         }
 
-        // TODO_TEST_PANOS
         public async Task<TokenBalanceResponse> GetBalance(string userId)
         {
             var balance = await _appCache.GetAsync(AppCacheKey.UserTokenBalance(userId), async () =>
