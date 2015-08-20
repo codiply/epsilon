@@ -2,7 +2,9 @@
 using Epsilon.Logic.Configuration.Interfaces;
 using Epsilon.Logic.Constants.Enums;
 using Epsilon.Logic.Helpers;
+using Epsilon.Logic.JsonModels;
 using Epsilon.Logic.Services.Interfaces;
+using Epsilon.Logic.Wrappers.Interfaces;
 using Moq;
 using Ninject;
 using NUnit.Framework;
@@ -16,6 +18,9 @@ namespace Epsilon.IntegrationTests.Logic.Services
 {
     public class TokenAccountServiceTest : BaseIntegrationTestWithRollback
     {
+
+        #region GetBalance
+
         [Test]
         public async Task GetBalance_ForNewUserWithoutTransactions_ReturnsZero()
         {
@@ -74,6 +79,102 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             Assert.AreEqual(expectedBalance, actualBalance);
         }
+
+        #endregion
+
+        #region
+
+        [Test]
+        public async Task GetMyTokenTransactionsNextPage_TwoPageTest()
+        {
+            var container = CreateContainer();
+            var clock = container.Get<IClock>();
+            var numberOfTransactions = 3;
+            var pageSize = 2;
+
+            var tokenAccountService = container.Get<ITokenAccountService>();
+            // This also sets up the account for the user.
+            var user = await CreateUser(container, "test@test.com", "1.2.3.4");
+            var otherUser = await CreateUser(container, "test2@test.com", "1.2.3.5");
+            var accountId = user.Id;
+            var otherAccountId = otherUser.Id;
+            var tokenRewardKey = TokenRewardKey.EarnPerVerificationCodeEntered;
+
+            for (int i = 1; i <= numberOfTransactions; i++)
+            {
+                await tokenAccountService.MakeTransaction(accountId, i, tokenRewardKey);
+            }
+
+            for (int i = 1; i <= numberOfTransactions; i++)
+            {
+                await tokenAccountService.MakeTransaction(otherAccountId, i, tokenRewardKey);
+            }
+
+            var timeAfterLastTransaction = clock.OffsetNow;
+
+            var retrievedTokenTransactions = await DbProbe.TokenAccountTransactions
+                .Where(x => x.AccountId.Equals(accountId))
+                .OrderByDescending(x => x.MadeOn)
+                .ToListAsync();
+
+            var request1 = new MyTokenTransactionsPageRequest
+            {
+                madeBefore = timeAfterLastTransaction
+            };
+
+            var page1 = await tokenAccountService.GetMyTokenTransactionsNextPage(accountId, request1, pageSize);
+
+            Assert.IsTrue(page1.moreItemsExist, "moreItemsExist on page1 is not the expected");
+            Assert.AreEqual(pageSize, page1.items.Count, "Number of items on page1 is not the expected.");
+            Assert.AreEqual(retrievedTokenTransactions[0].UniqueId, page1.items[0].uniqueId, 
+                "uniqueId on first item of page1 is not the expected.");
+            Assert.AreEqual(retrievedTokenTransactions[1].UniqueId, page1.items[1].uniqueId,
+                "uniqueId on second item of page1 is not the expected.");
+            Assert.AreEqual(retrievedTokenTransactions[1].MadeOn, page1.earliestMadeOn,
+                "earliestMadeOn on page1 is not the expected.");
+
+            var request2 = new MyTokenTransactionsPageRequest
+            {
+                madeBefore = page1.earliestMadeOn
+            };
+
+            var page2 = await tokenAccountService.GetMyTokenTransactionsNextPage(accountId, request2, pageSize);
+            Assert.IsFalse(page2.moreItemsExist, "moreItemsExist on page2 is not the expected");
+            Assert.AreEqual(1, page2.items.Count, "Number of items on page2 is not the expected.");
+            Assert.AreEqual(retrievedTokenTransactions[2].UniqueId, page2.items[0].uniqueId,
+                "uniqueId on first item of page2 is not the expected.");
+            Assert.AreEqual(retrievedTokenTransactions[2].MadeOn, page2.earliestMadeOn,
+                "earliestMadeOn on page2 is not the expected.");
+        }
+
+        [Test]
+        public async Task GetMyTokenTransactionsNextPage_WorksIfThereAreNoTransactions()
+        {
+            var container = CreateContainer();
+            var clock = container.Get<IClock>();
+            var pageSize = 2;
+
+            var tokenAccountService = container.Get<ITokenAccountService>();
+            // This also sets up the account for the user.
+            var user = await CreateUser(container, "test@test.com", "1.2.3.4");
+            var accountId = user.Id;
+
+            var request = new MyTokenTransactionsPageRequest
+            {
+                madeBefore = clock.OffsetNow
+            };
+
+            var page = await tokenAccountService.GetMyTokenTransactionsNextPage(accountId, request, pageSize);
+
+            Assert.IsFalse(page.moreItemsExist, "moreItemsExist on page1 is not the expected");
+            Assert.AreEqual(0, page.items.Count, "Number of items on page1 is not the expected.");
+            Assert.AreEqual(request.madeBefore, page.earliestMadeOn,
+                "earliestMadeOn on first item of page1is not the expected.");
+        }
+
+        #endregion
+
+        #region MakeTransaction
 
         [Test]
         public async Task MakeTransaction_ForNonExistingAccount_ReturnsAccountNotFound()
@@ -275,6 +376,8 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             Assert.AreEqual(expectedNumberOfSnapshots, snapshots.Count, "The final number of snapshots is not the expected.");
         }
+
+        #endregion
 
         private static void SetupContainer(IKernel container, double snoozePeriodInHours, int snapshotTransactionsThreshold)
         {
