@@ -4,6 +4,7 @@ using Epsilon.Logic.Services.Interfaces;
 using Epsilon.Logic.SqlContext;
 using Epsilon.Logic.SqlContext.Interfaces;
 using Epsilon.Web.App_Start;
+using Moq;
 using Ninject;
 using NUnit.Framework;
 using System.Threading.Tasks;
@@ -66,6 +67,12 @@ namespace Epsilon.IntegrationTests.BaseFixtures
             var kernel = new StandardKernel();
             NinjectWebCommon.RegisterServices(kernel);
             return kernel;
+        }
+
+        public static void KillDatabase(IKernel container)
+        {
+            var mockDbContext = new Mock<IEpsilonContext>();
+            container.Rebind<IEpsilonContext>().ToConstant(mockDbContext.Object);
         }
     }
 }

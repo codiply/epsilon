@@ -30,6 +30,7 @@ namespace Epsilon.Logic.Constants
 
         public const byte TOKEN_AMOUNT_PRECISION = 16;
         public const byte TOKEN_AMOUNT_SCALE = 4;
+        public const decimal TOKEN_REWARD_DELTA = 0.0001M;
 
         public const byte RATING_MIN_VALUE = 1;
         public const byte RATING_MAX_VALUE = 5;
