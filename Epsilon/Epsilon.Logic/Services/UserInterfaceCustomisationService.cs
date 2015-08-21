@@ -45,17 +45,17 @@ namespace Epsilon.Logic.Services
 
         private async Task<UserInterfaceCustomisationModel> DoGetForUser(string userId)
         {
-            var userResidenceResponse = await _userResidenceService.GetResidence(userId);
+            var userResidenceServiceResponse = await _userResidenceService.GetResidence(userId);
 
             var canCreateTenancyDetailsSubmissionOutcome = await _antiAbuseService.CanCreateTenancyDetailsSubmissionCheckUserFrequency(userId);
 
             return new UserInterfaceCustomisationModel()
             {
-                HasNoTenancyDetailsSubmissions = userResidenceResponse.HasNoSubmissions,
-                IsUserResidenceVerified = userResidenceResponse.IsVerified,
-                UserResidenceCountry = userResidenceResponse.Address == null ? null : userResidenceResponse.Address.Country,
+                HasNoTenancyDetailsSubmissions = userResidenceServiceResponse.HasNoSubmissions,
+                IsUserResidenceVerified = userResidenceServiceResponse.IsVerified,
+                UserResidenceCountry = userResidenceServiceResponse.Address == null ? null : userResidenceServiceResponse.Address.Country,
                 CanCreateTenancyDetailsSubmission = !canCreateTenancyDetailsSubmissionOutcome.IsRejected,
-                CanPickOutgoingVerification = userResidenceResponse.Address != null
+                CanPickOutgoingVerification = userResidenceServiceResponse.Address != null
             };
         }
     }
