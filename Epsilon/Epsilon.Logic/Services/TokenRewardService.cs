@@ -38,7 +38,6 @@ namespace Epsilon.Logic.Services
 
         public TokenRewardsSummaryResponse GetTokenRewardsSummary()
         {
-            // TODO_TEST_PANOS: all
             var currentScheme = GetCurrentScheme();
             var rewards = currentScheme.Rewards
                 .Select(r => new { TypeKey = r.TypeKeyAsEnum, Reward = r })
@@ -58,7 +57,6 @@ namespace Epsilon.Logic.Services
 
         public TokenRewardMetadata GetAllTokenRewardMetadata()
         {
-            // TODO_TEST_PANOS:
             return new TokenRewardMetadata
             {
                 typeMetadata = _tokenRewardMetadataHelper.GetAll()

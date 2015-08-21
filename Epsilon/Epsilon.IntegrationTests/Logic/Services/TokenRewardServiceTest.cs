@@ -13,12 +13,37 @@ using Epsilon.Logic.Helpers;
 using System.Collections.Generic;
 using Epsilon.Logic.Wrappers;
 using Epsilon.Logic.Services.Interfaces;
+using Epsilon.Logic.Constants.Enums;
 
 namespace Epsilon.IntegrationTests.Logic.Services
 {
     public class TokenRewardServiceTest : BaseIntegrationTestWithRollback
     {
-        #region
+        #region GetAllTokenRewardMetadata
+
+        [Test]
+        public void GetAllTokenRewardMetadata_Works()
+        {
+            var container = CreateContainer();
+            var service = container.Get<ITokenRewardService>();
+
+            var allMetadata = service.GetAllTokenRewardMetadata();
+
+            foreach (var key in EnumsHelper.TokenRewardKey.GetNames())
+            {
+                var metadata = allMetadata.typeMetadata.SingleOrDefault(x => x.key.Equals(key));
+                Assert.IsNotNull(metadata,
+                    string.Format("Metadata not found for key '{0}'.", key));
+                Assert.IsNotNullOrEmpty(metadata.displayName,
+                    string.Format("No displayName found for key '{0}'.", key));
+                Assert.IsNotNullOrEmpty(metadata.description,
+                    string.Format("No description found for key '{0}'.", key));
+            }
+        }
+
+        #endregion
+
+        #region GetCurrentScheme
 
         [Test]
         public async Task GetCurrentScheme_PicksTheRightSchemeAndCachesIt()
@@ -106,6 +131,70 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             Assert.AreEqual(futureRewardScheme.Id, actualCurrentSchemeAfter.Id,
                 "The Id of the current scheme after expiry is not the expected.");
+        }
+
+        #endregion
+
+
+
+        #region GetTokenRewardsSummary
+
+        [Test]
+        public async Task GetTokenRewardsSummary_Test()
+        {
+            var helperContainer = CreateContainer();
+            var clock = helperContainer.Get<IClock>();
+
+            var random = new RandomWrapper(2015);
+
+            var currentScheme = await CreateRandomTokenRewardScheme(
+                random, helperContainer, clock.OffsetNow);
+
+            var containerUnderTest = CreateContainer();
+            var service = containerUnderTest.Get<ITokenRewardService>();
+
+            var summary = service.GetTokenRewardsSummary();
+
+            foreach (var keyEnum in EnumsHelper.TokenRewardKey.GetValues())
+            {
+                var key = EnumsHelper.TokenRewardKey.ToString(keyEnum);
+                var metadata = summary.typeMetadata.SingleOrDefault(x => x.key.Equals(key));
+                Assert.IsNotNull(metadata,
+                    string.Format("Metadata not found for key '{0}'.", key));
+                Assert.IsNotNullOrEmpty(metadata.displayName,
+                    string.Format("No displayName found for key '{0}'.", key));
+                Assert.IsNotNullOrEmpty(metadata.description,
+                    string.Format("No description found for key '{0}'.", key));
+
+                var valueInEarn = summary.earnTypeValues.SingleOrDefault(x => x.key.Equals(key));
+                var valueInSpend = summary.spendTypeValues.SingleOrDefault(x => x.key.Equals(key));
+
+                if (keyEnum.EarnOrSpend() == TokenRewardKeyType.Earn)
+                {
+                    Assert.IsNotNull(valueInEarn,
+                        string.Format("Value was not found in earnTypeValues for key '{0}'.", key));
+                    Assert.IsNull(valueInSpend,
+                        string.Format("Value should not be found in spendTypeValues for key '{0}'.", key));
+
+                    var actualValue = valueInEarn.value;
+                    var expectedValue = currentScheme.Rewards.Single(x => x.TypeKey.Equals(key)).Value;
+                    Assert.That(actualValue, Is.EqualTo(expectedValue).Within(AppConstant.TOKEN_REWARD_DELTA),
+                        string.Format("Value for reward with key '{0}' is not the expected.", key));
+                }
+                else
+                {
+                    Assert.IsNull(valueInEarn,
+                        string.Format("Value should not found in earnTypeValues for key '{0}'.", key));
+                    Assert.IsNotNull(valueInSpend,
+                        string.Format("Value was not be found in spendTypeValues for key '{0}'.", key));
+
+                    var actualValue = valueInSpend.value;
+                    var expectedValue = currentScheme.Rewards.Single(x => x.TypeKey.Equals(key)).Value;
+                    Assert.That(actualValue, Is.EqualTo(expectedValue).Within(AppConstant.TOKEN_REWARD_DELTA),
+                        string.Format("Value for reward with key '{0}' is not the expected.", key));
+                }
+
+            }
         }
 
         #endregion
