@@ -10,18 +10,15 @@ namespace Epsilon.Logic.Services
     // TODO_TEST_PANOS
     public class UserInterfaceCustomisationService : IUserInterfaceCustomisationService
     {
-        private readonly IEpsilonContext _dbContext;
         private readonly IAppCache _appCache;
         private readonly IUserResidenceService _userResidenceService;
         private readonly IAntiAbuseService _antiAbuseService;
 
         public UserInterfaceCustomisationService(
-            IEpsilonContext dbContext,
             IAppCache appCache,
             IUserResidenceService userResidenceService,
             IAntiAbuseService antiAbuseService)
         {
-            _dbContext = dbContext;
             _appCache = appCache;
             _userResidenceService = userResidenceService;
             _antiAbuseService = antiAbuseService;
