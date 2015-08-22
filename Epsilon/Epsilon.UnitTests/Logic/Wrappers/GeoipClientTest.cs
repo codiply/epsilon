@@ -22,7 +22,7 @@ namespace Epsilon.UnitTests.Logic.Wrappers
         [Test, TestCaseSource("GeoipProviderNames")]
         public async Task Geoip_SuccessfulCaseForEachProvider(GeoipProviderName provider)
         {
-            var timeoutInMilliseconds = 10 * 1000;
+            var timeoutInMilliseconds = 16 * 1000;
             Exception exceptionLogged = null;
             var ipAddress = "8.8.8.8";
             var expectedLatitude = 37.386;
@@ -52,7 +52,7 @@ namespace Epsilon.UnitTests.Logic.Wrappers
         [Test, TestCaseSource("GeoipProviderNames")]
         public async Task Geoip_InternalIpAddressForEachProvider_HandledGracefully(GeoipProviderName provider)
         {
-            var timeoutInMilliseconds = 3 * 1000;
+            var timeoutInMilliseconds = 16 * 1000;
             Exception exceptionLogged = null;
             var ipAddress = "192.168.1.1";
 
@@ -77,7 +77,7 @@ namespace Epsilon.UnitTests.Logic.Wrappers
         [Test]
         public async Task Geoip_WebClientReturnsError()
         {
-            var timeoutInMilliseconds = 3 * 1000;
+            var timeoutInMilliseconds = 4 * 1000;
             Exception exceptionLogged = null;
             var ipAddress = "8.8.8.8";
             var errorMessage = "error-message";
