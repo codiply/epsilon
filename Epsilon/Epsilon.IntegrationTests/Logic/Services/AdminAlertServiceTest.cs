@@ -385,16 +385,5 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             container.Rebind<IAdminAlertServiceConfig>().ToConstant(mockConfig.Object);
         }
-
-        private static void SetupElmahHelper(IKernel container, Action<Exception> raiseCallback)
-        {
-            var mockElmahHelper = new Mock<IElmahHelper>();
-
-
-            mockElmahHelper.Setup(x => x.Raise(It.IsAny<Exception>()))
-                .Callback(raiseCallback);
-
-            container.Rebind<IElmahHelper>().ToConstant(mockElmahHelper.Object);
-        }
     }
 }

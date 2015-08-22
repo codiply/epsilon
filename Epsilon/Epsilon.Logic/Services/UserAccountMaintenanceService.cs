@@ -42,20 +42,22 @@ namespace Epsilon.Logic.Services
             _elmahHelper = elmahHelper;
         }
 
-        public async Task DoMaintenance(string email)
+        public async Task<bool> DoMaintenance(string email)
         {
             try {
                 var user = await _dbContext.Users.SingleAsync(u => u.Email.Equals(email));
-                await CheckForUnrewardedOutgoingVerifications(user.Id);
+                var success = await CheckForUnrewardedOutgoingVerifications(user.Id);
+                return success;
             }
             catch (Exception ex)
             {
                 _elmahHelper.Raise(ex);
                 await RaiseMaintenanceThrewException(email);
+                return false;
             }
         }
 
-        private async Task CheckForUnrewardedOutgoingVerifications(string userId)
+        private async Task<bool> CheckForUnrewardedOutgoingVerifications(string userId)
         {
             using (var transactionScope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
@@ -89,7 +91,7 @@ namespace Epsilon.Logic.Services
                             await RaiseCheckForUnrewardedOutgoingVerificationsTokenTransactionFailed(userId, verificationToReward.AssignedToId);
                             // This should always be Success because I am crediting tokens, however if this
                             // is not the case I return here without saving or committing the transaction.
-                            return;
+                            return false;
                         }
                     }
 
@@ -97,6 +99,8 @@ namespace Epsilon.Logic.Services
                 }
 
                 transactionScope.Complete();
+
+                return true;
             }
         }
 

@@ -1,4 +1,6 @@
-﻿using Epsilon.Logic.Entities;
+﻿using Epsilon.Logic.Constants.Enums;
+using Epsilon.Logic.Entities;
+using Epsilon.Logic.Helpers.Interfaces;
 using Epsilon.Logic.Infrastructure.Interfaces;
 using Epsilon.Logic.Services.Interfaces;
 using Epsilon.Logic.SqlContext;
@@ -7,6 +9,8 @@ using Epsilon.Web.App_Start;
 using Moq;
 using Ninject;
 using NUnit.Framework;
+using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Transactions;
 
@@ -73,6 +77,37 @@ namespace Epsilon.IntegrationTests.BaseFixtures
         {
             var mockDbContext = new Mock<IEpsilonContext>();
             container.Rebind<IEpsilonContext>().ToConstant(mockDbContext.Object);
+        }
+
+        public static void SetupElmahHelper(IKernel container, Action<Exception> elmahHelperRaiseHandler)
+        {
+            var mockElmahHelper = new Mock<IElmahHelper>();
+
+            mockElmahHelper.Setup(x => x.Raise(It.IsAny<Exception>())).Callback(elmahHelperRaiseHandler);
+
+            container.Rebind<IElmahHelper>().ToConstant(mockElmahHelper.Object);
+        }
+
+        public static void SetupAdminAlertService(IKernel container, Action<string, bool> sendCallback)
+        {
+            var mockAdminAlertService = new Mock<IAdminAlertService>();
+
+            mockAdminAlertService.Setup(x => x.SendAlert(It.IsAny<string>(), It.IsAny<bool>()))
+                .Callback(sendCallback);
+
+            container.Rebind<IAdminAlertService>().ToConstant(mockAdminAlertService.Object);
+        }
+
+        public static void SetupAdminEventLogService(
+            IKernel container, Action<AdminEventLogKey, Dictionary<string, object>> logCallback)
+        {
+            var mockAdminEventLogService = new Mock<IAdminEventLogService>();
+
+            mockAdminEventLogService.Setup(x => x.Log(It.IsAny<AdminEventLogKey>(), It.IsAny<Dictionary<string, object>>()))
+                .Returns(Task.FromResult(1))
+                .Callback(logCallback);
+
+            container.Rebind<IAdminEventLogService>().ToConstant(mockAdminEventLogService.Object);
         }
     }
 }
