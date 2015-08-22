@@ -110,6 +110,7 @@
     <Compile Include="Logic\Services\ResponseTimingServiceTest.cs" />
     <Compile Include="Logic\Services\TenancyDetailsSubmissionServiceTest.cs" />
     <Compile Include="Logic\Services\TokenRewardServiceTest.cs" />
+    <Compile Include="Logic\Services\UserAccountMaintenanceServiceTest.cs" />
     <Compile Include="Logic\Services\UserPreferenceServiceTest.cs" />
     <Compile Include="Logic\Services\UserResidenceServiceTest.cs" />
     <Compile Include="Logic\Services\UserTokenServiceTest.cs" />

@@ -14,7 +14,6 @@ using System.Transactions;
 
 namespace Epsilon.Logic.Services
 {
-    // TODO_TEST_PANOS: whole thing
     public class UserAccountMaintenanceService : IUserAccountMaintenanceService
     {
         private readonly IClock _clock;
