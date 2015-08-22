@@ -100,6 +100,7 @@
     <Compile Include="Logic\Services\AntiAbuseServiceTest.cs" />
     <Compile Include="Logic\Services\CurrencyServiceTest.cs" />
     <Compile Include="Logic\Services\GeocodeServiceTest.cs" />
+    <Compile Include="Logic\Services\GeoipInfoServiceTest.cs" />
     <Compile Include="Logic\Services\OutgoingVerificationServiceTest.cs" />
     <Compile Include="Logic\Services\TokenAccountServiceTest.cs" />
     <Compile Include="Logic\Services\CountryServiceTest.cs" />

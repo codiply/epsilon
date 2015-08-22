@@ -8,12 +8,12 @@ using Epsilon.Logic.Models;
 using Epsilon.Logic.Services.Interfaces;
 using Epsilon.Logic.SqlContext.Interfaces;
 using Epsilon.Logic.Wrappers.Interfaces;
+using System;
 using System.Data.Entity;
 using System.Threading.Tasks;
 
 namespace Epsilon.Logic.Services
 {
-    // TODO_TEST_PANOS: whole thing
     public class GeoipInfoService : IGeoipInfoService
     {
         private readonly IClock _clock;

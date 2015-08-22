@@ -1,5 +1,6 @@
 ﻿using Epsilon.Logic.Configuration.Interfaces;
 using Epsilon.Logic.Entities;
+using Epsilon.Logic.Helpers;
 using Epsilon.Logic.Infrastructure;
 using Epsilon.Logic.Infrastructure.Interfaces;
 using Epsilon.Logic.Services;
@@ -88,7 +89,7 @@ namespace Epsilon.UnitTests.Logic.Services
             var getResidenceResponse = new GetResidenceResponse()
             {
                 HasNoSubmissions = false,
-                Address = new Address() { Country = new Country { Id = "GB" } },
+                Address = new Address() { Country = new Country { Id = EnumsHelper.CountryId.ToString(Epsilon.Logic.Constants.Enums.CountryId.GB) } },
                 IsVerified = true
             };
             var canCreateTenancyDetailsSubmissionResponse = new AntiAbuseServiceResponse()
@@ -204,7 +205,7 @@ namespace Epsilon.UnitTests.Logic.Services
             var getResidenceResponse = new GetResidenceResponse()
             {
                 HasNoSubmissions = false,
-                Address = new Address() { Country = new Country { Id = "GB" } },
+                Address = new Address() { Country = new Country { Id = EnumsHelper.CountryId.ToString(Epsilon.Logic.Constants.Enums.CountryId.GB) } },
                 IsVerified = true
             };
             var canCreateTenancyDetailsSubmissionResponse = new AntiAbuseServiceResponse()
