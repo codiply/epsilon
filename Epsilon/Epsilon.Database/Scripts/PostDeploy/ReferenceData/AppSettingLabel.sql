@@ -200,6 +200,7 @@ VALUES
 (N'outgoing-verification', N'OutgoingVerification_Pick_MinDegreesDistanceInAnyDirection'),
 (N'outgoing-verification', N'OutgoingVerification_RewardSendersIfNoneUsed_AfterPeriodInDays'),
 (N'outgoing-verification', N'OutgoingVerification_VerificationsPerTenancyDetailsSubmission'),
+(N'outgoing-verification', N'UserAccountMaintenance_DisableRewardOutgoingVerificationSendersIfNoneUsedAfterCertainPeriod'),
 -- page-size
 (N'page-size', N'Token_MyTokenTransactions_PageSize'),
 -- period
@@ -251,6 +252,7 @@ VALUES
 (N'switch', N'GlobalSwitch_DisablePickOutgoingVerification'),
 (N'switch', N'GlobalSwitch_DisableRegister'),
 (N'switch', N'TenancyDetailsSubmission_Create_DisableFrequencyPerAddressCheck'),
+(N'switch', N'UserAccountMaintenance_DisableRewardOutgoingVerificationSendersIfNoneUsedAfterCertainPeriod'),
 -- timeout
 (N'timeout', N'GeoipClient_TimeoutInMilliseconds'),
 -- tenancy-details-submission
@@ -260,7 +262,8 @@ VALUES
 (N'tenancy-details-submission', N'TenancyDetailsSubmission_MySubmissionsSummary_CachingPeriodInMinutes'),
 (N'tenancy-details-submission', N'TenancyDetailsSubmission_MySubmissionsSummary_ItemsLimit'),
 -- tokens
-(N'tokens', N'Token_MyTokenTransactions_PageSize');
+(N'tokens', N'Token_MyTokenTransactions_PageSize'),
+(N'user-account-maintenance', N'UserAccountMaintenance_DisableRewardOutgoingVerificationSendersIfNoneUsedAfterCertainPeriod');
 GO
 
 MERGE [dbo].[AppSettingLabel] AS T -- Target
@@ -268,7 +271,7 @@ USING #TMP AS S -- Source
     ON T.Label = S.Label AND T.AppSettingId = S.AppSettingId
 WHEN NOT MATCHED
     THEN INSERT ([Label], [AppSettingId])
-	VALUES (S.[Label], S.[AppSettingId])
+    VALUES (S.[Label], S.[AppSettingId])
 WHEN NOT MATCHED BY SOURCE 
     THEN DELETE;
 GO

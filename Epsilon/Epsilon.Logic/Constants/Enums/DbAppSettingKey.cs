@@ -62,6 +62,7 @@
         TenancyDetailsSubmission_Create_MaxFrequencyPerAddress,
         TenancyDetailsSubmission_MySubmissionsSummary_CachingPeriodInMinutes,
         TenancyDetailsSubmission_MySubmissionsSummary_ItemsLimit,
-        Token_MyTokenTransactions_PageSize
+        Token_MyTokenTransactions_PageSize,
+        UserAccountMaintenance_DisableRewardOutgoingVerificationSendersIfNoneUsedAfterCertainPeriod
     }
 }

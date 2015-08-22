@@ -19,6 +19,15 @@ namespace Epsilon.Logic.Configuration
             _dbAppSettingDefaultValue = dbAppSettingDefaultValue;
         }
 
+        public bool DisableRewardOutgoingVerificationSendersIfNoneUsedAfterCertainPeriod
+        {
+            get
+            {
+                return _dbAppSettingsHelper.GetBool(
+                    DbAppSettingKey.UserAccountMaintenance_DisableRewardOutgoingVerificationSendersIfNoneUsedAfterCertainPeriod) == true;
+            }
+        }
+
         public TimeSpan OutgoingVerification_RewardSendersIfNoneUsed_AfterPeriod
         {
             get

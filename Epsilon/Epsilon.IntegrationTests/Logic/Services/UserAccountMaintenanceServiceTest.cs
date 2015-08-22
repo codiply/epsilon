@@ -67,6 +67,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
         [Test]
         public async Task CheckForUnrewardedOutgoingVerifications_TwoUnrewardedVerifications_PeriodNotElapsed()
         {
+            var disableOutgoingVerificationRewardSendersIfNoneUsed = false;
             var outgoingVerificationRewardSendersIfNoneUsedAfterPeriod = TimeSpan.FromDays(30);
 
             var ipAddress = "irrelevant";
@@ -89,7 +90,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var balanceSender2before = await userTokenService.GetBalance(userForOutgoingVerification2.Id);
 
             var container = CreateContainer();
-            SetupConfig(container, outgoingVerificationRewardSendersIfNoneUsedAfterPeriod);
+            SetupConfig(container, disableOutgoingVerificationRewardSendersIfNoneUsed, outgoingVerificationRewardSendersIfNoneUsedAfterPeriod);
             var service = container.Get<IUserAccountMaintenanceService>();
             var success = await service.DoMaintenance(userForOutgoingVerification1.UserName);
 
@@ -115,6 +116,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
         [Test]
         public async Task CheckForUnrewardedOutgoingVerifications_TwoUnrewardedVerifications_PeriodIsElapsed()
         {
+            var disableOutgoingVerificationRewardSendersIfNoneUsed = false;
             var outgoingVerificationRewardSendersIfNoneUsedAfterPeriod = TimeSpan.FromSeconds(0.1);
 
             var ipAddress = "irrelevant";
@@ -139,7 +141,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             await Task.Delay(outgoingVerificationRewardSendersIfNoneUsedAfterPeriod);
 
             var container = CreateContainer();
-            SetupConfig(container, outgoingVerificationRewardSendersIfNoneUsedAfterPeriod);
+            SetupConfig(container, disableOutgoingVerificationRewardSendersIfNoneUsed, outgoingVerificationRewardSendersIfNoneUsedAfterPeriod);
             var service = container.Get<IUserAccountMaintenanceService>();
             var clock = container.Get<IClock>();
             var timeBefore = clock.OffsetNow;
@@ -178,8 +180,65 @@ namespace Epsilon.IntegrationTests.Logic.Services
         }
 
         [Test]
+        public async Task CheckForUnrewardedOutgoingVerifications_TwoUnrewardedVerifications_PeriodIsElapsed_RewardMaintenanceDisabled()
+        {
+            var disableOutgoingVerificationRewardSendersIfNoneUsed = true;
+            var outgoingVerificationRewardSendersIfNoneUsedAfterPeriod = TimeSpan.FromSeconds(0.1);
+
+            var ipAddress = "irrelevant";
+
+            var helperContainer = CreateContainer();
+            var userForSubmission = await CreateUser(helperContainer, "test1@test.com", ipAddress);
+            var userForOutgoingVerification1 = await CreateUser(helperContainer, "test2@test.com", ipAddress);
+            var userForOutgoingVerification2 = await CreateUser(helperContainer, "test3@test.com", ipAddress);
+
+            var random = new RandomWrapper(2015);
+
+            var submission = await CreateSubmissionAndSave(random, helperContainer, userForSubmission.Id, ipAddress);
+            var verification1 = await CreateTenantVerificationAndSave(random, helperContainer, submission,
+                userForOutgoingVerification1.Id, ipAddress, isSent: true, isComplete: false);
+            var verification2 = await CreateTenantVerificationAndSave(random, helperContainer, submission,
+                userForOutgoingVerification2.Id, ipAddress, isSent: true, isComplete: false);
+
+            var userTokenService = helperContainer.Get<IUserTokenService>();
+            var balanceSender1before = await userTokenService.GetBalance(userForOutgoingVerification1.Id);
+            var balanceSender2before = await userTokenService.GetBalance(userForOutgoingVerification2.Id);
+
+            await Task.Delay(outgoingVerificationRewardSendersIfNoneUsedAfterPeriod);
+
+            var container = CreateContainer();
+            SetupConfig(container, disableOutgoingVerificationRewardSendersIfNoneUsed, outgoingVerificationRewardSendersIfNoneUsedAfterPeriod);
+            var service = container.Get<IUserAccountMaintenanceService>();
+            var clock = container.Get<IClock>();
+            var timeBefore = clock.OffsetNow;
+            var success = await service.DoMaintenance(userForOutgoingVerification1.UserName);
+            var timeAfter = clock.OffsetNow;
+
+            Assert.IsTrue(success, "The return value of DoMaintenance is not the expected.");
+
+            var helperContainer2 = CreateContainer();
+            var userTokenService2 = helperContainer2.Get<IUserTokenService>();
+            var balanceSender1after = await userTokenService2.GetBalance(userForOutgoingVerification1.Id);
+            var balanceSender2after = await userTokenService2.GetBalance(userForOutgoingVerification2.Id);
+
+            var reward = helperContainer2.Get<ITokenRewardService>().GetCurrentReward(TokenRewardKey.EarnPerVerificationMailSent);
+
+            Assert.AreEqual(balanceSender1before.balance, balanceSender1after.balance, "Balance for sender 1 changed.");
+            Assert.AreEqual(balanceSender2before.balance, balanceSender2after.balance, "Balance for sender 2 changed.");
+
+            var retrievedVerification1 = await DbProbe.TenantVerifications.FindAsync(verification1.Id);
+            var retrievedVerification2 = await DbProbe.TenantVerifications.FindAsync(verification2.Id);
+
+            Assert.IsNull(retrievedVerification1.SenderRewardedOn,
+                "SenderRewardedOn should be null on retrievedVerification1.");
+            Assert.IsNull(retrievedVerification2.SenderRewardedOn,
+                "SenderRewardedOn should be null on retrievedVerification2.");
+        }
+
+        [Test]
         public async Task CheckForUnrewardedOutgoingVerifications_SingleUnrewardedVerification_PeriodIsElapsed()
         {
+            var disableOutgoingVerificationRewardSendersIfNoneUsed = false;
             var outgoingVerificationRewardSendersIfNoneUsedAfterPeriod = TimeSpan.FromSeconds(0.1);
 
             var ipAddress = "irrelevant";
@@ -200,7 +259,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             await Task.Delay(outgoingVerificationRewardSendersIfNoneUsedAfterPeriod);
 
             var container = CreateContainer();
-            SetupConfig(container, outgoingVerificationRewardSendersIfNoneUsedAfterPeriod);
+            SetupConfig(container, disableOutgoingVerificationRewardSendersIfNoneUsed, outgoingVerificationRewardSendersIfNoneUsedAfterPeriod);
             var service = container.Get<IUserAccountMaintenanceService>();
             var clock = container.Get<IClock>();
             var timeBefore = clock.OffsetNow;
@@ -226,10 +285,13 @@ namespace Epsilon.IntegrationTests.Logic.Services
         #region Private Helpers
 
         private static void SetupConfig(IKernel container,
+            bool disableOutgoingVerificationRewardSendersIfNoneUsed,
             TimeSpan outgoingVerificationRewardSendersIfNoneUsedAfterPeriod)
         {
             var mockConfig = new Mock<IUserAccountMaintenanceServiceConfig>();
 
+            mockConfig.Setup(x => x.DisableRewardOutgoingVerificationSendersIfNoneUsedAfterCertainPeriod)
+                .Returns(disableOutgoingVerificationRewardSendersIfNoneUsed);
             mockConfig.Setup(x => x.OutgoingVerification_RewardSendersIfNoneUsed_AfterPeriod)
                 .Returns(outgoingVerificationRewardSendersIfNoneUsedAfterPeriod);
 

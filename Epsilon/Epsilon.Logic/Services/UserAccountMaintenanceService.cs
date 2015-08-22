@@ -46,8 +46,14 @@ namespace Epsilon.Logic.Services
         {
             try {
                 var user = await _dbContext.Users.SingleAsync(u => u.Email.Equals(email));
-                var success = await CheckForUnrewardedOutgoingVerifications(user.Id);
-                return success;
+                var overallSuccess = true;
+                if (!_userAccountMaintenanceServiceConfig.DisableRewardOutgoingVerificationSendersIfNoneUsedAfterCertainPeriod)
+                {
+                    var success = await CheckForUnrewardedOutgoingVerifications(user.Id);
+                    if (!success)
+                        overallSuccess = false;
+                }
+                return overallSuccess;
             }
             catch (Exception ex)
             {

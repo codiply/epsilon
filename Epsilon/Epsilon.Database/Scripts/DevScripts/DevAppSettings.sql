@@ -78,7 +78,8 @@ VALUES
 (N'TenancyDetailsSubmission_Create_DisableFrequencyPerAddressCheck', N'False'),
 (N'TenancyDetailsSubmission_MySubmissionsSummary_CachingPeriodInMinutes', N'15.0'),
 (N'TenancyDetailsSubmission_MySubmissionsSummary_ItemsLimit', N'2'),
-(N'Token_MyTokenTransactions_PageSize', N'30');
+(N'Token_MyTokenTransactions_PageSize', N'30'),
+(N'UserAccountMaintenance_DisableRewardOutgoingVerificationSendersIfNoneUsedAfterCertainPeriod', N'False');
 GO
 
 MERGE [dbo].[AppSetting] AS T -- Target

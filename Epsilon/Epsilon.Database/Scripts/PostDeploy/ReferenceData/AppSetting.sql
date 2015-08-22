@@ -139,7 +139,9 @@ VALUES
      N'The maximum number of submissions that will apear in the summary on the front page.'),
 -- This needs to be big enough to fill one screen with the first page and a scroll bar appears.
 (N'Token_MyTokenTransactions_PageSize', N'30', N'Integer',
-     N'The number of items fetched as a page from the server for MyTokenTrasactions screen.');
+     N'The number of items fetched as a page from the server for MyTokenTrasactions screen.'),
+(N'UserAccountMaintenance_DisableRewardOutgoingVerificationSendersIfNoneUsedAfterCertainPeriod', N'False', N'Boolean',
+     N'Disables the reward of outgoing verifications that were not used after a certain period of time. This is done if no verification was used for a specific tenancy details submission.');
 GO
 
 MERGE [dbo].[AppSetting] AS T -- Target
