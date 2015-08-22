@@ -102,12 +102,16 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             for (int i = 1; i <= numberOfTransactions; i++)
             {
-                await tokenAccountService.MakeTransaction(accountId, i, tokenRewardKey);
+                var status = await tokenAccountService.MakeTransaction(accountId, i, tokenRewardKey);
+                Assert.AreEqual(TokenAccountTransactionStatus.Success, status,
+                    string.Format("Status for transaction with i={0} is not Success.", i));
             }
 
             for (int i = 1; i <= numberOfTransactions; i++)
             {
-                await tokenAccountService.MakeTransaction(otherAccountId, i, tokenRewardKey);
+                var status = await tokenAccountService.MakeTransaction(otherAccountId, i, tokenRewardKey);
+                Assert.AreEqual(TokenAccountTransactionStatus.Success, status,
+                    string.Format("Status for transaction with i={0} for other account is not Success.", i));
             }
 
             var timeAfterLastTransaction = clock.OffsetNow;
@@ -304,7 +308,9 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             for (int i = 0; i < numberOfTransactions; i++)
             {
-                await tokenAccountService.MakeTransaction(accountId, 100, TokenRewardKey.EarnPerVerificationCodeEntered);
+                var status = await tokenAccountService.MakeTransaction(accountId, 100, TokenRewardKey.EarnPerVerificationCodeEntered);
+                Assert.AreEqual(TokenAccountTransactionStatus.Success, status,
+                    string.Format("Status for transaction with i={0} is not Success.", i));
             }
 
             var account = await DbProbe.TokenAccounts.Include(x => x.Snapshots).SingleAsync(x => x.Id.Equals(accountId));
@@ -328,7 +334,9 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             for (int i = 0; i < snapshotTransactionsThreshold; i++)
             {
-                await tokenAccountService.MakeTransaction(accountId, 100, TokenRewardKey.EarnPerVerificationCodeEntered);
+                var status = await tokenAccountService.MakeTransaction(accountId, 100, TokenRewardKey.EarnPerVerificationCodeEntered);
+                Assert.AreEqual(TokenAccountTransactionStatus.Success, status,
+                    string.Format("Status for transaction with i={0} is not Success.", i));
             }
 
             var account = await DbProbe.TokenAccounts.Include(x => x.Snapshots).SingleAsync(x => x.Id.Equals(accountId));
@@ -360,7 +368,9 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             for (int i = 0; i < expectedNumberOfSnapshots * snapshotTransactionsThreshold; i++)
             {
-                await tokenAccountService.MakeTransaction(accountId, 100, TokenRewardKey.EarnPerVerificationCodeEntered);
+                var status = await tokenAccountService.MakeTransaction(accountId, 100, TokenRewardKey.EarnPerVerificationCodeEntered);
+                Assert.AreEqual(TokenAccountTransactionStatus.Success, status,
+                    string.Format("Status for transaction with i={0} is not Success.", i));
             }
 
             var account = await DbProbe.TokenAccounts.Include(x => x.Snapshots).SingleAsync(x => x.Id.Equals(accountId));
