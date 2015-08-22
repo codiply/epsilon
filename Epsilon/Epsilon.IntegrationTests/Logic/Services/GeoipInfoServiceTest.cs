@@ -112,7 +112,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
         [Test]
         public async Task GetInfo_CallsTheRotatingGeoipClientAgainAfterTheExpiryPeriod()
         {
-            var expiryPeriod = TimeSpan.FromSeconds(0.5);
+            var expiryPeriod = TimeSpan.FromSeconds(0.4);
             var ipAddress = "1.2.3.4";
             var geoipRotatingClientResponse = new GeoipClientResponse
             {
@@ -186,6 +186,158 @@ namespace Epsilon.IntegrationTests.Logic.Services
             };
             SetupGeoipRotatingClient(container, ipAddress, newGeoipRotatingClientResponse);
             var newService = container.Get<IGeoipInfoService>();
+
+            var timeBefore2 = clock.OffsetNow;
+            var geoipInfo2 = service.GetInfo(ipAddress);
+            Assert.IsNotNull(geoipInfo2, "GeoipInfo2 is null.");
+            var timeAfter2 = clock.OffsetNow;
+
+            Assert.AreEqual(geoipRotatingClientResponse.CountryCode, geoipInfo2.CountryCode,
+                "The CountryCode was not the expected on the GeoipInfo 2.");
+            Assert.AreEqual(EnumsHelper.GeoipProviderName.ToString(geoipRotatingClientResponse.GeoipProviderName),
+                geoipInfo2.GeoipProviderName,
+                "The GeoipProviderName was not the expected on the GeoipInfo 2.");
+            Assert.AreEqual(geoipRotatingClientResponse.Latitude, geoipInfo2.Latitude,
+                "The Latitude was not the expected on the GeoipInfo 2.");
+            Assert.AreEqual(geoipRotatingClientResponse.Longitude, geoipInfo2.Longitude,
+                "The Longitude was not the expected on the GeoipInfo 2.");
+            Assert.AreEqual(ipAddress, geoipInfo2.IpAddress,
+                "The IpAddress was not the expected on the GeoipInfo 2.");
+            Assert.That(geoipInfo2.RecordedOn, Is.GreaterThanOrEqualTo(timeBefore2),
+                "The RecordedOn on the GeoipInfo 2 should be after the timeBefore.");
+            Assert.That(geoipInfo2.RecordedOn, Is.LessThanOrEqualTo(timeAfter2),
+                "The RecordedOn on the GeoipInfo 2 should be before the timeAfter.");
+
+            var retrievedGeoipInfo2 = await CreateContainer().Get<IEpsilonContext>()
+                .GeoipInfos.SingleOrDefaultAsync(x => x.IpAddress.Equals(ipAddress));
+            Assert.IsNotNull(retrievedGeoipInfo2, "Retrieved GeoipInfo2 is null.");
+
+            Assert.IsNotNull(retrievedGeoipInfo2, "The GeoipInfo 2 was not found in the database.");
+            Assert.AreEqual(geoipRotatingClientResponse.CountryCode, retrievedGeoipInfo2.CountryCode,
+                "The CountryCode was not the expected on the retrieved GeoipInfo 2.");
+            Assert.AreEqual(EnumsHelper.GeoipProviderName.ToString(geoipRotatingClientResponse.GeoipProviderName),
+                retrievedGeoipInfo2.GeoipProviderName,
+                "The GeoipProviderName was not the expected on the retrieved GeoipInfo 2.");
+            Assert.AreEqual(geoipRotatingClientResponse.Latitude, retrievedGeoipInfo2.Latitude,
+                "The Latitude was not the expected on the retrieved GeoipInfo 2.");
+            Assert.AreEqual(geoipRotatingClientResponse.Longitude, retrievedGeoipInfo2.Longitude,
+                "The Longitude was not the expected on the retrieved GeoipInfo 2.");
+            Assert.AreEqual(ipAddress, retrievedGeoipInfo2.IpAddress,
+                "The IpAddress was not the expected on the retrieved GeoipInfo 2.");
+            Assert.That(retrievedGeoipInfo2.RecordedOn, Is.GreaterThanOrEqualTo(timeBefore2),
+                "The RecordedOn on the retrieved GeoipInfo 2 should be after the timeBefore.");
+            Assert.That(retrievedGeoipInfo2.RecordedOn, Is.LessThanOrEqualTo(timeAfter2),
+                "The RecordedOn on the retrieved GeoipInfo 2 should be before the timeAfter.");
+        }
+
+        [Test]
+        public async Task GetInfo_CallsTheRotatingGeoipClientAgainAfterTheExpiryPeriod_TestWhereCacheIsCleared()
+        {
+            var expiryPeriodInSeconds = 0.4;
+            var expiryPeriod = TimeSpan.FromSeconds(expiryPeriodInSeconds);
+            var halfExpiryPeriod = TimeSpan.FromSeconds(expiryPeriodInSeconds / 2);
+
+            var ipAddress = "1.2.3.4";
+            var geoipRotatingClientResponse = new GeoipClientResponse
+            {
+                CountryCode = EnumsHelper.CountryId.ToString(CountryId.GB),
+                GeoipProviderName = GeoipProviderName.Nekudo,
+                Latitude = 1.0,
+                Longitude = 2.0,
+                RawResponse = "raw-response",
+                Status = WebClientResponseStatus.Success
+            };
+
+            var container = CreateContainer();
+            SetupConfig(container, expiryPeriod);
+            SetupGeoipRotatingClient(container, ipAddress, geoipRotatingClientResponse);
+
+            var clock = container.Get<IClock>();
+            var service = container.Get<IGeoipInfoService>();
+
+            var timeBefore1 = clock.OffsetNow;
+            var geoipInfo1 = service.GetInfo(ipAddress);
+            Assert.IsNotNull(geoipInfo1, "GeoipInfo1 is null.");
+            var timeAfter1 = clock.OffsetNow;
+
+            Assert.AreEqual(geoipRotatingClientResponse.CountryCode, geoipInfo1.CountryCode,
+                "The CountryCode was not the expected on the GeoipInfo 1.");
+            Assert.AreEqual(EnumsHelper.GeoipProviderName.ToString(geoipRotatingClientResponse.GeoipProviderName),
+                geoipInfo1.GeoipProviderName,
+                "The GeoipProviderName was not the expected on the GeoipInfo 1.");
+            Assert.AreEqual(geoipRotatingClientResponse.Latitude, geoipInfo1.Latitude,
+                "The Latitude was not the expected on the GeoipInfo 1.");
+            Assert.AreEqual(geoipRotatingClientResponse.Longitude, geoipInfo1.Longitude,
+                "The Longitude was not the expected on the GeoipInfo 1.");
+            Assert.AreEqual(ipAddress, geoipInfo1.IpAddress,
+                "The IpAddress was not the expected on the GeoipInfo 1.");
+            Assert.That(geoipInfo1.RecordedOn, Is.GreaterThanOrEqualTo(timeBefore1),
+                "The RecordedOn on the GeoipInfo 1 should be after the timeBefore.");
+            Assert.That(geoipInfo1.RecordedOn, Is.LessThanOrEqualTo(timeAfter1),
+                "The RecordedOn on the GeoipInfo 1 should be before the timeAfter.");
+
+            var retrievedGeoipInfo1 = await CreateContainer().Get<IEpsilonContext>()
+                .GeoipInfos.SingleOrDefaultAsync(x => x.IpAddress.Equals(ipAddress));
+            Assert.IsNotNull(retrievedGeoipInfo1, "Retrieved GeoipInfo1 is null.");
+
+            Assert.IsNotNull(retrievedGeoipInfo1, "The GeoipInfo 1 was not found in the database.");
+            Assert.AreEqual(geoipRotatingClientResponse.CountryCode, retrievedGeoipInfo1.CountryCode,
+                "The CountryCode was not the expected on the retrieved GeoipInfo 1.");
+            Assert.AreEqual(EnumsHelper.GeoipProviderName.ToString(geoipRotatingClientResponse.GeoipProviderName),
+                retrievedGeoipInfo1.GeoipProviderName,
+                "The GeoipProviderName was not the expected on the retrieved GeoipInfo 1.");
+            Assert.AreEqual(geoipRotatingClientResponse.Latitude, retrievedGeoipInfo1.Latitude,
+                "The Latitude was not the expected on the retrieved GeoipInfo 1.");
+            Assert.AreEqual(geoipRotatingClientResponse.Longitude, retrievedGeoipInfo1.Longitude,
+                "The Longitude was not the expected on the retrieved GeoipInfo.");
+            Assert.AreEqual(ipAddress, retrievedGeoipInfo1.IpAddress,
+                "The IpAddress was not the expected on the retrieved GeoipInfo 1.");
+            Assert.That(retrievedGeoipInfo1.RecordedOn, Is.GreaterThanOrEqualTo(timeBefore1),
+                "The RecordedOn on the retrieved GeoipInfo 1 should be after the timeBefore.");
+            Assert.That(retrievedGeoipInfo1.RecordedOn, Is.LessThanOrEqualTo(timeAfter1),
+                "The RecordedOn on the retrieved GeoipInfo 1 should be before the timeAfter.");
+
+            await Task.Delay(halfExpiryPeriod);
+
+            var newGeoipRotatingClientResponse = new GeoipClientResponse
+            {
+                CountryCode = EnumsHelper.CountryId.ToString(CountryId.GR),
+                GeoipProviderName = GeoipProviderName.Telize,
+                Latitude = -1.0,
+                Longitude = -2.0,
+                RawResponse = "new-raw-response",
+                Status = WebClientResponseStatus.Success
+            };
+
+            var appCache = container.Get<IAppCache>();
+            appCache.Clear();
+
+            SetupGeoipRotatingClient(container, ipAddress, newGeoipRotatingClientResponse);
+            var newService = container.Get<IGeoipInfoService>();
+
+            // We haven't reaced the expiry yet.
+            var savedGeoipInfo1 = newService.GetInfo(ipAddress);
+            Assert.IsNotNull(savedGeoipInfo1, "Saved GeoipInfo1 was null.");
+
+            Assert.AreEqual(geoipRotatingClientResponse.CountryCode, savedGeoipInfo1.CountryCode,
+                    "The CountryCode was not the expected on the saved GeoipInfo 1.");
+            Assert.AreEqual(EnumsHelper.GeoipProviderName.ToString(geoipRotatingClientResponse.GeoipProviderName),
+                savedGeoipInfo1.GeoipProviderName,
+                "The GeoipProviderName was not the expected on the saved GeoipInfo 1.");
+            Assert.AreEqual(geoipRotatingClientResponse.Latitude, savedGeoipInfo1.Latitude,
+                "The Latitude was not the expected on the saved GeoipInfo 1.");
+            Assert.AreEqual(geoipRotatingClientResponse.Longitude, savedGeoipInfo1.Longitude,
+                "The Longitude was not the expected on the saved GeoipInfo 1.");
+            Assert.AreEqual(ipAddress, savedGeoipInfo1.IpAddress,
+                "The IpAddress was not the expected on the saved GeoipInfo 1.");
+            Assert.That(savedGeoipInfo1.RecordedOn, Is.GreaterThanOrEqualTo(timeBefore1),
+                "The RecordedOn on the saved GeoipInfo 1 should be after the timeBefore.");
+            Assert.That(savedGeoipInfo1.RecordedOn, Is.LessThanOrEqualTo(timeAfter1),
+                "The RecordedOn on the saved GeoipInfo 1 should be before the timeAfter.");
+
+            await Task.Delay(halfExpiryPeriod);
+
+            // The old GeoipInfo should be expired now.
 
             var timeBefore2 = clock.OffsetNow;
             var geoipInfo2 = service.GetInfo(ipAddress);
@@ -359,7 +511,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
         [Test]
         public async Task GetInfoAsync_CallsTheRotatingGeoipClientAgainAfterTheExpiryPeriod()
         {
-            var expiryPeriod = TimeSpan.FromSeconds(0.5);
+            var expiryPeriod = TimeSpan.FromSeconds(0.4);
             var ipAddress = "1.2.3.4";
             var geoipRotatingClientResponse = new GeoipClientResponse
             {
@@ -433,6 +585,158 @@ namespace Epsilon.IntegrationTests.Logic.Services
             };
             SetupGeoipRotatingClient(container, ipAddress, newGeoipRotatingClientResponse);
             var newService = container.Get<IGeoipInfoService>();
+
+            var timeBefore2 = clock.OffsetNow;
+            var geoipInfo2 = await service.GetInfoAsync(ipAddress);
+            Assert.IsNotNull(geoipInfo2, "GeoipInfo2 is null.");
+            var timeAfter2 = clock.OffsetNow;
+
+            Assert.AreEqual(geoipRotatingClientResponse.CountryCode, geoipInfo2.CountryCode,
+                "The CountryCode was not the expected on the GeoipInfo 2.");
+            Assert.AreEqual(EnumsHelper.GeoipProviderName.ToString(geoipRotatingClientResponse.GeoipProviderName),
+                geoipInfo2.GeoipProviderName,
+                "The GeoipProviderName was not the expected on the GeoipInfo 2.");
+            Assert.AreEqual(geoipRotatingClientResponse.Latitude, geoipInfo2.Latitude,
+                "The Latitude was not the expected on the GeoipInfo 2.");
+            Assert.AreEqual(geoipRotatingClientResponse.Longitude, geoipInfo2.Longitude,
+                "The Longitude was not the expected on the GeoipInfo 2.");
+            Assert.AreEqual(ipAddress, geoipInfo2.IpAddress,
+                "The IpAddress was not the expected on the GeoipInfo 2.");
+            Assert.That(geoipInfo2.RecordedOn, Is.GreaterThanOrEqualTo(timeBefore2),
+                "The RecordedOn on the GeoipInfo 2 should be after the timeBefore.");
+            Assert.That(geoipInfo2.RecordedOn, Is.LessThanOrEqualTo(timeAfter2),
+                "The RecordedOn on the GeoipInfo 2 should be before the timeAfter.");
+
+            var retrievedGeoipInfo2 = await CreateContainer().Get<IEpsilonContext>()
+                .GeoipInfos.SingleOrDefaultAsync(x => x.IpAddress.Equals(ipAddress));
+            Assert.IsNotNull(retrievedGeoipInfo2, "Retrieved GeoipInfo2 is null.");
+
+            Assert.IsNotNull(retrievedGeoipInfo2, "The GeoipInfo 2 was not found in the database.");
+            Assert.AreEqual(geoipRotatingClientResponse.CountryCode, retrievedGeoipInfo2.CountryCode,
+                "The CountryCode was not the expected on the retrieved GeoipInfo 2.");
+            Assert.AreEqual(EnumsHelper.GeoipProviderName.ToString(geoipRotatingClientResponse.GeoipProviderName),
+                retrievedGeoipInfo2.GeoipProviderName,
+                "The GeoipProviderName was not the expected on the retrieved GeoipInfo 2.");
+            Assert.AreEqual(geoipRotatingClientResponse.Latitude, retrievedGeoipInfo2.Latitude,
+                "The Latitude was not the expected on the retrieved GeoipInfo 2.");
+            Assert.AreEqual(geoipRotatingClientResponse.Longitude, retrievedGeoipInfo2.Longitude,
+                "The Longitude was not the expected on the retrieved GeoipInfo 2.");
+            Assert.AreEqual(ipAddress, retrievedGeoipInfo2.IpAddress,
+                "The IpAddress was not the expected on the retrieved GeoipInfo 2.");
+            Assert.That(retrievedGeoipInfo2.RecordedOn, Is.GreaterThanOrEqualTo(timeBefore2),
+                "The RecordedOn on the retrieved GeoipInfo 2 should be after the timeBefore.");
+            Assert.That(retrievedGeoipInfo2.RecordedOn, Is.LessThanOrEqualTo(timeAfter2),
+                "The RecordedOn on the retrieved GeoipInfo 2 should be before the timeAfter.");
+        }
+
+        [Test]
+        public async Task GetInfoAsync_CallsTheRotatingGeoipClientAgainAfterTheExpiryPeriod_TestWhereCacheIsCleared()
+        {
+            var expiryPeriodInSeconds = 0.4;
+            var expiryPeriod = TimeSpan.FromSeconds(expiryPeriodInSeconds);
+            var halfExpiryPeriod = TimeSpan.FromSeconds(expiryPeriodInSeconds / 2);
+
+            var ipAddress = "1.2.3.4";
+            var geoipRotatingClientResponse = new GeoipClientResponse
+            {
+                CountryCode = EnumsHelper.CountryId.ToString(CountryId.GB),
+                GeoipProviderName = GeoipProviderName.Nekudo,
+                Latitude = 1.0,
+                Longitude = 2.0,
+                RawResponse = "raw-response",
+                Status = WebClientResponseStatus.Success
+            };
+
+            var container = CreateContainer();
+            SetupConfig(container, expiryPeriod);
+            SetupGeoipRotatingClient(container, ipAddress, geoipRotatingClientResponse);
+
+            var clock = container.Get<IClock>();
+            var service = container.Get<IGeoipInfoService>();
+
+            var timeBefore1 = clock.OffsetNow;
+            var geoipInfo1 = await service.GetInfoAsync(ipAddress);
+            Assert.IsNotNull(geoipInfo1, "GeoipInfo1 is null.");
+            var timeAfter1 = clock.OffsetNow;
+
+            Assert.AreEqual(geoipRotatingClientResponse.CountryCode, geoipInfo1.CountryCode,
+                "The CountryCode was not the expected on the GeoipInfo 1.");
+            Assert.AreEqual(EnumsHelper.GeoipProviderName.ToString(geoipRotatingClientResponse.GeoipProviderName),
+                geoipInfo1.GeoipProviderName,
+                "The GeoipProviderName was not the expected on the GeoipInfo 1.");
+            Assert.AreEqual(geoipRotatingClientResponse.Latitude, geoipInfo1.Latitude,
+                "The Latitude was not the expected on the GeoipInfo 1.");
+            Assert.AreEqual(geoipRotatingClientResponse.Longitude, geoipInfo1.Longitude,
+                "The Longitude was not the expected on the GeoipInfo 1.");
+            Assert.AreEqual(ipAddress, geoipInfo1.IpAddress,
+                "The IpAddress was not the expected on the GeoipInfo 1.");
+            Assert.That(geoipInfo1.RecordedOn, Is.GreaterThanOrEqualTo(timeBefore1),
+                "The RecordedOn on the GeoipInfo 1 should be after the timeBefore.");
+            Assert.That(geoipInfo1.RecordedOn, Is.LessThanOrEqualTo(timeAfter1),
+                "The RecordedOn on the GeoipInfo 1 should be before the timeAfter.");
+
+            var retrievedGeoipInfo1 = await CreateContainer().Get<IEpsilonContext>()
+                .GeoipInfos.SingleOrDefaultAsync(x => x.IpAddress.Equals(ipAddress));
+            Assert.IsNotNull(retrievedGeoipInfo1, "Retrieved GeoipInfo1 is null.");
+
+            Assert.IsNotNull(retrievedGeoipInfo1, "The GeoipInfo 1 was not found in the database.");
+            Assert.AreEqual(geoipRotatingClientResponse.CountryCode, retrievedGeoipInfo1.CountryCode,
+                "The CountryCode was not the expected on the retrieved GeoipInfo 1.");
+            Assert.AreEqual(EnumsHelper.GeoipProviderName.ToString(geoipRotatingClientResponse.GeoipProviderName),
+                retrievedGeoipInfo1.GeoipProviderName,
+                "The GeoipProviderName was not the expected on the retrieved GeoipInfo 1.");
+            Assert.AreEqual(geoipRotatingClientResponse.Latitude, retrievedGeoipInfo1.Latitude,
+                "The Latitude was not the expected on the retrieved GeoipInfo 1.");
+            Assert.AreEqual(geoipRotatingClientResponse.Longitude, retrievedGeoipInfo1.Longitude,
+                "The Longitude was not the expected on the retrieved GeoipInfo.");
+            Assert.AreEqual(ipAddress, retrievedGeoipInfo1.IpAddress,
+                "The IpAddress was not the expected on the retrieved GeoipInfo 1.");
+            Assert.That(retrievedGeoipInfo1.RecordedOn, Is.GreaterThanOrEqualTo(timeBefore1),
+                "The RecordedOn on the retrieved GeoipInfo 1 should be after the timeBefore.");
+            Assert.That(retrievedGeoipInfo1.RecordedOn, Is.LessThanOrEqualTo(timeAfter1),
+                "The RecordedOn on the retrieved GeoipInfo 1 should be before the timeAfter.");
+
+            await Task.Delay(halfExpiryPeriod);
+
+            var newGeoipRotatingClientResponse = new GeoipClientResponse
+            {
+                CountryCode = EnumsHelper.CountryId.ToString(CountryId.GR),
+                GeoipProviderName = GeoipProviderName.Telize,
+                Latitude = -1.0,
+                Longitude = -2.0,
+                RawResponse = "new-raw-response",
+                Status = WebClientResponseStatus.Success
+            };
+
+            var appCache = container.Get<IAppCache>();
+            appCache.Clear();
+
+            SetupGeoipRotatingClient(container, ipAddress, newGeoipRotatingClientResponse);
+            var newService = container.Get<IGeoipInfoService>();
+
+            // We haven't reaced the expiry yet.
+            var savedGeoipInfo1 = await newService.GetInfoAsync(ipAddress);
+            Assert.IsNotNull(savedGeoipInfo1, "Saved GeoipInfo1 was null.");
+
+            Assert.AreEqual(geoipRotatingClientResponse.CountryCode, savedGeoipInfo1.CountryCode,
+                    "The CountryCode was not the expected on the saved GeoipInfo 1.");
+            Assert.AreEqual(EnumsHelper.GeoipProviderName.ToString(geoipRotatingClientResponse.GeoipProviderName),
+                savedGeoipInfo1.GeoipProviderName,
+                "The GeoipProviderName was not the expected on the saved GeoipInfo 1.");
+            Assert.AreEqual(geoipRotatingClientResponse.Latitude, savedGeoipInfo1.Latitude,
+                "The Latitude was not the expected on the saved GeoipInfo 1.");
+            Assert.AreEqual(geoipRotatingClientResponse.Longitude, savedGeoipInfo1.Longitude,
+                "The Longitude was not the expected on the saved GeoipInfo 1.");
+            Assert.AreEqual(ipAddress, savedGeoipInfo1.IpAddress,
+                "The IpAddress was not the expected on the saved GeoipInfo 1.");
+            Assert.That(savedGeoipInfo1.RecordedOn, Is.GreaterThanOrEqualTo(timeBefore1),
+                "The RecordedOn on the saved GeoipInfo 1 should be after the timeBefore.");
+            Assert.That(savedGeoipInfo1.RecordedOn, Is.LessThanOrEqualTo(timeAfter1),
+                "The RecordedOn on the saved GeoipInfo 1 should be before the timeAfter.");
+
+            await Task.Delay(halfExpiryPeriod);
+
+            // The old GeoipInfo should be expired now.
 
             var timeBefore2 = clock.OffsetNow;
             var geoipInfo2 = await service.GetInfoAsync(ipAddress);
