@@ -95,6 +95,7 @@
     <Compile Include="Logic\Constants\Enums\DbAppSettingValueTypeTest.cs" />
     <Compile Include="Logic\Helpers\DbAppSettingsHelperTest.cs" />
     <Compile Include="Logic\Services\AddressServiceTest.cs" />
+    <Compile Include="Logic\Services\AddressVerificationServiceTest.cs" />
     <Compile Include="Logic\Services\AdminAlertServiceTest.cs" />
     <Compile Include="Logic\Services\AdminEventLogServiceTest.cs" />
     <Compile Include="Logic\Services\AntiAbuseServiceTest.cs" />
