@@ -17,8 +17,10 @@ namespace Epsilon.UnitTests.Logic.Wrappers
     [TestFixture]
     public class GeoipClientTest
     {
-        [Test]
-        public async Task Geoip_SuccessfulCaseForAllProviders()
+        static GeoipProviderName[] GeoipProviderNames = EnumsHelper.GeoipProviderName.GetValues().ToArray();
+
+        [Test, TestCaseSource("GeoipProviderNames")]
+        public async Task Geoip_SuccessfulCaseForEachProvider(GeoipProviderName provider)
         {
             var timeoutInMilliseconds = 10 * 1000;
             Exception exceptionLogged = null;
@@ -30,58 +32,52 @@ namespace Epsilon.UnitTests.Logic.Wrappers
             var elmahHelper = CreateElmahHelper((ex) => exceptionLogged = ex);
             var geoipClient = CreateGeoipClient(timeoutInMilliseconds, () => CreateWebClient(elmahHelper), elmahHelper);
 
-            foreach (var provider in EnumsHelper.GeoipProviderName.GetValues())
-            {
-                exceptionLogged = null;
-                var providerToString = EnumsHelper.GeoipProviderName.ToString(provider);
-                var geoipClientResponse = await geoipClient.Geoip(provider, ipAddress);
-                Assert.IsNullOrEmpty(geoipClientResponse.ErrorMessage,
-                    string.Format("ErrorMessage is not the expected for provider '{0}'.", providerToString));
-                Assert.AreEqual(WebClientResponseStatus.Success, geoipClientResponse.Status,
-                    string.Format("Status is not the expected for provider '{0}'.", providerToString));
-                Assert.AreEqual(provider, geoipClientResponse.GeoipProviderName,
-                    string.Format("ProviderName is not the expected for provider '{0}'.", providerToString));
-                Assert.AreEqual(expectedLatitude, geoipClientResponse.Latitude, acceptableDelta,
-                    string.Format("Latitude is not the expected for provider '{0}'.", providerToString));
-                Assert.AreEqual(expectedLongitude, geoipClientResponse.Longitude, acceptableDelta,
-                    string.Format("Longitude is not the expected for provider '{0}'.", providerToString));
-                Assert.IsNull(exceptionLogged,
-                    string.Format("No exception should be logged for provider '{0}'.", providerToString));
-            }
+            exceptionLogged = null;
+            var providerToString = EnumsHelper.GeoipProviderName.ToString(provider);
+            var geoipClientResponse = await geoipClient.Geoip(provider, ipAddress);
+            Assert.IsNullOrEmpty(geoipClientResponse.ErrorMessage,
+                string.Format("ErrorMessage is not the expected for provider '{0}'.", providerToString));
+            Assert.AreEqual(WebClientResponseStatus.Success, geoipClientResponse.Status,
+                string.Format("Status is not the expected for provider '{0}'.", providerToString));
+            Assert.AreEqual(provider, geoipClientResponse.GeoipProviderName,
+                string.Format("ProviderName is not the expected for provider '{0}'.", providerToString));
+            Assert.AreEqual(expectedLatitude, geoipClientResponse.Latitude, acceptableDelta,
+                string.Format("Latitude is not the expected for provider '{0}'.", providerToString));
+            Assert.AreEqual(expectedLongitude, geoipClientResponse.Longitude, acceptableDelta,
+                string.Format("Longitude is not the expected for provider '{0}'.", providerToString));
+            Assert.IsNull(exceptionLogged,
+                string.Format("No exception should be logged for provider '{0}'.", providerToString));
         }
 
-        [Test]
-        public async Task Geoip_InternalIpAddressForAllProviders_HandledGracefully()
+        [Test, TestCaseSource("GeoipProviderNames")]
+        public async Task Geoip_InternalIpAddressForEachProvider_HandledGracefully(GeoipProviderName provider)
         {
-            var timeoutInMilliseconds = 10 * 1000;
+            var timeoutInMilliseconds = 3 * 1000;
             Exception exceptionLogged = null;
             var ipAddress = "192.168.1.1";
 
             var elmahHelper = CreateElmahHelper((ex) => exceptionLogged = ex);
             var geoipClient = CreateGeoipClient(timeoutInMilliseconds, () => CreateWebClient(elmahHelper), elmahHelper);
 
-            foreach (var provider in EnumsHelper.GeoipProviderName.GetValues())
-            {
-                exceptionLogged = null;
-                var providerToString = EnumsHelper.GeoipProviderName.ToString(provider);
-                var geoipClientResponse = await geoipClient.Geoip(provider, ipAddress);
-                Assert.IsNullOrEmpty(geoipClientResponse.ErrorMessage,
-                    string.Format("ErrorMessage is not the expected for provider '{0}'.", providerToString));
-                Assert.AreEqual(WebClientResponseStatus.Success, geoipClientResponse.Status,
-                    string.Format("Status is not the expected for provider '{0}'.", providerToString));
-                Assert.AreEqual(provider, geoipClientResponse.GeoipProviderName,
-                    string.Format("ProviderName is not the expected for provider '{0}'.", providerToString));
-                Assert.IsNullOrEmpty(geoipClientResponse.CountryCode,
-                    string.Format("CountryCode is not the expected for provider '{0}'.", providerToString));
-                Assert.IsNull(exceptionLogged,
-                    string.Format("No exception should be logged for provider '{0}'.", providerToString));
-            }
+            exceptionLogged = null;
+            var providerToString = EnumsHelper.GeoipProviderName.ToString(provider);
+            var geoipClientResponse = await geoipClient.Geoip(provider, ipAddress);
+            Assert.IsNullOrEmpty(geoipClientResponse.ErrorMessage,
+                string.Format("ErrorMessage is not the expected for provider '{0}'.", providerToString));
+            Assert.AreEqual(WebClientResponseStatus.Success, geoipClientResponse.Status,
+                string.Format("Status is not the expected for provider '{0}'.", providerToString));
+            Assert.AreEqual(provider, geoipClientResponse.GeoipProviderName,
+                string.Format("ProviderName is not the expected for provider '{0}'.", providerToString));
+            Assert.IsNullOrEmpty(geoipClientResponse.CountryCode,
+                string.Format("CountryCode is not the expected for provider '{0}'.", providerToString));
+            Assert.IsNull(exceptionLogged,
+                string.Format("No exception should be logged for provider '{0}'.", providerToString));
         }
 
         [Test]
         public async Task Geoip_WebClientReturnsError()
         {
-            var timeoutInMilliseconds = 10 * 1000;
+            var timeoutInMilliseconds = 3 * 1000;
             Exception exceptionLogged = null;
             var ipAddress = "8.8.8.8";
             var errorMessage = "error-message";
