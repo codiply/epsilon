@@ -9,7 +9,7 @@ namespace Epsilon.Logic.Forms.Submission
     public class AddressForm : IAddress
     {        
         // !!! IMPORTANT !!!
-        // If you add new fields, make sure you update methods ToEntity() and Clone() at the bottom
+        // If you add new fields, make sure you update methods ToEntity() and CloneAndTrim() at the bottom
 
         public virtual Guid UniqueId { get; set; }
 

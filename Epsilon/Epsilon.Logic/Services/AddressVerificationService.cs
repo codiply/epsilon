@@ -71,7 +71,6 @@ namespace Epsilon.Logic.Services
                         EnumsHelper.GeocodePostcodeStatus.ToString(geocodePostcodeStatus)));
             }
 
-
             // Move on to geocode the full address
             var fullAddressWithoutCountry = cleanAddress.FullAddressWithoutCountry();
             var geocodeServiceResponse = 

@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 
 namespace Epsilon.Logic.Services
 {
-    // TODO_TEST_PANOS
     public class UserInterfaceCustomisationService : IUserInterfaceCustomisationService
     {
         private readonly IAppCache _appCache;
@@ -44,14 +43,14 @@ namespace Epsilon.Logic.Services
         {
             var userResidenceServiceResponse = await _userResidenceService.GetResidence(userId);
 
-            var canCreateTenancyDetailsSubmissionOutcome = await _antiAbuseService.CanCreateTenancyDetailsSubmissionCheckUserFrequency(userId);
+            var canCreateTenancyDetailsSubmissionResponse = await _antiAbuseService.CanCreateTenancyDetailsSubmissionCheckUserFrequency(userId);
 
             return new UserInterfaceCustomisationModel()
             {
                 HasNoTenancyDetailsSubmissions = userResidenceServiceResponse.HasNoSubmissions,
                 IsUserResidenceVerified = userResidenceServiceResponse.IsVerified,
                 UserResidenceCountry = userResidenceServiceResponse.Address == null ? null : userResidenceServiceResponse.Address.Country,
-                CanCreateTenancyDetailsSubmission = !canCreateTenancyDetailsSubmissionOutcome.IsRejected,
+                CanCreateTenancyDetailsSubmission = canCreateTenancyDetailsSubmissionResponse.IsRejected == false,
                 CanPickOutgoingVerification = userResidenceServiceResponse.Address != null
             };
         }
