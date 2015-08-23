@@ -35,6 +35,7 @@ namespace Epsilon.Logic.Helpers
         private List<string> AllResourceFiles()
         {
             return _resourcesAssembly.GetTypes()
+                .OrderBy(x => x.FullName)
                 .Select(x => x.FullName)
                 .ToList();
         }
@@ -53,11 +54,18 @@ namespace Epsilon.Logic.Helpers
 
             var resourceSet = resourceManager.GetResourceSet(culture, createIfNotExists: true, tryParents: true);
 
-            var answer = new Dictionary<string, string>();
+            var keys = new List<string>();
 
             foreach (DictionaryEntry resource in resourceSet)
             {
-                answer.Add((string)resource.Key, (string)resource.Value);
+                keys.Add((string)resource.Key);
+            }
+
+            var answer = new Dictionary<string, string>();
+
+            foreach (var key in keys.OrderBy(x => x))
+            {
+                answer.Add(key, resourceManager.GetString(key, culture));    
             }
 
             return answer;
