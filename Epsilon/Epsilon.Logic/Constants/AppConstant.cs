@@ -11,6 +11,8 @@ namespace Epsilon.Logic.Constants
         public const string AUTHENTICATED_USER_HOME_CONTROLLER = "UserHome";
         public const string AUTHENTICATED_USER_HOME_ACTION = "Index";
 
+        public const string CONTENT_TYPE_CSV = "text/csv";
+
         public const string COUNTRY_VARIANT_RESOURCES_STEM = "Epsilon.Resources.CountryVariants.Resources";
 
         public const string COUNTRY_DISPLAY_FIELD = "LocalName";

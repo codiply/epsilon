@@ -123,6 +123,7 @@ namespace Epsilon.Web.App_Start
                 .WhenInjectedExactlyInto<AppSettingsHelper>();
             kernel.Bind<IAppSettingsHelper>().To<AppSettingsHelper>().InSingletonScope();
             kernel.Bind<ICountryVariantResourceHelper>().To<CountryVariantResourceHelper>().InSingletonScope();
+            kernel.Bind<ICsvHelper>().To<CsvHelper>().InSingletonScope();
             kernel.Bind<IDbAppSettingsHelper>().To<DbAppSettingsHelper>().InRequestScope();
             kernel.Bind<IElmahHelper>().To<ElmahHelper>().InSingletonScope();
             kernel.Bind<IIpAddressHelper>().To<IpAddressHelper>().InSingletonScope();

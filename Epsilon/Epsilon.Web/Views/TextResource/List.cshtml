@@ -1,32 +1,37 @@
-﻿@model Dictionary<string, Dictionary<string, string>>
+﻿@using Epsilon.Logic.Helpers.Interfaces
+
+@model IList<LocalizedResourceEntry>
 
 @{
-    ViewBag.Title = "All";
+    ViewBag.Title = "";
 }
 
-<h2>All</h2>
+<h2>@ViewBag.Title</h2>
 
-@foreach (var fileResources in Model)
-{
-    var file = fileResources.Key;
-    var resources = fileResources.Value;
-
-    <h4>@file</h4>
-
-    <table>
-        @foreach (var resource in resources)
-        {
+<table>
+    @foreach (var entry in Model)
+    {
         <tr>
             <td>
-                @resource.Key
+                @entry.Type
             </td>
             <td>
-                @resource.Value
+                @entry.Name
+            </td>
+            <td>
+                @entry.DefaultValue
+            </td>
+            <td>
+                @entry.LocalizedValue
             </td>
         </tr>
-        }
-    </table>
-}
+    }
+</table>
+
+
+
+
+
 
 
 

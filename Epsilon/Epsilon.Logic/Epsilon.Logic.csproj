@@ -183,8 +183,10 @@
     <Compile Include="Entities\GeoipInfo.cs" />
     <Compile Include="Forms\Manage\ChangePreferencesForm.cs" />
     <Compile Include="Helpers\AppCacheHelper.cs" />
+    <Compile Include="Helpers\CsvHelper.cs" />
     <Compile Include="Helpers\ElmahHelper.cs" />
     <Compile Include="Helpers\Interfaces\IAppCacheHelper.cs" />
+    <Compile Include="Helpers\Interfaces\ICsvHelper.cs" />
     <Compile Include="Helpers\Interfaces\IElmahHelper.cs" />
     <Compile Include="Helpers\Interfaces\ITextResourceHelper.cs" />
     <Compile Include="Helpers\TextResourceHelper.cs" />
