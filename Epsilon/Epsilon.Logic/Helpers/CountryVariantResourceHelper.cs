@@ -15,7 +15,6 @@ namespace Epsilon.Logic.Helpers
         private ConcurrentDictionary<string, ResourceManager> _countryResourceManagers = 
             new ConcurrentDictionary<string, ResourceManager>();
 
-
         public Dictionary<string, string> GetVariants(CountryVariantResourceName resourceName)
         {
             var answer = new Dictionary<string, string>();

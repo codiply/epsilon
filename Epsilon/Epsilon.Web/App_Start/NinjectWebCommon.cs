@@ -127,6 +127,7 @@ namespace Epsilon.Web.App_Start
             kernel.Bind<IElmahHelper>().To<ElmahHelper>().InSingletonScope();
             kernel.Bind<IIpAddressHelper>().To<IpAddressHelper>().InSingletonScope();
             kernel.Bind<IParseHelper>().To<ParseHelper>().InSingletonScope();
+            kernel.Bind<ITextResourceHelper>().To<TextResourceHelper>().InSingletonScope();
             kernel.Bind<ITokenRewardMetadataHelper>().To<TokenRewardMetadataHelper>().InSingletonScope();
 
             // Infrastructure

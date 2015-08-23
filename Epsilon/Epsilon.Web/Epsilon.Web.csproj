@@ -285,6 +285,7 @@
     <Compile Include="Controllers\NgDirectiveTemplateController.cs" />
     <Compile Include="Controllers\OutgoingVerificationController.cs" />
     <Compile Include="Controllers\PropertyInfoController.cs" />
+    <Compile Include="Controllers\TextResourceController.cs" />
     <Compile Include="Controllers\SubmissionController.cs" />
     <Compile Include="Controllers\TokenController.cs" />
     <Compile Include="Controllers\UserHomeController.cs" />
@@ -1328,6 +1329,7 @@
     <Content Include="Views\Admin\TestGeoipApi.cshtml" />
     <Content Include="Views\Shared\UnavailableCountry.cshtml" />
     <Content Include="Views\Manage\ChangePreferences.cshtml" />
+    <Content Include="Views\TextResource\List.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

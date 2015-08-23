@@ -1,0 +1,32 @@
+﻿@model Dictionary<string, Dictionary<string, string>>
+
+@{
+    ViewBag.Title = "All";
+}
+
+<h2>All</h2>
+
+@foreach (var fileResources in Model)
+{
+    var file = fileResources.Key;
+    var resources = fileResources.Value;
+
+    <h4>@file</h4>
+
+    <table>
+        @foreach (var resource in resources)
+        {
+        <tr>
+            <td>
+                @resource.Key
+            </td>
+            <td>
+                @resource.Value
+            </td>
+        </tr>
+        }
+    </table>
+}
+
+
+
