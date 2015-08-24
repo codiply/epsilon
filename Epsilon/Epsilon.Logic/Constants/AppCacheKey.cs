@@ -27,9 +27,9 @@
                 userId, limitItemsReturned ? "TRUE" : "FALSE");
         }
 
-        public static string GetUserInterfaceCustomisationForUser(string userId)
+        public static string GetUserInterfaceCustomisation(string userId)
         {
-            return string.Format("APPCACHE:GET_USER_INTERFACE_CUSTOMISATION_FOR_USER:{0}", userId.ToLowerInvariant());
+            return string.Format("APPCACHE:GET_USER_INTERFACE_CUSTOMISATION:{0}", userId.ToLowerInvariant());
         }
 
         public static string GetUserOutgoingVerificationsSummary(string userId, bool limitItemsReturned)

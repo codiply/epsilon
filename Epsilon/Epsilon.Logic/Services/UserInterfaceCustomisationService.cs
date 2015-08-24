@@ -30,13 +30,13 @@ namespace Epsilon.Logic.Services
 
         public async Task<UserInterfaceCustomisationModel> GetForUserAsync(string userId)
         {
-            return await _appCache.GetAsync(AppCacheKey.GetUserInterfaceCustomisationForUser(userId),
+            return await _appCache.GetAsync(AppCacheKey.GetUserInterfaceCustomisation(userId),
                 async () => await DoGetForUser(userId), WithLock.No);
         }
 
         public void ClearCachedCustomisationForUser(string userId)
         {
-            _appCache.Remove(AppCacheKey.GetUserInterfaceCustomisationForUser(userId));
+            _appCache.Remove(AppCacheKey.GetUserInterfaceCustomisation(userId));
         }
 
         private async Task<UserInterfaceCustomisationModel> DoGetForUser(string userId)
