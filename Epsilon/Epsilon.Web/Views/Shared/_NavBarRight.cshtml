@@ -16,12 +16,21 @@
 }
 <ul class="nav navbar-nav navbar-right">
 
+    @if (User.Identity.IsAuthenticated)
+    {
+        <li>
+            <a href="@Url.Action("Transactions","Token")" title="@CommonResources.TokenBalanceBadgeHoverText">
+                <token-balance-badge />
+            </a>
+        </li>
+    }
+
     @if (User.IsInRole(AspNetRole.Admin))
     {
         <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"
                title="Admin">
-                <span class="glyphicon glyphicon-font glyphicon-lg" aria-hidden="true"></span>
+                <span class="glyphicon glyphicon-console glyphicon-lg" aria-hidden="true"></span>
             </a>
             <ul class="dropdown-menu">
                 <li>
@@ -38,14 +47,15 @@
         </li>
     }
 
-    @if (User.Identity.IsAuthenticated)
+    @if (User.IsInRole(AspNetRole.Admin) || User.IsInRole(AspNetRole.Translator))
     {
         <li>
-            <a href="@Url.Action("Transactions","Token")" title="@CommonResources.TokenBalanceBadgeHoverText">
-                <token-balance-badge />
+            <a href="@Url.Action("List","TextResource")" title="Resources">
+                <span class="glyphicon glyphicon-font glyphicon-lg" aria-hidden="true"></span>
             </a>
         </li>
     }
+
     @if (User.Identity.IsAuthenticated)
     {
     <li class="dropdown">

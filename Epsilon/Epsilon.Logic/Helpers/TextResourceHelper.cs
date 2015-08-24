@@ -39,15 +39,17 @@ namespace Epsilon.Logic.Helpers
 
         public void AllResourcesCsv(string languageId, TextWriter stream)
         {
+            var header = new List<string> { "Resource Type", "Resource Name", "Default Value", "Localized Value" };
             var allResources = AllResources(languageId)
-                .Select(x => new List<string> { x.Type, x.Name, x.DefaultValue, x.LocalizedValue });
+                .SelectMany(x => x.Entries.Select(y =>
+                    new List<string> { x.Type, y.Name, y.DefaultValue, y.LocalizedValue }));
 
-            _csvHelper.Write(stream, allResources);
+            _csvHelper.Write(stream, allResources, header);
         }
 
-        public IList<LocalizedResourceEntry> AllResources(string languageId)
+        public IList<LocalizedResource> AllResources(string languageId)
         {
-            var answer = new List<LocalizedResourceEntry>();
+            var answer = new List<LocalizedResource>();
 
             var allDefaultResources = GetAllResourcesForLanguage(_defaultLanguageId);
 
@@ -55,6 +57,11 @@ namespace Epsilon.Logic.Helpers
 
             foreach (var file in allDefaultResources.Keys)
             {
+                var answerEntry = new LocalizedResource
+                {
+                    Type = file,
+                    Entries = new List<LocalizedResourceEntry>()
+                };
                 var defaultResources = allDefaultResources[file];
                 var localizedResources = 
                     (allLocalizedResources != null && allLocalizedResources.ContainsKey(file)) 
@@ -64,7 +71,6 @@ namespace Epsilon.Logic.Helpers
                 {
                     var entry = new LocalizedResourceEntry
                     {
-                        Type = file,
                         Name = name,
                         DefaultValue = defaultResources[name],
                         LocalizedValue =
@@ -72,9 +78,9 @@ namespace Epsilon.Logic.Helpers
                             ? localizedResources[name]
                             : string.Empty
                     };
-                    answer.Add(entry);
+                    answerEntry.Entries.Add(entry);
                 }
-
+                answer.Add(answerEntry);
             }
 
             return answer;

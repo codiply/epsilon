@@ -1,32 +1,82 @@
-﻿@using Epsilon.Logic.Helpers.Interfaces
-
-@model IList<LocalizedResourceEntry>
+﻿@model Epsilon.Web.Models.ViewModels.TextResource.ListViewModel
 
 @{
-    ViewBag.Title = "";
+    ViewBag.Title = "Text Resources";
 }
 
 <h2>@ViewBag.Title</h2>
 
-<table>
-    @foreach (var entry in Model)
-    {
-        <tr>
-            <td>
-                @entry.Type
-            </td>
-            <td>
-                @entry.Name
-            </td>
-            <td>
-                @entry.DefaultValue
-            </td>
-            <td>
-                @entry.LocalizedValue
-            </td>
-        </tr>
+<p>
+
+    @{
+        var selectedLabelClass = "label-primary";
+        var notSelectedLabelClass = "label-warning";
     }
-</table>
+
+    <a class="label @(Model.LanguageId == null ? selectedLabelClass : notSelectedLabelClass)"
+       href="@Url.Action("List", "TextResource", new { id = (string)null })">
+        Default
+    </a>
+    <text>&nbsp;</text>
+    @foreach (var language in Model.Languages)
+    {
+        var labelClass = Model.LanguageId != null && Model.LanguageId.ToLowerInvariant().Equals(language.CultureCode.ToLowerInvariant())
+            ? selectedLabelClass : notSelectedLabelClass;
+        <a class="label @labelClass"
+           href="@Url.Action("List", "TextResource", new { id = language.CultureCode })">
+            @language.EnglishName
+        </a>
+        <text>&nbsp;</text>
+    }
+</p>
+
+<p>
+    <a href="@Url.Action("Download", "TextResource", new { id = Model.LanguageId })" 
+       class="btn btn-primary">
+        Download CSV
+    </a>
+</p>
+
+
+@foreach (var resource in Model.Resources)
+{
+    <div class="panel panel-success">
+        <div class="panel-heading"><h4>@resource.Type</h4></div>
+        <div class="panel-body">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Default</th>
+                        @if (Model.LanguageId != null)
+                        {
+                        <th>Local</th>
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var entry in resource.Entries)
+                    {
+                        <tr>
+                            <td>
+                                @entry.Name
+                            </td>
+                            <td>
+                                @entry.DefaultValue
+                            </td>
+                            @if (Model.LanguageId != null)
+                            {
+                            <td>
+                                @entry.LocalizedValue
+                            </td>
+                            }
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}
 
 
 

@@ -38,6 +38,35 @@ namespace Epsilon.IntegrationTests.Logic.Services
         }
 
         [Test]
+        public async Task GetAvailableAndUnavailableLanguagesTest()
+        {
+            var container = CreateContainer();
+            var service = container.Get<ILanguageService>();
+
+            var languages = service.GetAvailableAndUnavailableLanguages();
+
+            var expectedLanguages = await
+                DbProbe.Languages.ToDictionaryAsync(x => x.Id);
+
+            Assert.AreEqual(expectedLanguages.Count, languages.Count,
+                "The number of languages was not the expected");
+            foreach (var lang in languages)
+            {
+                var expectedLang = expectedLanguages[lang.Id];
+                Assert.IsNotNull(expectedLang,
+                    string.Format("Language with id {0} is not found.", lang.Id));
+                Assert.AreEqual(expectedLang.EnglishName, lang.EnglishName,
+                    string.Format("Field EnglishName is not the expected for Language with Id {0}.", lang.Id));
+                Assert.AreEqual(expectedLang.LocalName, lang.LocalName,
+                    string.Format("Field LocalName is not the expected for Language with Id {0}", lang.Id));
+                Assert.AreEqual(expectedLang.CultureCode, lang.CultureCode,
+                    string.Format("Field CultureCode is not the expected for Language with Id {0}.", lang.Id));
+                Assert.AreEqual(expectedLang.IsAvailable, lang.IsAvailable,
+                    string.Format("Field IsAvailable is not the expected for Language with Id {0}.", lang.Id));
+            }
+        }
+
+        [Test]
         public async Task GetLanguageTest()
         {
             var container = CreateContainer();

@@ -14,7 +14,8 @@ INSERT INTO #TMP
 ([Id], [Name])
 VALUES
 -- Edit the values below to update the target table.
-(N'Admin', N'Admin');
+(N'Admin', N'Admin'),
+(N'Translator', N'Translator');
 GO
 
 MERGE [dbo].[AspNetRoles] AS T -- Target

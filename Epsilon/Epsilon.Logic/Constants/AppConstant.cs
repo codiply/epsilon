@@ -20,6 +20,8 @@ namespace Epsilon.Logic.Constants
 
         public static Func<Currency, string> CURRENCY_DISPLAY_FIELD_SELECTOR = (x => string.Format("{0} - {1}", x.EnglishName, x.LocalName));
 
+        public static string DATE_TIME_FORMAT_FOR_FILENAME = "yyyyMMddHHmmss";
+
         public const byte IP_ADDRESS_MAX_LENGTH = 39;
 
         public const string LANGUAGE_DISPLAY_FIELD = "LocalName";
