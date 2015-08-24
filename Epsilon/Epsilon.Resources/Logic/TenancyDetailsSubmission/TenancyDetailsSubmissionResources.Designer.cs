@@ -8,10 +8,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Epsilon.Resources.Logic.TenancyDetailsSubmission
-{
-
-
+namespace Epsilon.Resources.Logic.TenancyDetailsSubmission {
+    using System;
+    
+    
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>

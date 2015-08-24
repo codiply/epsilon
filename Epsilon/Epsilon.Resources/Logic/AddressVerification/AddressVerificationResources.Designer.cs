@@ -8,10 +8,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Epsilon.Resources.Logic.AddressVerification
-{
-
-
+namespace Epsilon.Resources.Logic.AddressVerification {
+    using System;
+    
+    
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -61,7 +61,7 @@ namespace Epsilon.Resources.Logic.AddressVerification
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to We couldn&apos;t verify your address. Please check the details provided are correct and if not submit again..
+        ///   Looks up a localized string similar to We couldn&apos;t verify your address. Please check the details are correct and submit again..
         /// </summary>
         public static string GeocodeAddressVerificationFailureRejectionMessage {
             get {
@@ -70,7 +70,7 @@ namespace Epsilon.Resources.Logic.AddressVerification
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to We couldn&apos;t verify your postcode. Please check it is correct and if not submit again..
+        ///   Looks up a localized string similar to We couldn&apos;t verify your postcode. Please check it is correct and submit again..
         /// </summary>
         public static string GeocodePostcodeVerificationFailureRejectionMessage {
             get {

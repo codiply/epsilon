@@ -151,13 +151,13 @@
     <value>Send the Verification</value>
   </data>
   <data name="Instructions_StepSendVerification_Instructions" xml:space="preserve">
-    <value>You can send the verification using an online service like the ones listed below. If you send a handwritten letter rather than printing the message, make sure the code is clearly written.</value>
+    <value>You can send the verification using an online service like the ones listed below. If you send a handwritten letter, rather than printing the message, make sure the code is clearly written.</value>
   </data>
   <data name="Instructions_StepVerifyValidAddress_Header" xml:space="preserve">
     <value>Verify the address exists</value>
   </data>
   <data name="Instructions_StepVerifyValidAddress_Instructions" xml:space="preserve">
-    <value>Use this link below to check that the address exists.</value>
+    <value>Use the link below to check that the address exists.</value>
   </data>
   <data name="Instructions_VerificationMessageLabel" xml:space="preserve">
     <value>Message</value>
@@ -211,10 +211,10 @@
     <value>My Latest Outgoing Verifications</value>
   </data>
   <data name="Pick_CannotDetermineUserResidenceBecauseOfNoSubmissions_ErrorMessage" xml:space="preserve">
-    <value>We will need to initiate a submission for your address before you can send verification mail to other users.</value>
+    <value>Ypi will need to initiate a submission for your address before you can send verification mail to other users.</value>
   </data>
   <data name="Pick_ConfirmationText" xml:space="preserve">
-    <value>You will be assigned to send a verification mail by post to verify another user. The address will be in the Country shown above. If you have changed country, you will need to make another submission first.</value>
+    <value>You will be assigned to send a verification mail by post to verify another user. The address will be in the country shown above. If you have changed country, you will need to submit your new address first.</value>
   </data>
   <data name="Pick_Header" xml:space="preserve">
     <value>New Outgoing Verification</value>

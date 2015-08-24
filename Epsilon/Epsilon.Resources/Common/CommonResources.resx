@@ -160,7 +160,7 @@
     <value>Frequently Asked Questions</value>
   </data>
   <data name="WebsiteDisabledForMaintenanceMessage" xml:space="preserve">
-    <value>We are performing site maintenance work. We will be back shortly.</value>
+    <value>We are performing maintenance work. We will be back shortly.</value>
   </data>
   <data name="Step1" xml:space="preserve">
     <value>Step 1</value>
@@ -190,7 +190,7 @@
     <value>Yes</value>
   </data>
   <data name="ServiceNotAvailableInYourCountryMessage" xml:space="preserve">
-    <value>Our service is not  available in your country yet. (or possibly we couldn't determine your country from your IP address)</value>
+    <value>Our service is not  available in your country yet. (or we couldn't determine your country from your IP address)</value>
   </data>
   <data name="StringLengthErrorMessage" xml:space="preserve">
     <value>The {0} must be at least {2} characters long.</value>

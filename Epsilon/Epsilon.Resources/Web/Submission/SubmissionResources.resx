@@ -226,7 +226,7 @@
     <value>Submit</value>
   </data>
   <data name="SubmitTenancyDetails_ConfirmationText" xml:space="preserve">
-    <value>The information above is correct.</value>
+    <value>The information above is correct and I am allowed to share them.</value>
   </data>
   <data name="SubmitTenancyDetails_PageHeader" xml:space="preserve">
     <value>Submit Details</value>

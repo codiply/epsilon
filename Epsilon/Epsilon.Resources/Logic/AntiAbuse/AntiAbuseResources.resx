@@ -118,16 +118,16 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AddAddress_GeocodeFailureIpAddressFrequencyCheck_RejectionMessage" xml:space="preserve">
-    <value>There have been too many failed attempts to add an address from your IP address. Please try again in a few hours.</value>
+    <value>There have been too many failed attempts to add an address from your IP address. Please try again lataer.</value>
   </data>
   <data name="AddAddress_GeocodeFailureUserFrequencyCheck_RejectionMessage" xml:space="preserve">
-    <value>You have exceeded the maximum number of attempts to add an address. Please try again in a few hours.</value>
+    <value>You have exceeded the maximum number of attempts to add an address. Please try again later.</value>
   </data>
   <data name="AddAddress_GlobalFrequencyCheck_RejectionMessage" xml:space="preserve">
-    <value>Due to big number of address added today, this function has been disabled. Please try again tomorrow.</value>
+    <value>Due to big number of addresses added today, this function has been disabled. Please try again tomorrow.</value>
   </data>
   <data name="AddAddress_IpAddressFrequencyCheck_RejectionMessage" xml:space="preserve">
-    <value>There have been too many addresses added by your IP address. Try again at a later time.</value>
+    <value>There have been too many addresses added by your IP address. Please try again later.</value>
   </data>
   <data name="AddAddress_UserFrequencyCheck_RejectionMessage" xml:space="preserve">
     <value>You can only add a certain number of addresses in a certain period.</value>
@@ -136,10 +136,10 @@
     <value>Sorry, we couldn't determine your country from your IP address.</value>
   </data>
   <data name="CreateTenancyDetailsSubmission_GlobalFrequencyCheck_RejectionMessage" xml:space="preserve">
-    <value>Due to big number of submissions created today, this function has been disabled. Please try again tomorrow.</value>
+    <value>Due to big number of submissions created today, this function has been disabled. Please try again later.</value>
   </data>
   <data name="CreateTenancyDetailsSubmission_IpAddressFrequencyCheck_RejectionMessage" xml:space="preserve">
-    <value>There have been too many submissions made by your IP address. Try again at a later time.</value>
+    <value>There have been too many submissions made by your IP address. Please try again later.</value>
   </data>
   <data name="CreateTenancyDetailsSubmission_UserFrequencyCheck_RejectionMessage" xml:space="preserve">
     <value>You can only make a certain number of submissions in a certain period of time.</value>
@@ -148,21 +148,21 @@
     <value>Your IP address appears to be in Country {0}. We cannot process this request.</value>
   </data>
   <data name="GlobalSwitch_RegisterDisabled_Message" xml:space="preserve">
-    <value>Registration is temporarily disabled. Please try again later.</value>
+    <value>Registration is temporarily disabled. Please try again at a later time.</value>
   </data>
   <data name="PickOutgoingVerification_GlobalFrequencyCheck_RejectionMessage" xml:space="preserve">
-    <value>Due to big number of outgoing verifications today, this function has been disabled. Please try again tomorrow.</value>
+    <value>Due to big number of outgoing verifications today, this function has been disabled. Please try again later.</value>
   </data>
   <data name="PickOutgoingVerification_IpAddressFrequencyCheck_RejectionMessage" xml:space="preserve">
-    <value>There have been too many outgoing verifications from your IP address. Try again at a later time.</value>
+    <value>There have been too many outgoing verifications from your IP address. Please try again later.</value>
   </data>
   <data name="PickOutgoingVerification_MaxOutstandingFrequencyPerUserCheck_RejectionMessage" xml:space="preserve">
-    <value>You have too many outstanding verifications. Once some of them have been completed you will be able to create more.</value>
+    <value>You have too many outstanding verifications. Once some of them have been completed you will be able to pick more.</value>
   </data>
   <data name="Register_GlobalFrequencyCheck_RejectionMessage" xml:space="preserve">
-    <value>Due to big number of registrations today, registration has been disabled. Please try again tomorrow.</value>
+    <value>Due to big number of registrations today, registration has been disabled. Please try again later.</value>
   </data>
   <data name="Register_IpAddressFrequencyCheck_RejectionMessage" xml:space="preserve">
-    <value>There have been too many registrations from your IP address. Please try again another time.</value>
+    <value>There have been too many registrations from your IP address. Please try again later.</value>
   </data>
 </root>

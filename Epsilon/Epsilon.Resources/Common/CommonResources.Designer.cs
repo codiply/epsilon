@@ -8,10 +8,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Epsilon.Resources.Common
-{
-
-
+namespace Epsilon.Resources.Common {
+    using System;
+    
+    
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -232,7 +232,7 @@ namespace Epsilon.Resources.Common
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Our service is not  available in your country yet. (or possibly we couldn&apos;t determine your country from your IP address).
+        ///   Looks up a localized string similar to Our service is not  available in your country yet. (or we couldn&apos;t determine your country from your IP address).
         /// </summary>
         public static string ServiceNotAvailableInYourCountryMessage {
             get {
@@ -349,7 +349,7 @@ namespace Epsilon.Resources.Common
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to We are performing site maintenance work. We will be back shortly..
+        ///   Looks up a localized string similar to We are performing maintenance work. We will be back shortly..
         /// </summary>
         public static string WebsiteDisabledForMaintenanceMessage {
             get {

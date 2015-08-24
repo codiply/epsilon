@@ -121,7 +121,7 @@
     <value>Creating a new outgoing verification is temporarily disabled. Please try again later.</value>
   </data>
   <data name="MarkAddressAsInvalid_SuccessMessage" xml:space="preserve">
-    <value>Address for outgoing verification was marked as invalid. Thank you!</value>
+    <value>Address of outgoing verification was marked as invalid. Thank you!</value>
   </data>
   <data name="MarkAsSent_SuccessMessage" xml:space="preserve">
     <value>Outgoing verification was marked as sent.</value>
@@ -133,6 +133,6 @@
     <value>There are no verifications that can be assinged to you at the moment, please try again later.</value>
   </data>
   <data name="Pick_SuccessMessage" xml:space="preserve">
-    <value>A new outgoing verification has been assigned to you. The instructions will be available for {0} days.</value>
+    <value>A new outgoing verification has been assigned to you. The instructions for this verification will be available for {0} days.</value>
   </data>
 </root>

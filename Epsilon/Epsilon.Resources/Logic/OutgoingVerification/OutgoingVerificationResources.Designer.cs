@@ -8,10 +8,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Epsilon.Resources.Logic.OutgoingVerification
-{
-
-
+namespace Epsilon.Resources.Logic.OutgoingVerification {
+    using System;
+    
+    
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -70,7 +70,7 @@ namespace Epsilon.Resources.Logic.OutgoingVerification
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Address for outgoing verification was marked as invalid. Thank you!.
+        ///   Looks up a localized string similar to Address of outgoing verification was marked as invalid. Thank you!.
         /// </summary>
         public static string MarkAddressAsInvalid_SuccessMessage {
             get {
@@ -106,7 +106,7 @@ namespace Epsilon.Resources.Logic.OutgoingVerification
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to A new outgoing verification has been assigned to you. The instructions will be available for {0} days..
+        ///   Looks up a localized string similar to A new outgoing verification has been assigned to you. The instructions for this verification will be available for {0} days..
         /// </summary>
         public static string Pick_SuccessMessage {
             get {

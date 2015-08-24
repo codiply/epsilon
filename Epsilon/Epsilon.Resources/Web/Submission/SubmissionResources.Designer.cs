@@ -8,10 +8,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Epsilon.Resources.Web.Submission
-{
-
-
+namespace Epsilon.Resources.Web.Submission {
+    using System;
+    
+    
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -358,7 +358,7 @@ namespace Epsilon.Resources.Web.Submission
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The information above is correct..
+        ///   Looks up a localized string similar to The information above is correct and I am allowed to share them..
         /// </summary>
         public static string SubmitTenancyDetails_ConfirmationText {
             get {

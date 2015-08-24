@@ -8,10 +8,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Epsilon.Resources.Logic.AntiAbuse
-{
-
-
+namespace Epsilon.Resources.Logic.AntiAbuse {
+    using System;
+    
+    
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -61,7 +61,7 @@ namespace Epsilon.Resources.Logic.AntiAbuse
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to There have been too many failed attempts to add an address from your IP address. Please try again in a few hours..
+        ///   Looks up a localized string similar to There have been too many failed attempts to add an address from your IP address. Please try again lataer..
         /// </summary>
         public static string AddAddress_GeocodeFailureIpAddressFrequencyCheck_RejectionMessage {
             get {
@@ -70,7 +70,7 @@ namespace Epsilon.Resources.Logic.AntiAbuse
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You have exceeded the maximum number of attempts to add an address. Please try again in a few hours..
+        ///   Looks up a localized string similar to You have exceeded the maximum number of attempts to add an address. Please try again later..
         /// </summary>
         public static string AddAddress_GeocodeFailureUserFrequencyCheck_RejectionMessage {
             get {
@@ -79,7 +79,7 @@ namespace Epsilon.Resources.Logic.AntiAbuse
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Due to big number of address added today, this function has been disabled. Please try again tomorrow..
+        ///   Looks up a localized string similar to Due to big number of addresses added today, this function has been disabled. Please try again tomorrow..
         /// </summary>
         public static string AddAddress_GlobalFrequencyCheck_RejectionMessage {
             get {
@@ -88,7 +88,7 @@ namespace Epsilon.Resources.Logic.AntiAbuse
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to There have been too many addresses added by your IP address. Try again at a later time..
+        ///   Looks up a localized string similar to There have been too many addresses added by your IP address. Please try again later..
         /// </summary>
         public static string AddAddress_IpAddressFrequencyCheck_RejectionMessage {
             get {
@@ -115,7 +115,7 @@ namespace Epsilon.Resources.Logic.AntiAbuse
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Due to big number of submissions created today, this function has been disabled. Please try again tomorrow..
+        ///   Looks up a localized string similar to Due to big number of submissions created today, this function has been disabled. Please try again later..
         /// </summary>
         public static string CreateTenancyDetailsSubmission_GlobalFrequencyCheck_RejectionMessage {
             get {
@@ -124,7 +124,7 @@ namespace Epsilon.Resources.Logic.AntiAbuse
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to There have been too many submissions made by your IP address. Try again at a later time..
+        ///   Looks up a localized string similar to There have been too many submissions made by your IP address. Please try again later..
         /// </summary>
         public static string CreateTenancyDetailsSubmission_IpAddressFrequencyCheck_RejectionMessage {
             get {
@@ -151,7 +151,7 @@ namespace Epsilon.Resources.Logic.AntiAbuse
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Registration is temporarily disabled. Please try again later..
+        ///   Looks up a localized string similar to Registration is temporarily disabled. Please try again at a later time..
         /// </summary>
         public static string GlobalSwitch_RegisterDisabled_Message {
             get {
@@ -160,7 +160,7 @@ namespace Epsilon.Resources.Logic.AntiAbuse
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Due to big number of outgoing verifications today, this function has been disabled. Please try again tomorrow..
+        ///   Looks up a localized string similar to Due to big number of outgoing verifications today, this function has been disabled. Please try again later..
         /// </summary>
         public static string PickOutgoingVerification_GlobalFrequencyCheck_RejectionMessage {
             get {
@@ -169,7 +169,7 @@ namespace Epsilon.Resources.Logic.AntiAbuse
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to There have been too many outgoing verifications from your IP address. Try again at a later time..
+        ///   Looks up a localized string similar to There have been too many outgoing verifications from your IP address. Please try again later..
         /// </summary>
         public static string PickOutgoingVerification_IpAddressFrequencyCheck_RejectionMessage {
             get {
@@ -178,7 +178,7 @@ namespace Epsilon.Resources.Logic.AntiAbuse
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You have too many outstanding verifications. Once some of them have been completed you will be able to create more..
+        ///   Looks up a localized string similar to You have too many outstanding verifications. Once some of them have been completed you will be able to pick more..
         /// </summary>
         public static string PickOutgoingVerification_MaxOutstandingFrequencyPerUserCheck_RejectionMessage {
             get {
@@ -187,7 +187,7 @@ namespace Epsilon.Resources.Logic.AntiAbuse
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Due to big number of registrations today, registration has been disabled. Please try again tomorrow..
+        ///   Looks up a localized string similar to Due to big number of registrations today, registration has been disabled. Please try again later..
         /// </summary>
         public static string Register_GlobalFrequencyCheck_RejectionMessage {
             get {
@@ -196,7 +196,7 @@ namespace Epsilon.Resources.Logic.AntiAbuse
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to There have been too many registrations from your IP address. Please try again another time..
+        ///   Looks up a localized string similar to There have been too many registrations from your IP address. Please try again later..
         /// </summary>
         public static string Register_IpAddressFrequencyCheck_RejectionMessage {
             get {

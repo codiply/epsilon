@@ -8,10 +8,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Epsilon.Resources.Web.OutgoingVerification
-{
-
-
+namespace Epsilon.Resources.Web.OutgoingVerification {
+    using System;
+    
+    
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -160,7 +160,7 @@ namespace Epsilon.Resources.Web.OutgoingVerification
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You can send the verification using an online service like the ones listed below. If you send a handwritten letter rather than printing the message, make sure the code is clearly written..
+        ///   Looks up a localized string similar to You can send the verification using an online service like the ones listed below. If you send a handwritten letter, rather than printing the message, make sure the code is clearly written..
         /// </summary>
         public static string Instructions_StepSendVerification_Instructions {
             get {
@@ -178,7 +178,7 @@ namespace Epsilon.Resources.Web.OutgoingVerification
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Use this link below to check that the address exists..
+        ///   Looks up a localized string similar to Use the link below to check that the address exists..
         /// </summary>
         public static string Instructions_StepVerifyValidAddress_Instructions {
             get {
@@ -340,7 +340,7 @@ namespace Epsilon.Resources.Web.OutgoingVerification
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to We will need to initiate a submission for your address before you can send verification mail to other users..
+        ///   Looks up a localized string similar to Ypi will need to initiate a submission for your address before you can send verification mail to other users..
         /// </summary>
         public static string Pick_CannotDetermineUserResidenceBecauseOfNoSubmissions_ErrorMessage {
             get {
@@ -349,7 +349,7 @@ namespace Epsilon.Resources.Web.OutgoingVerification
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You will be assigned to send a verification mail by post to verify another user. The address will be in the Country shown above. If you have changed country, you will need to make another submission first..
+        ///   Looks up a localized string similar to You will be assigned to send a verification mail by post to verify another user. The address will be in the country shown above. If you have changed country, you will need to submit your new address first..
         /// </summary>
         public static string Pick_ConfirmationText {
             get {
