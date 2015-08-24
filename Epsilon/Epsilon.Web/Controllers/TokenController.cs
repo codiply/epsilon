@@ -10,6 +10,7 @@ namespace Epsilon.Web.Controllers
             return View();
         }
 
+        [AllowAnonymous]
         public ActionResult Rewards()
         {
             return View();

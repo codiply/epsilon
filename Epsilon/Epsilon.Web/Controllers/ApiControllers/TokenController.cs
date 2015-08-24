@@ -40,6 +40,7 @@ namespace Epsilon.Web.Controllers.ApiControllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public TokenRewardsSummaryResponse TokenRewardsSummary()
         {
             return _tokenRewardService.GetTokenRewardsSummary();
