@@ -19,23 +19,24 @@ VALUES
 -- 3. Keys starting with Earn should have positive value.
 -- 4. Keys starting with Spend should have negative value.
 -- Scheme 1
-(N'1', N'EarnPerTenancyDetailsSubmission', 2.0),
-(N'1', N'EarnPerVerificationCodeEntered', 1.0),
-(N'1', N'EarnPerVerificationMailSent', 2.0),
--- Spend 1
+-- Earn
+(N'1', N'EarnPerTenancyDetailsSubmission', 3.0),
+(N'1', N'EarnPerVerificationCodeEntered', 1.5),
+(N'1', N'EarnPerVerificationMailSent', 3.0),
+-- Spend
 (N'1', N'SpendPerPropertyInfoAccess', -1.0);
 GO
 
 MERGE [dbo].[TokenReward] AS T -- Target
 USING #TMP AS S -- Source
     ON T.SchemeId = S.SchemeId 
-	AND T.[TypeKey] = S.[TypeKey]
+    AND T.[TypeKey] = S.[TypeKey]
 WHEN MATCHED
     THEN UPDATE SET
-	    T.[Value] = S.[Value]
+        T.[Value] = S.[Value]
 WHEN NOT MATCHED
     THEN INSERT ([SchemeId], [TypeKey], [Value])
-	VALUES (S.[SchemeId], S.[TypeKey], S.[Value])
+    VALUES (S.[SchemeId], S.[TypeKey], S.[Value])
 WHEN NOT MATCHED BY SOURCE 
     THEN DELETE;
 GO

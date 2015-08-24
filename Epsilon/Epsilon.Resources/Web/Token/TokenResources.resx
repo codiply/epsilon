@@ -150,6 +150,12 @@
   <data name="TokenRewardsSummary_EarnGroup_Description" xml:space="preserve">
     <value>In all the cases in the table below your account will be credited with tokens.</value>
   </data>
+  <data name="TokenRewardsSummary_EarnGroup_Footer_DoubleTokens" xml:space="preserve">
+    <value>You currently earn two times more tokens!</value>
+  </data>
+  <data name="TokenRewardsSummary_EarnGroup_Footer_TripleTokens" xml:space="preserve">
+    <value>You currently earn three times more tokens!</value>
+  </data>
   <data name="TokenRewardsSummary_EarnGroup_Header" xml:space="preserve">
     <value>Earn Tokens</value>
   </data>

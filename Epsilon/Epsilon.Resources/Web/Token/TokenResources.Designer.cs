@@ -8,10 +8,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Epsilon.Resources.Web.Token
-{
-
-
+namespace Epsilon.Resources.Web.Token {
+    using System;
+    
+    
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -156,6 +156,24 @@ namespace Epsilon.Resources.Web.Token
         public static string TokenRewardsSummary_EarnGroup_Description {
             get {
                 return ResourceManager.GetString("TokenRewardsSummary_EarnGroup_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You currently earn two times more tokens!.
+        /// </summary>
+        public static string TokenRewardsSummary_EarnGroup_Footer_DoubleTokens {
+            get {
+                return ResourceManager.GetString("TokenRewardsSummary_EarnGroup_Footer_DoubleTokens", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You currently earn three times more tokens!.
+        /// </summary>
+        public static string TokenRewardsSummary_EarnGroup_Footer_TripleTokens {
+            get {
+                return ResourceManager.GetString("TokenRewardsSummary_EarnGroup_Footer_TripleTokens", resourceCulture);
             }
         }
         
