@@ -23,8 +23,8 @@ namespace Epsilon.Logic.Helpers.Interfaces
 
     public interface ITextResourceHelper
     {
-        IList<LocalizedResource> AllResources(string languageId);
+        IList<LocalizedResource> AllResources(string cultureCode);
 
-        void AllResourcesCsv(string languageId, TextWriter stream);
+        void AllResourcesCsv(string cultureCode, TextWriter stream);
     }
 }

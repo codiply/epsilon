@@ -13,14 +13,14 @@
         var notSelectedLabelClass = "label-warning";
     }
 
-    <a class="label @(Model.LanguageId == null ? selectedLabelClass : notSelectedLabelClass)"
+    <a class="label @(Model.CultureCode == null ? selectedLabelClass : notSelectedLabelClass)"
        href="@Url.Action("List", "TextResource", new { id = (string)null })">
         Default
     </a>
     <text>&nbsp;</text>
     @foreach (var language in Model.Languages)
     {
-        var labelClass = Model.LanguageId != null && Model.LanguageId.ToLowerInvariant().Equals(language.CultureCode.ToLowerInvariant())
+        var labelClass = Model.CultureCode != null && Model.CultureCode.ToLowerInvariant().Equals(language.CultureCode.ToLowerInvariant())
             ? selectedLabelClass : notSelectedLabelClass;
         <a class="label @labelClass"
            href="@Url.Action("List", "TextResource", new { id = language.CultureCode })">
@@ -31,7 +31,7 @@
 </p>
 
 <p>
-    <a href="@Url.Action("Download", "TextResource", new { id = Model.LanguageId })" 
+    <a href="@Url.Action("Download", "TextResource", new { id = Model.CultureCode})" 
        class="btn btn-primary">
         Download CSV
     </a>
@@ -48,7 +48,7 @@
                     <tr>
                         <th>Name</th>
                         <th>Default</th>
-                        @if (Model.LanguageId != null)
+                        @if (Model.CultureCode != null)
                         {
                         <th>Local</th>
                         }
@@ -64,7 +64,7 @@
                             <td>
                                 @entry.DefaultValue
                             </td>
-                            @if (Model.LanguageId != null)
+                            @if (Model.CultureCode != null)
                             {
                             <td>
                                 @entry.LocalizedValue

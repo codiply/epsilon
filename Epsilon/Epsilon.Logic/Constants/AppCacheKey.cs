@@ -49,6 +49,12 @@
             return "APPCACHE:LANGUAGE:" + languageId.ToLowerInvariant();
         }
 
+        public static string TextResourceHelperAllResources(string cultureCode)
+        {
+            return "APPCACHE:TEXT_RESOURCE_HELPER_ALL_RESOURCES:" + cultureCode;
+        }
+
+
         public static string UserPreference(string userId)
         {
             return "APPCACHE:USER_PREFERENCE:" + userId.ToLowerInvariant();

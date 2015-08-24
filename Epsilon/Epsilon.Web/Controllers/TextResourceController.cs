@@ -30,12 +30,12 @@ namespace Epsilon.Web.Controllers
 
         public ActionResult List(string id)
         {
-            var languageId = id;
+            var cultureCode = id;
 
             var model = new ListViewModel
             {
-                Resources = _textResourceHelper.AllResources(languageId),
-                LanguageId = languageId,
+                Resources = _textResourceHelper.AllResources(cultureCode),
+                CultureCode = cultureCode,
                 Languages = _languageService.GetAvailableAndUnavailableLanguages()
                 
             };
@@ -44,17 +44,17 @@ namespace Epsilon.Web.Controllers
 
         public ActionResult Download(string id)
         {
-            var languageId = id;
+            var cultureCode = id;
             using (var stream = new StringWriter())
             {
-                _textResourceHelper.AllResourcesCsv(languageId, stream);
+                _textResourceHelper.AllResourcesCsv(cultureCode, stream);
 
                 var contentType = AppConstant.CONTENT_TYPE_CSV;
                 var bytes = Encoding.UTF8.GetBytes(stream.ToString());
                 var result = new FileContentResult(bytes, contentType);
                 result.FileDownloadName = 
-                    string.Format("Resources_{0}_{1}.csv", languageId, 
-                    _clock.OffsetNow.ToString(AppConstant.DATE_TIME_FORMAT_FOR_FILENAME));
+                    string.Format("Resources_{0}_{1}.csv", 
+                    _clock.OffsetNow.ToString(AppConstant.DATE_TIME_FORMAT_FOR_FILENAME), cultureCode);
                 return result;
              }
         }

@@ -1,5 +1,6 @@
 ﻿using Epsilon.Logic.Constants;
 using Epsilon.Logic.Helpers.Interfaces;
+using Epsilon.Logic.Infrastructure.Interfaces;
 using Epsilon.Resources.Common;
 using System;
 using System.Collections;
@@ -17,6 +18,7 @@ namespace Epsilon.Logic.Helpers
 {
     public class TextResourceHelper : ITextResourceHelper
     {
+        private readonly IAppCache _appCache;
         private readonly IAppSettingsHelper _appSettingsHelper;
         private readonly ICsvHelper _csvHelper;
 
@@ -28,32 +30,40 @@ namespace Epsilon.Logic.Helpers
             new ConcurrentDictionary<string, ResourceManager>();
 
         public TextResourceHelper(
+            IAppCache appCache,
             IAppSettingsHelper appSettingsHelper,
             ICsvHelper csvHelper)
         {
+            _appCache = appCache;
             _appSettingsHelper = appSettingsHelper;
             _csvHelper = csvHelper;
 
             _defaultLanguageId = _appSettingsHelper.GetString(AppSettingsKey.DefaultLanguageId);
         }
 
-        public void AllResourcesCsv(string languageId, TextWriter stream)
+        public void AllResourcesCsv(string cultureCode, TextWriter stream)
         {
             var header = new List<string> { "Resource Type", "Resource Name", "Default Value", "Localized Value" };
-            var allResources = AllResources(languageId)
+            var allResources = AllResources(cultureCode)
                 .SelectMany(x => x.Entries.Select(y =>
                     new List<string> { x.Type, y.Name, y.DefaultValue, y.LocalizedValue }));
 
             _csvHelper.Write(stream, allResources, header);
         }
 
-        public IList<LocalizedResource> AllResources(string languageId)
+        public IList<LocalizedResource> AllResources(string cultureCode)
+        {
+            return _appCache.Get(AppCacheKey.TextResourceHelperAllResources(cultureCode),
+                () => CompileAllResources(cultureCode), WithLock.No);
+        }
+
+        public IList<LocalizedResource> CompileAllResources(string cultureCode)
         {
             var answer = new List<LocalizedResource>();
 
             var allDefaultResources = GetAllResourcesForLanguage(_defaultLanguageId);
 
-            var allLocalizedResources = languageId != null ? GetAllResourcesForLanguage(languageId) : null;
+            var allLocalizedResources = cultureCode != null ? GetAllResourcesForLanguage(cultureCode) : null;
 
             foreach (var file in allDefaultResources.Keys)
             {
@@ -86,13 +96,13 @@ namespace Epsilon.Logic.Helpers
             return answer;
         }
 
-        private Dictionary<string, Dictionary<string, string>> GetAllResourcesForLanguage(string languageId)
+        private Dictionary<string, Dictionary<string, string>> GetAllResourcesForLanguage(string cultureCode)
         {
             var answer = new Dictionary<string, Dictionary<string, string>>();
 
             foreach (var file in AllResourceFiles())
             {
-                answer.Add(file, GetResourcesFromFile(file, languageId));
+                answer.Add(file, GetResourcesFromFile(file, cultureCode));
             }
 
             return answer;
@@ -112,9 +122,9 @@ namespace Epsilon.Logic.Helpers
                 new ResourceManager(resourceFullName, _resourcesAssembly));
         }
 
-        private Dictionary<string, string> GetResourcesFromFile(string resourceFullName, string languageId)
+        private Dictionary<string, string> GetResourcesFromFile(string resourceFullName, string cultureCode)
         {
-            var cultureInfo = CultureInfo.GetCultureInfo(languageId);
+            var cultureInfo = CultureInfo.GetCultureInfo(cultureCode);
 
             var resourceManager = GetResourceManager(resourceFullName);
 
