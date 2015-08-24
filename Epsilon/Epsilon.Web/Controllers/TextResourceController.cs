@@ -54,7 +54,8 @@ namespace Epsilon.Web.Controllers
                 var result = new FileContentResult(bytes, contentType);
                 result.FileDownloadName = 
                     string.Format("Resources_{0}_{1}.csv", 
-                    _clock.OffsetNow.ToString(AppConstant.DATE_TIME_FORMAT_FOR_FILENAME), cultureCode);
+                    _clock.OffsetNow.ToString(AppConstant.DATE_TIME_FORMAT_FOR_FILENAME), 
+                    cultureCode ?? "default");
                 return result;
              }
         }
