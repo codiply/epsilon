@@ -9,6 +9,6 @@ namespace Epsilon.Logic.Helpers.Interfaces
 {
     public interface ICsvHelper
     {
-        void Write(IEnumerable<IEnumerable<string>> values, TextWriter stream, IEnumerable<string> header = null);
+        void Write(TextWriter stream, IEnumerable<IEnumerable<string>> values, IEnumerable<string> header = null);
     }
 }

@@ -10,8 +10,7 @@ namespace Epsilon.Logic.Helpers
 {
     public class CsvHelper : ICsvHelper
     {
-        // TODO_TEST_PANOS
-        public void Write(IEnumerable<IEnumerable<string>> values, TextWriter stream, IEnumerable<string> header = null)
+        public void Write(TextWriter stream, IEnumerable<IEnumerable<string>> values, IEnumerable<string> header = null)
         {
             if (header == null && values == null)
                 return;
@@ -22,6 +21,8 @@ namespace Epsilon.Logic.Helpers
             {
                 stream.WriteLine(ConstructLine(header, expectedNumberOfColumns));
             }
+            if (values == null)
+                return;
 
             foreach (var row in values)
             {

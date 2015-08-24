@@ -42,7 +42,7 @@ namespace Epsilon.Logic.Helpers
             var allResources = AllResources(languageId)
                 .Select(x => new List<string> { x.Type, x.Name, x.DefaultValue, x.LocalizedValue });
 
-            _csvHelper.Write(allResources, stream);
+            _csvHelper.Write(stream, allResources);
         }
 
         public IList<LocalizedResourceEntry> AllResources(string languageId)

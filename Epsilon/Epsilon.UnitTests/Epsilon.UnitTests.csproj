@@ -108,6 +108,7 @@
     <Compile Include="Logic\Helpers\AddressCleansingHelperTest.cs" />
     <Compile Include="Logic\Helpers\BaseAppSettingsHelperTest.cs" />
     <Compile Include="Logic\Helpers\CountryVariantResourceHelperTest.cs" />
+    <Compile Include="Logic\Helpers\CsvHelperTest.cs" />
     <Compile Include="Logic\Helpers\ElmahHelperTest.cs" />
     <Compile Include="Logic\Helpers\IpAddressHelperTest.cs" />
     <Compile Include="Logic\Helpers\RandomStringHelperTest.cs" />
