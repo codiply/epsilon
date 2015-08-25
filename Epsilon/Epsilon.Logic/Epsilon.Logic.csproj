@@ -170,7 +170,6 @@
     <Compile Include="Constants\DbAppSettingDefaultValue.cs" />
     <Compile Include="Constants\AppSettingsDefaultValue.cs" />
     <Compile Include="Constants\Enums\DbAppSettingValueType.cs" />
-    <Compile Include="Constants\Enums\GeocodeFailureType.cs" />
     <Compile Include="Constants\Enums\GeocodeQueryType.cs" />
     <Compile Include="Constants\Enums\TokenRewardKey.cs" />
     <Compile Include="Constants\Enums\UiAlertType.cs" />

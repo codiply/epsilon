@@ -27,9 +27,6 @@ namespace Epsilon.Logic.Helpers
         public static EnumMemoizer<GeocodePostcodeStatus> GeocodePostcodeStatus =
             new EnumMemoizer<GeocodePostcodeStatus>();
 
-        public static EnumMemoizer<GeocodeFailureType> GeocodeFailureType =
-            new EnumMemoizer<GeocodeFailureType>();
-
         public static EnumMemoizer<GeocodeQueryType> GeocodeQueryType =
             new EnumMemoizer<GeocodeQueryType>();
 
