@@ -97,6 +97,24 @@ namespace Epsilon.Resources.Logic.TokenRewardKey {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Tokens earned by the sender of a verification code in random with 1/100 odds..
+        /// </summary>
+        public static string EarnPerVerificationLuckySender_Description {
+            get {
+                return ResourceManager.GetString("EarnPerVerificationLuckySender_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Verificiation Lucky Sender.
+        /// </summary>
+        public static string EarnPerVerificationLuckySender_DisplayName {
+            get {
+                return ResourceManager.GetString("EarnPerVerificationLuckySender_DisplayName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Tokens earned by the sender of a verification code when the recipient uses the code..
         /// </summary>
         public static string EarnPerVerificationMailSent_Description {

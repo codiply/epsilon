@@ -57,28 +57,35 @@ To run the integration tests publish first the Database project into a new local
 
 ### New DbAppSetting Checklist
 
-- Add setting key to `Constants/Enums/DbAppSettingsKey`
-- Add setting in `Scripts/PostDeploy/ReferenceData/AppSetting.sql` script
-- Add labels for new key in `Scripts/PostDeploy/ReferenceData/AppSettingLabel.sql` script
-- Add setting in `Scripts/DevScripts/DevAppSettings.sql` script
+- Add setting key to `Constants/Enums/DbAppSettingsKey`.
+- Add setting in `Scripts/PostDeploy/ReferenceData/AppSetting.sql` script.
+- Add labels for new key in `Scripts/PostDeploy/ReferenceData/AppSettingLabel.sql` script.
+- Add setting in `Scripts/DevScripts/DevAppSettings.sql` script.
 - Update your test database and run your tests (as always).
 
 ### New Country Checklist
 
-- Add Currency in `ReferenceData/Currency.sql` script
-- Add Country in `ReferenceData/Country.sql` script
-- Add Country Id in `CountryId` enumeration script
+- Add Currency in `ReferenceData/Currency.sql` script.
+- Add Country in `ReferenceData/Country.sql` script.
+- Add Country Id in `CountryId` enumeration.
 - Add two Resource files in CountryVariants folder with names **ResourcesXX** and **ResourceXX.yy**, where **XX** is the Id of the Country and **yy** is the culture code of the language of the country.
 - Add field metadata in `CountryAddressFieldMetadata` constants class.
 - Add case for new country in AddressCleansingHelper.CleansePostcode method.
-- Add Country-specific integration tests in GeocodeServiceTest
+- Add Country-specific integration tests in GeocodeServiceTest.
 - Add case for new country in `Views/OutgoingVerification/_VerificationRecipient.cshtml`.
 - Add case for new country in `Views/OutgoingVerification/_VerificationMessage.cshtml`.
 
 ### New Language Checklist
 
-- Add Language in ReferenceData\Language.sql script
+- Add Language in ReferenceData\Language.sql script.
 - Check that moment.js localization includes the new language and works (see token transactions page for example).
+
+### New Token Reward Checklist
+
+- Add reward in `TokenRewardKey` enumeration.
+- Add reward in 'ReferenceData/TokenRewardType.sql` script.
+- Add `XXX_DisplayName` and `XXX_Description` to TokenRewardKey resource files, where `XXX` is the reward key.
+- Add a value for current and all future TokenRewardSchemes in `ReferenceData/TokenReward.sql` script. 
 
 ### Security Checklist
 

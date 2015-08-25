@@ -14,6 +14,7 @@ namespace Epsilon.Logic.Constants.Enums
         // Earn
         EarnPerTenancyDetailsSubmission,
         EarnPerVerificationCodeEntered,
+        EarnPerVerificationLuckySender,
         EarnPerVerificationMailSent,
         
         // Spend

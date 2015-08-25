@@ -24,10 +24,10 @@ USING #TMP AS S -- Source
     ON T.Id = S.Id
 WHEN MATCHED
     THEN UPDATE SET
-	    T.[EffectiveFrom] = S.[EffectiveFrom]
+        T.[EffectiveFrom] = S.[EffectiveFrom]
 WHEN NOT MATCHED
     THEN INSERT ([Id], [EffectiveFrom])
-	VALUES (S.[Id], S.[EffectiveFrom])
+    VALUES (S.[Id], S.[EffectiveFrom])
 WHEN NOT MATCHED BY SOURCE 
     THEN DELETE;
 GO

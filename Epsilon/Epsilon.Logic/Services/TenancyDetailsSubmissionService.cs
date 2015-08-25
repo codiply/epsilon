@@ -232,11 +232,13 @@ namespace Epsilon.Logic.Services
                     };
                 }
 
+                var now = _clock.OffsetNow;
+
                 var hasSenderBeenRewarded = verification.IsSenderRewarded();
                 if (!hasSenderBeenRewarded)
-                    verification.SenderRewardedOn = _clock.OffsetNow; // TODO_TEST_PANOS
+                    verification.SenderRewardedOn = now; // TODO_TEST_PANOS
 
-                verification.VerifiedOn = _clock.OffsetNow;
+                verification.VerifiedOn = now;
                 _dbContext.Entry(verification).State = EntityState.Modified;
                 await _dbContext.SaveChangesAsync();
 
@@ -274,6 +276,25 @@ namespace Epsilon.Logic.Services
                     var senderRewardStatus = await _userTokenService
                         .MakeTransaction(verification.AssignedToId, TokenRewardKey.EarnPerVerificationMailSent, verification.UniqueId);
                     if (senderRewardStatus != TokenAccountTransactionStatus.Success)
+                    {
+                        // TODO_TEST_PANOS
+                        // This shouldn't fail, but I return failure before committing the transaction.
+                        return new EnterVerificationCodeOutcome
+                        {
+                            IsRejected = true,
+                            ReturnToForm = false,
+                            RejectionReason = CommonResources.GenericErrorMessage
+                        };
+                    }
+                }
+
+                // Lucky Sender Logic
+                if (now.Millisecond % 100 == 0)
+                {
+                    // TODO_TEST_PANOS: also test the correct internal reference is used.
+                    var luckySenderRewardStatus = await _userTokenService
+                        .MakeTransaction(verification.AssignedToId, TokenRewardKey.EarnPerVerificationLuckySender, verification.UniqueId);
+                    if (luckySenderRewardStatus != TokenAccountTransactionStatus.Success)
                     {
                         // TODO_TEST_PANOS
                         // This shouldn't fail, but I return failure before committing the transaction.

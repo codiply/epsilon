@@ -22,6 +22,7 @@ VALUES
 -- Earn
 (N'1', N'EarnPerTenancyDetailsSubmission', 3.0),
 (N'1', N'EarnPerVerificationCodeEntered', 1.5),
+(N'1', N'EarnPerVerificationLuckySender', 300.0),
 (N'1', N'EarnPerVerificationMailSent', 3.0),
 -- Spend
 (N'1', N'SpendPerPropertyInfoAccess', -1.0);

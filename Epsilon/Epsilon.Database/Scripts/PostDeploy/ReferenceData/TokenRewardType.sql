@@ -20,6 +20,7 @@ VALUES
 -- Earn
 (N'EarnPerTenancyDetailsSubmission', N'Tokens earned when user submit details for their tenancy.'),
 (N'EarnPerVerificationCodeEntered', N'Tokens earned when a user enters a verification code received by post.'),
+(N'EarnPerVerificationLuckySender', N'Tokens earned in random by the sender of a verification, when the recipient enters the verification code. The probability is 0.01 and it depends on the milliseconds of the time when the code is entered.'),
 (N'EarnPerVerificationMailSent', N'Tokens earned when a user sends verification post and the code is entered by the recepient.'),
 -- Spend
 (N'SpendPerPropertyInfoAccess', N'Tokens spent when user buys access to the information of a property.')
@@ -30,10 +31,10 @@ USING #TMP AS S -- Source
     ON T.[Key] = S.[Key]
 WHEN MATCHED
     THEN UPDATE SET
-	    T.[Description] = S.[Description]
+        T.[Description] = S.[Description]
 WHEN NOT MATCHED
     THEN INSERT ([Key], [Description])
-	VALUES (S.[Key], S.[Description])
+    VALUES (S.[Key], S.[Description])
 WHEN NOT MATCHED BY SOURCE 
     THEN DELETE;
 GO
