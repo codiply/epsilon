@@ -24,7 +24,6 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var ipAddress = "1.2.3.4";
             var user = await CreateUser(CreateContainer(), "test@test.com", ipAddress);
 
-
             var countryId = CountryId.GB;
             var addressForm = new AddressForm
             {
