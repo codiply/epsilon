@@ -17,7 +17,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
     {
 
         private readonly double LatitudeLongitudePrecision = 0.00001;
-        private readonly TimeSpan DelayBetweenCallsToTheAPI = TimeSpan.FromSeconds(0.2);
+        private readonly TimeSpan DelayBetweenCallsToTheApi = TimeSpan.FromSeconds(0.2);
 
         #region GeocodeAddress
 
@@ -30,14 +30,14 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var address = "229 Great Portland Street, London W1W5PN";
             var countryId = EnumsHelper.CountryId.ToString(CountryId.GB);
 
-            await Task.Delay(DelayBetweenCallsToTheAPI);
+            await Task.Delay(DelayBetweenCallsToTheApi);
             var response = await service.GeocodeAddress(address, countryId);
 
             Assert.AreEqual(GeocodeAddressStatus.Success, response.Status, "The status returned was not the expected.");
             Assert.IsNotNull(response.Geometry, "The Geometry on the GeocodeService response is null.");
 
             // I geocode the address independently using a client.
-            await Task.Delay(DelayBetweenCallsToTheAPI);
+            await Task.Delay(DelayBetweenCallsToTheApi);
             var geocodeClient = container.Get<IGeocodeClientFactory>().Create("");
             var geocodeClientResponse = await geocodeClient.GeocodeAddress(address, countryId);
 
@@ -79,7 +79,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var postcode = "EC3N4AB";
             var countryId = EnumsHelper.CountryId.ToString(CountryId.GB);
 
-            await Task.Delay(DelayBetweenCallsToTheAPI);
+            await Task.Delay(DelayBetweenCallsToTheApi);
             var timeBefore = clock.OffsetNow;
             var status = await service.GeocodePostcode(postcode, countryId);
 
@@ -90,7 +90,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.IsNotNull(retrievedPostcodeGeometry, "A PostcodeGeometry should be created in the database.");
 
             // I geocode the postcode independently using a client.
-            await Task.Delay(DelayBetweenCallsToTheAPI);
+            await Task.Delay(DelayBetweenCallsToTheApi);
             var geocodeClient = container.Get<IGeocodeClientFactory>().Create("");
             var geocodeClientResponse = await geocodeClient.GeocodeAddress(postcode, countryId);
 
@@ -135,7 +135,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var retrievedPostcodeGeometryBefore1 = await DbProbe.PostcodeGeometries.FindAsync(countryId, postcode);
             Assert.IsNull(retrievedPostcodeGeometryBefore1, "A PostcodeGeometry should not be initially present in the database.");
 
-            await Task.Delay(DelayBetweenCallsToTheAPI);
+            await Task.Delay(DelayBetweenCallsToTheApi);
             var status1 = await service1.GeocodePostcode(postcode, countryId);
             Assert.AreEqual(GeocodePostcodeStatus.Success, status1, "The status of the first geocoding was not the expected.");
 
@@ -147,7 +147,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             SetupMockGeocodeClient((add, reg) => { geocodeClientUsed = true; }, new GeocodeResponse());
             var service2 = container2.Get<IGeocodeService>();
 
-            await Task.Delay(DelayBetweenCallsToTheAPI);
+            await Task.Delay(DelayBetweenCallsToTheApi);
             var status2 = await service2.GeocodePostcode(postcode, countryId);
             Assert.AreEqual(GeocodePostcodeStatus.Success, status2, "The status of the second geocoding was not the expected.");
             Assert.IsFalse(geocodeClientUsed, "The geocoding API should not be called the second time.");
@@ -166,7 +166,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var address = "229 Great Portland Street, London W1W5PN";
             var countryId = EnumsHelper.CountryId.ToString(CountryId.GB);
 
-            await Task.Delay(DelayBetweenCallsToTheAPI);
+            await Task.Delay(DelayBetweenCallsToTheApi);
             var response = await service.GeocodeAddress(address, countryId);
 
             Assert.AreEqual(GeocodeAddressStatus.Success, response.Status, "The status returned was not the expected.");
@@ -182,7 +182,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var address = "Λεωφόρος Βασιλίσσης Σοφίας 46, Αθήνα, Αττική, 11528";
             var countryId = EnumsHelper.CountryId.ToString(CountryId.GB);
 
-            await Task.Delay(DelayBetweenCallsToTheAPI);
+            await Task.Delay(DelayBetweenCallsToTheApi);
             var response = await service.GeocodeAddress(address, countryId);
 
             Assert.AreEqual(GeocodeAddressStatus.ResultInWrongCountry, response.Status, "The status returned was not the expected.");
@@ -198,7 +198,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var address = "Royal Park, London";
             var countryId = EnumsHelper.CountryId.ToString(CountryId.GB);
 
-            await Task.Delay(DelayBetweenCallsToTheAPI);
+            await Task.Delay(DelayBetweenCallsToTheApi);
             var response = await service.GeocodeAddress(address, countryId);
 
             Assert.AreEqual(GeocodeAddressStatus.MultipleMatches, response.Status, "The status returned was not the expected.");
@@ -218,7 +218,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var postcode = "EC3N4AB";
             var countryId = EnumsHelper.CountryId.ToString(CountryId.GB);
 
-            await Task.Delay(DelayBetweenCallsToTheAPI);
+            await Task.Delay(DelayBetweenCallsToTheApi);
             var status = await service.GeocodePostcode(postcode, countryId);
 
             Assert.AreEqual(GeocodePostcodeStatus.Success, status, "The status returned was not the expected.");
@@ -236,7 +236,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var postcode = "11528";
             var countryId = EnumsHelper.CountryId.ToString(CountryId.GB);
 
-            await Task.Delay(DelayBetweenCallsToTheAPI);
+            await Task.Delay(DelayBetweenCallsToTheApi);
             var status = await service.GeocodePostcode(postcode, countryId);
 
             Assert.AreNotEqual(GeocodePostcodeStatus.Success, status, "The status should not be Success.");
@@ -256,7 +256,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var postcode = "SE1";
             var countryId = EnumsHelper.CountryId.ToString(CountryId.GB);
 
-            await Task.Delay(DelayBetweenCallsToTheAPI);
+            await Task.Delay(DelayBetweenCallsToTheApi);
             var status = await service.GeocodePostcode(postcode, countryId);
 
             Assert.AreEqual(GeocodePostcodeStatus.ResultWithWrongType, status, "The status returned was not the expected.");
@@ -278,7 +278,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var hiltonAthensAddress = "Λεωφόρος Βασιλίσσης Σοφίας 46, Αθήνα, Αττική, 11528";
             var countryId = EnumsHelper.CountryId.ToString(CountryId.GR);
 
-            await Task.Delay(DelayBetweenCallsToTheAPI);
+            await Task.Delay(DelayBetweenCallsToTheApi);
             var response = await service.GeocodeAddress(hiltonAthensAddress, countryId);
 
             Assert.AreEqual(GeocodeAddressStatus.Success, response.Status, "The status returned was not the expected.");
@@ -294,7 +294,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var internationalStudenHouseLondonAddress = "229 Great Portland Street, London W1W5PN";
             var countryId = EnumsHelper.CountryId.ToString(CountryId.GR);
 
-            await Task.Delay(DelayBetweenCallsToTheAPI);
+            await Task.Delay(DelayBetweenCallsToTheApi);
             var response = await service.GeocodeAddress(internationalStudenHouseLondonAddress, countryId);
 
             Assert.AreEqual(GeocodeAddressStatus.ResultInWrongCountry, response.Status, "The status returned was not the expected.");
@@ -314,7 +314,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var postcode = "11528";
             var countryId = EnumsHelper.CountryId.ToString(CountryId.GR);
 
-            await Task.Delay(DelayBetweenCallsToTheAPI);
+            await Task.Delay(DelayBetweenCallsToTheApi);
             var status = await service.GeocodePostcode(postcode, countryId);
 
             Assert.AreEqual(GeocodePostcodeStatus.Success, status, "The status returned was not the expected.");
@@ -332,7 +332,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var postcode = "EC3N4AB";
             var countryId = EnumsHelper.CountryId.ToString(CountryId.GR);
 
-            await Task.Delay(DelayBetweenCallsToTheAPI);
+            await Task.Delay(DelayBetweenCallsToTheApi);
             var status = await service.GeocodePostcode(postcode, countryId);
 
             Assert.AreNotEqual(GeocodePostcodeStatus.Success, status, "The status should not be Success.");

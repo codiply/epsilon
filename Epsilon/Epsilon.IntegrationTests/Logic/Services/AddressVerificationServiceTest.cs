@@ -13,7 +13,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
 {
     public class AddressVerificationServiceTest : BaseIntegrationTestWithRollback
     {
-        private readonly TimeSpan DelayBetweenCallsToTheAPI = TimeSpan.FromSeconds(0.4);
+        private readonly TimeSpan DelayBetweenCallsToTheApi = TimeSpan.FromSeconds(0.4);
 
         [Test]
         public async Task Verify_HappyPath_GB()
@@ -35,7 +35,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 CountryId = EnumsHelper.CountryId.ToString(countryId)
             };
 
-            await Task.Delay(DelayBetweenCallsToTheAPI);
+            await Task.Delay(DelayBetweenCallsToTheApi);
             var clock = container.Get<IClock>();
             var timeBefore = clock.OffsetNow;
             var response = await service.Verify(user.Id, ipAddress, addressForm);
