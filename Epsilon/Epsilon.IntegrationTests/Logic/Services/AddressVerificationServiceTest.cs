@@ -19,8 +19,6 @@ namespace Epsilon.IntegrationTests.Logic.Services
 {
     public class AddressVerificationServiceTest : BaseIntegrationTestWithRollback
     {
-        private readonly TimeSpan DelayBetweenCallsToTheApi = TimeSpan.FromSeconds(0.4);
-
         public static GeocodePostcodeStatus[] NonSuccessGeocodePostcodeStatuses =
             EnumsHelper.GeocodePostcodeStatus.GetValues().Where(x => x != GeocodePostcodeStatus.Success).ToArray();
 
@@ -46,7 +44,6 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 CountryId = EnumsHelper.CountryId.ToString(countryId)
             };
 
-            await Task.Delay(DelayBetweenCallsToTheApi);
             var clock = container.Get<IClock>();
             var timeBefore = clock.OffsetNow;
             var response = await service.Verify(user.Id, ipAddress, addressForm);
