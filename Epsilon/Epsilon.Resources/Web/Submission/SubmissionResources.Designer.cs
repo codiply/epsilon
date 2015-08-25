@@ -8,10 +8,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Epsilon.Resources.Web.Submission
-{
-
-
+namespace Epsilon.Resources.Web.Submission {
+    using System;
+    
+    
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -466,15 +466,6 @@ namespace Epsilon.Resources.Web.Submission
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The Landlord Rating field is required..
-        /// </summary>
-        public static string SubmitTenancyDetailsForm_FieldLandlordRating_RequiredErrorMessage {
-            get {
-                return ResourceManager.GetString("SubmitTenancyDetailsForm_FieldLandlordRating_RequiredErrorMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Neihgbours Rating.
         /// </summary>
         public static string SubmitTenancyDetailsForm_FieldNeighboursRating_DisplayName {
@@ -489,15 +480,6 @@ namespace Epsilon.Resources.Web.Submission
         public static string SubmitTenancyDetailsForm_FieldNeighboursRating_HelpText {
             get {
                 return ResourceManager.GetString("SubmitTenancyDetailsForm_FieldNeighboursRating_HelpText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The Neighbours Rating field is required..
-        /// </summary>
-        public static string SubmitTenancyDetailsForm_FieldNeighboursRating_RequiredErrorMessage {
-            get {
-                return ResourceManager.GetString("SubmitTenancyDetailsForm_FieldNeighboursRating_RequiredErrorMessage", resourceCulture);
             }
         }
         
@@ -556,15 +538,6 @@ namespace Epsilon.Resources.Web.Submission
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The Property Condition Rating field is required..
-        /// </summary>
-        public static string SubmitTenancyDetailsForm_FieldPropertyConditionRating_RequiredErrorMessage {
-            get {
-                return ResourceManager.GetString("SubmitTenancyDetailsForm_FieldPropertyConditionRating_RequiredErrorMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Monthly Rent.
         /// </summary>
         public static string SubmitTenancyDetailsForm_FieldRentPerMonth_DisplayName {
@@ -606,6 +579,15 @@ namespace Epsilon.Resources.Web.Submission
         public static string SubmitTenancyDetailsForm_RatingField_RangeErrorMessage {
             get {
                 return ResourceManager.GetString("SubmitTenancyDetailsForm_RatingField_RangeErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Optional.
+        /// </summary>
+        public static string SubmitTenancyDetailsForm_RatingFieldsHeader {
+            get {
+                return ResourceManager.GetString("SubmitTenancyDetailsForm_RatingFieldsHeader", resourceCulture);
             }
         }
         

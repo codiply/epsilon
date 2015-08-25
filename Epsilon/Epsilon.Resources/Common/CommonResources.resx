@@ -222,4 +222,7 @@
   <data name="TokenAccountCreditedForThisAction" xml:space="preserve">
     <value>Your account has been credited with tokens for this action.</value>
   </data>
+  <data name="StarRating_Clear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
 </root>

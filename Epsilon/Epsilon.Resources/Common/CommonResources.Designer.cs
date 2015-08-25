@@ -8,10 +8,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Epsilon.Resources.Common
-{
-
-
+namespace Epsilon.Resources.Common {
+    using System;
+    
+    
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -282,6 +282,15 @@ namespace Epsilon.Resources.Common
         public static string StarRating_5_Title {
             get {
                 return ResourceManager.GetString("StarRating_5_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Clear.
+        /// </summary>
+        public static string StarRating_Clear {
+            get {
+                return ResourceManager.GetString("StarRating_Clear", resourceCulture);
             }
         }
         

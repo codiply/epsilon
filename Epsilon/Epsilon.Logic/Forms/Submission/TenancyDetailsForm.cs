@@ -23,7 +23,7 @@ namespace Epsilon.Logic.Forms.Submission
             ErrorMessageResourceType = typeof(SubmissionResources),
             ErrorMessageResourceName = SubmissionResourceName.SubmitTenancyDetailsForm_FieldRentPerMonth_RangeErrorMessage)]
         [Display(ResourceType = typeof(SubmissionResources), Name = SubmissionResourceName.SubmitTenancyDetailsForm_FieldRentPerMonth_DisplayName)]
-        public decimal RentPerMonth { get; set; }
+        public decimal? RentPerMonth { get; set; }
 
         [Required(ErrorMessageResourceType = typeof(SubmissionResources),
             ErrorMessageResourceName = SubmissionResourceName.SubmitTenancyDetailsForm_FieldNumberOfBedrooms_RequiredErrorMessage)]
@@ -31,7 +31,7 @@ namespace Epsilon.Logic.Forms.Submission
             ErrorMessageResourceType = typeof(SubmissionResources),
             ErrorMessageResourceName = SubmissionResourceName.SubmitTenancyDetailsForm_FieldNumberOfBedrooms_RangeErrorMessage)]
         [Display(ResourceType = typeof(SubmissionResources), Name = SubmissionResourceName.SubmitTenancyDetailsForm_FieldNumberOfBedrooms_DisplayName)]
-        public byte NumberOfBedrooms { get; set; }
+        public byte? NumberOfBedrooms { get; set; }
 
         [Required(ErrorMessageResourceType = typeof(SubmissionResources),
             ErrorMessageResourceName = SubmissionResourceName.SubmitTenancyDetailsForm_FieldIsPartOfProperty_RequiredErrorMessage)]
@@ -43,29 +43,23 @@ namespace Epsilon.Logic.Forms.Submission
         [Display(ResourceType = typeof(SubmissionResources), Name = SubmissionResourceName.SubmitTenancyDetailsForm_FieldIsFurnished_DisplayName)]
         public bool IsFurnished { get; set; }
 
-        [Required(ErrorMessageResourceType = typeof(SubmissionResources),
-            ErrorMessageResourceName = SubmissionResourceName.SubmitTenancyDetailsForm_FieldPropertyConditionRating_RequiredErrorMessage)]
         [Range(AppConstant.RATING_MIN_VALUE, AppConstant.RATING_MAX_VALUE,
             ErrorMessageResourceType = typeof(SubmissionResources),
             ErrorMessageResourceName = SubmissionResourceName.SubmitTenancyDetailsForm_RatingField_RangeErrorMessage)]
         [Display(ResourceType = typeof(SubmissionResources), Name = SubmissionResourceName.SubmitTenancyDetailsForm_FieldPropertyConditionRating_DisplayName)]
-        public byte PropertyConditionRating { get; set; }
+        public byte? PropertyConditionRating { get; set; }
 
-        [Required(ErrorMessageResourceType = typeof(SubmissionResources),
-            ErrorMessageResourceName = SubmissionResourceName.SubmitTenancyDetailsForm_FieldLandlordRating_RequiredErrorMessage)]
         [Range(AppConstant.RATING_MIN_VALUE, AppConstant.RATING_MAX_VALUE,
             ErrorMessageResourceType = typeof(SubmissionResources),
             ErrorMessageResourceName = SubmissionResourceName.SubmitTenancyDetailsForm_RatingField_RangeErrorMessage)]
         [Display(ResourceType = typeof(SubmissionResources), Name = SubmissionResourceName.SubmitTenancyDetailsForm_FieldLandlordRating_DisplayName)]
-        public byte LandlordRating { get; set; }
+        public byte? LandlordRating { get; set; }
 
-        [Required(ErrorMessageResourceType = typeof(SubmissionResources),
-                    ErrorMessageResourceName = SubmissionResourceName.SubmitTenancyDetailsForm_FieldNeighboursRating_RequiredErrorMessage)]
         [Range(AppConstant.RATING_MIN_VALUE, AppConstant.RATING_MAX_VALUE,
                     ErrorMessageResourceType = typeof(SubmissionResources),
                     ErrorMessageResourceName = SubmissionResourceName.SubmitTenancyDetailsForm_RatingField_RangeErrorMessage)]
         [Display(ResourceType = typeof(SubmissionResources), Name = SubmissionResourceName.SubmitTenancyDetailsForm_FieldNeighboursRating_DisplayName)]
-        public byte NeighboursRating { get; set; }
+        public byte? NeighboursRating { get; set; }
 
         public bool ReturnToSummary { get; set; }
 
