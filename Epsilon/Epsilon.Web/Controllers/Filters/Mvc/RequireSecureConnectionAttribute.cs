@@ -1,6 +1,5 @@
 ﻿using Epsilon.Logic.Constants;
 using Epsilon.Logic.Helpers.Interfaces;
-using Ninject;
 using System;
 using System.Web.Mvc;
 

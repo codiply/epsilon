@@ -1,6 +1,5 @@
 ﻿using Epsilon.Logic.Services.Interfaces;
 using Microsoft.AspNet.Identity;
-using Ninject;
 using System;
 using System.Web.Mvc;
 

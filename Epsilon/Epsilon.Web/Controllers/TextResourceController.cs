@@ -5,7 +5,6 @@ using Epsilon.Logic.Wrappers.Interfaces;
 using Epsilon.Web.Controllers.BaseControllers;
 using Epsilon.Web.Models.ViewModels.TextResource;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Web.Mvc;
 

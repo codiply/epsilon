@@ -1,17 +1,12 @@
 ﻿using Epsilon.Logic.Constants;
 using Epsilon.Logic.Helpers.Interfaces;
 using Epsilon.Logic.Infrastructure.Extensions;
-using Epsilon.Logic.Infrastructure.Interfaces;
 using Epsilon.Logic.Services.Interfaces;
-using Ninject;
 using System.Globalization;
 using System.Net;
 using System.Net.Http;
 using System.Threading;
-using System.Web.Http;
 using System.Web.Http.Controllers;
-using System.Web.Http.Dependencies;
-using System.Web.Http.Filters;
 
 namespace Epsilon.Web.Controllers.Filters.WebApi
 {

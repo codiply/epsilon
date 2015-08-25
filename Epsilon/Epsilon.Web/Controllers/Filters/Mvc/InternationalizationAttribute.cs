@@ -2,11 +2,9 @@
 using Epsilon.Logic.Constants.Enums;
 using Epsilon.Logic.Helpers.Interfaces;
 using Epsilon.Logic.Infrastructure.Extensions;
-using Epsilon.Logic.Infrastructure.Interfaces;
 using Epsilon.Logic.Services.Interfaces;
 using Epsilon.Resources.Common;
 using Microsoft.AspNet.Identity;
-using Ninject;
 using System;
 using System.Globalization;
 using System.Net;

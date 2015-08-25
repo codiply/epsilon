@@ -1,13 +1,9 @@
 ﻿using Epsilon.IntegrationTests.BaseFixtures;
-using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Ninject;
-using Epsilon.Logic.Wrappers.Interfaces;
 using Epsilon.Logic.Constants.Enums;
+using Epsilon.Logic.Wrappers.Interfaces;
+using Ninject;
+using NUnit.Framework;
+using System.Threading.Tasks;
 
 namespace Epsilon.IntegrationTests.Logic.Wrappers
 {

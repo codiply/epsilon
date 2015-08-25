@@ -2,7 +2,6 @@
 using Epsilon.Logic.Infrastructure.Interfaces;
 using Epsilon.Logic.Models;
 using Epsilon.Logic.Services.Interfaces;
-using Epsilon.Logic.SqlContext.Interfaces;
 using System.Threading.Tasks;
 
 namespace Epsilon.Logic.Services

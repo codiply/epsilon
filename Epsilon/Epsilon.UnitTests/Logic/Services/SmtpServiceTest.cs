@@ -1,16 +1,11 @@
 ﻿using Epsilon.Logic.Configuration.Interfaces;
-using Epsilon.Logic.Constants.Enums;
 using Epsilon.Logic.Helpers.Interfaces;
 using Epsilon.Logic.Services;
 using Epsilon.Logic.Wrappers.Interfaces;
 using Moq;
 using NUnit.Framework;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Mail;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Epsilon.UnitTests.Logic.Services
 {

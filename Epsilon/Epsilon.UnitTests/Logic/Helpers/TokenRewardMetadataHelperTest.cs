@@ -1,12 +1,7 @@
-﻿using Epsilon.Logic.Constants.Enums;
-using Epsilon.Logic.Helpers;
+﻿using Epsilon.Logic.Helpers;
 using Epsilon.Resources.Logic.TokenRewardKey;
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Epsilon.UnitTests.Logic.Helpers
 {

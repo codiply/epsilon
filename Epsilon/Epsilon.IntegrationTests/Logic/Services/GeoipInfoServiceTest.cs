@@ -2,20 +2,18 @@
 using Epsilon.Logic.Configuration.Interfaces;
 using Epsilon.Logic.Constants.Enums;
 using Epsilon.Logic.Helpers;
+using Epsilon.Logic.Infrastructure.Interfaces;
 using Epsilon.Logic.Models;
 using Epsilon.Logic.Services.Interfaces;
+using Epsilon.Logic.SqlContext.Interfaces;
 using Epsilon.Logic.Wrappers.Interfaces;
 using Moq;
 using Ninject;
 using NUnit.Framework;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Data.Entity;
-using Epsilon.Logic.SqlContext.Interfaces;
-using Epsilon.Logic.Infrastructure.Interfaces;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Epsilon.IntegrationTests.Logic.Services
 {

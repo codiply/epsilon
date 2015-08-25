@@ -2,7 +2,6 @@
 using Epsilon.Logic.Helpers.Interfaces;
 using Epsilon.Logic.Infrastructure.Extensions;
 using Epsilon.Logic.Services.Interfaces;
-using Ninject;
 using System;
 using System.Net;
 using System.Web.Mvc;

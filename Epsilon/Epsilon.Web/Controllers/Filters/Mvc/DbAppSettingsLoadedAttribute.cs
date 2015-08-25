@@ -3,7 +3,6 @@ using Epsilon.Logic.Constants.Enums;
 using Epsilon.Logic.Helpers.Interfaces;
 using Epsilon.Logic.Services.Interfaces;
 using Epsilon.Resources.Common;
-using Ninject;
 using System;
 using System.Net;
 using System.Web.Mvc;
