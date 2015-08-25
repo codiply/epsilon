@@ -61,7 +61,7 @@ namespace Epsilon.Resources.Logic.TokenRewardKey
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Tokens earned by the tenant when the tenancy information are submitted..
+        ///   Looks up a localized string similar to Tokens earned by the tenant when the tenancy information is submitted..
         /// </summary>
         public static string EarnPerTenancyDetailsSubmission_Description {
             get {
