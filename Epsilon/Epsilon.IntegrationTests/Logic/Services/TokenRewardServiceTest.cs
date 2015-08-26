@@ -135,8 +135,6 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
         #endregion
 
-
-
         #region GetTokenRewardsSummary
 
         [Test]
@@ -224,6 +222,37 @@ namespace Epsilon.IntegrationTests.Logic.Services
                     Assert.IsTrue(false,
                         String.Format("TokenReward with SchemeId '{0}' and TypeKey '{1}' does not start with 'Earn' or 'Spend'.",
                             reward.SchemeId, reward.TypeKey));
+                }
+            }
+        }
+
+        [Test]
+        public async Task AllRewardsAreDefinedForCurrentAndFutureSchemes()
+        {
+            var container = CreateContainer();
+            var tokenRewardService = container.Get<ITokenRewardService>();
+
+            var currentScheme = tokenRewardService.GetCurrentScheme();
+
+            var currentAndFutureSchemes = await DbProbe.TokenRewardSchemes
+                .Include(x => x.Rewards)
+                .Where(x => x.EffectiveFrom >= currentScheme.EffectiveFrom)
+                .ToListAsync();
+
+            var allTokenRewardKeys = EnumsHelper.TokenRewardKey.GetNames().ToList();
+
+            foreach (var scheme in currentAndFutureSchemes)
+            {
+                Assert.AreEqual(allTokenRewardKeys.Count, scheme.Rewards.Count,
+                    string.Format("The number of rewards for scheme with id '{0}' is not the expected.", scheme.Id));
+
+                foreach (var key in allTokenRewardKeys)
+                {
+                    var schemeReward = scheme.Rewards.SingleOrDefault(x => x.TypeKey.Equals(key));
+                    Assert.IsNotNull(schemeReward,
+                        string.Format("I didn't find reward with key '{0}' on scheme with id '{1}'", key, scheme.Id));
+                    Assert.IsNotNull(schemeReward.TypeKeyAsEnum,
+                        string.Format("I couldn't parse TypeKey to Enum for key '{0}' on scheme with id '{1}'.", key, scheme.Id));
                 }
             }
         }
