@@ -7,6 +7,7 @@
         GeoipClientFailure,
         GeoipRotatingClientMaxRotationsReached,
         GeoipRotatingClientSuccessAfterFailures,
+        GoogleGeocodeApiClientException,
         GoogleGeocodeApiClientReturnedNull,
         GoogleGeocodeApiStatusOverQueryLimitMaxRetriesReached,
         GoogleGeocodeApiStatusOverQueryLimitSuccessAfterRetrying,

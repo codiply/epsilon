@@ -286,6 +286,7 @@ namespace Epsilon.Logic.Services
             {
                 _elmahHelper.Raise(ex);
                 _adminAlertService.SendAlert(AdminAlertKey.GoogleGeocodeApiClientException);
+                await _adminEventLogService.Log(AdminEventLogKey.GoogleGeocodeApiClientException, null);
             }
 
             return null;
