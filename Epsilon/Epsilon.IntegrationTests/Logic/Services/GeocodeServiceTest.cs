@@ -96,6 +96,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             SetupAdminAlertService(container, (key, doNotUseDatabase) => { adminAlertKeyUsed = key; adminAlertDoNotUseDatabase = doNotUseDatabase; });
             SetupAdminEventLogService(container, (key, extraInfo) => { adminEventLogKeyUsed = key; extraInfoUsed = extraInfo; });
+            SetupElmahHelper(container, (ex) => { throw new Exception("ElmahHelper should not be called."); });
 
             var service = container.Get<IGeocodeService>();
 
@@ -135,6 +136,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             SetupAdminAlertService(container, (key, doNotUseDatabase) => { adminAlertKeyUsed = key; adminAlertDoNotUseDatabase = doNotUseDatabase; });
             SetupAdminEventLogService(container, (key, extraInfo) => { adminEventLogKeyUsed = key; extraInfoUsed = extraInfo; });
+            SetupElmahHelper(container, (ex) => { throw new Exception("ElmahHelper should not be called."); });
 
             var service = container.Get<IGeocodeService>();
             var response = await service.GeocodeAddress(address, region);
@@ -214,6 +216,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             SetupAdminAlertService(container, (key, doNotUseDatabase) => { adminAlertKeyUsed = key; adminAlertDoNotUseDatabase = doNotUseDatabase; });
             SetupAdminEventLogService(container, (key, extraInfo) => { adminEventLogKeyUsed = key; extraInfoUsed = extraInfo; });
+            SetupElmahHelper(container, (ex) => { throw new Exception("ElmahHelper should not be called."); });
 
             var service = container.Get<IGeocodeService>();
             var response = await service.GeocodeAddress(address, region);
@@ -251,6 +254,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             SetupAdminAlertService(container, (key, doNotUseDatabase) => { adminAlertKeyUsed = key; adminAlertDoNotUseDatabase = doNotUseDatabase; });
             SetupAdminEventLogService(container, (key, extraInfo) => { adminEventLogKeyUsed = key; extraInfoUsed = extraInfo; });
+            SetupElmahHelper(container, (ex) => { throw new Exception("ElmahHelper should not be called."); });
 
             var service = container.Get<IGeocodeService>();
             var response = await service.GeocodeAddress(address, region);
@@ -267,6 +271,52 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.IsNotNull(extraInfoUsed, "The extra info on the admin event is not the expected.");
             Assert.AreEqual(STATUS_TEXT_UNEXPECTED, extraInfoUsed[AdminEventLogExtraInfoKey.ResponseStatus],
                 "ResponseStatus on the extra info is not the expected.");
+        }
+
+        [Test]
+        public async Task GeocodeAddress_GeocodeClientThrowsException()
+        {
+            var apiKey = "api-key";
+            var delayBetweenRetries = TimeSpan.FromSeconds(0.2);
+            var maxRetries = 1;
+
+            var address = "some-address";
+            var exceptionMessage = "exception-message";
+            var region = EnumsHelper.CountryId.ToString(CountryId.GB);
+
+            var container = CreateContainer();
+            SetupConfig(container, apiKey, delayBetweenRetries, maxRetries);
+            var exceptionToThrow = new Exception(exceptionMessage);
+            SetupGeocodeClient(container, apiKey, address, region, (add, reg) => { throw exceptionToThrow; });
+
+            string adminAlertKeyUsed = null;
+            bool? adminAlertDoNotUseDatabase = null;
+            AdminEventLogKey? adminEventLogKeyUsed = null;
+            Dictionary<string, object> extraInfoUsed = null;
+            Exception exceptionLogged = null;
+
+            SetupAdminAlertService(container, (key, doNotUseDatabase) => { adminAlertKeyUsed = key; adminAlertDoNotUseDatabase = doNotUseDatabase; });
+            SetupAdminEventLogService(container, (key, extraInfo) => { adminEventLogKeyUsed = key; extraInfoUsed = extraInfo; });
+            SetupElmahHelper(container, (ex) => { exceptionLogged = ex; });
+
+            var service = container.Get<IGeocodeService>();
+            var response = await service.GeocodeAddress(address, region);
+
+            Assert.AreEqual(GeocodeAddressStatus.ServiceUnavailable, response.Status, "The Status on the response is not the expected.");
+            Assert.IsNotNull(adminAlertKeyUsed, "An admin alert was not sent.");
+            Assert.AreEqual(AdminAlertKey.GoogleGeocodeApiClientException, adminAlertKeyUsed,
+                "The key on the admin alert is not the expected.");
+            Assert.AreEqual(false, adminAlertDoNotUseDatabase, "The default value for doNotUseDatabase was not used.");
+
+            Assert.IsNotNull(adminEventLogKeyUsed, "An admin event was not logged.");
+            Assert.AreEqual(AdminEventLogKey.GoogleGeocodeApiClientException, adminEventLogKeyUsed,
+                "The key used in the admin event is not the expected.");
+            Assert.IsNotNull(extraInfoUsed, "The extra info on the admin event is not the expected.");
+            Assert.AreEqual(exceptionMessage, extraInfoUsed[AdminEventLogExtraInfoKey.ErrorMessage],
+                "ErrorMessage on the extra info is not the expected.");
+
+            Assert.IsNotNull(exceptionLogged, "The exception was not logged using the ElmahHelper.");
+            Assert.AreSame(exceptionToThrow, exceptionLogged, "The exception logged is not the expected.");
         }
 
         #endregion
@@ -378,6 +428,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             SetupAdminAlertService(container, (key, doNotUseDatabase) => { adminAlertKeyUsed = key; adminAlertDoNotUseDatabase = doNotUseDatabase; });
             SetupAdminEventLogService(container, (key, extraInfo) => { adminEventLogKeyUsed = key; extraInfoUsed = extraInfo; });
+            SetupElmahHelper(container, (ex) => { throw new Exception("ElmahHelper should not be called."); });
 
             var service = container.Get<IGeocodeService>();
             var status = await service.GeocodePostcode(postcode, region);
@@ -420,6 +471,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             SetupAdminAlertService(container, (key, doNotUseDatabase) => { adminAlertKeyUsed = key; adminAlertDoNotUseDatabase = doNotUseDatabase; });
             SetupAdminEventLogService(container, (key, extraInfo) => { adminEventLogKeyUsed = key; extraInfoUsed = extraInfo; });
+            SetupElmahHelper(container, (ex) => { throw new Exception("ElmahHelper should not be called."); });
 
             var service = container.Get<IGeocodeService>();
             var status = await service.GeocodePostcode(postcode, region);
@@ -465,6 +517,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             SetupAdminAlertService(container, (key, doNotUseDatabase) => { adminAlertKeyUsed = key; adminAlertDoNotUseDatabase = doNotUseDatabase; });
             SetupAdminEventLogService(container, (key, extraInfo) => { adminEventLogKeyUsed = key; extraInfoUsed = extraInfo; });
+            SetupElmahHelper(container, (ex) => { throw new Exception("ElmahHelper should not be called."); });
 
             var service = container.Get<IGeocodeService>();
             var status = await service.GeocodePostcode(postcode, region);
@@ -505,6 +558,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             SetupAdminAlertService(container, (key, doNotUseDatabase) => { adminAlertKeyUsed = key; adminAlertDoNotUseDatabase = doNotUseDatabase; });
             SetupAdminEventLogService(container, (key, extraInfo) => { adminEventLogKeyUsed = key; extraInfoUsed = extraInfo; });
+            SetupElmahHelper(container, (ex) => { throw new Exception("ElmahHelper should not be called."); });
 
             var service = container.Get<IGeocodeService>();
             var status = await service.GeocodePostcode(postcode, region);
@@ -538,6 +592,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var container = CreateContainer();
             SetupConfig(container, apiKey, delayBetweenRetries, maxRetries);
             SetupGeocodeClient(container, apiKey, postcode, region, (add, reg) => new GeocodeResponse() { StatusText = STATUS_TEXT_UNEXPECTED });
+            SetupElmahHelper(container, (ex) => { throw new Exception("ElmahHelper should not be called."); });
 
             string adminAlertKeyUsed = null;
             bool? adminAlertDoNotUseDatabase = null;
@@ -565,6 +620,52 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             var retrievedPostcodeGeometry = await DbProbe.PostcodeGeometries.FindAsync(region, postcode);
             Assert.IsNull(retrievedPostcodeGeometry, "A PostcodeGeometry should not be stored in the database.");
+        }
+
+        [Test]
+        public async Task GeocodePostcode_GeocodeClientThrowsException()
+        {
+            var apiKey = "api-key";
+            var delayBetweenRetries = TimeSpan.FromSeconds(0.2);
+            var maxRetries = 1;
+
+            var postcode = "some-postcode";
+            var exceptionMessage = "exception-message";
+            var region = EnumsHelper.CountryId.ToString(CountryId.GB);
+
+            var container = CreateContainer();
+            SetupConfig(container, apiKey, delayBetweenRetries, maxRetries);
+            var exceptionToThrow = new Exception(exceptionMessage);
+            SetupGeocodeClient(container, apiKey, postcode, region, (add, reg) => { throw exceptionToThrow; });
+
+            string adminAlertKeyUsed = null;
+            bool? adminAlertDoNotUseDatabase = null;
+            AdminEventLogKey? adminEventLogKeyUsed = null;
+            Dictionary<string, object> extraInfoUsed = null;
+            Exception exceptionLogged = null;
+
+            SetupAdminAlertService(container, (key, doNotUseDatabase) => { adminAlertKeyUsed = key; adminAlertDoNotUseDatabase = doNotUseDatabase; });
+            SetupAdminEventLogService(container, (key, extraInfo) => { adminEventLogKeyUsed = key; extraInfoUsed = extraInfo; });
+            SetupElmahHelper(container, (ex) => { exceptionLogged = ex; });
+
+            var service = container.Get<IGeocodeService>();
+            var status = await service.GeocodePostcode(postcode, region);
+
+            Assert.AreEqual(GeocodePostcodeStatus.ServiceUnavailable, status, "The status is not the expected.");
+            Assert.IsNotNull(adminAlertKeyUsed, "An admin alert was not sent.");
+            Assert.AreEqual(AdminAlertKey.GoogleGeocodeApiClientException, adminAlertKeyUsed,
+                "The key on the admin alert is not the expected.");
+            Assert.AreEqual(false, adminAlertDoNotUseDatabase, "The default value for doNotUseDatabase was not used.");
+
+            Assert.IsNotNull(adminEventLogKeyUsed, "An admin event was not logged.");
+            Assert.AreEqual(AdminEventLogKey.GoogleGeocodeApiClientException, adminEventLogKeyUsed,
+                "The key used in the admin event is not the expected.");
+            Assert.IsNotNull(extraInfoUsed, "The extra info on the admin event is not the expected.");
+            Assert.AreEqual(exceptionMessage, extraInfoUsed[AdminEventLogExtraInfoKey.ErrorMessage],
+                "ErrorMessage on the extra info is not the expected.");
+
+            Assert.IsNotNull(exceptionLogged, "The exception was not logged using the ElmahHelper.");
+            Assert.AreSame(exceptionToThrow, exceptionLogged, "The exception logged is not the expected.");
         }
 
         #endregion

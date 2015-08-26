@@ -285,8 +285,12 @@ namespace Epsilon.Logic.Services
             catch(Exception ex)
             {
                 _elmahHelper.Raise(ex);
+                var extraInfo = new Dictionary<string, object>
+                {
+                    { AdminEventLogExtraInfoKey.ErrorMessage, ex.Message }
+                };
+                await _adminEventLogService.Log(AdminEventLogKey.GoogleGeocodeApiClientException, extraInfo);
                 _adminAlertService.SendAlert(AdminAlertKey.GoogleGeocodeApiClientException);
-                await _adminEventLogService.Log(AdminEventLogKey.GoogleGeocodeApiClientException, null);
             }
 
             return null;
