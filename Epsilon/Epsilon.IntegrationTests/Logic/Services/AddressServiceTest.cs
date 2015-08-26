@@ -191,15 +191,17 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             var userIdUsedInAntiAbuse = string.Empty;
             var ipAddressUsedInAntiAbuse = string.Empty;
+            CountryId? countryIdUsedInAntiAbuse = null;
             AddressForm addressFormUsedInVerification = null;
             var userIdUsedInVerification = string.Empty;
             var ipAddressUsedInVerification = string.Empty;
 
             var containerForAdd = CreateContainer();
-            SetupAntiAbuseServiceResponse(containerForAdd, (userId, ipAddr) => 
+            SetupAntiAbuseServiceResponse(containerForAdd, (userId, ipAddr, cId) => 
                 {
                     userIdUsedInAntiAbuse = userId;
                     ipAddressUsedInAntiAbuse = ipAddr;
+                    countryIdUsedInAntiAbuse = cId;
                 }, new AntiAbuseServiceResponse
                 {
                     IsRejected = false
@@ -229,6 +231,8 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             Assert.AreEqual(user.Id, userIdUsedInAntiAbuse, "UserId used in AntiAbuseService is not the expected.");
             Assert.AreEqual(ipAddress, ipAddressUsedInAntiAbuse, "IpAddress used in AntiAbuseService is not the expected");
+            Assert.AreEqual(EnumsHelper.CountryId.Parse(countryId), countryIdUsedInAntiAbuse,
+                "CountryId used in AntiAbuseService is not the expectd.");
             Assert.IsNotNull(addressFormUsedInVerification, "Address form used in VerificationService is null.");
             Assert.AreEqual(addressForm.UniqueId, addressFormUsedInVerification.UniqueId, 
                 "AddressId on the form submitted for verification is not the expected.");
@@ -303,7 +307,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 ViewportSouthwestLongitude = 16.0
             };
             var containerForSecondAdd = CreateContainer();
-            SetupAntiAbuseServiceResponse(containerForSecondAdd, (userId, ipAddr) => { }, new AntiAbuseServiceResponse
+            SetupAntiAbuseServiceResponse(containerForSecondAdd, (userId, ipAddr, cId) => { }, new AntiAbuseServiceResponse
             {
                 IsRejected = false
             });
@@ -334,15 +338,17 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             var userIdUsedInAntiAbuse = string.Empty;
             var ipAddressUsedInAntiAbuse = string.Empty;
+            CountryId? countryIdUsedInAntiAbuse = null;
             AddressForm addressFormUsedInVerification = null;
             var userIdUsedInVerification = string.Empty;
             var ipAddressUsedInVerification = string.Empty;
 
             var containerForAdd = CreateContainer();
-            SetupAntiAbuseServiceResponse(containerForAdd, (userId, ipAddr) =>
+            SetupAntiAbuseServiceResponse(containerForAdd, (userId, ipAddr, cId) =>
                 {
                     userIdUsedInAntiAbuse = userId;
                     ipAddressUsedInAntiAbuse = ipAddr;
+                    countryIdUsedInAntiAbuse = cId;
                 }, new AntiAbuseServiceResponse
                 {
                     IsRejected = true,
@@ -368,6 +374,8 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             Assert.AreEqual(user.Id, userIdUsedInAntiAbuse, "UserId used in AntiAbuseService is not the expected.");
             Assert.AreEqual(ipAddress, ipAddressUsedInAntiAbuse, "IpAddress used in AntiAbuseService is not the expected");
+            Assert.AreEqual(EnumsHelper.CountryId.Parse(countryId), countryIdUsedInAntiAbuse,
+                "CountryId used in AntiAbuseService is not the expectd.");
             Assert.IsNull(addressFormUsedInVerification, "Address form should not be submitted for verification.");
             Assert.IsEmpty(userIdUsedInVerification, "UserId used in Verification is not the expected.");
             Assert.IsEmpty(ipAddressUsedInVerification, "IpAddress used in Verification is not the expected.");
@@ -383,7 +391,6 @@ namespace Epsilon.IntegrationTests.Logic.Services
         [Test]
         public async Task AddAddress_RejectedByVerificationService()
         {
-
             var ipAddress = "1.2.3.4";
             var countryId = "GB";
             var rejectionReason = "VerficiationService Rejection Reason";
@@ -393,15 +400,17 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             var userIdUsedInAntiAbuse = string.Empty;
             var ipAddressUsedInAntiAbuse = string.Empty;
+            CountryId? countryIdUsedInAntiAbuse = null;
             AddressForm addressFormUsedInVerification = null;
             var userIdUsedInVerification = string.Empty;
             var ipAddressUsedInVerification = string.Empty;
 
             var containerForAdd = CreateContainer();
-            SetupAntiAbuseServiceResponse(containerForAdd, (userId, ipAddr) =>
+            SetupAntiAbuseServiceResponse(containerForAdd, (userId, ipAddr, cId) =>
                 {
                     userIdUsedInAntiAbuse = userId;
                     ipAddressUsedInAntiAbuse = ipAddr;
+                    countryIdUsedInAntiAbuse = cId;
                 }, new AntiAbuseServiceResponse
                 {
                     IsRejected = false
@@ -426,7 +435,9 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.AreEqual(rejectionReason, outcome.RejectionReason, "The rejection reason is not the expected.");
 
             Assert.AreEqual(user.Id, userIdUsedInAntiAbuse, "UserId used in AntiAbuseService is not the expected.");
-            Assert.AreEqual(ipAddress, ipAddressUsedInAntiAbuse, "IpAddress used in AntiAbuseService is not the expected");
+            Assert.AreEqual(ipAddress, ipAddressUsedInAntiAbuse, "IpAddress used in AntiAbuseService is not the expected.");
+            Assert.AreEqual(EnumsHelper.CountryId.Parse(countryId), countryIdUsedInAntiAbuse,
+                "CountryId used in AntiAbuseService is not the expectd.");
             Assert.IsNotNull(addressFormUsedInVerification, "Address form used in VerificationService is null.");
             Assert.AreEqual(addressForm.UniqueId, addressFormUsedInVerification.UniqueId,
                 "AddressId on the form submitted for verification is not the expected.");
@@ -539,7 +550,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             container.Rebind<IAddressServiceConfig>().ToConstant(mockConfig.Object);
         }
 
-        private void SetupAntiAbuseServiceResponse(IKernel container, Action<string, string> callback, 
+        private void SetupAntiAbuseServiceResponse(IKernel container, Action<string, string, CountryId> callback, 
             AntiAbuseServiceResponse response)
         {
             var mockAntiAbuseService = new Mock<IAntiAbuseService>();
