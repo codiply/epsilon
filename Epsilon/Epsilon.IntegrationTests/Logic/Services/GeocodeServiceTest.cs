@@ -1,4 +1,6 @@
 ﻿using Epsilon.IntegrationTests.BaseFixtures;
+using Epsilon.Logic.Configuration.Interfaces;
+using Epsilon.Logic.Constants;
 using Epsilon.Logic.Constants.Enums;
 using Epsilon.Logic.Helpers;
 using Epsilon.Logic.Services.Interfaces;
@@ -8,6 +10,7 @@ using Moq;
 using Ninject;
 using NUnit.Framework;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -15,6 +18,13 @@ namespace Epsilon.IntegrationTests.Logic.Services
 {
     public class GeocodeServiceTest : BaseIntegrationTestWithRollback
     {
+        private const string STATUS_TEXT_OK = "OK";
+        private const string STATUS_TEXT_ZERO_RESULTS = "ZERO_RESULTS";
+        private const string STATUS_TEXT_OVER_QUERY_LIMIT = "OVER_QUERY_LIMIT";
+        private const string STATUS_TEXT_REQUEST_DENIED = "REQUEST_DENIED";
+        private const string STATUS_TEXT_INVALID_REQUEST = "INVALID_REQUEST";
+        private const string STATUS_TEXT_UNKNOWN_ERROR = "UNKNOWN_ERROR";
+        private const string STATUS_TEXT_UNEXPECTED = "SOME_UNEXPECTED_TEXT";
 
         private readonly double LatitudeLongitudePrecision = 0.00001;
         private readonly TimeSpan DelayBetweenCallsToTheApi = TimeSpan.FromSeconds(0.2);
@@ -63,6 +73,200 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 "Found discrepancy in ViewportSouthwestLatitude.");
             Assert.That(response.Geometry.ViewportSouthwestLongitude, Is.EqualTo(geocodeClientResponseResult.Geometry.Viewport.Southwest.Longitude).Within(LatitudeLongitudePrecision),
                 "Found discrepancy in ViewportSouthwestLongitude.");
+        }
+
+        [Test]
+        public async Task GeocodeAddress_GeocodeClientReturnsNull()
+        {
+            var apiKey = "api-key";
+            var delayBetweenRetries = TimeSpan.FromSeconds(0.2);
+            var maxRetries = 1;
+
+            var address = "some-address";
+            var region = EnumsHelper.CountryId.ToString(CountryId.GB);
+
+            var container = CreateContainer();
+            SetupConfig(container, apiKey, delayBetweenRetries, maxRetries);
+            SetupGeocodeClient(container, apiKey, address, region, (add, reg) => null);
+
+            string adminAlertKeyUsed = null;
+            bool? adminAlertDoNotUseDatabase = null;
+            AdminEventLogKey? adminEventLogKeyUsed = null;
+            Dictionary<string, object> extraInfoUsed = null;
+
+            SetupAdminAlertService(container, (key, doNotUseDatabase) => { adminAlertKeyUsed = key; adminAlertDoNotUseDatabase = doNotUseDatabase; });
+            SetupAdminEventLogService(container, (key, extraInfo) => { adminEventLogKeyUsed = key; extraInfoUsed = extraInfo; });
+
+            var service = container.Get<IGeocodeService>();
+
+            var response = await service.GeocodeAddress(address, region);
+
+            Assert.AreEqual(GeocodeAddressStatus.ServiceUnavailable, response.Status, "The Status on the response is not the expected.");
+
+            Assert.IsNotNull(adminAlertKeyUsed, "An admin alert was not sent.");
+            Assert.AreEqual(AdminAlertKey.GoogleGeocodeApiClientReturnedNull, adminAlertKeyUsed,
+                "The key on the admin alert is not the expected.");
+            Assert.AreEqual(false, adminAlertDoNotUseDatabase, "The default value for doNotUseDatabase was not used.");
+
+            Assert.IsNotNull(adminEventLogKeyUsed, "An admin event was not logged.");
+            Assert.AreEqual(AdminEventLogKey.GoogleGeocodeApiClientReturnedNull, adminEventLogKeyUsed,
+                "The key used in the admin event is not the expected.");
+            Assert.IsNull(extraInfoUsed, "The extra info on the admin event is not the expected.");
+        }
+
+        [Test]
+        public async Task GeocodeAddress_GeocodeClientReturns_InvalidRequest()
+        {
+            var apiKey = "api-key";
+            var delayBetweenRetries = TimeSpan.FromSeconds(0.2);
+            var maxRetries = 1;
+
+            var address = "some-address";
+            var region = EnumsHelper.CountryId.ToString(CountryId.GB);
+
+            var container = CreateContainer();
+            SetupConfig(container, apiKey, delayBetweenRetries, maxRetries);
+            SetupGeocodeClient(container, apiKey, address, region, (add, reg) => new GeocodeResponse() { StatusText = STATUS_TEXT_INVALID_REQUEST });
+
+            string adminAlertKeyUsed = null;
+            bool? adminAlertDoNotUseDatabase = null;
+            AdminEventLogKey? adminEventLogKeyUsed = null;
+            Dictionary<string, object> extraInfoUsed = null;
+
+            SetupAdminAlertService(container, (key, doNotUseDatabase) => { adminAlertKeyUsed = key; adminAlertDoNotUseDatabase = doNotUseDatabase; });
+            SetupAdminEventLogService(container, (key, extraInfo) => { adminEventLogKeyUsed = key; extraInfoUsed = extraInfo; });
+
+            var service = container.Get<IGeocodeService>();
+            var response = await service.GeocodeAddress(address, region);
+            
+            Assert.AreEqual(GeocodeAddressStatus.ServiceUnavailable, response.Status, "The Status on the response is not the expected.");
+            Assert.IsNotNull(adminAlertKeyUsed, "An admin alert was not sent.");
+            Assert.AreEqual(AdminAlertKey.GoogleGeocodeApiStatusInvalidRequest, adminAlertKeyUsed,
+                "The key on the admin alert is not the expected.");
+            Assert.AreEqual(false, adminAlertDoNotUseDatabase, "The default value for doNotUseDatabase was not used.");
+
+            Assert.IsNotNull(adminEventLogKeyUsed, "An admin event was not logged.");
+            Assert.AreEqual(AdminEventLogKey.GoogleGeocodeApiStatusInvalidRequest, adminEventLogKeyUsed,
+                "The key used in the admin event is not the expected.");
+            Assert.IsNotNull(extraInfoUsed, "The extra info on the admin event is not the expected.");
+
+            Assert.AreEqual(address, extraInfoUsed[AdminEventLogExtraInfoKey.Address],
+                "Address on the extra info is not the expected.");
+            Assert.AreEqual(region, extraInfoUsed[AdminEventLogExtraInfoKey.Region],
+                "Region on the extra info is not the expected.");
+        }
+
+        [Test]
+        public async Task GeocodeAddress_GeocodeClientReturns_RequestDenied()
+        {
+            var apiKey = "api-key";
+            var delayBetweenRetries = TimeSpan.FromSeconds(0.2);
+            var maxRetries = 1;
+
+            var address = "some-address";
+            var region = EnumsHelper.CountryId.ToString(CountryId.GB);
+
+            var container = CreateContainer();
+            SetupConfig(container, apiKey, delayBetweenRetries, maxRetries);
+            SetupGeocodeClient(container, apiKey, address, region, (add, reg) => new GeocodeResponse() { StatusText = STATUS_TEXT_REQUEST_DENIED });
+
+            string adminAlertKeyUsed = null;
+            bool? adminAlertDoNotUseDatabase = null;
+            AdminEventLogKey? adminEventLogKeyUsed = null;
+            Dictionary<string, object> extraInfoUsed = null;
+
+            SetupAdminAlertService(container, (key, doNotUseDatabase) => { adminAlertKeyUsed = key; adminAlertDoNotUseDatabase = doNotUseDatabase; });
+            SetupAdminEventLogService(container, (key, extraInfo) => { adminEventLogKeyUsed = key; extraInfoUsed = extraInfo; });
+
+            var service = container.Get<IGeocodeService>();
+            var response = await service.GeocodeAddress(address, region);
+
+            Assert.AreEqual(GeocodeAddressStatus.ServiceUnavailable, response.Status, "The Status on the response is not the expected.");
+            Assert.IsNotNull(adminAlertKeyUsed, "An admin alert was not sent.");
+            Assert.AreEqual(AdminAlertKey.GoogleGeocodeApiStatusRequestDenied, adminAlertKeyUsed,
+                "The key on the admin alert is not the expected.");
+            Assert.AreEqual(false, adminAlertDoNotUseDatabase, "The default value for doNotUseDatabase was not used.");
+
+            Assert.IsNotNull(adminEventLogKeyUsed, "An admin event was not logged.");
+            Assert.AreEqual(AdminEventLogKey.GoogleGeocodeApiStatusRequestDenied, adminEventLogKeyUsed,
+                "The key used in the admin event is not the expected.");
+            Assert.IsNull(extraInfoUsed, "The extra info on the admin event is not the expected.");
+        }
+
+        [Test]
+        public async Task GeocodeAddress_GeocodeClientReturns_UnknownError()
+        {
+            var apiKey = "api-key";
+            var delayBetweenRetries = TimeSpan.FromSeconds(0.2);
+            var maxRetries = 1;
+
+            var address = "some-address";
+            var region = EnumsHelper.CountryId.ToString(CountryId.GB);
+
+            var container = CreateContainer();
+            SetupConfig(container, apiKey, delayBetweenRetries, maxRetries);
+            SetupGeocodeClient(container, apiKey, address, region, (add, reg) => new GeocodeResponse() { StatusText = STATUS_TEXT_UNKNOWN_ERROR });
+
+            string adminAlertKeyUsed = null;
+            bool? adminAlertDoNotUseDatabase = null;
+            AdminEventLogKey? adminEventLogKeyUsed = null;
+            Dictionary<string, object> extraInfoUsed = null;
+
+            SetupAdminAlertService(container, (key, doNotUseDatabase) => { adminAlertKeyUsed = key; adminAlertDoNotUseDatabase = doNotUseDatabase; });
+            SetupAdminEventLogService(container, (key, extraInfo) => { adminEventLogKeyUsed = key; extraInfoUsed = extraInfo; });
+
+            var service = container.Get<IGeocodeService>();
+            var response = await service.GeocodeAddress(address, region);
+
+            Assert.AreEqual(GeocodeAddressStatus.ServiceUnavailable, response.Status, "The Status on the response is not the expected.");
+            Assert.IsNotNull(adminAlertKeyUsed, "An admin alert was not sent.");
+            Assert.AreEqual(AdminAlertKey.GoogleGeocodeApiStatusUknownError, adminAlertKeyUsed,
+                "The key on the admin alert is not the expected.");
+            Assert.AreEqual(false, adminAlertDoNotUseDatabase, "The default value for doNotUseDatabase was not used.");
+
+            Assert.IsNotNull(adminEventLogKeyUsed, "An admin event was not logged.");
+            Assert.AreEqual(AdminEventLogKey.GoogleGeocodeApiStatusUknownError, adminEventLogKeyUsed,
+                "The key used in the admin event is not the expected.");
+            Assert.IsNull(extraInfoUsed, "The extra info on the admin event is not the expected.");
+        }
+
+        [Test]
+        public async Task GeocodeAddress_GeocodeClientReturns_Unexpected()
+        {
+            var apiKey = "api-key";
+            var delayBetweenRetries = TimeSpan.FromSeconds(0.2);
+            var maxRetries = 1;
+
+            var address = "some-address";
+            var region = EnumsHelper.CountryId.ToString(CountryId.GB);
+
+            var container = CreateContainer();
+            SetupConfig(container, apiKey, delayBetweenRetries, maxRetries);
+            SetupGeocodeClient(container, apiKey, address, region, (add, reg) => new GeocodeResponse() { StatusText = STATUS_TEXT_UNEXPECTED });
+
+            string adminAlertKeyUsed = null;
+            bool? adminAlertDoNotUseDatabase = null;
+            AdminEventLogKey? adminEventLogKeyUsed = null;
+            Dictionary<string, object> extraInfoUsed = null;
+
+            SetupAdminAlertService(container, (key, doNotUseDatabase) => { adminAlertKeyUsed = key; adminAlertDoNotUseDatabase = doNotUseDatabase; });
+            SetupAdminEventLogService(container, (key, extraInfo) => { adminEventLogKeyUsed = key; extraInfoUsed = extraInfo; });
+
+            var service = container.Get<IGeocodeService>();
+            var response = await service.GeocodeAddress(address, region);
+
+            Assert.AreEqual(GeocodeAddressStatus.ServiceUnavailable, response.Status, "The Status on the response is not the expected.");
+            Assert.IsNotNull(adminAlertKeyUsed, "An admin alert was not sent.");
+            Assert.AreEqual(AdminAlertKey.GoogleGeocodeApiStatusUnexpected, adminAlertKeyUsed,
+                "The key on the admin alert is not the expected.");
+            Assert.AreEqual(false, adminAlertDoNotUseDatabase, "The default value for doNotUseDatabase was not used.");
+
+            Assert.IsNotNull(adminEventLogKeyUsed, "An admin event was not logged.");
+            Assert.AreEqual(AdminEventLogKey.GoogleGeocodeApiStatusUnexpected, adminEventLogKeyUsed,
+                "The key used in the admin event is not the expected.");
+            Assert.IsNotNull(extraInfoUsed, "The extra info on the admin event is not the expected.");
+            Assert.AreEqual(STATUS_TEXT_UNEXPECTED, extraInfoUsed[AdminEventLogExtraInfoKey.ResponseStatus],
+                "ResponseStatus on the extra info is not the expected.");
         }
 
         #endregion
@@ -121,8 +325,6 @@ namespace Epsilon.IntegrationTests.Logic.Services
                     "The field GeocodeOn is not in the expected range.");
         }
 
-
-
         [Test]
         public async Task GeocodePostcode_UsesExistingGeometryIfPresentInDatabase()
         {
@@ -143,14 +345,226 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.IsNotNull(retrievedPostcodeGeometryBefore2, "A PostcodeGeometry should be present in the database after the first geocoding.");
 
             var container2 = CreateContainer();
+            var apiKey = container2.Get<IGeocodeServiceConfig>().GoogleApiServerKey;
             var geocodeClientUsed = false;
-            SetupMockGeocodeClient((add, reg) => { geocodeClientUsed = true; }, new GeocodeResponse());
+
+            SetupGeocodeClient(container2, apiKey, postcode, countryId, (add, reg) => { geocodeClientUsed = true; return new GeocodeResponse(); });
             var service2 = container2.Get<IGeocodeService>();
 
             await Task.Delay(DelayBetweenCallsToTheApi);
             var status2 = await service2.GeocodePostcode(postcode, countryId);
             Assert.AreEqual(GeocodePostcodeStatus.Success, status2, "The status of the second geocoding was not the expected.");
             Assert.IsFalse(geocodeClientUsed, "The geocoding API should not be called the second time.");
+        }
+
+        [Test]
+        public async Task GeocodePostcode_GeocodeClientReturnsNull()
+        {
+            var apiKey = "api-key";
+            var delayBetweenRetries = TimeSpan.FromSeconds(0.2);
+            var maxRetries = 1;
+
+            var postcode = "some-postcode";
+            var region = EnumsHelper.CountryId.ToString(CountryId.GB);
+
+            var container = CreateContainer();
+            SetupConfig(container, apiKey, delayBetweenRetries, maxRetries);
+            SetupGeocodeClient(container, apiKey, postcode, region, (add, reg) => null);
+
+            string adminAlertKeyUsed = null;
+            bool? adminAlertDoNotUseDatabase = null;
+            AdminEventLogKey? adminEventLogKeyUsed = null;
+            Dictionary<string, object> extraInfoUsed = null;
+
+            SetupAdminAlertService(container, (key, doNotUseDatabase) => { adminAlertKeyUsed = key; adminAlertDoNotUseDatabase = doNotUseDatabase; });
+            SetupAdminEventLogService(container, (key, extraInfo) => { adminEventLogKeyUsed = key; extraInfoUsed = extraInfo; });
+
+            var service = container.Get<IGeocodeService>();
+            var status = await service.GeocodePostcode(postcode, region);
+
+            Assert.AreEqual(GeocodePostcodeStatus.ServiceUnavailable, status, "The status is not the expected.");
+
+            Assert.IsNotNull(adminAlertKeyUsed, "An admin alert was not sent.");
+            Assert.AreEqual(AdminAlertKey.GoogleGeocodeApiClientReturnedNull, adminAlertKeyUsed,
+                "The key on the admin alert is not the expected.");
+            Assert.AreEqual(false, adminAlertDoNotUseDatabase, "The default value for doNotUseDatabase was not used.");
+
+            Assert.IsNotNull(adminEventLogKeyUsed, "An admin event was not logged.");
+            Assert.AreEqual(AdminEventLogKey.GoogleGeocodeApiClientReturnedNull, adminEventLogKeyUsed,
+                "The key used in the admin event is not the expected.");
+            Assert.IsNull(extraInfoUsed, "The extra info on the admin event is not the expected.");
+
+            var retrievedPostcodeGeometry = await DbProbe.PostcodeGeometries.FindAsync(region, postcode);
+            Assert.IsNull(retrievedPostcodeGeometry, "A PostcodeGeometry should not be stored in the database.");
+
+        }
+
+        [Test]
+        public async Task GeocodePostcode_GeocodeClientReturns_InvalidRequest()
+        {
+            var apiKey = "api-key";
+            var delayBetweenRetries = TimeSpan.FromSeconds(0.2);
+            var maxRetries = 1;
+
+            var postcode = "some-postcode";
+            var region = EnumsHelper.CountryId.ToString(CountryId.GB);
+
+            var container = CreateContainer();
+            SetupConfig(container, apiKey, delayBetweenRetries, maxRetries);
+            SetupGeocodeClient(container, apiKey, postcode, region, (add, reg) => new GeocodeResponse() { StatusText = STATUS_TEXT_INVALID_REQUEST });
+
+            string adminAlertKeyUsed = null;
+            bool? adminAlertDoNotUseDatabase = null;
+            AdminEventLogKey? adminEventLogKeyUsed = null;
+            Dictionary<string, object> extraInfoUsed = null;
+
+            SetupAdminAlertService(container, (key, doNotUseDatabase) => { adminAlertKeyUsed = key; adminAlertDoNotUseDatabase = doNotUseDatabase; });
+            SetupAdminEventLogService(container, (key, extraInfo) => { adminEventLogKeyUsed = key; extraInfoUsed = extraInfo; });
+
+            var service = container.Get<IGeocodeService>();
+            var status = await service.GeocodePostcode(postcode, region);
+
+            Assert.AreEqual(GeocodePostcodeStatus.ServiceUnavailable, status, "The status is not the expected.");
+            Assert.IsNotNull(adminAlertKeyUsed, "An admin alert was not sent.");
+            Assert.AreEqual(AdminAlertKey.GoogleGeocodeApiStatusInvalidRequest, adminAlertKeyUsed,
+                "The key on the admin alert is not the expected.");
+            Assert.AreEqual(false, adminAlertDoNotUseDatabase, "The default value for doNotUseDatabase was not used.");
+
+            Assert.IsNotNull(adminEventLogKeyUsed, "An admin event was not logged.");
+            Assert.AreEqual(AdminEventLogKey.GoogleGeocodeApiStatusInvalidRequest, adminEventLogKeyUsed,
+                "The key used in the admin event is not the expected.");
+            Assert.IsNotNull(extraInfoUsed, "The extra info on the admin event is not the expected.");
+
+            Assert.AreEqual(postcode, extraInfoUsed[AdminEventLogExtraInfoKey.Address],
+                "Address on the extra info is not the expected.");
+            Assert.AreEqual(region, extraInfoUsed[AdminEventLogExtraInfoKey.Region],
+                "Region on the extra info is not the expected.");
+
+            var retrievedPostcodeGeometry = await DbProbe.PostcodeGeometries.FindAsync(region, postcode);
+            Assert.IsNull(retrievedPostcodeGeometry, "A PostcodeGeometry should not be stored in the database.");
+        }
+
+        [Test]
+        public async Task GeocodePostcode_GeocodeClientReturns_RequestDenied()
+        {
+            var apiKey = "api-key";
+            var delayBetweenRetries = TimeSpan.FromSeconds(0.2);
+            var maxRetries = 1;
+
+            var postcode = "some-postcode";
+            var region = EnumsHelper.CountryId.ToString(CountryId.GB);
+
+            var container = CreateContainer();
+            SetupConfig(container, apiKey, delayBetweenRetries, maxRetries);
+            SetupGeocodeClient(container, apiKey, postcode, region, (add, reg) => new GeocodeResponse() { StatusText = STATUS_TEXT_REQUEST_DENIED });
+
+            string adminAlertKeyUsed = null;
+            bool? adminAlertDoNotUseDatabase = null;
+            AdminEventLogKey? adminEventLogKeyUsed = null;
+            Dictionary<string, object> extraInfoUsed = null;
+
+            SetupAdminAlertService(container, (key, doNotUseDatabase) => { adminAlertKeyUsed = key; adminAlertDoNotUseDatabase = doNotUseDatabase; });
+            SetupAdminEventLogService(container, (key, extraInfo) => { adminEventLogKeyUsed = key; extraInfoUsed = extraInfo; });
+
+            var service = container.Get<IGeocodeService>();
+            var status = await service.GeocodePostcode(postcode, region);
+
+            Assert.AreEqual(GeocodePostcodeStatus.ServiceUnavailable, status, "The status is not the expected.");
+            Assert.IsNotNull(adminAlertKeyUsed, "An admin alert was not sent.");
+            Assert.AreEqual(AdminAlertKey.GoogleGeocodeApiStatusRequestDenied, adminAlertKeyUsed,
+                "The key on the admin alert is not the expected.");
+            Assert.AreEqual(false, adminAlertDoNotUseDatabase, "The default value for doNotUseDatabase was not used.");
+
+            Assert.IsNotNull(adminEventLogKeyUsed, "An admin event was not logged.");
+            Assert.AreEqual(AdminEventLogKey.GoogleGeocodeApiStatusRequestDenied, adminEventLogKeyUsed,
+                "The key used in the admin event is not the expected.");
+            Assert.IsNull(extraInfoUsed, "The extra info on the admin event is not the expected.");
+
+            var retrievedPostcodeGeometry = await DbProbe.PostcodeGeometries.FindAsync(region, postcode);
+            Assert.IsNull(retrievedPostcodeGeometry, "A PostcodeGeometry should not be stored in the database.");
+        }
+
+        [Test]
+        public async Task GeocodePostcode_GeocodeClientReturns_UnknownError()
+        {
+            var apiKey = "api-key";
+            var delayBetweenRetries = TimeSpan.FromSeconds(0.2);
+            var maxRetries = 1;
+
+            var postcode = "some-postcode";
+            var region = EnumsHelper.CountryId.ToString(CountryId.GB);
+
+            var container = CreateContainer();
+            SetupConfig(container, apiKey, delayBetweenRetries, maxRetries);
+            SetupGeocodeClient(container, apiKey, postcode, region, (add, reg) => new GeocodeResponse() { StatusText = STATUS_TEXT_UNKNOWN_ERROR });
+
+            string adminAlertKeyUsed = null;
+            bool? adminAlertDoNotUseDatabase = null;
+            AdminEventLogKey? adminEventLogKeyUsed = null;
+            Dictionary<string, object> extraInfoUsed = null;
+
+            SetupAdminAlertService(container, (key, doNotUseDatabase) => { adminAlertKeyUsed = key; adminAlertDoNotUseDatabase = doNotUseDatabase; });
+            SetupAdminEventLogService(container, (key, extraInfo) => { adminEventLogKeyUsed = key; extraInfoUsed = extraInfo; });
+
+            var service = container.Get<IGeocodeService>();
+            var status = await service.GeocodePostcode(postcode, region);
+
+            Assert.AreEqual(GeocodePostcodeStatus.ServiceUnavailable, status, "The status is not the expected.");
+
+            Assert.IsNotNull(adminAlertKeyUsed, "An admin alert was not sent.");
+            Assert.AreEqual(AdminAlertKey.GoogleGeocodeApiStatusUknownError, adminAlertKeyUsed,
+                "The key on the admin alert is not the expected.");
+            Assert.AreEqual(false, adminAlertDoNotUseDatabase, "The default value for doNotUseDatabase was not used.");
+
+            Assert.IsNotNull(adminEventLogKeyUsed, "An admin event was not logged.");
+            Assert.AreEqual(AdminEventLogKey.GoogleGeocodeApiStatusUknownError, adminEventLogKeyUsed,
+                "The key used in the admin event is not the expected.");
+            Assert.IsNull(extraInfoUsed, "The extra info on the admin event is not the expected.");
+
+            var retrievedPostcodeGeometry = await DbProbe.PostcodeGeometries.FindAsync(region, postcode);
+            Assert.IsNull(retrievedPostcodeGeometry, "A PostcodeGeometry should not be stored in the database.");
+        }
+
+        [Test]
+        public async Task GeocodePostcode_GeocodeClientReturns_Unexpected()
+        {
+            var apiKey = "api-key";
+            var delayBetweenRetries = TimeSpan.FromSeconds(0.2);
+            var maxRetries = 1;
+
+            var postcode = "some-postcode";
+            var region = EnumsHelper.CountryId.ToString(CountryId.GB);
+
+            var container = CreateContainer();
+            SetupConfig(container, apiKey, delayBetweenRetries, maxRetries);
+            SetupGeocodeClient(container, apiKey, postcode, region, (add, reg) => new GeocodeResponse() { StatusText = STATUS_TEXT_UNEXPECTED });
+
+            string adminAlertKeyUsed = null;
+            bool? adminAlertDoNotUseDatabase = null;
+            AdminEventLogKey? adminEventLogKeyUsed = null;
+            Dictionary<string, object> extraInfoUsed = null;
+
+            SetupAdminAlertService(container, (key, doNotUseDatabase) => { adminAlertKeyUsed = key; adminAlertDoNotUseDatabase = doNotUseDatabase; });
+            SetupAdminEventLogService(container, (key, extraInfo) => { adminEventLogKeyUsed = key; extraInfoUsed = extraInfo; });
+
+            var service = container.Get<IGeocodeService>();
+            var status = await service.GeocodePostcode(postcode, region);
+
+            Assert.AreEqual(GeocodePostcodeStatus.ServiceUnavailable, status, "The status is not the expected.");
+            Assert.IsNotNull(adminAlertKeyUsed, "An admin alert was not sent.");
+            Assert.AreEqual(AdminAlertKey.GoogleGeocodeApiStatusUnexpected, adminAlertKeyUsed,
+                "The key on the admin alert is not the expected.");
+            Assert.AreEqual(false, adminAlertDoNotUseDatabase, "The default value for doNotUseDatabase was not used.");
+
+            Assert.IsNotNull(adminEventLogKeyUsed, "An admin event was not logged.");
+            Assert.AreEqual(AdminEventLogKey.GoogleGeocodeApiStatusUnexpected, adminEventLogKeyUsed,
+                "The key used in the admin event is not the expected.");
+            Assert.IsNotNull(extraInfoUsed, "The extra info on the admin event is not the expected.");
+            Assert.AreEqual(STATUS_TEXT_UNEXPECTED, extraInfoUsed[AdminEventLogExtraInfoKey.ResponseStatus],
+                "ResponseStatus on the extra info is not the expected.");
+
+            var retrievedPostcodeGeometry = await DbProbe.PostcodeGeometries.FindAsync(region, postcode);
+            Assert.IsNull(retrievedPostcodeGeometry, "A PostcodeGeometry should not be stored in the database.");
         }
 
         #endregion
@@ -170,7 +584,12 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var response = await service.GeocodeAddress(address, countryId);
 
             Assert.AreEqual(GeocodeAddressStatus.Success, response.Status, "The status returned was not the expected.");
-            // TODO_PANOS inspect geometry
+
+            Assert.IsNotNull(response.Geometry, "Geometry on the response was null.");
+            Assert.That(response.Geometry.Latitude, Is.EqualTo(51.5236113).Within(LatitudeLongitudePrecision),
+                "Geometry.Latitude on the response was not the expected.");
+            Assert.That(response.Geometry.Longitude, Is.EqualTo(-0.1444806).Within(LatitudeLongitudePrecision),
+                "Geometry.Latitude on the response was not the expected.");
         }
 
         [Test]
@@ -282,9 +701,14 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var response = await service.GeocodeAddress(hiltonAthensAddress, countryId);
 
             Assert.AreEqual(GeocodeAddressStatus.Success, response.Status, "The status returned was not the expected.");
-            // TODO_PANOS inspect_geometry
-        }
 
+            Assert.IsNotNull(response.Geometry, "Geometry on the response was null.");
+            Assert.That(response.Geometry.Latitude, Is.EqualTo(37.9761732).Within(LatitudeLongitudePrecision),
+                "Geometry.Latitude on the response was not the expected.");
+            Assert.That(response.Geometry.Longitude, Is.EqualTo(23.7505799).Within(LatitudeLongitudePrecision),
+                "Geometry.Latitude on the response was not the expected.");
+        }
+       
         [Test]
         public async Task GeocodeAddress_GR_Failure_StatusResultInWrongCountry()
         {
@@ -347,16 +771,52 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
         #region Private Helper Methods
         
-        private void SetupMockGeocodeClient(Action<string, string> callback, GeocodeResponse geocodeClientResponse)
+        private void SetupGeocodeClient(
+            IKernel container,
+            string expectedApiKey, 
+            string expectedAddress,
+            string expectedRegion,
+            Func<string, string, GeocodeResponse> geocodeClientResponseFunction)
         {
             var mockGeocodeClientWrapper = new Mock<IGeocodeClientWrapper>();
             mockGeocodeClientWrapper.Setup(x => x.GeocodeAddress(It.IsAny<string>(), It.IsAny<string>()))
-                .Callback(callback)
-                .Returns(Task.FromResult(geocodeClientResponse));
+                .Returns<string, string>((address, region) =>
+                {
+                    if (!address.Equals(expectedAddress))
+                        throw new Exception(string.Format("I was expecting address '{0}' to be used in the GeocodeClient but instead I got '{0}'",
+                            expectedAddress, address));
+                    if (!region.Equals(expectedRegion))
+                        throw new Exception(string.Format("I was expecting region '{0}' to be used in the GeocodeClient but instead I got '{0}'",
+                            expectedRegion, region));
+                    return Task.FromResult(geocodeClientResponseFunction(address, region));
+                });
 
             var mockGeocodeClientFactory = new Mock<IGeocodeClientFactory>();
             mockGeocodeClientFactory.Setup(x => x.Create(It.IsAny<string>()))
-                .Returns(mockGeocodeClientWrapper.Object);
+                .Returns<string>((apiKey) =>
+                {
+                    if (!apiKey.Equals(expectedApiKey))
+                        throw new Exception(string.Format("Expected API key '{0}' but '{1}' was used instead.",
+                            expectedApiKey, apiKey));
+                    return mockGeocodeClientWrapper.Object;
+                });
+
+            container.Rebind<IGeocodeClientFactory>().ToConstant(mockGeocodeClientFactory.Object);
+        }
+
+        private void SetupConfig(
+            IKernel container,
+            string googleApiServerKey,
+            TimeSpan overQueryLimitDelayBetweenRetries,
+            int overQueryLimitMaxRetries)
+        {
+            var mockConfig = new Mock<IGeocodeServiceConfig>();
+
+            mockConfig.Setup(x => x.GoogleApiServerKey).Returns(googleApiServerKey);
+            mockConfig.Setup(x => x.OverQueryLimitDelayBetweenRetries).Returns(overQueryLimitDelayBetweenRetries);
+            mockConfig.Setup(x => x.OverQueryLimitMaxRetries).Returns(overQueryLimitMaxRetries);
+
+            container.Rebind<IGeocodeServiceConfig>().ToConstant(mockConfig.Object);
         }
 
         #endregion

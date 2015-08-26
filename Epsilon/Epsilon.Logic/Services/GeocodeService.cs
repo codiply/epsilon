@@ -243,13 +243,19 @@ namespace Epsilon.Logic.Services
                 var response = await geocodeClient.GeocodeAddress(address, countryId);
 
                 if (response == null)
+                {
+                    _adminAlertService.SendAlert(AdminAlertKey.GoogleGeocodeApiClientReturnedNull);
+                    await _adminEventLogService.Log(AdminEventLogKey.GoogleGeocodeApiClientReturnedNull, null);
                     return null;
+                }
+
+                Dictionary<string, object> extraInfo = null;
 
                 switch (response.Status)
                 {
                     case GeocodeStatus.InvalidRequest:
                         _adminAlertService.SendAlert(AdminAlertKey.GoogleGeocodeApiStatusInvalidRequest);
-                        var extraInfo = new Dictionary<string, object>
+                        extraInfo = new Dictionary<string, object>
                         {
                             { AdminEventLogExtraInfoKey.Address, address },
                             { AdminEventLogExtraInfoKey.Region, countryId }
@@ -262,7 +268,11 @@ namespace Epsilon.Logic.Services
                         return response;
                     case GeocodeStatus.Unexpected:
                         _adminAlertService.SendAlert(AdminAlertKey.GoogleGeocodeApiStatusUnexpected);
-                        await _adminEventLogService.Log(AdminEventLogKey.GoogleGeocodeApiStatusUnexpected, null);
+                        extraInfo = new Dictionary<string, object>
+                        {
+                            { AdminEventLogExtraInfoKey.ResponseStatus, response.StatusText }
+                        };
+                        await _adminEventLogService.Log(AdminEventLogKey.GoogleGeocodeApiStatusUnexpected, extraInfo);
                         return response;
                     case GeocodeStatus.UnknownError:
                         _adminAlertService.SendAlert(AdminAlertKey.GoogleGeocodeApiStatusUknownError);

@@ -11,6 +11,7 @@ namespace Epsilon.Logic.Constants
         public const string GeoipRotatingClientMaxRotationsReached = "GeoipRotatingClientMaxRotationsReached";
         public const string GeoipRotatingClientProviderFailed_PREFIX = "GeoipRotatingClientProviderFailed";
         public const string GoogleGeocodeApiClientException = "GoogleGeocodeApiClientException";
+        public const string GoogleGeocodeApiClientReturnedNull = "GoogleGeocodeApiClientReturnedNull";
         public const string GoogleGeocodeApiStatusInvalidRequest = "GoogleGeocodeApiStatusInvalidRequest";
         public const string GoogleGeocodeApiStatusOverQueryLimitMaxRetriesReached = "GoogleGeocodeApiStatusOverQueryLimitMaxRetriesReached";
         public const string GoogleGeocodeApiStatusRequestDenied = "GoogleGeocodeApiStatusRequestDenied";
