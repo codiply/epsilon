@@ -34,10 +34,11 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var countryId = "GB";
 
             var containerUnderTest = CreateContainer();
-            SetupConfig(containerUnderTest, searchAddressResultsLimit);
+            SetupConfig(containerUnderTest, searchAddressResultsLimit: searchAddressResultsLimit);
 
             var helperContainer = CreateContainer();
-            var addresses = await CreateAddresses(helperContainer, numberOfAddressesToCreate, "", locality, postcode, countryId);
+            var addresses = await CreateAddresses(
+                helperContainer, numberOfAddressesToCreate, 0, "", locality, postcode, countryId);
 
             var serviceUnderTest = containerUnderTest.Get<IAddressService>();
 
@@ -67,10 +68,10 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var countryId = "GB";
 
             var containerUnderTest = CreateContainer();
-            SetupConfig(containerUnderTest, searchAddressResultsLimit);
+            SetupConfig(containerUnderTest, searchAddressResultsLimit: searchAddressResultsLimit);
 
             var helperContainer = CreateContainer();
-            var addresses = await CreateAddresses(helperContainer, numberOfAddressesToCreate, "", locality, postcode, countryId);
+            var addresses = await CreateAddresses(helperContainer, numberOfAddressesToCreate, 0, "", locality, postcode, countryId);
 
             var serviceUnderTest = containerUnderTest.Get<IAddressService>();
 
@@ -114,10 +115,10 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var countryId = "GB";
 
             var containerUnderTest = CreateContainer();
-            SetupConfig(containerUnderTest, searchAddressResultsLimit);
+            SetupConfig(containerUnderTest, searchAddressResultsLimit: searchAddressResultsLimit);
 
             var helperContainer = CreateContainer();
-            var addresses = await CreateAddresses(helperContainer, numberOfAddressesToCreate, "", locality, postcode, countryId);
+            var addresses = await CreateAddresses(helperContainer, numberOfAddressesToCreate, 0, "", locality, postcode, countryId);
 
             var serviceUnderTest = containerUnderTest.Get<IAddressService>();
 
@@ -147,10 +148,10 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var countryId = "GB";
 
             var containerUnderTest = CreateContainer();
-            SetupConfig(containerUnderTest, searchAddressResultsLimit);
+            SetupConfig(containerUnderTest, searchAddressResultsLimit: searchAddressResultsLimit);
 
             var helperContainer = CreateContainer();
-            var addresses = await CreateAddresses(helperContainer, numberOfAddressesToCreate, "", locality, postcode, countryId);
+            var addresses = await CreateAddresses(helperContainer, numberOfAddressesToCreate, 0, "", locality, postcode, countryId);
 
             var serviceUnderTest = containerUnderTest.Get<IAddressService>();
 
@@ -163,6 +164,220 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 "The results limit should be flagged as exceeded.");
             Assert.AreEqual(searchAddressResultsLimit, response.resultsLimit,
                 "The results limit reported on the response was not the expected.");
+        }
+
+        [Test]
+        public async Task SearchAddress_DoesNotReturnHiddenAddresses()
+        {
+            int searchAddressResultsLimit = 10;
+            int numberOfNonHiddenAddressesToCreate = 5;
+            int numberOfHiddenAddressesToCreate = 5;
+            var locality = "Locality";
+            var postcode = "POSTCODE";
+            var countryId = "GB";
+
+            var containerUnderTest = CreateContainer();
+            SetupConfig(containerUnderTest, searchAddressResultsLimit: searchAddressResultsLimit);
+
+            var helperContainer = CreateContainer();
+            var addresses = await CreateAddresses(
+                helperContainer, numberOfNonHiddenAddressesToCreate, numberOfHiddenAddressesToCreate, "", locality, postcode, countryId);
+
+            var nonHiddenAddresses = addresses.Where(x => !x.IsHidden).ToList();
+
+            var serviceUnderTest = containerUnderTest.Get<IAddressService>();
+
+            var request = new AddressSearchRequest { countryId = countryId, postcode = postcode.ToLower(), terms = "" };
+            var response = await serviceUnderTest.SearchAddress(request);
+
+            Assert.AreEqual(numberOfNonHiddenAddressesToCreate, response.results.Count,
+                "The number of addresses returned should equal the number of non-hidden addresses.");
+            foreach (var address in nonHiddenAddresses)
+            {
+                var addressFoundOnResponse = response.results.SingleOrDefault(x => x.addressUniqueId.Equals(address.UniqueId));
+                Assert.IsNotNull(addressFoundOnResponse,
+                    string.Format("Non-hidden address '{0}' was not found on the response.", address.FullAddress()));
+            }
+        }
+
+        #endregion
+
+        #region SearchProperty
+
+        [Test]
+        public async Task SearchProperty_ExactPostcode_AndResultsCountEqualToLimit()
+        {
+            int searchPropertyResultsLimit = 10;
+            int numberOfAddressesToCreate = searchPropertyResultsLimit;
+            var locality = "Locality";
+            var postcode = "POSTCODE";
+            var countryId = "GB";
+
+            var containerUnderTest = CreateContainer();
+            SetupConfig(containerUnderTest, searchPropertyResultsLimit: searchPropertyResultsLimit);
+
+            var helperContainer = CreateContainer();
+            var addresses = await CreateAddresses(
+                helperContainer, numberOfAddressesToCreate, 0, "", locality, postcode, countryId);
+
+            var serviceUnderTest = containerUnderTest.Get<IAddressService>();
+
+            var request1 = new PropertySearchRequest { countryId = countryId, postcode = postcode.ToLower(), terms = "" };
+            var response1 = await serviceUnderTest.SearchProperty(request1);
+
+            Assert.AreEqual(addresses.Count, response1.results.Count,
+                "A request with exact postcode (case-insensitive) should match all the addresses.");
+
+            var request2 = new PropertySearchRequest { countryId = countryId, postcode = "POSTCO", terms = "" };
+            var response2 = await serviceUnderTest.SearchProperty(request2);
+
+            Assert.IsEmpty(response2.results, "A request with part of the postcode should return no results.");
+            Assert.IsFalse(response2.isResultsLimitExceeded,
+                "The results limit should not be flagged as exceeded when the number of results is equal to the limit.");
+            Assert.AreEqual(searchPropertyResultsLimit, response2.resultsLimit,
+                "The results limit reported on the response was not the expected.");
+        }
+
+        [Test]
+        public async Task SearchProperty_SearchesTermsInAllFields()
+        {
+            int searchPropertyResultsLimit = 3;
+            int numberOfAddressesToCreate = searchPropertyResultsLimit;
+            var locality = "Locality";
+            var postcode = "POSTCODE";
+            var countryId = "GB";
+
+            var containerUnderTest = CreateContainer();
+            SetupConfig(containerUnderTest, searchPropertyResultsLimit: searchPropertyResultsLimit);
+
+            var helperContainer = CreateContainer();
+            var addresses = await CreateAddresses(helperContainer, numberOfAddressesToCreate, 0, "", locality, postcode, countryId);
+
+            var serviceUnderTest = containerUnderTest.Get<IAddressService>();
+
+            var request1 = new PropertySearchRequest { countryId = countryId, postcode = postcode.ToLower(), terms = "" };
+            var response1 = await serviceUnderTest.SearchProperty(request1);
+
+            var addressToSearch = addresses.First();
+
+            // I use each field as a term and separate them in different ways in the search terms string.
+            var searchTermsField = string.Format(" {0},{1}, {2} ,{3} {4}   {5}, ",
+                addressToSearch.Line1, addressToSearch.Line2, addressToSearch.Line3, addressToSearch.Line4,
+                addressToSearch.Locality, addressToSearch.Region);
+
+            var request = new PropertySearchRequest { countryId = countryId, postcode = postcode, terms = searchTermsField };
+            var response = await serviceUnderTest.SearchProperty(request);
+
+            Assert.AreEqual(1, response.results.Count, "The response should contain a single result.");
+            Assert.IsFalse(response.isResultsLimitExceeded, "The results limit should not be flagged as exceeded.");
+            Assert.AreEqual(searchPropertyResultsLimit, response.resultsLimit,
+                "The results limit on the response was not the expected.");
+
+            var returnedAddress = response.results.Single();
+
+            Assert.AreEqual(addressToSearch.UniqueId, returnedAddress.addressUniqueId, "The id of the address returned is not the expected.");
+            Assert.IsTrue(returnedAddress.fullAddress.Contains(addressToSearch.Line1), "Line1 was not found in the full address.");
+            Assert.IsTrue(returnedAddress.fullAddress.Contains(addressToSearch.Line2), "Line2 was not found in the full address.");
+            Assert.IsTrue(returnedAddress.fullAddress.Contains(addressToSearch.Line3), "Line3 was not found in the full address.");
+            Assert.IsTrue(returnedAddress.fullAddress.Contains(addressToSearch.Line4), "Line4 was not found in the full address.");
+            Assert.IsTrue(returnedAddress.fullAddress.Contains(addressToSearch.Locality), "Locality was not found in the full address.");
+            Assert.IsTrue(returnedAddress.fullAddress.Contains(addressToSearch.Region), "Region was not found in the full address.");
+            Assert.IsTrue(returnedAddress.fullAddress.Contains(addressToSearch.Postcode), "Postcode was not found in the full address.");
+        }
+
+        [Test]
+        public async Task SearchProperty_DoesNotUseSearchTermsToSearchCountryIdOrPostcode()
+        {
+            int searchPropertyResultsLimit = 3;
+            int numberOfAddressesToCreate = searchPropertyResultsLimit;
+            var locality = "Locality";
+            var postcode = "POSTCODE";
+            var countryId = "GB";
+
+            var containerUnderTest = CreateContainer();
+            SetupConfig(containerUnderTest, searchPropertyResultsLimit: searchPropertyResultsLimit);
+
+            var helperContainer = CreateContainer();
+            var addresses = await CreateAddresses(helperContainer, numberOfAddressesToCreate, 0, "", locality, postcode, countryId);
+
+            var serviceUnderTest = containerUnderTest.Get<IAddressService>();
+
+            var request1 = new PropertySearchRequest { countryId = countryId, postcode = postcode.ToLower(), terms = "" };
+            var response1 = await serviceUnderTest.SearchProperty(request1);
+
+            var addressToSearch = addresses.First();
+
+            var searchTermsField = string.Format("{0} {1}", postcode, countryId);
+
+            var request = new PropertySearchRequest { countryId = countryId, postcode = postcode, terms = searchTermsField };
+            var response = await serviceUnderTest.SearchProperty(request);
+
+            Assert.IsEmpty(response.results, "The response should contain no results.");
+            Assert.IsFalse(response.isResultsLimitExceeded, "The results limit should not be flagged as exceeded.");
+            Assert.AreEqual(searchPropertyResultsLimit, response.resultsLimit,
+                "The results limit on the response was not the expected.");
+        }
+
+        [Test]
+        public async Task SearchProperty_ReturnsNoMoreAddressesThanTheLimit()
+        {
+            int searchPropertyResultsLimit = 3;
+            int numberOfAddressesToCreate = searchPropertyResultsLimit + 1;
+            var locality = "Locality";
+            var postcode = "POSTCODE";
+            var countryId = "GB";
+
+            var containerUnderTest = CreateContainer();
+            SetupConfig(containerUnderTest, searchPropertyResultsLimit: searchPropertyResultsLimit);
+
+            var helperContainer = CreateContainer();
+            var addresses = await CreateAddresses(helperContainer, numberOfAddressesToCreate, 0, "", locality, postcode, countryId);
+
+            var serviceUnderTest = containerUnderTest.Get<IAddressService>();
+
+            var request = new PropertySearchRequest { countryId = countryId, postcode = postcode.ToLower(), terms = "" };
+            var response = await serviceUnderTest.SearchProperty(request);
+
+            Assert.AreEqual(searchPropertyResultsLimit, response.results.Count,
+                "The number of addresses returned should equal the results limit.");
+            Assert.IsTrue(response.isResultsLimitExceeded,
+                "The results limit should be flagged as exceeded.");
+            Assert.AreEqual(searchPropertyResultsLimit, response.resultsLimit,
+                "The results limit reported on the response was not the expected.");
+        }
+
+        [Test]
+        public async Task SearchProperty_DoesNotReturnHiddenAddresses()
+        {
+            int searchPropertyResultsLimit = 10;
+            int numberOfNonHiddenAddressesToCreate = 5;
+            int numberOfHiddenAddressesToCreate = 5;
+            var locality = "Locality";
+            var postcode = "POSTCODE";
+            var countryId = "GB";
+
+            var containerUnderTest = CreateContainer();
+            SetupConfig(containerUnderTest, searchPropertyResultsLimit: searchPropertyResultsLimit);
+
+            var helperContainer = CreateContainer();
+            var addresses = await CreateAddresses(
+                helperContainer, numberOfNonHiddenAddressesToCreate, numberOfHiddenAddressesToCreate, "", locality, postcode, countryId);
+
+            var nonHiddenAddresses = addresses.Where(x => !x.IsHidden).ToList();
+
+            var serviceUnderTest = containerUnderTest.Get<IAddressService>();
+
+            var request = new PropertySearchRequest { countryId = countryId, postcode = postcode.ToLower(), terms = "" };
+            var response = await serviceUnderTest.SearchProperty(request);
+
+            Assert.AreEqual(numberOfNonHiddenAddressesToCreate, response.results.Count,
+                "The number of addresses returned should equal the number of non-hidden addresses.");
+            foreach (var address in nonHiddenAddresses)
+            {
+                var addressFoundOnResponse = response.results.SingleOrDefault(x => x.addressUniqueId.Equals(address.UniqueId));
+                Assert.IsNotNull(addressFoundOnResponse,
+                    string.Format("Non-hidden address '{0}' was not found on the response.", address.FullAddress()));
+            }
         }
 
         #endregion
@@ -497,7 +712,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             return form;
         }
 
-        private async Task<IList<Address>> CreateAddresses(IKernel container, int count,
+        private async Task<IList<Address>> CreateAddresses(IKernel container, int nonHiddenAddresses, int hiddenAddresses,
             string fieldPrefix, string locality, string postcode, string countryId)
         {
             var random = new RandomWrapper();
@@ -510,14 +725,14 @@ namespace Epsilon.IntegrationTests.Logic.Services
             {
                 CountryId = countryId,
                 Postcode = postcode,
-                Latitude = 0.0,
-                Longitude = 0.0,
-                ViewportNortheastLatitude = 0.0,
-                ViewportNortheastLongitude = 0.0,
-                ViewportSouthwestLatitude = 0.0,
-                ViewportSouthwestLongitude = 0.0
+                Latitude = random.NextDouble(),
+                Longitude = random.NextDouble(),
+                ViewportNortheastLatitude = random.NextDouble(),
+                ViewportNortheastLongitude = random.NextDouble(),
+                ViewportSouthwestLatitude = random.NextDouble(),
+                ViewportSouthwestLongitude = random.NextDouble()
             };
-            for (int i = 0; i < count; i++)
+            for (int i = 0; i < nonHiddenAddresses; i++)
             {
                 var address = new Address
                 {
@@ -532,7 +747,28 @@ namespace Epsilon.IntegrationTests.Logic.Services
                     CountryId = countryId,
                     CreatedById = user.Id,
                     CreatedByIpAddress = ipAddress,
-                    PostcodeGeometry = postcodeGeometry
+                    PostcodeGeometry = postcodeGeometry,
+                    IsHidden = false
+                };
+                addresses.Add(address);
+            }
+            for (int i = 0; i < hiddenAddresses; i++)
+            {
+                var address = new Address
+                {
+                    UniqueId = Guid.NewGuid(),
+                    Line1 = fieldPrefix + RandomStringHelper.GetAlphaNumericString(random, randomFieldLength, RandomStringHelper.CharacterCase.Mixed),
+                    Line2 = fieldPrefix + RandomStringHelper.GetAlphaNumericString(random, randomFieldLength, RandomStringHelper.CharacterCase.Mixed),
+                    Line3 = fieldPrefix + RandomStringHelper.GetAlphaNumericString(random, randomFieldLength, RandomStringHelper.CharacterCase.Mixed),
+                    Line4 = fieldPrefix + RandomStringHelper.GetAlphaNumericString(random, randomFieldLength, RandomStringHelper.CharacterCase.Mixed),
+                    Locality = locality,
+                    Region = fieldPrefix + RandomStringHelper.GetAlphaNumericString(random, randomFieldLength, RandomStringHelper.CharacterCase.Mixed),
+                    Postcode = postcode,
+                    CountryId = countryId,
+                    CreatedById = user.Id,
+                    CreatedByIpAddress = ipAddress,
+                    PostcodeGeometry = postcodeGeometry,
+                    IsHidden = true
                 };
                 addresses.Add(address);
             }
@@ -542,10 +778,13 @@ namespace Epsilon.IntegrationTests.Logic.Services
             return addresses;
         }
 
-        private void SetupConfig(IKernel container, int searchAddressResultsLimit)
+        private void SetupConfig(IKernel container, 
+            bool disableAddAddress = false, int searchAddressResultsLimit = 100, int searchPropertyResultsLimit = 100)
         {
             var mockConfig = new Mock<IAddressServiceConfig>();
+            mockConfig.Setup(x => x.GlobalSwitch_DisableAddAddress).Returns(disableAddAddress);
             mockConfig.Setup(x => x.SearchAddressResultsLimit).Returns(searchAddressResultsLimit);
+            mockConfig.Setup(x => x.SearchPropertyResultsLimit).Returns(searchPropertyResultsLimit);
 
             container.Rebind<IAddressServiceConfig>().ToConstant(mockConfig.Object);
         }

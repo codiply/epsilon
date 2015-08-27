@@ -114,6 +114,7 @@ namespace Epsilon.Logic.Services
             return response; 
         }
 
+        // TODO_TEST_PANOS
         public async Task<PropertySearchResponse> SearchProperty(PropertySearchRequest request)
         {
             // TODO_TEST_PANOS
@@ -133,7 +134,7 @@ namespace Epsilon.Logic.Services
             var query = _dbContext.Addresses
                 .Include(x => x.Country)
                 .Include(x => x.TenancyDetailsSubmissions)
-                .Where(x => !x.IsHidden) // TODO_TEST_PANOS
+                .Where(x => !x.IsHidden)
                 .Where(x => x.CountryId.Equals(request.countryId)
                             && (x.Postcode.Equals(cleanPostcode)));
 
@@ -195,6 +196,7 @@ namespace Epsilon.Logic.Services
             return response;
         }
 
+        // TODO_TEST_PANOS
         public async Task<Address> GetAddress(Guid addressUniqueId)
         {
             return await _dbContext.Addresses.SingleOrDefaultAsync(a => a.UniqueId.Equals(addressUniqueId));
@@ -210,6 +212,7 @@ namespace Epsilon.Logic.Services
                 .AnyAsync(s => s.SubmittedOn.HasValue);
         }
 
+        // TODO_TEST_PANOS
         public async Task<Address> GetAddressWithGeometries(Guid addressUniqueId)
         {
             return await _dbContext.Addresses
@@ -218,6 +221,7 @@ namespace Epsilon.Logic.Services
                 .SingleOrDefaultAsync(a => a.UniqueId.Equals(addressUniqueId));
         }
 
+        // TODO_TEST_PANOS
         public async Task<AddressGeometryResponse> GetGeometry(Guid addressUniqueId)
         {
             var addressWithGeometry = await _dbContext.Addresses
@@ -226,6 +230,7 @@ namespace Epsilon.Logic.Services
             return addressWithGeometry.Geometry.ToAddressGeometryResponse();
         }
 
+        // TODO_TEST_PANOS
         public async Task<AddAddressOutcome> AddAddress(string userId, string userIpAddress, AddressForm form)
         {
             if (_addressServiceConfig.GlobalSwitch_DisableAddAddress)
@@ -283,6 +288,7 @@ namespace Epsilon.Logic.Services
             };
         }
 
+        // TODO_TEST_PANOS
         public async Task<IList<long>> GetDuplicateAddressIds(Address address)
         {
             if (string.IsNullOrWhiteSpace(address.DistinctAddressCode))
