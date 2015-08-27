@@ -162,6 +162,9 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.AreEqual(countryId, countryIdUsedInAntiAbuse,
                 "The CountryId used in the call to AntiAbuseService is not the expected.");
 
+            Assert.IsTrue(outcome.UiAlerts.Any(x => x.Message.Equals(TenancyDetailsSubmissionResources.Create_SuccessMessage)),
+                "SuccessMessage was not found among the UiAlertts.");
+
             var timeAfter = DateTimeOffset.Now;
 
             var retrievedTenancyDetailsSubmission = await DbProbe.TenancyDetailsSubmissions
@@ -270,6 +273,64 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             var user2submissionBelongsToUser2 = await serviceUnderTest.SubmissionBelongsToUser(user2.Id, user2submission.UniqueId);
             Assert.IsTrue(user2submissionBelongsToUser2, "user2submission belongs to user2.");
+        }
+
+        #endregion
+
+        #region GetSubmissionAddress
+
+        [Test]
+        public async Task GetSubmissionAddress_ForNonExistingSubmission()
+        {
+            var helperContainer = CreateContainer();
+            var user = await CreateUser(helperContainer, "test@test.com", "1.2.3.4");
+
+            var containerUnderTest = CreateContainer();
+            var service = containerUnderTest.Get<ITenancyDetailsSubmissionService>();
+
+            var submissionId = Guid.NewGuid();
+
+            var outcome = await service.GetSubmissionAddress(user.Id, submissionId);
+
+            Assert.IsTrue(outcome.SubmissionNotFound, "SubmissionNotFound is not the expected.");
+            Assert.IsNull(outcome.Address, "Address is not the expected.");
+        }
+
+        [Test]
+        public async Task GetSubmissionAddress_ForExistingSubmission()
+        {
+            var helperContainer = CreateContainer();
+            var ipAddress = "1.2.3.4";
+            var user = await CreateUser(helperContainer, "test@test.com", ipAddress);
+            var otherIpAddress = "1.2.3.5";
+            var otherUser = await CreateUser(helperContainer, "test2@test.com", otherIpAddress);
+
+            var random = new RandomWrapper(2015);
+
+            var submission = await CreateTenancyDetailsSubmissionAndSave(random, helperContainer, user.Id, ipAddress,
+                otherUser.Id, otherIpAddress, justCreatedVerifications: 1);
+
+            var containerUnderTest = CreateContainer();
+            var service = containerUnderTest.Get<ITenancyDetailsSubmissionService>();
+
+            // I access it via the correct user.
+            var outcome1 = await service.GetSubmissionAddress(user.Id, submission.UniqueId);
+
+            var retrievedAddress = await DbProbe.Addresses.FindAsync(submission.AddressId);
+
+            Assert.IsFalse(outcome1.SubmissionNotFound, "SubmissionNotFound on outcome1 is not the expected.");
+            Assert.IsNotNull(outcome1.Address, "Address on outcome1 is not the expected.");
+            Assert.AreEqual(submission.AddressId, outcome1.Address.Id, "Address Id on outcome1 is not the expected.");
+            Assert.AreEqual(retrievedAddress.Line1, outcome1.Address.Line1, "Address Line1 is not the expected.");
+            Assert.AreEqual(retrievedAddress.Postcode, outcome1.Address.Postcode, "Address Postcode is not the expected.");
+            Assert.AreEqual(retrievedAddress.CountryId, outcome1.Address.CountryId, "Address CountryId is not the expected.");
+            Assert.IsNotNull(outcome1.Address.Country, "Address.Country is not included in the result.");
+
+            // I try to acccess it via the other user.
+            var outcome2 = await service.GetSubmissionAddress(otherUser.Id, submission.UniqueId);
+
+            Assert.IsTrue(outcome2.SubmissionNotFound, "SubmissionNotFound on outcome2 is not the expected.");
+            Assert.IsNull(outcome2.Address, "Address on outcome2 is not the expected.");
         }
 
         #endregion
@@ -849,6 +910,111 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var retrievedSubmission = await DbProbe.TenancyDetailsSubmissions
                 .Include(x => x.Address).Include(x => x.Address.Country).SingleOrDefaultAsync(x => x.UniqueId.Equals(submissionInfo.uniqueId));
             Assert.AreEqual(retrievedSubmission.Address.FullAddress(), submissionInfo.displayAddress, "Field displayAddress is not the expected.");
+        }
+
+        #endregion
+
+        #region GetUserSubmissionSummaryWithCaching
+
+        [Test]
+        public async Task GetUserSubmissionSummaryWithCaching_WithSubmissionsEqualToTheLimit_CachesTheSummary()
+        {
+            var itemsLimit = 3;
+            var submissionsToCreate = itemsLimit;
+
+            var helperContainer = CreateContainer();
+            var userIpAddress = "1.2.3.4";
+            var user = await CreateUser(helperContainer, "test@test.com", userIpAddress);
+            var otherUserIpAddress = "11.12.13.14";
+            var otherUser = await CreateUser(helperContainer, "other-user@test.com", "11.12.13.14");
+
+            var random = new RandomWrapper(2015);
+            var submissions = new List<TenancyDetailsSubmission>();
+
+            for (var i = 0; i < submissionsToCreate; i++)
+            {
+                var submission = await CreateTenancyDetailsSubmissionAndSave(
+                    random, helperContainer, user.Id, userIpAddress, otherUser.Id, otherUserIpAddress);
+                submissions.Add(submission);
+            }
+            var submissionByCreationDescending = submissions.OrderByDescending(x => x.CreatedOn).ToList();
+
+            // I create a submission for the other user and assign the verifications to the user under test.
+            // This is to test that the summary contains only submissions from the specific user.
+            var otherUserSubmission = await CreateTenancyDetailsSubmissionAndSave(
+                    random, helperContainer, otherUser.Id, otherUserIpAddress, user.Id, userIpAddress);
+            Assert.IsNotNull(otherUserSubmission, "The submission created for the other user is null.");
+
+            var containerUnderTest = CreateContainer();
+            SetupConfigForGetUserSubmissionSummary(containerUnderTest, itemsLimit);
+            var serviceUnderTest = containerUnderTest.Get<ITenancyDetailsSubmissionService>();
+
+            // Full summary
+            var response1 = await serviceUnderTest.GetUserSubmissionsSummaryWithCaching(user.Id, false);
+
+            Assert.IsNotNull(response1, "Response1 is null.");
+            Assert.IsFalse(response1.moreItemsExist, "Field moreItemsExist on response1 is not the expected.");
+            Assert.AreEqual(submissionsToCreate, response1.tenancyDetailsSubmissions.Count,
+                "Response1 should contain all submissions.");
+            for (var i = 0; i < submissionsToCreate; i++)
+            {
+                Assert.AreEqual(submissionByCreationDescending[i].UniqueId, response1.tenancyDetailsSubmissions[i].uniqueId,
+                    string.Format("Response1: submission at position {0} does not have the expected uniqueId.", i));
+            }
+
+            Assert.IsFalse(response1.tenancyDetailsSubmissions.Any(x => x.uniqueId.Equals(otherUserSubmission.UniqueId)),
+                "Response1 should not contain the submission of the other user.");
+
+            // Summary with limit
+            var response2 = await serviceUnderTest.GetUserSubmissionsSummaryWithCaching(user.Id, true);
+
+            Assert.IsNotNull(response2, "Response2 is null.");
+            Assert.IsFalse(response2.moreItemsExist, "Field moreItemsExist on response2 is not the expected.");
+            Assert.AreEqual(itemsLimit, response2.tenancyDetailsSubmissions.Count,
+                "Response1 should contains a number of submissions equal to the limit.");
+            for (var i = 0; i < itemsLimit; i++)
+            {
+                Assert.AreEqual(submissionByCreationDescending[i].UniqueId, response2.tenancyDetailsSubmissions[i].uniqueId,
+                    string.Format("Response2: submission at position {0} does not have the expected uniqueId.", i));
+            }
+
+            Assert.IsFalse(response2.tenancyDetailsSubmissions.Any(x => x.uniqueId.Equals(otherUserSubmission.UniqueId)),
+                "Response2 should not contain the submission of the other user.");
+
+            KillDatabase(containerUnderTest);
+            var serviceWithoutDatabase = containerUnderTest.Get<ITenancyDetailsSubmissionService>();
+
+            // Full summary
+            var response3 = await serviceUnderTest.GetUserSubmissionsSummaryWithCaching(user.Id, false);
+
+            Assert.IsNotNull(response3, "Response3 is null.");
+            Assert.IsFalse(response3.moreItemsExist, "Field moreItemsExist on response3 is not the expected.");
+            Assert.AreEqual(submissionsToCreate, response3.tenancyDetailsSubmissions.Count,
+                "Response3 should contain all submissions.");
+            for (var i = 0; i < submissionsToCreate; i++)
+            {
+                Assert.AreEqual(submissionByCreationDescending[i].UniqueId, response3.tenancyDetailsSubmissions[i].uniqueId,
+                    string.Format("Response3: submission at position {0} does not have the expected uniqueId.", i));
+            }
+
+            Assert.IsFalse(response3.tenancyDetailsSubmissions.Any(x => x.uniqueId.Equals(otherUserSubmission.UniqueId)),
+                "Response3 should not contain the submission of the other user.");
+
+            // Summary with limit
+            var response4 = await serviceUnderTest.GetUserSubmissionsSummaryWithCaching(user.Id, true);
+
+            Assert.IsNotNull(response4, "Response4 is null.");
+            Assert.IsFalse(response4.moreItemsExist, "Field moreItemsExist on response4 is not the expected.");
+            Assert.AreEqual(itemsLimit, response4.tenancyDetailsSubmissions.Count,
+                "Response4 should contains a number of submissions equal to the limit.");
+            for (var i = 0; i < itemsLimit; i++)
+            {
+                Assert.AreEqual(submissionByCreationDescending[i].UniqueId, response4.tenancyDetailsSubmissions[i].uniqueId,
+                    string.Format("Response4: submission at position {0} does not have the expected uniqueId.", i));
+            }
+
+            Assert.IsFalse(response4.tenancyDetailsSubmissions.Any(x => x.uniqueId.Equals(otherUserSubmission.UniqueId)),
+                "Response4 should not contain the submission of the other user.");
         }
 
         #endregion

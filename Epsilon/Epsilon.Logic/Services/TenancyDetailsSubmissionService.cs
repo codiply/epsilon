@@ -67,7 +67,6 @@ namespace Epsilon.Logic.Services
         public async Task<MySubmissionsSummaryResponse> GetUserSubmissionsSummaryWithCaching(
             string userId, bool limitItemsReturned)
         {
-            // TODO_TEST_PANOS: unit test
             return await _appCache.GetAsync(
                 AppCacheKey.GetUserSubmissionsSummary(userId, limitItemsReturned),
                 () => GetUserSubmissionsSummary(userId, limitItemsReturned), 
@@ -165,14 +164,12 @@ namespace Epsilon.Logic.Services
             });
 
             _appCacheHelper.RemoveCachedUserSubmissionsSummary(userId);
-            // TODO_TEST_PANOS
             _userInterfaceCustomisationService.ClearCachedCustomisationForUser(userId);
 
             return new CreateTenancyDetailsSubmissionOutcome
             {
                 IsRejected = false,
                 TenancyDetailsSubmissionUniqueId = tenancyDetailsSubmission.UniqueId,
-                // TODO_TEST_PANOS
                 UiAlerts = uiAlerts
             };
         }
@@ -393,7 +390,6 @@ namespace Epsilon.Logic.Services
             }
         }
 
-        // TODO_TEST_PANOS
         public async Task<GetSubmissionAddressOutcome> GetSubmissionAddress(string userId, Guid submissionUniqueId)
         {
             var submission = await _dbContext.TenancyDetailsSubmissions

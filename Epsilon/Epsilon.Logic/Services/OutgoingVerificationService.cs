@@ -19,12 +19,10 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Transactions;
 using static Epsilon.Logic.Helpers.RandomStringHelper;
 
 namespace Epsilon.Logic.Services
 {
-    // TODO_TEST_PANOS
     public class OutgoingVerificationService : IOutgoingVerificationService
     {
         private readonly IClock _clock;
@@ -75,6 +73,7 @@ namespace Epsilon.Logic.Services
                 WithLock.No);
         }
 
+        // TODO_TEST_PANOS
         public async Task<MyOutgoingVerificationsSummaryResponse> GetUserOutgoingVerificationsSummary(
             string userId, bool limitItemsReturned)
         {
@@ -110,6 +109,7 @@ namespace Epsilon.Logic.Services
             };
         }
 
+        // TODO_TEST_PANOS
         public async Task<PickVerificationOutcome> Pick(
             string userId,
             string userIpAddress,
@@ -229,6 +229,7 @@ namespace Epsilon.Logic.Services
             };
         }
 
+        // TODO_TEST_PANOS
         public async Task<GetVerificationMessageOutcome> GetVerificationMessage(string userId, Guid verificationUniqueId)
         {
             // TODO_TEST_PANOS
@@ -273,6 +274,7 @@ namespace Epsilon.Logic.Services
             };
         }
 
+        // TODO_TEST_PANOS
         public async Task<GetInstructionsOutcome> GetInstructions(string userId, Guid verificationUniqueId)
         {
             // TODO_TEST_PANOS
@@ -330,6 +332,7 @@ namespace Epsilon.Logic.Services
             };
         }
 
+        // TODO_TEST_PANOS
         public async Task<MarkVerificationAsSentOutcome> MarkAsSent(string userId, Guid verificationUniqueId)
         {
             var uiAlerts = new List<UiAlert>();
@@ -380,6 +383,7 @@ namespace Epsilon.Logic.Services
             };
         }
 
+        // TODO_TEST_PANOS
         public async Task<MarkAddressAsInvalidOutcome> MarkAddressAsInvalid(string userId, Guid verificationUniqueId)
         {
             var uiAlerts = new List<UiAlert>();

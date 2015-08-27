@@ -51,6 +51,7 @@ namespace Epsilon.Logic.Services
             _currencyService = currencyService;
         }
 
+        // TODO_TEST_PANOS
         public async Task<MyExploredPropertiesSummaryResponse> GetUserExploredPropertiesSummaryWithCaching(
             string userId, bool limitItemsReturned)
         {
@@ -62,6 +63,7 @@ namespace Epsilon.Logic.Services
                 WithLock.No);
         }
 
+        // TODO_TEST_PANOS
         public async Task<MyExploredPropertiesSummaryResponse> GetUserExploredPropertiesSummary(string userId, bool limitItemsReturned)
         {
             var expiryPeriod = ExpiryPeriod();
@@ -101,6 +103,7 @@ namespace Epsilon.Logic.Services
             };
         }
 
+        // TODO_TEST_PANOS
         public async Task<CreatePropertyInfoAccessOutcome> Create(
             string userId,
             string userIpAddress,
@@ -202,6 +205,7 @@ namespace Epsilon.Logic.Services
             }
         }
 
+        // TODO_TEST_PANOS
         public async Task<GetInfoOutcome> GetInfo(string userId, Guid accessUniqueId)
         {
             // TODO_TEST_PANOS
@@ -243,9 +247,9 @@ namespace Epsilon.Logic.Services
             };
         }
 
+        // TODO_TEST_PANOS
         public async Task<Guid?> GetExistingUnexpiredAccessUniqueId(string userId, Guid addressUniqueId)
         {
-            // TODO_TEST_PANOS
             var existingUnexpiredAccess = await GetExistingUnexpiredAccess(userId, addressUniqueId);
             if (existingUnexpiredAccess == null)
                 return null;
