@@ -7,6 +7,7 @@ using Epsilon.Logic.Entities;
 using Epsilon.Logic.Entities.Interfaces;
 using Epsilon.Logic.Helpers;
 using Epsilon.Logic.Services.Interfaces;
+using Epsilon.Logic.Services.Interfaces.UserResidenceService;
 using Epsilon.Logic.SqlContext.Interfaces;
 using Epsilon.Logic.Wrappers;
 using Epsilon.Logic.Wrappers.Interfaces;
@@ -381,10 +382,16 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var antiAbuseRejectionReason = "AntiAbuseService Rejection Reason";
             var helperContainer = CreateContainer();
             var user = await CreateUser(helperContainer, "test@test.com", ipAddress);
+            var countryId = CountryId.GB;
 
             var userIdUsedInAntiAbuse = string.Empty;
             var ipAddressUsedInAntiAbuse = string.Empty;
             CountryId? countryIdUsedInAntiAbuse = null;
+
+            var userResidenceResponse = new GetResidenceResponse
+            {
+                Address = new Address { CountryId = EnumsHelper.CountryId.ToString(countryId) },
+            };
 
             var container = CreateContainer();
             SetupAntiAbuseServiceResponse(container, (userId, ipAddr, cId) =>
@@ -398,6 +405,8 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 IsRejected = true,
                 RejectionReason = antiAbuseRejectionReason
             });
+
+            SetupUserResidenceService(container, user.Id, userResidenceResponse);
             var service = container.Get<IOutgoingVerificationService>();
 
             var verificationUniqueId = Guid.NewGuid();
@@ -410,7 +419,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 "The UserId used in the call to AntiAbuseService is not the expected.");
             Assert.AreEqual(ipAddress, ipAddressUsedInAntiAbuse,
                 "The IpAddress used in the call to AntiAbuseService is not the expected.");
-            Assert.AreEqual(CountryId.GB, countryIdUsedInAntiAbuse,
+            Assert.AreEqual(countryId, countryIdUsedInAntiAbuse,
                 "The CountryId used in the call to AntiAbuseService is not the expected.");
 
             var retrievedTenantVerification = await DbProbe.TenantVerifications
@@ -496,6 +505,21 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 .Returns(Task.FromResult(response));
 
             container.Rebind<IAntiAbuseService>().ToConstant(mockAntiAbuseService.Object);
+        }
+
+        private static void SetupUserResidenceService(IKernel container, string expectedUserId, GetResidenceResponse response)
+        {
+            var mockUserResidenceService = new Mock<IUserResidenceService>();
+            mockUserResidenceService.Setup(x => x.GetResidence(It.IsAny<string>()))
+                .Returns<string>(userId =>
+                {
+                    if (!userId.Equals(expectedUserId))
+                        throw new Exception(string.Format(
+                            "I was expecting userId '{0}' to be used in UserResidenceService but got '{1}' instead.", expectedUserId, userId));
+                    return Task.FromResult(response);
+                });
+
+            container.Rebind<IUserResidenceService>().ToConstant(mockUserResidenceService.Object);
         }
 
         private static async Task<TenantVerification> CreateTenantVerificationAndSave(
