@@ -208,20 +208,21 @@ namespace Epsilon.Logic.Services
                 .AnyAsync(s => s.SubmittedOn.HasValue);
         }
 
-        // TODO_TEST_PANOS
         public async Task<Address> GetAddressWithGeometries(Guid addressUniqueId)
         {
             return await _dbContext.Addresses
                 .Include(a => a.Geometry)
+                .Include(a => a.PostcodeGeometry)
                 .SingleOrDefaultAsync(a => a.UniqueId.Equals(addressUniqueId));
         }
 
-        // TODO_TEST_PANOS
         public async Task<AddressGeometryResponse> GetGeometry(Guid addressUniqueId)
         {
             var addressWithGeometry = await _dbContext.Addresses
                 .Include(a => a.Geometry)
                 .SingleOrDefaultAsync(a => a.UniqueId.Equals(addressUniqueId));
+            if (addressWithGeometry == null)
+                return null;
             return addressWithGeometry.Geometry.ToAddressGeometryResponse();
         }
 
@@ -249,7 +250,9 @@ namespace Epsilon.Logic.Services
                     AddressUniqueId = null
                 };
 
-            var verificationResponse = await _addressVerificationService.Verify(userId, userIpAddress, form);
+            var cleansedForm = _addressCleansingHelper.Cleanse(form);
+
+            var verificationResponse = await _addressVerificationService.Verify(userId, userIpAddress, cleansedForm);
             if (verificationResponse.IsRejected)
                 return new AddAddressOutcome
                 {
@@ -258,8 +261,7 @@ namespace Epsilon.Logic.Services
                     RejectionReason = verificationResponse.RejectionReason,
                     AddressUniqueId = null
                 };
-
-            var cleansedForm = _addressCleansingHelper.Cleanse(form);
+            
             var entity = cleansedForm.ToEntity();
             entity.CreatedById = userId;
             entity.CreatedByIpAddress = userIpAddress;

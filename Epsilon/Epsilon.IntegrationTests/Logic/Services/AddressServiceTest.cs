@@ -75,7 +75,8 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var serviceForAdd = containerForAdd.Get<IAddressService>();
 
             var addressForm = CreateRandomAddresForm(countryId, Guid.NewGuid());
-            var postcodeGeometry = await CreatePostcodeGeometry(helperContainer, addressForm.CountryId, addressForm.Postcode);
+            var postcodeGeometry = await CreatePostcodeGeometry(helperContainer, addressForm.CountryId, addressForm.Postcode.ToUpperInvariant());
+            Assert.IsNotNull(postcodeGeometry, "PostcodeGeometry just created is null.");
 
             var timeBefore = DateTimeOffset.Now;
             var outcome = await serviceForAdd.AddAddress(user.Id, ipAddress, addressForm);
@@ -129,12 +130,11 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.IsTrue(timeBefore <= retrievedAddress.Geometry.GeocodedOn && retrievedAddress.Geometry.GeocodedOn <= timeAfter,
                 "Field GeocodedOn on retrieved address Geometry was not in the expected range.");
 
-            // TODO_PANOS: Fix this! It is currently not fetching the PostcodeGeometry from the database. 
-            //Assert.IsNotNull(retrievedAddress.PostcodeGeometry, "PostcodeGeometry field on retrieved address is null");
-            //Assert.AreEqual(postcodeGeometry.Latitude, retrievedAddress.PostcodeGeometry.Latitude,
-            //    "Field Latitude on PostcodeGeometry of the retrieved address is not the expected.");
-            //Assert.AreEqual(postcodeGeometry.Longitude, retrievedAddress.PostcodeGeometry.Longitude,
-            //    "Field Longitude on PostcodeGeometry of the retrieved address is not the expected.");
+            Assert.IsNotNull(retrievedAddress.PostcodeGeometry, "PostcodeGeometry field on retrieved address is null");
+            Assert.AreEqual(postcodeGeometry.Latitude, retrievedAddress.PostcodeGeometry.Latitude,
+                "Field Latitude on PostcodeGeometry of the retrieved address is not the expected.");
+            Assert.AreEqual(postcodeGeometry.Longitude, retrievedAddress.PostcodeGeometry.Longitude,
+                "Field Longitude on PostcodeGeometry of the retrieved address is not the expected.");
 
             // I test the GetGeometry method here as I have already set up the data.
             var retrievedAddressGeometry = await serviceForGet.GetGeometry(addressForm.UniqueId);
@@ -386,6 +386,82 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             var nonExistingAddress = await service.GetAddress(Guid.NewGuid());
             Assert.IsNull(nonExistingAddress, "When using a UniqueId that does not exist, the returned address should be null.");
+        }
+
+        #endregion
+
+        #region GetAddress
+
+        [Test]
+        public async Task GetAddressWithGeometries_Test()
+        {
+            var addressesToCreate = 5;
+            var locality = "Locality";
+            var postcode = "POSTCODE";
+            var countryId = "GB";
+
+            var random = new RandomWrapper(2015);
+
+            var helperContainer = CreateContainer();
+            var addresses = await CreateAddresses(helperContainer, random, addressesToCreate, 0, "", locality, postcode, countryId);
+
+            var expectedAddress = addresses.First();
+
+            var containerUnderTest = CreateContainer();
+            var service = containerUnderTest.Get<IAddressService>();
+
+            var actualAddress = await service.GetAddressWithGeometries(expectedAddress.UniqueId);
+
+            Assert.IsNotNull(actualAddress, "The address was not found.");
+
+            Assert.IsNotNull(actualAddress.Geometry, "Geometry should not be null.");
+            Assert.AreEqual(expectedAddress.Geometry.Latitude, actualAddress.Geometry.Latitude,
+                "Geometry.Latitude is not the expected.");
+            Assert.AreEqual(expectedAddress.Geometry.Longitude, actualAddress.Geometry.Longitude,
+                "Geometry.Latitude is not the expected.");
+
+            Assert.IsNotNull(actualAddress.PostcodeGeometry, "PostcodeGeometry should not be null.");
+            Assert.AreEqual(expectedAddress.PostcodeGeometry.Latitude, actualAddress.PostcodeGeometry.Latitude,
+                "PostcodeGeometry.Latitude is not the expected.");
+            Assert.AreEqual(expectedAddress.PostcodeGeometry.Longitude, actualAddress.PostcodeGeometry.Longitude,
+                "PostcodeGeometry.Latitude is not the expected.");
+
+
+            var nonExistingAddress = await service.GetAddressWithGeometries(Guid.NewGuid());
+            Assert.IsNull(nonExistingAddress, "When using a UniqueId that does not exist, the returned address should be null.");
+        }
+
+        #endregion
+
+        #region GetGeometry
+
+        [Test]
+        public async Task GetGeometry_Test()
+        {
+            var addressesToCreate = 5;
+            var locality = "Locality";
+            var postcode = "POSTCODE";
+            var countryId = "GB";
+
+            var random = new RandomWrapper(2015);
+
+            var helperContainer = CreateContainer();
+            var addresses = await CreateAddresses(helperContainer, random, addressesToCreate, 0, "", locality, postcode, countryId);
+
+            var expectedAddress = addresses.First();
+
+            var containerUnderTest = CreateContainer();
+            var service = containerUnderTest.Get<IAddressService>();
+
+            var actualGeometry = await service.GetGeometry(expectedAddress.UniqueId);
+
+            Assert.IsNotNull(actualGeometry, "The geometry was not found.");
+            Assert.AreEqual(expectedAddress.Geometry.Latitude, actualGeometry.latitude, "Latitude is not the expected.");
+            Assert.AreEqual(expectedAddress.Geometry.Longitude, actualGeometry.longitude, "Longitude is not the expected.");
+
+
+            var geometryForNonExistingAddress = await service.GetAddress(Guid.NewGuid());
+            Assert.IsNull(geometryForNonExistingAddress, "When using a UniqueId that does not exist, the returned geometry should be null.");
         }
 
         #endregion
@@ -906,48 +982,54 @@ namespace Epsilon.IntegrationTests.Logic.Services
             };
             for (int i = 0; i < nonHiddenAddresses; i++)
             {
-                var address = new Address
-                {
-                    UniqueId = Guid.NewGuid(),
-                    Line1 = fieldPrefix + RandomStringHelper.GetAlphaNumericString(random, randomFieldLength, RandomStringHelper.CharacterCase.Mixed),
-                    Line2 = fieldPrefix + RandomStringHelper.GetAlphaNumericString(random, randomFieldLength, RandomStringHelper.CharacterCase.Mixed),
-                    Line3 = fieldPrefix + RandomStringHelper.GetAlphaNumericString(random, randomFieldLength, RandomStringHelper.CharacterCase.Mixed),
-                    Line4 = fieldPrefix + RandomStringHelper.GetAlphaNumericString(random, randomFieldLength, RandomStringHelper.CharacterCase.Mixed),
-                    Locality = locality,
-                    Region = fieldPrefix + RandomStringHelper.GetAlphaNumericString(random, randomFieldLength, RandomStringHelper.CharacterCase.Mixed),
-                    Postcode = postcode,
-                    CountryId = countryId,
-                    CreatedById = user.Id,
-                    CreatedByIpAddress = ipAddress,
-                    PostcodeGeometry = postcodeGeometry,
-                    IsHidden = false
-                };
+                var address = CreateRandomAddress(random, fieldPrefix, randomFieldLength,
+                    locality, postcode, countryId, user, ipAddress, postcodeGeometry);
+                address.IsHidden = false;
                 addresses.Add(address);
             }
             for (int i = 0; i < hiddenAddresses; i++)
             {
-                var address = new Address
-                {
-                    UniqueId = Guid.NewGuid(),
-                    Line1 = fieldPrefix + RandomStringHelper.GetAlphaNumericString(random, randomFieldLength, RandomStringHelper.CharacterCase.Mixed),
-                    Line2 = fieldPrefix + RandomStringHelper.GetAlphaNumericString(random, randomFieldLength, RandomStringHelper.CharacterCase.Mixed),
-                    Line3 = fieldPrefix + RandomStringHelper.GetAlphaNumericString(random, randomFieldLength, RandomStringHelper.CharacterCase.Mixed),
-                    Line4 = fieldPrefix + RandomStringHelper.GetAlphaNumericString(random, randomFieldLength, RandomStringHelper.CharacterCase.Mixed),
-                    Locality = locality,
-                    Region = fieldPrefix + RandomStringHelper.GetAlphaNumericString(random, randomFieldLength, RandomStringHelper.CharacterCase.Mixed),
-                    Postcode = postcode,
-                    CountryId = countryId,
-                    CreatedById = user.Id,
-                    CreatedByIpAddress = ipAddress,
-                    PostcodeGeometry = postcodeGeometry,
-                    IsHidden = true
-                };
+                var address = CreateRandomAddress(random, fieldPrefix, randomFieldLength,
+                    locality, postcode, countryId, user, ipAddress, postcodeGeometry);
+                address.IsHidden = true;
                 addresses.Add(address);
             }
             var dbContext = container.Get<IEpsilonContext>();
             dbContext.Addresses.AddRange(addresses);
             await dbContext.SaveChangesAsync();
             return addresses;
+        }
+
+        private Address CreateRandomAddress(
+            IRandomWrapper random, string fieldPrefix, int randomFieldLength, string locality, string postcode, string countryId,
+            User user, string ipAddress, PostcodeGeometry postcodeGeometry)
+        {
+            var geometry = new AddressGeometry
+            {
+                Latitude = random.NextDouble(),
+                Longitude = random.NextDouble(),
+                ViewportNortheastLatitude = random.NextDouble(),
+                ViewportNortheastLongitude = random.NextDouble(),
+                ViewportSouthwestLatitude = random.NextDouble(),
+                ViewportSouthwestLongitude = random.NextDouble(),
+            };
+            var address = new Address
+            {
+                UniqueId = Guid.NewGuid(),
+                Line1 = fieldPrefix + RandomStringHelper.GetAlphaNumericString(random, randomFieldLength, RandomStringHelper.CharacterCase.Mixed),
+                Line2 = fieldPrefix + RandomStringHelper.GetAlphaNumericString(random, randomFieldLength, RandomStringHelper.CharacterCase.Mixed),
+                Line3 = fieldPrefix + RandomStringHelper.GetAlphaNumericString(random, randomFieldLength, RandomStringHelper.CharacterCase.Mixed),
+                Line4 = fieldPrefix + RandomStringHelper.GetAlphaNumericString(random, randomFieldLength, RandomStringHelper.CharacterCase.Mixed),
+                Locality = locality,
+                Region = fieldPrefix + RandomStringHelper.GetAlphaNumericString(random, randomFieldLength, RandomStringHelper.CharacterCase.Mixed),
+                Postcode = postcode,
+                CountryId = countryId,
+                CreatedById = user.Id,
+                CreatedByIpAddress = ipAddress,
+                Geometry = geometry,
+                PostcodeGeometry = postcodeGeometry
+            };
+            return address;
         }
 
         private async Task<IList<TenancyDetailsSubmission>> CreateSubmissions(
