@@ -228,65 +228,59 @@ namespace Epsilon.Logic.Services
 
         public async Task<AddAddressOutcome> AddAddress(string userId, string userIpAddress, AddressForm form)
         {
-            using (var transactionScope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
-            {
-                if (_addressServiceConfig.GlobalSwitch_DisableAddAddress)
-                    return new AddAddressOutcome
-                    {
-                        IsRejected = true,
-                        ReturnToForm = false,
-                        RejectionReason = AddressResources.GlobalSwitch_AddAddressDisabled_Message,
-                        AddressUniqueId = null
-                    };
-
-                var formCountryId = form.CountryIdAsEnum();
-
-                var antiAbuseServiceResponse = await _antiAbuseService.CanAddAddress(userId, userIpAddress, formCountryId);
-                if (antiAbuseServiceResponse.IsRejected)
-                    return new AddAddressOutcome
-                    {
-                        IsRejected = true,
-                        ReturnToForm = false,
-                        RejectionReason = antiAbuseServiceResponse.RejectionReason,
-                        AddressUniqueId = null
-                    };
-
-                var verificationResponse = await _addressVerificationService.Verify(userId, userIpAddress, form);
-                if (verificationResponse.IsRejected)
-                    return new AddAddressOutcome
-                    {
-                        IsRejected = true,
-                        ReturnToForm = verificationResponse.AskUserToModify,
-                        RejectionReason = verificationResponse.RejectionReason,
-                        AddressUniqueId = null
-                    };
-
-                var cleansedForm = _addressCleansingHelper.Cleanse(form);
-                var entity = cleansedForm.ToEntity();
-                entity.CreatedById = userId;
-                entity.CreatedByIpAddress = userIpAddress;
-
-                // TODO_TEST_PANOS
-                entity.DistinctAddressCode = CalculateDistinctAddressCode(cleansedForm);
-
-                if (verificationResponse.AddressGeometry != null)
-                {
-                    _dbContext.AddressGeometries.Add(verificationResponse.AddressGeometry);
-                    entity.Geometry = verificationResponse.AddressGeometry;
-                }
-                _dbContext.Addresses.Add(entity);
-
-                await _dbContext.SaveChangesAsync();
-
-                // TODO_TEST_PANOS:
-                transactionScope.Complete();
-
+            if (_addressServiceConfig.GlobalSwitch_DisableAddAddress)
                 return new AddAddressOutcome
                 {
-                    IsRejected = false,
-                    AddressUniqueId = entity.UniqueId
+                    IsRejected = true,
+                    ReturnToForm = false,
+                    RejectionReason = AddressResources.GlobalSwitch_AddAddressDisabled_Message,
+                    AddressUniqueId = null
                 };
+
+            var formCountryId = form.CountryIdAsEnum();
+
+            var antiAbuseServiceResponse = await _antiAbuseService.CanAddAddress(userId, userIpAddress, formCountryId);
+            if (antiAbuseServiceResponse.IsRejected)
+                return new AddAddressOutcome
+                {
+                    IsRejected = true,
+                    ReturnToForm = false,
+                    RejectionReason = antiAbuseServiceResponse.RejectionReason,
+                    AddressUniqueId = null
+                };
+
+            var verificationResponse = await _addressVerificationService.Verify(userId, userIpAddress, form);
+            if (verificationResponse.IsRejected)
+                return new AddAddressOutcome
+                {
+                    IsRejected = true,
+                    ReturnToForm = verificationResponse.AskUserToModify,
+                    RejectionReason = verificationResponse.RejectionReason,
+                    AddressUniqueId = null
+                };
+
+            var cleansedForm = _addressCleansingHelper.Cleanse(form);
+            var entity = cleansedForm.ToEntity();
+            entity.CreatedById = userId;
+            entity.CreatedByIpAddress = userIpAddress;
+
+            // TODO_TEST_PANOS
+            entity.DistinctAddressCode = CalculateDistinctAddressCode(cleansedForm);
+
+            if (verificationResponse.AddressGeometry != null)
+            {
+                _dbContext.AddressGeometries.Add(verificationResponse.AddressGeometry);
+                entity.Geometry = verificationResponse.AddressGeometry;
             }
+            _dbContext.Addresses.Add(entity);
+
+            await _dbContext.SaveChangesAsync();
+
+            return new AddAddressOutcome
+            {
+                IsRejected = false,
+                AddressUniqueId = entity.UniqueId
+            };
         }
 
         public async Task<IList<long>> GetDuplicateAddressIds(Address address)

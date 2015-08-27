@@ -114,123 +114,119 @@ namespace Epsilon.Logic.Services
             Guid submissionUniqueId,
             Guid addressUniqueId)
         {
-            using (var transactionScope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
-            {
-                var uiAlerts = new List<UiAlert>();
+            var uiAlerts = new List<UiAlert>();
 
-                if (_tenancyDetailsSubmissionServiceConfig.GlobalSwitch_DisableCreateTenancyDetailsSubmission)
-                    return new CreateTenancyDetailsSubmissionOutcome
-                    {
-                        IsRejected = true,
-                        RejectionReason = TenancyDetailsSubmissionResources.GlobalSwitch_CreateTenancyDetailsSubmissionDisabled_Message,
-                        ReturnToForm = false,
-                        TenancyDetailsSubmissionUniqueId = null
-                    };
-
-                var address = await _addressService.GetAddress(addressUniqueId);
-                if (address == null)
-                {
-                    return new CreateTenancyDetailsSubmissionOutcome
-                    {
-                        IsRejected = true,
-                        RejectionReason = TenancyDetailsSubmissionResources.Create_AddressNotFoundMessage
-                    };
-                }
-
-                var antiAbuseCheck = await _antiAbuseService.CanCreateTenancyDetailsSubmission(userId, userIpAddress, address.CountryIdAsEnum());
-                if (antiAbuseCheck.IsRejected)
-                {
-                    return new CreateTenancyDetailsSubmissionOutcome
-                    {
-                        IsRejected = true,
-                        RejectionReason = antiAbuseCheck.RejectionReason
-                    };
-                }
-
-                if (!_tenancyDetailsSubmissionServiceConfig.Create_DisableFrequencyPerAddressCheck)
-                {
-                    var tooManyRecentSubmissionsExist = await TooManyRecentSubmissionsExist(address.Id);
-                    if (tooManyRecentSubmissionsExist)
-                        return new CreateTenancyDetailsSubmissionOutcome
-                        {
-                            IsRejected = true,
-                            RejectionReason = TenancyDetailsSubmissionResources.Create_MaxFrequencyPerAddressCheck_RejectionMessage
-                        };
-                }
-
-                var tenancyDetailsSubmission = await DoCreate(userId, userIpAddress, submissionUniqueId, address.Id);
-
-                transactionScope.Complete();
-
-                uiAlerts.Add(new UiAlert
-                {
-                    Type = UiAlertType.Success,
-                    Message = TenancyDetailsSubmissionResources.Create_SuccessMessage
-                });
-
-                _appCacheHelper.RemoveCachedUserSubmissionsSummary(userId);
-                // TODO_TEST_PANOS
-                _userInterfaceCustomisationService.ClearCachedCustomisationForUser(userId);
-
+            if (_tenancyDetailsSubmissionServiceConfig.GlobalSwitch_DisableCreateTenancyDetailsSubmission)
                 return new CreateTenancyDetailsSubmissionOutcome
                 {
-                    IsRejected = false,
-                    TenancyDetailsSubmissionUniqueId = tenancyDetailsSubmission.UniqueId,
-                    // TODO_TEST_PANOS
-                    UiAlerts = uiAlerts
+                    IsRejected = true,
+                    RejectionReason = TenancyDetailsSubmissionResources.GlobalSwitch_CreateTenancyDetailsSubmissionDisabled_Message,
+                    ReturnToForm = false,
+                    TenancyDetailsSubmissionUniqueId = null
+                };
+
+            var address = await _addressService.GetAddress(addressUniqueId);
+            if (address == null)
+            {
+                return new CreateTenancyDetailsSubmissionOutcome
+                {
+                    IsRejected = true,
+                    RejectionReason = TenancyDetailsSubmissionResources.Create_AddressNotFoundMessage
                 };
             }
+
+            var antiAbuseCheck = await _antiAbuseService.CanCreateTenancyDetailsSubmission(userId, userIpAddress, address.CountryIdAsEnum());
+            if (antiAbuseCheck.IsRejected)
+            {
+                return new CreateTenancyDetailsSubmissionOutcome
+                {
+                    IsRejected = true,
+                    RejectionReason = antiAbuseCheck.RejectionReason
+                };
+            }
+
+            if (!_tenancyDetailsSubmissionServiceConfig.Create_DisableFrequencyPerAddressCheck)
+            {
+                var tooManyRecentSubmissionsExist = await TooManyRecentSubmissionsExist(address.Id);
+                if (tooManyRecentSubmissionsExist)
+                    return new CreateTenancyDetailsSubmissionOutcome
+                    {
+                        IsRejected = true,
+                        RejectionReason = TenancyDetailsSubmissionResources.Create_MaxFrequencyPerAddressCheck_RejectionMessage
+                    };
+            }
+
+            var tenancyDetailsSubmission = await DoCreate(userId, userIpAddress, submissionUniqueId, address.Id);
+
+            uiAlerts.Add(new UiAlert
+            {
+                Type = UiAlertType.Success,
+                Message = TenancyDetailsSubmissionResources.Create_SuccessMessage
+            });
+
+            _appCacheHelper.RemoveCachedUserSubmissionsSummary(userId);
+            // TODO_TEST_PANOS
+            _userInterfaceCustomisationService.ClearCachedCustomisationForUser(userId);
+
+            return new CreateTenancyDetailsSubmissionOutcome
+            {
+                IsRejected = false,
+                TenancyDetailsSubmissionUniqueId = tenancyDetailsSubmission.UniqueId,
+                // TODO_TEST_PANOS
+                UiAlerts = uiAlerts
+            };
         }
 
         public async Task<EnterVerificationCodeOutcome> EnterVerificationCode(string userId, VerificationCodeForm form)
         {
+            var uiAlerts = new List<UiAlert>();
+
+            var submission = await GetSubmissionForUser(userId, form.TenancyDetailsSubmissionUniqueId);
+            if (submission == null)
+            {
+                return new EnterVerificationCodeOutcome
+                {
+                    IsRejected = true,
+                    RejectionReason = CommonResources.GenericInvalidRequestMessage
+                };
+            }
+
+            if (!submission.CanEnterVerificationCode())
+            {
+                return new EnterVerificationCodeOutcome
+                {
+                    IsRejected = true,
+                    RejectionReason = CommonResources.GenericInvalidActionMessage
+                };
+            }
+
+            var trimmedVerificationCodeToLower = form.VerificationCode.Trim().ToLowerInvariant();
+
+            var verification =
+                submission.TenantVerifications.SingleOrDefault(v => v.SecretCode.ToLowerInvariant().Equals(trimmedVerificationCodeToLower));
+
+            if (verification == null)
+            {
+                return new EnterVerificationCodeOutcome
+                {
+                    IsRejected = true,
+                    ReturnToForm = true,
+                    RejectionReason = TenancyDetailsSubmissionResources.EnterVerification_InvalidVerificationCode_RejectionMessage
+                };
+            }
+
+            if (verification.StepVerificationReceivedDone())
+            {
+                return new EnterVerificationCodeOutcome
+                {
+                    IsRejected = true,
+                    ReturnToForm = false,
+                    RejectionReason = TenancyDetailsSubmissionResources.EnterVerification_VerificationAlreadyUsed_RejectionMessage
+                };
+            }
+
             using (var transactionScope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
-                var uiAlerts = new List<UiAlert>();
-
-                var submission = await GetSubmissionForUser(userId, form.TenancyDetailsSubmissionUniqueId);
-                if (submission == null)
-                {
-                    return new EnterVerificationCodeOutcome
-                    {
-                        IsRejected = true,
-                        RejectionReason = CommonResources.GenericInvalidRequestMessage
-                    };
-                }
-
-                if (!submission.CanEnterVerificationCode())
-                {
-                    return new EnterVerificationCodeOutcome
-                    {
-                        IsRejected = true,
-                        RejectionReason = CommonResources.GenericInvalidActionMessage
-                    };
-                }
-
-                var trimmedVerificationCodeToLower = form.VerificationCode.Trim().ToLowerInvariant();
-
-                var verification =
-                    submission.TenantVerifications.SingleOrDefault(v => v.SecretCode.ToLowerInvariant().Equals(trimmedVerificationCodeToLower));
-
-                if (verification == null)
-                {
-                    return new EnterVerificationCodeOutcome
-                    {
-                        IsRejected = true,
-                        ReturnToForm = true,
-                        RejectionReason = TenancyDetailsSubmissionResources.EnterVerification_InvalidVerificationCode_RejectionMessage
-                    };
-                }
-
-                if (verification.StepVerificationReceivedDone())
-                {
-                    return new EnterVerificationCodeOutcome
-                    {
-                        IsRejected = true,
-                        ReturnToForm = false,
-                        RejectionReason = TenancyDetailsSubmissionResources.EnterVerification_VerificationAlreadyUsed_RejectionMessage
-                    };
-                }
 
                 var now = _clock.OffsetNow;
 
@@ -327,29 +323,29 @@ namespace Epsilon.Logic.Services
 
         public async Task<SubmitTenancyDetailsOutcome> SubmitTenancyDetails(string userId, TenancyDetailsForm form)
         {
+            var uiAlerts = new List<UiAlert>();
+
+            var submission = await GetSubmissionForUser(userId, form.TenancyDetailsSubmissionUniqueId);
+            if (submission == null)
+            {
+                return new SubmitTenancyDetailsOutcome
+                {
+                    IsRejected = true,
+                    RejectionReason = CommonResources.GenericInvalidRequestMessage
+                };
+            }
+
+            if (!submission.CanSubmitTenancyDetails())
+            {
+                return new SubmitTenancyDetailsOutcome
+                {
+                    IsRejected = true,
+                    RejectionReason = CommonResources.GenericInvalidActionMessage
+                };
+            }
+
             using (var transactionScope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
-                var uiAlerts = new List<UiAlert>();
-
-                var submission = await GetSubmissionForUser(userId, form.TenancyDetailsSubmissionUniqueId);
-                if (submission == null)
-                {
-                    return new SubmitTenancyDetailsOutcome
-                    {
-                        IsRejected = true,
-                        RejectionReason = CommonResources.GenericInvalidRequestMessage
-                    };
-                }
-
-                if (!submission.CanSubmitTenancyDetails())
-                {
-                    return new SubmitTenancyDetailsOutcome
-                    {
-                        IsRejected = true,
-                        RejectionReason = CommonResources.GenericInvalidActionMessage
-                    };
-                }
-
                 form.ApplyOnEntity(submission);
                 submission.SubmittedOn = _clock.OffsetNow;
                 // TODO_TEST_PANOS

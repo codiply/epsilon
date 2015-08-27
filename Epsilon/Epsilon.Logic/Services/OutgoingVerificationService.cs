@@ -115,125 +115,119 @@ namespace Epsilon.Logic.Services
             string userIpAddress,
             Guid verificationUniqueId)
         {
-            using (var transactionScope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
-            {
-                var uiAlerts = new List<UiAlert>();
+            var uiAlerts = new List<UiAlert>();
 
-                if (_outgoingVerificationServiceConfig.GlobalSwitch_DisablePickOutgoingVerification)
-                    return new PickVerificationOutcome
-                    {
-                        IsRejected = true,
-                        RejectionReason = OutgoingVerificationResources.GlobalSwitch_PickOutgoingVerificationDisabled_Message,
-                        VerificationUniqueId = null
-                    };
-
-                var userResidence = await _userResidenceService.GetResidence(userId);
-                // TODO_TEST_PANOS
-                if (userResidence == null)
+            if (_outgoingVerificationServiceConfig.GlobalSwitch_DisablePickOutgoingVerification)
+                return new PickVerificationOutcome
                 {
-                    return new PickVerificationOutcome
-                    {
-                        IsRejected = true,
-                        RejectionReason = OutgoingVerificationResources.Pick_CannotDetermineUserResidenceErrorMessage,
-                        VerificationUniqueId = null
-                    };
-                }
-
-                var countryId = userResidence.Address.CountryIdAsEnum();
-
-                var antiAbuseServiceResponse = await _antiAbuseService.CanPickOutgoingVerification(userId, userIpAddress, userResidence.Address.CountryIdAsEnum());
-                if (antiAbuseServiceResponse.IsRejected)
-                    return new PickVerificationOutcome
-                    {
-                        IsRejected = true,
-                        RejectionReason = antiAbuseServiceResponse.RejectionReason,
-                        VerificationUniqueId = null
-                    };
-
-                // TODO_TEST_PANOS
-                var verificationsPerTenancyDetailsSubmission = _outgoingVerificationServiceConfig.VerificationsPerTenancyDetailsSubmission;
-
-                // TODO_TEST_PANOS
-                var submissionIdsToAvoid = await _dbContext.TenantVerifications
-                    .Where(v => v.AssignedToId.Equals(userId) || v.AssignedByIpAddress.Equals(userIpAddress))
-                    .Select(v => v.TenancyDetailsSubmissionId)
-                    .Distinct()
-                    .ToListAsync();
-
-                // I create a box around the user residence and avoid addresses in that box.
-                var minDegreesDistance = _outgoingVerificationServiceConfig.Pick_MinDegreesDistanceInAnyDirection;
-                var latitudeLowerBound = userResidence.Address.Geometry.Latitude - minDegreesDistance;
-                var latitudeUpperBound = userResidence.Address.Geometry.Latitude + minDegreesDistance;
-                var longitudeLowerBound = userResidence.Address.Geometry.Longitude - minDegreesDistance;
-                var longitudeUpperBound = userResidence.Address.Geometry.Longitude + minDegreesDistance;
-
-                // TODO_TEST_PANOS: all where clauses below
-                var pickedSubmission = await _dbContext.TenancyDetailsSubmissions
-                    .Include(s => s.Address)
-                    .Include(s => s.Address.Geometry)
-                    .Include(s => s.TenantVerifications)
-                    .Where(x => x.Address.CountryId.Equals(userResidence.Address.CountryId)) // TODO_TEST_PANOS
-                    .Where(x => !x.IsHidden) // TODO_TEST_PANOS
-                    .Where(s => s.UserId != userId)
-                    .Where(s => s.CreatedByIpAddress != userIpAddress)
-                    .Where(s => s.Address.CreatedById != userId)
-                    .Where(s => s.Address.CreatedByIpAddress != userIpAddress)
-                    .Where(s => s.TenantVerifications.Count() < verificationsPerTenancyDetailsSubmission)
-                    .Where(s => s.Address.CountryId.Equals(userResidence.Address.CountryId))
-                    .Where(s => !submissionIdsToAvoid.Contains(s.Id))
-                    .Where(s => s.Address.Geometry.Latitude < latitudeLowerBound || latitudeUpperBound < s.Address.Geometry.Latitude ||
-                                s.Address.Geometry.Longitude < longitudeLowerBound || longitudeUpperBound < s.Address.Geometry.Longitude)
-                    .OrderBy(s => s.TenantVerifications.Count())
-                    .FirstOrDefaultAsync();
-
-                if (pickedSubmission == null)
-                {
-                    // TODO_TEST_PANOS
-                    return new PickVerificationOutcome
-                    {
-                        IsRejected = true,
-                        RejectionReason = OutgoingVerificationResources.Pick_NoVerificationAssignableToUser_RejectionMessage,
-                        VerificationUniqueId = null
-                    };
-                }
-
-                var random = _randomFactory.Create(_clock.OffsetNow.Millisecond);
-
-                var tenantVerification = new TenantVerification()
-                {
-                    UniqueId = verificationUniqueId,
-                    TenancyDetailsSubmissionId = pickedSubmission.Id,
-                    AssignedToId = userId,
-                    AssignedByIpAddress = userIpAddress,
-                    SecretCode = RandomStringHelper.GetString(random, AppConstant.SECRET_CODE_MAX_LENGTH, CharacterCase.Upper)
+                    IsRejected = true,
+                    RejectionReason = OutgoingVerificationResources.GlobalSwitch_PickOutgoingVerificationDisabled_Message,
+                    VerificationUniqueId = null
                 };
 
-                _dbContext.TenantVerifications.Add(tenantVerification);
-                await _dbContext.SaveChangesAsync();
-
-                // TODO_TEST_PANOS
-                transactionScope.Complete();
-
-                uiAlerts.Add(new UiAlert
+            var userResidence = await _userResidenceService.GetResidence(userId);
+            // TODO_TEST_PANOS
+            if (userResidence == null)
+            {
+                return new PickVerificationOutcome
                 {
-                    Type = Constants.Enums.UiAlertType.Success,
-                    // TODO_TEST_PANOS
-                    Message = string.Format(
-                        OutgoingVerificationResources.Pick_SuccessMessage,
-                        _outgoingVerificationServiceConfig.Instructions_ExpiryPeriodInDays)
-                });
+                    IsRejected = true,
+                    RejectionReason = OutgoingVerificationResources.Pick_CannotDetermineUserResidenceErrorMessage,
+                    VerificationUniqueId = null
+                };
+            }
 
-                _appCacheHelper.RemoveCachedUserOutgoingVerificationsSummary(userId);
-                _appCacheHelper.RemoveCachedUserSubmissionsSummary(pickedSubmission.UserId);
+            var countryId = userResidence.Address.CountryIdAsEnum();
 
+            var antiAbuseServiceResponse = await _antiAbuseService.CanPickOutgoingVerification(userId, userIpAddress, userResidence.Address.CountryIdAsEnum());
+            if (antiAbuseServiceResponse.IsRejected)
+                return new PickVerificationOutcome
+                {
+                    IsRejected = true,
+                    RejectionReason = antiAbuseServiceResponse.RejectionReason,
+                    VerificationUniqueId = null
+                };
+
+            // TODO_TEST_PANOS
+            var verificationsPerTenancyDetailsSubmission = _outgoingVerificationServiceConfig.VerificationsPerTenancyDetailsSubmission;
+
+            // TODO_TEST_PANOS
+            var submissionIdsToAvoid = await _dbContext.TenantVerifications
+                .Where(v => v.AssignedToId.Equals(userId) || v.AssignedByIpAddress.Equals(userIpAddress))
+                .Select(v => v.TenancyDetailsSubmissionId)
+                .Distinct()
+                .ToListAsync();
+
+            // I create a box around the user residence and avoid addresses in that box.
+            var minDegreesDistance = _outgoingVerificationServiceConfig.Pick_MinDegreesDistanceInAnyDirection;
+            var latitudeLowerBound = userResidence.Address.Geometry.Latitude - minDegreesDistance;
+            var latitudeUpperBound = userResidence.Address.Geometry.Latitude + minDegreesDistance;
+            var longitudeLowerBound = userResidence.Address.Geometry.Longitude - minDegreesDistance;
+            var longitudeUpperBound = userResidence.Address.Geometry.Longitude + minDegreesDistance;
+
+            // TODO_TEST_PANOS: all where clauses below
+            var pickedSubmission = await _dbContext.TenancyDetailsSubmissions
+                .Include(s => s.Address)
+                .Include(s => s.Address.Geometry)
+                .Include(s => s.TenantVerifications)
+                .Where(x => x.Address.CountryId.Equals(userResidence.Address.CountryId)) // TODO_TEST_PANOS
+                .Where(x => !x.IsHidden) // TODO_TEST_PANOS
+                .Where(s => s.UserId != userId)
+                .Where(s => s.CreatedByIpAddress != userIpAddress)
+                .Where(s => s.Address.CreatedById != userId)
+                .Where(s => s.Address.CreatedByIpAddress != userIpAddress)
+                .Where(s => s.TenantVerifications.Count() < verificationsPerTenancyDetailsSubmission)
+                .Where(s => s.Address.CountryId.Equals(userResidence.Address.CountryId))
+                .Where(s => !submissionIdsToAvoid.Contains(s.Id))
+                .Where(s => s.Address.Geometry.Latitude < latitudeLowerBound || latitudeUpperBound < s.Address.Geometry.Latitude ||
+                            s.Address.Geometry.Longitude < longitudeLowerBound || longitudeUpperBound < s.Address.Geometry.Longitude)
+                .OrderBy(s => s.TenantVerifications.Count())
+                .FirstOrDefaultAsync();
+
+            if (pickedSubmission == null)
+            {
                 // TODO_TEST_PANOS
                 return new PickVerificationOutcome
                 {
-                    IsRejected = false,
-                    VerificationUniqueId = tenantVerification.UniqueId,
-                    UiAlerts = uiAlerts
+                    IsRejected = true,
+                    RejectionReason = OutgoingVerificationResources.Pick_NoVerificationAssignableToUser_RejectionMessage,
+                    VerificationUniqueId = null
                 };
             }
+
+            var random = _randomFactory.Create(_clock.OffsetNow.Millisecond);
+
+            var tenantVerification = new TenantVerification()
+            {
+                UniqueId = verificationUniqueId,
+                TenancyDetailsSubmissionId = pickedSubmission.Id,
+                AssignedToId = userId,
+                AssignedByIpAddress = userIpAddress,
+                SecretCode = RandomStringHelper.GetString(random, AppConstant.SECRET_CODE_MAX_LENGTH, CharacterCase.Upper)
+            };
+
+            _dbContext.TenantVerifications.Add(tenantVerification);
+            await _dbContext.SaveChangesAsync();
+
+            uiAlerts.Add(new UiAlert
+            {
+                Type = Constants.Enums.UiAlertType.Success,
+                // TODO_TEST_PANOS
+                Message = string.Format(
+                    OutgoingVerificationResources.Pick_SuccessMessage,
+                    _outgoingVerificationServiceConfig.Instructions_ExpiryPeriodInDays)
+            });
+
+            _appCacheHelper.RemoveCachedUserOutgoingVerificationsSummary(userId);
+            _appCacheHelper.RemoveCachedUserSubmissionsSummary(pickedSubmission.UserId);
+
+            // TODO_TEST_PANOS
+            return new PickVerificationOutcome
+            {
+                IsRejected = false,
+                VerificationUniqueId = tenantVerification.UniqueId,
+                UiAlerts = uiAlerts
+            };
         }
 
         public async Task<GetVerificationMessageOutcome> GetVerificationMessage(string userId, Guid verificationUniqueId)

@@ -107,8 +107,6 @@ namespace Epsilon.Logic.Services
             Guid accessUniqueId,
             Guid addressUniqueId)
         {
-            using (var transactionScope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
-            {
                 if (_propertyInfoAccessServiceConfig.GlobalSwitch_DisableCreatePropertyInfoAccess)
                     return new CreatePropertyInfoAccessOutcome
                     {
@@ -167,6 +165,8 @@ namespace Epsilon.Logic.Services
                     };
                 }
 
+            using (var transactionScope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+            {
                 var propertyInfoAccess = await DoCreate(userId, userIpAddress, accessUniqueId, address.Id);
 
                 var tokenTransactionStatus = await _userTokenService

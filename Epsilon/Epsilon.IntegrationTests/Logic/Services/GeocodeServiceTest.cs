@@ -26,6 +26,9 @@ namespace Epsilon.IntegrationTests.Logic.Services
         private const string STATUS_TEXT_UNKNOWN_ERROR = "UNKNOWN_ERROR";
         private const string STATUS_TEXT_UNEXPECTED = "SOME_UNEXPECTED_TEXT";
 
+        private const double DELAY_MIN_FRACTION = 0.6;
+        private const double DELAY_MAX_FRACTION = 1.4;
+
         private readonly double LatitudeLongitudePrecision = 0.00001;
         private readonly TimeSpan DelayBetweenCallsToTheApi = TimeSpan.FromSeconds(0.2);
 
@@ -383,7 +386,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var secondTimeGeocodeClientCalledOn = geocodeClientCalledOn[1];
             var secondsBetweenCalls = (secondTimeGeocodeClientCalledOn - firstTimeGeocodeClientCalledOn).TotalSeconds;
 
-            Assert.That(secondsBetweenCalls, Is.InRange(0.75 * delayBetweenRetriesInSeconds, 1.25 * delayBetweenRetriesInSeconds),
+            Assert.That(secondsBetweenCalls, Is.InRange(DELAY_MIN_FRACTION * delayBetweenRetriesInSeconds, DELAY_MAX_FRACTION * delayBetweenRetriesInSeconds),
                 "The delay between the two calls is not in the expected range.");
         }
 
@@ -447,9 +450,9 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var secondsBetweenCalls1 = (secondTimeGeocodeClientCalledOn - firstTimeGeocodeClientCalledOn).TotalSeconds;
             var secondsBetweenCalls2 = (thirdTimeGeocodeClientCalledOn - secondTimeGeocodeClientCalledOn).TotalSeconds;
 
-            Assert.That(secondsBetweenCalls1, Is.InRange(0.75 * delayBetweenRetriesInSeconds, 1.25 * delayBetweenRetriesInSeconds),
+            Assert.That(secondsBetweenCalls1, Is.InRange(DELAY_MIN_FRACTION * delayBetweenRetriesInSeconds, DELAY_MAX_FRACTION * delayBetweenRetriesInSeconds),
                 "The delay between the first two calls is not in the expected range.");
-            Assert.That(secondsBetweenCalls2, Is.InRange(0.75 * delayBetweenRetriesInSeconds, 1.25 * delayBetweenRetriesInSeconds),
+            Assert.That(secondsBetweenCalls2, Is.InRange(DELAY_MIN_FRACTION * delayBetweenRetriesInSeconds, DELAY_MAX_FRACTION * delayBetweenRetriesInSeconds),
                 "The delay between the last two calls is not in the expected range.");
         }
 
@@ -867,7 +870,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var secondTimeGeocodeClientCalledOn = geocodeClientCalledOn[1];
             var secondsBetweenCalls = (secondTimeGeocodeClientCalledOn - firstTimeGeocodeClientCalledOn).TotalSeconds;
 
-            Assert.That(secondsBetweenCalls, Is.InRange(0.75 * delayBetweenRetriesInSeconds, 1.25 * delayBetweenRetriesInSeconds),
+            Assert.That(secondsBetweenCalls, Is.InRange(DELAY_MIN_FRACTION * delayBetweenRetriesInSeconds, DELAY_MAX_FRACTION * delayBetweenRetriesInSeconds),
                 "The delay between the two calls is not in the expected range.");
         }
 
@@ -931,9 +934,9 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var secondsBetweenCalls1 = (secondTimeGeocodeClientCalledOn - firstTimeGeocodeClientCalledOn).TotalSeconds;
             var secondsBetweenCalls2 = (thirdTimeGeocodeClientCalledOn - secondTimeGeocodeClientCalledOn).TotalSeconds;
 
-            Assert.That(secondsBetweenCalls1, Is.InRange(0.75 * delayBetweenRetriesInSeconds, 1.25 * delayBetweenRetriesInSeconds),
+            Assert.That(secondsBetweenCalls1, Is.InRange(DELAY_MIN_FRACTION * delayBetweenRetriesInSeconds, DELAY_MAX_FRACTION * delayBetweenRetriesInSeconds),
                 "The delay between the first two calls is not in the expected range.");
-            Assert.That(secondsBetweenCalls2, Is.InRange(0.75 * delayBetweenRetriesInSeconds, 1.25 * delayBetweenRetriesInSeconds),
+            Assert.That(secondsBetweenCalls2, Is.InRange(DELAY_MIN_FRACTION * delayBetweenRetriesInSeconds, DELAY_MAX_FRACTION * delayBetweenRetriesInSeconds),
                 "The delay between the last two calls is not in the expected range.");
         }
 
