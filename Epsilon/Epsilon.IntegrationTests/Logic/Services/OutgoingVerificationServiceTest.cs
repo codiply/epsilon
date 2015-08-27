@@ -384,12 +384,15 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             var userIdUsedInAntiAbuse = string.Empty;
             var ipAddressUsedInAntiAbuse = string.Empty;
+            CountryId? countryIdUsedInAntiAbuse = null;
 
             var container = CreateContainer();
-            SetupAntiAbuseServiceResponse(container, (userId, ipAddr) =>
+            SetupAntiAbuseServiceResponse(container, (userId, ipAddr, cId) =>
             {
                 userIdUsedInAntiAbuse = userId;
                 ipAddressUsedInAntiAbuse = ipAddr;
+                countryIdUsedInAntiAbuse = cId;
+
             }, new AntiAbuseServiceResponse()
             {
                 IsRejected = true,
@@ -407,6 +410,8 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 "The UserId used in the call to AntiAbuseService is not the expected.");
             Assert.AreEqual(ipAddress, ipAddressUsedInAntiAbuse,
                 "The IpAddress used in the call to AntiAbuseService is not the expected.");
+            Assert.AreEqual(CountryId.GB, countryIdUsedInAntiAbuse,
+                "The CountryId used in the call to AntiAbuseService is not the expected.");
 
             var retrievedTenantVerification = await DbProbe.TenantVerifications
                 .SingleOrDefaultAsync(x => x.UniqueId.Equals(verificationUniqueId));
@@ -482,7 +487,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             container.Rebind<IOutgoingVerificationServiceConfig>().ToConstant(mockConfig.Object);
         }
 
-        private static void SetupAntiAbuseServiceResponse(IKernel container, Action<string, string> callback,
+        private static void SetupAntiAbuseServiceResponse(IKernel container, Action<string, string, CountryId> callback,
             AntiAbuseServiceResponse response)
         {
             var mockAntiAbuseService = new Mock<IAntiAbuseService>();

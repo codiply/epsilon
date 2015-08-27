@@ -381,7 +381,6 @@ namespace Epsilon.Logic.Services
                     };
                 }
 
-                // TODO_TEST_PANOS
                 transactionScope.Complete();
 
                 _appCacheHelper.RemoveCachedUserSubmissionsSummary(userId);
@@ -394,9 +393,9 @@ namespace Epsilon.Logic.Services
             }
         }
 
+        // TODO_TEST_PANOS
         public async Task<GetSubmissionAddressOutcome> GetSubmissionAddress(string userId, Guid submissionUniqueId)
         {
-            // TODO_TEST_PANOS
             var submission = await _dbContext.TenancyDetailsSubmissions
                 .Where(s => s.UniqueId.Equals(submissionUniqueId))
                 .Where(s => s.UserId.Equals(userId))

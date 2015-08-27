@@ -40,15 +40,17 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             var userIdUsedInAntiAbuse = string.Empty;
             var ipAddressUsedInAntiAbuse = string.Empty;
+            CountryId? countryIdUsedInAntiAbuse = null;
 
             var container = CreateContainer();
             var disableFrequencyPerAddressCheck = false;
             var maxFrequencyPerAddress = new Frequency(1, TimeSpan.FromDays(1));
             SetupConfigForCreate(container, disableFrequencyPerAddressCheck, maxFrequencyPerAddress);
-            SetupAntiAbuseServiceResponse(container, (userId, ipAddr) =>
+            SetupAntiAbuseServiceResponse(container, (userId, ipAddr, cId) =>
                 {
                     userIdUsedInAntiAbuse = userId;
                     ipAddressUsedInAntiAbuse = ipAddr;
+                    countryIdUsedInAntiAbuse = cId;
                 }, new AntiAbuseServiceResponse());
             var service = container.Get<ITenancyDetailsSubmissionService>();
 
@@ -61,6 +63,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 "The RejectionReason on the outcome is not the expected.");
             Assert.IsNullOrEmpty(userIdUsedInAntiAbuse, "The AntiAbuse service should not be called. (1)");
             Assert.IsNullOrEmpty(ipAddressUsedInAntiAbuse, "The AntiAbuse service should not be called. (2)");
+            Assert.IsNull(countryIdUsedInAntiAbuse, "The AntiAbuse service should not be called. (3)");
         }
 
         [Test]
@@ -70,22 +73,25 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var antiAbuseRejectionReason = "AntiAbuseService Rejection Reason";
             var helperContainer = CreateContainer();
             var user = await CreateUser(helperContainer, "test@test.com", ipAddress);
+            var countryId = CountryId.GB;
 
             var random = new RandomWrapper(2015);
 
-            var address = await AddressHelper.CreateRandomAddressAndSave(random, helperContainer, user.Id, ipAddress, CountryId.GB);
+            var address = await AddressHelper.CreateRandomAddressAndSave(random, helperContainer, user.Id, ipAddress, countryId);
 
             var userIdUsedInAntiAbuse = string.Empty;
             var ipAddressUsedInAntiAbuse = string.Empty;
+            CountryId? countryIdUsedInAntiAbuse = null;
 
             var container = CreateContainer();
             var disableFrequencyPerAddressCheck = true;
             var maxFrequencyPerAddress = new Frequency(1, TimeSpan.FromDays(0));
             SetupConfigForCreate(container, disableFrequencyPerAddressCheck, maxFrequencyPerAddress);
-            SetupAntiAbuseServiceResponse(container, (userId, ipAddr) =>
+            SetupAntiAbuseServiceResponse(container, (userId, ipAddr, cId) =>
                 {
                     userIdUsedInAntiAbuse = userId;
                     ipAddressUsedInAntiAbuse = ipAddr;
+                    countryIdUsedInAntiAbuse = cId;
                 }, new AntiAbuseServiceResponse()
                 {
                     IsRejected = true,
@@ -103,6 +109,8 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 "The UserId used in the call to AntiAbuseService is not the expected.");
             Assert.AreEqual(ipAddress, ipAddressUsedInAntiAbuse, 
                 "The IpAddress used in the call to AntiAbuseService is not the expected.");
+            Assert.AreEqual(countryId, countryIdUsedInAntiAbuse,
+                "The CountryId used in the call to AntiAbuseService is not the expected.");
 
             var retrievedTenancyDetailsSubmission = await DbProbe.TenancyDetailsSubmissions
                 .SingleOrDefaultAsync(x => x.UniqueId.Equals(submissionUniqueId));
@@ -115,22 +123,25 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var ipAddress = "1.2.3.4";
             var helperContainer = CreateContainer();
             var user = await CreateUser(helperContainer, "test@test.com", ipAddress);
+            var countryId = CountryId.GB;
 
             var random = new RandomWrapper(2015);
 
-            var address = await AddressHelper.CreateRandomAddressAndSave(random, helperContainer, user.Id, ipAddress, CountryId.GB);
+            var address = await AddressHelper.CreateRandomAddressAndSave(random, helperContainer, user.Id, ipAddress, countryId);
 
             var userIdUsedInAntiAbuse = string.Empty;
             var ipAddressUsedInAntiAbuse = string.Empty;
+            CountryId? countryIdUsedInAntiAbuse = null;
 
             var container = CreateContainer();
             var disableFrequencyPerAddressCheck = true;
             var maxFrequencyPerAddress = new Frequency(1, TimeSpan.FromDays(0));
             SetupConfigForCreate(container, disableFrequencyPerAddressCheck, maxFrequencyPerAddress);
-            SetupAntiAbuseServiceResponse(container, (userId, ipAddr) =>
+            SetupAntiAbuseServiceResponse(container, (userId, ipAddr, cId) =>
             {
                 userIdUsedInAntiAbuse = userId;
                 ipAddressUsedInAntiAbuse = ipAddr;
+                countryIdUsedInAntiAbuse = cId;
             }, new AntiAbuseServiceResponse()
             {
                 IsRejected = false
@@ -148,6 +159,8 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 "The UserId used in the call to AntiAbuseService is not the expected.");
             Assert.AreEqual(ipAddress, ipAddressUsedInAntiAbuse,
                 "The IpAddress used in the call to AntiAbuseService is not the expected.");
+            Assert.AreEqual(countryId, countryIdUsedInAntiAbuse,
+                "The CountryId used in the call to AntiAbuseService is not the expected.");
 
             var timeAfter = DateTimeOffset.Now;
 
@@ -186,7 +199,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var disableFrequencyPerAddressCheck = false;
             var maxFrequencyPerAddress = new Frequency(maxFrequencyPerAddressTimes, maxFrequencyPerAddressPeriod);
             SetupConfigForCreate(container, disableFrequencyPerAddressCheck, maxFrequencyPerAddress);
-            SetupAntiAbuseServiceResponse(container, (userId, ipAddr) => { }, new AntiAbuseServiceResponse()
+            SetupAntiAbuseServiceResponse(container, (userId, ipAddr, cId) => { }, new AntiAbuseServiceResponse()
             {
                 IsRejected = false
             });
@@ -1502,7 +1515,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             container.Rebind<ITenancyDetailsSubmissionServiceConfig>().ToConstant(mockConfig.Object);
         }
 
-        private void SetupAntiAbuseServiceResponse(IKernel container, Action<string, string> callback,
+        private void SetupAntiAbuseServiceResponse(IKernel container, Action<string, string, CountryId> callback,
             AntiAbuseServiceResponse response)
         {
             var mockAntiAbuseService = new Mock<IAntiAbuseService>();
