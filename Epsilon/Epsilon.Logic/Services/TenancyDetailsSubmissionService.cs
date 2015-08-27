@@ -256,7 +256,6 @@ namespace Epsilon.Logic.Services
                 }
                 else
                 {
-                    // TODO_TEST_PANOS
                     // This shouldn't fail, but I return failure before committing the transaction.
                     return new EnterVerificationCodeOutcome
                     {
@@ -373,7 +372,6 @@ namespace Epsilon.Logic.Services
                 }
                 else
                 {
-                    // TODO_TEST_PANOS
                     // This shouldn't fail, but I return failure before committing the transaction.
                     return new SubmitTenancyDetailsOutcome
                     {
