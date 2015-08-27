@@ -31,6 +31,8 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             var ipAddress = "1.2.3.4";
             var countryId = "GB";
+            var postcode = "w1 2xy";
+            var expectedCleanPostcode = "W12XY";
 
             var addressGeometry = new AddressGeometry
             {
@@ -74,8 +76,8 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 });
             var serviceForAdd = containerForAdd.Get<IAddressService>();
 
-            var addressForm = CreateRandomAddresForm(countryId, Guid.NewGuid());
-            var postcodeGeometry = await CreatePostcodeGeometry(helperContainer, addressForm.CountryId, addressForm.Postcode.ToUpperInvariant());
+            var addressForm = CreateRandomAddresForm(countryId, Guid.NewGuid(), postcode);
+            var postcodeGeometry = await CreatePostcodeGeometry(helperContainer, addressForm.CountryId, expectedCleanPostcode);
             Assert.IsNotNull(postcodeGeometry, "PostcodeGeometry just created is null.");
 
             var timeBefore = DateTimeOffset.Now;
@@ -108,6 +110,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.AreEqual(addressForm.Line4, retrievedAddress.Line4, "Field Line4 on the retrieved address is not the expected.");
             Assert.AreEqual(addressForm.Locality, retrievedAddress.Locality, "Field Locality on the retrieved address is not the expected.");
             Assert.AreEqual(addressForm.Region, retrievedAddress.Region, "Field Region on the retrieved address is not the expected.");
+            Assert.AreEqual(expectedCleanPostcode, retrievedAddress.Postcode, "Field Postcode on the retrieved address is not the expected.");
             Assert.AreEqual(addressForm.CountryId, retrievedAddress.CountryId, "Field CountryId on the retrieved address is not the expected.");
             Assert.AreEqual(user.Id, retrievedAddress.CreatedById, "Field CreatedById on the retrieved address is not the expected.");
             Assert.AreEqual(ipAddress, retrievedAddress.CreatedByIpAddress, "Field CreatedByIpAddress on the retrieved address is not the expected.");
@@ -429,6 +432,89 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             var nonExistingAddress = await service.GetAddressWithGeometries(Guid.NewGuid());
             Assert.IsNull(nonExistingAddress, "When using a UniqueId that does not exist, the returned address should be null.");
+        }
+
+        #endregion
+
+        #region GetDuplicateAddressIds
+
+        [Test]
+        public async Task GetDuplicateAddressIds_IfCodeIsNullNoAddressesAreReturned()
+        {
+            var nonHiddenAddressesToCreate = 5;
+            var hiddenAddressesToCreate = 5;
+            string distinctAddressCode = null;
+
+            var locality = "locality";
+            var postcode = "postcode";
+            var countryId = EnumsHelper.CountryId.ToString(CountryId.GB);
+
+            var random = new RandomWrapper(2015);
+
+            var helperContainer = CreateContainer();
+
+
+            var addresses = await CreateAddresses(
+                helperContainer, random, nonHiddenAddressesToCreate, hiddenAddressesToCreate, "", locality, postcode, countryId, distinctAddressCode);
+            var nonHiddenAddresses = addresses.Where(x => !x.IsHidden).ToList();
+
+            var containerUnderTest = CreateContainer();
+            var service = containerUnderTest.Get<IAddressService>();
+
+            var addressToUse = nonHiddenAddresses.First();
+
+            var duplicateAddressIds = await service.GetDuplicateAddressIds(addressToUse);
+
+            Assert.IsEmpty(duplicateAddressIds, "No duplicate addresses should be returned.");
+        }
+
+        [Test]
+        public async Task GetDuplicateAddressIds_DoesNotReturnHiddenAddresesOrTheAdddressItself()
+        {
+            var nonHiddenAddressesToCreatePerCode = 5;
+            var hiddenAddressesToCreatePerCode = 5;
+            string distinctAddressCode1 = "code1";
+            string distinctAddressCode2 = "code2";
+
+            var locality1 = "locality";
+            var postcode1 = "postcode1";
+            var locality2 = "locality";
+            var postcode2 = "postcode2";
+            var countryId = EnumsHelper.CountryId.ToString(CountryId.GB);
+
+            var random = new RandomWrapper(2015);
+
+            var helperContainer = CreateContainer();
+
+
+            var addresses1 = await CreateAddresses(
+                helperContainer, random, nonHiddenAddressesToCreatePerCode, hiddenAddressesToCreatePerCode, 
+                "", locality1, postcode1, countryId, distinctAddressCode1);
+            var addresses2 = await CreateAddresses(
+                helperContainer, random, nonHiddenAddressesToCreatePerCode, hiddenAddressesToCreatePerCode,
+                "", locality2, postcode2, countryId, distinctAddressCode2);
+
+            var nonHiddenAddresses1 = addresses1.Where(x => !x.IsHidden).ToList();
+            var nonHiddenAddresses2 = addresses2.Where(x => !x.IsHidden).ToList();
+
+            var containerUnderTest = CreateContainer();
+            var service = containerUnderTest.Get<IAddressService>();
+
+            var addressToUse = nonHiddenAddresses1.First();
+
+            var duplicateAddressIds = await service.GetDuplicateAddressIds(addressToUse);
+
+            Assert.AreEqual(hiddenAddressesToCreatePerCode - 1, duplicateAddressIds.Count, 
+                "The number of duplicate addresses is not the expected.");
+            Assert.False(duplicateAddressIds.Any(x => x == addressToUse.Id), 
+                "The duplicate address Id's should not contain the id  of the address passed in.");
+
+            foreach (var id in duplicateAddressIds)
+            {
+                Assert.IsTrue(nonHiddenAddresses1.Exists(x => x.Id == id),
+                    string.Format("The address with id '{0}' is not among the non-hidden addresses.", id));
+            }
+
         }
 
         #endregion
@@ -939,7 +1025,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             return postcodeGeometry;
         }
 
-        private AddressForm CreateRandomAddresForm(string countryId, Guid uniqueId)
+        private AddressForm CreateRandomAddresForm(string countryId, Guid uniqueId, string postcode = null)
         {
             var random = new RandomWrapper();
             var randomFieldLength = 10;
@@ -953,7 +1039,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 Line4 = RandomStringHelper.GetAlphaNumericString(random, randomFieldLength, RandomStringHelper.CharacterCase.Mixed),
                 Locality = RandomStringHelper.GetAlphaNumericString(random, randomFieldLength, RandomStringHelper.CharacterCase.Mixed),
                 Region = RandomStringHelper.GetAlphaNumericString(random, randomFieldLength, RandomStringHelper.CharacterCase.Mixed),
-                Postcode = RandomStringHelper.GetAlphaNumericString(random, randomFieldLength, RandomStringHelper.CharacterCase.Mixed),
+                Postcode = postcode ?? RandomStringHelper.GetAlphaNumericString(random, randomFieldLength, RandomStringHelper.CharacterCase.Mixed),
                 CountryId = countryId
             };
 
@@ -962,7 +1048,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
         private async Task<IList<Address>> CreateAddresses(
             IKernel container, IRandomWrapper random, int nonHiddenAddresses, int hiddenAddresses,
-            string fieldPrefix, string locality, string postcode, string countryId)
+            string fieldPrefix, string locality, string postcode, string countryId, string sameDistinctAddressCode = null)
         {
             var randomFieldLength = 10;
             var email = String.Format("{0}@test.com", RandomStringHelper.GetString(random, randomFieldLength, RandomStringHelper.CharacterCase.Lower));
@@ -985,6 +1071,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 var address = CreateRandomAddress(random, fieldPrefix, randomFieldLength,
                     locality, postcode, countryId, user, ipAddress, postcodeGeometry);
                 address.IsHidden = false;
+                address.DistinctAddressCode = sameDistinctAddressCode;
                 addresses.Add(address);
             }
             for (int i = 0; i < hiddenAddresses; i++)
@@ -992,6 +1079,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 var address = CreateRandomAddress(random, fieldPrefix, randomFieldLength,
                     locality, postcode, countryId, user, ipAddress, postcodeGeometry);
                 address.IsHidden = true;
+                address.DistinctAddressCode = sameDistinctAddressCode;
                 addresses.Add(address);
             }
             var dbContext = container.Get<IEpsilonContext>();

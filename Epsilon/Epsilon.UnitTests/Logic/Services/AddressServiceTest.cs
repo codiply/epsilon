@@ -32,7 +32,7 @@ namespace Epsilon.UnitTests.Logic.Services
 
         #endregion
 
-        #region CalculateDistinctAddressCode
+        #region CalculateDistinctAddressCode GB
 
         [Test]
         public void CalculateDistinctAddressCode_GB_MultipleHouseNumbers_Test()
@@ -94,6 +94,26 @@ namespace Epsilon.UnitTests.Logic.Services
 
             var distinctAddressCode = service.CalculateDistinctAddressCode(form);
             Assert.IsNullOrEmpty(distinctAddressCode, "DistinctAddressCode is not the expected.");
+        }
+
+        #endregion
+
+        #region CalculateDistinctAddressCode GR
+
+        [Test]
+        public void CalculateDistinctAddressCode_GR_Test()
+        {
+            var service = new AddressService(null, null, null, null, null, null);
+
+            var form = new AddressForm
+            {
+                CountryId = EnumsHelper.CountryId.ToString(CountryId.GR),
+                Postcode = "12345",
+                Line1 = "1D Somewhere 23"
+            };
+
+            var distinctAddressCode = service.CalculateDistinctAddressCode(form);
+            Assert.IsNull(distinctAddressCode, "DistinctAddressCode for country GR should be null.");
         }
 
         #endregion

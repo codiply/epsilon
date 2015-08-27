@@ -62,7 +62,7 @@ namespace Epsilon.Logic.Services
 
             var query = _dbContext.Addresses
                 .Include(x => x.Country)
-                .Where(x => !x.IsHidden) // TODO_TEST_PANOS
+                .Where(x => !x.IsHidden)
                 .Where(x => x.CountryId.Equals(request.countryId)
                             && (x.Postcode.Equals(cleanPostcode)));
 
@@ -265,7 +265,6 @@ namespace Epsilon.Logic.Services
             entity.CreatedById = userId;
             entity.CreatedByIpAddress = userIpAddress;
 
-            // TODO_TEST_PANOS
             entity.DistinctAddressCode = CalculateDistinctAddressCode(cleansedForm);
 
             if (verificationResponse.AddressGeometry != null)
@@ -284,7 +283,6 @@ namespace Epsilon.Logic.Services
             };
         }
 
-        // TODO_TEST_PANOS
         public async Task<IList<long>> GetDuplicateAddressIds(Address address)
         {
             if (string.IsNullOrWhiteSpace(address.DistinctAddressCode))
@@ -293,7 +291,7 @@ namespace Epsilon.Logic.Services
             }
 
             var duplicateAddressIds = await _dbContext.Addresses
-                .Where(x => !x.IsHidden) // TODO_TEST_PANOS
+                .Where(x => !x.IsHidden)
                 .Where(x => x.DistinctAddressCode.Equals(address.DistinctAddressCode) && !x.Id.Equals(address.Id))
                 .Select(x => x.Id)
                 .ToListAsync();
@@ -301,7 +299,6 @@ namespace Epsilon.Logic.Services
             return duplicateAddressIds;
         }
 
-        // TODO_TEST_PANOS
         public string CalculateDistinctAddressCode(AddressForm form)
         {
             var countryId = form.CountryIdAsEnum();
