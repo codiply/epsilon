@@ -106,6 +106,8 @@
     <Build Include="dbo\Tables\TokenRewardType.sql" />
     <Build Include="dbo\Tables\PropertyInfoAccess.sql" />
     <Build Include="dbo\Tables\GeoipInfo.sql" />
+    <None Include="Scripts\DevScripts\WifiDemoAppSettings.sql" />
+    <None Include="Scripts\DevScripts\TestEnvironmentAppSettings.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Scripts\PostDeploy\Script.PostDeployment.sql" />
@@ -117,7 +119,7 @@
     <None Include="Scripts\PostDeploy\SchemaChanges\DefaultValue.sql" />
     <None Include="Scripts\PostDeploy\ReferenceData\TokenRewardScheme.sql" />
     <None Include="Scripts\PostDeploy\ReferenceData\TokenReward.sql" />
-    <None Include="Scripts\DevScripts\DevAppSettings.sql" />
+    <None Include="Scripts\DevScripts\DevEnvironmentAppSettings.sql" />
     <None Include="Scripts\PostDeploy\ReferenceData\AppSettingLabel.sql" />
   </ItemGroup>
 </Project>
