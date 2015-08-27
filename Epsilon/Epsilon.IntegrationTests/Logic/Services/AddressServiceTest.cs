@@ -9,6 +9,7 @@ using Epsilon.Logic.JsonModels;
 using Epsilon.Logic.Services.Interfaces;
 using Epsilon.Logic.SqlContext.Interfaces;
 using Epsilon.Logic.Wrappers;
+using Epsilon.Logic.Wrappers.Interfaces;
 using Moq;
 using Ninject;
 using NUnit.Framework;
@@ -33,12 +34,14 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var postcode = "POSTCODE";
             var countryId = "GB";
 
+            var random = new RandomWrapper(2015);
+
             var containerUnderTest = CreateContainer();
             SetupConfig(containerUnderTest, searchAddressResultsLimit: searchAddressResultsLimit);
 
             var helperContainer = CreateContainer();
             var addresses = await CreateAddresses(
-                helperContainer, numberOfAddressesToCreate, 0, "", locality, postcode, countryId);
+                helperContainer, random, numberOfAddressesToCreate, 0, "", locality, postcode, countryId);
 
             var serviceUnderTest = containerUnderTest.Get<IAddressService>();
 
@@ -67,11 +70,13 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var postcode = "POSTCODE";
             var countryId = "GB";
 
+            var random = new RandomWrapper(2015);
+
             var containerUnderTest = CreateContainer();
             SetupConfig(containerUnderTest, searchAddressResultsLimit: searchAddressResultsLimit);
 
             var helperContainer = CreateContainer();
-            var addresses = await CreateAddresses(helperContainer, numberOfAddressesToCreate, 0, "", locality, postcode, countryId);
+            var addresses = await CreateAddresses(helperContainer, random, numberOfAddressesToCreate, 0, "", locality, postcode, countryId);
 
             var serviceUnderTest = containerUnderTest.Get<IAddressService>();
 
@@ -114,11 +119,13 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var postcode = "POSTCODE";
             var countryId = "GB";
 
+            var random = new RandomWrapper(2015);
+
             var containerUnderTest = CreateContainer();
             SetupConfig(containerUnderTest, searchAddressResultsLimit: searchAddressResultsLimit);
 
             var helperContainer = CreateContainer();
-            var addresses = await CreateAddresses(helperContainer, numberOfAddressesToCreate, 0, "", locality, postcode, countryId);
+            var addresses = await CreateAddresses(helperContainer, random, numberOfAddressesToCreate, 0, "", locality, postcode, countryId);
 
             var serviceUnderTest = containerUnderTest.Get<IAddressService>();
 
@@ -147,11 +154,13 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var postcode = "POSTCODE";
             var countryId = "GB";
 
+            var random = new RandomWrapper(2015);
+
             var containerUnderTest = CreateContainer();
             SetupConfig(containerUnderTest, searchAddressResultsLimit: searchAddressResultsLimit);
 
             var helperContainer = CreateContainer();
-            var addresses = await CreateAddresses(helperContainer, numberOfAddressesToCreate, 0, "", locality, postcode, countryId);
+            var addresses = await CreateAddresses(helperContainer, random, numberOfAddressesToCreate, 0, "", locality, postcode, countryId);
 
             var serviceUnderTest = containerUnderTest.Get<IAddressService>();
 
@@ -176,12 +185,14 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var postcode = "POSTCODE";
             var countryId = "GB";
 
+            var random = new RandomWrapper(2015);
+
             var containerUnderTest = CreateContainer();
             SetupConfig(containerUnderTest, searchAddressResultsLimit: searchAddressResultsLimit);
 
             var helperContainer = CreateContainer();
             var addresses = await CreateAddresses(
-                helperContainer, numberOfNonHiddenAddressesToCreate, numberOfHiddenAddressesToCreate, "", locality, postcode, countryId);
+                helperContainer, random, numberOfNonHiddenAddressesToCreate, numberOfHiddenAddressesToCreate, "", locality, postcode, countryId);
 
             var nonHiddenAddresses = addresses.Where(x => !x.IsHidden).ToList();
 
@@ -213,20 +224,22 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var postcode = "POSTCODE";
             var countryId = "GB";
 
+            var random = new RandomWrapper(2015);
+
             var containerUnderTest = CreateContainer();
             SetupConfig(containerUnderTest, searchPropertyResultsLimit: searchPropertyResultsLimit);
 
             var helperContainer = CreateContainer();
-            var addresses = await CreateAddresses(
-                helperContainer, numberOfAddressesToCreate, 0, "", locality, postcode, countryId);
+            var properties = await CreateAddresses(
+                helperContainer, random, numberOfAddressesToCreate, 0, "", locality, postcode, countryId);
 
             var serviceUnderTest = containerUnderTest.Get<IAddressService>();
 
             var request1 = new PropertySearchRequest { countryId = countryId, postcode = postcode.ToLower(), terms = "" };
             var response1 = await serviceUnderTest.SearchProperty(request1);
 
-            Assert.AreEqual(addresses.Count, response1.results.Count,
-                "A request with exact postcode (case-insensitive) should match all the addresses.");
+            Assert.AreEqual(properties.Count, response1.results.Count,
+                "A request with exact postcode (case-insensitive) should match all the properties.");
 
             var request2 = new PropertySearchRequest { countryId = countryId, postcode = "POSTCO", terms = "" };
             var response2 = await serviceUnderTest.SearchProperty(request2);
@@ -247,23 +260,25 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var postcode = "POSTCODE";
             var countryId = "GB";
 
+            var random = new RandomWrapper(2015);
+
             var containerUnderTest = CreateContainer();
             SetupConfig(containerUnderTest, searchPropertyResultsLimit: searchPropertyResultsLimit);
 
             var helperContainer = CreateContainer();
-            var addresses = await CreateAddresses(helperContainer, numberOfAddressesToCreate, 0, "", locality, postcode, countryId);
+            var properties = await CreateAddresses(helperContainer, random, numberOfAddressesToCreate, 0, "", locality, postcode, countryId);
 
             var serviceUnderTest = containerUnderTest.Get<IAddressService>();
 
             var request1 = new PropertySearchRequest { countryId = countryId, postcode = postcode.ToLower(), terms = "" };
             var response1 = await serviceUnderTest.SearchProperty(request1);
 
-            var addressToSearch = addresses.First();
+            var propertyToSearch = properties.First();
 
             // I use each field as a term and separate them in different ways in the search terms string.
             var searchTermsField = string.Format(" {0},{1}, {2} ,{3} {4}   {5}, ",
-                addressToSearch.Line1, addressToSearch.Line2, addressToSearch.Line3, addressToSearch.Line4,
-                addressToSearch.Locality, addressToSearch.Region);
+                propertyToSearch.Line1, propertyToSearch.Line2, propertyToSearch.Line3, propertyToSearch.Line4,
+                propertyToSearch.Locality, propertyToSearch.Region);
 
             var request = new PropertySearchRequest { countryId = countryId, postcode = postcode, terms = searchTermsField };
             var response = await serviceUnderTest.SearchProperty(request);
@@ -275,14 +290,14 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             var returnedAddress = response.results.Single();
 
-            Assert.AreEqual(addressToSearch.UniqueId, returnedAddress.addressUniqueId, "The id of the address returned is not the expected.");
-            Assert.IsTrue(returnedAddress.fullAddress.Contains(addressToSearch.Line1), "Line1 was not found in the full address.");
-            Assert.IsTrue(returnedAddress.fullAddress.Contains(addressToSearch.Line2), "Line2 was not found in the full address.");
-            Assert.IsTrue(returnedAddress.fullAddress.Contains(addressToSearch.Line3), "Line3 was not found in the full address.");
-            Assert.IsTrue(returnedAddress.fullAddress.Contains(addressToSearch.Line4), "Line4 was not found in the full address.");
-            Assert.IsTrue(returnedAddress.fullAddress.Contains(addressToSearch.Locality), "Locality was not found in the full address.");
-            Assert.IsTrue(returnedAddress.fullAddress.Contains(addressToSearch.Region), "Region was not found in the full address.");
-            Assert.IsTrue(returnedAddress.fullAddress.Contains(addressToSearch.Postcode), "Postcode was not found in the full address.");
+            Assert.AreEqual(propertyToSearch.UniqueId, returnedAddress.addressUniqueId, "The id of the address returned is not the expected.");
+            Assert.IsTrue(returnedAddress.fullAddress.Contains(propertyToSearch.Line1), "Line1 was not found in the full address.");
+            Assert.IsTrue(returnedAddress.fullAddress.Contains(propertyToSearch.Line2), "Line2 was not found in the full address.");
+            Assert.IsTrue(returnedAddress.fullAddress.Contains(propertyToSearch.Line3), "Line3 was not found in the full address.");
+            Assert.IsTrue(returnedAddress.fullAddress.Contains(propertyToSearch.Line4), "Line4 was not found in the full address.");
+            Assert.IsTrue(returnedAddress.fullAddress.Contains(propertyToSearch.Locality), "Locality was not found in the full address.");
+            Assert.IsTrue(returnedAddress.fullAddress.Contains(propertyToSearch.Region), "Region was not found in the full address.");
+            Assert.IsTrue(returnedAddress.fullAddress.Contains(propertyToSearch.Postcode), "Postcode was not found in the full address.");
         }
 
         [Test]
@@ -294,18 +309,20 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var postcode = "POSTCODE";
             var countryId = "GB";
 
+            var random = new RandomWrapper(2015);
+
             var containerUnderTest = CreateContainer();
             SetupConfig(containerUnderTest, searchPropertyResultsLimit: searchPropertyResultsLimit);
 
             var helperContainer = CreateContainer();
-            var addresses = await CreateAddresses(helperContainer, numberOfAddressesToCreate, 0, "", locality, postcode, countryId);
+            var properties = await CreateAddresses(helperContainer, random, numberOfAddressesToCreate, 0, "", locality, postcode, countryId);
 
             var serviceUnderTest = containerUnderTest.Get<IAddressService>();
 
             var request1 = new PropertySearchRequest { countryId = countryId, postcode = postcode.ToLower(), terms = "" };
             var response1 = await serviceUnderTest.SearchProperty(request1);
 
-            var addressToSearch = addresses.First();
+            var propertyToSearch = properties.First();
 
             var searchTermsField = string.Format("{0} {1}", postcode, countryId);
 
@@ -327,11 +344,13 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var postcode = "POSTCODE";
             var countryId = "GB";
 
+            var random = new RandomWrapper(2015);
+
             var containerUnderTest = CreateContainer();
             SetupConfig(containerUnderTest, searchPropertyResultsLimit: searchPropertyResultsLimit);
 
             var helperContainer = CreateContainer();
-            var addresses = await CreateAddresses(helperContainer, numberOfAddressesToCreate, 0, "", locality, postcode, countryId);
+            var properties = await CreateAddresses(helperContainer, random, numberOfAddressesToCreate, 0, "", locality, postcode, countryId);
 
             var serviceUnderTest = containerUnderTest.Get<IAddressService>();
 
@@ -356,14 +375,16 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var postcode = "POSTCODE";
             var countryId = "GB";
 
+            var random = new RandomWrapper(2015);
+
             var containerUnderTest = CreateContainer();
             SetupConfig(containerUnderTest, searchPropertyResultsLimit: searchPropertyResultsLimit);
 
             var helperContainer = CreateContainer();
-            var addresses = await CreateAddresses(
-                helperContainer, numberOfNonHiddenAddressesToCreate, numberOfHiddenAddressesToCreate, "", locality, postcode, countryId);
+            var properties = await CreateAddresses(
+                helperContainer, random, numberOfNonHiddenAddressesToCreate, numberOfHiddenAddressesToCreate, "", locality, postcode, countryId);
 
-            var nonHiddenAddresses = addresses.Where(x => !x.IsHidden).ToList();
+            var nonHiddenProperties = properties.Where(x => !x.IsHidden).ToList();
 
             var serviceUnderTest = containerUnderTest.Get<IAddressService>();
 
@@ -371,13 +392,82 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var response = await serviceUnderTest.SearchProperty(request);
 
             Assert.AreEqual(numberOfNonHiddenAddressesToCreate, response.results.Count,
-                "The number of addresses returned should equal the number of non-hidden addresses.");
-            foreach (var address in nonHiddenAddresses)
+                "The number of addresses returned should equal the number of non-hidden properties.");
+            foreach (var property in nonHiddenProperties)
             {
-                var addressFoundOnResponse = response.results.SingleOrDefault(x => x.addressUniqueId.Equals(address.UniqueId));
-                Assert.IsNotNull(addressFoundOnResponse,
-                    string.Format("Non-hidden address '{0}' was not found on the response.", address.FullAddress()));
+                var propertyFoundOnResponse = response.results.SingleOrDefault(x => x.addressUniqueId.Equals(property.UniqueId));
+                Assert.IsNotNull(propertyFoundOnResponse,
+                    string.Format("Non-hidden property '{0}' was not found on the response.", property.FullAddress()));
             }
+        }
+
+        [Test]
+        public async Task SearchProperty_ReturnsCorrectSubmissionInformation()
+        {
+            int searchPropertyResultsLimit = 10;
+            int numberOfAddressesToCreate = 4;
+            var locality = "Locality";
+            var postcode = "POSTCODE";
+            var countryId = "GB";
+
+            var random = new RandomWrapper(2015);
+
+            var containerUnderTest = CreateContainer();
+            SetupConfig(containerUnderTest, searchPropertyResultsLimit: searchPropertyResultsLimit);
+
+            var helperContainer = CreateContainer();
+            var properties = await CreateAddresses(
+                helperContainer, random, numberOfAddressesToCreate, 0, "", locality, postcode, countryId);
+
+            var property1 = properties[0];
+            var submissions1 = await CreateSubmissions(helperContainer, random, property1, 0, 0);
+            var completeSubmissions1 = submissions1.Where(x => x.SubmittedOn.HasValue).ToList();
+            var property2 = properties[1];
+            var submissions2 = await CreateSubmissions(helperContainer, random, property2, 0, 2);
+            var completeSubmissions2 = submissions2.Where(x => x.SubmittedOn.HasValue).ToList();
+            var property3 = properties[2];
+            var submissions3 = await CreateSubmissions(helperContainer, random, property3, 1, 1);
+            var completeSubmissions3 = submissions3.Where(x => x.SubmittedOn.HasValue).ToList();
+            var property4 = properties[3];
+            var submissions4 = await CreateSubmissions(helperContainer, random, property4, 3, 2);
+            var completeSubmissions4 = submissions4.Where(x => x.SubmittedOn.HasValue).ToList();
+
+            var serviceUnderTest = containerUnderTest.Get<IAddressService>();
+
+            var request = new PropertySearchRequest { countryId = countryId, postcode = postcode.ToLower(), terms = "" };
+            var response = await serviceUnderTest.SearchProperty(request);
+
+
+            // Property 1
+            var property1OnResponse = response.results.SingleOrDefault(x => x.addressUniqueId.Equals(property1.UniqueId));
+            Assert.IsNotNull(property1OnResponse, "Property 1 was not found on the response.");
+            Assert.AreEqual(completeSubmissions1.Count, property1OnResponse.numberOfCompletedSubmissions,
+                "The number of complete submissions is not the expected for property 1.");
+            Assert.IsNull(property1OnResponse.lastSubmissionOn, "LastSubmissionOn is not the expected for property 1.");
+
+            // Property 2
+            var property2OnResponse = response.results.SingleOrDefault(x => x.addressUniqueId.Equals(property2.UniqueId));
+            Assert.IsNotNull(property2OnResponse, "Property 2 was not found on the response.");
+            Assert.AreEqual(completeSubmissions2.Count, property2OnResponse.numberOfCompletedSubmissions,
+                "The number of complete submissions is not the expected for property 2.");
+            Assert.AreEqual(completeSubmissions2.Select(x => x.SubmittedOn).OrderByDescending(x => x).FirstOrDefault(), 
+                property2OnResponse.lastSubmissionOn, "LastSubmissionOn is not the expected for property 2.");
+
+            // Property 3
+            var property3OnResponse = response.results.SingleOrDefault(x => x.addressUniqueId.Equals(property3.UniqueId));
+            Assert.IsNotNull(property3OnResponse, "Property 3 was not found on the response.");
+            Assert.AreEqual(completeSubmissions3.Count, property3OnResponse.numberOfCompletedSubmissions,
+                "The number of complete submissions is not the expected for property 3.");
+            Assert.AreEqual(completeSubmissions3.Select(x => x.SubmittedOn).OrderByDescending(x => x).FirstOrDefault(),
+                property3OnResponse.lastSubmissionOn, "LastSubmissionOn is not the expected for property 3.");
+
+            // Property 4
+            var property4OnResponse = response.results.SingleOrDefault(x => x.addressUniqueId.Equals(property4.UniqueId));
+            Assert.IsNotNull(property1OnResponse, "Property 4 was not found on the response.");
+            Assert.AreEqual(completeSubmissions4.Count, property4OnResponse.numberOfCompletedSubmissions,
+                "The number of complete submissions is not the expected for property 4.");
+            Assert.AreEqual(completeSubmissions4.Select(x => x.SubmittedOn).OrderByDescending(x => x).FirstOrDefault(),
+                property4OnResponse.lastSubmissionOn, "LastSubmissionOn is not the expected for property 4.");
         }
 
         #endregion
@@ -712,10 +802,10 @@ namespace Epsilon.IntegrationTests.Logic.Services
             return form;
         }
 
-        private async Task<IList<Address>> CreateAddresses(IKernel container, int nonHiddenAddresses, int hiddenAddresses,
+        private async Task<IList<Address>> CreateAddresses(
+            IKernel container, IRandomWrapper random, int nonHiddenAddresses, int hiddenAddresses,
             string fieldPrefix, string locality, string postcode, string countryId)
         {
-            var random = new RandomWrapper();
             var randomFieldLength = 10;
             var email = String.Format("{0}@test.com", RandomStringHelper.GetString(random, randomFieldLength, RandomStringHelper.CharacterCase.Lower));
             var ipAddress = "1.2.3.4";
@@ -776,6 +866,53 @@ namespace Epsilon.IntegrationTests.Logic.Services
             dbContext.Addresses.AddRange(addresses);
             await dbContext.SaveChangesAsync();
             return addresses;
+        }
+
+        private async Task<IList<TenancyDetailsSubmission>> CreateSubmissions(
+            IKernel container, IRandomWrapper random, Address address, int numberOfCompleteSubmissions, int numberOfIncompleteSubmissions)
+        {
+            var randomFieldLength = 10;
+            var email = String.Format("{0}@test.com", RandomStringHelper.GetString(random, randomFieldLength, RandomStringHelper.CharacterCase.Lower));
+            var ipAddress = "1.2.3.4";
+            var user = await CreateUser(container, email, ipAddress);
+            var clock = container.Get<IClock>();
+
+            var submissions = new List<TenancyDetailsSubmission>();
+
+            for (var i = 0; i < numberOfCompleteSubmissions; i++)
+            {
+                var submission = new TenancyDetailsSubmission
+                {
+                    AddressId = address.Id,
+                    UserId = user.Id,
+                    CreatedByIpAddress = ipAddress,
+                    UniqueId = Guid.NewGuid(),
+                    SubmittedOn = clock.OffsetNow,
+                    CurrencyId = EnumsHelper.CurrencyId.ToString(CurrencyId.GBP),
+                    RentPerMonth = random.Next(100, 1000),
+                    IsPartOfProperty = false,
+                    IsFurnished = false
+                };
+                submissions.Add(submission);
+            }
+
+            for (var i = 0; i < numberOfIncompleteSubmissions; i++)
+            {
+                var submission = new TenancyDetailsSubmission
+                {
+                    AddressId = address.Id,
+                    UserId = user.Id,
+                    CreatedByIpAddress = ipAddress,
+                    UniqueId = Guid.NewGuid()
+                };
+                submissions.Add(submission);
+            }
+
+            var dbContext = container.Get<IEpsilonContext>();
+            dbContext.TenancyDetailsSubmissions.AddRange(submissions);
+            await dbContext.SaveChangesAsync();
+
+            return submissions;
         }
 
         private void SetupConfig(IKernel container, 
