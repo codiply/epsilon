@@ -226,7 +226,6 @@ namespace Epsilon.Logic.Services
             return addressWithGeometry.Geometry.ToAddressGeometryResponse();
         }
 
-        // TODO_TEST_PANOS
         public async Task<AddAddressOutcome> AddAddress(string userId, string userIpAddress, AddressForm form)
         {
             if (_addressServiceConfig.GlobalSwitch_DisableAddAddress)
@@ -302,6 +301,7 @@ namespace Epsilon.Logic.Services
             return duplicateAddressIds;
         }
 
+        // TODO_TEST_PANOS
         public string CalculateDistinctAddressCode(AddressForm form)
         {
             var countryId = form.CountryIdAsEnum();
