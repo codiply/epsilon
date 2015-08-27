@@ -21,7 +21,7 @@ namespace Epsilon.Logic.Services.Interfaces
 
         Task<PropertySearchResponse> SearchProperty(PropertySearchRequest request);
 
-        Task<bool> AddressHasCompletedSubmissions(Guid addressUniqueId);
+        Task<bool> AddressHasCompleteSubmissions(Guid addressUniqueId);
 
         Task<Address> GetAddress(Guid addressUniqueId);
 

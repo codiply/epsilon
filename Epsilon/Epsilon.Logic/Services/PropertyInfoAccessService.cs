@@ -141,7 +141,7 @@ namespace Epsilon.Logic.Services
                     };
                 }
 
-                var completeSubmissionsExist = await _addressService.AddressHasCompletedSubmissions(addressUniqueId);
+                var completeSubmissionsExist = await _addressService.AddressHasCompleteSubmissions(addressUniqueId);
 
                 if (!completeSubmissionsExist)
                 {

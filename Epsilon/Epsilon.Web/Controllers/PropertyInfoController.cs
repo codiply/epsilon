@@ -46,7 +46,7 @@ namespace Epsilon.Web.Controllers
         {
             var addressUniqueId = id;
 
-            var hasCompletedSubmissions = await _addressService.AddressHasCompletedSubmissions(addressUniqueId);
+            var hasCompletedSubmissions = await _addressService.AddressHasCompleteSubmissions(addressUniqueId);
             if (!hasCompletedSubmissions)
             {
                 Danger(CommonResources.GenericInvalidActionMessage, true);

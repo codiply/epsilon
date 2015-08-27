@@ -23,6 +23,373 @@ namespace Epsilon.IntegrationTests.Logic.Services
 {
     public class AddressServiceTest : BaseIntegrationTestWithRollback
     {
+        #region AddAddress
+
+        [Test]
+        public async Task AddAddress_FollowedBy_GetAddressViaUniqueId_AreConsistent()
+        {
+
+            var ipAddress = "1.2.3.4";
+            var countryId = "GB";
+
+            var addressGeometry = new AddressGeometry
+            {
+                Latitude = 1.0,
+                Longitude = 2.0,
+                ViewportNortheastLatitude = 3.0,
+                ViewportNortheastLongitude = 4.0,
+                ViewportSouthwestLatitude = 5.0,
+                ViewportSouthwestLongitude = 6.0
+            };
+
+            var helperContainer = CreateContainer();
+            var user = await CreateUser(helperContainer, "test@test.com", ipAddress);
+
+            var userIdUsedInAntiAbuse = string.Empty;
+            var ipAddressUsedInAntiAbuse = string.Empty;
+            CountryId? countryIdUsedInAntiAbuse = null;
+            AddressForm addressFormUsedInVerification = null;
+            var userIdUsedInVerification = string.Empty;
+            var ipAddressUsedInVerification = string.Empty;
+
+            var containerForAdd = CreateContainer();
+            SetupAntiAbuseServiceResponse(containerForAdd, (userId, ipAddr, cId) =>
+            {
+                userIdUsedInAntiAbuse = userId;
+                ipAddressUsedInAntiAbuse = ipAddr;
+                countryIdUsedInAntiAbuse = cId;
+            }, new AntiAbuseServiceResponse
+            {
+                IsRejected = false
+            });
+            SetupAddressVerficationServiceResponse(containerForAdd, (userId, userIpAddress, form) => {
+                userIdUsedInVerification = userId;
+                ipAddressUsedInVerification = userIpAddress;
+                addressFormUsedInVerification = form;
+            },
+                new AddressVerificationResponse
+                {
+                    IsRejected = false,
+                    AddressGeometry = addressGeometry
+                });
+            var serviceForAdd = containerForAdd.Get<IAddressService>();
+
+            var addressForm = CreateRandomAddresForm(countryId, Guid.NewGuid());
+            var postcodeGeometry = await CreatePostcodeGeometry(helperContainer, addressForm.CountryId, addressForm.Postcode);
+
+            var timeBefore = DateTimeOffset.Now;
+            var outcome = await serviceForAdd.AddAddress(user.Id, ipAddress, addressForm);
+
+            Assert.IsFalse(outcome.IsRejected, "IsRejected on the outcome should be false.");
+            Assert.AreEqual(addressForm.UniqueId, outcome.AddressUniqueId, "The AddressId on the outcome is not the expected.");
+            Assert.IsNullOrEmpty(outcome.RejectionReason, "The rejection reason should not be populated.");
+            var timeAfter = DateTimeOffset.Now;
+
+            Assert.AreEqual(user.Id, userIdUsedInAntiAbuse, "UserId used in AntiAbuseService is not the expected.");
+            Assert.AreEqual(ipAddress, ipAddressUsedInAntiAbuse, "IpAddress used in AntiAbuseService is not the expected");
+            Assert.AreEqual(EnumsHelper.CountryId.Parse(countryId), countryIdUsedInAntiAbuse,
+                "CountryId used in AntiAbuseService is not the expectd.");
+            Assert.IsNotNull(addressFormUsedInVerification, "Address form used in VerificationService is null.");
+            Assert.AreEqual(addressForm.UniqueId, addressFormUsedInVerification.UniqueId,
+                "AddressId on the form submitted for verification is not the expected.");
+            Assert.AreEqual(user.Id, userIdUsedInVerification, "UserId used in Verification is not the expected.");
+            Assert.AreEqual(ipAddress, ipAddressUsedInVerification, "IpAddress used in Verification is not the expected.");
+
+            var containerForGet = CreateContainer();
+            var serviceForGet = containerForGet.Get<IAddressService>();
+
+            var retrievedAddress = await serviceForGet.GetAddressWithGeometries(addressForm.UniqueId);
+
+            Assert.IsNotNull(retrievedAddress, "Address could not be retrieved.");
+            Assert.AreEqual(addressForm.Line1, retrievedAddress.Line1, "Field Line1 on the retrieved address is not the expected.");
+            Assert.AreEqual(addressForm.Line2, retrievedAddress.Line2, "Field Line2 on the retrieved address is not the expected.");
+            Assert.AreEqual(addressForm.Line3, retrievedAddress.Line3, "Field Line3 on the retrieved address is not the expected.");
+            Assert.AreEqual(addressForm.Line4, retrievedAddress.Line4, "Field Line4 on the retrieved address is not the expected.");
+            Assert.AreEqual(addressForm.Locality, retrievedAddress.Locality, "Field Locality on the retrieved address is not the expected.");
+            Assert.AreEqual(addressForm.Region, retrievedAddress.Region, "Field Region on the retrieved address is not the expected.");
+            Assert.AreEqual(addressForm.CountryId, retrievedAddress.CountryId, "Field CountryId on the retrieved address is not the expected.");
+            Assert.AreEqual(user.Id, retrievedAddress.CreatedById, "Field CreatedById on the retrieved address is not the expected.");
+            Assert.AreEqual(ipAddress, retrievedAddress.CreatedByIpAddress, "Field CreatedByIpAddress on the retrieved address is not the expected.");
+            Assert.IsTrue(timeBefore <= retrievedAddress.CreatedOn && retrievedAddress.CreatedOn <= timeAfter,
+                "Field CreatedOn on the retrieved address is not within the expected range.");
+
+            Assert.IsNotNull(retrievedAddress.Geometry, "Geometry field on retrieved address is null.");
+            Assert.AreEqual(addressGeometry.Latitude, retrievedAddress.Geometry.Latitude,
+                "Field Latitude on Geometry of the retrieved address is not the expected.");
+            Assert.AreEqual(addressGeometry.Longitude, retrievedAddress.Geometry.Longitude,
+                "Field Longitude on Geometry of the retrieved address is not the expected.");
+            Assert.AreEqual(addressGeometry.ViewportNortheastLatitude, retrievedAddress.Geometry.ViewportNortheastLatitude,
+                "Field ViewportNortheastLatitude on Geometry of the retrieved address is not the expected.");
+            Assert.AreEqual(addressGeometry.ViewportNortheastLongitude, retrievedAddress.Geometry.ViewportNortheastLongitude,
+                "Field ViewportNortheastLongitude on Geometry of the retrieved address is not the expected.");
+            Assert.AreEqual(addressGeometry.ViewportSouthwestLatitude, retrievedAddress.Geometry.ViewportSouthwestLatitude,
+                "Field ViewportSouthwestLatitude on Geometry of the retrieved address is not the expected.");
+            Assert.AreEqual(addressGeometry.ViewportSouthwestLongitude, retrievedAddress.Geometry.ViewportSouthwestLongitude,
+                "Field ViewportSouthwestLatitude on Geometry of the retrieved address is not the expected.");
+            Assert.IsTrue(timeBefore <= retrievedAddress.Geometry.GeocodedOn && retrievedAddress.Geometry.GeocodedOn <= timeAfter,
+                "Field GeocodedOn on retrieved address Geometry was not in the expected range.");
+
+            // TODO_PANOS: Fix this! It is currently not fetching the PostcodeGeometry from the database. 
+            //Assert.IsNotNull(retrievedAddress.PostcodeGeometry, "PostcodeGeometry field on retrieved address is null");
+            //Assert.AreEqual(postcodeGeometry.Latitude, retrievedAddress.PostcodeGeometry.Latitude,
+            //    "Field Latitude on PostcodeGeometry of the retrieved address is not the expected.");
+            //Assert.AreEqual(postcodeGeometry.Longitude, retrievedAddress.PostcodeGeometry.Longitude,
+            //    "Field Longitude on PostcodeGeometry of the retrieved address is not the expected.");
+
+            // I test the GetGeometry method here as I have already set up the data.
+            var retrievedAddressGeometry = await serviceForGet.GetGeometry(addressForm.UniqueId);
+            Assert.IsNotNull(retrievedAddressGeometry, "Retrieved AddressGeometry is null.");
+            Assert.AreEqual(addressGeometry.Latitude, retrievedAddressGeometry.latitude,
+                "Field latitude on retrieved AddressGeometry is not the expected.");
+            Assert.AreEqual(addressGeometry.Longitude, retrievedAddressGeometry.longitude,
+                "Field longitude on retrieved AddressGeometry is not the expected.");
+            Assert.AreEqual(addressGeometry.ViewportNortheastLatitude, retrievedAddressGeometry.viewportNortheastLatitude,
+                "Field viewportNortheastLatitude on retrieved AddressGeometry is not the expected.");
+            Assert.AreEqual(addressGeometry.ViewportNortheastLongitude, retrievedAddressGeometry.viewportNortheastLongitude,
+                "Field viewportNortheastLongitude on retrieved AddressGeometry is not the expected.");
+            Assert.AreEqual(addressGeometry.ViewportSouthwestLatitude, retrievedAddressGeometry.viewportSouthwestLatitude,
+                "Field viewportSouthwestLatitude on retrieved AddressGeometry is not the expected.");
+            Assert.AreEqual(addressGeometry.ViewportSouthwestLongitude, retrievedAddressGeometry.viewportSouthwestLongitude,
+                "Field viewportSouthwestLatitude on retrieved AddressGeometry is not the expected.");
+
+            // I try to add a second address using the same UniqueId
+            var addressGeometry2 = new AddressGeometry
+            {
+                Latitude = 11.0,
+                Longitude = 12.0,
+                ViewportNortheastLatitude = 13.0,
+                ViewportNortheastLongitude = 14.0,
+                ViewportSouthwestLatitude = 15.0,
+                ViewportSouthwestLongitude = 16.0
+            };
+            var containerForSecondAdd = CreateContainer();
+            SetupAntiAbuseServiceResponse(containerForSecondAdd, (userId, ipAddr, cId) => { }, new AntiAbuseServiceResponse
+            {
+                IsRejected = false
+            });
+            SetupAddressVerficationServiceResponse(containerForSecondAdd, (userId, userIpAddress, form) => { },
+                new AddressVerificationResponse
+                {
+                    IsRejected = false,
+                    AddressGeometry = addressGeometry2
+                });
+            var serviceForSecondAdd = containerForSecondAdd.Get<IAddressService>();
+
+            var addressForm2 = CreateRandomAddresForm(countryId, addressForm.UniqueId);
+            var postcodeGeometry2 = await CreatePostcodeGeometry(helperContainer, addressForm2.CountryId, addressForm2.Postcode);
+
+            Assert.Throws<DbUpdateException>(async () => await serviceForSecondAdd.AddAddress(user.Id, ipAddress, addressForm),
+                "Adding a second address using the same UniqueId should throw as there should be a unique constraint on UniqueId.");
+        }
+
+        [Test]
+        public async Task AddAddress_RejectedByAntiAbuseService()
+        {
+            var ipAddress = "1.2.3.4";
+            var countryId = "GB";
+            var rejectionReason = "AntiAbuseService Rejection Reason";
+
+            var helperContainer = CreateContainer();
+            var user = await CreateUser(helperContainer, "test@test.com", ipAddress);
+
+            var userIdUsedInAntiAbuse = string.Empty;
+            var ipAddressUsedInAntiAbuse = string.Empty;
+            CountryId? countryIdUsedInAntiAbuse = null;
+            AddressForm addressFormUsedInVerification = null;
+            var userIdUsedInVerification = string.Empty;
+            var ipAddressUsedInVerification = string.Empty;
+
+            var containerForAdd = CreateContainer();
+            SetupAntiAbuseServiceResponse(containerForAdd, (userId, ipAddr, cId) =>
+            {
+                userIdUsedInAntiAbuse = userId;
+                ipAddressUsedInAntiAbuse = ipAddr;
+                countryIdUsedInAntiAbuse = cId;
+            }, new AntiAbuseServiceResponse
+            {
+                IsRejected = true,
+                RejectionReason = rejectionReason
+            });
+            SetupAddressVerficationServiceResponse(containerForAdd, (userId, userIpAddress, form) => {
+                userIdUsedInVerification = userId;
+                ipAddressUsedInVerification = userIpAddress;
+                addressFormUsedInVerification = form;
+            },
+                new AddressVerificationResponse
+                {
+                    IsRejected = false
+                });
+            var service = containerForAdd.Get<IAddressService>();
+
+            var addressForm = CreateRandomAddresForm(countryId, Guid.NewGuid());
+            var outcome = await service.AddAddress(user.Id, ipAddress, addressForm);
+
+            Assert.IsTrue(outcome.IsRejected, "IsRejected on the outcome should be true.");
+            Assert.IsNull(outcome.AddressUniqueId, "The AddressId on the outcome should be null.");
+            Assert.AreEqual(rejectionReason, outcome.RejectionReason, "The rejection reason is not the expected.");
+
+            Assert.AreEqual(user.Id, userIdUsedInAntiAbuse, "UserId used in AntiAbuseService is not the expected.");
+            Assert.AreEqual(ipAddress, ipAddressUsedInAntiAbuse, "IpAddress used in AntiAbuseService is not the expected");
+            Assert.AreEqual(EnumsHelper.CountryId.Parse(countryId), countryIdUsedInAntiAbuse,
+                "CountryId used in AntiAbuseService is not the expectd.");
+            Assert.IsNull(addressFormUsedInVerification, "Address form should not be submitted for verification.");
+            Assert.IsEmpty(userIdUsedInVerification, "UserId used in Verification is not the expected.");
+            Assert.IsEmpty(ipAddressUsedInVerification, "IpAddress used in Verification is not the expected.");
+
+            var containerForGet = CreateContainer();
+            var serviceForGet = containerForGet.Get<IAddressService>();
+
+            var retrievedAddress = await serviceForGet.GetAddress(addressForm.UniqueId);
+
+            Assert.IsNull(retrievedAddress, "No Address should be created.");
+        }
+
+        [Test]
+        public async Task AddAddress_RejectedByVerificationService()
+        {
+            var ipAddress = "1.2.3.4";
+            var countryId = "GB";
+            var rejectionReason = "VerficiationService Rejection Reason";
+
+            var helperContainer = CreateContainer();
+            var user = await CreateUser(helperContainer, "test@test.com", ipAddress);
+
+            var userIdUsedInAntiAbuse = string.Empty;
+            var ipAddressUsedInAntiAbuse = string.Empty;
+            CountryId? countryIdUsedInAntiAbuse = null;
+            AddressForm addressFormUsedInVerification = null;
+            var userIdUsedInVerification = string.Empty;
+            var ipAddressUsedInVerification = string.Empty;
+
+            var containerForAdd = CreateContainer();
+            SetupAntiAbuseServiceResponse(containerForAdd, (userId, ipAddr, cId) =>
+            {
+                userIdUsedInAntiAbuse = userId;
+                ipAddressUsedInAntiAbuse = ipAddr;
+                countryIdUsedInAntiAbuse = cId;
+            }, new AntiAbuseServiceResponse
+            {
+                IsRejected = false
+            });
+            SetupAddressVerficationServiceResponse(containerForAdd, (userId, userIpAddress, form) => {
+                userIdUsedInVerification = userId;
+                ipAddressUsedInVerification = userIpAddress;
+                addressFormUsedInVerification = form;
+            },
+                new AddressVerificationResponse
+                {
+                    IsRejected = true,
+                    RejectionReason = rejectionReason
+                });
+            var service = containerForAdd.Get<IAddressService>();
+
+            var addressForm = CreateRandomAddresForm(countryId, Guid.NewGuid());
+            var outcome = await service.AddAddress(user.Id, ipAddress, addressForm);
+
+            Assert.IsTrue(outcome.IsRejected, "IsRejected on the outcome should be true.");
+            Assert.IsNull(outcome.AddressUniqueId, "The AddressId on the outcome should be null.");
+            Assert.AreEqual(rejectionReason, outcome.RejectionReason, "The rejection reason is not the expected.");
+
+            Assert.AreEqual(user.Id, userIdUsedInAntiAbuse, "UserId used in AntiAbuseService is not the expected.");
+            Assert.AreEqual(ipAddress, ipAddressUsedInAntiAbuse, "IpAddress used in AntiAbuseService is not the expected.");
+            Assert.AreEqual(EnumsHelper.CountryId.Parse(countryId), countryIdUsedInAntiAbuse,
+                "CountryId used in AntiAbuseService is not the expectd.");
+            Assert.IsNotNull(addressFormUsedInVerification, "Address form used in VerificationService is null.");
+            Assert.AreEqual(addressForm.UniqueId, addressFormUsedInVerification.UniqueId,
+                "AddressId on the form submitted for verification is not the expected.");
+            Assert.AreEqual(user.Id, userIdUsedInVerification, "UserId used in Verification is not the expected.");
+            Assert.AreEqual(ipAddress, ipAddressUsedInVerification, "IpAddress used in Verification is not the expected.");
+
+            var containerForGet = CreateContainer();
+            var serviceForGet = containerForGet.Get<IAddressService>();
+
+            var retrievedAddress = await serviceForGet.GetAddress(addressForm.UniqueId);
+
+            Assert.IsNull(retrievedAddress, "No Address should be created.");
+        }
+
+        #endregion
+
+        #region AddressHasCompleteSubmissions
+
+        [Test]
+        public async Task AddressHasCompleteSubmissions_Test()
+        {
+            var addressesToCreate = 4;
+            var locality = "Locality";
+            var postcode = "POSTCODE";
+            var countryId = "GB";
+
+            var random = new RandomWrapper(2015);
+
+            var helperContainer = CreateContainer();
+            var addresses = await CreateAddresses(helperContainer, random, addressesToCreate, 0, "", locality, postcode, countryId);
+
+            var address1 = addresses[0];
+            var submission1 = await CreateSubmissions(helperContainer, random, address1, 0, 0);
+            var address2 = addresses[1];
+            var submission2 = await CreateSubmissions(helperContainer, random, address2, 0, 1);
+            var address3 = addresses[2];
+            var submission3 = await CreateSubmissions(helperContainer, random, address3, 1, 0);
+            var address4 = addresses[3];
+            var submission4 = await CreateSubmissions(helperContainer, random, address4, 1, 1);
+
+            var containerUnderTest = CreateContainer();
+            var service = containerUnderTest.Get<IAddressService>();
+
+            var response1 = await service.AddressHasCompleteSubmissions(address1.UniqueId);
+            Assert.IsFalse(response1, "Response1 is not the expected.");
+            var response2 = await service.AddressHasCompleteSubmissions(address2.UniqueId);
+            Assert.IsFalse(response2, "Response2 is not the expected.");
+            var response3 = await service.AddressHasCompleteSubmissions(address3.UniqueId);
+            Assert.IsTrue(response3, "Response3 is not the expected.");
+            var response4 = await service.AddressHasCompleteSubmissions(address4.UniqueId);
+            Assert.IsTrue(response4, "Response4 is not the expected.");
+
+            var responseForNonExistiningAddress = await service.AddressHasCompleteSubmissions(Guid.NewGuid());
+            Assert.IsFalse(responseForNonExistiningAddress, "Response for non-existing address shoud be false.");
+        }
+
+        #endregion
+
+        #region GetAddress
+
+        [Test]
+        public async Task GetAddress_Test()
+        {
+            var addressesToCreate = 5;
+            var locality = "Locality";
+            var postcode = "POSTCODE";
+            var countryId = "GB";
+
+            var random = new RandomWrapper(2015);
+
+            var helperContainer = CreateContainer();
+            var addresses = await CreateAddresses(helperContainer, random, addressesToCreate, 0, "", locality, postcode, countryId);
+
+            var expectedAddress = addresses.First();
+
+            var containerUnderTest = CreateContainer();
+            var service = containerUnderTest.Get<IAddressService>();
+
+            var actualAddress = await service.GetAddress(expectedAddress.UniqueId);
+
+            Assert.IsNotNull(actualAddress, "The address was not found.");
+            Assert.AreEqual(expectedAddress.Line1, actualAddress.Line1, "Line1 is not the expected.");
+            Assert.AreEqual(expectedAddress.Line2, actualAddress.Line2, "Line2 is not the expected.");
+            Assert.AreEqual(expectedAddress.Line3, actualAddress.Line3, "Line3 is not the expected.");
+            Assert.AreEqual(expectedAddress.Line4, actualAddress.Line4, "Line4 is not the expected.");
+            Assert.AreEqual(expectedAddress.Locality, actualAddress.Locality, "Locality is not the expected.");
+            Assert.AreEqual(expectedAddress.Region, actualAddress.Region, "Region is not the expected.");
+            Assert.AreEqual(expectedAddress.Postcode, actualAddress.Postcode, "Postcode is not the expected.");
+            Assert.AreEqual(expectedAddress.CountryId, actualAddress.CountryId, "CountryId is not the expected.");
+
+            var nonExistingAddress = await service.GetAddress(Guid.NewGuid());
+            Assert.IsNull(nonExistingAddress, "When using a UniqueId that does not exist, the returned address should be null.");
+        }
+
+        #endregion
+
         #region SearchAddress
 
         [Test]
@@ -472,292 +839,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
         #endregion
 
-        #region AddAddress
-
-        [Test]
-        public async Task AddAddress_FollowedBy_GetAddressViaUniqueId_AreConsistent()
-        {
-            
-            var ipAddress = "1.2.3.4";
-            var countryId = "GB";
-
-            var addressGeometry = new AddressGeometry
-            {
-                Latitude = 1.0,
-                Longitude = 2.0,
-                ViewportNortheastLatitude = 3.0,
-                ViewportNortheastLongitude = 4.0,
-                ViewportSouthwestLatitude = 5.0,
-                ViewportSouthwestLongitude = 6.0
-            };
-
-            var helperContainer = CreateContainer();
-            var user = await CreateUser(helperContainer, "test@test.com", ipAddress);
-
-            var userIdUsedInAntiAbuse = string.Empty;
-            var ipAddressUsedInAntiAbuse = string.Empty;
-            CountryId? countryIdUsedInAntiAbuse = null;
-            AddressForm addressFormUsedInVerification = null;
-            var userIdUsedInVerification = string.Empty;
-            var ipAddressUsedInVerification = string.Empty;
-
-            var containerForAdd = CreateContainer();
-            SetupAntiAbuseServiceResponse(containerForAdd, (userId, ipAddr, cId) => 
-                {
-                    userIdUsedInAntiAbuse = userId;
-                    ipAddressUsedInAntiAbuse = ipAddr;
-                    countryIdUsedInAntiAbuse = cId;
-                }, new AntiAbuseServiceResponse
-                {
-                    IsRejected = false
-                });
-            SetupAddressVerficationServiceResponse(containerForAdd, (userId, userIpAddress, form) => {
-                    userIdUsedInVerification = userId;
-                    ipAddressUsedInVerification = userIpAddress;
-                    addressFormUsedInVerification = form;
-                },
-                new AddressVerificationResponse
-                {
-                    IsRejected = false,
-                    AddressGeometry = addressGeometry
-                });
-            var serviceForAdd = containerForAdd.Get<IAddressService>();
-
-            var addressForm = CreateRandomAddresForm(countryId, Guid.NewGuid());
-            var postcodeGeometry = await CreatePostcodeGeometry(helperContainer, addressForm.CountryId, addressForm.Postcode);
-
-            var timeBefore = DateTimeOffset.Now;
-            var outcome = await serviceForAdd.AddAddress(user.Id, ipAddress, addressForm);
-
-            Assert.IsFalse(outcome.IsRejected, "IsRejected on the outcome should be false.");
-            Assert.AreEqual(addressForm.UniqueId, outcome.AddressUniqueId, "The AddressId on the outcome is not the expected.");
-            Assert.IsNullOrEmpty(outcome.RejectionReason, "The rejection reason should not be populated.");
-            var timeAfter = DateTimeOffset.Now;
-
-            Assert.AreEqual(user.Id, userIdUsedInAntiAbuse, "UserId used in AntiAbuseService is not the expected.");
-            Assert.AreEqual(ipAddress, ipAddressUsedInAntiAbuse, "IpAddress used in AntiAbuseService is not the expected");
-            Assert.AreEqual(EnumsHelper.CountryId.Parse(countryId), countryIdUsedInAntiAbuse,
-                "CountryId used in AntiAbuseService is not the expectd.");
-            Assert.IsNotNull(addressFormUsedInVerification, "Address form used in VerificationService is null.");
-            Assert.AreEqual(addressForm.UniqueId, addressFormUsedInVerification.UniqueId, 
-                "AddressId on the form submitted for verification is not the expected.");
-            Assert.AreEqual(user.Id, userIdUsedInVerification, "UserId used in Verification is not the expected.");
-            Assert.AreEqual(ipAddress, ipAddressUsedInVerification, "IpAddress used in Verification is not the expected.");
-
-            var containerForGet = CreateContainer();
-            var serviceForGet = containerForGet.Get<IAddressService>();
-
-            var retrievedAddress = await serviceForGet.GetAddressWithGeometries(addressForm.UniqueId);
-
-            Assert.IsNotNull(retrievedAddress, "Address could not be retrieved.");
-            Assert.AreEqual(addressForm.Line1, retrievedAddress.Line1, "Field Line1 on the retrieved address is not the expected.");
-            Assert.AreEqual(addressForm.Line2, retrievedAddress.Line2, "Field Line2 on the retrieved address is not the expected.");
-            Assert.AreEqual(addressForm.Line3, retrievedAddress.Line3, "Field Line3 on the retrieved address is not the expected.");
-            Assert.AreEqual(addressForm.Line4, retrievedAddress.Line4, "Field Line4 on the retrieved address is not the expected.");
-            Assert.AreEqual(addressForm.Locality, retrievedAddress.Locality, "Field Locality on the retrieved address is not the expected.");
-            Assert.AreEqual(addressForm.Region, retrievedAddress.Region, "Field Region on the retrieved address is not the expected.");
-            Assert.AreEqual(addressForm.CountryId, retrievedAddress.CountryId, "Field CountryId on the retrieved address is not the expected.");
-            Assert.AreEqual(user.Id, retrievedAddress.CreatedById, "Field CreatedById on the retrieved address is not the expected.");
-            Assert.AreEqual(ipAddress, retrievedAddress.CreatedByIpAddress, "Field CreatedByIpAddress on the retrieved address is not the expected.");
-            Assert.IsTrue(timeBefore <= retrievedAddress.CreatedOn && retrievedAddress.CreatedOn <= timeAfter,
-                "Field CreatedOn on the retrieved address is not within the expected range.");
-
-            Assert.IsNotNull(retrievedAddress.Geometry, "Geometry field on retrieved address is null.");
-            Assert.AreEqual(addressGeometry.Latitude, retrievedAddress.Geometry.Latitude,
-                "Field Latitude on Geometry of the retrieved address is not the expected.");
-            Assert.AreEqual(addressGeometry.Longitude, retrievedAddress.Geometry.Longitude,
-                "Field Longitude on Geometry of the retrieved address is not the expected.");
-            Assert.AreEqual(addressGeometry.ViewportNortheastLatitude, retrievedAddress.Geometry.ViewportNortheastLatitude,
-                "Field ViewportNortheastLatitude on Geometry of the retrieved address is not the expected.");
-            Assert.AreEqual(addressGeometry.ViewportNortheastLongitude, retrievedAddress.Geometry.ViewportNortheastLongitude,
-                "Field ViewportNortheastLongitude on Geometry of the retrieved address is not the expected.");
-            Assert.AreEqual(addressGeometry.ViewportSouthwestLatitude, retrievedAddress.Geometry.ViewportSouthwestLatitude,
-                "Field ViewportSouthwestLatitude on Geometry of the retrieved address is not the expected.");
-            Assert.AreEqual(addressGeometry.ViewportSouthwestLongitude, retrievedAddress.Geometry.ViewportSouthwestLongitude,
-                "Field ViewportSouthwestLatitude on Geometry of the retrieved address is not the expected.");
-            Assert.IsTrue(timeBefore <= retrievedAddress.Geometry.GeocodedOn && retrievedAddress.Geometry.GeocodedOn <= timeAfter,
-                "Field GeocodedOn on retrieved address Geometry was not in the expected range.");
-
-            // TODO_PANOS: Fix this! It is currently not fetching the PostcodeGeometry from the database. 
-            //Assert.IsNotNull(retrievedAddress.PostcodeGeometry, "PostcodeGeometry field on retrieved address is null");
-            //Assert.AreEqual(postcodeGeometry.Latitude, retrievedAddress.PostcodeGeometry.Latitude,
-            //    "Field Latitude on PostcodeGeometry of the retrieved address is not the expected.");
-            //Assert.AreEqual(postcodeGeometry.Longitude, retrievedAddress.PostcodeGeometry.Longitude,
-            //    "Field Longitude on PostcodeGeometry of the retrieved address is not the expected.");
-
-            // I test the GetGeometry method here as I have already set up the data.
-            var retrievedAddressGeometry = await serviceForGet.GetGeometry(addressForm.UniqueId);
-            Assert.IsNotNull(retrievedAddressGeometry, "Retrieved AddressGeometry is null.");
-            Assert.AreEqual(addressGeometry.Latitude, retrievedAddressGeometry.latitude,
-                "Field latitude on retrieved AddressGeometry is not the expected.");
-            Assert.AreEqual(addressGeometry.Longitude, retrievedAddressGeometry.longitude,
-                "Field longitude on retrieved AddressGeometry is not the expected.");
-            Assert.AreEqual(addressGeometry.ViewportNortheastLatitude, retrievedAddressGeometry.viewportNortheastLatitude,
-                "Field viewportNortheastLatitude on retrieved AddressGeometry is not the expected.");
-            Assert.AreEqual(addressGeometry.ViewportNortheastLongitude, retrievedAddressGeometry.viewportNortheastLongitude,
-                "Field viewportNortheastLongitude on retrieved AddressGeometry is not the expected.");
-            Assert.AreEqual(addressGeometry.ViewportSouthwestLatitude, retrievedAddressGeometry.viewportSouthwestLatitude,
-                "Field viewportSouthwestLatitude on retrieved AddressGeometry is not the expected.");
-            Assert.AreEqual(addressGeometry.ViewportSouthwestLongitude, retrievedAddressGeometry.viewportSouthwestLongitude,
-                "Field viewportSouthwestLatitude on retrieved AddressGeometry is not the expected.");
-
-            // I try to add a second address using the same UniqueId
-            var addressGeometry2 = new AddressGeometry
-            {
-                Latitude = 11.0,
-                Longitude = 12.0,
-                ViewportNortheastLatitude = 13.0,
-                ViewportNortheastLongitude = 14.0,
-                ViewportSouthwestLatitude = 15.0,
-                ViewportSouthwestLongitude = 16.0
-            };
-            var containerForSecondAdd = CreateContainer();
-            SetupAntiAbuseServiceResponse(containerForSecondAdd, (userId, ipAddr, cId) => { }, new AntiAbuseServiceResponse
-            {
-                IsRejected = false
-            });
-            SetupAddressVerficationServiceResponse(containerForSecondAdd, (userId, userIpAddress, form) => { },
-                new AddressVerificationResponse
-                {
-                    IsRejected = false,
-                    AddressGeometry = addressGeometry2
-                });
-            var serviceForSecondAdd = containerForSecondAdd.Get<IAddressService>();
-
-            var addressForm2 = CreateRandomAddresForm(countryId, addressForm.UniqueId);
-            var postcodeGeometry2 = await CreatePostcodeGeometry(helperContainer, addressForm2.CountryId, addressForm2.Postcode);
-
-            Assert.Throws<DbUpdateException>(async () => await serviceForSecondAdd.AddAddress(user.Id, ipAddress, addressForm),
-                "Adding a second address using the same UniqueId should throw as there should be a unique constraint on UniqueId.");
-        }
-
-        [Test]
-        public async Task AddAddress_RejectedByAntiAbuseService()
-        {
-            var ipAddress = "1.2.3.4";
-            var countryId = "GB";
-            var rejectionReason = "AntiAbuseService Rejection Reason";
-
-            var helperContainer = CreateContainer();
-            var user = await CreateUser(helperContainer, "test@test.com", ipAddress);
-
-            var userIdUsedInAntiAbuse = string.Empty;
-            var ipAddressUsedInAntiAbuse = string.Empty;
-            CountryId? countryIdUsedInAntiAbuse = null;
-            AddressForm addressFormUsedInVerification = null;
-            var userIdUsedInVerification = string.Empty;
-            var ipAddressUsedInVerification = string.Empty;
-
-            var containerForAdd = CreateContainer();
-            SetupAntiAbuseServiceResponse(containerForAdd, (userId, ipAddr, cId) =>
-                {
-                    userIdUsedInAntiAbuse = userId;
-                    ipAddressUsedInAntiAbuse = ipAddr;
-                    countryIdUsedInAntiAbuse = cId;
-                }, new AntiAbuseServiceResponse
-                {
-                    IsRejected = true,
-                    RejectionReason = rejectionReason
-                });
-            SetupAddressVerficationServiceResponse(containerForAdd, (userId, userIpAddress, form) => {
-                    userIdUsedInVerification = userId;
-                    ipAddressUsedInVerification = userIpAddress;
-                    addressFormUsedInVerification = form;
-                },
-                new AddressVerificationResponse
-                {
-                    IsRejected = false
-                });
-            var service = containerForAdd.Get<IAddressService>();
-
-            var addressForm = CreateRandomAddresForm(countryId, Guid.NewGuid());
-            var outcome = await service.AddAddress(user.Id, ipAddress, addressForm);
-
-            Assert.IsTrue(outcome.IsRejected, "IsRejected on the outcome should be true.");
-            Assert.IsNull(outcome.AddressUniqueId, "The AddressId on the outcome should be null.");
-            Assert.AreEqual(rejectionReason, outcome.RejectionReason, "The rejection reason is not the expected.");
-
-            Assert.AreEqual(user.Id, userIdUsedInAntiAbuse, "UserId used in AntiAbuseService is not the expected.");
-            Assert.AreEqual(ipAddress, ipAddressUsedInAntiAbuse, "IpAddress used in AntiAbuseService is not the expected");
-            Assert.AreEqual(EnumsHelper.CountryId.Parse(countryId), countryIdUsedInAntiAbuse,
-                "CountryId used in AntiAbuseService is not the expectd.");
-            Assert.IsNull(addressFormUsedInVerification, "Address form should not be submitted for verification.");
-            Assert.IsEmpty(userIdUsedInVerification, "UserId used in Verification is not the expected.");
-            Assert.IsEmpty(ipAddressUsedInVerification, "IpAddress used in Verification is not the expected.");
-
-            var containerForGet = CreateContainer();
-            var serviceForGet = containerForGet.Get<IAddressService>();
-
-            var retrievedAddress = await serviceForGet.GetAddress(addressForm.UniqueId);
-
-            Assert.IsNull(retrievedAddress, "No Address should be created.");
-        }
-
-        [Test]
-        public async Task AddAddress_RejectedByVerificationService()
-        {
-            var ipAddress = "1.2.3.4";
-            var countryId = "GB";
-            var rejectionReason = "VerficiationService Rejection Reason";
-
-            var helperContainer = CreateContainer();
-            var user = await CreateUser(helperContainer, "test@test.com", ipAddress);
-
-            var userIdUsedInAntiAbuse = string.Empty;
-            var ipAddressUsedInAntiAbuse = string.Empty;
-            CountryId? countryIdUsedInAntiAbuse = null;
-            AddressForm addressFormUsedInVerification = null;
-            var userIdUsedInVerification = string.Empty;
-            var ipAddressUsedInVerification = string.Empty;
-
-            var containerForAdd = CreateContainer();
-            SetupAntiAbuseServiceResponse(containerForAdd, (userId, ipAddr, cId) =>
-                {
-                    userIdUsedInAntiAbuse = userId;
-                    ipAddressUsedInAntiAbuse = ipAddr;
-                    countryIdUsedInAntiAbuse = cId;
-                }, new AntiAbuseServiceResponse
-                {
-                    IsRejected = false
-                });
-            SetupAddressVerficationServiceResponse(containerForAdd, (userId, userIpAddress, form) => {
-                    userIdUsedInVerification = userId;
-                    ipAddressUsedInVerification = userIpAddress;
-                    addressFormUsedInVerification = form;
-                },
-                new AddressVerificationResponse
-                {
-                    IsRejected = true,
-                    RejectionReason = rejectionReason
-                });
-            var service = containerForAdd.Get<IAddressService>();
-
-            var addressForm = CreateRandomAddresForm(countryId, Guid.NewGuid());
-            var outcome = await service.AddAddress(user.Id, ipAddress, addressForm);
-
-            Assert.IsTrue(outcome.IsRejected, "IsRejected on the outcome should be true.");
-            Assert.IsNull(outcome.AddressUniqueId, "The AddressId on the outcome should be null.");
-            Assert.AreEqual(rejectionReason, outcome.RejectionReason, "The rejection reason is not the expected.");
-
-            Assert.AreEqual(user.Id, userIdUsedInAntiAbuse, "UserId used in AntiAbuseService is not the expected.");
-            Assert.AreEqual(ipAddress, ipAddressUsedInAntiAbuse, "IpAddress used in AntiAbuseService is not the expected.");
-            Assert.AreEqual(EnumsHelper.CountryId.Parse(countryId), countryIdUsedInAntiAbuse,
-                "CountryId used in AntiAbuseService is not the expectd.");
-            Assert.IsNotNull(addressFormUsedInVerification, "Address form used in VerificationService is null.");
-            Assert.AreEqual(addressForm.UniqueId, addressFormUsedInVerification.UniqueId,
-                "AddressId on the form submitted for verification is not the expected.");
-            Assert.AreEqual(user.Id, userIdUsedInVerification, "UserId used in Verification is not the expected.");
-            Assert.AreEqual(ipAddress, ipAddressUsedInVerification, "IpAddress used in Verification is not the expected.");
-
-            var containerForGet = CreateContainer();
-            var serviceForGet = containerForGet.Get<IAddressService>();
-
-            var retrievedAddress = await serviceForGet.GetAddress(addressForm.UniqueId);
-
-            Assert.IsNull(retrievedAddress, "No Address should be created.");
-        }
-
-        #endregion
+        
 
         #region Private helper functions
 

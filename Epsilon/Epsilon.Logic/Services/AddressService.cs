@@ -114,10 +114,8 @@ namespace Epsilon.Logic.Services
             return response; 
         }
 
-        // TODO_TEST_PANOS
         public async Task<PropertySearchResponse> SearchProperty(PropertySearchRequest request)
         {
-            // TODO_TEST_PANOS
             var resultsLimit = _addressServiceConfig.SearchPropertyResultsLimit;
 
             var countryIdOption = EnumsHelper.CountryId.Parse(request.countryId);
@@ -196,14 +194,12 @@ namespace Epsilon.Logic.Services
             return response;
         }
 
-        // TODO_TEST_PANOS
         public async Task<Address> GetAddress(Guid addressUniqueId)
         {
             return await _dbContext.Addresses.SingleOrDefaultAsync(a => a.UniqueId.Equals(addressUniqueId));
         }
 
-        // TODO_TEST_PANOS: Create other addresses as well
-        public async Task<bool> AddressHasCompletedSubmissions(Guid addressUniqueId)
+        public async Task<bool> AddressHasCompleteSubmissions(Guid addressUniqueId)
         {
             return await _dbContext.Addresses
                 .Include(x => x.TenancyDetailsSubmissions)
@@ -217,7 +213,6 @@ namespace Epsilon.Logic.Services
         {
             return await _dbContext.Addresses
                 .Include(a => a.Geometry)
-                .Include(a => a.PostcodeGeometry)
                 .SingleOrDefaultAsync(a => a.UniqueId.Equals(addressUniqueId));
         }
 
@@ -305,7 +300,6 @@ namespace Epsilon.Logic.Services
             return duplicateAddressIds;
         }
 
-        // TODO_TEST_PANOS
         public string CalculateDistinctAddressCode(AddressForm form)
         {
             var countryId = form.CountryIdAsEnum();
