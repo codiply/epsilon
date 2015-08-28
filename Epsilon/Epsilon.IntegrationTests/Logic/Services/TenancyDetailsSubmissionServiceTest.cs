@@ -1119,6 +1119,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
                     justCreatedVerifications, sentVerifications, completeVerifications, areDetailsSubmitted);
 
             var containerUnderTest = CreateContainer();
+            SetupClockDisableLuckySender(containerUnderTest);
             var serviceUnderTest = containerUnderTest.Get<ITenancyDetailsSubmissionService>();
 
             var retrievedSubmissionAtPoint1 = await RetrieveSubmission(submission.UniqueId);
@@ -1204,6 +1205,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
                     justCreatedVerifications, sentVerifications, completeVerifications, areDetailsSubmitted);
 
             var containerUnderTest = CreateContainer();
+            SetupClockDisableLuckySender(containerUnderTest);
             var serviceUnderTest = containerUnderTest.Get<ITenancyDetailsSubmissionService>();
 
             var retrievedSubmissionAtPoint1 = await RetrieveSubmission(submission.UniqueId);
@@ -1315,6 +1317,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
                     justCreatedVerifications, sentVerifications, completeVerifications, areDetailsSubmitted, countryId: countryId);
 
             var containerUnderTest = CreateContainer();
+            SetupClockDisableLuckySender(containerUnderTest);
             var serviceUnderTest = containerUnderTest.Get<ITenancyDetailsSubmissionService>();
 
             var retrievedSubmissionAtPoint1 = await RetrieveSubmission(submission.UniqueId);
@@ -1524,6 +1527,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
                     justCreatedVerifications, sentVerifications, completeVerifications, areDetailsSubmitted);
 
             var containerUnderTest = CreateContainer();
+            SetupClockDisableLuckySender(containerUnderTest);
             var serviceUnderTest = containerUnderTest.Get<ITenancyDetailsSubmissionService>();
 
             var retrievedSubmissionAtPoint1 = await RetrieveSubmission(submission.UniqueId);
@@ -1715,6 +1719,54 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 .Returns(Task.FromResult(response));
 
             container.Rebind<IAntiAbuseService>().ToConstant(mockAntiAbuseService.Object);
+        }
+
+        private void SetupClockAlwaysLuckySender(IKernel container)
+        {
+            var realClock = container.Get<IClock>();
+            var mockClock = new Mock<IClock>();
+
+            mockClock.Setup(x => x.OffsetNow)
+                .Returns(() =>
+                {
+                    var now = realClock.OffsetNow;
+                    return now.AddMilliseconds(-(now.Millisecond % 100));
+                });
+
+            mockClock.Setup(x => x.OffsetUtcNow)
+                .Returns(() =>
+                {
+                    var now = realClock.OffsetUtcNow;
+                    return now.AddMilliseconds(-(now.Millisecond % 100));
+                });
+
+            container.Rebind<IClock>().ToConstant(mockClock.Object);
+        }
+
+        private void SetupClockDisableLuckySender(IKernel container)
+        {
+            var realClock = container.Get<IClock>();
+            var mockClock = new Mock<IClock>();
+
+            mockClock.Setup(x => x.OffsetNow)
+                .Returns(() =>
+                {
+                    var now = realClock.OffsetNow;
+                    if (now.Millisecond % 100 == 0)
+                        return now.AddMilliseconds(1);
+                    return now;
+                });
+
+            mockClock.Setup(x => x.OffsetUtcNow)
+                .Returns(() =>
+                {
+                    var now = realClock.OffsetUtcNow;
+                    if (now.Millisecond % 100 == 0)
+                        return now.AddMilliseconds(1);
+                    return now;
+                });
+
+            container.Rebind<IClock>().ToConstant(mockClock.Object);
         }
 
         private static async Task<TenancyDetailsSubmission> CreateTenancyDetailsSubmissionAndSave(
