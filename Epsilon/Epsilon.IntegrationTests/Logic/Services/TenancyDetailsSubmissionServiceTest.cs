@@ -1448,8 +1448,8 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             var userBalanceAtPoint5 = await userTokenService.GetBalance(user.Id);
             var otherUserBalanceAtPoint5 = await userTokenService.GetBalance(otherUser.Id);
-            Assert.AreEqual(rewardForEnteringCode, userBalanceAtPoint5.balance, "User balance at point 5 is not the expected.");
-            Assert.AreEqual(rewardForVerificationSender, otherUserBalanceAtPoint5.balance, "Other User balance at point 5 is not the expected.");
+            Assert.AreEqual(rewardForEnteringCode.Value, userBalanceAtPoint5.balance, "User balance at point 5 is not the expected.");
+            Assert.AreEqual(rewardForVerificationSender.Value, otherUserBalanceAtPoint5.balance, "Other User balance at point 5 is not the expected.");
 
             // SubmitTenancyDetails
             var tenancyDetailsForm = new TenancyDetailsForm
@@ -1529,10 +1529,12 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.AreEqual(EnumsHelper.CurrencyId.ToString(CurrencyId.GBP), retrievedSubmissionAtPoint7.CurrencyId,
                 "Field CurrencyId on retrieved submission at point 7 is not the expected.");
 
+            var rewardForSubmittingTenancyDetails = tokenRewardService.GetCurrentReward(TokenRewardKey.EarnPerTenancyDetailsSubmission);
+
             var userBalanceAtPoint7 = await userTokenService.GetBalance(user.Id);
             var otherUserBalanceAtPoint7 = await userTokenService.GetBalance(otherUser.Id);
-            Assert.AreEqual(0, userBalanceAtPoint7.balance, "User balance at point 7 is not the expected.");
-            Assert.AreEqual(0, otherUserBalanceAtPoint7.balance, "Other User balance at point 7 is not the expected.");
+            Assert.AreEqual(userBalanceAtPoint6.balance + rewardForSubmittingTenancyDetails.Value, userBalanceAtPoint7.balance, "User balance at point 7 is not the expected.");
+            Assert.AreEqual(otherUserBalanceAtPoint6.balance, otherUserBalanceAtPoint7.balance, "Other User balance at point 7 is not the expected.");
 
             var retrievedTokenTransactionForSubmission = await DbProbe.TokenAccountTransactions
                 .SingleOrDefaultAsync(x => x.AccountId.Equals(user.Id) &&
