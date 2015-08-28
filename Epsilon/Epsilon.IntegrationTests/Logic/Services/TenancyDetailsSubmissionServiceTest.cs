@@ -1319,6 +1319,8 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var containerUnderTest = CreateContainer();
             SetupClockDisableLuckySender(containerUnderTest);
             var serviceUnderTest = containerUnderTest.Get<ITenancyDetailsSubmissionService>();
+            var userTokenService = containerUnderTest.Get<IUserTokenService>();
+            var tokenRewardService = containerUnderTest.Get<ITokenRewardService>();
 
             var retrievedSubmissionAtPoint1 = await RetrieveSubmission(submission.UniqueId);
             Assert.IsNotNull(retrievedSubmissionAtPoint1, "Retrieved submission at point 1 is null.");
@@ -1329,7 +1331,12 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 "At point 1 some verifications should not have null VerifiedOn field.");
             Assert.IsTrue(retrievedSubmissionAtPoint1.TenantVerifications.All(x => x.MarkedAsSentOn.HasValue),
                 "At point 1 all verifications should have a value in MarkedAsSentOn field.");
-            
+
+            var userBalanceAtPoint1 = await userTokenService.GetBalance(user.Id);
+            var otherUserBalanceAtPoint1 = await userTokenService.GetBalance(otherUser.Id);
+            Assert.AreEqual(0, userBalanceAtPoint1.balance, "User balance at point 1 is not the expected.");
+            Assert.AreEqual(0, otherUserBalanceAtPoint1.balance, "Other User balance at point 1 is not the expected.");
+
             // EnterVerificationCode
             var verificationToUse = submission.TenantVerifications.Single(x => !x.VerifiedOn.HasValue);
             var completeVerification = submission.TenantVerifications.Single(x => x.VerifiedOn.HasValue);
@@ -1355,8 +1362,12 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.IsNull(retrievedVerificationToUseAtPoint2.VerifiedOn,
                 "Field VerifiedOn on retrieved used verification at point 2 is not the expected.");
 
-            // I try the secret code of the complete verification
+            var userBalanceAtPoint2 = await userTokenService.GetBalance(user.Id);
+            var otherUserBalanceAtPoint2 = await userTokenService.GetBalance(otherUser.Id);
+            Assert.AreEqual(0, userBalanceAtPoint2.balance, "User balance at point 2 is not the expected.");
+            Assert.AreEqual(0, otherUserBalanceAtPoint2.balance, "Other User balance at point 2 is not the expected.");
 
+            // I try the secret code of the complete verification
             var verificationCodeFormPreviouslyEnteredCode = new VerificationCodeForm
             {
                 TenancyDetailsSubmissionUniqueId = submission.UniqueId,
@@ -1382,6 +1393,11 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.AreEqual(completeVerification.VerifiedOn.Value, retrievedCompleteVerificationAtPoint3.VerifiedOn.Value,
                 "The VerifiedOn field should not be updated when a previously entered code is used.");
 
+            var userBalanceAtPoint3 = await userTokenService.GetBalance(user.Id);
+            var otherUserBalanceAtPoint3 = await userTokenService.GetBalance(otherUser.Id);
+            Assert.AreEqual(0, userBalanceAtPoint3.balance, "User balance at point 3 is not the expected.");
+            Assert.AreEqual(0, otherUserBalanceAtPoint3.balance, "Other User balance at point 3 is not the expected.");
+
             // This is the right form.
             var verificationCodeForm = new VerificationCodeForm
             {
@@ -1405,6 +1421,11 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.IsNull(retrievedUsedVerificationAtPoint4.VerifiedOn,
                 "Field VerifiedOn on retrieved used verification at point 4 is not the expected.");
 
+            var userBalanceAtPoint4 = await userTokenService.GetBalance(user.Id);
+            var otherUserBalanceAtPoint4 = await userTokenService.GetBalance(otherUser.Id);
+            Assert.AreEqual(0, userBalanceAtPoint4.balance, "User balance at point 4 is not the expected.");
+            Assert.AreEqual(0, otherUserBalanceAtPoint4.balance, "Other User balance at point 4 is not the expected.");
+
             var timeBeforeEnterVerificationCode = clock.OffsetNow;
             var enterVerificationCodeOutcome = await serviceUnderTest.EnterVerificationCode(user.Id, verificationCodeForm);
             Assert.IsFalse(enterVerificationCodeOutcome.IsRejected, "EnterVerificationCode outcome field IsRejected is not the expected.");
@@ -1421,6 +1442,14 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.IsTrue(timeBeforeEnterVerificationCode <= retrievedUsedVerificationAtPoint5.VerifiedOn.Value 
                 && retrievedUsedVerificationAtPoint5.VerifiedOn.Value <= timeAfterEnterVerificationCode,
                 "Field VerifiedOn on used verification retrieved at point 5 is not in the expected range.");
+
+            var rewardForEnteringCode = tokenRewardService.GetCurrentReward(TokenRewardKey.EarnPerVerificationCodeEntered);
+            var rewardForVerificationSender = tokenRewardService.GetCurrentReward(TokenRewardKey.EarnPerVerificationMailSent);
+
+            var userBalanceAtPoint5 = await userTokenService.GetBalance(user.Id);
+            var otherUserBalanceAtPoint5 = await userTokenService.GetBalance(otherUser.Id);
+            Assert.AreEqual(rewardForEnteringCode, userBalanceAtPoint5.balance, "User balance at point 5 is not the expected.");
+            Assert.AreEqual(rewardForVerificationSender, otherUserBalanceAtPoint5.balance, "Other User balance at point 5 is not the expected.");
 
             // SubmitTenancyDetails
             var tenancyDetailsForm = new TenancyDetailsForm
@@ -1452,6 +1481,11 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.IsNull(retrievedSubmissionAtPoint6.SubmittedOn, "Field SubmittedOn on retrieved submission at point 6 is not the expected.");
             Assert.IsNull(retrievedSubmissionAtPoint6.CurrencyId,
                 "Field CurrencyId on retrieved submission at point 6 is not the expected.");
+
+            var userBalanceAtPoint6 = await userTokenService.GetBalance(user.Id);
+            var otherUserBalanceAtPoint6 = await userTokenService.GetBalance(otherUser.Id);
+            Assert.AreEqual(userBalanceAtPoint5.balance, userBalanceAtPoint6.balance, "User balance at point 6 is not the expected.");
+            Assert.AreEqual(otherUserBalanceAtPoint5.balance, otherUserBalanceAtPoint6.balance, "Other User balance at point 6 is not the expected.");
 
             var earnPerTenancyDetailsSubmissionRewardTypeKey = EnumsHelper.TokenRewardKey.ToString(TokenRewardKey.EarnPerTenancyDetailsSubmission);
             var retrievedTokenTransactionForSubmissionForOtherUser = await DbProbe.TokenAccountTransactions
@@ -1494,6 +1528,11 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 "Field SubmittedOn on retrieved submission at point 7 is not within the expected range.");
             Assert.AreEqual(EnumsHelper.CurrencyId.ToString(CurrencyId.GBP), retrievedSubmissionAtPoint7.CurrencyId,
                 "Field CurrencyId on retrieved submission at point 7 is not the expected.");
+
+            var userBalanceAtPoint7 = await userTokenService.GetBalance(user.Id);
+            var otherUserBalanceAtPoint7 = await userTokenService.GetBalance(otherUser.Id);
+            Assert.AreEqual(0, userBalanceAtPoint7.balance, "User balance at point 7 is not the expected.");
+            Assert.AreEqual(0, otherUserBalanceAtPoint7.balance, "Other User balance at point 7 is not the expected.");
 
             var retrievedTokenTransactionForSubmission = await DbProbe.TokenAccountTransactions
                 .SingleOrDefaultAsync(x => x.AccountId.Equals(user.Id) &&
