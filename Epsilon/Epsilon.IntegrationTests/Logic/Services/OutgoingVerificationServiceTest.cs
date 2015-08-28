@@ -26,6 +26,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
 {
     public class OutgoingVerificationServiceTest : BaseIntegrationTestWithRollback
     {
+        private TimeSpan _smallDelay = TimeSpan.FromMilliseconds(20);
 
         #region GetUserOutgoingVerificationsSummary
 
@@ -85,6 +86,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 var tenantVerification = await CreateTenantVerificationAndSave(
                     random, helperContainer, user.Id, userIpAddress, otherUser.Id, otherUserIpAddress, false, false);
                 tenantVerifications.Add(tenantVerification);
+                await Task.Delay(_smallDelay);
             }
             var tenantVerificationsByCreationDescending = tenantVerifications.OrderByDescending(x => x.CreatedOn).ToList();
 
@@ -108,7 +110,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 "Response1 should contain all tenant verifications.");
             for (var i = 0; i < outgoingVerificationsToCreate; i++)
             {
-                Assert.AreEqual(response1.tenantVerifications[i].uniqueId, tenantVerificationsByCreationDescending[i].UniqueId,
+                Assert.AreEqual(tenantVerificationsByCreationDescending[i].UniqueId, response1.tenantVerifications[i].uniqueId,
                     string.Format("Response1: tenant verification at position {0} does not have the expected uniqueId.", i));
             }
 
@@ -126,7 +128,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 "Response2 should contain a number of outgoing verifications equal to the limit.");
             for (var i = 0; i < itemsLimit; i++)
             {
-                Assert.AreEqual(response2.tenantVerifications[i].uniqueId, tenantVerificationsByCreationDescending[i].UniqueId,
+                Assert.AreEqual(tenantVerificationsByCreationDescending[i].UniqueId, response2.tenantVerifications[i].uniqueId,
                     string.Format("Response2: tenant verification at position {0} does not have the expected uniqueId.", i));
             }
 
@@ -154,9 +156,9 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 var tenantVerification = await CreateTenantVerificationAndSave(
                     random, helperContainer, user.Id, userIpAddress, otherUser.Id, otherUserIpAddress, false, false);
                 tenantVerifications.Add(tenantVerification);
+                await Task.Delay(_smallDelay);
             }
             var tenantVerificationsByCreationDescending = tenantVerifications.OrderByDescending(x => x.CreatedOn).ToList();
-
 
             // I create an outgoing verification for the other user and assign the submission to the user under test.
             // This is to test that the summary contains only verifications from the specific user.
@@ -177,7 +179,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 "Response1 should contain all tenant verifications.");
             for (var i = 0; i < outgoingVerificationsToCreate; i++)
             {
-                Assert.AreEqual(response1.tenantVerifications[i].uniqueId, tenantVerificationsByCreationDescending[i].UniqueId,
+                Assert.AreEqual(tenantVerificationsByCreationDescending[i].UniqueId, response1.tenantVerifications[i].uniqueId,
                     string.Format("Response1: tenant verification at position {0} does not have the expected uniqueId.", i));
             }
 
@@ -195,7 +197,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 "Response2 should contain a number of outgoing verifications equal to the limit.");
             for (var i = 0; i < itemsLimit; i++)
             {
-                Assert.AreEqual(response2.tenantVerifications[i].uniqueId, tenantVerificationsByCreationDescending[i].UniqueId,
+                Assert.AreEqual(tenantVerificationsByCreationDescending[i].UniqueId, response2.tenantVerifications[i].uniqueId,
                     string.Format("Response2: tenant verification at position {0} does not have the expected uniqueId.", i));
             }
 
