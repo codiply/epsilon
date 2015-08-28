@@ -1451,10 +1451,10 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 "Field CurrencyId on retrieved submission at point 6 is not the expected.");
 
             var earnPerTenancyDetailsSubmissionRewardTypeKey = EnumsHelper.TokenRewardKey.ToString(TokenRewardKey.EarnPerTenancyDetailsSubmission);
-            var retrievedTokenTransactionForOtherUser = await DbProbe.TokenAccountTransactions
+            var retrievedTokenTransactionForSubmissionForOtherUser = await DbProbe.TokenAccountTransactions
                 .SingleOrDefaultAsync(x => x.AccountId.Equals(otherUser.Id) && 
                                            x.RewardTypeKey.Equals(earnPerTenancyDetailsSubmissionRewardTypeKey));
-            Assert.IsNull(retrievedTokenTransactionForOtherUser, 
+            Assert.IsNull(retrievedTokenTransactionForSubmissionForOtherUser, 
                 "There should be no transaction created when trying to submit details with the other user.");
 
             // I try the right user.
@@ -1492,12 +1492,12 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.AreEqual(EnumsHelper.CurrencyId.ToString(CurrencyId.GBP), retrievedSubmissionAtPoint7.CurrencyId,
                 "Field CurrencyId on retrieved submission at point 7 is not the expected.");
 
-            var retrievedTokenTransaction = await DbProbe.TokenAccountTransactions
+            var retrievedTokenTransactionForSubmission = await DbProbe.TokenAccountTransactions
                 .SingleOrDefaultAsync(x => x.AccountId.Equals(user.Id) &&
                                            x.RewardTypeKey.Equals(earnPerTenancyDetailsSubmissionRewardTypeKey));
-            Assert.IsNotNull(retrievedTokenTransaction,
+            Assert.IsNotNull(retrievedTokenTransactionForSubmission,
                 "No token transaction was created for submitting the tenancy details");
-            Assert.AreEqual(submission.UniqueId, retrievedTokenTransaction.InternalReference,
+            Assert.AreEqual(submission.UniqueId, retrievedTokenTransactionForSubmission.InternalReference,
                 "The internal reference on the token transaction is not the expected.");
         }
 
