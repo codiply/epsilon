@@ -299,12 +299,10 @@ namespace Epsilon.Logic.Services
                     }
                 }
 
-                // TODO_TEST_PANOS
                 transactionScope.Complete();
 
                 _appCacheHelper.RemoveCachedUserSubmissionsSummary(userId);
                 _appCacheHelper.RemoveCachedUserOutgoingVerificationsSummary(verification.AssignedToId);
-                // TODO_TEST_PANOS
                 _userInterfaceCustomisationService.ClearCachedCustomisationForUser(userId);
 
                 return new EnterVerificationCodeOutcome
@@ -344,7 +342,6 @@ namespace Epsilon.Logic.Services
             {
                 form.ApplyOnEntity(submission);
                 submission.SubmittedOn = _clock.OffsetNow;
-                // TODO_TEST_PANOS
                 submission.CurrencyId = submission.Address.Country.CurrencyId;
 
                 _dbContext.Entry(submission).State = EntityState.Modified;
@@ -353,11 +350,9 @@ namespace Epsilon.Logic.Services
                 uiAlerts.Add(new UiAlert
                 {
                     Type = UiAlertType.Success,
-                    // TODO_TEST_PANOS
                     Message = TenancyDetailsSubmissionResources.SubmitTenancyDetails_SuccessMessage
                 });
 
-                // TODO_TEST_PANOS: also test the correct internal reference is used.
                 var rewardStatus = await _userTokenService.MakeTransaction(userId, TokenRewardKey.EarnPerTenancyDetailsSubmission, submission.UniqueId);
                 if (rewardStatus == TokenAccountTransactionStatus.Success)
                 {

@@ -1125,7 +1125,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.IsNotNull(retrievedSubmissionAtPoint1, "Retrieved submission at point 1 is null.");
             Assert.IsNull(retrievedSubmissionAtPoint1.RentPerMonth, "Field RentPerMonth on retrieved submission at point 1 is not the expected.");
             
-            // I try all invalid actions
+            // I try all invalid actions first
             // EnterVerificationCode
             var verificationCodeForm = new VerificationCodeForm
             {
@@ -1214,7 +1214,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.IsTrue(retrievedSubmissionAtPoint1.TenantVerifications.All(x => !x.MarkedAsSentOn.HasValue),
                 "At point 1 all verifications should have null MarkedAsSentOn field.");
 
-            // I try all invalid actions first
+            // I try invalid actions first
             // SubmitTenancyDetails
             var tenancyDetailsForm = new TenancyDetailsForm
             {
@@ -1267,12 +1267,12 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.IsFalse(enterVerificationCodeOutcomeForOtherUser.ReturnToForm,
                 "EnterVerificationCode outcome field ReturnToForm is not the expected when wrong user is used.");
 
-            var retrievedSubmissionAtPoint6 = await RetrieveSubmission(submission.UniqueId);
-            Assert.IsNotNull(retrievedSubmissionAtPoint6, "Retrieved submission at point 6 is null.");
-            var retrievedUsedVerificationAtPoint6 = 
-                retrievedSubmissionAtPoint6.TenantVerifications.Single(x => x.UniqueId == verificationToUse.UniqueId);
-            Assert.IsNull(retrievedUsedVerificationAtPoint6.VerifiedOn,
-                "Field VerifiedOn on retrieved used verification at point 6 is not the expected.");
+            var retrievedSubmissionAtPoint4 = await RetrieveSubmission(submission.UniqueId);
+            Assert.IsNotNull(retrievedSubmissionAtPoint4, "Retrieved submission at point 4 is null.");
+            var retrievedUsedVerificationAtPoint4 = 
+                retrievedSubmissionAtPoint4.TenantVerifications.Single(x => x.UniqueId == verificationToUse.UniqueId);
+            Assert.IsNull(retrievedUsedVerificationAtPoint4.VerifiedOn,
+                "Field VerifiedOn on retrieved used verification at point 4 is not the expected.");
 
             var timeBefore = clock.OffsetNow;
             var enterVerificationCodeOutcome = await serviceUnderTest.EnterVerificationCode(user.Id, verificationCodeForm);
@@ -1281,14 +1281,14 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.IsFalse(enterVerificationCodeOutcome.ReturnToForm, "EnterVerificationCode outcome field ReturnToForm is not the expected.");
             var timeAfter = clock.OffsetNow;
 
-            var retrievedSubmissionAtPoint7 = await RetrieveSubmission(submission.UniqueId);
-            Assert.IsNotNull(retrievedSubmissionAtPoint7, "Retrieved submission at point 7 is null.");
-            var retrievedUsedVerificationAtPoint7 =
-                retrievedSubmissionAtPoint7.TenantVerifications.Single(x => x.UniqueId == verificationToUse.UniqueId);
-            Assert.IsTrue(retrievedUsedVerificationAtPoint7.VerifiedOn.HasValue,
-                "Field VerifiedOn on used verification retrieved at point 7 does not have a value.");
-            Assert.IsTrue(timeBefore <= retrievedUsedVerificationAtPoint7.VerifiedOn.Value && retrievedUsedVerificationAtPoint7.VerifiedOn.Value <= timeAfter,
-                "Field VerifiedOn on used verification retrieved at point 7 is not in the expected range.");
+            var retrievedSubmissionAtPoint5 = await RetrieveSubmission(submission.UniqueId);
+            Assert.IsNotNull(retrievedSubmissionAtPoint5, "Retrieved submission at point 5 is null.");
+            var retrievedUsedVerificationAtPoint5 =
+                retrievedSubmissionAtPoint5.TenantVerifications.Single(x => x.UniqueId == verificationToUse.UniqueId);
+            Assert.IsTrue(retrievedUsedVerificationAtPoint5.VerifiedOn.HasValue,
+                "Field VerifiedOn on used verification retrieved at point 5 does not have a value.");
+            Assert.IsTrue(timeBefore <= retrievedUsedVerificationAtPoint5.VerifiedOn.Value && retrievedUsedVerificationAtPoint5.VerifiedOn.Value <= timeAfter,
+                "Field VerifiedOn on used verification retrieved at point 5 is not in the expected range.");
         }
 
         [Test]
@@ -1298,6 +1298,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var sentVerifications = 1;
             var completeVerifications = 1;
             var areDetailsSubmitted = false;
+            var countryId = CountryId.GB;
 
             var helperContainer = CreateContainer();
 
@@ -1311,7 +1312,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             var submission = await CreateTenancyDetailsSubmissionAndSave(
                     random, helperContainer, user.Id, userIpAddress, otherUser.Id, otherUserIpAddress,
-                    justCreatedVerifications, sentVerifications, completeVerifications, areDetailsSubmitted);
+                    justCreatedVerifications, sentVerifications, completeVerifications, areDetailsSubmitted, countryId: countryId);
 
             var containerUnderTest = CreateContainer();
             var serviceUnderTest = containerUnderTest.Get<ITenancyDetailsSubmissionService>();
@@ -1326,7 +1327,6 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.IsTrue(retrievedSubmissionAtPoint1.TenantVerifications.All(x => x.MarkedAsSentOn.HasValue),
                 "At point 1 all verifications should have a value in MarkedAsSentOn field.");
             
-            // I now try the valid actions
             // EnterVerificationCode
             var verificationToUse = submission.TenantVerifications.Single(x => !x.VerifiedOn.HasValue);
             var completeVerification = submission.TenantVerifications.Single(x => x.VerifiedOn.HasValue);
@@ -1346,11 +1346,11 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.IsTrue(enterVerificationCodeOutcomeInvalidCode.ReturnToForm,
                 "EnterVerificationCode outcome field ReturnToForm is not the expected when invalid code is used.");
 
-            var retrievedSubmissionAtPoint4 = await RetrieveSubmission(submission.UniqueId);
-            var retrievedVerificationToUseAtPoint4 =
-                retrievedSubmissionAtPoint4.TenantVerifications.Single(x => x.UniqueId.Equals(verificationToUse.UniqueId));
-            Assert.IsNull(retrievedVerificationToUseAtPoint4.VerifiedOn,
-                "Field VerifiedOn on retrieved used verification at point 4 is not the expected.");
+            var retrievedSubmissionAtPoint2 = await RetrieveSubmission(submission.UniqueId);
+            var retrievedVerificationToUseAtPoint2 =
+                retrievedSubmissionAtPoint2.TenantVerifications.Single(x => x.UniqueId.Equals(verificationToUse.UniqueId));
+            Assert.IsNull(retrievedVerificationToUseAtPoint2.VerifiedOn,
+                "Field VerifiedOn on retrieved used verification at point 2 is not the expected.");
 
             // I try the secret code of the complete verification
 
@@ -1369,14 +1369,14 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.IsFalse(enterVerificationCodeOutcomePreviouslyEnteredCode.ReturnToForm,
                 "EnterVerificationCode outcome field ReturnToForm is not the expected when previously code is used.");
 
-            var retrievedSubmissionAtPoint5 = await RetrieveSubmission(submission.UniqueId);
-            var retrievedVerificationToUseAtPoint5 =
-                retrievedSubmissionAtPoint5.TenantVerifications.Single(x => x.UniqueId.Equals(verificationToUse.UniqueId));
-            Assert.IsNull(retrievedVerificationToUseAtPoint5.VerifiedOn,
-                "Field VerifiedOn on retrieved verification to use at point 5 is not the expected.");
-            var retrievedCompleteVerificationAtPoint5 =
-                retrievedSubmissionAtPoint5.TenantVerifications.Single(x => x.UniqueId.Equals(completeVerification.UniqueId));
-            Assert.AreEqual(completeVerification.VerifiedOn.Value, retrievedCompleteVerificationAtPoint5.VerifiedOn.Value,
+            var retrievedSubmissionAtPoint3 = await RetrieveSubmission(submission.UniqueId);
+            var retrievedVerificationToUseAtPoint3 =
+                retrievedSubmissionAtPoint3.TenantVerifications.Single(x => x.UniqueId.Equals(verificationToUse.UniqueId));
+            Assert.IsNull(retrievedVerificationToUseAtPoint3.VerifiedOn,
+                "Field VerifiedOn on retrieved verification to use at point 3 is not the expected.");
+            var retrievedCompleteVerificationAtPoint3 =
+                retrievedSubmissionAtPoint3.TenantVerifications.Single(x => x.UniqueId.Equals(completeVerification.UniqueId));
+            Assert.AreEqual(completeVerification.VerifiedOn.Value, retrievedCompleteVerificationAtPoint3.VerifiedOn.Value,
                 "The VerifiedOn field should not be updated when a previously entered code is used.");
 
             // This is the right form.
@@ -1395,12 +1395,12 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.IsFalse(enterVerificationCodeOutcomeForOtherUser.ReturnToForm,
                 "EnterVerificationCode outcome field ReturnToForm is not the expected when wrong user is used.");
 
-            var retrievedSubmissionAtPoint6 = await RetrieveSubmission(submission.UniqueId);
-            Assert.IsNotNull(retrievedSubmissionAtPoint6, "Retrieved submission at point 6 is null.");
-            var retrievedUsedVerificationAtPoint6 =
-                retrievedSubmissionAtPoint6.TenantVerifications.Single(x => x.UniqueId == verificationToUse.UniqueId);
-            Assert.IsNull(retrievedUsedVerificationAtPoint6.VerifiedOn,
-                "Field VerifiedOn on retrieved used verification at point 6 is not the expected.");
+            var retrievedSubmissionAtPoint4 = await RetrieveSubmission(submission.UniqueId);
+            Assert.IsNotNull(retrievedSubmissionAtPoint4, "Retrieved submission at point 4 is null.");
+            var retrievedUsedVerificationAtPoint4 =
+                retrievedSubmissionAtPoint4.TenantVerifications.Single(x => x.UniqueId == verificationToUse.UniqueId);
+            Assert.IsNull(retrievedUsedVerificationAtPoint4.VerifiedOn,
+                "Field VerifiedOn on retrieved used verification at point 4 is not the expected.");
 
             var timeBeforeEnterVerificationCode = clock.OffsetNow;
             var enterVerificationCodeOutcome = await serviceUnderTest.EnterVerificationCode(user.Id, verificationCodeForm);
@@ -1409,15 +1409,15 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.IsFalse(enterVerificationCodeOutcome.ReturnToForm, "EnterVerificationCode outcome field ReturnToForm is not the expected.");
             var timeAfterEnterVerificationCode = clock.OffsetNow;
 
-            var retrievedSubmissionAtPoint7 = await RetrieveSubmission(submission.UniqueId);
-            Assert.IsNotNull(retrievedSubmissionAtPoint7, "Retrieved submission at point 9 is null.");
-            var retrievedUsedVerificationAtPoint7 =
-                retrievedSubmissionAtPoint7.TenantVerifications.Single(x => x.UniqueId == verificationToUse.UniqueId);
-            Assert.IsTrue(retrievedUsedVerificationAtPoint7.VerifiedOn.HasValue,
-                "Field VerifiedOn on used verification retrieved at point 7 does not have a value.");
-            Assert.IsTrue(timeBeforeEnterVerificationCode <= retrievedUsedVerificationAtPoint7.VerifiedOn.Value 
-                && retrievedUsedVerificationAtPoint7.VerifiedOn.Value <= timeAfterEnterVerificationCode,
-                "Field VerifiedOn on used verification retrieved at point 7 is not in the expected range.");
+            var retrievedSubmissionAtPoint5 = await RetrieveSubmission(submission.UniqueId);
+            Assert.IsNotNull(retrievedSubmissionAtPoint5, "Retrieved submission at point 5 is null.");
+            var retrievedUsedVerificationAtPoint5 =
+                retrievedSubmissionAtPoint5.TenantVerifications.Single(x => x.UniqueId == verificationToUse.UniqueId);
+            Assert.IsTrue(retrievedUsedVerificationAtPoint5.VerifiedOn.HasValue,
+                "Field VerifiedOn on used verification retrieved at point 5 does not have a value.");
+            Assert.IsTrue(timeBeforeEnterVerificationCode <= retrievedUsedVerificationAtPoint5.VerifiedOn.Value 
+                && retrievedUsedVerificationAtPoint5.VerifiedOn.Value <= timeAfterEnterVerificationCode,
+                "Field VerifiedOn on used verification retrieved at point 5 is not in the expected range.");
 
             // SubmitTenancyDetails
             var tenancyDetailsForm = new TenancyDetailsForm
@@ -1440,11 +1440,22 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 "SubmitTenancyDetails outcome field RejectionReason is not the expected when wrong user is used.");
             Assert.IsFalse(submitTenancyDetailsOutcomeForOtherUser.ReturnToForm,
                 "SubmitTenancyDetails outcome field ReturnToForm is not the expected when wrong user is used.");
+            Assert.IsTrue(submitTenancyDetailsOutcomeForOtherUser.UiAlerts == null || submitTenancyDetailsOutcomeForOtherUser.UiAlerts.Any(x => x.Message.Equals(TenancyDetailsSubmissionResources.SubmitTenancyDetails_SuccessMessage)),
+                "A success message should not be on the UiAlerts of the SubmitTenancyDetails outcome when wrong user is used.");
 
-            var retrievedSubmissionAtPoint8 = await RetrieveSubmission(submission.UniqueId);
-            Assert.IsNotNull(retrievedSubmissionAtPoint8, "Retrieved submission at point 8 is null.");
-            Assert.IsNull(retrievedSubmissionAtPoint8.RentPerMonth, "Field RentPerMonth on retrieved submission at point 8 is not the expected.");
-            Assert.IsNull(retrievedSubmissionAtPoint8.SubmittedOn, "Field SubmittedOn on retrieved submission at point 8 is not the expected.");
+            var retrievedSubmissionAtPoint6 = await RetrieveSubmission(submission.UniqueId);
+            Assert.IsNotNull(retrievedSubmissionAtPoint6, "Retrieved submission at point 6 is null.");
+            Assert.IsNull(retrievedSubmissionAtPoint6.RentPerMonth, "Field RentPerMonth on retrieved submission at point 6 is not the expected.");
+            Assert.IsNull(retrievedSubmissionAtPoint6.SubmittedOn, "Field SubmittedOn on retrieved submission at point 6 is not the expected.");
+            Assert.IsNull(retrievedSubmissionAtPoint6.CurrencyId,
+                "Field CurrencyId on retrieved submission at point 6 is not the expected.");
+
+            var earnPerTenancyDetailsSubmissionRewardTypeKey = EnumsHelper.TokenRewardKey.ToString(TokenRewardKey.EarnPerTenancyDetailsSubmission);
+            var retrievedTokenTransactionForOtherUser = await DbProbe.TokenAccountTransactions
+                .SingleOrDefaultAsync(x => x.AccountId.Equals(otherUser.Id) && 
+                                           x.RewardTypeKey.Equals(earnPerTenancyDetailsSubmissionRewardTypeKey));
+            Assert.IsNull(retrievedTokenTransactionForOtherUser, 
+                "There should be no transaction created when trying to submit details with the other user.");
 
             // I try the right user.
             var timeBeforeSubmitTenancyDetails = clock.OffsetNow;
@@ -1453,29 +1464,41 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.IsNullOrEmpty(submitTenancyDetailsOutcome.RejectionReason,
                 "SubmitTenancyDetails outcome field RejectionReason is not the expected.");
             Assert.IsFalse(submitTenancyDetailsOutcome.ReturnToForm, "SubmitTenancyDetails outcome field ReturnToForm is not the expected.");
+            Assert.IsTrue(submitTenancyDetailsOutcome.UiAlerts.Any(x => x.Message.Equals(TenancyDetailsSubmissionResources.SubmitTenancyDetails_SuccessMessage)),
+                "A success message was not found on the UiAlerts of the SubmitTenancyDetails outcome.");
             var timeAfterSubmitTenancyDetails = clock.OffsetNow;
 
-            var retrievedSubmissionAtPoint9 = await RetrieveSubmission(submission.UniqueId);
-            Assert.IsNotNull(retrievedSubmissionAtPoint9, "Retrieved submission at point 9 is null.");
-            Assert.AreEqual(tenancyDetailsForm.IsPartOfProperty, retrievedSubmissionAtPoint9.IsPartOfProperty, 
-                "Field IsPartOfProperty on retrieved submission at point 9 is not the expected.");
-            Assert.AreEqual(tenancyDetailsForm.RentPerMonth, retrievedSubmissionAtPoint9.RentPerMonth,
-                "Field Rent on retrieved submission at point 9 is not the expected.");
-            Assert.AreEqual(tenancyDetailsForm.IsFurnished, retrievedSubmissionAtPoint9.IsFurnished,
-                "Field IsFurnished on retrieved submission at point 9 is not the expected.");
-            Assert.AreEqual(tenancyDetailsForm.NumberOfBedrooms, retrievedSubmissionAtPoint9.NumberOfBedrooms,
-                "Field NumberOfBedrooms on retrieved submission at point 9 is not the expected.");
-            Assert.AreEqual(tenancyDetailsForm.PropertyConditionRating, retrievedSubmissionAtPoint9.PropertyConditionRating,
-                "Field PropertyConditionRating on retrieved submission at point 9 is not the expected.");
-            Assert.AreEqual(tenancyDetailsForm.LandlordRating, retrievedSubmissionAtPoint9.LandlordRating,
-                "Field LandlordRating on retrieved submission at point 9 is not the expected.");
-            Assert.AreEqual(tenancyDetailsForm.NeighboursRating, retrievedSubmissionAtPoint9.NeighboursRating,
-                "Field NeighboursRating on retrieved submission at point 9 is not the expected.");
-            Assert.IsTrue(retrievedSubmissionAtPoint9.SubmittedOn.HasValue,
-                "Field SubmittedOn on retrieved submission at point 9 should have a value.");
-            Assert.IsTrue(timeBeforeSubmitTenancyDetails <= retrievedSubmissionAtPoint9.SubmittedOn.Value
-                && retrievedSubmissionAtPoint9.SubmittedOn.Value <= timeAfterSubmitTenancyDetails,
-                "Field SubmittedOn on retrieved submission at point 9 is not within the expected range.");
+            var retrievedSubmissionAtPoint7 = await RetrieveSubmission(submission.UniqueId);
+            Assert.IsNotNull(retrievedSubmissionAtPoint7, "Retrieved submission at point 7 is null.");
+            Assert.AreEqual(tenancyDetailsForm.IsPartOfProperty, retrievedSubmissionAtPoint7.IsPartOfProperty, 
+                "Field IsPartOfProperty on retrieved submission at point 7 is not the expected.");
+            Assert.AreEqual(tenancyDetailsForm.RentPerMonth, retrievedSubmissionAtPoint7.RentPerMonth,
+                "Field Rent on retrieved submission at point 7 is not the expected.");
+            Assert.AreEqual(tenancyDetailsForm.IsFurnished, retrievedSubmissionAtPoint7.IsFurnished,
+                "Field IsFurnished on retrieved submission at point 7 is not the expected.");
+            Assert.AreEqual(tenancyDetailsForm.NumberOfBedrooms, retrievedSubmissionAtPoint7.NumberOfBedrooms,
+                "Field NumberOfBedrooms on retrieved submission at point 7 is not the expected.");
+            Assert.AreEqual(tenancyDetailsForm.PropertyConditionRating, retrievedSubmissionAtPoint7.PropertyConditionRating,
+                "Field PropertyConditionRating on retrieved submission at point 7 is not the expected.");
+            Assert.AreEqual(tenancyDetailsForm.LandlordRating, retrievedSubmissionAtPoint7.LandlordRating,
+                "Field LandlordRating on retrieved submission at point 7 is not the expected.");
+            Assert.AreEqual(tenancyDetailsForm.NeighboursRating, retrievedSubmissionAtPoint7.NeighboursRating,
+                "Field NeighboursRating on retrieved submission at point 7 is not the expected.");
+            Assert.IsTrue(retrievedSubmissionAtPoint7.SubmittedOn.HasValue,
+                "Field SubmittedOn on retrieved submission at point 7 should have a value.");
+            Assert.IsTrue(timeBeforeSubmitTenancyDetails <= retrievedSubmissionAtPoint7.SubmittedOn.Value
+                && retrievedSubmissionAtPoint7.SubmittedOn.Value <= timeAfterSubmitTenancyDetails,
+                "Field SubmittedOn on retrieved submission at point 7 is not within the expected range.");
+            Assert.AreEqual(EnumsHelper.CurrencyId.ToString(CurrencyId.GBP), retrievedSubmissionAtPoint7.CurrencyId,
+                "Field CurrencyId on retrieved submission at point 7 is not the expected.");
+
+            var retrievedTokenTransaction = await DbProbe.TokenAccountTransactions
+                .SingleOrDefaultAsync(x => x.AccountId.Equals(user.Id) &&
+                                           x.RewardTypeKey.Equals(earnPerTenancyDetailsSubmissionRewardTypeKey));
+            Assert.IsNotNull(retrievedTokenTransaction,
+                "No token transaction was created for submitting the tenancy details");
+            Assert.AreEqual(submission.UniqueId, retrievedTokenTransaction.InternalReference,
+                "The internal reference on the token transaction is not the expected.");
         }
 
         [Test]
@@ -1552,7 +1575,9 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.IsTrue(retrievedSubmissionAtPoint2.SubmittedOn.HasValue,
                 "Field SubmittedOn on retrieved submission at point 2 should have a value.");
             Assert.AreEqual(submission.SubmittedOn, retrievedSubmissionAtPoint2.SubmittedOn,
-                "Field SubmittedOn on retrieved submission at point 9 should not be updated.");
+                "Field SubmittedOn on retrieved submission at point 2 should not be updated.");
+            Assert.IsNull(retrievedSubmissionAtPoint2.CurrencyId,
+                "Field CurrencyId on retrieved submission at point 2 is not the expected.");
 
             // EnterVerificationCode
             var verificationToUse = submission.TenantVerifications.Single(x => !x.VerifiedOn.HasValue);
@@ -1697,7 +1722,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             string userId, string userIpAddress,
             string userIdForVerfications, string userForVerificationsIpAddress,
             int justCreatedVerifications = 0, int sentVerifications = 0, int completeVerifications = 0, 
-            bool areDetailsSubmitted = false, string secretCode = null)
+            bool areDetailsSubmitted = false, string secretCode = null, CountryId countryId = CountryId.GB)
         {
             if (secretCode != null && justCreatedVerifications + sentVerifications + completeVerifications != 1)
                 throw new ArgumentException("If you choose your own secret secretCode then there should be only a single verification of any kind created.");
@@ -1705,7 +1730,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var clock = container.Get<IClock>();
             var dbContext = container.Get<IEpsilonContext>();
 
-            var address = await AddressHelper.CreateRandomAddressAndSave(random, container, userId, userIpAddress, CountryId.GB);
+            var address = await AddressHelper.CreateRandomAddressAndSave(random, container, userId, userIpAddress, countryId);
             
             var tenancyDetailsSubmission = new TenancyDetailsSubmission
             {
