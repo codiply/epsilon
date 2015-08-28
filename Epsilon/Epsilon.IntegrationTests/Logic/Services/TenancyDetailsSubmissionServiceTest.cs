@@ -511,6 +511,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var itemsLimit = 10;
             var justCreatedVerifications = 0;
             var sentVerifications = 0;
+            var sentRewardedVerifications = 0;
             var completeVerifications = 0;
             var areDetailsSubmitted = false;
 
@@ -523,7 +524,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var random = new RandomWrapper(2015);
             var submission = await CreateTenancyDetailsSubmissionAndSave(
                     random, helperContainer, user.Id, userIpAddress, otherUser.Id, otherUserIpAddress,
-                    justCreatedVerifications, sentVerifications, completeVerifications, areDetailsSubmitted);
+                    justCreatedVerifications, sentVerifications, sentRewardedVerifications, completeVerifications, areDetailsSubmitted);
 
             var containerUnderTest = CreateContainer();
             SetupConfigForGetUserSubmissionSummary(containerUnderTest, itemsLimit);
@@ -556,6 +557,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var itemsLimit = 10;
             var justCreatedVerifications = 2;
             var sentVerifications = 0;
+            var sentRewardedVerifications = 0;
             var completeVerifications = 0;
             var areDetailsSubmitted = false;
 
@@ -568,7 +570,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var random = new RandomWrapper(2015);
             var submission = await CreateTenancyDetailsSubmissionAndSave(
                     random, helperContainer, user.Id, userIpAddress, otherUser.Id, otherUserIpAddress,
-                    justCreatedVerifications, sentVerifications, completeVerifications, areDetailsSubmitted);
+                    justCreatedVerifications, sentVerifications, sentRewardedVerifications, completeVerifications, areDetailsSubmitted);
 
             var containerUnderTest = CreateContainer();
             SetupConfigForGetUserSubmissionSummary(containerUnderTest, itemsLimit);
@@ -601,6 +603,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var itemsLimit = 10;
             var justCreatedVerifications = 0;
             var sentVerifications = 2;
+            var sentRewardedVerifications = 0;
             var completeVerifications = 0;
             var areDetailsSubmitted = false;
 
@@ -613,7 +616,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var random = new RandomWrapper(2015);
             var submission = await CreateTenancyDetailsSubmissionAndSave(
                     random, helperContainer, user.Id, userIpAddress, otherUser.Id, otherUserIpAddress,
-                    justCreatedVerifications, sentVerifications, completeVerifications, areDetailsSubmitted);
+                    justCreatedVerifications, sentVerifications, sentRewardedVerifications, completeVerifications, areDetailsSubmitted);
 
             var containerUnderTest = CreateContainer();
             SetupConfigForGetUserSubmissionSummary(containerUnderTest, itemsLimit);
@@ -646,6 +649,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var itemsLimit = 10;
             var justCreatedVerifications = 0;
             var sentVerifications = 0;
+            var sentRewardedVerifications = 0;
             var completeVerifications = 2;
             var areDetailsSubmitted = false;
 
@@ -658,7 +662,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var random = new RandomWrapper(2015);
             var submission = await CreateTenancyDetailsSubmissionAndSave(
                     random, helperContainer, user.Id, userIpAddress, otherUser.Id, otherUserIpAddress,
-                    justCreatedVerifications, sentVerifications, completeVerifications, areDetailsSubmitted);
+                    justCreatedVerifications, sentVerifications, sentRewardedVerifications, completeVerifications, areDetailsSubmitted);
 
             var containerUnderTest = CreateContainer();
             SetupConfigForGetUserSubmissionSummary(containerUnderTest, itemsLimit);
@@ -691,6 +695,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var itemsLimit = 10;
             var justCreatedVerifications = 0;
             var sentVerifications = 1;
+            var sentRewardedVerifications = 0;
             var completeVerifications = 1;
             var areDetailsSubmitted = false;
 
@@ -703,7 +708,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var random = new RandomWrapper(2015);
             var submission = await CreateTenancyDetailsSubmissionAndSave(
                     random, helperContainer, user.Id, userIpAddress, otherUser.Id, otherUserIpAddress,
-                    justCreatedVerifications, sentVerifications, completeVerifications, areDetailsSubmitted);
+                    justCreatedVerifications, sentVerifications, sentRewardedVerifications, completeVerifications, areDetailsSubmitted);
 
             var containerUnderTest = CreateContainer();
             SetupConfigForGetUserSubmissionSummary(containerUnderTest, itemsLimit);
@@ -736,6 +741,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var itemsLimit = 10;
             var justCreatedVerifications = 0;
             var sentVerifications = 0;
+            var sentRewardedVerifications = 0;
             var completeVerifications = 2;
             var areDetailsSubmitted = true;
 
@@ -748,7 +754,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var random = new RandomWrapper(2015);
             var submission = await CreateTenancyDetailsSubmissionAndSave(
                     random, helperContainer, user.Id, userIpAddress, otherUser.Id, otherUserIpAddress,
-                    justCreatedVerifications, sentVerifications, completeVerifications, areDetailsSubmitted);
+                    justCreatedVerifications, sentVerifications, sentRewardedVerifications, completeVerifications, areDetailsSubmitted);
 
             var containerUnderTest = CreateContainer();
             SetupConfigForGetUserSubmissionSummary(containerUnderTest, itemsLimit);
@@ -781,6 +787,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var itemsLimit = 10;
             var justCreatedVerifications = 0;
             var sentVerifications = 1;
+            var sentRewardedVerifications = 0;
             var completeVerifications = 1;
             var areDetailsSubmitted = true;
 
@@ -793,7 +800,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var random = new RandomWrapper(2015);
             var submission = await CreateTenancyDetailsSubmissionAndSave(
                     random, helperContainer, user.Id, userIpAddress, otherUser.Id, otherUserIpAddress,
-                    justCreatedVerifications, sentVerifications, completeVerifications, areDetailsSubmitted);
+                    justCreatedVerifications, sentVerifications, sentRewardedVerifications, completeVerifications, areDetailsSubmitted);
 
             var containerUnderTest = CreateContainer();
             SetupConfigForGetUserSubmissionSummary(containerUnderTest, itemsLimit);
@@ -827,6 +834,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var itemsLimit = 10;
             var justCreatedVerifications = 0;
             var sentVerifications = 1;
+            var sentRewardedVerifications = 0;
             var completeVerifications = 1;
             var areDetailsSubmitted = true;
 
@@ -839,7 +847,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var random = new RandomWrapper(2015);
             var submission = await CreateTenancyDetailsSubmissionAndSave(
                     random, helperContainer, user.Id, userIpAddress, otherUser.Id, otherUserIpAddress,
-                    justCreatedVerifications, sentVerifications, completeVerifications, areDetailsSubmitted);
+                    justCreatedVerifications, sentVerifications, sentRewardedVerifications, completeVerifications, areDetailsSubmitted);
 
             var containerUnderTest = CreateContainer();
             SetupConfigForGetUserSubmissionSummary(containerUnderTest, itemsLimit);
@@ -872,6 +880,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var itemsLimit = 10;
             var justCreatedVerifications = 0;
             var sentVerifications = 1;
+            var sentRewardedVerifications = 0;
             var completeVerifications = 1;
             var areDetailsSubmitted = true;
 
@@ -884,7 +893,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var random = new RandomWrapper(2015);
             var submission = await CreateTenancyDetailsSubmissionAndSave(
                     random, helperContainer, user.Id, userIpAddress, otherUser.Id, otherUserIpAddress,
-                    justCreatedVerifications, sentVerifications, completeVerifications, areDetailsSubmitted);
+                    justCreatedVerifications, sentVerifications, sentRewardedVerifications, completeVerifications, areDetailsSubmitted);
 
             var containerUnderTest = CreateContainer();
             SetupConfigForGetUserSubmissionSummary(containerUnderTest, itemsLimit);
@@ -1101,6 +1110,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
         {
             var justCreatedVerifications = 0;
             var sentVerifications = 0;
+            var sentRewardedVerifications = 0;
             var completeVerifications = 0;
             var areDetailsSubmitted = false;
 
@@ -1116,7 +1126,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             var submission = await CreateTenancyDetailsSubmissionAndSave(
                     random, helperContainer, user.Id, userIpAddress, otherUser.Id, otherUserIpAddress,
-                    justCreatedVerifications, sentVerifications, completeVerifications, areDetailsSubmitted);
+                    justCreatedVerifications, sentVerifications, sentRewardedVerifications, completeVerifications, areDetailsSubmitted);
 
             var containerUnderTest = CreateContainer();
             SetupClockDisableLuckySender(containerUnderTest);
@@ -1187,6 +1197,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
         {
             var justCreatedVerifications = 2;
             var sentVerifications = 0;
+            var sentRewardedVerifications = 0;
             var completeVerifications = 0;
             var areDetailsSubmitted = false;
 
@@ -1202,7 +1213,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             var submission = await CreateTenancyDetailsSubmissionAndSave(
                     random, helperContainer, user.Id, userIpAddress, otherUser.Id, otherUserIpAddress,
-                    justCreatedVerifications, sentVerifications, completeVerifications, areDetailsSubmitted);
+                    justCreatedVerifications, sentVerifications, sentRewardedVerifications, completeVerifications, areDetailsSubmitted);
 
             var containerUnderTest = CreateContainer();
             SetupClockDisableLuckySender(containerUnderTest);
@@ -1298,6 +1309,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
         {
             var justCreatedVerifications = 0;
             var sentVerifications = 1;
+            var sentRewardedVerifications = 0;
             var completeVerifications = 1;
             var areDetailsSubmitted = false;
             var countryId = CountryId.GB;
@@ -1314,7 +1326,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             var submission = await CreateTenancyDetailsSubmissionAndSave(
                     random, helperContainer, user.Id, userIpAddress, otherUser.Id, otherUserIpAddress,
-                    justCreatedVerifications, sentVerifications, completeVerifications, areDetailsSubmitted, countryId: countryId);
+                    justCreatedVerifications, sentVerifications, sentRewardedVerifications, completeVerifications, areDetailsSubmitted, countryId: countryId);
 
             var containerUnderTest = CreateContainer();
             SetupClockDisableLuckySender(containerUnderTest);
@@ -1388,6 +1400,8 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 retrievedSubmissionAtPoint3.TenantVerifications.Single(x => x.UniqueId.Equals(verificationToUse.UniqueId));
             Assert.IsNull(retrievedVerificationToUseAtPoint3.VerifiedOn,
                 "Field VerifiedOn on retrieved verification to use at point 3 is not the expected.");
+            Assert.IsNull(retrievedVerificationToUseAtPoint3.SenderRewardedOn,
+                "Field SenderRewardedOn on retrieved verification to use at point 3 is not the expected.");
             var retrievedCompleteVerificationAtPoint3 =
                 retrievedSubmissionAtPoint3.TenantVerifications.Single(x => x.UniqueId.Equals(completeVerification.UniqueId));
             Assert.AreEqual(completeVerification.VerifiedOn.Value, retrievedCompleteVerificationAtPoint3.VerifiedOn.Value,
@@ -1431,6 +1445,9 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.IsFalse(enterVerificationCodeOutcome.IsRejected, "EnterVerificationCode outcome field IsRejected is not the expected.");
             Assert.IsNullOrEmpty(enterVerificationCodeOutcome.RejectionReason);
             Assert.IsFalse(enterVerificationCodeOutcome.ReturnToForm, "EnterVerificationCode outcome field ReturnToForm is not the expected.");
+            Assert.IsTrue(enterVerificationCodeOutcome.UiAlerts.Any(x => x.Message.Equals(CommonResources.TokenAccountCreditedForThisAction)),
+                "A message for crediting tokens was not found on the UiAlerts of the EnterVerificationCode outcome.");
+            
             var timeAfterEnterVerificationCode = clock.OffsetNow;
 
             var retrievedSubmissionAtPoint5 = await RetrieveSubmission(submission.UniqueId);
@@ -1442,6 +1459,9 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.IsTrue(timeBeforeEnterVerificationCode <= retrievedUsedVerificationAtPoint5.VerifiedOn.Value 
                 && retrievedUsedVerificationAtPoint5.VerifiedOn.Value <= timeAfterEnterVerificationCode,
                 "Field VerifiedOn on used verification retrieved at point 5 is not in the expected range.");
+            Assert.IsTrue(timeBeforeEnterVerificationCode <= retrievedUsedVerificationAtPoint5.SenderRewardedOn.Value
+                && retrievedUsedVerificationAtPoint5.SenderRewardedOn.Value <= timeAfterEnterVerificationCode,
+                 "Field SenderRewardedOn on used verification retrieved at point 5 is not in the expected range.");
 
             var rewardForEnteringCode = tokenRewardService.GetCurrentReward(TokenRewardKey.EarnPerVerificationCodeEntered);
             var rewardForVerificationSender = tokenRewardService.GetCurrentReward(TokenRewardKey.EarnPerVerificationMailSent);
@@ -1450,6 +1470,24 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var otherUserBalanceAtPoint5 = await userTokenService.GetBalance(otherUser.Id);
             Assert.AreEqual(rewardForEnteringCode.Value, userBalanceAtPoint5.balance, "User balance at point 5 is not the expected.");
             Assert.AreEqual(rewardForVerificationSender.Value, otherUserBalanceAtPoint5.balance, "Other User balance at point 5 is not the expected.");
+
+            var earnPerVerificationMailSentRewardTypeKey = EnumsHelper.TokenRewardKey.ToString(TokenRewardKey.EarnPerVerificationMailSent);
+            var retrievedTokenTransactionForVerificationSender = await DbProbe.TokenAccountTransactions
+                .SingleOrDefaultAsync(x => x.AccountId.Equals(otherUser.Id) &&
+                                      x.RewardTypeKey.Equals(earnPerVerificationMailSentRewardTypeKey));
+            Assert.IsNotNull(earnPerVerificationMailSentRewardTypeKey,
+                "No token transaction was created for the sender of the verification mail.");
+            Assert.AreEqual(verificationToUse.UniqueId, retrievedTokenTransactionForVerificationSender.InternalReference,
+                "The internal reference on the token transaction for the sender of the verification mail is not the expected.");
+
+            var earnPerVerificationCodeEnteredRewardTypeKey = EnumsHelper.TokenRewardKey.ToString(TokenRewardKey.EarnPerVerificationCodeEntered);
+            var retrievedTokenTransactionForEnteringCode = await DbProbe.TokenAccountTransactions
+                .SingleOrDefaultAsync(x => x.AccountId.Equals(user.Id) &&
+                                      x.RewardTypeKey.Equals(earnPerVerificationCodeEnteredRewardTypeKey));
+            Assert.IsNotNull(retrievedTokenTransactionForEnteringCode,
+                "No token transaction was created for entering the verification code.");
+            Assert.AreEqual(submission.UniqueId, retrievedTokenTransactionForEnteringCode.InternalReference,
+                "The internal reference on the token transaction for entering the verification code is not the expected.");
 
             // SubmitTenancyDetails
             var tenancyDetailsForm = new TenancyDetailsForm
@@ -1542,7 +1580,229 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.IsNotNull(retrievedTokenTransactionForSubmission,
                 "No token transaction was created for submitting the tenancy details");
             Assert.AreEqual(submission.UniqueId, retrievedTokenTransactionForSubmission.InternalReference,
-                "The internal reference on the token transaction is not the expected.");
+                "The internal reference on the token transaction for submitting the tenancy details is not the expected.");
+        }
+
+        [Test]
+        public async Task ActionsTest_SubmissionWithSentAndCompleteVerifications_LuckySender()
+        {
+            var justCreatedVerifications = 0;
+            var sentVerifications = 1;
+            var sentRewardedVerifications = 0;
+            var completeVerifications = 1;
+            var areDetailsSubmitted = false;
+            var countryId = CountryId.GB;
+
+            var helperContainer = CreateContainer();
+
+            var userIpAddress = "1.2.3.4";
+            var user = await CreateUser(helperContainer, "test@test.com", userIpAddress);
+            var otherUserIpAddress = "1.2.3.5";
+            var otherUser = await CreateUser(helperContainer, "test2@test.com", otherUserIpAddress);
+
+            var random = new RandomWrapper(2015);
+            var clock = helperContainer.Get<IClock>();
+
+            var submission = await CreateTenancyDetailsSubmissionAndSave(
+                    random, helperContainer, user.Id, userIpAddress, otherUser.Id, otherUserIpAddress,
+                    justCreatedVerifications, sentVerifications, sentRewardedVerifications, completeVerifications, areDetailsSubmitted, countryId: countryId);
+
+            var containerUnderTest = CreateContainer();
+            SetupClockAlwaysLuckySender(containerUnderTest);
+            var serviceUnderTest = containerUnderTest.Get<ITenancyDetailsSubmissionService>();
+            var userTokenService = containerUnderTest.Get<IUserTokenService>();
+            var tokenRewardService = containerUnderTest.Get<ITokenRewardService>();
+
+            var retrievedSubmissionAtPoint1 = await RetrieveSubmission(submission.UniqueId);
+            Assert.IsNotNull(retrievedSubmissionAtPoint1, "Retrieved submission at point 1 is null.");
+            Assert.IsNull(retrievedSubmissionAtPoint1.RentPerMonth, "Field RentPerMonth on retrieved submission at point 1 is not the expected.");
+            Assert.IsTrue(retrievedSubmissionAtPoint1.TenantVerifications.Any(x => !x.VerifiedOn.HasValue),
+                "At point 1 some verifications should have null VerifiedOn field.");
+            Assert.IsTrue(retrievedSubmissionAtPoint1.TenantVerifications.Any(x => x.VerifiedOn.HasValue),
+                "At point 1 some verifications should not have null VerifiedOn field.");
+            Assert.IsTrue(retrievedSubmissionAtPoint1.TenantVerifications.All(x => x.MarkedAsSentOn.HasValue),
+                "At point 1 all verifications should have a value in MarkedAsSentOn field.");
+
+            var userBalanceAtPoint1 = await userTokenService.GetBalance(user.Id);
+            var otherUserBalanceAtPoint1 = await userTokenService.GetBalance(otherUser.Id);
+            Assert.AreEqual(0, userBalanceAtPoint1.balance, "User balance at point 1 is not the expected.");
+            Assert.AreEqual(0, otherUserBalanceAtPoint1.balance, "Other User balance at point 1 is not the expected.");
+
+            // EnterVerificationCode
+            var verificationToUse = submission.TenantVerifications.Single(x => !x.VerifiedOn.HasValue);
+            var completeVerification = submission.TenantVerifications.Single(x => x.VerifiedOn.HasValue);
+
+            var userBalanceAtPoint2 = await userTokenService.GetBalance(user.Id);
+            var otherUserBalanceAtPoint2 = await userTokenService.GetBalance(otherUser.Id);
+            Assert.AreEqual(0, userBalanceAtPoint2.balance, "User balance at point 2 is not the expected.");
+            Assert.AreEqual(0, otherUserBalanceAtPoint2.balance, "Other User balance at point 2 is not the expected.");
+
+            var verificationCodeForm = new VerificationCodeForm
+            {
+                TenancyDetailsSubmissionUniqueId = submission.UniqueId,
+                VerificationCode = verificationToUse.SecretCode
+            };
+
+            var userBalanceAtPoint4 = await userTokenService.GetBalance(user.Id);
+            var otherUserBalanceAtPoint4 = await userTokenService.GetBalance(otherUser.Id);
+            Assert.AreEqual(0, userBalanceAtPoint4.balance, "User balance at point 4 is not the expected.");
+            Assert.AreEqual(0, otherUserBalanceAtPoint4.balance, "Other User balance at point 4 is not the expected.");
+
+            var enterVerificationCodeOutcome = await serviceUnderTest.EnterVerificationCode(user.Id, verificationCodeForm);
+            Assert.IsFalse(enterVerificationCodeOutcome.IsRejected, "EnterVerificationCode outcome field IsRejected is not the expected.");
+            Assert.IsNullOrEmpty(enterVerificationCodeOutcome.RejectionReason);
+            Assert.IsFalse(enterVerificationCodeOutcome.ReturnToForm, "EnterVerificationCode outcome field ReturnToForm is not the expected.");
+            Assert.IsTrue(enterVerificationCodeOutcome.UiAlerts.Any(x => x.Message.Equals(CommonResources.TokenAccountCreditedForThisAction)),
+                "A message for crediting tokens was not found on the UiAlerts of the EnterVerificationCode outcome.");
+
+            var retrievedSubmissionAtPoint5 = await RetrieveSubmission(submission.UniqueId);
+            Assert.IsNotNull(retrievedSubmissionAtPoint5, "Retrieved submission at point 5 is null.");
+            var retrievedUsedVerificationAtPoint5 =
+                retrievedSubmissionAtPoint5.TenantVerifications.Single(x => x.UniqueId == verificationToUse.UniqueId);
+            Assert.IsTrue(retrievedUsedVerificationAtPoint5.VerifiedOn.HasValue,
+                "Field VerifiedOn on used verification retrieved at point 5 does not have a value.");
+
+            var rewardForEnteringCode = tokenRewardService.GetCurrentReward(TokenRewardKey.EarnPerVerificationCodeEntered);
+            var rewardForVerificationSender = tokenRewardService.GetCurrentReward(TokenRewardKey.EarnPerVerificationMailSent);
+            var rewardForLuckySender = tokenRewardService.GetCurrentReward(TokenRewardKey.EarnPerVerificationLuckySender);
+
+            var userBalanceAtPoint5 = await userTokenService.GetBalance(user.Id);
+            var otherUserBalanceAtPoint5 = await userTokenService.GetBalance(otherUser.Id);
+            Assert.AreEqual(rewardForEnteringCode.Value, userBalanceAtPoint5.balance, "User balance at point 5 is not the expected.");
+            Assert.AreEqual(rewardForVerificationSender.Value + rewardForLuckySender.Value, otherUserBalanceAtPoint5.balance, 
+                "Other User balance at point 5 is not the expected.");
+
+            var earnPerVerificationMailSentRewardTypeKey = EnumsHelper.TokenRewardKey.ToString(TokenRewardKey.EarnPerVerificationMailSent);
+            var retrievedTokenTransactionForVerificationSender = await DbProbe.TokenAccountTransactions
+                .SingleOrDefaultAsync(x => x.AccountId.Equals(otherUser.Id) &&
+                                      x.RewardTypeKey.Equals(earnPerVerificationMailSentRewardTypeKey));
+            Assert.IsNotNull(retrievedTokenTransactionForVerificationSender,
+                "No token transaction was created for the sender of the verification mail.");
+            Assert.AreEqual(verificationToUse.UniqueId, retrievedTokenTransactionForVerificationSender.InternalReference,
+                "The internal reference on the token transaction for the sender of the verification mail is not the expected.");
+
+            var earnPerVerificationCodeEnteredRewardTypeKey = EnumsHelper.TokenRewardKey.ToString(TokenRewardKey.EarnPerVerificationCodeEntered);
+            var retrievedTokenTransactionForEnteringCode = await DbProbe.TokenAccountTransactions
+                .SingleOrDefaultAsync(x => x.AccountId.Equals(user.Id) &&
+                                      x.RewardTypeKey.Equals(earnPerVerificationCodeEnteredRewardTypeKey));
+            Assert.IsNotNull(retrievedTokenTransactionForEnteringCode,
+                "No token transaction was created for entering the verification code.");
+            Assert.AreEqual(submission.UniqueId, retrievedTokenTransactionForEnteringCode.InternalReference,
+                "The internal reference on the token transaction for entering the verification code is not the expected.");
+
+            var earnPerVerificationLuckySenderRewardTypeKey = EnumsHelper.TokenRewardKey.ToString(TokenRewardKey.EarnPerVerificationLuckySender);
+            var retrievedTokenTransactionForLuckySender = await DbProbe.TokenAccountTransactions
+                .SingleOrDefaultAsync(x => x.AccountId.Equals(otherUser.Id) &&
+                                      x.RewardTypeKey.Equals(earnPerVerificationLuckySenderRewardTypeKey));
+            Assert.IsNotNull(retrievedTokenTransactionForLuckySender,
+                "No token transaction was created for lucky sender.");
+            Assert.AreEqual(verificationToUse.UniqueId, retrievedTokenTransactionForLuckySender.InternalReference,
+                "The internal reference on the token transaction for lucky sender is not the expected.");
+        }
+
+        [Test]
+        public async Task ActionsTest_SubmissionWithSentAndCompleteVerifications_SenderAlreadyRewarded()
+        {
+            var justCreatedVerifications = 0;
+            var sentVerifications = 0;
+            var sentRewardedVerifications = 1;
+            var completeVerifications = 1;
+            var areDetailsSubmitted = false;
+            var countryId = CountryId.GB;
+
+            var helperContainer = CreateContainer();
+
+            var userIpAddress = "1.2.3.4";
+            var user = await CreateUser(helperContainer, "test@test.com", userIpAddress);
+            var otherUserIpAddress = "1.2.3.5";
+            var otherUser = await CreateUser(helperContainer, "test2@test.com", otherUserIpAddress);
+
+            var random = new RandomWrapper(2015);
+            var clock = helperContainer.Get<IClock>();
+
+            var submission = await CreateTenancyDetailsSubmissionAndSave(
+                    random, helperContainer, user.Id, userIpAddress, otherUser.Id, otherUserIpAddress,
+                    justCreatedVerifications, sentVerifications, sentRewardedVerifications, completeVerifications, areDetailsSubmitted, countryId: countryId);
+
+            var containerUnderTest = CreateContainer();
+            SetupClockDisableLuckySender(containerUnderTest);
+            var serviceUnderTest = containerUnderTest.Get<ITenancyDetailsSubmissionService>();
+            var userTokenService = containerUnderTest.Get<IUserTokenService>();
+            var tokenRewardService = containerUnderTest.Get<ITokenRewardService>();
+
+            var retrievedSubmissionAtPoint1 = await RetrieveSubmission(submission.UniqueId);
+            Assert.IsNotNull(retrievedSubmissionAtPoint1, "Retrieved submission at point 1 is null.");
+            Assert.IsNull(retrievedSubmissionAtPoint1.RentPerMonth, "Field RentPerMonth on retrieved submission at point 1 is not the expected.");
+            Assert.IsTrue(retrievedSubmissionAtPoint1.TenantVerifications.Any(x => !x.VerifiedOn.HasValue),
+                "At point 1 some verifications should have null VerifiedOn field.");
+            Assert.IsTrue(retrievedSubmissionAtPoint1.TenantVerifications.Any(x => x.VerifiedOn.HasValue),
+                "At point 1 some verifications should not have null VerifiedOn field.");
+            Assert.IsTrue(retrievedSubmissionAtPoint1.TenantVerifications.All(x => x.MarkedAsSentOn.HasValue),
+                "At point 1 all verifications should have a value in MarkedAsSentOn field.");
+
+            var userBalanceAtPoint1 = await userTokenService.GetBalance(user.Id);
+            var otherUserBalanceAtPoint1 = await userTokenService.GetBalance(otherUser.Id);
+            Assert.AreEqual(0, userBalanceAtPoint1.balance, "User balance at point 1 is not the expected.");
+            Assert.AreEqual(0, otherUserBalanceAtPoint1.balance, "Other User balance at point 1 is not the expected.");
+
+            // EnterVerificationCode
+            var verificationToUse = submission.TenantVerifications.Single(x => !x.VerifiedOn.HasValue);
+            var completeVerification = submission.TenantVerifications.Single(x => x.VerifiedOn.HasValue);
+
+            var userBalanceAtPoint2 = await userTokenService.GetBalance(user.Id);
+            var otherUserBalanceAtPoint2 = await userTokenService.GetBalance(otherUser.Id);
+            Assert.AreEqual(0, userBalanceAtPoint2.balance, "User balance at point 2 is not the expected.");
+            Assert.AreEqual(0, otherUserBalanceAtPoint2.balance, "Other User balance at point 2 is not the expected.");
+
+            var verificationCodeForm = new VerificationCodeForm
+            {
+                TenancyDetailsSubmissionUniqueId = submission.UniqueId,
+                VerificationCode = verificationToUse.SecretCode
+            };
+
+            var userBalanceAtPoint3 = await userTokenService.GetBalance(user.Id);
+            var otherUserBalanceAtPoint3 = await userTokenService.GetBalance(otherUser.Id);
+            Assert.AreEqual(0, userBalanceAtPoint3.balance, "User balance at point 3 is not the expected.");
+            Assert.AreEqual(0, otherUserBalanceAtPoint3.balance, "Other User balance at point 3 is not the expected.");
+
+            var enterVerificationCodeOutcome = await serviceUnderTest.EnterVerificationCode(user.Id, verificationCodeForm);
+            Assert.IsFalse(enterVerificationCodeOutcome.IsRejected, "EnterVerificationCode outcome field IsRejected is not the expected.");
+            Assert.IsNullOrEmpty(enterVerificationCodeOutcome.RejectionReason);
+            Assert.IsFalse(enterVerificationCodeOutcome.ReturnToForm, "EnterVerificationCode outcome field ReturnToForm is not the expected.");
+            Assert.IsTrue(enterVerificationCodeOutcome.UiAlerts.Any(x => x.Message.Equals(CommonResources.TokenAccountCreditedForThisAction)),
+                "A message for crediting tokens was not found on the UiAlerts of the EnterVerificationCode outcome.");
+
+            var retrievedSubmissionAtPoint5 = await RetrieveSubmission(submission.UniqueId);
+            Assert.IsNotNull(retrievedSubmissionAtPoint5, "Retrieved submission at point 5 is null.");
+            var retrievedUsedVerificationAtPoint5 =
+                retrievedSubmissionAtPoint5.TenantVerifications.Single(x => x.UniqueId == verificationToUse.UniqueId);
+            Assert.IsTrue(retrievedUsedVerificationAtPoint5.VerifiedOn.HasValue,
+                "Field VerifiedOn on used verification retrieved at point 5 does not have a value.");
+
+            var rewardForEnteringCode = tokenRewardService.GetCurrentReward(TokenRewardKey.EarnPerVerificationCodeEntered);
+            var rewardForVerificationSender = tokenRewardService.GetCurrentReward(TokenRewardKey.EarnPerVerificationMailSent);
+
+            var userBalanceAtPoint4 = await userTokenService.GetBalance(user.Id);
+            var otherUserBalanceAtPoint4 = await userTokenService.GetBalance(otherUser.Id);
+            Assert.AreEqual(rewardForEnteringCode.Value, userBalanceAtPoint4.balance, "User balance at point 4 is not the expected.");
+            Assert.AreEqual(0, otherUserBalanceAtPoint4.balance,
+                "Other User balance at point 4 is not the expected.");
+
+            var earnPerVerificationMailSentRewardTypeKey = EnumsHelper.TokenRewardKey.ToString(TokenRewardKey.EarnPerVerificationMailSent);
+            var retrievedTokenTransactionForVerificationSender = await DbProbe.TokenAccountTransactions
+                .SingleOrDefaultAsync(x => x.AccountId.Equals(otherUser.Id) &&
+                                      x.RewardTypeKey.Equals(earnPerVerificationMailSentRewardTypeKey));
+            Assert.IsNull(retrievedTokenTransactionForVerificationSender,
+                "No token transaction should be created for the sender of the verification mail if already rewarded.");
+
+            var earnPerVerificationCodeEnteredRewardTypeKey = EnumsHelper.TokenRewardKey.ToString(TokenRewardKey.EarnPerVerificationCodeEntered);
+            var retrievedTokenTransactionForEnteringCode = await DbProbe.TokenAccountTransactions
+                .SingleOrDefaultAsync(x => x.AccountId.Equals(user.Id) &&
+                                      x.RewardTypeKey.Equals(earnPerVerificationCodeEnteredRewardTypeKey));
+            Assert.IsNotNull(retrievedTokenTransactionForEnteringCode,
+                "No token transaction was created for entering the verification code.");
+            Assert.AreEqual(submission.UniqueId, retrievedTokenTransactionForEnteringCode.InternalReference,
+                "The internal reference on the token transaction for entering the verification code is not the expected.");
         }
 
         [Test]
@@ -1550,6 +1810,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
         {
             var justCreatedVerifications = 0;
             var sentVerifications = 1;
+            var sentRewardedVerifications = 0;
             var completeVerifications = 1;
             var areDetailsSubmitted = true;
 
@@ -1565,7 +1826,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             var submission = await CreateTenancyDetailsSubmissionAndSave(
                     random, helperContainer, user.Id, userIpAddress, otherUser.Id, otherUserIpAddress,
-                    justCreatedVerifications, sentVerifications, completeVerifications, areDetailsSubmitted);
+                    justCreatedVerifications, sentVerifications, sentRewardedVerifications, completeVerifications, areDetailsSubmitted);
 
             var containerUnderTest = CreateContainer();
             SetupClockDisableLuckySender(containerUnderTest);
@@ -1814,10 +2075,10 @@ namespace Epsilon.IntegrationTests.Logic.Services
             IRandomWrapper random, IKernel container, 
             string userId, string userIpAddress,
             string userIdForVerfications, string userForVerificationsIpAddress,
-            int justCreatedVerifications = 0, int sentVerifications = 0, int completeVerifications = 0, 
+            int justCreatedVerifications = 0, int sentVerifications = 0, int sentRewardedVerifications = 0, int completeVerifications = 0, 
             bool areDetailsSubmitted = false, string secretCode = null, CountryId countryId = CountryId.GB)
         {
-            if (secretCode != null && justCreatedVerifications + sentVerifications + completeVerifications != 1)
+            if (secretCode != null && justCreatedVerifications + sentVerifications + sentRewardedVerifications + completeVerifications != 1)
                 throw new ArgumentException("If you choose your own secret secretCode then there should be only a single verification of any kind created.");
 
             var clock = container.Get<IClock>();
@@ -1849,19 +2110,29 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             for (int i = 0; i < justCreatedVerifications; i++)
             {
-                var verification = CreateTenantVerification(random, container, userIdForVerfications, userForVerificationsIpAddress, secretCode, isSent: false, isComplete: false);
+                var verification = CreateTenantVerification(random, container, userIdForVerfications, userForVerificationsIpAddress, secretCode, 
+                    isSent: false, isComplete: false, isSenderRewarded: false);
                 verifications.Add(verification);
             }
 
             for (int i = 0; i < sentVerifications; i++)
             {
-                var verification = CreateTenantVerification(random, container, userIdForVerfications, userForVerificationsIpAddress, secretCode, isSent: true, isComplete: false);
+                var verification = CreateTenantVerification(random, container, userIdForVerfications, userForVerificationsIpAddress, secretCode, 
+                    isSent: true, isComplete: false, isSenderRewarded: false);
+                verifications.Add(verification);
+            }
+
+            for (int i = 0; i < sentRewardedVerifications; i++)
+            {
+                var verification = CreateTenantVerification(random, container, userIdForVerfications, userForVerificationsIpAddress, secretCode,
+                    isSent: true, isComplete: false, isSenderRewarded: true);
                 verifications.Add(verification);
             }
 
             for (int i = 0; i < completeVerifications; i++)
             {
-                var verification = CreateTenantVerification(random, container, userIdForVerfications, userForVerificationsIpAddress, secretCode, isSent: true, isComplete: true);
+                var verification = CreateTenantVerification(random, container, userIdForVerfications, userForVerificationsIpAddress, secretCode, 
+                    isSent: true, isComplete: true, isSenderRewarded: true);
                 verifications.Add(verification);
             }
 
@@ -1873,7 +2144,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
         }
 
         private static TenantVerification CreateTenantVerification(
-            IRandomWrapper random, IKernel container, string userId, string userIpAddress, string secretCode, bool isSent, bool isComplete)
+            IRandomWrapper random, IKernel container, string userId, string userIpAddress, string secretCode, bool isSent, bool isComplete, bool isSenderRewarded)
         {
             var clock = container.Get<IClock>();
             var dbContext = container.Get<IEpsilonContext>();
@@ -1889,6 +2160,8 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 tenantVerification.MarkedAsSentOn = clock.OffsetNow;
             if (isComplete)
                 tenantVerification.VerifiedOn = clock.OffsetNow;
+            if (isSenderRewarded)
+                tenantVerification.SenderRewardedOn = clock.OffsetNow;
             return tenantVerification;
         }
 

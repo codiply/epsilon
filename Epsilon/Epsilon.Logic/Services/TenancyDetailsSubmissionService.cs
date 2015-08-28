@@ -229,7 +229,7 @@ namespace Epsilon.Logic.Services
 
                 var hasSenderBeenRewarded = verification.IsSenderRewarded();
                 if (!hasSenderBeenRewarded)
-                    verification.SenderRewardedOn = now; // TODO_TEST_PANOS
+                    verification.SenderRewardedOn = now;
 
                 verification.VerifiedOn = now;
                 _dbContext.Entry(verification).State = EntityState.Modified;
@@ -241,7 +241,6 @@ namespace Epsilon.Logic.Services
                     Message = TenancyDetailsSubmissionResources.EnterVerificationCode_SuccessMessage
                 });
 
-                // TODO_TEST_PANOS: also test the correct internal reference is used.
                 var recipientRewardStatus = await _userTokenService.MakeTransaction(userId, TokenRewardKey.EarnPerVerificationCodeEntered, submission.UniqueId);
                 if (recipientRewardStatus == TokenAccountTransactionStatus.Success)
                 {
@@ -264,12 +263,10 @@ namespace Epsilon.Logic.Services
 
                 if (!hasSenderBeenRewarded)
                 {
-                    // TODO_TEST_PANOS: also test the correct internal reference is used.
                     var senderRewardStatus = await _userTokenService
                         .MakeTransaction(verification.AssignedToId, TokenRewardKey.EarnPerVerificationMailSent, verification.UniqueId);
                     if (senderRewardStatus != TokenAccountTransactionStatus.Success)
                     {
-                        // TODO_TEST_PANOS
                         // This shouldn't fail, but I return failure before committing the transaction.
                         return new EnterVerificationCodeOutcome
                         {
@@ -283,12 +280,10 @@ namespace Epsilon.Logic.Services
                 // Lucky Sender Logic
                 if (now.Millisecond % 100 == 0)
                 {
-                    // TODO_TEST_PANOS: also test the correct internal reference is used.
                     var luckySenderRewardStatus = await _userTokenService
                         .MakeTransaction(verification.AssignedToId, TokenRewardKey.EarnPerVerificationLuckySender, verification.UniqueId);
                     if (luckySenderRewardStatus != TokenAccountTransactionStatus.Success)
                     {
-                        // TODO_TEST_PANOS
                         // This shouldn't fail, but I return failure before committing the transaction.
                         return new EnterVerificationCodeOutcome
                         {
@@ -309,7 +304,6 @@ namespace Epsilon.Logic.Services
                 {
                     IsRejected = false,
                     ReturnToForm = false,
-                    // TODO_TEST_PANOS
                     UiAlerts = uiAlerts
                 };
             }
