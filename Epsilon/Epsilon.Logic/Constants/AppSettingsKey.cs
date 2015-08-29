@@ -15,6 +15,7 @@
         public const string DisableRegistrationEmailConfirmation = "Epsilon.DisableRegistrationEmailConfirmation";
         public const string DisableWholeWebsiteForMaintenance = "Epsilon.DisableWholeWebsiteForMaintenance";
         public const string EnableDevHelperController = "Epsilon.EnableDevHelperController";
+        public const string GoogleAnalyticsTrackingId = "Epsilon.GoogleAnalyticsTrackingId";
         public const string GoogleApiServerKey = "Epsilon.GoogleApiServerKey";
         public const string IpAddressOverride = "Epsilon.IpAddressOverride";
         public const string SmtpServiceHost = "Epsilon.SmtpServiceHost";
@@ -25,6 +26,8 @@
         public const string SmtpServicePassword = "Epsilon.SmtpServicePassword";
         public const string SmtpServiceFromAddress = "Epsilon.SmtpServiceFromAddress";
         public const string SmtpServiceFromDisplayName = "Epsilon.SmtpServiceFromDisplayName";
+        public const string StatCounterProjectNumber = "Epsilon.StatCounterProjectNumber";
+        public const string StatcounterSecurityCode = "Epsilon.StatcounterSecurityCode";
         public const string TokenAccountSnapshotNumberOfTransactionsThreshold = "Epsilon.TokenAccountSnapshotNumberOfTransactionsThreshold";
         public const string TokenAccountSnapshotSnoozePeriodInHours = "Epsilon.TokenAccountSnapshotSnoozePeriodInHours";
 

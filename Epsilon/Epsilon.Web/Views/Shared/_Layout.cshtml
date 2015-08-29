@@ -90,5 +90,45 @@
     @RenderSection("CountryVariantResources", required:false)
     @Scripts.Render("~/bundles/ngapp")
     @RenderSection("scripts", required: false)
+
+    
+    @{ 
+        var googleAnalyticsTrackingId = appSettingsHelper.GetString(AppSettingsKey.GoogleAnalyticsTrackingId);
+    }
+    @if (!string.IsNullOrWhiteSpace(googleAnalyticsTrackingId))
+    {
+    <!-- Google Analytics Start -->
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', '@googleAnalyticsTrackingId', 'auto');
+        ga('send', 'pageview');
+    </script>
+    <!-- Google Analytics End -->
+    }
+
+    @{ 
+        var statCounterProjectNumber = appSettingsHelper.GetString(AppSettingsKey.StatCounterProjectNumber);
+        var statCounterSecurityCode = appSettingsHelper.GetString(AppSettingsKey.StatcounterSecurityCode);
+    }
+
+    @if (!string.IsNullOrWhiteSpace(statCounterProjectNumber) && !string.IsNullOrWhiteSpace(statCounterSecurityCode))
+    {
+    <!-- Statcounter Start -->
+    <script type="text/javascript">
+        var sc_project=@statCounterProjectNumber;
+        var sc_invisible=1;
+        var sc_security="@statCounterSecurityCode";
+        var scJsHost = (("https:" == document.location.protocol) ?
+            "https://secure." : "http://www.");
+            document.write("<sc"+"ript type='text/javascript' src='" +
+            scJsHost+
+            "statcounter.com/counter/counter.js'></"+"script>");
+    </script>
+    <!-- Statcounter End -->
+    }
 </body>
 </html>
