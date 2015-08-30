@@ -24,11 +24,12 @@ namespace Epsilon.IntegrationTests.Logic.Services
 {
     public class PropertyInfoAccessServiceTest : BaseIntegrationTestWithRollback
     {
+        private TimeSpan _smallDelay = TimeSpan.FromMilliseconds(20);
 
         #region GetUserExploredPropertiesSummary
 
         [Test]
-        public async Task GetUserExploredPropertiesSummary_ForUserWithoutOutgoingVerifications()
+        public async Task GetUserExploredPropertiesSummary_ForUserWithoutPropertyInfoAccesses()
         {
             var helperContainer = CreateContainer();
 
@@ -41,9 +42,9 @@ namespace Epsilon.IntegrationTests.Logic.Services
             // This is to test that the summary contains only verifications from the specific user.
             var otherUserIpAddress = "1.2.3.5";
             var otherUser = await CreateUser(helperContainer, "test2@test.com", otherUserIpAddress);
-            var otherUserOutgoingVerification = await CreatePropertyInfoAccessAndSave(
+            var otherUserPropertyInfoAccess = await CreatePropertyInfoAccessAndSave(
                     random, helperContainer, otherUser.Id, otherUserIpAddress, user.Id, userIpAddress);
-            Assert.IsNotNull(otherUserOutgoingVerification, "The property info access created for the other user is null.");
+            Assert.IsNotNull(otherUserPropertyInfoAccess, "The property info access created for the other user is null.");
 
             var containerUnderTest = CreateContainer();
             var serviceUnderTest = containerUnderTest.Get<IPropertyInfoAccessService>();
@@ -63,75 +64,74 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.IsFalse(response2.exploredProperties.Any(), "Field exploredProperties on response2 should be empty.");
         }
 
-        //[Test]
-        //public async Task GetUserExploredPropertiesSummary_WithOutgoingVerificationsEqualToTheLimit_ItemsLimitIsNotRelevant()
-        //{
-        //    var itemsLimit = 3;
-        //    var outgoingVerificationsToCreate = itemsLimit;
+        [Test]
+        public async Task GetUserExploredPropertiesSummary_WithPropertyInfoAccessesEqualToTheLimit_ItemsLimitIsNotRelevant()
+        {
+            var itemsLimit = 3;
+            var propertyInfoAccessesToCreate = itemsLimit;
 
-        //    var helperContainer = CreateContainer();
-        //    var userIpAddress = "1.2.3.4";
-        //    var user = await CreateUser(helperContainer, "test@test.com", userIpAddress);
-        //    var otherUserIpAddress = "11.12.13.14";
-        //    var otherUser = await CreateUser(helperContainer, "other-user@test.com", "11.12.13.14");
+            var helperContainer = CreateContainer();
+            var userIpAddress = "1.2.3.4";
+            var user = await CreateUser(helperContainer, "test@test.com", userIpAddress);
+            var otherUserIpAddress = "11.12.13.14";
+            var otherUser = await CreateUser(helperContainer, "other-user@test.com", "11.12.13.14");
 
-        //    var random = new RandomWrapper(2015);
-        //    var tenantVerifications = new List<TenantVerification>();
+            var random = new RandomWrapper(2015);
+            var propertyInfoAccesses = new List<PropertyInfoAccess>();
 
-        //    for (var i = 0; i < outgoingVerificationsToCreate; i++)
-        //    {
-        //        var tenantVerification = await CreateTenantVerificationAndSave(
-        //            random, helperContainer, user.Id, userIpAddress, otherUser.Id, otherUserIpAddress, false, false);
-        //        tenantVerifications.Add(tenantVerification);
-        //        await Task.Delay(_smallDelay);
-        //    }
-        //    var tenantVerificationsByCreationDescending = tenantVerifications.OrderByDescending(x => x.CreatedOn).ToList();
+            for (var i = 0; i <propertyInfoAccessesToCreate; i++)
+            {
+                var propertyInfoAccess = await CreatePropertyInfoAccessAndSave(
+                    random, helperContainer, user.Id, userIpAddress, otherUser.Id, otherUserIpAddress);
+                propertyInfoAccesses.Add(propertyInfoAccess);
+                await Task.Delay(_smallDelay);
+            }
+            var propertyInfoAccessesByCreationDescending = propertyInfoAccesses.OrderByDescending(x => x.CreatedOn).ToList();
 
+            // I create a property info access for the other user and assign the submission to the user under test.
+            // This is to test that the summary contains only verifications from the specific user.
+            var otherUserPropertyInfoAccess = await CreatePropertyInfoAccessAndSave(
+                    random, helperContainer, otherUser.Id, otherUserIpAddress, user.Id, userIpAddress);
+            Assert.IsNotNull(otherUserPropertyInfoAccess, "The property info access created for the other user is null.");
 
-        //// I create a property info access for the other user and assign the submission to the user under test.
-        //// This is to test that the summary contains only verifications from the specific user.
-        //    var otherUserOutgoingVerification = await CreateTenantVerificationAndSave(
-        //            random, helperContainer, otherUser.Id, otherUserIpAddress, user.Id, userIpAddress, false, false);
-        //    Assert.IsNotNull(otherUserOutgoingVerification, "The outgoing verification created for the other user is null.");
+            var containerUnderTest = CreateContainer();
+            SetupConfigForGetUserExploredPropertiesSummary(containerUnderTest, itemsLimit);
+            var serviceUnderTest = containerUnderTest.Get<IPropertyInfoAccessService>();
 
-        //    var containerUnderTest = CreateContainer();
-        //    SetupConfigForGetUserOutgoingVerificationsSummary(containerUnderTest, itemsLimit);
-        //    var serviceUnderTest = containerUnderTest.Get<IOutgoingVerificationService>();
+            // Full summary
+            var response1 = await serviceUnderTest.GetUserExploredPropertiesSummary(user.Id, false);
 
-        //    // Full summary
-        //    var response1 = await serviceUnderTest.GetUserOutgoingVerificationsSummary(user.Id, false);
+            Assert.IsNotNull(response1, "Response1 is null.");
+            Assert.IsFalse(response1.moreItemsExist, "Field moreItemsExist on response1 is not the expected.");
+            Assert.AreEqual(propertyInfoAccessesToCreate, response1.exploredProperties.Count,
+                "Response1 should contain all property info accesses.");
+            for (var i = 0; i < propertyInfoAccessesToCreate; i++)
+            {
+                Assert.AreEqual(propertyInfoAccessesByCreationDescending[i].UniqueId, response1.exploredProperties[i].accessUniqueId,
+                    string.Format("Response1: explored property at position {0} does not have the expected uniqueId.", i));
+            }
 
-        //    Assert.IsNotNull(response1, "Response1 is null.");
-        //    Assert.IsFalse(response1.moreItemsExist, "Field moreItemsExist on response1 is not the expected.");
-        //    Assert.AreEqual(outgoingVerificationsToCreate, response1.tenantVerifications.Count,
-        //        "Response1 should contain all tenant verifications.");
-        //    for (var i = 0; i < outgoingVerificationsToCreate; i++)
-        //    {
-        //        Assert.AreEqual(tenantVerificationsByCreationDescending[i].UniqueId, response1.tenantVerifications[i].uniqueId,
-        //            string.Format("Response1: tenant verification at position {0} does not have the expected uniqueId.", i));
-        //    }
+            Assert.IsFalse(response1.exploredProperties.Any(x => x.accessUniqueId.Equals(otherUserPropertyInfoAccess.UniqueId)),
+                "Response1 should not contain the property info acccess of the other user.");
 
-        //    Assert.IsFalse(response1.tenantVerifications.Any(x => x.uniqueId.Equals(otherUserOutgoingVerification.UniqueId)),
-        //        "Response1 should not contain the outgoing verification of the other user.");
+            // Summary with limit
+            var response2 = await serviceUnderTest.GetUserExploredPropertiesSummary(user.Id, true);
 
-        //    // Summary with limit
-        //    var response2 = await serviceUnderTest.GetUserOutgoingVerificationsSummary(user.Id, true);
+            Assert.IsNotNull(response2, "Response2 is null.");
+            Assert.IsFalse(response2.moreItemsExist, "Field moreItemsExist on response2 is not the expected.");
+            Assert.IsTrue(response2.exploredProperties.Any(), "Field exploredProperties on response2 should not be empty.");
 
-        //    Assert.IsNotNull(response2, "Response2 is null.");
-        //    Assert.IsFalse(response2.moreItemsExist, "Field moreItemsExist on response2 is not the expected.");
-        //    Assert.IsTrue(response2.tenantVerifications.Any(), "Field tenantVerifications on response2 should not be empty.");
+            Assert.AreEqual(itemsLimit, response2.exploredProperties.Count,
+                "Response2 should contain a number of explored properties equal to the limit.");
+            for (var i = 0; i < itemsLimit; i++)
+            {
+                Assert.AreEqual(propertyInfoAccessesByCreationDescending[i].UniqueId, response2.exploredProperties[i].accessUniqueId,
+                    string.Format("Response2: explored property at position {0} does not have the expected uniqueId.", i));
+            }
 
-        //    Assert.AreEqual(itemsLimit, response2.tenantVerifications.Count,
-        //        "Response2 should contain a number of outgoing verifications equal to the limit.");
-        //    for (var i = 0; i < itemsLimit; i++)
-        //    {
-        //        Assert.AreEqual(tenantVerificationsByCreationDescending[i].UniqueId, response2.tenantVerifications[i].uniqueId,
-        //            string.Format("Response2: tenant verification at position {0} does not have the expected uniqueId.", i));
-        //    }
-
-        //    Assert.IsFalse(response2.tenantVerifications.Any(x => x.uniqueId.Equals(otherUserOutgoingVerification.UniqueId)),
-        //        "Response1 should not contain the outgoing verification of the other user.");
-        //}
+            Assert.IsFalse(response2.exploredProperties.Any(x => x.accessUniqueId.Equals(otherUserPropertyInfoAccess.UniqueId)),
+                "Response1 should not contain the property info access of the other user.");
+        }
 
         //[Test]
         //public async Task GetUserExploredPropertiesSummary_WithMoreOutgoingVerificationsThanTheLimit_ItemsLimitIsRespected()
@@ -396,11 +396,10 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var tenancyDetailsSubmission = new TenancyDetailsSubmission
             {
                 UniqueId = Guid.NewGuid(),
-                Address = address,
                 AddressId = address.Id,
                 UserId = userIdForSubmission,
                 CreatedByIpAddress = userForSubmissionIpAddress,
-                RentPerMonth = 1000,
+                RentPerMonth = random.Next(100, 1000),
                 CurrencyId = EnumsHelper.CurrencyId.ToString(CurrencyId.GBP),
                 SubmittedOn = clock.OffsetNow
             };
@@ -409,7 +408,6 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var propertyInfoAccess = new PropertyInfoAccess()
             {
                 UniqueId = Guid.NewGuid(),
-                Address = address,
                 AddressId = address.Id,
                 CreatedOn = clock.OffsetNow,
                 UserId = userId,
