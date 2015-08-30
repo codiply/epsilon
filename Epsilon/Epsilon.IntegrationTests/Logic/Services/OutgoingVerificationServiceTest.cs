@@ -683,15 +683,16 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var clock = container.Get<IClock>();
             var dbContext = container.Get<IEpsilonContext>();
 
-            var address = await AddressHelper.CreateRandomAddressAndSave(random, container, userId, userIpAddress, CountryId.GB);
+            var address = await AddressHelper.CreateRandomAddressAndSave(random, container, userIdForSubmission, userForSubmissionIpAddress, CountryId.GB);
 
             var tenancyDetailsSubmission = new TenancyDetailsSubmission
             {
                 UniqueId = Guid.NewGuid(),
                 AddressId = address.Id,
-                UserId = userId,
-                CreatedByIpAddress = userIpAddress,
+                UserId = userIdForSubmission,
+                CreatedByIpAddress = userForSubmissionIpAddress
             };
+            dbContext.TenancyDetailsSubmissions.Add(tenancyDetailsSubmission);
 
             var tenantVerification = new TenantVerification
             {
