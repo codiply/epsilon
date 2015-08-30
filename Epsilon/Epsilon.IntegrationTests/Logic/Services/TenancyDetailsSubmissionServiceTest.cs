@@ -241,7 +241,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
         #region SubmissionBelongsToUser
 
         [Test]
-        public async Task SubmissionBelongsToUserTest()
+        public async Task SubmissionBelongsToUser_Test()
         {
             var helperContainer = CreateContainer();
             var user1IpAddress = "1.2.3.4";

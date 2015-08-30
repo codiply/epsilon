@@ -103,6 +103,7 @@
     <Compile Include="Logic\Services\GeocodeServiceTest.cs" />
     <Compile Include="Logic\Services\GeoipInfoServiceTest.cs" />
     <Compile Include="Logic\Services\OutgoingVerificationServiceTest.cs" />
+    <Compile Include="Logic\Services\PropertyInfoAccessServiceTest.cs" />
     <Compile Include="Logic\Services\TokenAccountServiceTest.cs" />
     <Compile Include="Logic\Services\CountryServiceTest.cs" />
     <Compile Include="Logic\Services\IpAddressActivityService.cs" />

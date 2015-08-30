@@ -56,7 +56,6 @@ namespace Epsilon.Logic.Services
 
         public async Task<bool> VerificationIsAssignedToUser(string userId, Guid verificationUniqueId)
         {
-            // TODO_TEST_PANOS
             var verification = await _dbContext.TenantVerifications
                 .SingleOrDefaultAsync(v => v.AssignedToId.Equals(userId) && v.UniqueId.Equals(verificationUniqueId));
             return verification != null;
@@ -65,7 +64,6 @@ namespace Epsilon.Logic.Services
         public async Task<MyOutgoingVerificationsSummaryResponse> GetUserOutgoingVerificationsSummaryWithCaching(
             string userId, bool limitItemsReturned)
         {
-            // TODO_TEST_PANOS: unit test
             return await _appCache.GetAsync(
                 AppCacheKey.GetUserOutgoingVerificationsSummary(userId, limitItemsReturned), 
                 () => GetUserOutgoingVerificationsSummary(userId, limitItemsReturned), 
@@ -73,7 +71,6 @@ namespace Epsilon.Logic.Services
                 WithLock.No);
         }
 
-        // TODO_TEST_PANOS
         public async Task<MyOutgoingVerificationsSummaryResponse> GetUserOutgoingVerificationsSummary(
             string userId, bool limitItemsReturned)
         {

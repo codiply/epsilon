@@ -375,6 +375,117 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
         #endregion
 
+        #region GetUserOutgoingVerificationsSummaryWithCaching
+
+        [Test]
+        public async Task GetUserOutgoingVerificationsSummaryWithCaching_WithOutgoingVerificationsEqualToTheLimit_CachesTheSummary()
+        {
+            var itemsLimit = 3;
+            var outgoingVerificationsToCreate = itemsLimit;
+
+            var helperContainer = CreateContainer();
+            var userIpAddress = "1.2.3.4";
+            var user = await CreateUser(helperContainer, "test@test.com", userIpAddress);
+            var otherUserIpAddress = "11.12.13.14";
+            var otherUser = await CreateUser(helperContainer, "other-user@test.com", "11.12.13.14");
+
+            var random = new RandomWrapper(2015);
+            var tenantVerifications = new List<TenantVerification>();
+
+            for (var i = 0; i < outgoingVerificationsToCreate; i++)
+            {
+                var tenantVerification = await CreateTenantVerificationAndSave(
+                    random, helperContainer, user.Id, userIpAddress, otherUser.Id, otherUserIpAddress, false, false);
+                tenantVerifications.Add(tenantVerification);
+                await Task.Delay(_smallDelay);
+            }
+            var tenantVerificationsByCreationDescending = tenantVerifications.OrderByDescending(x => x.CreatedOn).ToList();
+
+
+            // I create an outgoing verification for the other user and assign the submission to the user under test.
+            // This is to test that the summary contains only verifications from the specific user.
+            var otherUserOutgoingVerification = await CreateTenantVerificationAndSave(
+                    random, helperContainer, otherUser.Id, otherUserIpAddress, user.Id, userIpAddress, false, false);
+            Assert.IsNotNull(otherUserOutgoingVerification, "The outgoing verification created for the other user is null.");
+
+            var containerUnderTest = CreateContainer();
+            SetupConfigForGetUserOutgoingVerificationsSummary(containerUnderTest, itemsLimit);
+            var serviceUnderTest = containerUnderTest.Get<IOutgoingVerificationService>();
+
+            // Full summary
+            var response1 = await serviceUnderTest.GetUserOutgoingVerificationsSummaryWithCaching(user.Id, false);
+
+            Assert.IsNotNull(response1, "Response1 is null.");
+            Assert.IsFalse(response1.moreItemsExist, "Field moreItemsExist on response1 is not the expected.");
+            Assert.AreEqual(outgoingVerificationsToCreate, response1.tenantVerifications.Count,
+                "Response1 should contain all tenant verifications.");
+            for (var i = 0; i < outgoingVerificationsToCreate; i++)
+            {
+                Assert.AreEqual(tenantVerificationsByCreationDescending[i].UniqueId, response1.tenantVerifications[i].uniqueId,
+                    string.Format("Response1: tenant verification at position {0} does not have the expected uniqueId.", i));
+            }
+
+            Assert.IsFalse(response1.tenantVerifications.Any(x => x.uniqueId.Equals(otherUserOutgoingVerification.UniqueId)),
+                "Response1 should not contain the outgoing verification of the other user.");
+
+            // Summary with limit
+            var response2 = await serviceUnderTest.GetUserOutgoingVerificationsSummaryWithCaching(user.Id, true);
+
+            Assert.IsNotNull(response2, "Response2 is null.");
+            Assert.IsFalse(response2.moreItemsExist, "Field moreItemsExist on response2 is not the expected.");
+            Assert.IsTrue(response2.tenantVerifications.Any(), "Field tenantVerifications on response2 should not be empty.");
+
+            Assert.AreEqual(itemsLimit, response2.tenantVerifications.Count,
+                "Response2 should contain a number of outgoing verifications equal to the limit.");
+            for (var i = 0; i < itemsLimit; i++)
+            {
+                Assert.AreEqual(tenantVerificationsByCreationDescending[i].UniqueId, response2.tenantVerifications[i].uniqueId,
+                    string.Format("Response2: tenant verification at position {0} does not have the expected uniqueId.", i));
+            }
+
+            Assert.IsFalse(response2.tenantVerifications.Any(x => x.uniqueId.Equals(otherUserOutgoingVerification.UniqueId)),
+                "Response2 should not contain the outgoing verification of the other user.");
+
+            KillDatabase(containerUnderTest);
+            var serviceWithoutDatabase = containerUnderTest.Get<IOutgoingVerificationService>();
+
+            // Full summary
+            var response3 = await serviceWithoutDatabase.GetUserOutgoingVerificationsSummaryWithCaching(user.Id, false);
+
+            Assert.IsNotNull(response3, "Response3 is null.");
+            Assert.IsFalse(response3.moreItemsExist, "Field moreItemsExist on response3 is not the expected.");
+            Assert.AreEqual(outgoingVerificationsToCreate, response3.tenantVerifications.Count,
+                "Response3 should contain all tenant verifications.");
+            for (var i = 0; i < outgoingVerificationsToCreate; i++)
+            {
+                Assert.AreEqual(tenantVerificationsByCreationDescending[i].UniqueId, response3.tenantVerifications[i].uniqueId,
+                    string.Format("Response3: tenant verification at position {0} does not have the expected uniqueId.", i));
+            }
+
+            Assert.IsFalse(response3.tenantVerifications.Any(x => x.uniqueId.Equals(otherUserOutgoingVerification.UniqueId)),
+                "Response3 should not contain the outgoing verification of the other user.");
+
+            // Summary with limit
+            var response4 = await serviceWithoutDatabase.GetUserOutgoingVerificationsSummaryWithCaching(user.Id, true);
+
+            Assert.IsNotNull(response4, "Response4 is null.");
+            Assert.IsFalse(response4.moreItemsExist, "Field moreItemsExist on response4 is not the expected.");
+            Assert.IsTrue(response4.tenantVerifications.Any(), "Field tenantVerifications on response4 should not be empty.");
+
+            Assert.AreEqual(itemsLimit, response4.tenantVerifications.Count,
+                "Response4 should contain a number of outgoing verifications equal to the limit.");
+            for (var i = 0; i < itemsLimit; i++)
+            {
+                Assert.AreEqual(tenantVerificationsByCreationDescending[i].UniqueId, response4.tenantVerifications[i].uniqueId,
+                    string.Format("Response4: tenant verification at position {0} does not have the expected uniqueId.", i));
+            }
+
+            Assert.IsFalse(response4.tenantVerifications.Any(x => x.uniqueId.Equals(otherUserOutgoingVerification.UniqueId)),
+                "Response4 should not contain the outgoing verification of the other user.");
+        }
+
+        #endregion
+
         #region Pick
 
         [Test]
@@ -427,6 +538,45 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var retrievedTenantVerification = await DbProbe.TenantVerifications
                 .SingleOrDefaultAsync(x => x.UniqueId.Equals(verificationUniqueId));
             Assert.IsNull(retrievedTenantVerification, "A TenantVerification should not be created.");
+        }
+
+        #endregion
+
+        #region VerificationIsAssignedToUser
+
+        [Test]
+        public async Task VerificationIsAssignedToUser_Test()
+        {
+            var helperContainer = CreateContainer();
+            var user1IpAddress = "1.2.3.4";
+            var user1 = await CreateUser(helperContainer, "test1@test.com", user1IpAddress);
+            var user2IpAddress = "1.2.3.5";
+            var user2 = await CreateUser(helperContainer, "test2@test.com", user2IpAddress);
+
+            var random = new RandomWrapper(2015);
+
+            var user1verification = await CreateTenantVerificationAndSave(random, helperContainer,
+                user1.Id, user1IpAddress, user2.Id, user2IpAddress, isSent: false, isComplete: true);
+            Assert.IsNotNull(user1verification, "The submission created for user1 is null.");
+
+            var user2verification = await CreateTenantVerificationAndSave(random, helperContainer,
+                user2.Id, user2IpAddress, user1.Id, user1IpAddress, isSent: false, isComplete: true);
+            Assert.IsNotNull(user2verification, "The submission created for user2 is null.");
+
+            var containerUnderTest = CreateContainer();
+            var serviceUnderTest = containerUnderTest.Get<IOutgoingVerificationService>();
+
+            var user1verificationIsAssignedToUser1 = await serviceUnderTest.VerificationIsAssignedToUser(user1.Id, user1verification.UniqueId);
+            Assert.IsTrue(user1verificationIsAssignedToUser1, "user1verification is assigned to user1.");
+
+            var user1verificationIsAssignedToUser2 = await serviceUnderTest.VerificationIsAssignedToUser(user2.Id, user1verification.UniqueId);
+            Assert.IsFalse(user1verificationIsAssignedToUser2, "user1verification is not assigned to user2.");
+
+            var user2verificationIsAssignedToUser1 = await serviceUnderTest.VerificationIsAssignedToUser(user1.Id, user2verification.UniqueId);
+            Assert.IsFalse(user2verificationIsAssignedToUser1, "user2verification is not assigned to user1.");
+
+            var user2verificationIsAssignedToUser2 = await serviceUnderTest.VerificationIsAssignedToUser(user2.Id, user2verification.UniqueId);
+            Assert.IsTrue(user2verificationIsAssignedToUser2, "user2verification is assigned to to user2.");
         }
 
         #endregion
