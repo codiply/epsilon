@@ -51,11 +51,9 @@ namespace Epsilon.Logic.Services
             _currencyService = currencyService;
         }
 
-        // TODO_TEST_PANOS
         public async Task<MyExploredPropertiesSummaryResponse> GetUserExploredPropertiesSummaryWithCaching(
             string userId, bool limitItemsReturned)
         {
-            // TODO_TEST_PANOS: unit test
             return await _appCache.GetAsync(
                 AppCacheKey.GetUserExploredPropertiesSummary(userId, limitItemsReturned),
                 () => GetUserExploredPropertiesSummary(userId, limitItemsReturned),
@@ -63,15 +61,12 @@ namespace Epsilon.Logic.Services
                 WithLock.No);
         }
 
-        // TODO_TEST_PANOS
         public async Task<MyExploredPropertiesSummaryResponse> GetUserExploredPropertiesSummary(string userId, bool limitItemsReturned)
         {
             var expiryPeriod = ExpiryPeriod();
             var now = _clock.OffsetNow;
-            // TODO_TEST_PANOS
             var cutoff = now - expiryPeriod;
 
-            // TODO_TEST_PANOS: test the whole thing
             var query = _dbContext.PropertyInfoAccesses
                 .Include(x => x.Address)
                 .Include(x => x.Address.Country)
