@@ -383,7 +383,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var userIpAddress = "1.2.3.4";
             var user = await CreateUser(helperContainer, "test@test.com", userIpAddress);
             var otherUserIpAddress = "11.12.13.14";
-            var otherUser = await CreateUser(helperContainer, "other-user@test.com", "11.12.13.14");
+            var otherUser = await CreateUser(helperContainer, "other-user@test.com", otherUserIpAddress);
 
             var random = new RandomWrapper(2015);
             var submissions = new List<TenancyDetailsSubmission>();

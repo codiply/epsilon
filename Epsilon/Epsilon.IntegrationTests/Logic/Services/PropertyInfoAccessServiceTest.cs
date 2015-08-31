@@ -74,7 +74,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var userIpAddress = "1.2.3.4";
             var user = await CreateUser(helperContainer, "test@test.com", userIpAddress);
             var otherUserIpAddress = "11.12.13.14";
-            var otherUser = await CreateUser(helperContainer, "other-user@test.com", "11.12.13.14");
+            var otherUser = await CreateUser(helperContainer, "other-user@test.com", otherUserIpAddress);
 
             var random = new RandomWrapper(2015);
             var propertyInfoAccesses = new List<PropertyInfoAccess>();
@@ -143,7 +143,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
         //    var userIpAddress = "1.2.3.4";
         //    var user = await CreateUser(helperContainer, "test@test.com", userIpAddress);
         //    var otherUserIpAddress = "11.12.13.14";
-        //    var otherUser = await CreateUser(helperContainer, "other-user@test.com", "11.12.13.14");
+        //    var otherUser = await CreateUser(helperContainer, "other-user@test.com", otherUserIpAddress);
 
         //    var random = new RandomWrapper(2015);
         //    var tenantVerifications = new List<TenantVerification>();
@@ -213,7 +213,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
         //    var userIpAddress = "1.2.3.4";
         //    var user = await CreateUser(helperContainer, "test@test.com", userIpAddress);
         //    var otherUserIpAddress = "11.12.13.14";
-        //    var otherUser = await CreateUser(helperContainer, "other-user@test.com", "11.12.13.14");
+        //    var otherUser = await CreateUser(helperContainer, "other-user@test.com", otherUserIpAddress);
 
         //    var random = new RandomWrapper(2015);
         //    var tenantVerification = await CreateTenantVerificationAndSave(
@@ -255,7 +255,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
         //    var userIpAddress = "1.2.3.4";
         //    var user = await CreateUser(helperContainer, "test@test.com", userIpAddress);
         //    var otherUserIpAddress = "11.12.13.14";
-        //    var otherUser = await CreateUser(helperContainer, "other-user@test.com", "11.12.13.14");
+        //    var otherUser = await CreateUser(helperContainer, "other-user@test.com", otherUserIpAddress);
 
         //    var random = new RandomWrapper(2015);
         //    var tenantVerification = await CreateTenantVerificationAndSave(
@@ -297,7 +297,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
         //    var userIpAddress = "1.2.3.4";
         //    var user = await CreateUser(helperContainer, "test@test.com", userIpAddress);
         //    var otherUserIpAddress = "11.12.13.14";
-        //    var otherUser = await CreateUser(helperContainer, "other-user@test.com", "11.12.13.14");
+        //    var otherUser = await CreateUser(helperContainer, "other-user@test.com", otherUserIpAddress);
 
         //    var random = new RandomWrapper(2015);
         //    var tenantVerification = await CreateTenantVerificationAndSave(
@@ -339,7 +339,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
         //    var userIpAddress = "1.2.3.4";
         //    var user = await CreateUser(helperContainer, "test@test.com", userIpAddress);
         //    var otherUserIpAddress = "11.12.13.14";
-        //    var otherUser = await CreateUser(helperContainer, "other-user@test.com", "11.12.13.14");
+        //    var otherUser = await CreateUser(helperContainer, "other-user@test.com", otherUserIpAddress);
 
         //    var random = new RandomWrapper(2015);
         //    var tenantVerification = await CreateTenantVerificationAndSave(
@@ -383,27 +383,43 @@ namespace Epsilon.IntegrationTests.Logic.Services
             container.Rebind<IPropertyInfoAccessServiceConfig>().ToConstant(mockConfig.Object);
         }
 
+        private static void SetupConfigForGetUserExploredPropertiesSummaryWithCaching(IKernel container, int itemsLimit, TimeSpan cachingPeriod)
+        {
+            var mockConfig = new Mock<IPropertyInfoAccessServiceConfig>();
+
+            mockConfig.Setup(x => x.MyExploredPropertiesSummary_ItemsLimit).Returns(itemsLimit);
+            mockConfig.Setup(x => x.MyExploredPropertiesSummary_CachingPeriod).Returns(cachingPeriod);
+
+            container.Rebind<IPropertyInfoAccessServiceConfig>().ToConstant(mockConfig.Object);
+        }
+
         private static async Task<PropertyInfoAccess> CreatePropertyInfoAccessAndSave(
             IRandomWrapper random, IKernel container,
             string userId, string userIpAddress,
-            string userIdForSubmission, string userForSubmissionIpAddress, CountryId countryId = CountryId.GB)
+            string userIdForSubmission, string userForSubmissionIpAddress, int numberOfSubmission = 1, 
+            CountryId countryId = CountryId.GB, CurrencyId currencyId = CurrencyId.GBP)
         {
             var clock = container.Get<IClock>();
+
+            var address = await AddressHelper.CreateRandomAddressAndSave(
+                random, container, userIdForSubmission, userForSubmissionIpAddress, countryId);
+
             var dbContext = container.Get<IEpsilonContext>();
 
-            var address = await AddressHelper.CreateRandomAddressAndSave(random, container, userId, userIpAddress, countryId);
-
-            var tenancyDetailsSubmission = new TenancyDetailsSubmission
+            for (var i = 0; i < numberOfSubmission; i++)
             {
-                UniqueId = Guid.NewGuid(),
-                AddressId = address.Id,
-                UserId = userIdForSubmission,
-                CreatedByIpAddress = userForSubmissionIpAddress,
-                RentPerMonth = random.Next(100, 1000),
-                CurrencyId = EnumsHelper.CurrencyId.ToString(CurrencyId.GBP),
-                SubmittedOn = clock.OffsetNow
-            };
-            dbContext.TenancyDetailsSubmissions.Add(tenancyDetailsSubmission);
+                var tenancyDetailsSubmission = new TenancyDetailsSubmission
+                {
+                    UniqueId = Guid.NewGuid(),
+                    AddressId = address.Id,
+                    UserId = userIdForSubmission,
+                    CreatedByIpAddress = userForSubmissionIpAddress,
+                    RentPerMonth = random.Next(100, 1000),
+                    CurrencyId = EnumsHelper.CurrencyId.ToString(currencyId),
+                    SubmittedOn = clock.OffsetNow
+                };
+                dbContext.TenancyDetailsSubmissions.Add(tenancyDetailsSubmission);
+            }
 
             var propertyInfoAccess = new PropertyInfoAccess()
             {
