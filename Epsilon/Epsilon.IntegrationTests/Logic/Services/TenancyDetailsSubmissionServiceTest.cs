@@ -930,6 +930,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
         {
             var itemsLimit = 3;
             var submissionsToCreate = itemsLimit;
+            var cachingPeriod = TimeSpan.FromSeconds(0.2);
 
             var helperContainer = CreateContainer();
             var userIpAddress = "1.2.3.4";
@@ -955,7 +956,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.IsNotNull(otherUserSubmission, "The submission created for the other user is null.");
 
             var containerUnderTest = CreateContainer();
-            SetupConfigForGetUserSubmissionSummary(containerUnderTest, itemsLimit);
+            SetupConfigForGetUserSubmissionSummaryWithCaching(containerUnderTest, itemsLimit, cachingPeriod);
             var serviceUnderTest = containerUnderTest.Get<ITenancyDetailsSubmissionService>();
 
             // Full summary
@@ -994,7 +995,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var serviceWithoutDatabase = containerUnderTest.Get<ITenancyDetailsSubmissionService>();
 
             // Full summary
-            var response3 = await serviceUnderTest.GetUserSubmissionsSummaryWithCaching(user.Id, false);
+            var response3 = await serviceWithoutDatabase.GetUserSubmissionsSummaryWithCaching(user.Id, false);
 
             Assert.IsNotNull(response3, "Response3 is null.");
             Assert.IsFalse(response3.moreItemsExist, "Field moreItemsExist on response3 is not the expected.");
@@ -1010,7 +1011,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 "Response3 should not contain the submission of the other user.");
 
             // Summary with limit
-            var response4 = await serviceUnderTest.GetUserSubmissionsSummaryWithCaching(user.Id, true);
+            var response4 = await serviceWithoutDatabase.GetUserSubmissionsSummaryWithCaching(user.Id, true);
 
             Assert.IsNotNull(response4, "Response4 is null.");
             Assert.IsFalse(response4.moreItemsExist, "Field moreItemsExist on response4 is not the expected.");
@@ -1024,6 +1025,13 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             Assert.IsFalse(response4.tenancyDetailsSubmissions.Any(x => x.uniqueId.Equals(otherUserSubmission.UniqueId)),
                 "Response4 should not contain the submission of the other user.");
+
+            await Task.Delay(cachingPeriod);
+
+            Assert.Throws<ArgumentNullException>(async () => await serviceWithoutDatabase.GetUserSubmissionsSummaryWithCaching(user.Id, false),
+                "After the caching period is over, it should throw an exception because I have killed the  database. (limit items: false)");
+            Assert.Throws<ArgumentNullException>(async () => await serviceWithoutDatabase.GetUserSubmissionsSummaryWithCaching(user.Id, true),
+                "After the caching period is over, it should throw an exception because I have killed the  database. (limit items: true)");
         }
 
         #endregion
@@ -1997,6 +2005,16 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var mockConfig = new Mock<ITenancyDetailsSubmissionServiceConfig>();
 
             mockConfig.Setup(x => x.MySubmissionsSummary_ItemsLimit).Returns(itemsLimit);
+
+            container.Rebind<ITenancyDetailsSubmissionServiceConfig>().ToConstant(mockConfig.Object);
+        }
+
+        private void SetupConfigForGetUserSubmissionSummaryWithCaching(IKernel container, int itemsLimit, TimeSpan cachingPeriod)
+        {
+            var mockConfig = new Mock<ITenancyDetailsSubmissionServiceConfig>();
+
+            mockConfig.Setup(x => x.MySubmissionsSummary_ItemsLimit).Returns(itemsLimit);
+            mockConfig.Setup(x => x.MySubmissionsSummary_CachingPeriod).Returns(cachingPeriod);
 
             container.Rebind<ITenancyDetailsSubmissionServiceConfig>().ToConstant(mockConfig.Object);
         }

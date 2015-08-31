@@ -382,6 +382,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
         {
             var itemsLimit = 3;
             var outgoingVerificationsToCreate = itemsLimit;
+            var cachingPeriod = TimeSpan.FromSeconds(0.2);
 
             var helperContainer = CreateContainer();
             var userIpAddress = "1.2.3.4";
@@ -409,7 +410,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.IsNotNull(otherUserOutgoingVerification, "The outgoing verification created for the other user is null.");
 
             var containerUnderTest = CreateContainer();
-            SetupConfigForGetUserOutgoingVerificationsSummary(containerUnderTest, itemsLimit);
+            SetupConfigForGetUserOutgoingVerificationsSummaryWithCaching(containerUnderTest, itemsLimit, cachingPeriod);
             var serviceUnderTest = containerUnderTest.Get<IOutgoingVerificationService>();
 
             // Full summary
@@ -482,6 +483,13 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             Assert.IsFalse(response4.tenantVerifications.Any(x => x.uniqueId.Equals(otherUserOutgoingVerification.UniqueId)),
                 "Response4 should not contain the outgoing verification of the other user.");
+
+            await Task.Delay(cachingPeriod);
+
+            Assert.Throws<ArgumentNullException>(async () => await serviceWithoutDatabase.GetUserOutgoingVerificationsSummaryWithCaching(user.Id, false),
+                "After the caching period is over, it should throw an exception because I have killed the  database. (limit items: false)");
+            Assert.Throws<ArgumentNullException>(async () => await serviceWithoutDatabase.GetUserOutgoingVerificationsSummaryWithCaching(user.Id, true),
+                "After the caching period is over, it should throw an exception because I have killed the  database. (limit items: true)");
         }
 
         #endregion
@@ -644,6 +652,16 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var mockConfig = new Mock<IOutgoingVerificationServiceConfig>();
 
             mockConfig.Setup(x => x.MyOutgoingVerificationsSummary_ItemsLimit).Returns(itemsLimit);
+
+            container.Rebind<IOutgoingVerificationServiceConfig>().ToConstant(mockConfig.Object);
+        }
+
+        private static void SetupConfigForGetUserOutgoingVerificationsSummaryWithCaching(IKernel container, int itemsLimit, TimeSpan cachingPeriod)
+        {
+            var mockConfig = new Mock<IOutgoingVerificationServiceConfig>();
+
+            mockConfig.Setup(x => x.MyOutgoingVerificationsSummary_ItemsLimit).Returns(itemsLimit);
+            mockConfig.Setup(x => x.MyOutgoingVerificationsSummary_CachingPeriod).Returns(cachingPeriod);
 
             container.Rebind<IOutgoingVerificationServiceConfig>().ToConstant(mockConfig.Object);
         }
