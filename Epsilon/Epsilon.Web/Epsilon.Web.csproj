@@ -477,6 +477,7 @@
     <Content Include="Scripts\lib\ng-infinite-scroll\ng-infinite-scroll.min.js" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="Scripts\lib\angular-moment\angular-moment.min.js.map" />
+    <None Include="Properties\PublishProfiles\LocalTest.pubxml" />
     <None Include="Scripts\lib\linq\linq-vsdoc.js" />
     <Content Include="Scripts\lib\linq\linq.js" />
     <Content Include="Scripts\lib\linq\linq.min.js" />
