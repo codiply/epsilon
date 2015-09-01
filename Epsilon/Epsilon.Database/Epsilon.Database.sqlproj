@@ -118,6 +118,7 @@
     <Build Include="dbo\Tables\GeoipInfo.sql" />
     <None Include="Scripts\DevScripts\WifiDemoAppSettings.sql" />
     <None Include="Scripts\DevScripts\TestEnvironmentAppSettings.sql" />
+    <Build Include="dbo\Views\ResponseTimingStatistics.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Scripts\PostDeploy\Script.PostDeployment.sql" />
