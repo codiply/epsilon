@@ -26,6 +26,99 @@ namespace Epsilon.IntegrationTests.Logic.Services
     {
         private TimeSpan _smallDelay = TimeSpan.FromMilliseconds(20);
 
+        #region GetExistingUnexpiredAccessUniqueId
+
+        [Test]
+        public async Task GetExistingUnexpiredAccessUniqueId_AccessTest()
+        {
+            var expiryPeriod = TimeSpan.FromDays(1);
+            var expiryPeriodInDays = expiryPeriod.TotalDays;
+
+            var helperContainer = CreateContainer();
+
+            var ipAddress1 = "1.2.3.4";
+            var user1 = await CreateUser(helperContainer, "test1@test.com", ipAddress1);
+            var ipAddress2 = "1.2.3.5";
+            var user2 = await CreateUser(helperContainer, "test2@test.com", ipAddress2);
+
+            var random = new RandomWrapper(2015);
+
+            var propertyInfoAccess1 = await CreatePropertyInfoAccessAndSave(
+                random, helperContainer, user1.Id, ipAddress1, user2.Id, ipAddress2);
+            var propertyInfoAccess2 = await CreatePropertyInfoAccessAndSave(
+                random, helperContainer, user2.Id, ipAddress2, user1.Id, ipAddress1);
+
+            var retrievedAddress1 = await DbProbe.Addresses.FindAsync(propertyInfoAccess1.AddressId);
+            var retrievedAddress2 = await DbProbe.Addresses.FindAsync(propertyInfoAccess2.AddressId);
+
+            var nonExistentAddressId1 = Guid.NewGuid();
+
+            var containerUnderTest = CreateContainer();
+            SetupConfig(containerUnderTest, expiryPeriodInDays: expiryPeriodInDays);
+            var serviceUnderTest = containerUnderTest.Get<IPropertyInfoAccessService>();
+
+            var response1 = await serviceUnderTest.GetExistingUnexpiredAccessUniqueId(user1.Id, nonExistentAddressId1);
+
+            Assert.IsNull(response1, "Response1 is not the expected.");
+
+            var response2 = await serviceUnderTest.GetExistingUnexpiredAccessUniqueId(user1.Id, retrievedAddress1.UniqueId);
+            Assert.AreEqual(propertyInfoAccess1.UniqueId, response2, "Response2 is not the expected.");
+            var response3 = await serviceUnderTest.GetExistingUnexpiredAccessUniqueId(user1.Id, retrievedAddress2.UniqueId);
+            Assert.IsNull(response3, "Response3 is not the expected.");
+            var response4 = await serviceUnderTest.GetExistingUnexpiredAccessUniqueId(user2.Id, retrievedAddress1.UniqueId);
+            Assert.IsNull(response4, "Response4 is not the expected.");
+            var response5 = await serviceUnderTest.GetExistingUnexpiredAccessUniqueId(user2.Id, retrievedAddress2.UniqueId);
+            Assert.AreEqual(propertyInfoAccess2.UniqueId, response5, "Response5 is not the expected.");
+        }
+
+        [Test]
+        public async Task GetExistingUnexpiredAccessUniqueId_ExpiryTest()
+        {
+            var expiryPeriod = TimeSpan.FromSeconds(0.01);
+            var expiryPeriodInDays = expiryPeriod.TotalDays;
+
+            var helperContainer = CreateContainer();
+
+            var ipAddress1 = "1.2.3.4";
+            var user1 = await CreateUser(helperContainer, "test1@test.com", ipAddress1);
+            var ipAddress2 = "1.2.3.5";
+            var user2 = await CreateUser(helperContainer, "test2@test.com", ipAddress2);
+
+            var random = new RandomWrapper(2015);
+
+            var propertyInfoAccess1 = await CreatePropertyInfoAccessAndSave(
+                random, helperContainer, user1.Id, ipAddress1, user2.Id, ipAddress2);
+            var propertyInfoAccess2 = await CreatePropertyInfoAccessAndSave(
+                random, helperContainer, user2.Id, ipAddress2, user1.Id, ipAddress1);
+
+            var retrievedAddress1 = await DbProbe.Addresses.FindAsync(propertyInfoAccess1.AddressId);
+            var retrievedAddress2 = await DbProbe.Addresses.FindAsync(propertyInfoAccess2.AddressId);
+
+            // I wait until all accesses get expired.
+            await Task.Delay(expiryPeriod);
+
+            var nonExistentAddressId1 = Guid.NewGuid();
+
+            var containerUnderTest = CreateContainer();
+            SetupConfig(containerUnderTest, expiryPeriodInDays: expiryPeriodInDays);
+            var serviceUnderTest = containerUnderTest.Get<IPropertyInfoAccessService>();
+
+            var response1 = await serviceUnderTest.GetExistingUnexpiredAccessUniqueId(user1.Id, nonExistentAddressId1);
+
+            Assert.IsNull(response1, "Response1 is not the expected.");
+
+            var response2 = await serviceUnderTest.GetExistingUnexpiredAccessUniqueId(user1.Id, retrievedAddress1.UniqueId);
+            Assert.IsNull(response2, "Response2 is not the expected.");
+            var response3 = await serviceUnderTest.GetExistingUnexpiredAccessUniqueId(user1.Id, retrievedAddress2.UniqueId);
+            Assert.IsNull(response3, "Response3 is not the expected.");
+            var response4 = await serviceUnderTest.GetExistingUnexpiredAccessUniqueId(user2.Id, retrievedAddress1.UniqueId);
+            Assert.IsNull(response4, "Response4 is not the expected.");
+            var response5 = await serviceUnderTest.GetExistingUnexpiredAccessUniqueId(user2.Id, retrievedAddress2.UniqueId);
+            Assert.IsNull(response5, "Response5 is not the expected.");
+        }
+
+        #endregion
+
         #region GetUserExploredPropertiesSummary
 
         [Test]
@@ -96,7 +189,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.IsNotNull(otherUserPropertyInfoAccess, "The property info access created for the other user is null.");
 
             var containerUnderTest = CreateContainer();
-            SetupConfigForGetUserExploredPropertiesSummary(containerUnderTest, expiryPeriodInDays, itemsLimit);
+            SetupConfig(containerUnderTest, expiryPeriodInDays, itemsLimit);
             var serviceUnderTest = containerUnderTest.Get<IPropertyInfoAccessService>();
 
             // Full summary
@@ -166,7 +259,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.IsNotNull(otherUserPropertyInfoAccess, "The property info access created for the other user is null.");
 
             var containerUnderTest = CreateContainer();
-            SetupConfigForGetUserExploredPropertiesSummary(containerUnderTest, expiryPeriodInDays, itemsLimit);
+            SetupConfig(containerUnderTest, expiryPeriodInDays, itemsLimit);
             var serviceUnderTest = containerUnderTest.Get<IPropertyInfoAccessService>();
 
             // Full summary
@@ -222,7 +315,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
                     random, helperContainer, user.Id, userIpAddress, otherUser.Id, otherUserIpAddress);
 
             var containerUnderTest = CreateContainer();
-            SetupConfigForGetUserExploredPropertiesSummary(containerUnderTest, expiryPeriodInDays, itemsLimit);
+            SetupConfig(containerUnderTest, expiryPeriodInDays, itemsLimit);
             var serviceUnderTest = containerUnderTest.Get<IPropertyInfoAccessService>();
 
             var response = await serviceUnderTest.GetUserExploredPropertiesSummary(user.Id, false);
@@ -289,7 +382,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.IsNotNull(otherUserPropertyInfoAccess, "The property info access created for the other user is null.");
 
             var containerUnderTest = CreateContainer();
-            SetupConfigForGetUserExploredPropertiesSummaryWithCaching(containerUnderTest, expiryPeriodInDays, itemsLimit, cachingPeriod);
+            SetupConfig(containerUnderTest, expiryPeriodInDays, itemsLimit, cachingPeriod);
             var serviceUnderTest = containerUnderTest.Get<IPropertyInfoAccessService>();
 
             // Full summary
@@ -375,25 +468,18 @@ namespace Epsilon.IntegrationTests.Logic.Services
         #endregion
 
         #region Private helper functions
-
-        private static void SetupConfigForGetUserExploredPropertiesSummary(IKernel container, double expiryPeriodInDays, int itemsLimit)
+        
+        private static void SetupConfig(
+            IKernel container, double? expiryPeriodInDays = null, int? itemsLimit = null, TimeSpan? cachingPeriod = null)
         {
             var mockConfig = new Mock<IPropertyInfoAccessServiceConfig>();
 
-            mockConfig.Setup(x => x.MyExploredPropertiesSummary_ItemsLimit).Returns(itemsLimit);
-            mockConfig.Setup(x => x.ExpiryPeriodInDays).Returns(expiryPeriodInDays);
-
-            container.Rebind<IPropertyInfoAccessServiceConfig>().ToConstant(mockConfig.Object);
-        }
-
-        private static void SetupConfigForGetUserExploredPropertiesSummaryWithCaching(
-            IKernel container, double expiryPeriodInDays, int itemsLimit, TimeSpan cachingPeriod)
-        {
-            var mockConfig = new Mock<IPropertyInfoAccessServiceConfig>();
-
-            mockConfig.Setup(x => x.MyExploredPropertiesSummary_ItemsLimit).Returns(itemsLimit);
-            mockConfig.Setup(x => x.ExpiryPeriodInDays).Returns(expiryPeriodInDays);
-            mockConfig.Setup(x => x.MyExploredPropertiesSummary_CachingPeriod).Returns(cachingPeriod);
+            if (itemsLimit.HasValue)
+                mockConfig.Setup(x => x.MyExploredPropertiesSummary_ItemsLimit).Returns(itemsLimit.Value);
+            if (expiryPeriodInDays.HasValue)
+                mockConfig.Setup(x => x.ExpiryPeriodInDays).Returns(expiryPeriodInDays.Value);
+            if (cachingPeriod.HasValue)
+                mockConfig.Setup(x => x.MyExploredPropertiesSummary_CachingPeriod).Returns(cachingPeriod.Value);
 
             container.Rebind<IPropertyInfoAccessServiceConfig>().ToConstant(mockConfig.Object);
         }
