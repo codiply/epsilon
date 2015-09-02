@@ -308,6 +308,7 @@
     <Compile Include="Models\ViewModels\PropertyInfo\ViewPropertyViewModel.cs" />
     <Compile Include="Models\ViewModels\Shared\AddressDetailsViewModel.cs" />
     <Compile Include="Models\ViewModels\Shared\CountryVariantResourcesViewModel.cs" />
+    <Compile Include="Models\ViewModels\Shared\StarRatingReadonlyViewModel.cs" />
     <Compile Include="Models\ViewModels\Submission\SearchAddressViewModel.cs" />
     <Compile Include="Models\ViewModels\Submission\UseAddressViewModel.cs" />
     <Compile Include="Models\ViewModels\TextResource\ListViewModel.cs" />

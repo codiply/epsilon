@@ -1,13 +1,16 @@
-﻿@model Nullable<byte>
-
+﻿@using Epsilon.Web.Models.ViewModels.Shared
 @using Epsilon.Resources.Common
 @using Epsilon.Logic.Constants
 
+
+@model StarRatingReadonlyViewModel
+
+
 @{ 
     string title = string.Empty;
-    if (Model.HasValue)
+    if (Model.Rating.HasValue)
     {
-        switch (Model.Value)
+        switch (Model.Rating.Value)
         {
             case 1:
                 title = CommonResources.StarRating_1_Title;
@@ -25,18 +28,18 @@
                 title = CommonResources.StarRating_5_Title;
                 break;
             default:
-                throw new ArgumentException(string.Format("Unexpected rating value {0}", Model.Value));
+                throw new ArgumentException(string.Format("Unexpected rating value {0}", Model.Rating));
 
         }
     }
 }
 
-@if (Model.HasValue)
+@if (Model.Rating.HasValue)
 {
 <span title="@title">
     @for (var i = AppConstant.RATING_MIN_VALUE; i <= AppConstant.RATING_MAX_VALUE; i++)
     {
-        if (i <= Model.Value)
+        if (i <= Model.Rating)
         {
             <span class="glyphicon glyphicon-star" ></span>
         }

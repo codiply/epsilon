@@ -2,6 +2,7 @@
 
 @using Epsilon.Resources.Web.PropertyInfo
 @using Epsilon.Logic.Infrastructure.Extensions
+@using Epsilon.Web.Models.ViewModels.Shared
 
 <div>
     <p>@Model.DisplayAddress</p>
@@ -31,9 +32,9 @@
                     <td>@submission.NumberOfBedrooms</td>
                     <td>@Html.Partial("_YesNo", @submission.IsPartOfProperty)</td>
                     <td>@Html.Partial("_YesNo", @submission.IsFurnished)</td>
-                    <td>@Html.Partial("_StarRatingReadonly", @submission.PropertyConditionRating)</td>
-                    <td>@Html.Partial("_StarRatingReadonly", @submission.LandlordRating)</td>
-                    <td>@Html.Partial("_StarRatingReadonly", @submission.NeighboursRating)</td>
+                    <td>@Html.Partial("_StarRatingReadonly", new StarRatingReadonlyViewModel { Rating = @submission.PropertyConditionRating })</td>
+                    <td>@Html.Partial("_StarRatingReadonly", new StarRatingReadonlyViewModel { Rating = @submission.LandlordRating })</td>
+                    <td>@Html.Partial("_StarRatingReadonly", new StarRatingReadonlyViewModel { Rating = @submission.NeighboursRating })</td>
                 </tr>
             }
         </tbody>
