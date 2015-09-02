@@ -97,8 +97,7 @@ namespace Epsilon.Logic.Services
                 exploredProperties = accesses.Select(x => x.ToExploredPropertyInfo(now, expiryPeriod)).ToList()
             };
         }
-
-        // TODO_TEST_PANOS
+        
         public async Task<CreatePropertyInfoAccessOutcome> Create(
             string userId,
             string userIpAddress,
@@ -112,8 +111,6 @@ namespace Epsilon.Logic.Services
                         RejectionReason = PropertyInfoAccessResources.GlobalSwitch_CreatePropertyInfoAccessDisabled_Message,
                         PropertyInfoAccessUniqueId = null
                     };
-
-                // TODO_TEST_PANOS: the whole thing
 
                 var uiAlerts = new List<UiAlert>();
 
@@ -156,6 +153,7 @@ namespace Epsilon.Logic.Services
 
                 if (!sufficientFundsExist)
                 {
+                    // TODO_TEST_PANOS
                     return new CreatePropertyInfoAccessOutcome
                     {
                         IsRejected = true,
@@ -190,11 +188,11 @@ namespace Epsilon.Logic.Services
 
                 _appCacheHelper.RemoveCachedUserExploredPropertiesSummary(userId);
 
+                // TODO_TEST_PANOS
                 return new CreatePropertyInfoAccessOutcome
                 {
                     IsRejected = false,
                     PropertyInfoAccessUniqueId = propertyInfoAccess.UniqueId,
-                    // TODO_TEST_PANOS
                     UiAlerts = uiAlerts
                 };
             }
@@ -241,8 +239,7 @@ namespace Epsilon.Logic.Services
                 PropertyInfo = propertyInfo
             };
         }
-
-        // TODO_TEST_PANOS
+        
         public async Task<Guid?> GetExistingUnexpiredAccessUniqueId(string userId, Guid addressUniqueId)
         {
             var existingUnexpiredAccess = await GetExistingUnexpiredAccess(userId, addressUniqueId);

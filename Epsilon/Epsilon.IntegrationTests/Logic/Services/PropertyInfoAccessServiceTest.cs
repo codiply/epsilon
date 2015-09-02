@@ -26,6 +26,76 @@ namespace Epsilon.IntegrationTests.Logic.Services
     {
         private TimeSpan _smallDelay = TimeSpan.FromMilliseconds(20);
 
+        #region Create
+
+        [Test]
+        public async Task Create_AddressDoesNotExist()
+        {
+
+        }
+
+        [Test]
+        public async Task Create_ExistingUnexpiredAccessExists()
+        {
+
+        }
+
+
+        [Test]
+        public async Task Create_AddressHasNoCompleteSubmissions()
+        {
+
+        }
+
+        [Test]
+        public async Task Create_InsufficientFunds()
+        {
+
+        }
+
+        [Test]
+        public async Task Create_Success()
+        {
+
+        }
+
+        [Test]
+        public async Task Create_Success_WithExistingdExpiredAccess()
+        {
+
+            // TODO_PANOS: do GetInfo at the end.
+        }
+
+        #endregion
+
+        #region GetInfo
+
+        [Test]
+        public async Task GetInfo_AccessDoesNotExist()
+        {
+
+        }
+
+        [Test]
+        public async Task GetInfo_UnexpiredAccess()
+        {
+            // TODO_PANOS: test that other user cannot access the access.
+        }
+
+        [Test]
+        public async Task GetInfo_ExpiredAccess()
+        {
+
+        }
+
+        [Test]
+        public async Task GetInfo_WithDuplicateAddresses()
+        {
+
+        }
+
+        #endregion
+
         #region GetExistingUnexpiredAccessUniqueId
 
         [Test]
