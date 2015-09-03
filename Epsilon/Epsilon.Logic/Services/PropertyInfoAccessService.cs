@@ -117,7 +117,6 @@ namespace Epsilon.Logic.Services
                 var address = await _addressService.GetAddress(addressUniqueId);
                 if (address == null)
                 {
-                    // TODO_TEST_PANOS
                     return new CreatePropertyInfoAccessOutcome
                     {
                         IsRejected = true,

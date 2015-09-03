@@ -19,6 +19,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.Entity;
+using Epsilon.Resources.Logic.PropertyInfoAccess;
 
 namespace Epsilon.IntegrationTests.Logic.Services
 {
@@ -31,32 +32,49 @@ namespace Epsilon.IntegrationTests.Logic.Services
         [Test]
         public async Task Create_AddressDoesNotExist()
         {
+            var helperContainer = CreateContainer();
+            var ipAddress = "1.2.3.4";
+            var user = await CreateUser(helperContainer, "test@test.com", ipAddress);
 
+            var containerUnderTest = CreateContainer();
+            var serviceUnderTest = containerUnderTest.Get<IPropertyInfoAccessService>();
+
+            var nonExistentAddressUniqueId = Guid.NewGuid();
+            var accessUniqueId = Guid.NewGuid();
+            var outcome = await serviceUnderTest.Create(user.Id, ipAddress, accessUniqueId, nonExistentAddressUniqueId);
+
+            Assert.IsTrue(outcome.IsRejected, "Outcome field IsRejected is not the expected.");
+            Assert.AreEqual(PropertyInfoAccessResources.Create_AddressNotFoundMessage, outcome.RejectionReason, 
+                "Outcome field RejectionReason is not the expected.");
+
+            var retrievedPropertyInfoAccess = await DbProbe.PropertyInfoAccesses
+                .SingleOrDefaultAsync(x => x.UniqueId.Equals(accessUniqueId));
+            Assert.IsNull(retrievedPropertyInfoAccess, "A property info accesses should not be created.");
         }
 
         [Test]
         public async Task Create_ExistingUnexpiredAccessExists()
         {
-
+            // TODO_PANOS
         }
 
 
         [Test]
         public async Task Create_AddressHasNoCompleteSubmissions()
         {
-
+            // TODO_PANOS
         }
 
         [Test]
         public async Task Create_InsufficientFunds()
         {
-
+            // TODO_PANOS
         }
 
         [Test]
         public async Task Create_Success()
         {
-
+            // TODO_PANOS
         }
 
         [Test]
@@ -73,25 +91,26 @@ namespace Epsilon.IntegrationTests.Logic.Services
         [Test]
         public async Task GetInfo_AccessDoesNotExist()
         {
-
+            // TODO_PANOS
         }
 
         [Test]
         public async Task GetInfo_UnexpiredAccess()
         {
+            // TODO_PANOS
             // TODO_PANOS: test that other user cannot access the access.
         }
 
         [Test]
         public async Task GetInfo_ExpiredAccess()
         {
-
+            // TODO_PANOS
         }
 
         [Test]
         public async Task GetInfo_WithDuplicateAddresses()
         {
-
+            // TODO_PANOS
         }
 
         #endregion
