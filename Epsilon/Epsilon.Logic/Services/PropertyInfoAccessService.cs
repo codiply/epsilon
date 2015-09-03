@@ -139,7 +139,6 @@ namespace Epsilon.Logic.Services
 
                 if (!completeSubmissionsExist)
                 {
-                    // TODO_TEST_PANOS
                     return new CreatePropertyInfoAccessOutcome
                     {
                         IsRejected = true,
@@ -152,7 +151,6 @@ namespace Epsilon.Logic.Services
 
                 if (!sufficientFundsExist)
                 {
-                    // TODO_TEST_PANOS
                     return new CreatePropertyInfoAccessOutcome
                     {
                         IsRejected = true,
@@ -164,6 +162,7 @@ namespace Epsilon.Logic.Services
             {
                 var propertyInfoAccess = await DoCreate(userId, userIpAddress, accessUniqueId, address.Id);
 
+                // TODO_TEST_PANOS
                 var tokenTransactionStatus = await _userTokenService
                     .MakeTransaction(userId, tokenRewardKey, internalReference: propertyInfoAccess.UniqueId);
 

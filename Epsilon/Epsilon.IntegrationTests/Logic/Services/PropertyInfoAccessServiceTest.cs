@@ -20,6 +20,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.Entity;
 using Epsilon.Resources.Logic.PropertyInfoAccess;
+using Epsilon.Resources.Common;
 
 namespace Epsilon.IntegrationTests.Logic.Services
 {
@@ -58,23 +59,68 @@ namespace Epsilon.IntegrationTests.Logic.Services
             // TODO_PANOS
         }
 
-
         [Test]
         public async Task Create_AddressHasNoCompleteSubmissions()
         {
-            // TODO_PANOS
+            var helperContainer = CreateContainer();
+            var ipAddress = "1.2.3.4";
+            var user = await CreateUser(helperContainer, "test@test.com", ipAddress);
+
+            var containerUnderTest = CreateContainer();
+            var serviceUnderTest = containerUnderTest.Get<IPropertyInfoAccessService>();
+
+            var random = new RandomWrapper(2015);
+
+            var address = await AddressHelper.CreateRandomAddressAndSave(random, helperContainer, user.Id, ipAddress, CountryId.GB);
+
+            var accessUniqueId = Guid.NewGuid();
+            var outcome = await serviceUnderTest.Create(user.Id, ipAddress, accessUniqueId, address.UniqueId);
+
+            Assert.IsTrue(outcome.IsRejected, "Outcome field IsRejected is not the expected.");
+            Assert.AreEqual(CommonResources.GenericInvalidActionMessage, outcome.RejectionReason,
+                "Outcome field RejectionReason is not the expected.");
+
+            var retrievedPropertyInfoAccess = await DbProbe.PropertyInfoAccesses
+                .SingleOrDefaultAsync(x => x.UniqueId.Equals(accessUniqueId));
+            Assert.IsNull(retrievedPropertyInfoAccess, "A property info accesses should not be created.");
         }
 
         [Test]
         public async Task Create_InsufficientFunds()
         {
-            // TODO_PANOS
+            var submissionsToCreate = 1;
+
+            var helperContainer = CreateContainer();
+            var ipAddress = "1.2.3.4";
+            var user = await CreateUser(helperContainer, "test@test.com", ipAddress);
+
+            var containerUnderTest = CreateContainer();
+            var serviceUnderTest = containerUnderTest.Get<IPropertyInfoAccessService>();
+
+            var random = new RandomWrapper(2015);
+
+            var address = await AddressHelper.CreateRandomAddressAndSave(random, helperContainer, user.Id, ipAddress, CountryId.GB);
+            var submissions = await CreateSubmissionsAndSave(random, helperContainer, address.Id, user.Id, ipAddress, submissionsToCreate);
+
+            Assert.IsNotEmpty(submissions, "Submissions were not created.");
+
+            var accessUniqueId = Guid.NewGuid();
+            var outcome = await serviceUnderTest.Create(user.Id, ipAddress, accessUniqueId, address.UniqueId);
+
+            Assert.IsTrue(outcome.IsRejected, "Outcome field IsRejected is not the expected.");
+            Assert.AreEqual(CommonResources.InsufficientTokensErrorMessage, outcome.RejectionReason,
+                "Outcome field RejectionReason is not the expected.");
+
+            var retrievedPropertyInfoAccess = await DbProbe.PropertyInfoAccesses
+                .SingleOrDefaultAsync(x => x.UniqueId.Equals(accessUniqueId));
+            Assert.IsNull(retrievedPropertyInfoAccess, "A property info accesses should not be created.");
         }
 
         [Test]
         public async Task Create_Success()
         {
             // TODO_PANOS
+            // TODO_TEST_PANOS: test a transaction with right reference has been created in the database.
         }
 
         [Test]
@@ -576,7 +622,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
         private static async Task<PropertyInfoAccess> CreatePropertyInfoAccessAndSave(
             IRandomWrapper random, IKernel container,
             string userId, string userIpAddress,
-            string userIdForSubmission, string userForSubmissionIpAddress, int numberOfSubmission = 1, 
+            string userIdForSubmission, string userForSubmissionIpAddress, int numberOfSubmissions = 1, 
             CountryId countryId = CountryId.GB, CurrencyId currencyId = CurrencyId.GBP)
         {
             var clock = container.Get<IClock>();
@@ -586,7 +632,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             var dbContext = container.Get<IEpsilonContext>();
 
-            for (var i = 0; i < numberOfSubmission; i++)
+            for (var i = 0; i < numberOfSubmissions; i++)
             {
                 var tenancyDetailsSubmission = new TenancyDetailsSubmission
                 {
@@ -614,6 +660,38 @@ namespace Epsilon.IntegrationTests.Logic.Services
             await dbContext.SaveChangesAsync();
 
             return propertyInfoAccess;
+        }
+
+        private static async Task<IList<TenancyDetailsSubmission>> CreateSubmissionsAndSave(
+            IRandomWrapper random, IKernel container, long addressId,
+            string userId, string userIpAddress, int numberOfSubmissions = 1,
+            CountryId countryId = CountryId.GB, CurrencyId currencyId = CurrencyId.GBP)
+        {
+            var clock = container.Get<IClock>();
+
+            var dbContext = container.Get<IEpsilonContext>();
+
+            var submissions = new List<TenancyDetailsSubmission>();
+
+            for (var i = 0; i < numberOfSubmissions; i++)
+            {
+                var tenancyDetailsSubmission = new TenancyDetailsSubmission
+                {
+                    UniqueId = Guid.NewGuid(),
+                    AddressId = addressId,
+                    UserId = userId,
+                    CreatedByIpAddress = userIpAddress,
+                    RentPerMonth = random.Next(100, 1000),
+                    CurrencyId = EnumsHelper.CurrencyId.ToString(currencyId),
+                    SubmittedOn = clock.OffsetNow
+                };
+                dbContext.TenancyDetailsSubmissions.Add(tenancyDetailsSubmission);
+                submissions.Add(tenancyDetailsSubmission);
+            }
+
+            await dbContext.SaveChangesAsync();
+
+            return submissions;
         }
 
         #endregion
