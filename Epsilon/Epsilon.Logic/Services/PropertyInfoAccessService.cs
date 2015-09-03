@@ -127,7 +127,6 @@ namespace Epsilon.Logic.Services
                 var existingPropertyInfoAccess = await GetExistingUnexpiredAccess(userId, addressUniqueId);
                 if (existingPropertyInfoAccess != null)
                 {
-                    // TODO_TEST_PANOS
                     return new CreatePropertyInfoAccessOutcome
                     {
                         IsRejected = true,

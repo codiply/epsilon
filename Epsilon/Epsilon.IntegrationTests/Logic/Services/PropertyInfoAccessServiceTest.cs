@@ -47,6 +47,8 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.IsTrue(outcome.IsRejected, "Outcome field IsRejected is not the expected.");
             Assert.AreEqual(PropertyInfoAccessResources.Create_AddressNotFoundMessage, outcome.RejectionReason, 
                 "Outcome field RejectionReason is not the expected.");
+            Assert.IsNull(outcome.PropertyInfoAccessUniqueId,
+                "Outcome field PropertInfoAccessUniqueId is not the expected.");
 
             var retrievedPropertyInfoAccess = await DbProbe.PropertyInfoAccesses
                 .SingleOrDefaultAsync(x => x.UniqueId.Equals(accessUniqueId));
@@ -56,7 +58,41 @@ namespace Epsilon.IntegrationTests.Logic.Services
         [Test]
         public async Task Create_ExistingUnexpiredAccessExists()
         {
-            // TODO_PANOS
+            var expiryPeriodInDays = 1;
+
+            var helperContainer = CreateContainer();
+            var ipAddress = "1.2.3.4";
+            var user = await CreateUser(helperContainer, "test@test.com", ipAddress);
+            var ipAddressForSubmission = "1.2.3.5";
+            var userForSubmissions = await CreateUser(helperContainer, "test1@test.com", ipAddressForSubmission);
+
+
+            var containerUnderTest = CreateContainer();
+            SetupConfig(containerUnderTest, expiryPeriodInDays: expiryPeriodInDays);
+            var serviceUnderTest = containerUnderTest.Get<IPropertyInfoAccessService>();
+
+            var random = new RandomWrapper(2015);
+
+            var existingPropertyInfoAccess = await CreatePropertyInfoAccessAndSave(random, helperContainer,
+                user.Id, ipAddress, userForSubmissions.Id, ipAddressForSubmission);
+
+            Assert.IsNotNull(existingPropertyInfoAccess, "Existing property info access was not created.");
+
+            var retrievedAddress = await DbProbe.Addresses.FindAsync(existingPropertyInfoAccess.AddressId);
+
+            var accessUniqueId = Guid.NewGuid();
+
+            var outcome = await serviceUnderTest.Create(user.Id, ipAddress, accessUniqueId, retrievedAddress.UniqueId);
+
+            Assert.IsTrue(outcome.IsRejected, "Outcome field IsRejected is not the expected.");
+            Assert.AreEqual(CommonResources.GenericInvalidActionMessage, outcome.RejectionReason,
+                "Outcome field RejectionReason is not the expected.");
+            Assert.IsNull(outcome.PropertyInfoAccessUniqueId,
+                "Outcome field PropertInfoAccessUniqueId is not the expected.");
+
+            var retrievedPropertyInfoAccess = await DbProbe.PropertyInfoAccesses
+                .SingleOrDefaultAsync(x => x.UniqueId.Equals(accessUniqueId));
+            Assert.IsNull(retrievedPropertyInfoAccess, "A property info accesses should not be created.");
         }
 
         [Test]
@@ -79,6 +115,8 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.IsTrue(outcome.IsRejected, "Outcome field IsRejected is not the expected.");
             Assert.AreEqual(CommonResources.GenericInvalidActionMessage, outcome.RejectionReason,
                 "Outcome field RejectionReason is not the expected.");
+            Assert.IsNull(outcome.PropertyInfoAccessUniqueId,
+                "Outcome field PropertInfoAccessUniqueId is not the expected.");
 
             var retrievedPropertyInfoAccess = await DbProbe.PropertyInfoAccesses
                 .SingleOrDefaultAsync(x => x.UniqueId.Equals(accessUniqueId));
@@ -110,7 +148,9 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.IsTrue(outcome.IsRejected, "Outcome field IsRejected is not the expected.");
             Assert.AreEqual(CommonResources.InsufficientTokensErrorMessage, outcome.RejectionReason,
                 "Outcome field RejectionReason is not the expected.");
-
+            Assert.IsNull(outcome.PropertyInfoAccessUniqueId,
+                "Outcome field PropertInfoAccessUniqueId is not the expected.");
+           
             var retrievedPropertyInfoAccess = await DbProbe.PropertyInfoAccesses
                 .SingleOrDefaultAsync(x => x.UniqueId.Equals(accessUniqueId));
             Assert.IsNull(retrievedPropertyInfoAccess, "A property info accesses should not be created.");
@@ -119,8 +159,65 @@ namespace Epsilon.IntegrationTests.Logic.Services
         [Test]
         public async Task Create_Success()
         {
-            // TODO_PANOS
-            // TODO_TEST_PANOS: test a transaction with right reference has been created in the database.
+            var submissionsToCreate = 1;
+
+            var helperContainer = CreateContainer();
+            var ipAddress = "1.2.3.4";
+            var user = await CreateUser(helperContainer, "test@test.com", ipAddress);
+
+            var clock = helperContainer.Get<IClock>();
+
+            var containerUnderTest = CreateContainer();
+            var serviceUnderTest = containerUnderTest.Get<IPropertyInfoAccessService>();
+
+            var random = new RandomWrapper(2015);
+
+            var address = await AddressHelper.CreateRandomAddressAndSave(random, helperContainer, user.Id, ipAddress, CountryId.GB);
+            var submissions = await CreateSubmissionsAndSave(random, helperContainer, address.Id, user.Id, ipAddress, submissionsToCreate);
+
+            Assert.IsNotEmpty(submissions, "Submissions were not created.");
+
+            var tokenRewardService = helperContainer.Get<ITokenRewardService>();
+
+            var propertyInfoAccessCost =
+                tokenRewardService.GetCurrentReward(TokenRewardKey.SpendPerPropertyInfoAccess).AbsValue;
+            var tenancyDetailsSubmissionReward =
+                tokenRewardService.GetCurrentReward(TokenRewardKey.EarnPerTenancyDetailsSubmission).AbsValue;
+
+            Assert.That(tenancyDetailsSubmissionReward, Is.GreaterThanOrEqualTo(propertyInfoAccessCost),
+                "This test assumes that by making a transaction for submitting tenancy details it will create enough funds to buy a property info access.");
+
+            var userTokenService = helperContainer.Get<IUserTokenService>();
+            // I add funds to spend later on.
+            var tenancyDetailsSubmissionTransactionStatus = await userTokenService.MakeTransaction(user.Id, TokenRewardKey.EarnPerTenancyDetailsSubmission);
+            Assert.AreEqual(TokenAccountTransactionStatus.Success, tenancyDetailsSubmissionTransactionStatus,
+                "Adding funds failed.");
+
+            var accessUniqueId = Guid.NewGuid();
+            var timeBefore = clock.OffsetNow;
+            var outcome = await serviceUnderTest.Create(user.Id, ipAddress, accessUniqueId, address.UniqueId);
+
+            Assert.IsFalse(outcome.IsRejected, "Outcome field IsRejected is not the expected.");
+            Assert.IsNullOrEmpty(outcome.RejectionReason, "Outcome field RejectionReason is not the expected.");
+            Assert.AreEqual(accessUniqueId, outcome.PropertyInfoAccessUniqueId, 
+                "Outcome field PropertInfoAccessUniqueId is not the expected.");
+
+            var timeAfter = clock.OffsetNow;
+
+            var retrievedPropertyInfoAccess = await DbProbe.PropertyInfoAccesses
+                .SingleOrDefaultAsync(x => x.UniqueId.Equals(accessUniqueId));
+            Assert.IsNotNull(retrievedPropertyInfoAccess, "A property info accesses should be created.");
+
+            var rewardTypeKey = EnumsHelper.TokenRewardKey.ToString(TokenRewardKey.SpendPerPropertyInfoAccess);
+            var retrievedTransaction = await DbProbe.TokenAccountTransactions
+                .SingleOrDefaultAsync(x => x.AccountId.Equals(user.Id) && x.RewardTypeKey.Equals(rewardTypeKey));
+            Assert.IsNotNull(retrievedTransaction, "A transaction for the property info access was not created.");
+            Assert.AreEqual(accessUniqueId, retrievedTransaction.InternalReference,
+                "The internal reference on the transaction was not the expected.");
+            Assert.That(retrievedTransaction.MadeOn, Is.GreaterThanOrEqualTo(timeBefore),
+                "RetrievedTransaction.MadeOn lower bound test failed.");
+            Assert.That(retrievedTransaction.MadeOn, Is.LessThanOrEqualTo(timeAfter),
+                "RetrievedTransaction.MadeOn upper bound test failed.");
         }
 
         [Test]
