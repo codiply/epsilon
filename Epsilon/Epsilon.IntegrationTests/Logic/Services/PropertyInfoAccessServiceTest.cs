@@ -342,8 +342,12 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             var address = await AddressHelper.CreateRandomAddressAndSave(random, helperContainer, otherUser.Id, otherUserIpAddress, CountryId.GB);
             var submissions = await CreateSubmissionsAndSave(random, helperContainer, address.Id, otherUser.Id, otherUserIpAddress, submissionsToCreate);
-
             Assert.IsNotEmpty(submissions, "Submissions were not created.");
+
+            var incompleteSubmissions = await CreateIncompleteSubmissionsAndSave(random, helperContainer, address.Id, otherUser.Id, otherUserIpAddress, submissionsToCreate);
+            Assert.IsNotEmpty(submissions, "Incomplete submissions were not created.");
+
+            var submissionsOrdered = submissions.OrderByDescending(x => x.SubmittedOn).ToList();
 
             var containerUnderTest = CreateContainer();
             SetupConfig(containerUnderTest, expiryPeriodInDays: expiryPeriodInDays);
@@ -386,7 +390,42 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.IsNotNull(getInfo.PropertyInfo,
                 "PropertyInfo field when trying to get the info with the right user should not be null");
 
-            // TODO_PANOS: Inspect the property info
+            var retrievedAddress = await DbProbe.Addresses.Include(x => x.Country).SingleAsync(x => x.Id.Equals(address.Id));
+
+            Assert.IsNotNull(getInfo.PropertyInfo.MainProperty, "PropertyInfo.MainProperty should not be null.");
+            Assert.AreEqual(retrievedAddress.FullAddress(), getInfo.PropertyInfo.MainProperty.DisplayAddress,
+                "PropertyInfo.MainProperty.DisplayAddress is not the expected.");
+            Assert.AreEqual(submissionsToCreate, getInfo.PropertyInfo.MainProperty.CompleteSubmissions.Count,
+                "The number of complete submissions on the MainProperty is not the expected.");
+            Assert.IsEmpty(getInfo.PropertyInfo.DuplicateProperties, "PropertyInfo.DuplicatProperties should be null.");
+
+
+            for (var i = 0; i < submissionsToCreate; i++)
+            {
+                var submissionId = submissionsOrdered[i].Id;
+                var expected = await DbProbe.TenancyDetailsSubmissions
+                    .Include(x => x.Currency).SingleOrDefaultAsync(x => x.Id.Equals(submissionId));
+                var actual = getInfo.PropertyInfo.MainProperty.CompleteSubmissions[i];
+
+                Assert.AreEqual(expected.RentPerMonth, actual.RentPerMonth,
+                    string.Format("RentPerMonth is not the expected for main property submission and i equal to '{0}'", i));
+                Assert.AreEqual(expected.Currency.Symbol, actual.CurrencySymbol,
+                    string.Format("CurrencySymbol is not the expected for main property submission and i equal to '{0}'", i));
+                Assert.AreEqual(expected.NumberOfBedrooms, actual.NumberOfBedrooms,
+                    string.Format("NumberOfBedrooms is not the expected for main property submission and i equal to '{0}'", i));
+                Assert.AreEqual(expected.IsFurnished, actual.IsFurnished,
+                    string.Format("IsFurnished is not the expected for main property submission and i equal to '{0}'", i));
+                Assert.AreEqual(expected.IsPartOfProperty, actual.IsPartOfProperty,
+                    string.Format("IsPartOfProperty is not the expected for main property submission and i equal to '{0}'", i));
+                Assert.AreEqual(expected.SubmittedOn, actual.SubmittedOn,
+                    string.Format("SubmittedOn is not the expected for main property submission and i equal to '{0}'", i));
+                Assert.AreEqual(expected.LandlordRating, actual.LandlordRating,
+                    string.Format("LandlordRating is not the expected for main property submission and i equal to '{0}'", i));
+                Assert.AreEqual(expected.NeighboursRating, actual.NeighboursRating,
+                    string.Format("NeighboursRating is not the expected for main property submission and i equal to '{0}'", i));
+                Assert.AreEqual(expected.PropertyConditionRating, actual.PropertyConditionRating,
+                    string.Format("PropertyConditionRating is not the expected for main property submission and i equal to '{0}'", i));
+            }
         }
 
         [Test]
@@ -982,8 +1021,43 @@ namespace Epsilon.IntegrationTests.Logic.Services
                     UserId = userId,
                     CreatedByIpAddress = userIpAddress,
                     RentPerMonth = random.Next(100, 1000),
+                    NumberOfBedrooms = (byte)random.Next(0, 20),
+                    IsFurnished = random.NextDouble() < 0.5,
+                    IsPartOfProperty = random.NextDouble() < 0.5,
+                    LandlordRating = (byte)random.Next(1, 6),
+                    PropertyConditionRating = (byte)random.Next(1, 6),
+                    NeighboursRating = (byte)random.Next(1, 6),
                     CurrencyId = EnumsHelper.CurrencyId.ToString(currencyId),
                     SubmittedOn = clock.OffsetNow
+                };
+                dbContext.TenancyDetailsSubmissions.Add(tenancyDetailsSubmission);
+                submissions.Add(tenancyDetailsSubmission);
+            }
+
+            await dbContext.SaveChangesAsync();
+
+            return submissions;
+        }
+
+        private static async Task<IList<TenancyDetailsSubmission>> CreateIncompleteSubmissionsAndSave(
+            IRandomWrapper random, IKernel container, long addressId,
+            string userId, string userIpAddress, int numberOfSubmissions = 1,
+            CountryId countryId = CountryId.GB, CurrencyId currencyId = CurrencyId.GBP)
+        {
+            var clock = container.Get<IClock>();
+
+            var dbContext = container.Get<IEpsilonContext>();
+
+            var submissions = new List<TenancyDetailsSubmission>();
+
+            for (var i = 0; i < numberOfSubmissions; i++)
+            {
+                var tenancyDetailsSubmission = new TenancyDetailsSubmission
+                {
+                    UniqueId = Guid.NewGuid(),
+                    AddressId = addressId,
+                    UserId = userId,
+                    CreatedByIpAddress = userIpAddress
                 };
                 dbContext.TenancyDetailsSubmissions.Add(tenancyDetailsSubmission);
                 submissions.Add(tenancyDetailsSubmission);

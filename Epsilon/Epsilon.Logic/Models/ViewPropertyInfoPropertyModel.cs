@@ -21,6 +21,7 @@ namespace Epsilon.Logic.Models
         {
             var completeSubmissions = entity.TenancyDetailsSubmissions
                 .Where(s => s.SubmittedOn.HasValue)
+                .OrderByDescending(x => x.SubmittedOn)
                 .Select(s => ViewPropertyInfoPropertySubmissionModel.FromTenancyDetailsSubmission(s, currencyService))
                 .ToList();
 
