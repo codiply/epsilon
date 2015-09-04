@@ -11,7 +11,7 @@ namespace Epsilon.Logic.Models
         public IList<ViewPropertyInfoPropertyModel> DuplicateProperties { get; set; }
 
         /// <summary>
-        /// NOTE: you will need to include Country, TenancyDetailsSubmissions on all addresses pass in for this to work.
+        /// NOTE: you will need to include Country and TenancyDetailsSubmissions on all addresses passed in for this to work.
         /// </summary>
         /// <param name="mainProperty"></param>
         /// <param name="duplicateProperties"></param>

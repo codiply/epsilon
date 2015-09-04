@@ -193,14 +193,11 @@ namespace Epsilon.Logic.Services
             }
         }
 
-        // TODO_TEST_PANOS
         public async Task<GetInfoOutcome> GetInfo(string userId, Guid accessUniqueId)
         {
-            // TODO_TEST_PANOS
             var access = await GetPropertyInfoAccessForUser(userId, accessUniqueId, includeAddress: true, includeSubmissions: true);
             if (access == null)
             {
-                // TODO_TEST_PANOS
                 return new GetInfoOutcome
                 {
                     IsRejected = true,
@@ -213,7 +210,6 @@ namespace Epsilon.Logic.Services
 
             if (!access.CanViewInfo(now, expiryPeriod))
             {
-                // TODO_TEST_PANOS
                 return new GetInfoOutcome
                 {
                     IsRejected = true,
@@ -300,7 +296,6 @@ namespace Epsilon.Logic.Services
 
         private async Task<PropertyInfoAccess> GetExistingUnexpiredAccess(string userId, Guid addressUniqueId)
         {
-            // TODO_TEST_PANOS
             var cutoff = _clock.OffsetNow - ExpiryPeriod();
 
             var propertyInfoAccess = await _dbContext.PropertyInfoAccesses

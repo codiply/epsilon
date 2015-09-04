@@ -188,10 +188,15 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 "This test assumes that by making a transaction for submitting tenancy details it will create enough funds to buy a property info access.");
 
             var userTokenService = helperContainer.Get<IUserTokenService>();
+            var balance1 = await userTokenService.GetBalance(user.Id);
+            Assert.AreEqual(0, balance1.balance, "Balance1 is not the expected.");
             // I add funds to spend later on.
             var tenancyDetailsSubmissionTransactionStatus = await userTokenService.MakeTransaction(user.Id, TokenRewardKey.EarnPerTenancyDetailsSubmission);
             Assert.AreEqual(TokenAccountTransactionStatus.Success, tenancyDetailsSubmissionTransactionStatus,
                 "Adding funds failed.");
+
+            var balance2 = await userTokenService.GetBalance(user.Id);
+            Assert.AreEqual(tenancyDetailsSubmissionReward, balance2.balance, "Balance2 is not the expected.");
 
             var accessUniqueId = Guid.NewGuid();
             var timeBefore = clock.OffsetNow;
@@ -218,13 +223,83 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 "RetrievedTransaction.MadeOn lower bound test failed.");
             Assert.That(retrievedTransaction.MadeOn, Is.LessThanOrEqualTo(timeAfter),
                 "RetrievedTransaction.MadeOn upper bound test failed.");
+
+            var balance3 = await userTokenService.GetBalance(user.Id);
+            Assert.AreEqual(balance2.balance - propertyInfoAccessCost, balance3.balance, "Balance3 is not the expected.");
         }
 
         [Test]
         public async Task Create_Success_WithExistingdExpiredAccess()
         {
 
-            // TODO_PANOS: do GetInfo at the end.
+            var expiryPeriod = TimeSpan.FromSeconds(0.2);
+            var expiryPeriodInDays = expiryPeriod.TotalDays;
+
+            var helperContainer = CreateContainer();
+            var ipAddress = "1.2.3.4";
+            var user = await CreateUser(helperContainer, "test@test.com", ipAddress);
+            var userForSubmissionIpAddress = "1.2.3.5";
+            var userForSubmission = await CreateUser(helperContainer, "test1@test.com", userForSubmissionIpAddress);
+
+            var clock = helperContainer.Get<IClock>();
+
+            var containerUnderTest = CreateContainer();
+            SetupConfig(containerUnderTest, expiryPeriodInDays: expiryPeriodInDays);
+            var serviceUnderTest = containerUnderTest.Get<IPropertyInfoAccessService>();
+
+            var random = new RandomWrapper(2015);
+
+            var existingPeropertyInfoAccess = await CreatePropertyInfoAccessAndSave(
+                random, helperContainer, user.Id, ipAddress, userForSubmission.Id, userForSubmissionIpAddress);
+            var retrievedAddresss = await DbProbe.Addresses.FindAsync(existingPeropertyInfoAccess.AddressId);
+
+            var tokenRewardService = helperContainer.Get<ITokenRewardService>();
+
+            var propertyInfoAccessCost =
+                tokenRewardService.GetCurrentReward(TokenRewardKey.SpendPerPropertyInfoAccess).AbsValue;
+            var tenancyDetailsSubmissionReward =
+                tokenRewardService.GetCurrentReward(TokenRewardKey.EarnPerTenancyDetailsSubmission).AbsValue;
+
+            Assert.That(tenancyDetailsSubmissionReward, Is.GreaterThanOrEqualTo(propertyInfoAccessCost),
+                "This test assumes that by making a transaction for submitting tenancy details it will create enough funds to buy a property info access.");
+
+            var userTokenService = helperContainer.Get<IUserTokenService>();
+            // I add funds to spend later on.
+            var tenancyDetailsSubmissionTransactionStatus = await userTokenService.MakeTransaction(user.Id, TokenRewardKey.EarnPerTenancyDetailsSubmission);
+            Assert.AreEqual(TokenAccountTransactionStatus.Success, tenancyDetailsSubmissionTransactionStatus,
+                "Adding funds failed.");
+
+            var accessUniqueId = Guid.NewGuid();
+            var failedOutcome = await serviceUnderTest.Create(user.Id, ipAddress, accessUniqueId, retrievedAddresss.UniqueId);
+            Assert.IsTrue(failedOutcome.IsRejected, "The creation should be rejected before the expiry of the existing property info access.");
+
+            // I wait until the existing property info access expires
+            await Task.Delay(expiryPeriod);
+
+            var timeBefore = clock.OffsetNow;
+            var outcome = await serviceUnderTest.Create(user.Id, ipAddress, accessUniqueId, retrievedAddresss.UniqueId);
+
+            Assert.IsFalse(outcome.IsRejected, "Outcome field IsRejected is not the expected.");
+            Assert.IsNullOrEmpty(outcome.RejectionReason, "Outcome field RejectionReason is not the expected.");
+            Assert.AreEqual(accessUniqueId, outcome.PropertyInfoAccessUniqueId,
+                "Outcome field PropertInfoAccessUniqueId is not the expected.");
+
+            var timeAfter = clock.OffsetNow;
+
+            var retrievedPropertyInfoAccess = await DbProbe.PropertyInfoAccesses
+                .SingleOrDefaultAsync(x => x.UniqueId.Equals(accessUniqueId));
+            Assert.IsNotNull(retrievedPropertyInfoAccess, "A property info accesses should be created.");
+
+            var rewardTypeKey = EnumsHelper.TokenRewardKey.ToString(TokenRewardKey.SpendPerPropertyInfoAccess);
+            var retrievedTransaction = await DbProbe.TokenAccountTransactions
+                .SingleOrDefaultAsync(x => x.AccountId.Equals(user.Id) && x.RewardTypeKey.Equals(rewardTypeKey));
+            Assert.IsNotNull(retrievedTransaction, "A transaction for the property info access was not created.");
+            Assert.AreEqual(accessUniqueId, retrievedTransaction.InternalReference,
+                "The internal reference on the transaction was not the expected.");
+            Assert.That(retrievedTransaction.MadeOn, Is.GreaterThanOrEqualTo(timeBefore),
+                "RetrievedTransaction.MadeOn lower bound test failed.");
+            Assert.That(retrievedTransaction.MadeOn, Is.LessThanOrEqualTo(timeAfter),
+                "RetrievedTransaction.MadeOn upper bound test failed.");
         }
 
         #endregion
@@ -234,20 +309,148 @@ namespace Epsilon.IntegrationTests.Logic.Services
         [Test]
         public async Task GetInfo_AccessDoesNotExist()
         {
-            // TODO_PANOS
+            var helperContainer = CreateContainer();
+            var ipAddress = "1.2.3.4";
+            var user = await CreateUser(helperContainer, "test@test.com", ipAddress);
+
+            var containerUnderTest = CreateContainer();
+            var serviceUnderTest = containerUnderTest.Get<IPropertyInfoAccessService>();
+
+            var nonExistentAccessUniqueId = Guid.NewGuid();
+            var outcome = await serviceUnderTest.GetInfo(user.Id, nonExistentAccessUniqueId);
+
+            Assert.IsTrue(outcome.IsRejected, "IsRejected field on the outcome is not the expected.");
+            Assert.AreEqual(CommonResources.GenericInvalidRequestMessage, outcome.RejectionReason,
+                "RejectionReason field on the outcome is not the expected.");
+            Assert.IsNull(outcome.PropertyInfo, "PropertyInfo field on the outcome should be null");
         }
 
         [Test]
         public async Task GetInfo_UnexpiredAccess()
         {
-            // TODO_PANOS
-            // TODO_PANOS: test that other user cannot access the access.
+            var expiryPeriod = TimeSpan.FromDays(1);
+            var expiryPeriodInDays = expiryPeriod.TotalDays;
+            var submissionsToCreate = 3;
+
+            var helperContainer = CreateContainer();
+            var ipAddress = "1.2.3.4";
+            var user = await CreateUser(helperContainer, "test@test.com", ipAddress);
+            var otherUserIpAddress = "1.2.3.5";
+            var otherUser = await CreateUser(helperContainer, "test1@test.com", otherUserIpAddress);
+
+            var random = new RandomWrapper(2015);
+
+            var address = await AddressHelper.CreateRandomAddressAndSave(random, helperContainer, otherUser.Id, otherUserIpAddress, CountryId.GB);
+            var submissions = await CreateSubmissionsAndSave(random, helperContainer, address.Id, otherUser.Id, otherUserIpAddress, submissionsToCreate);
+
+            Assert.IsNotEmpty(submissions, "Submissions were not created.");
+
+            var containerUnderTest = CreateContainer();
+            SetupConfig(containerUnderTest, expiryPeriodInDays: expiryPeriodInDays);
+            var serviceUnderTest = containerUnderTest.Get<IPropertyInfoAccessService>();
+
+            var tokenRewardService = helperContainer.Get<ITokenRewardService>();
+
+            var propertyInfoAccessCost =
+                tokenRewardService.GetCurrentReward(TokenRewardKey.SpendPerPropertyInfoAccess).AbsValue;
+            var tenancyDetailsSubmissionReward =
+                tokenRewardService.GetCurrentReward(TokenRewardKey.EarnPerTenancyDetailsSubmission).AbsValue;
+
+            Assert.That(tenancyDetailsSubmissionReward, Is.GreaterThanOrEqualTo(propertyInfoAccessCost),
+                "This test assumes that by making a transaction for submitting tenancy details it will create enough funds to buy a property info access.");
+
+            var userTokenService = helperContainer.Get<IUserTokenService>();
+            // I add funds to spend later on.
+            var tenancyDetailsSubmissionTransactionStatus = await userTokenService.MakeTransaction(user.Id, TokenRewardKey.EarnPerTenancyDetailsSubmission);
+            Assert.AreEqual(TokenAccountTransactionStatus.Success, tenancyDetailsSubmissionTransactionStatus, "Adding funds failed.");
+
+            // I create the property info access
+            var accessUniqueId = Guid.NewGuid();
+            var helperService = helperContainer.Get<IPropertyInfoAccessService>();
+            var createOutcome = await helperService.Create(user.Id, ipAddress, accessUniqueId, address.UniqueId);
+            Assert.IsFalse(createOutcome.IsRejected, "Property info access was not created.");
+
+            var getInfoWithOtherUser = await serviceUnderTest.GetInfo(otherUser.Id, accessUniqueId);
+            Assert.IsTrue(getInfoWithOtherUser.IsRejected, 
+                "IsRejected field when trying to get the info with wrong user is not the expected.");
+            Assert.AreEqual(CommonResources.GenericInvalidRequestMessage, getInfoWithOtherUser.RejectionReason,
+                "RejectionReason field when trying to get the info with wrong user is not the expected.");
+            Assert.IsNull(getInfoWithOtherUser.PropertyInfo,
+                "PropertyInfo field when trying to get the info with wrong user is not the expected.");
+
+            var getInfo = await serviceUnderTest.GetInfo(user.Id, accessUniqueId);
+            Assert.IsFalse(getInfo.IsRejected,
+                "IsRejected field when trying to get the info with the right user is not the expected.");
+            Assert.IsNullOrEmpty(getInfo.RejectionReason,
+                "RejectionReason field when trying to get the info with the right user is not the expected.");
+            Assert.IsNotNull(getInfo.PropertyInfo,
+                "PropertyInfo field when trying to get the info with the right user should not be null");
+
+            // TODO_PANOS: Inspect the property info
         }
 
         [Test]
         public async Task GetInfo_ExpiredAccess()
         {
-            // TODO_PANOS
+            var expiryPeriod = TimeSpan.FromSeconds(0.2);
+            var expiryPeriodInDays = expiryPeriod.TotalDays;
+            var submissionsToCreate = 3;
+
+            var helperContainer = CreateContainer();
+            var ipAddress = "1.2.3.4";
+            var user = await CreateUser(helperContainer, "test@test.com", ipAddress);
+            var otherUserIpAddress = "1.2.3.5";
+            var otherUser = await CreateUser(helperContainer, "test1@test.com", otherUserIpAddress);
+
+            var random = new RandomWrapper(2015);
+
+            var address = await AddressHelper.CreateRandomAddressAndSave(random, helperContainer, otherUser.Id, otherUserIpAddress, CountryId.GB);
+            var submissions = await CreateSubmissionsAndSave(random, helperContainer, address.Id, otherUser.Id, otherUserIpAddress, submissionsToCreate);
+
+            Assert.IsNotEmpty(submissions, "Submissions were not created.");
+
+            var containerUnderTest = CreateContainer();
+            SetupConfig(containerUnderTest, expiryPeriodInDays: expiryPeriodInDays);
+            var serviceUnderTest = containerUnderTest.Get<IPropertyInfoAccessService>();
+
+            var tokenRewardService = helperContainer.Get<ITokenRewardService>();
+
+            var propertyInfoAccessCost =
+                tokenRewardService.GetCurrentReward(TokenRewardKey.SpendPerPropertyInfoAccess).AbsValue;
+            var tenancyDetailsSubmissionReward =
+                tokenRewardService.GetCurrentReward(TokenRewardKey.EarnPerTenancyDetailsSubmission).AbsValue;
+
+            Assert.That(tenancyDetailsSubmissionReward, Is.GreaterThanOrEqualTo(propertyInfoAccessCost),
+                "This test assumes that by making a transaction for submitting tenancy details it will create enough funds to buy a property info access.");
+
+            var userTokenService = helperContainer.Get<IUserTokenService>();
+            // I add funds to spend later on.
+            var tenancyDetailsSubmissionTransactionStatus = await userTokenService.MakeTransaction(user.Id, TokenRewardKey.EarnPerTenancyDetailsSubmission);
+            Assert.AreEqual(TokenAccountTransactionStatus.Success, tenancyDetailsSubmissionTransactionStatus, "Adding funds failed.");
+
+            // I create the property info access
+            var accessUniqueId = Guid.NewGuid();
+            var helperService = helperContainer.Get<IPropertyInfoAccessService>();
+            var createOutcome = await helperService.Create(user.Id, ipAddress, accessUniqueId, address.UniqueId);
+            Assert.IsFalse(createOutcome.IsRejected, "Property info access was not created.");
+
+            var getInfoBeforeExpiry = await serviceUnderTest.GetInfo(user.Id, accessUniqueId);
+            Assert.IsFalse(getInfoBeforeExpiry.IsRejected,
+                "IsRejected field before expiry is not the expected.");
+            Assert.IsNullOrEmpty(getInfoBeforeExpiry.RejectionReason,
+                "RejectionReason field before expiry is not the expected.");
+            Assert.IsNotNull(getInfoBeforeExpiry.PropertyInfo,
+                "PropertyInfo field before expiry is not the expected.");
+
+            await Task.Delay(expiryPeriod);
+
+            var getInfoAfterExpiry = await serviceUnderTest.GetInfo(user.Id, accessUniqueId);
+            Assert.IsTrue(getInfoAfterExpiry.IsRejected,
+                "IsRejected field after expiry is not the expected.");
+            Assert.AreEqual(CommonResources.GenericInvalidActionMessage, getInfoAfterExpiry.RejectionReason,
+                "RejectionReason field after expiry is not the expected.");
+            Assert.IsNull(getInfoAfterExpiry.PropertyInfo,
+                "PropertyInfo field after expiry is not the expected.");
         }
 
         [Test]
