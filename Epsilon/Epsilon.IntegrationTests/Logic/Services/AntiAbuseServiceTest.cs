@@ -80,7 +80,9 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             string adminAlertKey = string.Empty;
             AdminEventLogKey? adminEventLogKey = null;
-            SetupContainerWithMockAdminAlertService(containerUnderTest, (x, databaseDown) => adminAlertKey = x); // TODO_PANOS: check databaseDown
+            bool? databaseDownFlagUsed = null;
+            SetupContainerWithMockAdminAlertService(containerUnderTest, (x, databaseDown) =>
+                { adminAlertKey = x; databaseDownFlagUsed = databaseDown; });
             SetupContainerWithMockAdminEventLogService(containerUnderTest, (x, info) => adminEventLogKey = x);
 
             var serviceUnderTest = containerUnderTest.Get<IAntiAbuseService>();
@@ -109,6 +111,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.IsNotNull(adminAlertKey, "The AdminAlertService was not called.");
             Assert.AreEqual(AdminAlertKey.AddAddressGlobalMaxFrequencyReached, adminAlertKey,
                 "The right admin alert was not send the second time.");
+            Assert.AreEqual(false, databaseDownFlagUsed, "DatabaseDown parameter is not the expected when sending the alert.");
             Assert.IsNotNull(adminEventLogKey, "The AdminEventLogService was not called.");
             Assert.AreEqual(AdminEventLogKey.AddAddressGlobalMaxFrequencyReached, adminEventLogKey,
                 "The right admin event log key was not used the second time.");
@@ -139,7 +142,9 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             string adminAlertKey = string.Empty;
             AdminEventLogKey? adminEventLogKey = null;
-            SetupContainerWithMockAdminAlertService(containerUnderTest, (x, databaseDown) => adminAlertKey = x); // TODO_PANOS: check databaseDown
+            bool? databaseDownFlagUsed = null;
+            SetupContainerWithMockAdminAlertService(containerUnderTest, (x, databaseDown) => 
+                { adminAlertKey = x; databaseDownFlagUsed = databaseDown; });
             SetupContainerWithMockAdminEventLogService(containerUnderTest, (x, info) => adminEventLogKey = x);
 
             var serviceUnderTest = containerUnderTest.Get<IAntiAbuseService>();
@@ -159,6 +164,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 firstResponse.RejectionReason, "The rejection reason is not the expected.");
             Assert.AreEqual(AdminAlertKey.AddAddressGlobalMaxFrequencyReached, adminAlertKey,
                 "The right admin alert was not send the first time.");
+            Assert.AreEqual(false, databaseDownFlagUsed, "DatabaseDown parameter is not the expected when sending the alert.");
             Assert.AreEqual(AdminEventLogKey.AddAddressGlobalMaxFrequencyReached, adminEventLogKey,
                 "The right admin event log was not created the first time.");
 
@@ -552,7 +558,9 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             string adminAlertKey = string.Empty;
             AdminEventLogKey? adminEventLogKey = null;
-            SetupContainerWithMockAdminAlertService(containerUnderTest, (x, databaseDown) => adminAlertKey = x); // TODO_PANOS: check databaseDown
+            bool? databaseDownFlagUsed = null;
+            SetupContainerWithMockAdminAlertService(containerUnderTest, (x, databaseDown) => 
+                { adminAlertKey = x; databaseDownFlagUsed = databaseDown; });
             SetupContainerWithMockAdminEventLogService(containerUnderTest, (x, info) => adminEventLogKey = x);
 
             var serviceUnderTest = containerUnderTest.Get<IAntiAbuseService>();
@@ -582,6 +590,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.IsNotNull(adminAlertKey, "The AdminAlertService was not called.");
             Assert.AreEqual(AdminAlertKey.CreateTenancyDetailsSubmissionGlobalMaxFrequencyReached, adminAlertKey,
                 "The right admin alert was not send the second time.");
+            Assert.AreEqual(false, databaseDownFlagUsed, "DatabaseDown parameter is not the expected when sending the alert.");
             Assert.IsNotNull(adminEventLogKey, "The AdminEventLogService was not called.");
             Assert.AreEqual(AdminEventLogKey.CreateTenancyDetailsSubmissionGlobalMaxFrequencyReached, adminEventLogKey,
                 "The right admin event log key was not used the second time.");
@@ -610,7 +619,9 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             string adminAlertKey = string.Empty;
             AdminEventLogKey? adminEventLogKey = null;
-            SetupContainerWithMockAdminAlertService(containerUnderTest, (x, databaseDown) => adminAlertKey = x); // TODO_PANOS: check databaseDown
+            bool? databaseDownFlagUsed = null;
+            SetupContainerWithMockAdminAlertService(containerUnderTest, (x, databaseDown) => 
+                { adminAlertKey = x; databaseDownFlagUsed = databaseDown; });
             SetupContainerWithMockAdminEventLogService(containerUnderTest, (x, info) => adminEventLogKey = x);
 
             var serviceUnderTest = containerUnderTest.Get<IAntiAbuseService>();
@@ -630,6 +641,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 firstResponse.RejectionReason, "The rejection reason is not the expected.");
             Assert.AreEqual(AdminAlertKey.CreateTenancyDetailsSubmissionGlobalMaxFrequencyReached, adminAlertKey,
                 "The right admin alert was not send the first time.");
+            Assert.AreEqual(false, databaseDownFlagUsed, "DatabaseDown parameter is not the expected when sending the alert.");
             Assert.AreEqual(AdminEventLogKey.CreateTenancyDetailsSubmissionGlobalMaxFrequencyReached, adminEventLogKey,
                 "The right admin event log was not created the first time.");
 
@@ -871,7 +883,9 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             string adminAlertKey = string.Empty;
             AdminEventLogKey? adminEventLogKey = null;
-            SetupContainerWithMockAdminAlertService(containerUnderTest, (x, databaseDown) => adminAlertKey = x); // TODO_PANOS: check databaseDown
+            bool? databaseDownFlagUsed = null;
+            SetupContainerWithMockAdminAlertService(containerUnderTest, (x, databaseDown) => 
+                { adminAlertKey = x; databaseDownFlagUsed = databaseDown; });
             SetupContainerWithMockAdminEventLogService(containerUnderTest, (x, info) => adminEventLogKey = x);
 
             SetupContainerForCanPickOutgoingVerificationWithoutGeoipCheck(containerUnderTest,
@@ -904,6 +918,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.IsNotNull(adminAlertKey, "The AdminAlertService was not called.");
             Assert.AreEqual(AdminAlertKey.PickOutgoingVerificationGlobalMaxFrequencyReached, adminAlertKey,
                 "The right admin alert was not send the second time.");
+            Assert.AreEqual(false, databaseDownFlagUsed, "DatabaseDown parameter is not the expected when sending the alert.");
             Assert.IsNotNull(adminEventLogKey, "The AdminEventLogService was not called.");
             Assert.AreEqual(AdminEventLogKey.PickOutgoingVerificationGlobalMaxFrequencyReached, adminEventLogKey,
                 "The right admin event log key was not used the second time.");
@@ -929,7 +944,9 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             string adminAlertKey = string.Empty;
             AdminEventLogKey? adminEventLogKey = null;
-            SetupContainerWithMockAdminAlertService(containerUnderTest, (x, databaseDown) => adminAlertKey = x); // TODO_PANOS: check databaseDown
+            bool? databaseDownFlagUsed = null;
+            SetupContainerWithMockAdminAlertService(containerUnderTest, (x, databaseDown) => 
+                { adminAlertKey = x; databaseDownFlagUsed = databaseDown; });
             SetupContainerWithMockAdminEventLogService(containerUnderTest, (x, info) => adminEventLogKey = x);
 
             SetupContainerForCanPickOutgoingVerificationWithoutGeoipCheck(containerUnderTest,
@@ -953,6 +970,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 firstResponse.RejectionReason, "The rejection reason is not the expected.");
             Assert.AreEqual(AdminAlertKey.PickOutgoingVerificationGlobalMaxFrequencyReached, adminAlertKey,
                 "The right admin alert was not send the first time.");
+            Assert.AreEqual(false, databaseDownFlagUsed, "DatabaseDown parameter is not the expected when sending the alert.");
             Assert.AreEqual(AdminEventLogKey.PickOutgoingVerificationGlobalMaxFrequencyReached, adminEventLogKey,
                 "The right admin event log was not created the first time.");
 
@@ -1273,7 +1291,9 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             string adminAlertKey = string.Empty;
             AdminEventLogKey? adminEventLogKey = null;
-            SetupContainerWithMockAdminAlertService(containerUnderTest, (x, databaseDown) => adminAlertKey = x); // TODO_PANOS: check databaseDown
+            bool? databaseDownFlagUsed = null;
+            SetupContainerWithMockAdminAlertService(containerUnderTest, (x, databaseDown) => 
+                { adminAlertKey = x; databaseDownFlagUsed = databaseDown; });
             SetupContainerWithMockAdminEventLogService(containerUnderTest, (x, info) => adminEventLogKey = x);
 
             var serviceUnderTest = containerUnderTest.Get<IAntiAbuseService>();
@@ -1298,6 +1318,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.IsNotNull(adminAlertKey, "The AdminAlertService was not called.");
             Assert.AreEqual(AdminAlertKey.RegistrationGlobalMaxFrequencyReached, adminAlertKey,
                 "The right admin alert was not send the second time.");
+            Assert.AreEqual(false, databaseDownFlagUsed, "DatabaseDown parameter is not the expected when sending the alert.");
             Assert.IsNotNull(adminEventLogKey, "The AdminEventLogService was not called.");
             Assert.AreEqual(AdminEventLogKey.RegistrationGlobalMaxFrequencyReached, adminEventLogKey,
                 "The right admin event log key was not used the second time.");
@@ -1319,7 +1340,9 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             string adminAlertKey = string.Empty;
             AdminEventLogKey? adminEventLogKey = null;
-            SetupContainerWithMockAdminAlertService(containerUnderTest, (x, databaseDown) => adminAlertKey = x); // TODO_PANOS: check databaseDown
+            bool? databaseDownFlagUsed = null;
+            SetupContainerWithMockAdminAlertService(containerUnderTest, (x, databaseDown) =>
+                { adminAlertKey = x; databaseDownFlagUsed = databaseDown; } );
             SetupContainerWithMockAdminEventLogService(containerUnderTest, (x, info) => adminEventLogKey = x);
 
             var serviceUnderTest = containerUnderTest.Get<IAntiAbuseService>();
@@ -1334,6 +1357,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 firstResponse.RejectionReason, "The rejection reason is not the expected.");
             Assert.AreEqual(AdminAlertKey.RegistrationGlobalMaxFrequencyReached, adminAlertKey,
                 "The right admin alert was not send the first time.");
+            Assert.AreEqual(false, databaseDownFlagUsed, "DatabaseDown parameter is not the expected when sending the alert.");
             Assert.AreEqual(AdminEventLogKey.RegistrationGlobalMaxFrequencyReached, adminEventLogKey,
                 "The right admin event log was not created the first time.");
 
