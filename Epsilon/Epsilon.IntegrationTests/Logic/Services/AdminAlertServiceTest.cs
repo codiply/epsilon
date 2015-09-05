@@ -30,7 +30,8 @@ namespace Epsilon.IntegrationTests.Logic.Services
             SetupConfig(container, applicationName, emailList, snoozePeriod);
 
             MailMessage mailMessage = null;
-            SetupSmtpService(container, (x, allowThrow) => mailMessage = x); // TODO_TEST_PANOS: check allowThrow
+            bool? allowThrowFlagUsed = null;
+            SetupSmtpService(container, (x, allowThrow) => { mailMessage = x; allowThrowFlagUsed = allowThrow; });
 
             var service = container.Get<IAdminAlertService>();
 
@@ -46,6 +47,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 "The field SentOn on the AdminAlert has unexpected value.");
 
             Assert.IsNotNull(mailMessage, "A MailMessage was not sent using the SmtpService.");
+            Assert.AreEqual(true, allowThrowFlagUsed, "AllowThrow flag when calling the SmtpService is not the expected.");
             Assert.IsTrue(mailMessage.Subject.Contains(applicationName) && mailMessage.Body.Contains(applicationName),
                 "The mail message subject and body should contain the application name.");
             Assert.IsTrue(mailMessage.Subject.Contains(adminAlertKey) && mailMessage.Body.Contains(adminAlertKey),
@@ -86,7 +88,8 @@ namespace Epsilon.IntegrationTests.Logic.Services
             SetupConfig(container, applicationName, emailList, snoozePeriod);
 
             MailMessage mailMessage1 = null;
-            SetupSmtpService(container, (x, allowThrow) => mailMessage1 = x); // TODO_TEST_PANOS: check allowThrow
+            bool? allowThrowFlagUsed1 = null;
+            SetupSmtpService(container, (x, allowThrow) => { mailMessage1 = x; allowThrowFlagUsed1 = allowThrow; }); 
             var service1 = container.Get<IAdminAlertService>();
 
             var time1 = DateTimeOffset.Now;
@@ -96,7 +99,8 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var time2 = DateTimeOffset.Now;
 
             MailMessage mailMessage2 = null;
-            SetupSmtpService(container, (x, allowThrow) => mailMessage2 = x); // TODO_TEST_PANOS: check allowThrow
+            bool? allowThrowFlagUsed2 = null;
+            SetupSmtpService(container, (x, allowThrow) => { mailMessage2 = x; allowThrowFlagUsed2 = allowThrow; });
             var service2 = container.Get<IAdminAlertService>();
 
             service2.SendAlert(adminAlertKey);
@@ -106,7 +110,8 @@ namespace Epsilon.IntegrationTests.Logic.Services
             await Task.Delay(snoozePeriod);
 
             MailMessage mailMessage3 = null;
-            SetupSmtpService(container, (x, allowThrow) => mailMessage3 = x); // TODO_TEST_PANOS: check allowThrow
+            bool? allowThrowFlagUsed3 = null;
+            SetupSmtpService(container, (x, allowThrow) => { mailMessage3 = x; allowThrowFlagUsed3 = allowThrow; }); 
             var service3 = container.Get<IAdminAlertService>();
 
             service3.SendAlert(adminAlertKey);
@@ -122,10 +127,13 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
             Assert.IsNotNull(retrievedAdminAlert1, "An AdminAlert record should be recorded the first time.");
             Assert.IsNotNull(mailMessage1, "An email should be sent the first time.");
+            Assert.AreEqual(true, allowThrowFlagUsed1, "AllowThrow flag when calling the SmtpService the first time is not the expected.");
             Assert.IsNull(retrievedAdminAlert2, "An AdminAlert record should not be recorded the second time.");
             Assert.IsNull(mailMessage2, "An email should be sent the second time.");
+            Assert.IsNull(allowThrowFlagUsed2, "AllowThrow flag when calling the SmtpService the second time is not the expected.");
             Assert.IsNotNull(retrievedAdminAlert3, "An AdminAlert record should be recorded the third time.");
             Assert.IsNotNull(mailMessage3, "An email should be sent the third time.");
+            Assert.AreEqual(true, allowThrowFlagUsed3, "AllowThrow flag when calling the SmtpService the third time is not the expected.");
         }
 
         [Test]
@@ -144,7 +152,8 @@ namespace Epsilon.IntegrationTests.Logic.Services
             SetupConfig(container, applicationName, emailList, snoozePeriod);
 
             MailMessage mailMessage = null;
-            SetupSmtpService(container, (x, allowThrow) => mailMessage = x); // TODO_TEST_PANOS: check allowThrow
+            bool? allowThrowFlagUsed = null;
+            SetupSmtpService(container, (x, allowThrow) => { mailMessage = x; allowThrowFlagUsed = allowThrow; });
 
             var service = container.Get<IAdminAlertService>();
 
@@ -157,6 +166,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.IsNull(retrievedAdminAlert, "An admin alert shouldn't be recorded in the database.");
 
             Assert.IsNotNull(mailMessage, "A MailMessage was not sent using the SmtpService.");
+            Assert.AreEqual(true, allowThrowFlagUsed, "AllowThrow flag when calling the SmtpService is not the expected.");
             Assert.IsTrue(mailMessage.Subject.Contains(applicationName) && mailMessage.Body.Contains(applicationName),
                 "The mail message subject and body should contain the application name.");
             Assert.IsTrue(mailMessage.Subject.Contains(adminAlertKey) && mailMessage.Body.Contains(adminAlertKey),
@@ -270,7 +280,8 @@ namespace Epsilon.IntegrationTests.Logic.Services
             SetupConfig(container, applicationName, emailList, snoozePeriod);
 
             MailMessage mailMessage = null;
-            SetupSmtpService(container, (x, allowThrow) => mailMessage = x); // TODO_TEST_PANOS: check allowThrow
+            bool? allowThrowFlagUsed = null;
+            SetupSmtpService(container, (x, allowThrow) => { mailMessage = x; allowThrowFlagUsed = allowThrow; });
 
             var service = container.Get<IAdminAlertService>();
 
@@ -283,6 +294,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.IsNull(retrievedAdminAlert, "An admin alert shouldn't be recorded in the database.");
 
             Assert.IsNotNull(mailMessage, "A MailMessage was not sent using the SmtpService.");
+            Assert.AreEqual(true, allowThrowFlagUsed, "AllowThrow flag when calling the SmtpService is not the expected.");
             Assert.IsTrue(mailMessage.Subject.Contains(applicationName) && mailMessage.Body.Contains(applicationName),
                 "The mail message subject and body should contain the application name.");
             Assert.IsTrue(mailMessage.Subject.Contains(adminAlertKey) && mailMessage.Body.Contains(adminAlertKey),
