@@ -12,7 +12,7 @@ namespace Epsilon.IntegrationTests.TestHelpers
     public static class AddressHelper
     {
         public static async Task<Address> CreateRandomAddressAndSave(
-            IRandomWrapper random, IKernel container, string userId, string userIpAddress, CountryId countryId)
+            IRandomWrapper random, IKernel container, string userId, string userIpAddress, CountryId countryId, string distinctAddressCode = null)
         {
             var randomFieldLength = 10;
             var stringCountryId = EnumsHelper.CountryId.ToString(countryId);
@@ -51,7 +51,8 @@ namespace Epsilon.IntegrationTests.TestHelpers
                 CreatedById = userId,
                 CreatedByIpAddress = userIpAddress,
                 PostcodeGeometry = postcodeGeometry,
-                Geometry = geometry
+                Geometry = geometry,
+                DistinctAddressCode = distinctAddressCode
             };
             var dbContext = container.Get<IEpsilonContext>();
             dbContext.Addresses.Add(address);

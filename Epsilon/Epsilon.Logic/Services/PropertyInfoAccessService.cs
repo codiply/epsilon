@@ -290,6 +290,7 @@ namespace Epsilon.Logic.Services
                 .Include(a => a.TenancyDetailsSubmissions)
                 .Where(a => duplicateAddressIds.Contains(a.Id))
                 .Where(a => a.TenancyDetailsSubmissions.Any(s => s.SubmittedOn.HasValue))
+                .OrderBy(x => x.CreatedOn)
                 .ToListAsync();
             return duplicateProperties;
         }

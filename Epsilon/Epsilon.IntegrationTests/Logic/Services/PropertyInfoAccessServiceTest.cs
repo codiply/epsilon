@@ -399,7 +399,6 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 "The number of complete submissions on the MainProperty is not the expected.");
             Assert.IsEmpty(getInfo.PropertyInfo.DuplicateProperties, "PropertyInfo.DuplicatProperties should be null.");
 
-
             for (var i = 0; i < submissionsToCreate; i++)
             {
                 var submissionId = submissionsOrdered[i].Id;
@@ -495,7 +494,173 @@ namespace Epsilon.IntegrationTests.Logic.Services
         [Test]
         public async Task GetInfo_WithDuplicateAddresses()
         {
-            // TODO_PANOS
+            var expiryPeriod = TimeSpan.FromDays(1);
+            var expiryPeriodInDays = expiryPeriod.TotalDays;
+            var submissionsToCreate = 3;
+            var distinctAddressCode = "distinct-address-code";
+
+            var helperContainer = CreateContainer();
+            var ipAddress = "1.2.3.4";
+            var user = await CreateUser(helperContainer, "test@test.com", ipAddress);
+            var otherUserIpAddress = "1.2.3.5";
+            var otherUser = await CreateUser(helperContainer, "test1@test.com", otherUserIpAddress);
+
+            var random = new RandomWrapper(2015);
+
+            var address = await AddressHelper.CreateRandomAddressAndSave(
+                random, helperContainer, otherUser.Id, otherUserIpAddress, CountryId.GB, distinctAddressCode: distinctAddressCode);
+            var submissions = await CreateSubmissionsAndSave(random, helperContainer, address.Id, otherUser.Id, otherUserIpAddress, submissionsToCreate);
+            Assert.IsNotEmpty(submissions, "Submissions were not created.");
+
+            var duplicateAddress1 = await AddressHelper.CreateRandomAddressAndSave(
+                random, helperContainer, otherUser.Id, otherUserIpAddress, CountryId.GB, distinctAddressCode: distinctAddressCode);
+            var submissionsDuplicateAddress1 = await CreateSubmissionsAndSave(
+                random, helperContainer, duplicateAddress1.Id, otherUser.Id, otherUserIpAddress, submissionsToCreate);
+            Assert.IsNotEmpty(submissions, "Submissions for duplicateAddress1 were not created.");
+
+            var duplicateAddress2 = await AddressHelper.CreateRandomAddressAndSave(
+                random, helperContainer, otherUser.Id, otherUserIpAddress, CountryId.GB, distinctAddressCode: distinctAddressCode);
+            var submissionsDuplicateAddress2 = await CreateSubmissionsAndSave(
+                random, helperContainer, duplicateAddress2.Id, otherUser.Id, otherUserIpAddress, submissionsToCreate);
+            Assert.IsNotEmpty(submissions, "Submissions for duplicateAddress2 were not created.");
+
+            var submissionsOrdered = submissions.OrderByDescending(x => x.SubmittedOn).ToList();
+            var submissionsDuplicateAddress1Ordered = submissionsDuplicateAddress1.OrderByDescending(x => x.SubmittedOn).ToList();
+            var submissionsDuplicateAddress2Ordered = submissionsDuplicateAddress2.OrderByDescending(x => x.SubmittedOn).ToList();
+
+            var containerUnderTest = CreateContainer();
+            SetupConfig(containerUnderTest, expiryPeriodInDays: expiryPeriodInDays);
+            var serviceUnderTest = containerUnderTest.Get<IPropertyInfoAccessService>();
+
+            var tokenRewardService = helperContainer.Get<ITokenRewardService>();
+
+            var propertyInfoAccessCost =
+                tokenRewardService.GetCurrentReward(TokenRewardKey.SpendPerPropertyInfoAccess).AbsValue;
+            var tenancyDetailsSubmissionReward =
+                tokenRewardService.GetCurrentReward(TokenRewardKey.EarnPerTenancyDetailsSubmission).AbsValue;
+
+            Assert.That(tenancyDetailsSubmissionReward, Is.GreaterThanOrEqualTo(propertyInfoAccessCost),
+                "This test assumes that by making a transaction for submitting tenancy details it will create enough funds to buy a property info access.");
+
+            var userTokenService = helperContainer.Get<IUserTokenService>();
+            // I add funds to spend later on.
+            var tenancyDetailsSubmissionTransactionStatus = await userTokenService.MakeTransaction(user.Id, TokenRewardKey.EarnPerTenancyDetailsSubmission);
+            Assert.AreEqual(TokenAccountTransactionStatus.Success, tenancyDetailsSubmissionTransactionStatus, "Adding funds failed.");
+
+            // I create the property info access
+            var accessUniqueId = Guid.NewGuid();
+            var helperService = helperContainer.Get<IPropertyInfoAccessService>();
+            var createOutcome = await helperService.Create(user.Id, ipAddress, accessUniqueId, address.UniqueId);
+            Assert.IsFalse(createOutcome.IsRejected, "Property info access was not created.");
+
+            var getInfo = await serviceUnderTest.GetInfo(user.Id, accessUniqueId);
+            Assert.IsFalse(getInfo.IsRejected,
+                "IsRejected field when trying to get the info with the right user is not the expected.");
+            Assert.IsNullOrEmpty(getInfo.RejectionReason,
+                "RejectionReason field when trying to get the info with the right user is not the expected.");
+            Assert.IsNotNull(getInfo.PropertyInfo,
+                "PropertyInfo field when trying to get the info with the right user should not be null");
+
+            var retrievedAddress = await DbProbe.Addresses.Include(x => x.Country).SingleAsync(x => x.Id.Equals(address.Id));
+            var retrievedDuplicateAddress1 = await DbProbe.Addresses
+                .Include(x => x.Country).SingleAsync(x => x.Id.Equals(duplicateAddress1.Id));
+            var retrievedDuplicateAddress2 = await DbProbe.Addresses
+                .Include(x => x.Country).SingleAsync(x => x.Id.Equals(duplicateAddress2.Id));
+
+            Assert.IsNotNull(getInfo.PropertyInfo.MainProperty, "PropertyInfo.MainProperty should not be null.");
+            Assert.AreEqual(retrievedAddress.FullAddress(), getInfo.PropertyInfo.MainProperty.DisplayAddress,
+                "PropertyInfo.MainProperty.DisplayAddress is not the expected.");
+            Assert.AreEqual(submissionsToCreate, getInfo.PropertyInfo.MainProperty.CompleteSubmissions.Count,
+                "The number of complete submissions on the MainProperty is not the expected.");
+            Assert.AreEqual(2, getInfo.PropertyInfo.DuplicateProperties.Count, 
+                "The number of duplicate properties is not the expected.");
+
+            for (var i = 0; i < submissionsToCreate; i++)
+            {
+                var submissionId = submissionsOrdered[i].Id;
+                var expected = await DbProbe.TenancyDetailsSubmissions
+                    .Include(x => x.Currency).SingleOrDefaultAsync(x => x.Id.Equals(submissionId));
+                var actual = getInfo.PropertyInfo.MainProperty.CompleteSubmissions[i];
+
+                Assert.AreEqual(expected.RentPerMonth, actual.RentPerMonth,
+                    string.Format("RentPerMonth is not the expected for main property submission and i equal to '{0}'", i));
+                Assert.AreEqual(expected.Currency.Symbol, actual.CurrencySymbol,
+                    string.Format("CurrencySymbol is not the expected for main property submission and i equal to '{0}'", i));
+                Assert.AreEqual(expected.NumberOfBedrooms, actual.NumberOfBedrooms,
+                    string.Format("NumberOfBedrooms is not the expected for main property submission and i equal to '{0}'", i));
+                Assert.AreEqual(expected.IsFurnished, actual.IsFurnished,
+                    string.Format("IsFurnished is not the expected for main property submission and i equal to '{0}'", i));
+                Assert.AreEqual(expected.IsPartOfProperty, actual.IsPartOfProperty,
+                    string.Format("IsPartOfProperty is not the expected for main property submission and i equal to '{0}'", i));
+                Assert.AreEqual(expected.SubmittedOn, actual.SubmittedOn,
+                    string.Format("SubmittedOn is not the expected for main property submission and i equal to '{0}'", i));
+                Assert.AreEqual(expected.LandlordRating, actual.LandlordRating,
+                    string.Format("LandlordRating is not the expected for main property submission and i equal to '{0}'", i));
+                Assert.AreEqual(expected.NeighboursRating, actual.NeighboursRating,
+                    string.Format("NeighboursRating is not the expected for main property submission and i equal to '{0}'", i));
+                Assert.AreEqual(expected.PropertyConditionRating, actual.PropertyConditionRating,
+                    string.Format("PropertyConditionRating is not the expected for main property submission and i equal to '{0}'", i));
+            }
+
+            var duplicateProperties = new List<Address> { duplicateAddress1, duplicateAddress2 }.OrderBy(x => x.CreatedOn).ToList();
+
+            // Duplicate property 1
+            var duplicateProperty1 = getInfo.PropertyInfo.DuplicateProperties[0];
+            for (var i = 0; i < submissionsToCreate; i++)
+            {
+                var submissionId = submissionsDuplicateAddress1Ordered[i].Id;
+                var expected = await DbProbe.TenancyDetailsSubmissions
+                    .Include(x => x.Currency).SingleOrDefaultAsync(x => x.Id.Equals(submissionId));
+                var actual = duplicateProperty1.CompleteSubmissions[i];
+
+                Assert.AreEqual(expected.RentPerMonth, actual.RentPerMonth,
+                    string.Format("RentPerMonth is not the expected for main property submission and i equal to '{0}'", i));
+                Assert.AreEqual(expected.Currency.Symbol, actual.CurrencySymbol,
+                    string.Format("CurrencySymbol is not the expected for main property submission and i equal to '{0}'", i));
+                Assert.AreEqual(expected.NumberOfBedrooms, actual.NumberOfBedrooms,
+                    string.Format("NumberOfBedrooms is not the expected for main property submission and i equal to '{0}'", i));
+                Assert.AreEqual(expected.IsFurnished, actual.IsFurnished,
+                    string.Format("IsFurnished is not the expected for main property submission and i equal to '{0}'", i));
+                Assert.AreEqual(expected.IsPartOfProperty, actual.IsPartOfProperty,
+                    string.Format("IsPartOfProperty is not the expected for main property submission and i equal to '{0}'", i));
+                Assert.AreEqual(expected.SubmittedOn, actual.SubmittedOn,
+                    string.Format("SubmittedOn is not the expected for main property submission and i equal to '{0}'", i));
+                Assert.AreEqual(expected.LandlordRating, actual.LandlordRating,
+                    string.Format("LandlordRating is not the expected for main property submission and i equal to '{0}'", i));
+                Assert.AreEqual(expected.NeighboursRating, actual.NeighboursRating,
+                    string.Format("NeighboursRating is not the expected for main property submission and i equal to '{0}'", i));
+                Assert.AreEqual(expected.PropertyConditionRating, actual.PropertyConditionRating,
+                    string.Format("PropertyConditionRating is not the expected for main property submission and i equal to '{0}'", i));
+            }
+
+            // Duplicate property 2
+            var duplicateProperty2 = getInfo.PropertyInfo.DuplicateProperties[1];
+            for (var i = 0; i < submissionsToCreate; i++)
+            {
+                var submissionId = submissionsDuplicateAddress2Ordered[i].Id;
+                var expected = await DbProbe.TenancyDetailsSubmissions
+                    .Include(x => x.Currency).SingleOrDefaultAsync(x => x.Id.Equals(submissionId));
+                var actual = duplicateProperty2.CompleteSubmissions[i];
+
+                Assert.AreEqual(expected.RentPerMonth, actual.RentPerMonth,
+                    string.Format("RentPerMonth is not the expected for main property submission and i equal to '{0}'", i));
+                Assert.AreEqual(expected.Currency.Symbol, actual.CurrencySymbol,
+                    string.Format("CurrencySymbol is not the expected for main property submission and i equal to '{0}'", i));
+                Assert.AreEqual(expected.NumberOfBedrooms, actual.NumberOfBedrooms,
+                    string.Format("NumberOfBedrooms is not the expected for main property submission and i equal to '{0}'", i));
+                Assert.AreEqual(expected.IsFurnished, actual.IsFurnished,
+                    string.Format("IsFurnished is not the expected for main property submission and i equal to '{0}'", i));
+                Assert.AreEqual(expected.IsPartOfProperty, actual.IsPartOfProperty,
+                    string.Format("IsPartOfProperty is not the expected for main property submission and i equal to '{0}'", i));
+                Assert.AreEqual(expected.SubmittedOn, actual.SubmittedOn,
+                    string.Format("SubmittedOn is not the expected for main property submission and i equal to '{0}'", i));
+                Assert.AreEqual(expected.LandlordRating, actual.LandlordRating,
+                    string.Format("LandlordRating is not the expected for main property submission and i equal to '{0}'", i));
+                Assert.AreEqual(expected.NeighboursRating, actual.NeighboursRating,
+                    string.Format("NeighboursRating is not the expected for main property submission and i equal to '{0}'", i));
+                Assert.AreEqual(expected.PropertyConditionRating, actual.PropertyConditionRating,
+                    string.Format("PropertyConditionRating is not the expected for main property submission and i equal to '{0}'", i));
+            }
         }
 
         #endregion
