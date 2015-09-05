@@ -347,6 +347,11 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var incompleteSubmissions = await CreateIncompleteSubmissionsAndSave(random, helperContainer, address.Id, otherUser.Id, otherUserIpAddress, submissionsToCreate);
             Assert.IsNotEmpty(submissions, "Incomplete submissions were not created.");
 
+            var hiddenSubmissions = await CreateSubmissionsAndSave(
+                random, helperContainer, address.Id, otherUser.Id, otherUserIpAddress, submissionsToCreate, submissionsAreHidden: true);
+            Assert.IsNotEmpty(submissions, "Hidden submissions were not created.");
+
+
             var submissionsOrdered = submissions.OrderByDescending(x => x.SubmittedOn).ToList();
 
             var containerUnderTest = CreateContainer();
@@ -1168,7 +1173,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
         private static async Task<IList<TenancyDetailsSubmission>> CreateSubmissionsAndSave(
             IRandomWrapper random, IKernel container, long addressId,
-            string userId, string userIpAddress, int numberOfSubmissions = 1,
+            string userId, string userIpAddress, int numberOfSubmissions = 1, bool submissionsAreHidden = false, 
             CountryId countryId = CountryId.GB, CurrencyId currencyId = CurrencyId.GBP)
         {
             var clock = container.Get<IClock>();
@@ -1193,7 +1198,8 @@ namespace Epsilon.IntegrationTests.Logic.Services
                     PropertyConditionRating = (byte)random.Next(1, 6),
                     NeighboursRating = (byte)random.Next(1, 6),
                     CurrencyId = EnumsHelper.CurrencyId.ToString(currencyId),
-                    SubmittedOn = clock.OffsetNow
+                    SubmittedOn = clock.OffsetNow,
+                    IsHidden = submissionsAreHidden
                 };
                 dbContext.TenancyDetailsSubmissions.Add(tenancyDetailsSubmission);
                 submissions.Add(tenancyDetailsSubmission);
