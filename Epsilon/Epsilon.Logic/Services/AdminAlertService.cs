@@ -116,7 +116,7 @@ namespace Epsilon.Logic.Services
         private void RecordAlertSent(string key, bool doNotUseDatabase)
         {
             var value = _appCache.Get(AppCacheKey.AdminAlertSent(key),
-                () => "value-is-irrelevant", _adminAlertServiceConfig.SnoozePeriod, WithLock.No);
+                () => "value-is-irrelevant", _adminAlertServiceConfig.SnoozePeriod, WithLock.Yes);
 
             if (doNotUseDatabase == false)
             {
