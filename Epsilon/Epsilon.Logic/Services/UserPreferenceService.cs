@@ -89,8 +89,8 @@ namespace Epsilon.Logic.Services
                 };
             }
 
-            userPreference.LanguageId = form.LanguageId; // TODO_TEST_PANOS
-            userPreference.UpdatedOn = _clock.OffsetNow; // TODO_TEST_PANOS
+            userPreference.LanguageId = form.LanguageId;
+            userPreference.UpdatedOn = _clock.OffsetNow;
             _dbContext.Entry(userPreference).State = EntityState.Modified;
             var result = await _dbContext.SaveChangesAsync();
 
