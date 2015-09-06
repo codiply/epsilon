@@ -351,7 +351,6 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 random, helperContainer, address.Id, otherUser.Id, otherUserIpAddress, submissionsToCreate, submissionsAreHidden: true);
             Assert.IsNotEmpty(submissions, "Hidden submissions were not created.");
 
-
             var submissionsOrdered = submissions.OrderByDescending(x => x.SubmittedOn).ToList();
 
             var containerUnderTest = CreateContainer();
@@ -528,6 +527,18 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var submissionsDuplicateAddress2 = await CreateSubmissionsAndSave(
                 random, helperContainer, duplicateAddress2.Id, otherUser.Id, otherUserIpAddress, submissionsToCreate);
             Assert.IsNotEmpty(submissions, "Submissions for duplicateAddress2 were not created.");
+
+            // I test that duplicate address without submissions does not show up in the property info.
+            var duplicateAddressNoSubmissions = await AddressHelper.CreateRandomAddressAndSave(
+                random, helperContainer, otherUser.Id, otherUserIpAddress, CountryId.GB, distinctAddressCode: distinctAddressCode);
+            Assert.IsNotNull(duplicateAddressNoSubmissions, "Duplicate address without submissions was not created.");
+
+            // I test that hidden address without submissions does not show up in the property info.
+            var hiddenAddress = await AddressHelper.CreateRandomAddressAndSave(
+                random, helperContainer, otherUser.Id, otherUserIpAddress, CountryId.GB, distinctAddressCode: distinctAddressCode, isHidden:true);
+            var submissionsHiddenAddress = await CreateSubmissionsAndSave(
+                random, helperContainer, hiddenAddress.Id, otherUser.Id, otherUserIpAddress, submissionsToCreate);
+            Assert.IsNotEmpty(submissionsHiddenAddress, "Submissions for hiddenAddress were not created.");
 
             var submissionsOrdered = submissions.OrderByDescending(x => x.SubmittedOn).ToList();
             var submissionsDuplicateAddress1Ordered = submissionsDuplicateAddress1.OrderByDescending(x => x.SubmittedOn).ToList();
