@@ -1,11 +1,11 @@
-﻿using System.Threading.Tasks;
+﻿using Epsilon.Logic.Constants.Enums;
+using System.Threading.Tasks;
 
 namespace Epsilon.Logic.Services.Interfaces
 {
     public interface IIpAddressActivityService
     {
-        Task RecordRegistration(string email, string ipAddress);
-
-        Task RecordLogin(string email, string ipAddress);
+        Task RecordWithUserId(string userId, IpAddressActivityType activityType, string ipAddress);
+        Task RecordWithUserEmail(string email, IpAddressActivityType activityType, string ipAddress);
     }
 }

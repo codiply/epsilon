@@ -2,7 +2,8 @@
 {
     public enum IpAddressActivityType
     {
+        EmailConfirmation,
         Registration,
-        Login
+        Login,
     }
 }

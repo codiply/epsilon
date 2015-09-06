@@ -1,4 +1,5 @@
 ﻿using Epsilon.Logic.Constants;
+using Epsilon.Logic.Constants.Enums;
 using Epsilon.Logic.Entities;
 using Epsilon.Logic.Helpers.Interfaces;
 using Epsilon.Logic.Services.Interfaces;
@@ -72,7 +73,7 @@ namespace Epsilon.Web.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    await _ipAddressActivityService.RecordLogin(model.Email, GetUserIpAddress());
+                    await _ipAddressActivityService.RecordWithUserEmail(model.Email, IpAddressActivityType.Login, GetUserIpAddress());
                     await _userAccountMaintenanceService.DoMaintenance(model.Email);
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
@@ -195,6 +196,11 @@ namespace Epsilon.Web.Controllers
                 return View("Error");
             }
             var result = await _userManager.ConfirmEmailAsync(userId, code);
+            if (result.Succeeded)
+            {
+                await _ipAddressActivityService.RecordWithUserId(userId, IpAddressActivityType.EmailConfirmation, GetUserIpAddress());
+            }
+
             return View(result.Succeeded ? "ConfirmEmail" : "Error");
         }
 

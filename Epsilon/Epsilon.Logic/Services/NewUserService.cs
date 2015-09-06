@@ -1,4 +1,5 @@
-﻿using Epsilon.Logic.Services.Interfaces;
+﻿using Epsilon.Logic.Constants.Enums;
+using Epsilon.Logic.Services.Interfaces;
 using Epsilon.Logic.SqlContext.Interfaces;
 using System.Threading.Tasks;
 
@@ -27,7 +28,7 @@ namespace Epsilon.Logic.Services
         {
             await CreateTokenAccount(userId);
             await CreateUserPreference(userId, languageId);
-            await _ipAddressActivityService.RecordRegistration(userId, userIpAddress);
+            await _ipAddressActivityService.RecordWithUserId(userId, IpAddressActivityType.Registration, userIpAddress);
         }
 
         private async Task CreateTokenAccount(string userId)

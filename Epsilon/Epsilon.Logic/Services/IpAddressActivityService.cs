@@ -23,10 +23,10 @@ namespace Epsilon.Logic.Services
             _elmahHelper = elmahHelper;
         }
 
-        public async Task RecordRegistration(string userId, string ipAddress)
+        public async Task RecordWithUserId(string userId, IpAddressActivityType activityType, string ipAddress)
         {
             try {
-                await RecordActivity(userId, IpAddressActivityType.Registration, ipAddress);
+                await RecordActivity(userId, activityType, ipAddress);
             }
             catch (Exception ex)
             {
@@ -34,12 +34,12 @@ namespace Epsilon.Logic.Services
             }
         }
 
-        public async Task RecordLogin(string email, string ipAddress)
+        public async Task RecordWithUserEmail(string email, IpAddressActivityType activityType, string ipAddress)
         {
             try
             {
                 var user = await _dbContext.Users.SingleAsync(u => u.Email.Equals(email));
-                await RecordActivity(user.Id, IpAddressActivityType.Login, ipAddress);
+                await RecordActivity(user.Id, activityType, ipAddress);
             }
             catch (Exception ex)
             {

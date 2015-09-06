@@ -11,9 +11,10 @@ namespace Epsilon.IntegrationTests.Logic.Services
     public class IpAddressActivityService : BaseIntegrationTestWithRollback
     {
         [Test]
-        public async Task RecordRegistrationTest()
+        public async Task RecordWithUserEmail_Test()
         {
             var email = "test@test.com";
+            var ipAddressActivityType = IpAddressActivityType.Registration;
             var ipAddress = "1.2.3.4";
 
             var container = CreateContainer();
@@ -21,19 +22,20 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var user = await CreateUser(container, email, ipAddress, false);
 
             var service = container.Get<IIpAddressActivityService>();
-            await service.RecordRegistration(user.Id, ipAddress);
+            await service.RecordWithUserEmail(user.Id, ipAddressActivityType, ipAddress);
 
             var ipAddressActivity = await DbProbe.IpAddressActivities.SingleOrDefaultAsync(x => x.UserId == user.Id);
 
             Assert.IsNotNull(ipAddressActivity, "The IpAddressActivity was not found");
-            Assert.AreEqual(IpAddressActivityType.Registration, ipAddressActivity.ActivityTypeAsEnum,
-                "The ActivityType was not Registration.");
+            Assert.AreEqual(ipAddressActivityType, ipAddressActivity.ActivityTypeAsEnum,
+                "The ActivityType was not the expected.");
         }
 
         [Test]
         public async Task RecordLoginTest()
         {
             var email = "test@test.com";
+            var ipAddressActivityType = IpAddressActivityType.Registration;
             var ipAddress = "1.2.3.4";
 
             var container = CreateContainer();
@@ -41,13 +43,13 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var user = await CreateUser(container, email, ipAddress, false);
 
             var service = container.Get<IIpAddressActivityService>();
-            await service.RecordLogin(email, ipAddress);
+            await service.RecordWithUserEmail(email, ipAddressActivityType, ipAddress);
 
             var ipAddressActivity = await DbProbe.IpAddressActivities.SingleOrDefaultAsync(x => x.UserId == user.Id);
 
             Assert.IsNotNull(ipAddressActivity, "The IpAddressActivity was not found");
-            Assert.AreEqual(IpAddressActivityType.Login, ipAddressActivity.ActivityTypeAsEnum,
-                "The ActivityType was not Login.");
+            Assert.AreEqual(ipAddressActivityType, ipAddressActivity.ActivityTypeAsEnum,
+                "The ActivityType was not the expected.");
         }
     }
 }
