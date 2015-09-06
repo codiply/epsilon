@@ -548,6 +548,72 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.IsNull(retrievedTenantVerification, "A TenantVerification should not be created.");
         }
 
+        [Test]
+        public async Task Pick_PicksFromSameCountry()
+        {
+            // TODO_PANOS
+        }
+
+        [Test]
+        public async Task Pick_DoesNotPickHiddenSubmissions()
+        {
+            // TODO_PANOS
+        }
+
+        [Test]
+        public async Task Pick_DoesNotPickSubmissionByTheSameUser()
+        {
+            // TODO_PANOS
+        }
+
+        [Test]
+        public async Task Pick_DoesNotPickSubmissionByTheSameIpAddress()
+        {
+            // TODO_PANOS
+        }
+
+        [Test]
+        public async Task Pick_DoesNotPickSubmissionForAddressByTheSameUser()
+        {
+            // TODO_PANOS
+        }
+
+        [Test]
+        public async Task Pick_DoesNotPickSubmissionForAddressByTheSameIpAddress()
+        {
+            // TODO_PANOS
+        }
+
+        [Test]
+        public async Task Pick_DoesNotPickSubmissionWithMaximumVerificationsAssigned()
+        {
+            // TODO_PANOS
+        }
+
+        [Test]
+        public async Task Pick_DoesNotPickSubmissionAlreadyAssignedToUser()
+        {
+            // TODO_PANOS
+        }
+
+        [Test]
+        public async Task Pick_DoesNotPickSubmissionAlreadyAssignedToIpAddress()
+        {
+            // TODO_PANOS
+        }
+
+        [Test]
+        public async Task Pick_DoesNotPickSubmissionWithinMinLatitude()
+        {
+            // TODO_PANOS
+        }
+
+        [Test]
+        public async Task Pick_DoesNotPickSubmissionWithinMinLongitude()
+        {
+            // TODO_PANOS
+        }
+
         #endregion
 
         #region VerificationIsAssignedToUser

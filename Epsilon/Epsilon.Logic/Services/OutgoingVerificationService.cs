@@ -160,20 +160,18 @@ namespace Epsilon.Logic.Services
             var latitudeUpperBound = userResidence.Address.Geometry.Latitude + minDegreesDistance;
             var longitudeLowerBound = userResidence.Address.Geometry.Longitude - minDegreesDistance;
             var longitudeUpperBound = userResidence.Address.Geometry.Longitude + minDegreesDistance;
-
-            // TODO_TEST_PANOS: all where clauses below
+            
             var pickedSubmission = await _dbContext.TenancyDetailsSubmissions
                 .Include(s => s.Address)
                 .Include(s => s.Address.Geometry)
                 .Include(s => s.TenantVerifications)
-                .Where(x => x.Address.CountryId.Equals(userResidence.Address.CountryId)) // TODO_TEST_PANOS
-                .Where(x => !x.IsHidden) // TODO_TEST_PANOS
+                .Where(s => s.Address.CountryId.Equals(userResidence.Address.CountryId))
+                .Where(s => !s.IsHidden)
                 .Where(s => s.UserId != userId)
                 .Where(s => s.CreatedByIpAddress != userIpAddress)
                 .Where(s => s.Address.CreatedById != userId)
                 .Where(s => s.Address.CreatedByIpAddress != userIpAddress)
                 .Where(s => s.TenantVerifications.Count() < verificationsPerTenancyDetailsSubmission)
-                .Where(s => s.Address.CountryId.Equals(userResidence.Address.CountryId))
                 .Where(s => !submissionIdsToAvoid.Contains(s.Id))
                 .Where(s => s.Address.Geometry.Latitude < latitudeLowerBound || latitudeUpperBound < s.Address.Geometry.Latitude ||
                             s.Address.Geometry.Longitude < longitudeLowerBound || longitudeUpperBound < s.Address.Geometry.Longitude)
@@ -182,7 +180,6 @@ namespace Epsilon.Logic.Services
 
             if (pickedSubmission == null)
             {
-                // TODO_TEST_PANOS
                 return new PickVerificationOutcome
                 {
                     IsRejected = true,
@@ -207,7 +204,7 @@ namespace Epsilon.Logic.Services
 
             uiAlerts.Add(new UiAlert
             {
-                Type = Constants.Enums.UiAlertType.Success,
+                Type = UiAlertType.Success,
                 // TODO_TEST_PANOS
                 Message = string.Format(
                     OutgoingVerificationResources.Pick_SuccessMessage,
