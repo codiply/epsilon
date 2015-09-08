@@ -1058,7 +1058,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 outcome.RejectionReason, "RejectionReason is not the expected.");
             Assert.IsNull(outcome.VerificationUniqueId, "VerificationUniqueId is not the expected.");
 
-            var retrievedTenantVerification = await DbProbe.TenantVerifications.SingleOrDefaultAsync(x => x.AssignedToId.Equals(user.Id));
+            var retrievedTenantVerification = await DbProbe.TenantVerifications.SingleOrDefaultAsync(x => x.UniqueId.Equals(verificationUniqueId));
             Assert.IsNull(retrievedTenantVerification, "A tenant verification should not be created.");
         }
 
