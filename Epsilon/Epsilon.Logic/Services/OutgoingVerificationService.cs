@@ -122,7 +122,6 @@ namespace Epsilon.Logic.Services
                 };
 
             var userResidenceResponse = await _userResidenceService.GetResidence(userId);
-            // TODO_PANOS_TEST
             if (userResidenceResponse.HasNoSubmissions)
             {
                 return new PickVerificationOutcome

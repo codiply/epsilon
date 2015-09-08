@@ -651,6 +651,121 @@ namespace Epsilon.IntegrationTests.Logic.Services
         }
 
         [Test]
+        public async Task Pick_NoUserResidenceBecauseNoSubmissions()
+        {
+            var minDegreesDistance = 0.001;
+            var verificationsPerTenancyDetailsSubmission = 2;
+
+            var ipAddress = "1.1.1.1";
+            
+            var addressIpAddress = "2.2.2.2";
+            var submissionIpAddress = addressIpAddress;
+            var addressCountryId = CountryId.GB;
+            var submissionLatitude = 2.00;
+            var submissionLongitude = 2.00;
+
+            var random = new RandomWrapper(2015);
+
+            var helperContainer = CreateContainer();
+            
+            var user = await CreateUser(helperContainer, "test@test.com", ipAddress);
+            var userForSubmission = await CreateUser(helperContainer, "test2@test.com", submissionIpAddress);
+
+            // This is the actual submission that can be picked up for outgoing verifcation.
+            var submission = await CreateTenancyDetailsSubmissionAndSave(
+                random, helperContainer,
+                userForSubmission.Id, addressIpAddress, // Address
+                userForSubmission.Id, submissionIpAddress, // Submission
+                addressCountryId, submissionLatitude, submissionLongitude);
+            Assert.IsNotNull(submission, "Submission was not created during setup.");
+
+            var containerUnderTest = CreateContainer();
+            SetupConfigForPick(containerUnderTest, minDegreesDistance, verificationsPerTenancyDetailsSubmission);
+            SetupAntiAbuseServiceResponseToNotRejected(containerUnderTest);
+
+            var serviceUnderTest = containerUnderTest.Get<IOutgoingVerificationService>();
+
+            var verificationUniqueId = Guid.NewGuid();
+            var outcome = await serviceUnderTest.Pick(user.Id, ipAddress, verificationUniqueId);
+
+            Assert.IsTrue(outcome.IsRejected, "IsRejected field is not the expected.");
+            Assert.AreEqual(OutgoingVerificationResources.Pick_NoVerificationAssignableToUser_RejectionMessage,
+                outcome.RejectionReason, "RejectionReason is not the expected.");
+            Assert.IsNull(outcome.VerificationUniqueId, "VerificationUniqueId is not the expected.");
+
+            var retrievedTenantVerification = await DbProbe.TenantVerifications.SingleOrDefaultAsync(x => x.AssignedToId.Equals(user.Id));
+            Assert.IsNull(retrievedTenantVerification, "A tenant verification should not be created.");
+        }
+
+        [Test]
+        public async Task Pick_Success()
+        {
+            var minDegreesDistance = 0.001;
+            var verificationsPerTenancyDetailsSubmission = 2;
+
+            var ipAddress = "1.1.1.1";
+            var userResidenceCountryId = CountryId.GB;
+            var userResidenceLatitude = 1.00;
+            var userResidenceLongitude = 1.00;
+
+            var addressIpAddress = "2.2.2.2";
+            var submissionIpAddress = addressIpAddress;
+            var addressCountryId = CountryId.GB;
+            var submissionLatitude = 2.00;
+            var submissionLongitude = 2.00;
+
+            var random = new RandomWrapper(2015);
+
+            var helperContainer = CreateContainer();
+            var clock = helperContainer.Get<IClock>();
+
+            var user = await CreateUser(helperContainer, "test@test.com", ipAddress);
+            var userForSubmission = await CreateUser(helperContainer, "test2@test.com", submissionIpAddress);
+            // I create this submission for the UserResidenceService, so that the user has a residence address.
+            var submissionForUserResidence = await CreateTenancyDetailsSubmissionAndSave(
+                random, helperContainer,
+                user.Id, ipAddress, // Address
+                user.Id, ipAddress, // Submission
+                userResidenceCountryId, userResidenceLatitude, userResidenceLongitude);
+            Assert.IsNotNull(submissionForUserResidence, "Submission for user residence was not created during the setup.");
+
+            // This is the actual submission that can be picked up for outgoing verifcation.
+            var submission = await CreateTenancyDetailsSubmissionAndSave(
+                random, helperContainer,
+                userForSubmission.Id, addressIpAddress, // Address
+                userForSubmission.Id, submissionIpAddress, // Submission
+                addressCountryId, submissionLatitude, submissionLongitude);
+            Assert.IsNotNull(submission, "Submission was not created during setup.");
+
+            var containerUnderTest = CreateContainer();
+            SetupConfigForPick(containerUnderTest, minDegreesDistance, verificationsPerTenancyDetailsSubmission);
+            SetupAntiAbuseServiceResponseToNotRejected(containerUnderTest);
+
+            var serviceUnderTest = containerUnderTest.Get<IOutgoingVerificationService>();
+
+            var timeBefore = clock.OffsetNow;
+            var verificationUniqueId = Guid.NewGuid();
+            var outcome = await serviceUnderTest.Pick(user.Id, ipAddress, verificationUniqueId);
+
+            Assert.IsFalse(outcome.IsRejected, "IsRejected field is not the expected.");
+            Assert.IsNullOrEmpty(outcome.RejectionReason, "RejectionReason is not the expected.");
+            Assert.AreEqual(verificationUniqueId, outcome.VerificationUniqueId, "VerificationUniqueId is not the expected.");
+
+            var timeAfter = clock.OffsetNow;
+
+            var retrievedTenantVerification = await DbProbe.TenantVerifications.SingleOrDefaultAsync(x => x.AssignedToId.Equals(user.Id));
+            Assert.IsNotNull(retrievedTenantVerification, "A tenant verification should be created.");
+            Assert.That(retrievedTenantVerification.CreatedOn, Is.GreaterThanOrEqualTo(timeBefore),
+                "CreatedOn on the retrieved tenant verification is not the expected.");
+            Assert.That(retrievedTenantVerification.CreatedOn, Is.LessThanOrEqualTo(timeAfter),
+                "CreatedOn on the retrieved tenant verification is not the expected.");
+            Assert.AreEqual(submission.Id, retrievedTenantVerification.TenancyDetailsSubmissionId,
+                "TenancyDetailsSubmissionId on the retrieved tenant verification is not the expected.");
+            Assert.AreEqual(ipAddress, retrievedTenantVerification.AssignedByIpAddress,
+                "AssignedByIpAddress on the retrieved tenant verification is not the expected.");
+        }
+
+        [Test]
         public async Task Pick_DoesNotPickHiddenSubmissions()
         {
             var minDegreesDistance = 0.001;
