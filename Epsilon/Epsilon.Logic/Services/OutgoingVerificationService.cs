@@ -160,8 +160,8 @@ namespace Epsilon.Logic.Services
             var latitudeUpperBound = userResidence.Address.Geometry.Latitude + minDegreesDistance;
             var longitudeLowerBound = userResidence.Address.Geometry.Longitude - minDegreesDistance;
             var longitudeUpperBound = userResidence.Address.Geometry.Longitude + minDegreesDistance;
-            
-            var pickedSubmission = await _dbContext.TenancyDetailsSubmissions
+
+            var query = _dbContext.TenancyDetailsSubmissions
                 .Include(s => s.Address)
                 .Include(s => s.Address.Geometry)
                 .Include(s => s.TenantVerifications)
@@ -175,8 +175,9 @@ namespace Epsilon.Logic.Services
                 .Where(s => !submissionIdsToAvoid.Contains(s.Id))
                 .Where(s => s.Address.Geometry.Latitude < latitudeLowerBound || latitudeUpperBound < s.Address.Geometry.Latitude ||
                             s.Address.Geometry.Longitude < longitudeLowerBound || longitudeUpperBound < s.Address.Geometry.Longitude)
-                .OrderBy(s => s.TenantVerifications.Count())
-                .FirstOrDefaultAsync();
+                .OrderBy(s => s.TenantVerifications.Count());
+                
+            var pickedSubmission = await query.FirstOrDefaultAsync();
 
             if (pickedSubmission == null)
             {

@@ -11,6 +11,7 @@ using Epsilon.Logic.Services.Interfaces.UserResidenceService;
 using Epsilon.Logic.SqlContext.Interfaces;
 using Epsilon.Logic.Wrappers;
 using Epsilon.Logic.Wrappers.Interfaces;
+using Epsilon.Resources.Logic.OutgoingVerification;
 using Moq;
 using Ninject;
 using NUnit.Framework;
@@ -26,7 +27,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
 {
     public class OutgoingVerificationServiceTest : BaseIntegrationTestWithRollback
     {
-        private TimeSpan _smallDelay = TimeSpan.FromMilliseconds(20);
+        private TimeSpan _smallDelay = TimeSpan.FromMilliseconds(30);
 
         #region GetUserOutgoingVerificationsSummary
 
@@ -549,15 +550,134 @@ namespace Epsilon.IntegrationTests.Logic.Services
         }
 
         [Test]
-        public async Task Pick_PicksFromSameCountry()
+        public async Task Pick_WhenThereAreNoSubmissions()
         {
-            // TODO_PANOS
+            var minDegreesDistance = 0.001;
+
+            var ipAddress = "1.1.1.1";
+            var userResidenceCountryId = CountryId.GB;
+            var userResidenceLatitude = 1.00;
+            var userResidenceLongitude = 1.00;
+
+            var random = new RandomWrapper(2015);
+
+            var helperContainer = CreateContainer();
+
+            var user = await CreateUser(helperContainer, "test@test.com", ipAddress);
+
+            var containerUnderTest = CreateContainer();
+            SetupConfigForPick(containerUnderTest, minDegreesDistance);
+            SetupAntiAbuseServiceResponseToNotRejected(containerUnderTest);
+            await SetupUserResidenceService(
+                random, containerUnderTest, user.Id, ipAddress, userResidenceCountryId, userResidenceLatitude, userResidenceLongitude);
+
+            var serviceUnderTest = containerUnderTest.Get<IOutgoingVerificationService>();
+
+            var verificationUniqueId = Guid.NewGuid();
+            var outcome = await serviceUnderTest.Pick(user.Id, ipAddress, verificationUniqueId);
+
+            Assert.IsTrue(outcome.IsRejected, "IsRejected field is not the expected.");
+            Assert.AreEqual(OutgoingVerificationResources.Pick_NoVerificationAssignableToUser_RejectionMessage,
+                outcome.RejectionReason, "RejectionReason is not the expected.");
+            Assert.IsNull(outcome.VerificationUniqueId, "VerificationUniqueId is not the expected.");
+
+            var retrievedTenantVerification = await DbProbe.TenantVerifications.SingleOrDefaultAsync(x => x.AssignedToId.Equals(user.Id));
+            Assert.IsNull(retrievedTenantVerification, "A tenant verification should not be created.");
+        }
+
+        [Test]
+        public async Task Pick_DoesNotPickFromDifferentCountry()
+        {
+            var minDegreesDistance = 0.001;
+
+            var ipAddress = "1.1.1.1";
+            var userResidenceCountryId = CountryId.GB;
+            var userResidenceLatitude = 1.00;
+            var userResidenceLongitude = 1.00;
+
+            var addressIpAddress = "2.2.2.2";
+            var submissionIpAddress = addressIpAddress;
+            var addressCountryId = CountryId.GB;
+            var submissionLatitude = 2.00;
+            var submissionLongitude = 2.00;
+
+            var random = new RandomWrapper(2015);
+
+            var helperContainer = CreateContainer();
+
+            var user = await CreateUser(helperContainer, "test@test.com", ipAddress);
+            var userForSubmission = await CreateUser(helperContainer, "test2@test.com", submissionIpAddress);
+
+            var submission = await CreateTenancyDetailsSubmissionAndSave(
+                random, helperContainer, userForSubmission.Id, addressIpAddress, userForSubmission.Id, submissionIpAddress, addressCountryId, submissionLatitude, submissionLongitude);
+            Assert.IsNotNull(submission, "Submission was not created during setup.");
+
+            var containerUnderTest = CreateContainer();
+            SetupConfigForPick(containerUnderTest, minDegreesDistance);
+            SetupAntiAbuseServiceResponseToNotRejected(containerUnderTest);
+            await SetupUserResidenceService(
+                random, containerUnderTest, user.Id, ipAddress, userResidenceCountryId, userResidenceLatitude, userResidenceLongitude);
+            
+            var serviceUnderTest = containerUnderTest.Get<IOutgoingVerificationService>();
+
+            var verificationUniqueId = Guid.NewGuid();
+            var outcome = await serviceUnderTest.Pick(user.Id, ipAddress, verificationUniqueId);
+
+            Assert.IsTrue(outcome.IsRejected, "IsRejected field is not the expected.");
+            Assert.AreEqual(OutgoingVerificationResources.Pick_NoVerificationAssignableToUser_RejectionMessage,
+                outcome.RejectionReason, "RejectionReason is not the expected.");
+            Assert.IsNull(outcome.VerificationUniqueId, "VerificationUniqueId is not the expected.");
+
+            var retrievedTenantVerification = await DbProbe.TenantVerifications.SingleOrDefaultAsync(x => x.AssignedToId.Equals(user.Id));
+            Assert.IsNull(retrievedTenantVerification, "A tenant verification should not be created.");
         }
 
         [Test]
         public async Task Pick_DoesNotPickHiddenSubmissions()
         {
-            // TODO_PANOS
+            var minDegreesDistance = 0.001;
+
+            var ipAddress = "1.1.1.1";
+            var userResidenceCountryId = CountryId.GB;
+            var userResidenceLatitude = 1.00;
+            var userResidenceLongitude = 1.00;
+
+            var addressIpAddress = "2.2.2.2";
+            var submissionIpAddress = addressIpAddress;
+            var addressCountryId = CountryId.GB;
+            var submissionLatitude = 2.00;
+            var submissionLongitude = 2.00;
+
+            var random = new RandomWrapper(2015);
+
+            var helperContainer = CreateContainer();
+
+            var user = await CreateUser(helperContainer, "test@test.com", ipAddress);
+            var userForSubmission = await CreateUser(helperContainer, "test2@test.com", submissionIpAddress);
+
+            var submission = await CreateTenancyDetailsSubmissionAndSave(
+                random, helperContainer, userForSubmission.Id, addressIpAddress, userForSubmission.Id, submissionIpAddress, addressCountryId, 
+                submissionLatitude, submissionLongitude, isHidden: true);
+            Assert.IsNotNull(submission, "Submission was not created during setup.");
+
+            var containerUnderTest = CreateContainer();
+            SetupConfigForPick(containerUnderTest, minDegreesDistance);
+            SetupAntiAbuseServiceResponseToNotRejected(containerUnderTest);
+            await SetupUserResidenceService(
+                random, containerUnderTest, user.Id, ipAddress, userResidenceCountryId, userResidenceLatitude, userResidenceLongitude);
+
+            var serviceUnderTest = containerUnderTest.Get<IOutgoingVerificationService>();
+
+            var verificationUniqueId = Guid.NewGuid();
+            var outcome = await serviceUnderTest.Pick(user.Id, ipAddress, verificationUniqueId);
+
+            Assert.IsTrue(outcome.IsRejected, "IsRejected field is not the expected.");
+            Assert.AreEqual(OutgoingVerificationResources.Pick_NoVerificationAssignableToUser_RejectionMessage,
+                outcome.RejectionReason, "RejectionReason is not the expected.");
+            Assert.IsNull(outcome.VerificationUniqueId, "VerificationUniqueId is not the expected.");
+
+            var retrievedTenantVerification = await DbProbe.TenantVerifications.SingleOrDefaultAsync(x => x.AssignedToId.Equals(user.Id));
+            Assert.IsNull(retrievedTenantVerification, "A tenant verification should not be created.");
         }
 
         [Test]
@@ -713,6 +833,15 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
         #region Private helper functions
 
+        private static void SetupConfigForPick(IKernel container, double minDegreesDistance)
+        {
+            var mockConfig = new Mock<IOutgoingVerificationServiceConfig>();
+
+            mockConfig.Setup(x => x.Pick_MinDegreesDistanceInAnyDirection).Returns(minDegreesDistance);
+
+            container.Rebind<IOutgoingVerificationServiceConfig>().ToConstant(mockConfig.Object);
+        }
+
         private static void SetupConfigForGetUserOutgoingVerificationsSummary(IKernel container, int itemsLimit)
         {
             var mockConfig = new Mock<IOutgoingVerificationServiceConfig>();
@@ -743,6 +872,12 @@ namespace Epsilon.IntegrationTests.Logic.Services
             container.Rebind<IAntiAbuseService>().ToConstant(mockAntiAbuseService.Object);
         }
 
+        private static void SetupAntiAbuseServiceResponseToNotRejected(IKernel container)
+        {
+            var response = new AntiAbuseServiceResponse { IsRejected = false };
+            SetupAntiAbuseServiceResponse(container, (x, y, z) => { }, response);
+        }
+
         private static void SetupUserResidenceService(IKernel container, string expectedUserId, GetResidenceResponse response)
         {
             var mockUserResidenceService = new Mock<IUserResidenceService>();
@@ -753,6 +888,30 @@ namespace Epsilon.IntegrationTests.Logic.Services
                         throw new Exception(string.Format(
                             "I was expecting userId '{0}' to be used in UserResidenceService but got '{1}' instead.", expectedUserId, userId));
                     return Task.FromResult(response);
+                });
+
+            container.Rebind<IUserResidenceService>().ToConstant(mockUserResidenceService.Object);
+        }
+
+        private async static Task SetupUserResidenceService(IRandomWrapper random, IKernel container, string expectedUserId, string userIpAddress, 
+            CountryId countryId, double latitude, double longitude)
+        {
+            var mockUserResidenceService = new Mock<IUserResidenceService>();
+
+            var address = await AddressHelper.CreateRandomAddressAndSave(random, container, expectedUserId, userIpAddress, countryId, latitude: latitude, longitude: longitude);
+
+            var getResidenceResponse = new GetResidenceResponse()
+            {
+                Address = address
+            };
+
+            mockUserResidenceService.Setup(x => x.GetResidence(It.IsAny<string>()))
+                .Returns<string>(userId =>
+                {
+                    if (!userId.Equals(expectedUserId))
+                        throw new Exception(string.Format(
+                            "I was expecting userId '{0}' to be used in UserResidenceService but got '{1}' instead.", expectedUserId, userId));
+                    return Task.FromResult(getResidenceResponse);
                 });
 
             container.Rebind<IUserResidenceService>().ToConstant(mockUserResidenceService.Object);
@@ -795,6 +954,29 @@ namespace Epsilon.IntegrationTests.Logic.Services
             await dbContext.SaveChangesAsync();
 
             return tenantVerification;
+        }
+
+        private static async Task<TenancyDetailsSubmission> CreateTenancyDetailsSubmissionAndSave(
+            IRandomWrapper random, IKernel container,
+            string userIdForAddress, string ipAddressForAddress, string userIdForSubmission, string ipAddressForSubmission, CountryId countryId, double latitude, double longitude, bool isHidden = false)
+        {
+            var dbContext = container.Get<IEpsilonContext>();
+
+            var address = await AddressHelper.CreateRandomAddressAndSave(
+                random, container, userIdForAddress, ipAddressForAddress, countryId, latitude: latitude, longitude: longitude);
+
+            var tenancyDetailsSubmission = new TenancyDetailsSubmission
+            {
+                UniqueId = Guid.NewGuid(),
+                AddressId = address.Id,
+                UserId = userIdForSubmission,
+                CreatedByIpAddress = ipAddressForSubmission,
+                IsHidden = isHidden
+            };
+            dbContext.TenancyDetailsSubmissions.Add(tenancyDetailsSubmission);
+            await dbContext.SaveChangesAsync();
+            
+            return tenancyDetailsSubmission;
         }
 
         #endregion

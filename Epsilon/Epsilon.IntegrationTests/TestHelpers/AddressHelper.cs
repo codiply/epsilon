@@ -13,7 +13,7 @@ namespace Epsilon.IntegrationTests.TestHelpers
     {
         public static async Task<Address> CreateRandomAddressAndSave(
             IRandomWrapper random, IKernel container, string userId, string userIpAddress, CountryId countryId, 
-            string distinctAddressCode = null, bool isHidden = false)
+            string distinctAddressCode = null, bool isHidden = false, double? latitude = null, double? longitude = null)
         {
             var randomFieldLength = 10;
             var stringCountryId = EnumsHelper.CountryId.ToString(countryId);
@@ -31,8 +31,8 @@ namespace Epsilon.IntegrationTests.TestHelpers
             };
             var geometry = new AddressGeometry()
             {
-                Latitude = random.NextDouble(),
-                Longitude = random.NextDouble(),
+                Latitude = latitude ?? random.NextDouble(),
+                Longitude = longitude ?? random.NextDouble(),
                 ViewportNortheastLatitude = random.NextDouble(),
                 ViewportNortheastLongitude = random.NextDouble(),
                 ViewportSouthwestLatitude = random.NextDouble(),
