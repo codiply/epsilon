@@ -106,7 +106,6 @@ namespace Epsilon.Logic.Services
             };
         }
 
-        // TODO_TEST_PANOS
         public async Task<PickVerificationOutcome> Pick(
             string userId,
             string userIpAddress,
@@ -122,8 +121,9 @@ namespace Epsilon.Logic.Services
                     VerificationUniqueId = null
                 };
 
-            var userResidence = await _userResidenceService.GetResidence(userId);
-            if (userResidence == null)
+            var userResidenceResponse = await _userResidenceService.GetResidence(userId);
+            // TODO_PANOS_TEST
+            if (userResidenceResponse.HasNoSubmissions)
             {
                 return new PickVerificationOutcome
                 {
@@ -133,9 +133,9 @@ namespace Epsilon.Logic.Services
                 };
             }
 
-            var countryId = userResidence.Address.CountryIdAsEnum();
+            var countryId = userResidenceResponse.Address.CountryIdAsEnum();
 
-            var antiAbuseServiceResponse = await _antiAbuseService.CanPickOutgoingVerification(userId, userIpAddress, userResidence.Address.CountryIdAsEnum());
+            var antiAbuseServiceResponse = await _antiAbuseService.CanPickOutgoingVerification(userId, userIpAddress, userResidenceResponse.Address.CountryIdAsEnum());
             if (antiAbuseServiceResponse.IsRejected)
                 return new PickVerificationOutcome
                 {
@@ -144,10 +144,8 @@ namespace Epsilon.Logic.Services
                     VerificationUniqueId = null
                 };
 
-            // TODO_TEST_PANOS
             var verificationsPerTenancyDetailsSubmission = _outgoingVerificationServiceConfig.VerificationsPerTenancyDetailsSubmission;
 
-            // TODO_TEST_PANOS
             var submissionIdsToAvoid = await _dbContext.TenantVerifications
                 .Where(v => v.AssignedToId.Equals(userId) || v.AssignedByIpAddress.Equals(userIpAddress))
                 .Select(v => v.TenancyDetailsSubmissionId)
@@ -156,16 +154,16 @@ namespace Epsilon.Logic.Services
 
             // I create a box around the user residence and avoid addresses in that box.
             var minDegreesDistance = _outgoingVerificationServiceConfig.Pick_MinDegreesDistanceInAnyDirection;
-            var latitudeLowerBound = userResidence.Address.Geometry.Latitude - minDegreesDistance;
-            var latitudeUpperBound = userResidence.Address.Geometry.Latitude + minDegreesDistance;
-            var longitudeLowerBound = userResidence.Address.Geometry.Longitude - minDegreesDistance;
-            var longitudeUpperBound = userResidence.Address.Geometry.Longitude + minDegreesDistance;
+            var latitudeLowerBound = userResidenceResponse.Address.Geometry.Latitude - minDegreesDistance;
+            var latitudeUpperBound = userResidenceResponse.Address.Geometry.Latitude + minDegreesDistance;
+            var longitudeLowerBound = userResidenceResponse.Address.Geometry.Longitude - minDegreesDistance;
+            var longitudeUpperBound = userResidenceResponse.Address.Geometry.Longitude + minDegreesDistance;
 
             var query = _dbContext.TenancyDetailsSubmissions
                 .Include(s => s.Address)
                 .Include(s => s.Address.Geometry)
                 .Include(s => s.TenantVerifications)
-                .Where(s => s.Address.CountryId.Equals(userResidence.Address.CountryId))
+                .Where(s => s.Address.CountryId.Equals(userResidenceResponse.Address.CountryId))
                 .Where(s => !s.IsHidden)
                 .Where(s => s.UserId != userId)
                 .Where(s => s.CreatedByIpAddress != userIpAddress)
@@ -206,7 +204,6 @@ namespace Epsilon.Logic.Services
             uiAlerts.Add(new UiAlert
             {
                 Type = UiAlertType.Success,
-                // TODO_TEST_PANOS
                 Message = string.Format(
                     OutgoingVerificationResources.Pick_SuccessMessage,
                     _outgoingVerificationServiceConfig.Instructions_ExpiryPeriodInDays)
@@ -215,7 +212,6 @@ namespace Epsilon.Logic.Services
             _appCacheHelper.RemoveCachedUserOutgoingVerificationsSummary(userId);
             _appCacheHelper.RemoveCachedUserSubmissionsSummary(pickedSubmission.UserId);
 
-            // TODO_TEST_PANOS
             return new PickVerificationOutcome
             {
                 IsRejected = false,
