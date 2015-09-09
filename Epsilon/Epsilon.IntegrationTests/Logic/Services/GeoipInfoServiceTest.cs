@@ -233,7 +233,8 @@ namespace Epsilon.IntegrationTests.Logic.Services
         {
             var expiryPeriodInSeconds = 0.5;
             var expiryPeriod = TimeSpan.FromSeconds(expiryPeriodInSeconds);
-            
+            var alpha = 0.1;
+
             var ipAddress = "1.2.3.4";
             var geoipRotatingClientResponse = new GeoipClientResponse
             {
@@ -294,7 +295,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.That(retrievedGeoipInfo1.RecordedOn, Is.LessThanOrEqualTo(timeAfter1),
                 "The RecordedOn on the retrieved GeoipInfo 1 should be before the timeAfter.");
 
-            await Task.Delay(TimeSpan.FromSeconds(expiryPeriodInSeconds * 0.2));
+            await Task.Delay(TimeSpan.FromSeconds(expiryPeriodInSeconds * alpha));
 
             var newGeoipRotatingClientResponse = new GeoipClientResponse
             {
@@ -332,7 +333,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.That(savedGeoipInfo1.RecordedOn, Is.LessThanOrEqualTo(timeAfter1),
                 "The RecordedOn on the saved GeoipInfo 1 should be before the timeAfter.");
 
-            await Task.Delay(TimeSpan.FromSeconds(expiryPeriodInSeconds * 0.8));
+            await Task.Delay(TimeSpan.FromSeconds(expiryPeriodInSeconds * (1 - alpha)));
 
             // The old GeoipInfo should be expired now.
 
@@ -631,6 +632,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
         {
             var expiryPeriodInSeconds = 0.5;
             var expiryPeriod = TimeSpan.FromSeconds(expiryPeriodInSeconds);
+            var alpha = 0.1;
 
             var ipAddress = "1.2.3.4";
             var geoipRotatingClientResponse = new GeoipClientResponse
@@ -692,7 +694,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.That(retrievedGeoipInfo1.RecordedOn, Is.LessThanOrEqualTo(timeAfter1),
                 "The RecordedOn on the retrieved GeoipInfo 1 should be before the timeAfter.");
 
-            await Task.Delay(TimeSpan.FromSeconds(expiryPeriodInSeconds * 0.2));
+            await Task.Delay(TimeSpan.FromSeconds(expiryPeriodInSeconds * alpha));
 
             var newGeoipRotatingClientResponse = new GeoipClientResponse
             {
@@ -730,7 +732,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.That(savedGeoipInfo1.RecordedOn, Is.LessThanOrEqualTo(timeAfter1),
                 "The RecordedOn on the saved GeoipInfo 1 should be before the timeAfter.");
 
-            await Task.Delay(TimeSpan.FromSeconds(expiryPeriodInSeconds * 0.8));
+            await Task.Delay(TimeSpan.FromSeconds(expiryPeriodInSeconds * (1 - alpha)));
 
             // The old GeoipInfo should be expired now.
 
