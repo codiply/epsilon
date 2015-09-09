@@ -11,6 +11,7 @@ using Epsilon.Logic.Services.Interfaces.UserResidenceService;
 using Epsilon.Logic.SqlContext.Interfaces;
 using Epsilon.Logic.Wrappers;
 using Epsilon.Logic.Wrappers.Interfaces;
+using Epsilon.Resources.Common;
 using Epsilon.Resources.Logic.OutgoingVerification;
 using Moq;
 using Ninject;
@@ -99,7 +100,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.IsNotNull(otherUserOutgoingVerification, "The outgoing verification created for the other user is null.");
 
             var containerUnderTest = CreateContainer();
-            SetupConfigForGetUserOutgoingVerificationsSummary(containerUnderTest, itemsLimit);
+            SetupConfig(containerUnderTest, itemsLimit: itemsLimit);
             var serviceUnderTest = containerUnderTest.Get<IOutgoingVerificationService>();
 
             // Full summary
@@ -168,7 +169,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.IsNotNull(otherUserOutgoingVerification, "The outgoing verification created for the other user is null.");
 
             var containerUnderTest = CreateContainer();
-            SetupConfigForGetUserOutgoingVerificationsSummary(containerUnderTest, itemsLimit);
+            SetupConfig(containerUnderTest, itemsLimit: itemsLimit);
             var serviceUnderTest = containerUnderTest.Get<IOutgoingVerificationService>();
 
             // Full summary
@@ -224,7 +225,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
                     random, helperContainer, user.Id, userIpAddress, otherUser.Id, otherUserIpAddress, isSent, isComplete);
 
             var containerUnderTest = CreateContainer();
-            SetupConfigForGetUserOutgoingVerificationsSummary(containerUnderTest, itemsLimit);
+            SetupConfig(containerUnderTest, itemsLimit: itemsLimit);
             var serviceUnderTest = containerUnderTest.Get<IOutgoingVerificationService>();
 
             var response = await serviceUnderTest.GetUserOutgoingVerificationsSummary(user.Id, false);
@@ -266,7 +267,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
                     random, helperContainer, user.Id, userIpAddress, otherUser.Id, otherUserIpAddress, isSent, isComplete);
 
             var containerUnderTest = CreateContainer();
-            SetupConfigForGetUserOutgoingVerificationsSummary(containerUnderTest, itemsLimit);
+            SetupConfig(containerUnderTest, itemsLimit: itemsLimit);
             var serviceUnderTest = containerUnderTest.Get<IOutgoingVerificationService>();
 
             var response = await serviceUnderTest.GetUserOutgoingVerificationsSummary(user.Id, false);
@@ -308,7 +309,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
                     random, helperContainer, user.Id, userIpAddress, otherUser.Id, otherUserIpAddress, isSent, isComplete);
 
             var containerUnderTest = CreateContainer();
-            SetupConfigForGetUserOutgoingVerificationsSummary(containerUnderTest, itemsLimit);
+            SetupConfig(containerUnderTest, itemsLimit: itemsLimit);
             var serviceUnderTest = containerUnderTest.Get<IOutgoingVerificationService>();
 
             var response = await serviceUnderTest.GetUserOutgoingVerificationsSummary(user.Id, false);
@@ -350,7 +351,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
                     random, helperContainer, user.Id, userIpAddress, otherUser.Id, otherUserIpAddress, isSent, isComplete);
 
             var containerUnderTest = CreateContainer();
-            SetupConfigForGetUserOutgoingVerificationsSummary(containerUnderTest, itemsLimit);
+            SetupConfig(containerUnderTest, itemsLimit: itemsLimit);
             var serviceUnderTest = containerUnderTest.Get<IOutgoingVerificationService>();
 
             var response = await serviceUnderTest.GetUserOutgoingVerificationsSummary(user.Id, false);
@@ -411,7 +412,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.IsNotNull(otherUserOutgoingVerification, "The outgoing verification created for the other user is null.");
 
             var containerUnderTest = CreateContainer();
-            SetupConfigForGetUserOutgoingVerificationsSummaryWithCaching(containerUnderTest, itemsLimit, cachingPeriod);
+            SetupConfig(containerUnderTest, itemsLimit: itemsLimit, cachingPeriod: cachingPeriod);
             var serviceUnderTest = containerUnderTest.Get<IOutgoingVerificationService>();
 
             // Full summary
@@ -491,6 +492,101 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 "After the caching period is over, it should throw an exception because I have killed the  database. (limit items: false)");
             Assert.Throws<ArgumentNullException>(async () => await serviceWithoutDatabase.GetUserOutgoingVerificationsSummaryWithCaching(user.Id, true),
                 "After the caching period is over, it should throw an exception because I have killed the  database. (limit items: true)");
+        }
+
+        #endregion
+
+        #region GetInstructions
+
+        [Test]
+        public async Task GetInstructions_VerificationDoesNotExist()
+        {
+            var helperContainer = CreateContainer();
+
+            var ipAddress = "1.2.3.4";
+            var user = await CreateUser(helperContainer, "test@test.com", ipAddress);
+
+            var containerUnderTest = CreateContainer();
+            var serviceUnderTest = containerUnderTest.Get<IOutgoingVerificationService>();
+
+            var nonExistentVerificationUniqueId = Guid.NewGuid();
+            var message = await serviceUnderTest.GetInstructions(user.Id, nonExistentVerificationUniqueId);
+
+            Assert.IsTrue(message.IsRejected, "IsRejected field is not the expected.");
+            Assert.AreEqual(CommonResources.GenericInvalidRequestMessage, message.RejectionReason,
+                "RejectionReason field is not the expected.");
+            Assert.IsNull(message.Instructions, "Instructions field is not the expected.");
+        }
+
+        #endregion
+
+        #region GetVerificationMessage
+
+        [Test]
+        public async Task GetVerificationMessage_VerificationDoesNotExist()
+        {
+            var helperContainer = CreateContainer();
+
+            var ipAddress = "1.2.3.4";
+            var user = await CreateUser(helperContainer, "test@test.com", ipAddress);
+
+            var containerUnderTest = CreateContainer();
+            var serviceUnderTest = containerUnderTest.Get<IOutgoingVerificationService>();
+
+            var nonExistentVerificationUniqueId = Guid.NewGuid();
+            var message = await serviceUnderTest.GetVerificationMessage(user.Id, nonExistentVerificationUniqueId);
+
+            Assert.IsTrue(message.IsRejected, "IsRejected field is not the expected.");
+            Assert.AreEqual(CommonResources.GenericInvalidRequestMessage, message.RejectionReason, 
+                "RejectionReason field is not the expected.");
+            Assert.IsNull(message.MessageArguments, "MessageArguments field is not the expected.");
+        }
+
+        [Test]
+        public async Task GetVerificationMessage_ExpiryPeriodTest()
+        {
+            var expiryPeriod = TimeSpan.FromSeconds(0.2);
+            var expiryPeriodInDays = expiryPeriod.TotalDays;
+
+            var helperContainer = CreateContainer();
+
+            var ipAddress = "1.2.3.4";
+            var user = await CreateUser(helperContainer, "test@test.com", ipAddress);
+            var ipAddressForSubmission = "2.3.4.5";
+            var userForSubmission = await CreateUser(helperContainer, "test1@test.com", ipAddressForSubmission);
+
+            var random = new RandomWrapper(2015);
+
+            var verification = await CreateTenantVerificationAndSave(
+                random, helperContainer, user.Id, ipAddress, userForSubmission.Id, ipAddressForSubmission);
+
+            var containerUnderTest = CreateContainer();
+            SetupConfig(containerUnderTest, expiryPeriodInDays: expiryPeriodInDays);
+            var serviceUnderTest = containerUnderTest.Get<IOutgoingVerificationService>();
+
+            var messageWithWrongUser = await serviceUnderTest.GetVerificationMessage(userForSubmission.Id, verification.UniqueId);
+
+            Assert.IsTrue(messageWithWrongUser.IsRejected, "IsRejected field is not the expected when using the wrong user.");
+            Assert.AreEqual(CommonResources.GenericInvalidRequestMessage, messageWithWrongUser.RejectionReason, 
+                "RejectionReason field is not the expected when using the wrong user.");
+            Assert.IsNull(messageWithWrongUser.MessageArguments, "MessageArguments field should not be null when using the wrong user.");
+
+            var messageBeforeExpiry = await serviceUnderTest.GetVerificationMessage(user.Id, verification.UniqueId);
+
+            Assert.IsFalse(messageBeforeExpiry.IsRejected, "IsRejected field is not the expected before expiry.");
+            Assert.IsNullOrEmpty(messageBeforeExpiry.RejectionReason, "RejectionReason field is not the expected before expiry.");
+            Assert.IsNotNull(messageBeforeExpiry.MessageArguments, "MessageArguments field should not be null before expiry.");
+
+            // I wait until the verification expires.
+            await Task.Delay(expiryPeriod);
+
+            var messageAfterExpiry = await serviceUnderTest.GetVerificationMessage(user.Id, verification.UniqueId);
+
+            Assert.IsTrue(messageAfterExpiry.IsRejected, "IsRejected field is not the expected after expiry.");
+            Assert.IsNullOrEmpty(CommonResources.GenericInvalidActionMessage, messageAfterExpiry.RejectionReason, 
+                "RejectionReason field is not the expected after expiry.");
+            Assert.IsNotNull(messageBeforeExpiry.MessageArguments, 
+                "MessageArguments field should not be null after expiry.");
         }
 
         #endregion
@@ -575,7 +671,9 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.IsNotNull(submissionForUserResidence, "Submission for user residence was not created during the setup.");
 
             var containerUnderTest = CreateContainer();
-            SetupConfigForPick(containerUnderTest, minDegreesDistance, verificationsPerTenancyDetailsSubmission);
+            SetupConfig(containerUnderTest, 
+                minDegreesDistance: minDegreesDistance, 
+                verificationsPerTenancyDetailsSubmission: verificationsPerTenancyDetailsSubmission);
             SetupAntiAbuseServiceResponseToNotRejected(containerUnderTest);
 
             var serviceUnderTest = containerUnderTest.Get<IOutgoingVerificationService>();
@@ -633,7 +731,9 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.IsNotNull(submission, "Submission was not created during setup.");
 
             var containerUnderTest = CreateContainer();
-            SetupConfigForPick(containerUnderTest, minDegreesDistance, verificationsPerTenancyDetailsSubmission);
+            SetupConfig(containerUnderTest, 
+                minDegreesDistance: minDegreesDistance, 
+                verificationsPerTenancyDetailsSubmission: verificationsPerTenancyDetailsSubmission);
             SetupAntiAbuseServiceResponseToNotRejected(containerUnderTest);
             
             var serviceUnderTest = containerUnderTest.Get<IOutgoingVerificationService>();
@@ -671,7 +771,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var user = await CreateUser(helperContainer, "test@test.com", ipAddress);
             var userForSubmission = await CreateUser(helperContainer, "test2@test.com", submissionIpAddress);
 
-            // This is the actual submission that can be picked up for outgoing verifcation.
+            // This is the submission that can be picked up for outgoing verifcation.
             var submission = await CreateTenancyDetailsSubmissionAndSave(
                 random, helperContainer,
                 userForSubmission.Id, addressIpAddress, // Address
@@ -680,7 +780,9 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.IsNotNull(submission, "Submission was not created during setup.");
 
             var containerUnderTest = CreateContainer();
-            SetupConfigForPick(containerUnderTest, minDegreesDistance, verificationsPerTenancyDetailsSubmission);
+            SetupConfig(containerUnderTest, 
+                minDegreesDistance: minDegreesDistance, 
+                verificationsPerTenancyDetailsSubmission: verificationsPerTenancyDetailsSubmission);
             SetupAntiAbuseServiceResponseToNotRejected(containerUnderTest);
 
             var serviceUnderTest = containerUnderTest.Get<IOutgoingVerificationService>();
@@ -689,7 +791,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var outcome = await serviceUnderTest.Pick(user.Id, ipAddress, verificationUniqueId);
 
             Assert.IsTrue(outcome.IsRejected, "IsRejected field is not the expected.");
-            Assert.AreEqual(OutgoingVerificationResources.Pick_NoVerificationAssignableToUser_RejectionMessage,
+            Assert.AreEqual(OutgoingVerificationResources.Pick_CannotDetermineUserResidenceErrorMessage,
                 outcome.RejectionReason, "RejectionReason is not the expected.");
             Assert.IsNull(outcome.VerificationUniqueId, "VerificationUniqueId is not the expected.");
 
@@ -738,7 +840,9 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.IsNotNull(submission, "Submission was not created during setup.");
 
             var containerUnderTest = CreateContainer();
-            SetupConfigForPick(containerUnderTest, minDegreesDistance, verificationsPerTenancyDetailsSubmission);
+            SetupConfig(containerUnderTest, 
+                minDegreesDistance: minDegreesDistance, 
+                verificationsPerTenancyDetailsSubmission: verificationsPerTenancyDetailsSubmission);
             SetupAntiAbuseServiceResponseToNotRejected(containerUnderTest);
 
             var serviceUnderTest = containerUnderTest.Get<IOutgoingVerificationService>();
@@ -805,7 +909,9 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.IsNotNull(submission, "Submission was not created during setup.");
 
             var containerUnderTest = CreateContainer();
-            SetupConfigForPick(containerUnderTest, minDegreesDistance, verificationsPerTenancyDetailsSubmission);
+            SetupConfig(containerUnderTest, 
+                minDegreesDistance: minDegreesDistance, 
+                verificationsPerTenancyDetailsSubmission: verificationsPerTenancyDetailsSubmission);
             SetupAntiAbuseServiceResponseToNotRejected(containerUnderTest);
             
             var serviceUnderTest = containerUnderTest.Get<IOutgoingVerificationService>();
@@ -862,7 +968,9 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.IsNotNull(submission, "Submission was not created during setup.");
 
             var containerUnderTest = CreateContainer();
-            SetupConfigForPick(containerUnderTest, minDegreesDistance, verificationsPerTenancyDetailsSubmission);
+            SetupConfig(containerUnderTest, 
+                minDegreesDistance: minDegreesDistance, 
+                verificationsPerTenancyDetailsSubmission: verificationsPerTenancyDetailsSubmission);
             SetupAntiAbuseServiceResponseToNotRejected(containerUnderTest);
 
             var serviceUnderTest = containerUnderTest.Get<IOutgoingVerificationService>();
@@ -919,7 +1027,9 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.IsNotNull(submission, "Submission was not created during setup.");
 
             var containerUnderTest = CreateContainer();
-            SetupConfigForPick(containerUnderTest, minDegreesDistance, verificationsPerTenancyDetailsSubmission);
+            SetupConfig(containerUnderTest,
+                minDegreesDistance: minDegreesDistance, 
+                verificationsPerTenancyDetailsSubmission: verificationsPerTenancyDetailsSubmission);
             SetupAntiAbuseServiceResponseToNotRejected(containerUnderTest);
 
             var serviceUnderTest = containerUnderTest.Get<IOutgoingVerificationService>();
@@ -976,7 +1086,9 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.IsNotNull(submission, "Submission was not created during setup.");
 
             var containerUnderTest = CreateContainer();
-            SetupConfigForPick(containerUnderTest, minDegreesDistance, verificationsPerTenancyDetailsSubmission);
+            SetupConfig(containerUnderTest,
+                minDegreesDistance: minDegreesDistance, 
+                verificationsPerTenancyDetailsSubmission: verificationsPerTenancyDetailsSubmission);
             SetupAntiAbuseServiceResponseToNotRejected(containerUnderTest);
 
             var serviceUnderTest = containerUnderTest.Get<IOutgoingVerificationService>();
@@ -1033,7 +1145,9 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.IsNotNull(submission, "Submission was not created during setup.");
 
             var containerUnderTest = CreateContainer();
-            SetupConfigForPick(containerUnderTest, minDegreesDistance, verificationsPerTenancyDetailsSubmission);
+            SetupConfig(containerUnderTest, 
+                minDegreesDistance: minDegreesDistance, 
+                verificationsPerTenancyDetailsSubmission: verificationsPerTenancyDetailsSubmission);
             SetupAntiAbuseServiceResponseToNotRejected(containerUnderTest);
 
             var serviceUnderTest = containerUnderTest.Get<IOutgoingVerificationService>();
@@ -1097,7 +1211,9 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.IsNotEmpty(existingVerifications, "Existing verifications were not created.");
 
             var containerUnderTest = CreateContainer();
-            SetupConfigForPick(containerUnderTest, minDegreesDistance, verificationsPerTenancyDetailsSubmission);
+            SetupConfig(containerUnderTest, 
+                minDegreesDistance: minDegreesDistance, 
+                verificationsPerTenancyDetailsSubmission: verificationsPerTenancyDetailsSubmission);
             SetupAntiAbuseServiceResponseToNotRejected(containerUnderTest);
 
             var serviceUnderTest = containerUnderTest.Get<IOutgoingVerificationService>();
@@ -1160,7 +1276,9 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.IsNotEmpty(existingVerifications, "Existing verifications were not created.");
 
             var containerUnderTest = CreateContainer();
-            SetupConfigForPick(containerUnderTest, minDegreesDistance, verificationsPerTenancyDetailsSubmission);
+            SetupConfig(containerUnderTest, 
+                minDegreesDistance: minDegreesDistance, 
+                verificationsPerTenancyDetailsSubmission: verificationsPerTenancyDetailsSubmission);
             SetupAntiAbuseServiceResponseToNotRejected(containerUnderTest);
 
             var serviceUnderTest = containerUnderTest.Get<IOutgoingVerificationService>();
@@ -1224,7 +1342,9 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.IsNotEmpty(existingVerifications, "Existing verifications were not created.");
 
             var containerUnderTest = CreateContainer();
-            SetupConfigForPick(containerUnderTest, minDegreesDistance, verificationsPerTenancyDetailsSubmission);
+            SetupConfig(containerUnderTest, 
+                minDegreesDistance: minDegreesDistance, 
+                verificationsPerTenancyDetailsSubmission: verificationsPerTenancyDetailsSubmission);
             SetupAntiAbuseServiceResponseToNotRejected(containerUnderTest);
 
             var serviceUnderTest = containerUnderTest.Get<IOutgoingVerificationService>();
@@ -1281,7 +1401,9 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.IsNotNull(submission, "Submission was not created during setup.");
 
             var containerUnderTest = CreateContainer();
-            SetupConfigForPick(containerUnderTest, minDegreesDistance, verificationsPerTenancyDetailsSubmission);
+            SetupConfig(containerUnderTest, 
+                minDegreesDistance: minDegreesDistance, 
+                verificationsPerTenancyDetailsSubmission: verificationsPerTenancyDetailsSubmission);
             SetupAntiAbuseServiceResponseToNotRejected(containerUnderTest);
 
             var serviceUnderTest = containerUnderTest.Get<IOutgoingVerificationService>();
@@ -1397,31 +1519,25 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
         #region Private helper functions
 
-        private static void SetupConfigForPick(IKernel container, double minDegreesDistance, int verificationsPerTenancyDetailsSubmission)
+        private static void SetupConfig(IKernel container,
+            int? itemsLimit = null,
+            TimeSpan? cachingPeriod = null,
+            double? minDegreesDistance = null, 
+            int? verificationsPerTenancyDetailsSubmission = null,
+            double? expiryPeriodInDays = null)
         {
             var mockConfig = new Mock<IOutgoingVerificationServiceConfig>();
 
-            mockConfig.Setup(x => x.Pick_MinDegreesDistanceInAnyDirection).Returns(minDegreesDistance);
-            mockConfig.Setup(x => x.VerificationsPerTenancyDetailsSubmission).Returns(verificationsPerTenancyDetailsSubmission);
-
-            container.Rebind<IOutgoingVerificationServiceConfig>().ToConstant(mockConfig.Object);
-        }
-
-        private static void SetupConfigForGetUserOutgoingVerificationsSummary(IKernel container, int itemsLimit)
-        {
-            var mockConfig = new Mock<IOutgoingVerificationServiceConfig>();
-
-            mockConfig.Setup(x => x.MyOutgoingVerificationsSummary_ItemsLimit).Returns(itemsLimit);
-
-            container.Rebind<IOutgoingVerificationServiceConfig>().ToConstant(mockConfig.Object);
-        }
-
-        private static void SetupConfigForGetUserOutgoingVerificationsSummaryWithCaching(IKernel container, int itemsLimit, TimeSpan cachingPeriod)
-        {
-            var mockConfig = new Mock<IOutgoingVerificationServiceConfig>();
-
-            mockConfig.Setup(x => x.MyOutgoingVerificationsSummary_ItemsLimit).Returns(itemsLimit);
-            mockConfig.Setup(x => x.MyOutgoingVerificationsSummary_CachingPeriod).Returns(cachingPeriod);
+            if (itemsLimit.HasValue)
+                mockConfig.Setup(x => x.MyOutgoingVerificationsSummary_ItemsLimit).Returns(itemsLimit.Value);
+            if (cachingPeriod.HasValue)
+                mockConfig.Setup(x => x.MyOutgoingVerificationsSummary_CachingPeriod).Returns(cachingPeriod.Value);
+            if (minDegreesDistance.HasValue)
+                mockConfig.Setup(x => x.Pick_MinDegreesDistanceInAnyDirection).Returns(minDegreesDistance.Value);
+            if (verificationsPerTenancyDetailsSubmission.HasValue)
+                mockConfig.Setup(x => x.VerificationsPerTenancyDetailsSubmission).Returns(verificationsPerTenancyDetailsSubmission.Value);
+            if (expiryPeriodInDays.HasValue)
+                mockConfig.Setup(x => x.Instructions_ExpiryPeriodInDays).Returns(expiryPeriodInDays.Value);
 
             container.Rebind<IOutgoingVerificationServiceConfig>().ToConstant(mockConfig.Object);
         }
@@ -1462,7 +1578,8 @@ namespace Epsilon.IntegrationTests.Logic.Services
             IRandomWrapper random, IKernel container, 
             string userId, string userIpAddress, 
             string userIdForSubmission, string userForSubmissionIpAddress,
-            bool isSent, bool isComplete)
+            bool isSent = false, 
+            bool isComplete = false)
         {
             var clock = container.Get<IClock>();
             var dbContext = container.Get<IEpsilonContext>();

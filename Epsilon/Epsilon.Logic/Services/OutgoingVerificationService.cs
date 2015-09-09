@@ -219,16 +219,12 @@ namespace Epsilon.Logic.Services
             };
         }
 
-        // TODO_TEST_PANOS
         public async Task<GetVerificationMessageOutcome> GetVerificationMessage(string userId, Guid verificationUniqueId)
         {
-            // TODO_TEST_PANOS
-
             var verification = await GetVerificationForUser(userId, verificationUniqueId,
                 includeTenancyDetailsSubmission: true, includeAddress: true, includeOtherVerifications: false);
             if (verification == null)
             {
-                // TODO_TEST_PANOS
                 return new GetVerificationMessageOutcome
                 {
                     IsRejected = true,
