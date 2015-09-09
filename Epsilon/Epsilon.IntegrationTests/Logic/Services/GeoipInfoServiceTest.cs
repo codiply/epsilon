@@ -231,10 +231,9 @@ namespace Epsilon.IntegrationTests.Logic.Services
         [Test]
         public async Task GetInfo_CallsTheRotatingGeoipClientAgainAfterTheExpiryPeriod_TestWhereCacheIsCleared()
         {
-            var expiryPeriodInSeconds = 0.4;
+            var expiryPeriodInSeconds = 0.5;
             var expiryPeriod = TimeSpan.FromSeconds(expiryPeriodInSeconds);
-            var halfExpiryPeriod = TimeSpan.FromSeconds(expiryPeriodInSeconds / 2);
-
+            
             var ipAddress = "1.2.3.4";
             var geoipRotatingClientResponse = new GeoipClientResponse
             {
@@ -295,7 +294,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.That(retrievedGeoipInfo1.RecordedOn, Is.LessThanOrEqualTo(timeAfter1),
                 "The RecordedOn on the retrieved GeoipInfo 1 should be before the timeAfter.");
 
-            await Task.Delay(halfExpiryPeriod);
+            await Task.Delay(TimeSpan.FromSeconds(expiryPeriodInSeconds * 0.2));
 
             var newGeoipRotatingClientResponse = new GeoipClientResponse
             {
@@ -333,7 +332,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.That(savedGeoipInfo1.RecordedOn, Is.LessThanOrEqualTo(timeAfter1),
                 "The RecordedOn on the saved GeoipInfo 1 should be before the timeAfter.");
 
-            await Task.Delay(halfExpiryPeriod);
+            await Task.Delay(TimeSpan.FromSeconds(expiryPeriodInSeconds * 0.8));
 
             // The old GeoipInfo should be expired now.
 
@@ -630,9 +629,8 @@ namespace Epsilon.IntegrationTests.Logic.Services
         [Test]
         public async Task GetInfoAsync_CallsTheRotatingGeoipClientAgainAfterTheExpiryPeriod_TestWhereCacheIsCleared()
         {
-            var expiryPeriodInSeconds = 0.4;
+            var expiryPeriodInSeconds = 0.5;
             var expiryPeriod = TimeSpan.FromSeconds(expiryPeriodInSeconds);
-            var halfExpiryPeriod = TimeSpan.FromSeconds(expiryPeriodInSeconds / 2);
 
             var ipAddress = "1.2.3.4";
             var geoipRotatingClientResponse = new GeoipClientResponse
@@ -694,7 +692,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.That(retrievedGeoipInfo1.RecordedOn, Is.LessThanOrEqualTo(timeAfter1),
                 "The RecordedOn on the retrieved GeoipInfo 1 should be before the timeAfter.");
 
-            await Task.Delay(halfExpiryPeriod);
+            await Task.Delay(TimeSpan.FromSeconds(expiryPeriodInSeconds * 0.2));
 
             var newGeoipRotatingClientResponse = new GeoipClientResponse
             {
@@ -732,7 +730,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.That(savedGeoipInfo1.RecordedOn, Is.LessThanOrEqualTo(timeAfter1),
                 "The RecordedOn on the saved GeoipInfo 1 should be before the timeAfter.");
 
-            await Task.Delay(halfExpiryPeriod);
+            await Task.Delay(TimeSpan.FromSeconds(expiryPeriodInSeconds * 0.8));
 
             // The old GeoipInfo should be expired now.
 
