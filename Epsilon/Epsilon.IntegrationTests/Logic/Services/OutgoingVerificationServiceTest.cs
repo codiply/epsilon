@@ -1693,6 +1693,294 @@ namespace Epsilon.IntegrationTests.Logic.Services
 
         #endregion
 
+        #region MarkAsSent
+
+        [Test]
+        public async Task MarkAsSent_Test()
+        {
+            var expiryPeriod = TimeSpan.FromDays(1);
+            var expiryPeriodInDays = expiryPeriod.TotalDays;
+
+            var helperContainer = CreateContainer();
+
+            var ipAddress = "1.2.3.4";
+            var user = await CreateUser(helperContainer, "test@test.com", ipAddress);
+            var ipAddressForSubmission = "2.3.4.5";
+            var userForSubmission = await CreateUser(helperContainer, "test1@test.com", ipAddressForSubmission);
+
+            var random = new RandomWrapper(2015);
+
+            var clock = helperContainer.Get<IClock>();
+
+            var verification = await CreateTenantVerificationAndSave(
+                random, helperContainer, user.Id, ipAddress, userForSubmission.Id, ipAddressForSubmission,
+                isSent: false, isComplete: false);
+
+            var retrievedVerificationAtPoint0 = await DbProbe.TenantVerifications
+                .SingleOrDefaultAsync(x => x.UniqueId.Equals(verification.UniqueId));
+
+            Assert.IsNotNull(retrievedVerificationAtPoint0, "Verification was not created.");
+            Assert.IsNull(retrievedVerificationAtPoint0.MarkedAsSentOn, 
+                "MarkedAsSentOn on retrieved verification at point 0 is not the expected.");
+            Assert.IsNull(retrievedVerificationAtPoint0.MarkedAddressAsInvalidOn,
+                "MarkedAddressAsInvalidOn on retrieved verification at point 0 is not the expected.");
+
+            var containerUnderTest = CreateContainer();
+            SetupConfig(containerUnderTest, expiryPeriodInDays: expiryPeriodInDays);
+            var serviceUnderTest = containerUnderTest.Get<IOutgoingVerificationService>();
+
+            // I try to mark as sent using the wrong user.
+            var markAsSentOutcomeWithWrongUser = await serviceUnderTest.MarkAsSent(userForSubmission.Id, verification.UniqueId);
+            Assert.IsTrue(markAsSentOutcomeWithWrongUser.IsRejected, 
+                "IsRejected field when marking as sent with wrong user is not the expected.");
+            Assert.AreEqual(CommonResources.GenericInvalidRequestMessage, markAsSentOutcomeWithWrongUser.RejectionReason, 
+                "RejectionReason field when marking as sent with wrong user is not the expected.");
+            Assert.IsFalse(
+                markAsSentOutcomeWithWrongUser.UiAlerts != null &&
+                markAsSentOutcomeWithWrongUser.UiAlerts.Any(x => x.Message.Equals(OutgoingVerificationResources.MarkAsSent_SuccessMessage)),
+                "There should be no success UI Alert when trying to mark as sent with the wrong user.");
+
+            var retrievedVerificationAtPoint1 = await DbProbe.TenantVerifications
+                .SingleOrDefaultAsync(x => x.UniqueId.Equals(verification.UniqueId));
+            Assert.IsNotNull(retrievedVerificationAtPoint1, "Retrieved verification at point 1 is null.");
+            Assert.IsNull(retrievedVerificationAtPoint1.MarkedAsSentOn,
+                "MarkedAsSentOn on retrieved verification at point 1 is not the expected.");
+            Assert.IsNull(retrievedVerificationAtPoint1.MarkedAddressAsInvalidOn,
+                "MarkedAddressAsInvalidOn on retrieved verification at point 1 is not the expected.");
+
+            // I mark the verification as sent using the right user.
+            var timeBefore = clock.OffsetNow;
+            var markAsSentOutcome = await serviceUnderTest.MarkAsSent(user.Id, verification.UniqueId);
+            Assert.IsFalse(markAsSentOutcome.IsRejected,
+                "IsRejected field when marking as sent with right user is not the expected.");
+            Assert.IsNullOrEmpty(markAsSentOutcome.RejectionReason,
+                "RejectionReason field when marking as sent with right user is not the expected.");
+            Assert.IsTrue(
+                markAsSentOutcome.UiAlerts != null &&
+                markAsSentOutcome.UiAlerts.Any(x => x.Message.Equals(OutgoingVerificationResources.MarkAsSent_SuccessMessage)),
+                "There should be a success UI Alert when trying to mark as sent with the right user.");
+            var timeAfter = clock.OffsetNow;
+
+            var retrievedVerificationAtPoint2 = await DbProbe.TenantVerifications
+                .SingleOrDefaultAsync(x => x.UniqueId.Equals(verification.UniqueId));
+            Assert.IsNotNull(retrievedVerificationAtPoint2, "Retrieved verification at point 2 is null.");
+            Assert.IsNotNull(retrievedVerificationAtPoint2.MarkedAsSentOn,
+                "MarkedAsSentOn on retrieved verification at point 2 is still null.");
+            Assert.That(retrievedVerificationAtPoint2.MarkedAsSentOn, Is.GreaterThanOrEqualTo(timeBefore),
+                "MarkedAsSentOn on retrieved verification at point 2 is not the expected. (lower bound)");
+            Assert.That(retrievedVerificationAtPoint2.MarkedAsSentOn, Is.LessThanOrEqualTo(timeAfter),
+                "MarkedAsSentOn on retrieved verification at point 2 is not the expected. (upper bound)");
+            Assert.IsNull(retrievedVerificationAtPoint2.MarkedAddressAsInvalidOn,
+                "MarkedAddressAsInvalidOn on retrieved verification at point 2 is not the expected.");
+
+            // I now try to mark address as invalid
+            var markAddressAsInvalidOutcome = await serviceUnderTest.MarkAddressAsInvalid(user.Id, verification.UniqueId);
+            Assert.IsTrue(markAddressAsInvalidOutcome.IsRejected, "IsRejected when marking the address as invalid is not the expected.");
+            Assert.AreEqual(CommonResources.GenericInvalidActionMessage, markAddressAsInvalidOutcome.RejectionReason,
+                "RejectionReason when marking the address as invalid is not the expected.");
+
+            var retrievedVerificationAtPoint3 = await DbProbe.TenantVerifications
+                .SingleOrDefaultAsync(x => x.UniqueId.Equals(verification.UniqueId));
+            Assert.IsNotNull(retrievedVerificationAtPoint3, "Retrieved verification at point 3 is null.");
+            Assert.AreEqual(retrievedVerificationAtPoint2.MarkedAsSentOn, retrievedVerificationAtPoint3.MarkedAsSentOn,
+                "MarkedAsSentOn on retrieved verification at point 3 is not the expected.");
+            Assert.IsNull(retrievedVerificationAtPoint3.MarkedAddressAsInvalidOn,
+                "MarkedAddressAsInvalidOn on retrieved verification at point 3 is not the expected.");
+
+            // I now try to mark verification as sent again
+            var markAsSentOutcome2 = await serviceUnderTest.MarkAsSent(user.Id, verification.UniqueId);
+            Assert.IsTrue(markAsSentOutcome2.IsRejected,
+                "IsRejected field when marking as sent the second time is not the expected.");
+            Assert.AreEqual(CommonResources.GenericInvalidActionMessage, markAsSentOutcome2.RejectionReason,
+                "RejectionReason field when marking as sent the second time is not the expected.");
+            Assert.IsFalse(
+                markAsSentOutcome2.UiAlerts != null &&
+                markAsSentOutcome2.UiAlerts.Any(x => x.Message.Equals(OutgoingVerificationResources.MarkAsSent_SuccessMessage)),
+                "There should be no success UI Alert when trying to mark as sent the second time.");
+
+            var retrievedVerificationAtPoint4 = await DbProbe.TenantVerifications
+                .SingleOrDefaultAsync(x => x.UniqueId.Equals(verification.UniqueId));
+            Assert.IsNotNull(retrievedVerificationAtPoint4, "Retrieved verification at point 4 is null.");
+            Assert.AreEqual(retrievedVerificationAtPoint2.MarkedAsSentOn, retrievedVerificationAtPoint4.MarkedAsSentOn,
+                "MarkedAsSentOn on retrieved verification at point 4 is not the expected.");
+            Assert.IsNull(retrievedVerificationAtPoint4.MarkedAddressAsInvalidOn,
+                "MarkedAddressAsInvalidOn on retrieved verification at point 4 is not the expected.");
+        }
+
+        #endregion
+
+        #region MarkAddressAsInvalid
+
+        [Test]
+        public async Task MarkAddressAsInvalid_Test()
+        {
+            var expiryPeriod = TimeSpan.FromDays(1);
+            var expiryPeriodInDays = expiryPeriod.TotalDays;
+
+            var helperContainer = CreateContainer();
+
+            var ipAddress = "1.2.3.4";
+            var user = await CreateUser(helperContainer, "test@test.com", ipAddress);
+            var ipAddressForSubmission = "2.3.4.5";
+            var userForSubmission = await CreateUser(helperContainer, "test1@test.com", ipAddressForSubmission);
+
+            var random = new RandomWrapper(2015);
+
+            var clock = helperContainer.Get<IClock>();
+
+            var verification = await CreateTenantVerificationAndSave(
+                random, helperContainer, user.Id, ipAddress, userForSubmission.Id, ipAddressForSubmission,
+                isSent: false, isComplete: false);
+
+            var retrievedVerificationAtPoint0 = await DbProbe.TenantVerifications
+                .SingleOrDefaultAsync(x => x.UniqueId.Equals(verification.UniqueId));
+
+            Assert.IsNotNull(retrievedVerificationAtPoint0, "Verification was not created.");
+            Assert.IsNull(retrievedVerificationAtPoint0.MarkedAsSentOn,
+                "MarkedAsSentOn on retrieved verification at point 0 is not the expected.");
+            Assert.IsNull(retrievedVerificationAtPoint0.MarkedAddressAsInvalidOn,
+                "MarkedAddressAsInvalidOn on retrieved verification at point 0 is not the expected.");
+
+            var containerUnderTest = CreateContainer();
+            SetupConfig(containerUnderTest, expiryPeriodInDays: expiryPeriodInDays);
+            var serviceUnderTest = containerUnderTest.Get<IOutgoingVerificationService>();
+
+            // I try to mark address as invalid using the wrong user.
+            var markAddressAsInvalidOutcomeWithWrongUser = await serviceUnderTest.MarkAddressAsInvalid(userForSubmission.Id, verification.UniqueId);
+            Assert.IsTrue(markAddressAsInvalidOutcomeWithWrongUser.IsRejected,
+                "IsRejected field when marking address as invalid with wrong user is not the expected.");
+            Assert.AreEqual(CommonResources.GenericInvalidRequestMessage, markAddressAsInvalidOutcomeWithWrongUser.RejectionReason,
+                "RejectionReason field when marking address as invalid with wrong user is not the expected.");
+            Assert.IsFalse(
+                markAddressAsInvalidOutcomeWithWrongUser.UiAlerts != null &&
+                markAddressAsInvalidOutcomeWithWrongUser.UiAlerts.Any(x => x.Message.Equals(OutgoingVerificationResources.MarkAddressAsInvalid_SuccessMessage)),
+                "There should be no success UI Alert when trying to mark address as invalid with the wrong user.");
+
+            var retrievedVerificationAtPoint1 = await DbProbe.TenantVerifications
+                .SingleOrDefaultAsync(x => x.UniqueId.Equals(verification.UniqueId));
+            Assert.IsNotNull(retrievedVerificationAtPoint1, "Retrieved verification at point 1 is null.");
+            Assert.IsNull(retrievedVerificationAtPoint1.MarkedAsSentOn,
+                "MarkedAsSentOn on retrieved verification at point 1 is not the expected.");
+            Assert.IsNull(retrievedVerificationAtPoint1.MarkedAddressAsInvalidOn,
+                "MarkedAddressAsInvalidOn on retrieved verification at point 1 is not the expected.");
+
+            // I mark the verification as sent using the right user.
+            var timeBefore = clock.OffsetNow;
+            var markAddressAsInvalidOutcome = await serviceUnderTest.MarkAddressAsInvalid(user.Id, verification.UniqueId);
+            Assert.IsFalse(markAddressAsInvalidOutcome.IsRejected,
+                "IsRejected field when marking address as invalid with right user is not the expected.");
+            Assert.IsNullOrEmpty(markAddressAsInvalidOutcome.RejectionReason,
+                "RejectionReason field when marking address as invalid with right user is not the expected.");
+            Assert.IsTrue(
+                markAddressAsInvalidOutcome.UiAlerts != null &&
+                markAddressAsInvalidOutcome.UiAlerts.Any(x => x.Message.Equals(OutgoingVerificationResources.MarkAddressAsInvalid_SuccessMessage)),
+                "There should be a success UI Alert when trying to mark address as invalid with the right user.");
+            var timeAfter = clock.OffsetNow;
+
+            var retrievedVerificationAtPoint2 = await DbProbe.TenantVerifications
+                .SingleOrDefaultAsync(x => x.UniqueId.Equals(verification.UniqueId));
+            Assert.IsNotNull(retrievedVerificationAtPoint2, "Retrieved verification at point 2 is null.");
+            Assert.IsNotNull(retrievedVerificationAtPoint2.MarkedAddressAsInvalidOn,
+                "MarkedAddressAsInvalidOn on retrieved verification at point 2 is still null.");
+            Assert.That(retrievedVerificationAtPoint2.MarkedAddressAsInvalidOn, Is.GreaterThanOrEqualTo(timeBefore),
+                "MarkedAddressAsInvalidOn on retrieved verification at point 2 is not the expected. (lower bound)");
+            Assert.That(retrievedVerificationAtPoint2.MarkedAddressAsInvalidOn, Is.LessThanOrEqualTo(timeAfter),
+                "MarkedAddressAsInvalidOn on retrieved verification at point 2 is not the expected. (upper bound)");
+            Assert.IsNull(retrievedVerificationAtPoint2.MarkedAsSentOn,
+                "MarkedAsSentOn on retrieved verification at point 2 is not the expected.");
+
+            // I now try to mark address as invalid
+            var markAsSentOutcome = await serviceUnderTest.MarkAsSent(user.Id, verification.UniqueId);
+            Assert.IsTrue(markAsSentOutcome.IsRejected, "IsRejected when marking the verification as sent is not the expected.");
+            Assert.AreEqual(CommonResources.GenericInvalidActionMessage, markAsSentOutcome.RejectionReason,
+                "RejectionReason when marking the verification as sent is not the expected.");
+
+            var retrievedVerificationAtPoint3 = await DbProbe.TenantVerifications
+                .SingleOrDefaultAsync(x => x.UniqueId.Equals(verification.UniqueId));
+            Assert.IsNotNull(retrievedVerificationAtPoint3, "Retrieved verification at point 3 is null.");
+            Assert.AreEqual(retrievedVerificationAtPoint2.MarkedAddressAsInvalidOn, retrievedVerificationAtPoint3.MarkedAddressAsInvalidOn,
+                "MarkedAddressAsInvalidOn on retrieved verification at point 3 is not the expected.");
+            Assert.IsNull(retrievedVerificationAtPoint3.MarkedAsSentOn,
+                "MarkedAsSentOn on retrieved verification at point 3 is not the expected.");
+
+            // I now try to mark verification as sent again
+            var markAddressAsInvalidOutcome2 = await serviceUnderTest.MarkAddressAsInvalid(user.Id, verification.UniqueId);
+            Assert.IsTrue(markAddressAsInvalidOutcome2.IsRejected,
+                "IsRejected field when marking address as invalid the second time is not the expected.");
+            Assert.AreEqual(CommonResources.GenericInvalidActionMessage, markAddressAsInvalidOutcome2.RejectionReason,
+                "RejectionReason field when marking address as invalid the second time is not the expected.");
+            Assert.IsFalse(
+                markAddressAsInvalidOutcome2.UiAlerts != null &&
+                markAddressAsInvalidOutcome2.UiAlerts.Any(x => x.Message.Equals(OutgoingVerificationResources.MarkAddressAsInvalid_SuccessMessage)),
+                "There should be no success UI Alert when trying to mark the address as invalid the second time.");
+
+            var retrievedVerificationAtPoint4 = await DbProbe.TenantVerifications
+                .SingleOrDefaultAsync(x => x.UniqueId.Equals(verification.UniqueId));
+            Assert.IsNotNull(retrievedVerificationAtPoint4, "Retrieved verification at point 4 is null.");
+            Assert.AreEqual(retrievedVerificationAtPoint2.MarkedAddressAsInvalidOn, retrievedVerificationAtPoint4.MarkedAddressAsInvalidOn,
+                "MarkedAddressAsInvalidOn on retrieved verification at point 4 is not the expected.");
+            Assert.IsNull(retrievedVerificationAtPoint4.MarkedAsSentOn,
+                "MarkedAsSentOn on retrieved verification at point 4 is not the expected.");
+        }
+
+        [Test]
+        public async Task MarkAddressAsInvalid_ExpiryPeriodTest()
+        {
+            var expiryPeriod = TimeSpan.FromSeconds(0.2);
+            var expiryPeriodInDays = expiryPeriod.TotalDays;
+
+            var helperContainer = CreateContainer();
+
+            var ipAddress = "1.2.3.4";
+            var user = await CreateUser(helperContainer, "test@test.com", ipAddress);
+            var ipAddressForSubmission = "2.3.4.5";
+            var userForSubmission = await CreateUser(helperContainer, "test1@test.com", ipAddressForSubmission);
+
+            var random = new RandomWrapper(2015);
+
+            var clock = helperContainer.Get<IClock>();
+
+            var verification = await CreateTenantVerificationAndSave(
+                random, helperContainer, user.Id, ipAddress, userForSubmission.Id, ipAddressForSubmission,
+                isSent: false, isComplete: false);
+
+            var retrievedVerificationAtPoint0 = await DbProbe.TenantVerifications
+                .SingleOrDefaultAsync(x => x.UniqueId.Equals(verification.UniqueId));
+
+            Assert.IsNotNull(retrievedVerificationAtPoint0, "Verification was not created.");
+            Assert.IsNull(retrievedVerificationAtPoint0.MarkedAsSentOn,
+                "MarkedAsSentOn on retrieved verification at point 0 is not the expected.");
+            Assert.IsNull(retrievedVerificationAtPoint0.MarkedAddressAsInvalidOn,
+                "MarkedAddressAsInvalidOn on retrieved verification at point 0 is not the expected.");
+
+            await Task.Delay(expiryPeriod);
+
+            var containerUnderTest = CreateContainer();
+            SetupConfig(containerUnderTest, expiryPeriodInDays: expiryPeriodInDays);
+            var serviceUnderTest = containerUnderTest.Get<IOutgoingVerificationService>();
+            
+            var markAddressAsInvalidOutcome = await serviceUnderTest.MarkAddressAsInvalid(user.Id, verification.UniqueId);
+            Assert.IsTrue(markAddressAsInvalidOutcome.IsRejected,
+                "IsRejected field when marking address as invalid with right user is not the expected.");
+            Assert.AreEqual(CommonResources.GenericInvalidActionMessage, markAddressAsInvalidOutcome.RejectionReason,
+                "RejectionReason field when marking address as invalid with right user is not the expected.");
+            Assert.IsFalse(
+                markAddressAsInvalidOutcome.UiAlerts != null &&
+                markAddressAsInvalidOutcome.UiAlerts.Any(x => x.Message.Equals(OutgoingVerificationResources.MarkAddressAsInvalid_SuccessMessage)),
+                "There should be no success UI Alert when trying to mark address as invalid after expiry.");
+
+
+            var retrievedVerificationAtPoint1 = await DbProbe.TenantVerifications
+                .SingleOrDefaultAsync(x => x.UniqueId.Equals(verification.UniqueId));
+            Assert.IsNotNull(retrievedVerificationAtPoint1, "Retrieved verification at point 1 is null.");
+            Assert.IsNull(retrievedVerificationAtPoint1.MarkedAddressAsInvalidOn,
+                "MarkedAddressAsInvalidOn on retrieved verification at point 1 is not the expected.");
+            Assert.IsNull(retrievedVerificationAtPoint1.MarkedAsSentOn,
+                "MarkedAsSentOn on retrieved verification at point 1 is not the expected.");
+        }
+
+        #endregion
+
         #region Private helper functions
 
         private static void SetupConfig(IKernel container,

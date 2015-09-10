@@ -301,7 +301,7 @@ namespace Epsilon.Logic.Services
                 MessageArguments = messageArguments,
                 VerificationUniqueId = verificationUniqueId,
                 OtherUserHasMarkedAddressAsInvalid = otherUserHasMarkedAddressAsInvalid,
-                CanMarkAddressAsInvalid = verification.CanMarkAddressAsInvalid(),
+                CanMarkAddressAsInvalid = verification.CanMarkAddressAsInvalid(now, expiryPeriod),
                 CanMarkAsSent = verification.CanMarkAsSent()
             };
 
@@ -312,7 +312,6 @@ namespace Epsilon.Logic.Services
             };
         }
 
-        // TODO_TEST_PANOS
         public async Task<MarkVerificationAsSentOutcome> MarkAsSent(string userId, Guid verificationUniqueId)
         {
             var uiAlerts = new List<UiAlert>();
@@ -322,7 +321,6 @@ namespace Epsilon.Logic.Services
                 includeTenancyDetailsSubmission: true, includeAddress: false, includeOtherVerifications: false);
             if (verification == null)
             {
-                // TODO_TEST_PANOS
                 return new MarkVerificationAsSentOutcome
                 {
                     IsRejected = true,
@@ -332,7 +330,6 @@ namespace Epsilon.Logic.Services
 
             if (!verification.CanMarkAsSent())
             {
-                // TODO_TEST_PANOS
                 return new MarkVerificationAsSentOutcome
                 {
                     IsRejected = true,
@@ -340,7 +337,6 @@ namespace Epsilon.Logic.Services
                 };
             }
 
-            // TODO_TEST_PANOS
             verification.MarkedAsSentOn = _clock.OffsetNow;
             _dbContext.Entry(verification).State = EntityState.Modified;
             await _dbContext.SaveChangesAsync();
@@ -348,22 +344,19 @@ namespace Epsilon.Logic.Services
             uiAlerts.Add(new UiAlert
             {
                 Type = UiAlertType.Success,
-                // TODO_TEST_PANOS
                 Message = OutgoingVerificationResources.MarkAsSent_SuccessMessage
             });
 
             _appCacheHelper.RemoveCachedUserOutgoingVerificationsSummary(userId);
             _appCacheHelper.RemoveCachedUserSubmissionsSummary(verification.TenancyDetailsSubmission.UserId);
 
-            // TODO_TEST_PANOS
             return new MarkVerificationAsSentOutcome
             {
                 IsRejected = false,
                 UiAlerts = uiAlerts
             };
         }
-
-        // TODO_TEST_PANOS
+        
         public async Task<MarkAddressAsInvalidOutcome> MarkAddressAsInvalid(string userId, Guid verificationUniqueId)
         {
             var uiAlerts = new List<UiAlert>();
@@ -373,7 +366,6 @@ namespace Epsilon.Logic.Services
                 includeTenancyDetailsSubmission: false, includeAddress: false, includeOtherVerifications: false);
             if (verification == null)
             {
-                // TODO_TEST_PANOS
                 return new MarkAddressAsInvalidOutcome
                 {
                     IsRejected = true,
@@ -381,9 +373,11 @@ namespace Epsilon.Logic.Services
                 };
             }
 
-            if (!verification.CanMarkAddressAsInvalid())
+            var now = _clock.OffsetNow;
+            var expiryPeriod = TimeSpan.FromDays(_outgoingVerificationServiceConfig.Instructions_ExpiryPeriodInDays);
+
+            if (!verification.CanMarkAddressAsInvalid(now, expiryPeriod))
             {
-                // TODO_TEST_PANOS
                 return new MarkAddressAsInvalidOutcome
                 {
                     IsRejected = true,
@@ -391,7 +385,6 @@ namespace Epsilon.Logic.Services
                 };
             }
 
-            // TODO_TEST_PANOS
             verification.MarkedAddressAsInvalidOn = _clock.OffsetNow;
             _dbContext.Entry(verification).State = EntityState.Modified;
             await _dbContext.SaveChangesAsync();
@@ -399,13 +392,11 @@ namespace Epsilon.Logic.Services
             uiAlerts.Add(new UiAlert
             {
                 Type = UiAlertType.Success,
-                // TODO_TEST_PANOS
                 Message = OutgoingVerificationResources.MarkAddressAsInvalid_SuccessMessage
             });
 
             _appCacheHelper.RemoveCachedUserOutgoingVerificationsSummary(userId);
 
-            // TODO_TEST_PANOS
             return new MarkAddressAsInvalidOutcome
             {
                 IsRejected = false,

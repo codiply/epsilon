@@ -45,9 +45,9 @@ namespace Epsilon.Logic.Entities
             return !StepVerificationSentOutDone() && !MarkedAddressAsInvalid();
         }
 
-        public bool CanMarkAddressAsInvalid()
+        public bool CanMarkAddressAsInvalid(DateTimeOffset now, TimeSpan expiryPeriod)
         {
-            return !MarkedAddressAsInvalid() && !StepVerificationSentOutDone();
+            return !MarkedAddressAsInvalid() && !StepVerificationSentOutDone() && now < ExpiresOn(expiryPeriod);
         }
 
         public bool CanViewInstructions(DateTimeOffset now, TimeSpan expiryPeriod)
