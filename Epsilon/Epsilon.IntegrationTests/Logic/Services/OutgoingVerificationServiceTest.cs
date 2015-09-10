@@ -524,7 +524,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             [Values(false, true)] bool otherUserMarkedAddressAsInvalid)
         {
             var markedAddressAsInvalid = false;
-            var expiryPeriod = TimeSpan.FromSeconds(0.3);
+            var expiryPeriod = TimeSpan.FromSeconds(0.5);
             var expiryPeriodInDays = expiryPeriod.TotalDays;
 
             var helperContainer = CreateContainer();
@@ -630,7 +630,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             [Values(false, true)] bool otherUserMarkedAddressAsInvalid)
         {
             var markedAddressAsInvalid = true;
-            var expiryPeriod = TimeSpan.FromSeconds(0.3);
+            var expiryPeriod = TimeSpan.FromSeconds(0.5);
             var expiryPeriodInDays = expiryPeriod.TotalDays;
 
             var helperContainer = CreateContainer();
