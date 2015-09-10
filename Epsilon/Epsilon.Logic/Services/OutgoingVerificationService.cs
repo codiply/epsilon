@@ -237,7 +237,6 @@ namespace Epsilon.Logic.Services
 
             if (!verification.CanViewInstructions(now, expiryPeriod))
             {
-                // TODO_TEST_PANOS
                 return new GetVerificationMessageOutcome
                 {
                     IsRejected = true,
@@ -260,16 +259,12 @@ namespace Epsilon.Logic.Services
             };
         }
 
-        // TODO_TEST_PANOS
         public async Task<GetInstructionsOutcome> GetInstructions(string userId, Guid verificationUniqueId)
         {
-            // TODO_TEST_PANOS
-
             var verification = await GetVerificationForUser(userId, verificationUniqueId,
                 includeTenancyDetailsSubmission: true, includeAddress: true, includeOtherVerifications: true);
             if (verification == null)
             {
-                // TODO_TEST_PANOS
                 return new GetInstructionsOutcome
                 {
                     IsRejected = true,
@@ -282,7 +277,6 @@ namespace Epsilon.Logic.Services
 
             if (!verification.CanViewInstructions(now, expiryPeriod))
             {
-                // TODO_TEST_PANOS
                 return new GetInstructionsOutcome
                 {
                     IsRejected = true,

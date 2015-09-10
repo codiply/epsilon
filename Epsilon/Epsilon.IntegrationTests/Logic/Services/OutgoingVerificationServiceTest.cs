@@ -510,12 +510,177 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var serviceUnderTest = containerUnderTest.Get<IOutgoingVerificationService>();
 
             var nonExistentVerificationUniqueId = Guid.NewGuid();
-            var message = await serviceUnderTest.GetInstructions(user.Id, nonExistentVerificationUniqueId);
+            var instructions = await serviceUnderTest.GetInstructions(user.Id, nonExistentVerificationUniqueId);
 
-            Assert.IsTrue(message.IsRejected, "IsRejected field is not the expected.");
-            Assert.AreEqual(CommonResources.GenericInvalidRequestMessage, message.RejectionReason,
+            Assert.IsTrue(instructions.IsRejected, "IsRejected field is not the expected.");
+            Assert.AreEqual(CommonResources.GenericInvalidRequestMessage, instructions.RejectionReason,
                 "RejectionReason field is not the expected.");
-            Assert.IsNull(message.Instructions, "Instructions field is not the expected.");
+            Assert.IsNull(instructions.Instructions, "Instructions field is not the expected.");
+        }
+
+        [Test, Combinatorial]
+        public async Task GetInstructions_ExpiryPeriodTest(
+            [Values(false, true)] bool markedAsSent,
+            [Values(false, true)] bool otherUserMarkedAddressAsInvalid)
+        {
+            var markedAddressAsInvalid = false;
+            var expiryPeriod = TimeSpan.FromSeconds(0.3);
+            var expiryPeriodInDays = expiryPeriod.TotalDays;
+
+            var helperContainer = CreateContainer();
+
+            var ipAddress = "1.2.3.4";
+            var user = await CreateUser(helperContainer, "test@test.com", ipAddress);
+            var ipAddressForSubmission = "2.3.4.5";
+            var userForSubmission = await CreateUser(helperContainer, "test1@test.com", ipAddressForSubmission);
+
+            var random = new RandomWrapper(2015);
+
+            var verification = await CreateTenantVerificationAndSave(
+                random, helperContainer, user.Id, ipAddress, userForSubmission.Id, ipAddressForSubmission,
+                isSent: markedAsSent, markedAddressAsInvalid: markedAddressAsInvalid, otherUserMarkedAddressAsInvalid: otherUserMarkedAddressAsInvalid);
+
+            var retrievedVerification = await DbProbe.TenantVerifications
+                .Include(x => x.TenancyDetailsSubmission)
+                .Include(x => x.TenancyDetailsSubmission.Address)
+                .Include(x => x.TenancyDetailsSubmission.Address.Country)
+                .SingleOrDefaultAsync(x => x.UniqueId.Equals(verification.UniqueId));
+
+            Assert.IsNotNull(retrievedVerification, "Verification was not created.");
+
+            var containerUnderTest = CreateContainer();
+            SetupConfig(containerUnderTest, expiryPeriodInDays: expiryPeriodInDays);
+            var serviceUnderTest = containerUnderTest.Get<IOutgoingVerificationService>();
+
+            var instructionsWithWrongUser = await serviceUnderTest.GetInstructions(userForSubmission.Id, verification.UniqueId);
+
+            var instructionsBeforeExpiry = await serviceUnderTest.GetInstructions(user.Id, verification.UniqueId);
+
+            // I wait until the verification expires.
+            await Task.Delay(expiryPeriod);
+
+            var instructionsAfterExpiry = await serviceUnderTest.GetInstructions(user.Id, verification.UniqueId);
+
+            Assert.IsTrue(instructionsWithWrongUser.IsRejected, "IsRejected field is not the expected when using the wrong user.");
+            Assert.AreEqual(CommonResources.GenericInvalidRequestMessage, instructionsWithWrongUser.RejectionReason,
+                "RejectionReason field is not the expected when using the wrong user.");
+            Assert.IsNull(instructionsWithWrongUser.Instructions, "Instructions field should not be null when using the wrong user.");
+
+            Assert.IsFalse(instructionsBeforeExpiry.IsRejected, "IsRejected field is not the expected before expiry.");
+            Assert.IsNullOrEmpty(instructionsBeforeExpiry.RejectionReason, "RejectionReason field is not the expected before expiry.");
+            Assert.IsNotNull(instructionsBeforeExpiry.Instructions, "Instructions field should not be null before expiry.");
+
+            Assert.AreEqual(!markedAsSent, instructionsBeforeExpiry.Instructions.CanMarkAddressAsInvalid, "CanMarkAddressAsInvalid is not the expected.");
+            Assert.AreEqual(!markedAsSent, instructionsBeforeExpiry.Instructions.CanMarkAsSent, "CanMarkAsSent is not the expected.");
+            Assert.AreEqual(otherUserMarkedAddressAsInvalid, instructionsBeforeExpiry.Instructions.OtherUserHasMarkedAddressAsInvalid,
+                "OtherUserHasMarkedAddressAsInvalid is not the expected.");
+
+            Assert.AreEqual(
+                retrievedVerification.TenancyDetailsSubmission.Address.Line1,
+                instructionsBeforeExpiry.Instructions.RecipientAddress.Line1,
+                "Instructions.RecipientAddress.Line1 is not the expected.");
+            Assert.AreEqual(
+                retrievedVerification.TenancyDetailsSubmission.Address.Line2,
+                instructionsBeforeExpiry.Instructions.RecipientAddress.Line2,
+                "Instructions.RecipientAddress.Line2 is not the expected.");
+            Assert.AreEqual(
+                retrievedVerification.TenancyDetailsSubmission.Address.Line3,
+                instructionsBeforeExpiry.Instructions.RecipientAddress.Line3,
+                "Instructions.RecipientAddress.Line3 is not the expected.");
+            Assert.AreEqual(
+                retrievedVerification.TenancyDetailsSubmission.Address.Line4,
+                instructionsBeforeExpiry.Instructions.RecipientAddress.Line4,
+                "Instructions.RecipientAddress.Line1 is not the expected.");
+            Assert.AreEqual(
+                retrievedVerification.TenancyDetailsSubmission.Address.Locality,
+                instructionsBeforeExpiry.Instructions.RecipientAddress.Locality,
+                "Instructions.RecipientAddress.Locality is not the expected.");
+            Assert.AreEqual(
+                retrievedVerification.TenancyDetailsSubmission.Address.Region,
+                instructionsBeforeExpiry.Instructions.RecipientAddress.Region,
+                "Instructions.RecipientAddress.Region is not the expected.");
+            Assert.AreEqual(
+                retrievedVerification.TenancyDetailsSubmission.Address.Postcode,
+                instructionsBeforeExpiry.Instructions.RecipientAddress.Postcode,
+                "Instructions.RecipientAddress.Postcode is not the expected.");
+            Assert.AreEqual(
+                retrievedVerification.TenancyDetailsSubmission.Address.Country.EnglishName,
+                instructionsBeforeExpiry.Instructions.RecipientAddress.CountryEnglishName,
+                "Instructions.RecipientAddress.CountryEnglishName is not the expected.");
+            Assert.AreEqual(
+                retrievedVerification.TenancyDetailsSubmission.Address.Country.LocalName,
+                instructionsBeforeExpiry.Instructions.RecipientAddress.CountryLocalName,
+                "Instructions.RecipientAddress.CountryLocalName is not the expected.");
+
+            Assert.AreEqual(retrievedVerification.TenancyDetailsSubmission.Address.CountryIdAsEnum(),
+                instructionsBeforeExpiry.Instructions.MessageArguments.CountryId, "Instructions.MessageArguments.CountryId is not the expected.");
+            Assert.AreEqual(retrievedVerification.SecretCode,
+                instructionsBeforeExpiry.Instructions.MessageArguments.SecretCode, "Instructions.MessageArguments.SecretCode is not the expected.");
+
+            Assert.IsTrue(instructionsAfterExpiry.IsRejected, "IsRejected field is not the expected after expiry.");
+            Assert.AreEqual(CommonResources.GenericInvalidActionMessage, instructionsAfterExpiry.RejectionReason,
+                "RejectionReason field is not the expected after expiry.");
+            Assert.IsNull(instructionsAfterExpiry.Instructions,
+                "Instructions field should be null after expiry.");
+        }
+
+        [Test, Combinatorial]
+        public async Task GetInstructions_ExpiryPeriodTest_MarkedAddressAsInvalid(
+            [Values(false, true)] bool markedAsSent,
+            [Values(false, true)] bool otherUserMarkedAddressAsInvalid)
+        {
+            var markedAddressAsInvalid = true;
+            var expiryPeriod = TimeSpan.FromSeconds(0.3);
+            var expiryPeriodInDays = expiryPeriod.TotalDays;
+
+            var helperContainer = CreateContainer();
+
+            var ipAddress = "1.2.3.4";
+            var user = await CreateUser(helperContainer, "test@test.com", ipAddress);
+            var ipAddressForSubmission = "2.3.4.5";
+            var userForSubmission = await CreateUser(helperContainer, "test1@test.com", ipAddressForSubmission);
+
+            var random = new RandomWrapper(2015);
+
+            var verification = await CreateTenantVerificationAndSave(
+                random, helperContainer, user.Id, ipAddress, userForSubmission.Id, ipAddressForSubmission,
+                isSent: markedAsSent, markedAddressAsInvalid: markedAddressAsInvalid, otherUserMarkedAddressAsInvalid: otherUserMarkedAddressAsInvalid);
+
+            var retrievedVerification = await DbProbe.TenantVerifications
+                .Include(x => x.TenancyDetailsSubmission)
+                .Include(x => x.TenancyDetailsSubmission.Address)
+                .Include(x => x.TenancyDetailsSubmission.Address.Country)
+                .SingleOrDefaultAsync(x => x.UniqueId.Equals(verification.UniqueId));
+
+            Assert.IsNotNull(retrievedVerification, "Verification was not created.");
+
+            var containerUnderTest = CreateContainer();
+            SetupConfig(containerUnderTest, expiryPeriodInDays: expiryPeriodInDays);
+            var serviceUnderTest = containerUnderTest.Get<IOutgoingVerificationService>();
+
+            var instructionsWithWrongUser = await serviceUnderTest.GetInstructions(userForSubmission.Id, verification.UniqueId);
+
+            var instructionsBeforeExpiry = await serviceUnderTest.GetInstructions(user.Id, verification.UniqueId);
+
+            // I wait until the verification expires.
+            await Task.Delay(expiryPeriod);
+
+            var instructionsAfterExpiry = await serviceUnderTest.GetInstructions(user.Id, verification.UniqueId);
+
+            Assert.IsTrue(instructionsWithWrongUser.IsRejected, "IsRejected field is not the expected when using the wrong user.");
+            Assert.AreEqual(CommonResources.GenericInvalidRequestMessage, instructionsWithWrongUser.RejectionReason,
+                "RejectionReason field is not the expected when using the wrong user.");
+            Assert.IsNull(instructionsWithWrongUser.Instructions, "Instructions field should not be null when using the wrong user.");
+
+            Assert.IsTrue(instructionsBeforeExpiry.IsRejected, "IsRejected field is not the expected before expiry.");
+            Assert.AreEqual(CommonResources.GenericInvalidActionMessage, instructionsBeforeExpiry.RejectionReason, "RejectionReason field is not the expected before expiry.");
+            Assert.IsNull(instructionsBeforeExpiry.Instructions, "Instructions field should be null before expiry.");
+            
+            Assert.IsTrue(instructionsAfterExpiry.IsRejected, "IsRejected field is not the expected after expiry.");
+            Assert.AreEqual(CommonResources.GenericInvalidActionMessage, instructionsAfterExpiry.RejectionReason,
+                "RejectionReason field is not the expected after expiry.");
+            Assert.IsNull(instructionsAfterExpiry.Instructions,
+                "Instructions field should be null after expiry.");
         }
 
         #endregion
@@ -545,7 +710,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
         [Test]
         public async Task GetVerificationMessage_ExpiryPeriodTest()
         {
-            var expiryPeriod = TimeSpan.FromSeconds(0.2);
+            var expiryPeriod = TimeSpan.FromSeconds(0.4);
             var expiryPeriodInDays = expiryPeriod.TotalDays;
 
             var helperContainer = CreateContainer();
@@ -560,33 +725,44 @@ namespace Epsilon.IntegrationTests.Logic.Services
             var verification = await CreateTenantVerificationAndSave(
                 random, helperContainer, user.Id, ipAddress, userForSubmission.Id, ipAddressForSubmission);
 
+            var retrievedVerification = await DbProbe.TenantVerifications
+                .Include(x => x.TenancyDetailsSubmission)
+                .Include(x => x.TenancyDetailsSubmission.Address)
+                .SingleOrDefaultAsync(x => x.UniqueId.Equals(verification.UniqueId));
+
+            Assert.IsNotNull(retrievedVerification, "Verification was not created.");
+
             var containerUnderTest = CreateContainer();
             SetupConfig(containerUnderTest, expiryPeriodInDays: expiryPeriodInDays);
             var serviceUnderTest = containerUnderTest.Get<IOutgoingVerificationService>();
 
             var messageWithWrongUser = await serviceUnderTest.GetVerificationMessage(userForSubmission.Id, verification.UniqueId);
 
-            Assert.IsTrue(messageWithWrongUser.IsRejected, "IsRejected field is not the expected when using the wrong user.");
-            Assert.AreEqual(CommonResources.GenericInvalidRequestMessage, messageWithWrongUser.RejectionReason, 
-                "RejectionReason field is not the expected when using the wrong user.");
-            Assert.IsNull(messageWithWrongUser.MessageArguments, "MessageArguments field should not be null when using the wrong user.");
-
             var messageBeforeExpiry = await serviceUnderTest.GetVerificationMessage(user.Id, verification.UniqueId);
-
-            Assert.IsFalse(messageBeforeExpiry.IsRejected, "IsRejected field is not the expected before expiry.");
-            Assert.IsNullOrEmpty(messageBeforeExpiry.RejectionReason, "RejectionReason field is not the expected before expiry.");
-            Assert.IsNotNull(messageBeforeExpiry.MessageArguments, "MessageArguments field should not be null before expiry.");
 
             // I wait until the verification expires.
             await Task.Delay(expiryPeriod);
 
             var messageAfterExpiry = await serviceUnderTest.GetVerificationMessage(user.Id, verification.UniqueId);
 
+            Assert.IsTrue(messageWithWrongUser.IsRejected, "IsRejected field is not the expected when using the wrong user.");
+            Assert.AreEqual(CommonResources.GenericInvalidRequestMessage, messageWithWrongUser.RejectionReason, 
+                "RejectionReason field is not the expected when using the wrong user.");
+            Assert.IsNull(messageWithWrongUser.MessageArguments, "MessageArguments field should not be null when using the wrong user.");
+
+            Assert.IsFalse(messageBeforeExpiry.IsRejected, "IsRejected field is not the expected before expiry.");
+            Assert.IsNullOrEmpty(messageBeforeExpiry.RejectionReason, "RejectionReason field is not the expected before expiry.");
+            Assert.IsNotNull(messageBeforeExpiry.MessageArguments, "MessageArguments field should not be null before expiry.");
+            Assert.AreEqual(retrievedVerification.TenancyDetailsSubmission.Address.CountryIdAsEnum(),
+                messageBeforeExpiry.MessageArguments.CountryId, "CountryId is not the expected.");
+            Assert.AreEqual(retrievedVerification.SecretCode,
+                messageBeforeExpiry.MessageArguments.SecretCode, "SecretCode is not the expected.");
+
             Assert.IsTrue(messageAfterExpiry.IsRejected, "IsRejected field is not the expected after expiry.");
-            Assert.IsNullOrEmpty(CommonResources.GenericInvalidActionMessage, messageAfterExpiry.RejectionReason, 
+            Assert.AreEqual(CommonResources.GenericInvalidActionMessage, messageAfterExpiry.RejectionReason, 
                 "RejectionReason field is not the expected after expiry.");
-            Assert.IsNotNull(messageBeforeExpiry.MessageArguments, 
-                "MessageArguments field should not be null after expiry.");
+            Assert.IsNull(messageAfterExpiry.MessageArguments, 
+                "MessageArguments field should be null after expiry.");
         }
 
         #endregion
@@ -1578,8 +1754,10 @@ namespace Epsilon.IntegrationTests.Logic.Services
             IRandomWrapper random, IKernel container, 
             string userId, string userIpAddress, 
             string userIdForSubmission, string userForSubmissionIpAddress,
-            bool isSent = false, 
-            bool isComplete = false)
+            bool isSent = false,
+            bool isComplete = false,
+            bool markedAddressAsInvalid = false, 
+            bool otherUserMarkedAddressAsInvalid = false)
         {
             var clock = container.Get<IClock>();
             var dbContext = container.Get<IEpsilonContext>();
@@ -1607,8 +1785,27 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 tenantVerification.MarkedAsSentOn = clock.OffsetNow;
             if (isComplete)
                 tenantVerification.VerifiedOn = clock.OffsetNow;
+            if (markedAddressAsInvalid)
+                tenantVerification.MarkedAddressAsInvalidOn = clock.OffsetNow;
 
             dbContext.TenantVerifications.Add(tenantVerification);
+
+            if (otherUserMarkedAddressAsInvalid)
+            {
+                var otherUserIpAddress = RandomIpAddress(random);
+                var otherUser = await CreateUser(container, RandomEmail(random), otherUserIpAddress);
+                var otherTenantVerification = new TenantVerification
+                {
+                    TenancyDetailsSubmission = tenancyDetailsSubmission,
+                    UniqueId = Guid.NewGuid(),
+                    AssignedToId = otherUser.Id,
+                    AssignedByIpAddress = otherUserIpAddress,
+                    SecretCode = RandomStringHelper.GetString(random, AppConstant.SECRET_CODE_MAX_LENGTH, CharacterCase.Mixed),
+                    MarkedAddressAsInvalidOn = clock.OffsetNow
+                };
+                dbContext.TenantVerifications.Add(otherTenantVerification);
+            }
+
             await dbContext.SaveChangesAsync();
 
             return tenantVerification;

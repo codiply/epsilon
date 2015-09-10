@@ -1,16 +1,19 @@
 ﻿using Epsilon.Logic.Constants.Enums;
 using Epsilon.Logic.Entities;
+using Epsilon.Logic.Helpers;
 using Epsilon.Logic.Helpers.Interfaces;
 using Epsilon.Logic.Infrastructure.Interfaces;
 using Epsilon.Logic.Services.Interfaces;
 using Epsilon.Logic.SqlContext;
 using Epsilon.Logic.SqlContext.Interfaces;
+using Epsilon.Logic.Wrappers.Interfaces;
 using Epsilon.Web.App_Start;
 using Moq;
 using Ninject;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Transactions;
 
@@ -108,6 +111,19 @@ namespace Epsilon.IntegrationTests.BaseFixtures
                 .Callback(logCallback);
 
             container.Rebind<IAdminEventLogService>().ToConstant(mockAdminEventLogService.Object);
+        }
+
+        public static string RandomIpAddress(IRandomWrapper random)
+        {
+            var pieces = Enumerable.Range(0, 4).Select(x => random.Next(0, 254).ToString());
+            return string.Join(".", pieces);
+        }
+
+        public static string RandomEmail(IRandomWrapper random)
+        {
+            return string.Format("{0}@{1}.com",
+                RandomStringHelper.GetString(random, 10, RandomStringHelper.CharacterCase.Lower),
+                RandomStringHelper.GetString(random, 10, RandomStringHelper.CharacterCase.Lower));
         }
     }
 }
