@@ -1716,7 +1716,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 random, helperContainer, user.Id, ipAddress, userForSubmission.Id, ipAddressForSubmission,
                 isSent: false, isComplete: false);
 
-            var retrievedVerificationAtPoint0 = await DbProbe.TenantVerifications
+            var retrievedVerificationAtPoint0 = await CreateContainer().Get<IEpsilonContext>().TenantVerifications
                 .SingleOrDefaultAsync(x => x.UniqueId.Equals(verification.UniqueId));
 
             Assert.IsNotNull(retrievedVerificationAtPoint0, "Verification was not created.");
@@ -1740,7 +1740,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 markAsSentOutcomeWithWrongUser.UiAlerts.Any(x => x.Message.Equals(OutgoingVerificationResources.MarkAsSent_SuccessMessage)),
                 "There should be no success UI Alert when trying to mark as sent with the wrong user.");
 
-            var retrievedVerificationAtPoint1 = await DbProbe.TenantVerifications
+            var retrievedVerificationAtPoint1 = await CreateContainer().Get<IEpsilonContext>().TenantVerifications
                 .SingleOrDefaultAsync(x => x.UniqueId.Equals(verification.UniqueId));
             Assert.IsNotNull(retrievedVerificationAtPoint1, "Retrieved verification at point 1 is null.");
             Assert.IsNull(retrievedVerificationAtPoint1.MarkedAsSentOn,
@@ -1761,7 +1761,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 "There should be a success UI Alert when trying to mark as sent with the right user.");
             var timeAfter = clock.OffsetNow;
 
-            var retrievedVerificationAtPoint2 = await DbProbe.TenantVerifications
+            var retrievedVerificationAtPoint2 = await CreateContainer().Get<IEpsilonContext>().TenantVerifications
                 .SingleOrDefaultAsync(x => x.UniqueId.Equals(verification.UniqueId));
             Assert.IsNotNull(retrievedVerificationAtPoint2, "Retrieved verification at point 2 is null.");
             Assert.IsNotNull(retrievedVerificationAtPoint2.MarkedAsSentOn,
@@ -1779,7 +1779,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.AreEqual(CommonResources.GenericInvalidActionMessage, markAddressAsInvalidOutcome.RejectionReason,
                 "RejectionReason when marking the address as invalid is not the expected.");
 
-            var retrievedVerificationAtPoint3 = await DbProbe.TenantVerifications
+            var retrievedVerificationAtPoint3 = await CreateContainer().Get<IEpsilonContext>().TenantVerifications
                 .SingleOrDefaultAsync(x => x.UniqueId.Equals(verification.UniqueId));
             Assert.IsNotNull(retrievedVerificationAtPoint3, "Retrieved verification at point 3 is null.");
             Assert.AreEqual(retrievedVerificationAtPoint2.MarkedAsSentOn, retrievedVerificationAtPoint3.MarkedAsSentOn,
@@ -1798,7 +1798,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 markAsSentOutcome2.UiAlerts.Any(x => x.Message.Equals(OutgoingVerificationResources.MarkAsSent_SuccessMessage)),
                 "There should be no success UI Alert when trying to mark as sent the second time.");
 
-            var retrievedVerificationAtPoint4 = await DbProbe.TenantVerifications
+            var retrievedVerificationAtPoint4 = await CreateContainer().Get<IEpsilonContext>().TenantVerifications
                 .SingleOrDefaultAsync(x => x.UniqueId.Equals(verification.UniqueId));
             Assert.IsNotNull(retrievedVerificationAtPoint4, "Retrieved verification at point 4 is null.");
             Assert.AreEqual(retrievedVerificationAtPoint2.MarkedAsSentOn, retrievedVerificationAtPoint4.MarkedAsSentOn,
@@ -1832,7 +1832,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 random, helperContainer, user.Id, ipAddress, userForSubmission.Id, ipAddressForSubmission,
                 isSent: false, isComplete: false);
 
-            var retrievedVerificationAtPoint0 = await DbProbe.TenantVerifications
+            var retrievedVerificationAtPoint0 = await CreateContainer().Get<IEpsilonContext>().TenantVerifications
                 .SingleOrDefaultAsync(x => x.UniqueId.Equals(verification.UniqueId));
 
             Assert.IsNotNull(retrievedVerificationAtPoint0, "Verification was not created.");
@@ -1856,7 +1856,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 markAddressAsInvalidOutcomeWithWrongUser.UiAlerts.Any(x => x.Message.Equals(OutgoingVerificationResources.MarkAddressAsInvalid_SuccessMessage)),
                 "There should be no success UI Alert when trying to mark address as invalid with the wrong user.");
 
-            var retrievedVerificationAtPoint1 = await DbProbe.TenantVerifications
+            var retrievedVerificationAtPoint1 = await CreateContainer().Get<IEpsilonContext>().TenantVerifications
                 .SingleOrDefaultAsync(x => x.UniqueId.Equals(verification.UniqueId));
             Assert.IsNotNull(retrievedVerificationAtPoint1, "Retrieved verification at point 1 is null.");
             Assert.IsNull(retrievedVerificationAtPoint1.MarkedAsSentOn,
@@ -1877,7 +1877,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 "There should be a success UI Alert when trying to mark address as invalid with the right user.");
             var timeAfter = clock.OffsetNow;
 
-            var retrievedVerificationAtPoint2 = await DbProbe.TenantVerifications
+            var retrievedVerificationAtPoint2 = await CreateContainer().Get<IEpsilonContext>().TenantVerifications
                 .SingleOrDefaultAsync(x => x.UniqueId.Equals(verification.UniqueId));
             Assert.IsNotNull(retrievedVerificationAtPoint2, "Retrieved verification at point 2 is null.");
             Assert.IsNotNull(retrievedVerificationAtPoint2.MarkedAddressAsInvalidOn,
@@ -1895,7 +1895,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
             Assert.AreEqual(CommonResources.GenericInvalidActionMessage, markAsSentOutcome.RejectionReason,
                 "RejectionReason when marking the verification as sent is not the expected.");
 
-            var retrievedVerificationAtPoint3 = await DbProbe.TenantVerifications
+            var retrievedVerificationAtPoint3 = await CreateContainer().Get<IEpsilonContext>().TenantVerifications
                 .SingleOrDefaultAsync(x => x.UniqueId.Equals(verification.UniqueId));
             Assert.IsNotNull(retrievedVerificationAtPoint3, "Retrieved verification at point 3 is null.");
             Assert.AreEqual(retrievedVerificationAtPoint2.MarkedAddressAsInvalidOn, retrievedVerificationAtPoint3.MarkedAddressAsInvalidOn,
@@ -1914,7 +1914,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 markAddressAsInvalidOutcome2.UiAlerts.Any(x => x.Message.Equals(OutgoingVerificationResources.MarkAddressAsInvalid_SuccessMessage)),
                 "There should be no success UI Alert when trying to mark the address as invalid the second time.");
 
-            var retrievedVerificationAtPoint4 = await DbProbe.TenantVerifications
+            var retrievedVerificationAtPoint4 = await CreateContainer().Get<IEpsilonContext>().TenantVerifications
                 .SingleOrDefaultAsync(x => x.UniqueId.Equals(verification.UniqueId));
             Assert.IsNotNull(retrievedVerificationAtPoint4, "Retrieved verification at point 4 is null.");
             Assert.AreEqual(retrievedVerificationAtPoint2.MarkedAddressAsInvalidOn, retrievedVerificationAtPoint4.MarkedAddressAsInvalidOn,
@@ -1944,7 +1944,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 random, helperContainer, user.Id, ipAddress, userForSubmission.Id, ipAddressForSubmission,
                 isSent: false, isComplete: false);
 
-            var retrievedVerificationAtPoint0 = await DbProbe.TenantVerifications
+            var retrievedVerificationAtPoint0 = await CreateContainer().Get<IEpsilonContext>().TenantVerifications
                 .SingleOrDefaultAsync(x => x.UniqueId.Equals(verification.UniqueId));
 
             Assert.IsNotNull(retrievedVerificationAtPoint0, "Verification was not created.");
@@ -1970,7 +1970,7 @@ namespace Epsilon.IntegrationTests.Logic.Services
                 "There should be no success UI Alert when trying to mark address as invalid after expiry.");
 
 
-            var retrievedVerificationAtPoint1 = await DbProbe.TenantVerifications
+            var retrievedVerificationAtPoint1 = await CreateContainer().Get<IEpsilonContext>().TenantVerifications
                 .SingleOrDefaultAsync(x => x.UniqueId.Equals(verification.UniqueId));
             Assert.IsNotNull(retrievedVerificationAtPoint1, "Retrieved verification at point 1 is null.");
             Assert.IsNull(retrievedVerificationAtPoint1.MarkedAddressAsInvalidOn,
