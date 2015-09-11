@@ -50,6 +50,10 @@
       <HintPath>..\packages\elmah.corelibrary.1.2.2\lib\Elmah.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Elmah.Contrib.WebApi, Version=1.0.10.25, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Elmah.Contrib.WebApi.1.0.10.25\lib\net45\Elmah.Contrib.WebApi.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Elmah.Mvc, Version=2.1.2.1389, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Elmah.Mvc.2.1.2\lib\net40\Elmah.Mvc.dll</HintPath>
       <Private>True</Private>
@@ -264,6 +268,7 @@
     <Compile Include="Controllers\BaseControllers\BaseMvcController.cs" />
     <Compile Include="Controllers\Filters\Mvc\BaseActionFilterAttribute.cs" />
     <Compile Include="Controllers\Filters\Mvc\DbAppSettingsLoadedAttribute.cs" />
+    <Compile Include="Controllers\Filters\Mvc\HandleErrorWithElmahAttribute.cs" />
     <Compile Include="Controllers\Filters\Mvc\UserInterfaceCustomisationAttribute.cs" />
     <Compile Include="Controllers\Filters\Mvc\AvailableCountryAttribute.cs" />
     <Compile Include="Controllers\Filters\Mvc\DisableWholeWebsiteForMaintenanceAttribute.cs" />

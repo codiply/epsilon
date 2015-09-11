@@ -190,7 +190,7 @@
     <value>Use Selected Address</value>
   </data>
   <data name="UseAddress_ConfirmationText" xml:space="preserve">
-    <value>I confirm this is my address.</value>
+    <value>I confirm this is my address. This will be shared with two other users in random that will send my confirmation code.</value>
   </data>
   <data name="UseAddress_PageHeader" xml:space="preserve">
     <value>Confirm your address</value>

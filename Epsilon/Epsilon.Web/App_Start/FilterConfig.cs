@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using Epsilon.Web.Controllers.Filters.Mvc;
+using System.Web.Mvc;
 
 namespace Epsilon.Web
 {
@@ -6,7 +7,7 @@ namespace Epsilon.Web
     {
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
-            filters.Add(new HandleErrorAttribute());
+            filters.Add(new HandleErrorWithElmahAttribute());
         }
     }
 }

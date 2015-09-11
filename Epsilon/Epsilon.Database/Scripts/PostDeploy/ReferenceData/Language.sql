@@ -19,7 +19,7 @@ VALUES
 -- Edit the values below to update the target table.
 -- !!! Id's should be lowercase !!!
 (N'en', N'English', N'English', N'en-GB', 1),
-(N'el', N'Greek', N'Ελληνικά', N'el-GR', 1),
+(N'el', N'Greek', N'Ελληνικά', N'el-GR', 0),
 (N'us', N'English (US)', N'English (US)', N'en-US', 0);
 GO
 
@@ -28,13 +28,13 @@ USING #TMP AS S -- Source
     ON T.Id = S.Id
 WHEN MATCHED
     THEN UPDATE SET
-	    T.[EnglishName] = S.[EnglishName],
-		T.[LocalName] = S.[LocalName],
-		T.[CultureCode] = S.[CultureCode],
-		T.[IsAvailable] = S.[IsAvailable]
+        T.[EnglishName] = S.[EnglishName],
+        T.[LocalName] = S.[LocalName],
+        T.[CultureCode] = S.[CultureCode],
+        T.[IsAvailable] = S.[IsAvailable]
 WHEN NOT MATCHED
     THEN INSERT ([Id], [EnglishName], [LocalName], [CultureCode], [IsAvailable])
-	VALUES (S.[Id], S.[EnglishName], S.[LocalName], S.[CultureCode], S.[IsAvailable])
+    VALUES (S.[Id], S.[EnglishName], S.[LocalName], S.[CultureCode], S.[IsAvailable])
 WHEN NOT MATCHED BY SOURCE 
     THEN DELETE;
 GO

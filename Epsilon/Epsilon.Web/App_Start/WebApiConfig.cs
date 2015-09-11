@@ -1,7 +1,9 @@
-﻿using Epsilon.Logic.Constants;
+﻿using Elmah.Contrib.WebApi;
+using Epsilon.Logic.Constants;
 using Epsilon.Web.Controllers.Handlers;
 using System.Configuration;
 using System.Web.Http;
+using System.Web.Http.ExceptionHandling;
 
 namespace Epsilon.Web
 {
@@ -9,6 +11,9 @@ namespace Epsilon.Web
     {
         public static void Register(HttpConfiguration config)
         {
+            // Enable Elmah
+            config.Services.Add(typeof(IExceptionLogger), new ElmahExceptionLogger());
+
             // Web API configuration and services
             config.MessageHandlers.Add(new EnforceHttpsHandler());
 

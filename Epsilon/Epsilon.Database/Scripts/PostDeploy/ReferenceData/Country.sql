@@ -21,7 +21,7 @@ INSERT INTO #TMP
 VALUES
 -- Edit the values below to update the target table.
 (N'GB', N'United Kingdom', N'United Kingdom', N'GBP', N'en', 1),
-(N'GR', N'Greece', N'Ελλάδα', N'EUR', N'el', 1),
+(N'GR', N'Greece', N'Ελλάδα', N'EUR', N'el', 0),
 (N'IE', N'Ireland', N'Ireland', N'EUR', N'en', 0),
 (N'US', N'United States of America', N'United States of America', N'USD', N'en', 0);
 GO
