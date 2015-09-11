@@ -32,11 +32,11 @@ namespace Epsilon.Logic.SqlContext.Mapping
             this.HasRequired(x => x.TenancyDetailsSubmission)
                 .WithMany(y => y.TenantVerifications)
                 .HasForeignKey(x => x.TenancyDetailsSubmissionId)
-                .WillCascadeOnDelete(true);
+                .WillCascadeOnDelete(false);
             this.HasRequired(x => x.AssignedTo)
                 .WithMany()
                 .HasForeignKey(x => x.AssignedToId)
-                .WillCascadeOnDelete(false);
+                .WillCascadeOnDelete(true);
 
             // Indexes
             this.Property(x => x.UniqueId)

@@ -26,7 +26,7 @@ namespace Epsilon.Logic.SqlContext.Mapping
             this.HasOptional(x => x.UpdatedBy)
                 .WithMany()
                 .HasForeignKey(x => x.UpdatedById)
-                .WillCascadeOnDelete(false);
+                .WillCascadeOnDelete(true);
             this.Property(x => x.UpdatedOn)
                 .IsOptional();
         }

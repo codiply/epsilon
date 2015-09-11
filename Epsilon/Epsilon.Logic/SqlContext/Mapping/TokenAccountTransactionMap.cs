@@ -41,7 +41,7 @@ namespace Epsilon.Logic.SqlContext.Mapping
             this.HasRequired(x => x.RewardType)
                 .WithMany()
                 .HasForeignKey(x => x.RewardTypeKey)
-                .WillCascadeOnDelete(false);
+                .WillCascadeOnDelete(true);
 
             // Indexes
             this.Property(x => x.UniqueId)

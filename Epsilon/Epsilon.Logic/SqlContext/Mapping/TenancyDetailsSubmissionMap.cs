@@ -35,12 +35,12 @@ namespace Epsilon.Logic.SqlContext.Mapping
             this.HasRequired(x => x.Address)
                 .WithMany(y => y.TenancyDetailsSubmissions)
                 .HasForeignKey(x => x.AddressId)
-                .WillCascadeOnDelete(false);
+                .WillCascadeOnDelete(true);
 
             this.HasOptional(x => x.Currency)
                 .WithMany()
                 .HasForeignKey(x => x.CurrencyId)
-                .WillCascadeOnDelete(false);
+                .WillCascadeOnDelete(true);
 
             // Indexes
             this.Property(x => x.UniqueId)

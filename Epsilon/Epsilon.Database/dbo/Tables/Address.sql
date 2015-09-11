@@ -18,8 +18,10 @@
     CONSTRAINT [PK_dbo.Address] PRIMARY KEY CLUSTERED ([Id] ASC),
     CONSTRAINT [FK_dbo.Address_dbo.Country_CountryId] FOREIGN KEY ([CountryId]) REFERENCES [dbo].[Country] ([Id]),
     CONSTRAINT [FK_dbo.Address_dbo.PostcodeGeometry_CountryId_Postcode] FOREIGN KEY ([CountryId], [Postcode]) REFERENCES [dbo].[PostcodeGeometry] ([CountryId], [Postcode]) ON DELETE CASCADE,
-    CONSTRAINT [FK_dbo.Address_dbo.User_CreatedById] FOREIGN KEY ([CreatedById]) REFERENCES [dbo].[User] ([Id])
+    CONSTRAINT [FK_dbo.Address_dbo.User_CreatedById] FOREIGN KEY ([CreatedById]) REFERENCES [dbo].[User] ([Id]) ON DELETE CASCADE
 );
+
+
 
 
 

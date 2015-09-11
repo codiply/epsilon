@@ -6,15 +6,17 @@
     [CreatedOn]                  DATETIMEOFFSET (7) NOT NULL,
     [MarkedAsSentOn]             DATETIMEOFFSET (7) NULL,
     [VerifiedOn]                 DATETIMEOFFSET (7) NULL,
-	[MarkedAddressAsInvalidOn]     DATETIMEOFFSET (7) NULL,
-	[SenderRewardedOn]           DATETIMEOFFSET (7) NULL,
+    [MarkedAddressAsInvalidOn]   DATETIMEOFFSET (7) NULL,
+    [SenderRewardedOn]           DATETIMEOFFSET (7) NULL,
     [AssignedToId]               NVARCHAR (128)     NOT NULL,
     [AssignedByIpAddress]        NVARCHAR (39)      NOT NULL,
     [Timestamp]                  ROWVERSION         NOT NULL,
     CONSTRAINT [PK_dbo.TenantVerification] PRIMARY KEY CLUSTERED ([Id] ASC),
-    CONSTRAINT [FK_dbo.TenantVerification_dbo.TenancyDetailsSubmission_TenancyDetailsSubmissionId] FOREIGN KEY ([TenancyDetailsSubmissionId]) REFERENCES [dbo].[TenancyDetailsSubmission] ([Id]) ON DELETE CASCADE,
-    CONSTRAINT [FK_dbo.TenantVerification_dbo.User_AssignedToId] FOREIGN KEY ([AssignedToId]) REFERENCES [dbo].[User] ([Id])
+    CONSTRAINT [FK_dbo.TenantVerification_dbo.TenancyDetailsSubmission_TenancyDetailsSubmissionId] FOREIGN KEY ([TenancyDetailsSubmissionId]) REFERENCES [dbo].[TenancyDetailsSubmission] ([Id]),
+    CONSTRAINT [FK_dbo.TenantVerification_dbo.User_AssignedToId] FOREIGN KEY ([AssignedToId]) REFERENCES [dbo].[User] ([Id]) ON DELETE CASCADE
 );
+
+
 
 
 

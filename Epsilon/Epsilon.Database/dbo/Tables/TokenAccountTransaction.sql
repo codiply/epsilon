@@ -10,8 +10,10 @@
     [ExternalReference] NVARCHAR (256)     NULL,
     CONSTRAINT [PK_dbo.TokenAccountTransaction] PRIMARY KEY CLUSTERED ([Id] ASC),
     CONSTRAINT [FK_dbo.TokenAccountTransaction_dbo.TokenAccount_AccountId] FOREIGN KEY ([AccountId]) REFERENCES [dbo].[TokenAccount] ([Id]) ON DELETE CASCADE,
-    CONSTRAINT [FK_dbo.TokenAccountTransaction_dbo.TokenRewardType_RewardTypeKey] FOREIGN KEY ([RewardTypeKey]) REFERENCES [dbo].[TokenRewardType] ([Key])
+    CONSTRAINT [FK_dbo.TokenAccountTransaction_dbo.TokenRewardType_RewardTypeKey] FOREIGN KEY ([RewardTypeKey]) REFERENCES [dbo].[TokenRewardType] ([Key]) ON DELETE CASCADE
 );
+
+
 
 
 

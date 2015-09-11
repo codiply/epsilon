@@ -8,9 +8,11 @@
     [CreatedById]        NVARCHAR (128)     NOT NULL,
     [CreatedByIpAddress] NVARCHAR (39)      NULL,
     CONSTRAINT [PK_dbo.GeocodeFailure] PRIMARY KEY CLUSTERED ([Id] ASC),
-    CONSTRAINT [FK_dbo.GeocodeFailure_dbo.Country_CountryId] FOREIGN KEY ([CountryId]) REFERENCES [dbo].[Country] ([Id]),
-    CONSTRAINT [FK_dbo.GeocodeFailure_dbo.User_CreatedById] FOREIGN KEY ([CreatedById]) REFERENCES [dbo].[User] ([Id])
+    CONSTRAINT [FK_dbo.GeocodeFailure_dbo.Country_CountryId] FOREIGN KEY ([CountryId]) REFERENCES [dbo].[Country] ([Id]) ON DELETE CASCADE,
+    CONSTRAINT [FK_dbo.GeocodeFailure_dbo.User_CreatedById] FOREIGN KEY ([CreatedById]) REFERENCES [dbo].[User] ([Id]) ON DELETE CASCADE
 );
+
+
 
 
 

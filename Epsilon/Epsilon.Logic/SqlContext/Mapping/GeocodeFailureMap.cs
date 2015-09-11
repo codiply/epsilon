@@ -35,11 +35,11 @@ namespace Epsilon.Logic.SqlContext.Mapping
             this.HasRequired(x => x.CreatedBy)
                 .WithMany()
                 .HasForeignKey(x => x.CreatedById)
-                .WillCascadeOnDelete(false);
+                .WillCascadeOnDelete(true);
             this.HasRequired(x => x.Country)
                 .WithMany()
                 .HasForeignKey(x => x.CountryId)
-                .WillCascadeOnDelete(false);
+                .WillCascadeOnDelete(true);
 
             // Indexes
             this.Property(x => x.CreatedOn)
