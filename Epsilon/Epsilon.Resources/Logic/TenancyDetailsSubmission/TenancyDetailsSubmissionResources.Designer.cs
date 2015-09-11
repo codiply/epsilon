@@ -8,10 +8,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Epsilon.Resources.Logic.TenancyDetailsSubmission
-{
-
-
+namespace Epsilon.Resources.Logic.TenancyDetailsSubmission {
+    using System;
+    
+    
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -80,7 +80,7 @@ namespace Epsilon.Resources.Logic.TenancyDetailsSubmission
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Your submission has been initiated. You will receive a verification code by post soon..
+        ///   Looks up a localized string similar to Your submission has been initiated. You will receive your verification code by post soon..
         /// </summary>
         public static string Create_SuccessMessage {
             get {

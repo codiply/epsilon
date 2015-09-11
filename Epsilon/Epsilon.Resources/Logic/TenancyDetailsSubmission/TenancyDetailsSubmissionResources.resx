@@ -124,7 +124,7 @@
     <value>There has been a recent submission for this address. Please try again in a few weeks.</value>
   </data>
   <data name="Create_SuccessMessage" xml:space="preserve">
-    <value>Your submission has been initiated. You will receive a verification code by post soon.</value>
+    <value>Your submission has been initiated. You will receive your verification code by post soon.</value>
   </data>
   <data name="EnterVerificationCode_SuccessMessage" xml:space="preserve">
     <value>The code has been accepted.</value>
