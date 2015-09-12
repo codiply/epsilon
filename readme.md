@@ -53,6 +53,12 @@ To run the integration tests publish first the Database project into a new local
 - There are many anti-abuse and other checks in place that limit the number of times you can perform actions. You can change these settings in the database or use `Scripts/DevScripts/DevAppSettings.sql` by changing the values and running it on your database. 
 - If you serve and test the application in a WLAN, do not set an IpAddressOverride but set `GlobalSwitch_DisableUseOfGeoipInformation` in  database AppSettings.
 
+## Deployment
+
+### Azure VM Setup
+
+* [Endpoints](http://blogs.msdn.com/b/amol/archive/2014/03/20/hosting-websites-on-windows-azure-vm-using-iis.aspx)
+
 ## Checklists
 
 ### New DbAppSetting Checklist
