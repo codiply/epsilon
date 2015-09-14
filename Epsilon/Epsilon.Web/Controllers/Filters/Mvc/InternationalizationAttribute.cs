@@ -52,7 +52,7 @@ namespace Epsilon.Web.Controllers.Filters.Mvc
                 {
                     var countryService = CurrentDependencyResolver.GetService<ICountryService>();
                     var country = countryService.GetCountry(geoip.CountryCode);
-                    if (country != null)
+                    if (country != null && country.IsAvailable)
                         languageId = country.MainLanguageId;
                 }
             }
