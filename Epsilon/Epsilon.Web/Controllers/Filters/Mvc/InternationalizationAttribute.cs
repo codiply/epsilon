@@ -80,7 +80,7 @@ namespace Epsilon.Web.Controllers.Filters.Mvc
                     ViewData = filterContext.Controller.ViewData,
                     TempData = filterContext.Controller.TempData
                 };
-                filterContext.HttpContext.Response.StatusCode = (int)HttpStatusCode.NotFound;
+                filterContext.HttpContext.Response.StatusCode = (int)HttpStatusCode.OK;
                 return;
             }
 
