@@ -67,7 +67,7 @@
             @if (userInterfaceCustomisation != null && userInterfaceCustomisation.CanCreateTenancyDetailsSubmission)
             {
             <li>
-                <a href="@Url.Action("SearchAddress", "Submission")" class="btn btn-default">
+                <a href="@Url.Action("SearchAddress", "Submission")">
                     @LayoutResources.NavBar_ActionsGroup_NewSubmissionLinkText
                 </a>
             </li>
@@ -75,17 +75,19 @@
             @if (userInterfaceCustomisation != null && userInterfaceCustomisation.CanPickOutgoingVerification)
             {
             <li>
-                @using (Html.BeginForm("Pick", "OutgoingVerification"))
+                @using (Html.BeginForm("Pick", "OutgoingVerification", FormMethod.Post, new { id = "NavBarActionNewOutgoingVerificationForm" }))
                 {
                     @Html.AntiForgeryToken()
                     <input type="hidden" name="verificationUniqueId" value="@Guid.NewGuid()" />
                     <input type="hidden" name="returnToSummary" value="false" />
-                    <input type="submit" value="@LayoutResources.NavBar_ActionsGroup_NewOutgoingVerificationLinkText" class="btn btn-default" />
                 }
+                <a href="javascript:document.getElementById('NavBarActionNewOutgoingVerificationForm').submit()">
+                    @LayoutResources.NavBar_ActionsGroup_NewOutgoingVerificationLinkText
+                </a>
             </li>
             }
             <li>
-                <a href="@Url.Action("SearchProperty", "PropertyInfo")" class="btn btn-default">
+                <a href="@Url.Action("SearchProperty", "PropertyInfo")">
                     @LayoutResources.NavBar_ActionsGroup_SearchPropertyLinkText
                 </a>
             </li>
