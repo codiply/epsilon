@@ -8,10 +8,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Epsilon.Resources.CountryVariants
-{
-
-
+namespace Epsilon.Resources.CountryVariants {
+    using System;
+    
+    
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -81,6 +81,15 @@ namespace Epsilon.Resources.CountryVariants
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
+        public static string Address_Line1_RequiredValidationMessage {
+            get {
+                return ResourceManager.GetString("Address_Line1_RequiredValidationMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
         public static string Address_Line2 {
             get {
                 return ResourceManager.GetString("Address_Line2", resourceCulture);
@@ -93,6 +102,15 @@ namespace Epsilon.Resources.CountryVariants
         public static string Address_Line2_MaxLengthValidationMessage {
             get {
                 return ResourceManager.GetString("Address_Line2_MaxLengthValidationMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string Address_Line2_RequiredValidationMessage {
+            get {
+                return ResourceManager.GetString("Address_Line2_RequiredValidationMessage", resourceCulture);
             }
         }
         
@@ -117,6 +135,15 @@ namespace Epsilon.Resources.CountryVariants
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
+        public static string Address_Line3_RequiredValidationMessage {
+            get {
+                return ResourceManager.GetString("Address_Line3_RequiredValidationMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
         public static string Address_Line4 {
             get {
                 return ResourceManager.GetString("Address_Line4", resourceCulture);
@@ -129,6 +156,15 @@ namespace Epsilon.Resources.CountryVariants
         public static string Address_Line4_MaxLengthValidationMessage {
             get {
                 return ResourceManager.GetString("Address_Line4_MaxLengthValidationMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string Address_Line4_RequiredValidationMessage {
+            get {
+                return ResourceManager.GetString("Address_Line4_RequiredValidationMessage", resourceCulture);
             }
         }
         
@@ -151,6 +187,15 @@ namespace Epsilon.Resources.CountryVariants
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string Address_Locality_RequiredValidationMessage {
+            get {
+                return ResourceManager.GetString("Address_Locality_RequiredValidationMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Postal Code.
         /// </summary>
         public static string Address_Postcode {
@@ -169,6 +214,15 @@ namespace Epsilon.Resources.CountryVariants
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string Address_Postcode_RequiredValidationMessage {
+            get {
+                return ResourceManager.GetString("Address_Postcode_RequiredValidationMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Prefecture.
         /// </summary>
         public static string Address_Region {
@@ -183,6 +237,15 @@ namespace Epsilon.Resources.CountryVariants
         public static string Address_Region_MaxLengthValidationMessage {
             get {
                 return ResourceManager.GetString("Address_Region_MaxLengthValidationMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string Address_Region_RequiredValidationMessage {
+            get {
+                return ResourceManager.GetString("Address_Region_RequiredValidationMessage", resourceCulture);
             }
         }
         

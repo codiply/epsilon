@@ -38,7 +38,14 @@
                     CountryVariantResourceName.Address_Line4_MaxLengthValidationMessage,
                     CountryVariantResourceName.Address_Locality_MaxLengthValidationMessage,
                     CountryVariantResourceName.Address_Region_MaxLengthValidationMessage,
-                    CountryVariantResourceName.Address_Postcode_MaxLengthValidationMessage
+                    CountryVariantResourceName.Address_Postcode_MaxLengthValidationMessage,
+                    CountryVariantResourceName.Address_Line1_RequiredValidationMessage,
+                    CountryVariantResourceName.Address_Line2_RequiredValidationMessage,
+                    CountryVariantResourceName.Address_Line3_RequiredValidationMessage,
+                    CountryVariantResourceName.Address_Line4_RequiredValidationMessage,
+                    CountryVariantResourceName.Address_Locality_RequiredValidationMessage,
+                    CountryVariantResourceName.Address_Region_RequiredValidationMessage,
+                    CountryVariantResourceName.Address_Postcode_RequiredValidationMessage
         });
 }
 
@@ -59,6 +66,8 @@
             var maxLength = AddressMap.LINE_MAX_LENGTH;
             var maxLengthValidationMessage = @countryVariantResources[EnumsHelper
                 .CountryVariantResourceName.ToString(CountryVariantResourceName.Address_Line1_MaxLengthValidationMessage)];
+            var requiredValidationMessage = @countryVariantResources[EnumsHelper
+                .CountryVariantResourceName.ToString(CountryVariantResourceName.Address_Line1_RequiredValidationMessage)];
         <div class="form-group">
             <label class="control-label col-md-3" for="@nameAndId">@label</label>
             <div class="col-md-9">
@@ -66,6 +75,9 @@
                        id="@nameAndId" name="@nameAndId" type="text" 
                        value="@Model.Line1"
                        data-val="true"
+                       @if (fieldMetadata.Line1.IsRequired) {
+                       <text>data-val-required="@requiredValidationMessage"</text>
+                       }
                        data-val-maxlength="@string.Format(maxLengthValidationMessage, maxLength)"
                        data-val-maxlength-max="@maxLength" />
                 @Html.ValidationMessageFor(model => model.Line1, "", new { @class = "text-danger" })
@@ -80,6 +92,8 @@
             var maxLength = AddressMap.LINE_MAX_LENGTH;
             var maxLengthValidationMessage = @countryVariantResources[EnumsHelper
                 .CountryVariantResourceName.ToString(CountryVariantResourceName.Address_Line2_MaxLengthValidationMessage)];
+            var requiredValidationMessage = @countryVariantResources[EnumsHelper
+                .CountryVariantResourceName.ToString(CountryVariantResourceName.Address_Line2_RequiredValidationMessage)];
         <div class="form-group">
             <label class="control-label col-md-3" for="@nameAndId">@label</label>
             <div class="col-md-9">
@@ -87,6 +101,9 @@
                        id="@nameAndId" name="@nameAndId" type="text"
                        value="@Model.Line2"
                        data-val="true"
+                       @if (fieldMetadata.Line2.IsRequired) {
+                       <text>data-val-required="@requiredValidationMessage"</text>
+                       }
                        data-val-maxlength="@string.Format(maxLengthValidationMessage, maxLength)"
                        data-val-maxlength-max="@maxLength" />
                 @Html.ValidationMessageFor(model => model.Line2, "", new { @class = "text-danger" })
@@ -101,6 +118,8 @@
             var maxLength = AddressMap.LINE_MAX_LENGTH;
             var maxLengthValidationMessage = @countryVariantResources[EnumsHelper
                 .CountryVariantResourceName.ToString(CountryVariantResourceName.Address_Line3_MaxLengthValidationMessage)];
+            var requiredValidationMessage = @countryVariantResources[EnumsHelper
+                .CountryVariantResourceName.ToString(CountryVariantResourceName.Address_Line3_RequiredValidationMessage)];
         <div class="form-group">
             <label class="control-label col-md-3" for="@nameAndId">@label</label>
             <div class="col-md-9">
@@ -108,6 +127,9 @@
                        id="@nameAndId" name="@nameAndId" type="text"
                        value="@Model.Line3"
                        data-val="true"
+                       @if (fieldMetadata.Line3.IsRequired) {
+                       <text>data-val-required="@requiredValidationMessage"</text>
+                       }
                        data-val-maxlength="@string.Format(maxLengthValidationMessage, maxLength)"
                        data-val-maxlength-max="@maxLength" />
                 @Html.ValidationMessageFor(model => model.Line3, "", new { @class = "text-danger" })
@@ -123,6 +145,8 @@
             var maxLength = AddressMap.LINE_MAX_LENGTH;
             var maxLengthValidationMessage = @countryVariantResources[EnumsHelper
                 .CountryVariantResourceName.ToString(CountryVariantResourceName.Address_Line4_MaxLengthValidationMessage)];
+            var requiredValidationMessage = @countryVariantResources[EnumsHelper
+                .CountryVariantResourceName.ToString(CountryVariantResourceName.Address_Line4_RequiredValidationMessage)];
         <div class="form-group">
             <label class="control-label col-md-3" for="@nameAndId">@label</label>
             <div class="col-md-9">
@@ -130,6 +154,9 @@
                        id="@nameAndId" name="@nameAndId" type="text"
                        value="@Model.Line4"
                        data-val="true"
+                       @if (fieldMetadata.Line4.IsRequired) {
+                       <text>data-val-required="@requiredValidationMessage"</text>
+                       }
                        data-val-maxlength="@string.Format(maxLengthValidationMessage, maxLength)"
                        data-val-maxlength-max="@maxLength" />
                 @Html.ValidationMessageFor(model => model.Line4, "", new { @class = "text-danger" })
@@ -144,6 +171,8 @@
             var maxLength = AddressMap.LOCALITY_MAX_LENGTH;
             var maxLengthValidationMessage = @countryVariantResources[EnumsHelper
                 .CountryVariantResourceName.ToString(CountryVariantResourceName.Address_Locality_MaxLengthValidationMessage)];
+            var requiredValidationMessage = @countryVariantResources[EnumsHelper
+                .CountryVariantResourceName.ToString(CountryVariantResourceName.Address_Locality_RequiredValidationMessage)];
         <div class="form-group">
             <label class="control-label col-md-3" for="@nameAndId">@label</label>
             <div class="col-md-9">
@@ -151,6 +180,9 @@
                        id="@nameAndId" name="@nameAndId" type="text"
                        value="@Model.Locality"
                        data-val="true"
+                       @if (fieldMetadata.Locality.IsRequired) {
+                       <text>data-val-required="@requiredValidationMessage"</text>
+                       }
                        data-val-maxlength="@string.Format(maxLengthValidationMessage, maxLength)"
                        data-val-maxlength-max="@maxLength" />
                 @Html.ValidationMessageFor(model => model.Locality, "", new { @class = "text-danger" })
@@ -165,6 +197,8 @@
             var maxLength = AddressMap.REGION_MAX_LENGTH;
             var maxLengthValidationMessage = @countryVariantResources[EnumsHelper
                 .CountryVariantResourceName.ToString(CountryVariantResourceName.Address_Region_MaxLengthValidationMessage)];
+            var requiredValidationMessage = @countryVariantResources[EnumsHelper
+                .CountryVariantResourceName.ToString(CountryVariantResourceName.Address_Region_RequiredValidationMessage)];
         <div class="form-group">
             <label class="control-label col-md-3" for="@nameAndId">@label</label>
             <div class="col-md-9">
@@ -172,6 +206,9 @@
                        id="@nameAndId" name="@nameAndId" type="text"
                        value="@Model.Region"
                        data-val="true"
+                       @if (fieldMetadata.Region.IsRequired) {
+                       <text>data-val-required="@requiredValidationMessage"</text>
+                       }
                        data-val-maxlength="@string.Format(maxLengthValidationMessage, maxLength)"
                        data-val-maxlength-max="@maxLength" />
                 @Html.ValidationMessageFor(model => model.Region, "", new { @class = "text-danger" })
@@ -186,6 +223,8 @@
             var maxLength = AddressMap.POSTCODE_MAX_LENGTH;
             var maxLengthValidationMessage = @countryVariantResources[EnumsHelper
                 .CountryVariantResourceName.ToString(CountryVariantResourceName.Address_Postcode_MaxLengthValidationMessage)];
+            var requiredValidationMessage = @countryVariantResources[EnumsHelper
+                .CountryVariantResourceName.ToString(CountryVariantResourceName.Address_Postcode_RequiredValidationMessage)];
         <div class="form-group">
             <label class="control-label col-md-3" for="@nameAndId">@label</label>
             <div class="col-md-9">
@@ -193,6 +232,9 @@
                        id="@nameAndId" name="@nameAndId" type="text"
                        value="@Model.Postcode"
                        data-val="true"
+                       @if (fieldMetadata.Postcode.IsRequired) {
+                       <text>data-val-required="@requiredValidationMessage"</text>
+                       }
                        data-val-maxlength="@string.Format(maxLengthValidationMessage, maxLength)"
                        data-val-maxlength-max="@maxLength" />
                 @Html.ValidationMessageFor(model => model.Postcode, "", new { @class = "text-danger" })

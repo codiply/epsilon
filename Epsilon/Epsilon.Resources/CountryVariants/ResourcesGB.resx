@@ -123,16 +123,25 @@
   <data name="Address_Line1_MaxLengthValidationMessage" xml:space="preserve">
     <value>The Property Number and Bulding Name field must be a string with a maximum length of {0}.</value>
   </data>
+  <data name="Address_Line1_RequiredValidationMessage" xml:space="preserve">
+    <value>The Property Number and Bulding Name field is required.</value>
+  </data>
   <data name="Address_Line2" xml:space="preserve">
     <value>Building Number and Street</value>
   </data>
   <data name="Address_Line2_MaxLengthValidationMessage" xml:space="preserve">
     <value>The Building Number and Street field must be a string with a maximum length of {0}.</value>
   </data>
+  <data name="Address_Line2_RequiredValidationMessage" xml:space="preserve">
+    <value>The Building Number and Street field is required.</value>
+  </data>
   <data name="Address_Line3" xml:space="preserve">
     <value />
   </data>
   <data name="Address_Line3_MaxLengthValidationMessage" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Address_Line3_RequiredValidationMessage" xml:space="preserve">
     <value />
   </data>
   <data name="Address_Line4" xml:space="preserve">
@@ -141,11 +150,17 @@
   <data name="Address_Line4_MaxLengthValidationMessage" xml:space="preserve">
     <value />
   </data>
+  <data name="Address_Line4_RequiredValidationMessage" xml:space="preserve">
+    <value />
+  </data>
   <data name="Address_Locality" xml:space="preserve">
     <value>Town/City</value>
   </data>
   <data name="Address_Locality_MaxLengthValidationMessage" xml:space="preserve">
     <value>The Town/City field must be a string with a maximum length of {0}.</value>
+  </data>
+  <data name="Address_Locality_RequiredValidationMessage" xml:space="preserve">
+    <value>The Town/City field is required.</value>
   </data>
   <data name="Address_Postcode" xml:space="preserve">
     <value>Postcode</value>
@@ -153,11 +168,17 @@
   <data name="Address_Postcode_MaxLengthValidationMessage" xml:space="preserve">
     <value>The Postcode field must be a string with a maximum length of {0}.</value>
   </data>
+  <data name="Address_Postcode_RequiredValidationMessage" xml:space="preserve">
+    <value>The Postcode field is required.</value>
+  </data>
   <data name="Address_Region" xml:space="preserve">
     <value>County</value>
   </data>
   <data name="Address_Region_MaxLengthValidationMessage" xml:space="preserve">
     <value>The County field must be a string with a maximum length of {0}.</value>
+  </data>
+  <data name="Address_Region_RequiredValidationMessage" xml:space="preserve">
+    <value />
   </data>
   <data name="OutgoingVerificationInstructions_AddressChecker_DisplayName" xml:space="preserve">
     <value>PostOffice: Find a postcode or address</value>

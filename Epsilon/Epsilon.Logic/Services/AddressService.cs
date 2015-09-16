@@ -317,7 +317,7 @@ namespace Epsilon.Logic.Services
 
         private string CalculateDistinctAddressCodeGB(AddressForm form)
         {
-            if (string.IsNullOrWhiteSpace(form.Postcode))
+            if (string.IsNullOrWhiteSpace(form.Line1) || string.IsNullOrWhiteSpace(form.Postcode))
                 return null;
 
             var houseNumberRegex = new Regex(@"([0-9]{1,}[a-zA-z]*)");

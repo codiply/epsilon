@@ -123,10 +123,16 @@
   <data name="Address_Line1_MaxLengthValidationMessage" xml:space="preserve">
     <value>The Street and Number field must be a string with a maximum length of {0}.</value>
   </data>
+  <data name="Address_Line1_RequiredValidationMessage" xml:space="preserve">
+    <value />
+  </data>
   <data name="Address_Line2" xml:space="preserve">
     <value />
   </data>
   <data name="Address_Line2_MaxLengthValidationMessage" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Address_Line2_RequiredValidationMessage" xml:space="preserve">
     <value />
   </data>
   <data name="Address_Line3" xml:space="preserve">
@@ -135,10 +141,16 @@
   <data name="Address_Line3_MaxLengthValidationMessage" xml:space="preserve">
     <value />
   </data>
+  <data name="Address_Line3_RequiredValidationMessage" xml:space="preserve">
+    <value />
+  </data>
   <data name="Address_Line4" xml:space="preserve">
     <value />
   </data>
   <data name="Address_Line4_MaxLengthValidationMessage" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Address_Line4_RequiredValidationMessage" xml:space="preserve">
     <value />
   </data>
   <data name="Address_Locality" xml:space="preserve">
@@ -147,17 +159,26 @@
   <data name="Address_Locality_MaxLengthValidationMessage" xml:space="preserve">
     <value>The Town/City field must be a string with a maximum length of {0}.</value>
   </data>
+  <data name="Address_Locality_RequiredValidationMessage" xml:space="preserve">
+    <value />
+  </data>
   <data name="Address_Postcode" xml:space="preserve">
     <value>Postal Code</value>
   </data>
   <data name="Address_Postcode_MaxLengthValidationMessage" xml:space="preserve">
     <value>The Postal Code field must be a string with a maximum length of {0}.</value>
   </data>
+  <data name="Address_Postcode_RequiredValidationMessage" xml:space="preserve">
+    <value />
+  </data>
   <data name="Address_Region" xml:space="preserve">
     <value>Prefecture</value>
   </data>
   <data name="Address_Region_MaxLengthValidationMessage" xml:space="preserve">
     <value>The Prefecture field must be a string with a maximum length of {0}.</value>
+  </data>
+  <data name="Address_Region_RequiredValidationMessage" xml:space="preserve">
+    <value />
   </data>
   <data name="OutgoingVerificationInstructions_AddressChecker_DisplayName" xml:space="preserve">
     <value />
