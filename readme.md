@@ -101,3 +101,4 @@ To run the integration tests publish first the Database project into a new local
 
 - [HTTPS in ASP.NET MVC](http://tech.trailmax.info/2014/02/implemnting-https-everywhere-in-asp-net-mvc-application/)
 - [ASP.NET Identity and IoC Container Registration](http://tech.trailmax.info/2014/09/aspnet-identity-and-ioc-container-registration/)
+- [IIS idle timeout](http://hallmanac.blogspot.gr/2012/04/adjusting-iis-idle-time-out-in-azure.html)
