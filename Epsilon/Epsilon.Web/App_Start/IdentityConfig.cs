@@ -1,4 +1,5 @@
-﻿using Epsilon.Logic.Entities;
+﻿using Epsilon.Logic.Constants;
+using Epsilon.Logic.Entities;
 using Epsilon.Logic.Services.Interfaces;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
@@ -65,7 +66,7 @@ namespace Epsilon.Web
             // Configure validation logic for passwords
             this.PasswordValidator = new PasswordValidator
             {
-                RequiredLength = 6,
+                RequiredLength = AppConstant.PASSWORD_REQUIRED_LENGTH,
                 RequireNonLetterOrDigit = true,
                 RequireDigit = true,
                 RequireLowercase = true,

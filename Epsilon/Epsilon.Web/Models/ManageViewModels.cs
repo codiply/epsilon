@@ -1,4 +1,5 @@
-﻿using Epsilon.Logic.Models;
+﻿using Epsilon.Logic.Constants;
+using Epsilon.Logic.Models;
 using Epsilon.Resources.Common;
 using Epsilon.Resources.Web.Manage;
 using System.ComponentModel.DataAnnotations;
@@ -29,7 +30,7 @@ namespace Epsilon.Web.Models
     //public class SetPasswordViewModel
     //{
     //    [Required]
-    //    [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+    //    [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = AppConstant.PASSWORD_REQUIRED_LENGTH)]
     //    [DataType(DataType.Password)]
     //    [Display(Name = "New password")]
     //    public string NewPassword { get; set; }
@@ -49,7 +50,7 @@ namespace Epsilon.Web.Models
 
         [Required(ErrorMessageResourceType = typeof(ManageResources), ErrorMessageResourceName = "ChangePassword_FieldNewPassword_RequiredErrorMessage")]
         [StringLength(100, 
-            ErrorMessageResourceType = typeof(CommonResources), ErrorMessageResourceName = "StringLengthErrorMessage", MinimumLength = 6)]
+            ErrorMessageResourceType = typeof(CommonResources), ErrorMessageResourceName = "StringLengthErrorMessage", MinimumLength = AppConstant.PASSWORD_REQUIRED_LENGTH)]
         [DataType(DataType.Password)]
         [Display(ResourceType = typeof(ManageResources), Name = "ChangePassword_FieldNewPassword_DisplayName")]
         public string NewPassword { get; set; }

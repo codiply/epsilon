@@ -8,10 +8,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Epsilon.Resources.Web.Account
-{
-
-
+namespace Epsilon.Resources.Web.Account {
+    using System;
+    
+    
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -273,6 +273,60 @@ namespace Epsilon.Resources.Web.Account
         public static string Login_PageTitle {
             get {
                 return ResourceManager.GetString("Login_PageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Consists of at least {0} characters.
+        /// </summary>
+        public static string PasswordRequirements_LengthBulletPoint {
+            get {
+                return ResourceManager.GetString("PasswordRequirements_LengthBulletPoint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Contains at least one lowercase letter (a b c ...).
+        /// </summary>
+        public static string PasswordRequirements_LowercaseBulletPoint {
+            get {
+                return ResourceManager.GetString("PasswordRequirements_LowercaseBulletPoint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Contains at least one number (0 1 2 ...).
+        /// </summary>
+        public static string PasswordRequirements_NumberBulletPoint {
+            get {
+                return ResourceManager.GetString("PasswordRequirements_NumberBulletPoint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You must choose a strong password that.
+        /// </summary>
+        public static string PasswordRequirements_OpeningSentence {
+            get {
+                return ResourceManager.GetString("PasswordRequirements_OpeningSentence", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Contains at least one symbol (@ $ # ...).
+        /// </summary>
+        public static string PasswordRequirements_SymbolBulletPoint {
+            get {
+                return ResourceManager.GetString("PasswordRequirements_SymbolBulletPoint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Contains at least one uppercase letter (A B C ...).
+        /// </summary>
+        public static string PasswordRequirements_UppercaseBulletPoint {
+            get {
+                return ResourceManager.GetString("PasswordRequirements_UppercaseBulletPoint", resourceCulture);
             }
         }
         

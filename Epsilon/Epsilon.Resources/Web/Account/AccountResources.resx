@@ -189,6 +189,24 @@
   <data name="Login_PageTitle" xml:space="preserve">
     <value>Log in</value>
   </data>
+  <data name="PasswordRequirements_LengthBulletPoint" xml:space="preserve">
+    <value>Consists of at least {0} characters</value>
+  </data>
+  <data name="PasswordRequirements_LowercaseBulletPoint" xml:space="preserve">
+    <value>Contains at least one lowercase letter (a b c ...)</value>
+  </data>
+  <data name="PasswordRequirements_NumberBulletPoint" xml:space="preserve">
+    <value>Contains at least one number (0 1 2 ...)</value>
+  </data>
+  <data name="PasswordRequirements_OpeningSentence" xml:space="preserve">
+    <value>You must choose a strong password that</value>
+  </data>
+  <data name="PasswordRequirements_SymbolBulletPoint" xml:space="preserve">
+    <value>Contains at least one symbol (@ $ # ...)</value>
+  </data>
+  <data name="PasswordRequirements_UppercaseBulletPoint" xml:space="preserve">
+    <value>Contains at least one uppercase letter (A B C ...)</value>
+  </data>
   <data name="RegisterAsANewUser" xml:space="preserve">
     <value>Register as a new user</value>
   </data>

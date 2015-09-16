@@ -1,4 +1,5 @@
-﻿using Epsilon.Resources.Common;
+﻿using Epsilon.Logic.Constants;
+using Epsilon.Resources.Common;
 using Epsilon.Resources.Web.Account;
 using System.ComponentModel.DataAnnotations;
 
@@ -74,7 +75,7 @@ namespace Epsilon.Web.Models
         [Required(ErrorMessageResourceType = typeof(AccountResources), ErrorMessageResourceName = "FieldPassword_RequiredErrorMessage")]
         [StringLength(100,
                     ErrorMessageResourceType = typeof(CommonResources), ErrorMessageResourceName = "StringLengthErrorMessage",
-                    MinimumLength = 6)]
+                    MinimumLength = AppConstant.PASSWORD_REQUIRED_LENGTH)]
         [DataType(DataType.Password)]
         [Display(ResourceType = typeof(AccountResources), Name = "FieldPassword_DisplayName")]
         public string Password { get; set; }

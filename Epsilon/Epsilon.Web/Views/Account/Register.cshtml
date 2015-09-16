@@ -2,6 +2,7 @@
 
 @using Epsilon.Resources.Web.Account
 @using Epsilon.Resources.Common
+@using Epsilon.Logic.Constants
 
 @{
     ViewBag.Title = AccountResources.Register_PageTitle;
@@ -14,6 +15,17 @@
     @Html.AntiForgeryToken()
     <h4>Create a new account.</h4>
     <hr />
+    <div class="alert alert-info">
+        @AccountResources.PasswordRequirements_OpeningSentence
+        <ul>
+            <li>@string.Format(AccountResources.PasswordRequirements_LengthBulletPoint, AppConstant.PASSWORD_REQUIRED_LENGTH)</li>
+            <li>@AccountResources.PasswordRequirements_UppercaseBulletPoint</li>
+            <li>@AccountResources.PasswordRequirements_LowercaseBulletPoint</li>
+            <li>@AccountResources.PasswordRequirements_NumberBulletPoint</li>
+            <li>@AccountResources.PasswordRequirements_SymbolBulletPoint</li>
+        </ul>
+    </div>
+
     @Html.ValidationSummary("", new { @class = "text-danger" })
     <div class="form-group">
         @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
