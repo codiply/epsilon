@@ -6,6 +6,7 @@
         public const string ApplicationName = "Epsilon.ApplicationName";
         public const string ApplicationWebAddress = "Epsilon.ApplicationWebAddress";
         public const string CompanyName = "Epsilon.CompanyName";
+        public const string CrawlerCountryWhitelist = "Epsilon.CrawlerCountryWhitelist";
         public const string DefaultAppCacheSlidingExpiration = "Epsilon.DefaultAppCacheSlidingExpiration";
         public const string DefaultLanguageId = "Epsilon.DefaultLanguageId";
         public const string DisableAppCache = "Epsilon.DisableAppCache";
