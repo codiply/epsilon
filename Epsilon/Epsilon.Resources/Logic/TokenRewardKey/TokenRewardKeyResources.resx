@@ -130,7 +130,7 @@
     <value>Verification Code Entered</value>
   </data>
   <data name="EarnPerVerificationLuckySender_Description" xml:space="preserve">
-    <value>Tokens earned by the sender of a verification code in random with 1/100 odds.</value>
+    <value>Tokens earned by the sender of a verification code at random with 1/100 odds.</value>
   </data>
   <data name="EarnPerVerificationLuckySender_DisplayName" xml:space="preserve">
     <value>Verificiation Lucky Sender</value>

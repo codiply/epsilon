@@ -8,10 +8,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Epsilon.Resources.Logic.TokenRewardKey
-{
-
-
+namespace Epsilon.Resources.Logic.TokenRewardKey {
+    using System;
+    
+    
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -97,7 +97,7 @@ namespace Epsilon.Resources.Logic.TokenRewardKey
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Tokens earned by the sender of a verification code in random with 1/100 odds..
+        ///   Looks up a localized string similar to Tokens earned by the sender of a verification code at random with 1/100 odds..
         /// </summary>
         public static string EarnPerVerificationLuckySender_Description {
             get {

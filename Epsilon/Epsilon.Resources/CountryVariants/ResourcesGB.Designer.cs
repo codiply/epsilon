@@ -61,7 +61,7 @@ namespace Epsilon.Resources.CountryVariants {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Property Number and Bulding Name.
+        ///   Looks up a localized string similar to Property Number and Building Name.
         /// </summary>
         public static string Address_Line1 {
             get {
@@ -70,7 +70,7 @@ namespace Epsilon.Resources.CountryVariants {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The Property Number and Bulding Name field must be a string with a maximum length of {0}..
+        ///   Looks up a localized string similar to The Property Number and Building Name field must be a string with a maximum length of {0}..
         /// </summary>
         public static string Address_Line1_MaxLengthValidationMessage {
             get {
@@ -79,7 +79,7 @@ namespace Epsilon.Resources.CountryVariants {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The Property Number and Bulding Name field is required..
+        ///   Looks up a localized string similar to The Property Number and Building Name field is required..
         /// </summary>
         public static string Address_Line1_RequiredValidationMessage {
             get {

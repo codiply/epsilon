@@ -592,7 +592,7 @@ namespace Epsilon.Resources.Web.Submission {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to I confirm this is my address. This will be shared with two other users in random that will send my confirmation code..
+        ///   Looks up a localized string similar to I confirm this is my address. This will be shared with two other users at random that will send my confirmation code..
         /// </summary>
         public static string UseAddress_ConfirmationText {
             get {

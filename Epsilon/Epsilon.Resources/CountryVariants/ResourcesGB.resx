@@ -118,13 +118,13 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Address_Line1" xml:space="preserve">
-    <value>Property Number and Bulding Name</value>
+    <value>Property Number and Building Name</value>
   </data>
   <data name="Address_Line1_MaxLengthValidationMessage" xml:space="preserve">
-    <value>The Property Number and Bulding Name field must be a string with a maximum length of {0}.</value>
+    <value>The Property Number and Building Name field must be a string with a maximum length of {0}.</value>
   </data>
   <data name="Address_Line1_RequiredValidationMessage" xml:space="preserve">
-    <value>The Property Number and Bulding Name field is required.</value>
+    <value>The Property Number and Building Name field is required.</value>
   </data>
   <data name="Address_Line2" xml:space="preserve">
     <value>Building Number and Street</value>

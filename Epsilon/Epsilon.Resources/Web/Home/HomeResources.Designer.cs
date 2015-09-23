@@ -8,10 +8,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Epsilon.Resources.Web.Home
-{
-
-
+namespace Epsilon.Resources.Web.Home {
+    using System;
+    
+    
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -232,11 +232,20 @@ namespace Epsilon.Resources.Web.Home
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to We have created a platform that enables tenants to voluntarily share information. Tenants are verified by post in a peer-to-peer fashion..
+        ///   Looks up a localized string similar to We are here to answer one simple question: What is the rent that previous tenants were paying for the property I am about to rent?.
         /// </summary>
-        public static string Index_MissionStatement_Rest {
+        public static string Index_MissionStatement_Paragraph1 {
             get {
-                return ResourceManager.GetString("Index_MissionStatement_Rest", resourceCulture);
+                return ResourceManager.GetString("Index_MissionStatement_Paragraph1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to We have created a platform that enables tenants to voluntarily share this information. We do not rely on advertised rent prices that might be exaggerated..
+        /// </summary>
+        public static string Index_MissionStatement_Paragraph2 {
+            get {
+                return ResourceManager.GetString("Index_MissionStatement_Paragraph2", resourceCulture);
             }
         }
         
