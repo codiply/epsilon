@@ -232,7 +232,7 @@ namespace Epsilon.Resources.Web.Home {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to We are here to answer one simple question: What is the rent that previous tenants were paying for the property I am about to rent?.
+        ///   Looks up a localized string similar to We are here to answer one simple question: What is the rent that previous tenants were paying for the property you are about to rent?.
         /// </summary>
         public static string Index_MissionStatement_Paragraph1 {
             get {
