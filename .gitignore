@@ -1,0 +1,16 @@
+*.dbmdl
+*.user
+
+.vs/
+
+obj/
+bin/
+
+Unversioned.config
+
+Epsilon/TestResults/*
+
+Epsilon/Epsilon.Web/Scripts/ngapp/*.js
+Epsilon/Epsilon.Web/Scripts/ngapp/*.js.map
+Epsilon/Epsilon.Web/Scripts/ngapp/*/*.js
+Epsilon/Epsilon.Web/Scripts/ngapp/*/*.js.map
